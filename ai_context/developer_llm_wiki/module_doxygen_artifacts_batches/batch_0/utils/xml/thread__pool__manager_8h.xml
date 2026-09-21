@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="thread__pool__manager_8h" kind="file" language="C++">
+    <compoundname>thread_pool_manager.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <includedby refid="thread__pool__manager_8cpp" local="yes">src/utils/thread_pool_manager.cpp</includedby>
+    <includedby refid="test__tsan__stress__concurrent_8cpp" local="yes">tests/utils/test_tsan_stress_concurrent.cpp</includedby>
+    <includedby refid="test__utils__runtime__hardening_8cpp" local="yes">tests/utils/test_utils_runtime_hardening.cpp</includedby>
+    <includedby refid="test__utils__stress__concurrency_8cpp" local="yes">tests/utils/test_utils_stress_concurrency.cpp</includedby>
+    <includedby refid="test__utils__thread__pool__stress__saturation_8cpp" local="yes">tests/utils/test_utils_thread_pool_stress_saturation.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/thread_pool_manager.h</label>
+        <link refid="thread__pool__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>queue</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="12">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/thread_pool_manager.h</label>
+        <link refid="thread__pool__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/thread_pool_manager.cpp</label>
+        <link refid="thread__pool__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/utils/test_tsan_stress_concurrent.cpp</label>
+        <link refid="test__tsan__stress__concurrent_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/utils/test_utils_runtime_hardening.cpp</label>
+        <link refid="test__utils__runtime__hardening_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/utils/test_utils_stress_concurrency.cpp</label>
+        <link refid="test__utils__stress__concurrency_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/utils/test_utils_thread_pool_stress_saturation.cpp</label>
+        <link refid="test__utils__thread__pool__stress__saturation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1utils_1_1_task" prot="public">themis::utils::Task</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_thread_pool" prot="public">themis::utils::ThreadPool</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" prot="public">themis::utils::ThreadPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" prot="public">themis::utils::ThreadPool::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_thread_pool_1_1_priority_compare" prot="private">themis::utils::ThreadPool::PriorityCompare</innerclass>
+    <innerclass refid="classthemis_1_1utils_1_1_thread_pool_manager" prot="public">themis::utils::ThreadPoolManager</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config" prot="public">themis::utils::ThreadPoolManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics" prot="public">themis::utils::ThreadPoolManager::GlobalStatistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1utils_1_1_task" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_task_1a8fc5aa61d53e8bff1c0c0a00db71e4af" kindref="member">Task</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" kindref="member">Priority</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" kindref="member">NORMAL</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2cab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2cab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/>=<sp/>3</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" kindref="member">Callback</ref><sp/>=<sp/>std::function&lt;void()&gt;;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1utils_1_1_task_1a8fc5aa61d53e8bff1c0c0a00db71e4af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_task_1a8fc5aa61d53e8bff1c0c0a00db71e4af" kindref="member">Task</ref>(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" kindref="member">Callback</ref><sp/>callback,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" kindref="member">Priority</ref><sp/>priority<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" kindref="member">Priority::NORMAL</ref>,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>:<sp/>callback_(std::move(callback)),<sp/>priority_(priority),<sp/>name_(std::move(name)),</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>created_at_(std::chrono::steady_clock::now())<sp/>{}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1utils_1_1_task_1a2a43bdaa40613fc37dde81d126ba2db4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_task_1a2a43bdaa40613fc37dde81d126ba2db4" kindref="member">execute</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>start;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>execution_time_<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(duration);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1utils_1_1_task_1a81ec22c72ed19719e9f28f9e9bb6e69a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" kindref="member">Priority</ref><sp/><ref refid="classthemis_1_1utils_1_1_task_1a81ec22c72ed19719e9f28f9e9bb6e69a" kindref="member">getPriority</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>priority_;<sp/>}</highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1utils_1_1_task_1a8f6a11cdbf4d982287ef7758fe8cc1de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1utils_1_1_task_1a8f6a11cdbf4d982287ef7758fe8cc1de" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>name_;<sp/>}</highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1utils_1_1_task_1ae6615e4dcb218ec307aa7ab1b83fb542" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_task_1ae6615e4dcb218ec307aa7ab1b83fb542" kindref="member">getExecutionTime</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>execution_time_;<sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" kindref="member">Callback</ref><sp/>callback_;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" kindref="member">Priority</ref><sp/>priority_;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name_;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>created_at_;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>execution_time_{0};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1utils_1_1_thread_pool" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_thread_pool_1abaddf95c779e434ec4e898c5f50a4357" kindref="member">ThreadPool</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a686b97572e3df31b6d212c7181bd029b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a686b97572e3df31b6d212c7181bd029b" kindref="member">min_threads</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a6ebad3fd893ac609fcfc774458bcbc45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a6ebad3fd893ac609fcfc774458bcbc45" kindref="member">max_threads</ref><sp/>=<sp/>16;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a63b434976e97880c69c5db9c8fc45b5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a63b434976e97880c69c5db9c8fc45b5d" kindref="member">queue_size</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>queued<sp/>tasks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a316f5d5fbe8d2f2644e8f69e8aaa3562" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a316f5d5fbe8d2f2644e8f69e8aaa3562" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pool<sp/>name<sp/>for<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_1abaddf95c779e434ec4e898c5f50a4357" kindref="member">ThreadPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_1aa565170e4fe2243e7c9a8e33d736681b" kindref="member">~ThreadPool</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_1a472307827504c165bd4aa772b7a1443d" kindref="member">submit</ref>(std::shared_ptr&lt;Task&gt;<sp/>task,<sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(5));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_1a35623e974f555e2b7d054e31cd89d796" kindref="member">waitAll</ref>(std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(30));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>pool<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a95107e38dc0dd37db00ef77fb7cf8d04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a95107e38dc0dd37db00ef77fb7cf8d04" kindref="member">active_threads</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a94b4ed165e3aae654d6cb9b7725a3405" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a94b4ed165e3aae654d6cb9b7725a3405" kindref="member">idle_threads</ref>;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1aabe0a01e1ee3de4b04ff545a6f43bd68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1aabe0a01e1ee3de4b04ff545a6f43bd68" kindref="member">queued_tasks</ref>;</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a5bdc0a76f9e370499d406186d1a6c8c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a5bdc0a76f9e370499d406186d1a6c8c2" kindref="member">total_executed</ref>;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a83dd3e38a69fddb7c294924a9529398b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a83dd3e38a69fddb7c294924a9529398b" kindref="member">total_failed</ref>;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a2350c2f1043edb8085cfba8bb6729743" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics_1a2350c2f1043edb8085cfba8bb6729743" kindref="member">average_task_latency_ms</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_1a94bc2ef1d0da8e5792ceecd8614eac50" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graceful<sp/>shutdown</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_1ac5d1f712d62fbf929535c3c992643f93" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1utils_1_1_thread_pool_1afb856e9d28eb5e238c1392ef98a49e10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_1afb856e9d28eb5e238c1392ef98a49e10" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_.load();<sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>workerLoop();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Priority<sp/>comparator:<sp/>higher<sp/>priority<sp/>value<sp/>→<sp/>dequeued<sp/>first.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PriorityCompare<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator()(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Task&gt;&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Task&gt;&amp;<sp/>b)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(a-&gt;getPriority())<sp/>&lt;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b-&gt;getPriority());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::priority_queue&lt;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Task&gt;,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;Task&gt;&gt;,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PriorityCompare</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>&gt;<sp/>task_queue_;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>workers_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable_any<sp/>cv_;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>active_threads_{0};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_executed_{0};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_failed_{0};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>tracking<sp/>(running<sp/>sum<sp/>+<sp/>count<sp/>protected<sp/>by<sp/>mutex_).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_sum_ms_<sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>latency_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1utils_1_1_thread_pool_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a6d8af85c136016172cc67c3ee61cb6c1" kindref="member">ThreadPoolManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>limits<sp/>(Phase<sp/>2.6<sp/>cross-cutting<sp/>hardening)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1utils_1_1_thread_pool_manager_1afc880d071acb0da321bbf73a29ab2714" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1afc880d071acb0da321bbf73a29ab2714" kindref="member">DEFAULT_QUEUE_DEPTH</ref><sp/>=<sp/>10&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Tasks<sp/>queued<sp/>per<sp/>pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2df2587d5d38590007d034cbbba32096" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2df2587d5d38590007d034cbbba32096" kindref="member">MAX_QUEUE_DEPTH</ref><sp/>=<sp/>100&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Hard<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1utils_1_1_thread_pool_manager_1ab622309ef7fc83a591ab2af6d278b88f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1ab622309ef7fc83a591ab2af6d278b88f" kindref="member">MAX_THREAD_COUNT</ref><sp/>=<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>Per-pool<sp/>thread<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1utils_1_1_thread_pool_manager_1afb1f5bfdf8b2a672fe361bc2110e0fb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1afb1f5bfdf8b2a672fe361bc2110e0fb2" kindref="member">DEFAULT_THREAD_COUNT</ref><sp/>=<sp/>4;<sp/><sp/></highlight><highlight class="comment">//<sp/>Typical<sp/>IO<sp/>pool<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" kindref="member">PoolType</ref><sp/>{</highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1acf3882f1c43ab22bff0bd9d82d83251b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1acf3882f1c43ab22bff0bd9d82d83251b" kindref="member">IO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Network,<sp/>File<sp/>I/O<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1a2b55387dd066c5bac646ac61543d152d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1a2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU-bound<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1a72323e5457d8fb855145bfee934aa415" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1a72323e5457d8fb855145bfee934aa415" kindref="member">BLOCKING</ref><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Long-running<sp/>blocking<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1abb252472114ee2dd22dd6c844e1ee4c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">ThreadPool::Config</ref><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1abb252472114ee2dd22dd6c844e1ee4c1" kindref="member">io_pool</ref>;</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1acfd2384529c37dac5b0c35271afd081e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">ThreadPool::Config</ref><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1acfd2384529c37dac5b0c35271afd081e" kindref="member">cpu_pool</ref>;</highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1a1b62d2c7bc4722264926488aa966eba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">ThreadPool::Config</ref><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1a1b62d2c7bc4722264926488aa966eba4" kindref="member">blocking_pool</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1a6978ce6f378f90f18e1a0398cc6894c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1a6978ce6f378f90f18e1a0398cc6894c8" kindref="member">enable_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1acca3ddae6332aed818e10e8861b91f86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config_1acca3ddae6332aed818e10e8861b91f86" kindref="member">metrics_interval</ref>{10};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a6d8af85c136016172cc67c3ee61cb6c1" kindref="member">ThreadPoolManager</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a6d8af85c136016172cc67c3ee61cb6c1" kindref="member">ThreadPoolManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a0e8b2e1f4889c0ab9f16f0089f2de05c" kindref="member">~ThreadPoolManager</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Submit<sp/>task<sp/>to<sp/>appropriate<sp/>pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a9e70535dbc8b8d101b56a0b4911eecb7" kindref="member">submit</ref>(</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" kindref="member">PoolType</ref><sp/>pool,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Task&gt;<sp/>task,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(5)</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convenience<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1utils_1_1_thread_pool_manager_1a66578ae719748eb49a24dac5ce22a3c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a66578ae719748eb49a24dac5ce22a3c0" kindref="member">submitTask</ref>(</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" kindref="member">PoolType</ref><sp/>pool,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" kindref="member">Task::Callback</ref><sp/>callback,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" kindref="member">Task::Priority</ref><sp/>priority<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" kindref="member">Task::Priority::NORMAL</ref></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>task<sp/>=<sp/>std::make_shared&lt;Task&gt;(std::move(callback),<sp/>priority,<sp/>name);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a9e70535dbc8b8d101b56a0b4911eecb7" kindref="member">submit</ref>(pool,<sp/>task);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>statistics<sp/>for<sp/>specific<sp/>pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">ThreadPool::Statistics</ref><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1ab3f18dc03b6148f29191988472314c37" kindref="member">getPoolStatistics</ref>(<ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a2392c6779234be5ed0909765abb737f1" kindref="member">PoolType</ref><sp/>pool)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>combined<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics" kindref="compound">GlobalStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a2dc762de3b9b73697c6de992d42f68f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">ThreadPool::Statistics</ref><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a2dc762de3b9b73697c6de992d42f68f2" kindref="member">io_stats</ref>;</highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a94ea3276c532f42c648e66a53c63bf41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">ThreadPool::Statistics</ref><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a94ea3276c532f42c648e66a53c63bf41" kindref="member">cpu_stats</ref>;</highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a78b68efac50642b4ffabf7a8df0e838a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_statistics" kindref="compound">ThreadPool::Statistics</ref><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1a78b68efac50642b4ffabf7a8df0e838a" kindref="member">blocking_stats</ref>;</highlight></codeline>
+<codeline lineno="238" refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1afc301917d77d24779e69887515c2f8d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics_1afc301917d77d24779e69887515c2f8d0" kindref="member">snapshot_time</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_global_statistics" kindref="compound">GlobalStatistics</ref><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1a893276098d80a639f9864474cd1f4473" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graceful<sp/>shutdown<sp/>of<sp/>all<sp/>pools</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool_manager_1aeea1ee305f81ebcbcad1db1db251e557" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ThreadPool&gt;<sp/>io_pool_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ThreadPool&gt;<sp/>cpu_pool_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ThreadPool&gt;<sp/>blocking_pool_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_manager_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>metrics_thread_;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>metricsLoop();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Global<sp/>singleton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">ThreadPoolManager&amp;<sp/><ref refid="namespacethemis_1_1utils_1a9201d4540bae50f5932247d1be03067d" kindref="member">getThreadPoolManager</ref>();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/thread_pool_manager.h"/>
+  </compounddef>
+</doxygen>

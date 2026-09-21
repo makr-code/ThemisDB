@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_replay_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::ReplayOptions</compoundname>
+    <includes refid="icdc__replay__controller_8h" local="no">icdc_replay_controller.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_replay_options_1acc068ac32cb5b13502016d52b32bd8d5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ReplayOptions::from_sequence</definition>
+        <argsstring></argsstring>
+        <name>from_sequence</name>
+        <qualifiedname>themis::cdc::ReplayOptions::from_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="51" column="14" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_replay_options_1a221eadc60e819aa5b4cd2b8ba8e19f94" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::ReplayOptions::to_sequence</definition>
+        <argsstring></argsstring>
+        <name>to_sequence</name>
+        <qualifiedname>themis::cdc::ReplayOptions::to_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="53" column="14" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_replay_options_1acfac81025773d84a4faf94986852896b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::ReplayOptions::from_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>from_timestamp_ms</name>
+        <qualifiedname>themis::cdc::ReplayOptions::from_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="55" column="13" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_replay_options_1a13261a14fbdd703d9a0d05a8bb60137e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::ReplayOptions::to_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>to_timestamp_ms</name>
+        <qualifiedname>themis::cdc::ReplayOptions::to_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="57" column="13" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_replay_options_1a5daa749760e699123828ac49d9a1c0c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::ReplayOptions::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::cdc::ReplayOptions::key_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="59" column="17" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_replay_options_1a66c5aeb6b9eceb68361c5c511ecbc357" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref> &gt;</type>
+        <definition>std::vector&lt;Changefeed::ChangeEventType&gt; themis::cdc::ReplayOptions::event_types</definition>
+        <argsstring></argsstring>
+        <name>event_types</name>
+        <qualifiedname>themis::cdc::ReplayOptions::event_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="61" column="17" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_replay_options_1a62eb9f80aaf787a62d72ff9cead5489d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::ReplayOptions::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::cdc::ReplayOptions::batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="63" column="17" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_replay_options_1a7a96ad0a9779d4a83aeb7d3168440dc7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::ReplayOptions::max_events_per_session</definition>
+        <argsstring></argsstring>
+        <name>max_events_per_session</name>
+        <qualifiedname>themis::cdc::ReplayOptions::max_events_per_session</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_replay_controller.h" line="65" column="17" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/icdc_replay_controller.h" line="50" column="1" bodyfile="include/cdc/icdc_replay_controller.h" bodystart="50" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_replay_options_1a62eb9f80aaf787a62d72ff9cead5489d" prot="public" virt="non-virtual"><scope>themis::cdc::ReplayOptions</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1cdc_1_1_replay_options_1a66c5aeb6b9eceb68361c5c511ecbc357" prot="public" virt="non-virtual"><scope>themis::cdc::ReplayOptions</scope><name>event_types</name></member>
+      <member refid="structthemis_1_1cdc_1_1_replay_options_1acc068ac32cb5b13502016d52b32bd8d5" prot="public" virt="non-virtual"><scope>themis::cdc::ReplayOptions</scope><name>from_sequence</name></member>
+      <member refid="structthemis_1_1cdc_1_1_replay_options_1acfac81025773d84a4faf94986852896b" prot="public" virt="non-virtual"><scope>themis::cdc::ReplayOptions</scope><name>from_timestamp_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_replay_options_1a5daa749760e699123828ac49d9a1c0c6" prot="public" virt="non-virtual"><scope>themis::cdc::ReplayOptions</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1cdc_1_1_replay_options_1a7a96ad0a9779d4a83aeb7d3168440dc7" prot="public" virt="non-virtual"><scope>themis::cdc::ReplayOptions</scope><name>max_events_per_session</name></member>
+      <member refid="structthemis_1_1cdc_1_1_replay_options_1a221eadc60e819aa5b4cd2b8ba8e19f94" prot="public" virt="non-virtual"><scope>themis::cdc::ReplayOptions</scope><name>to_sequence</name></member>
+      <member refid="structthemis_1_1cdc_1_1_replay_options_1a13261a14fbdd703d9a0d05a8bb60137e" prot="public" virt="non-virtual"><scope>themis::cdc::ReplayOptions</scope><name>to_timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

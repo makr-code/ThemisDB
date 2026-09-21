@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_11d4a0e9e9777721d18e8b3b3a6ac67b" kind="dir">
+    <compoundname>include/themis/rag/kg</compoundname>
+    <innerfile refid="knowledge__graph__interface_8h">knowledge_graph_interface.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/rag/kg/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LocalityAwareRouter::Statistics</compoundname>
+    <includes refid="locality__aware__router_8h" local="no">locality_aware_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a1d9f771f46f76945a1872aceca26f6b4" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::LocalityAwareRouter::Statistics::queries_routed</definition>
+        <argsstring></argsstring>
+        <name>queries_routed</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Statistics::queries_routed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="66" column="21" bodyfile="include/sharding/locality_aware_router.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a37317be93c72b5f8a9db4ceb44d69f76" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::LocalityAwareRouter::Statistics::local_routes</definition>
+        <argsstring></argsstring>
+        <name>local_routes</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Statistics::local_routes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="67" column="21" bodyfile="include/sharding/locality_aware_router.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ac86b835d5f958ceb8485c62fe28c202c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::LocalityAwareRouter::Statistics::remote_routes</definition>
+        <argsstring></argsstring>
+        <name>remote_routes</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Statistics::remote_routes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="68" column="21" bodyfile="include/sharding/locality_aware_router.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad230b6f083547ed06d1117a422f791f5" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::LocalityAwareRouter::Statistics::cross_shard_avoided</definition>
+        <argsstring></argsstring>
+        <name>cross_shard_avoided</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Statistics::cross_shard_avoided</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="69" column="21" bodyfile="include/sharding/locality_aware_router.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ab9edd0b3397a5990aa8d658104cdc272" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::sharding::LocalityAwareRouter::Statistics::avg_locality_score</definition>
+        <argsstring></argsstring>
+        <name>avg_locality_score</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Statistics::avg_locality_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="70" column="21" bodyfile="include/sharding/locality_aware_router.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a4e720064ec305ba24ed17c9dd631965d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::sharding::LocalityAwareRouter::Statistics::avg_combined_score</definition>
+        <argsstring></argsstring>
+        <name>avg_combined_score</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Statistics::avg_combined_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="71" column="21" bodyfile="include/sharding/locality_aware_router.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::LocalityAwareRouter::Statistics::Statistics</definition>
+        <argsstring>()=default</argsstring>
+        <name>Statistics</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Statistics::Statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="73" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a592f819b61558eef128a66f1fac79d19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::LocalityAwareRouter::Statistics::Statistics</definition>
+        <argsstring>(const Statistics &amp;other)</argsstring>
+        <name>Statistics</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Statistics::Statistics</qualifiedname>
+        <param>
+          <type>const Statistics &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="74" column="9" bodyfile="include/sharding/locality_aware_router.h" bodystart="74" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad7975e0f4b74a26241af03b1302ba146" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" kindref="member">Statistics</ref> &amp;</type>
+        <definition>Statistics &amp; themis::sharding::LocalityAwareRouter::Statistics::operator=</definition>
+        <argsstring>(const Statistics &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::Statistics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" kindref="member">Statistics</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="82" column="20" bodyfile="include/sharding/locality_aware_router.h" bodystart="82" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/locality_aware_router.h" line="65" column="5" bodyfile="include/sharding/locality_aware_router.h" bodystart="65" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a4e720064ec305ba24ed17c9dd631965d" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Statistics</scope><name>avg_combined_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ab9edd0b3397a5990aa8d658104cdc272" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Statistics</scope><name>avg_locality_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad230b6f083547ed06d1117a422f791f5" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Statistics</scope><name>cross_shard_avoided</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a37317be93c72b5f8a9db4ceb44d69f76" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Statistics</scope><name>local_routes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ad7975e0f4b74a26241af03b1302ba146" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Statistics</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a1d9f771f46f76945a1872aceca26f6b4" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Statistics</scope><name>queries_routed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1ac86b835d5f958ceb8485c62fe28c202c" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Statistics</scope><name>remote_routes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1abdece89c0492483542b280f717ba9e24" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Statistics</scope><name>Statistics</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_statistics_1a592f819b61558eef128a66f1fac79d19" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::Statistics</scope><name>Statistics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

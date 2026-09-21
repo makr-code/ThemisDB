@@ -1,0 +1,425 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__auth_8h" kind="file" language="C++">
+    <compoundname>voice_auth.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="voice__assistant_8h" local="yes">include/voice/voice_assistant.h</includedby>
+    <includedby refid="voice__authenticator_8cpp" local="yes">src/voice/voice_authenticator.cpp</includedby>
+    <includedby refid="test__voice__assistant_8cpp" local="yes">tests/voice/test_voice_assistant.cpp</includedby>
+    <includedby refid="test__voice__assistant__verify_identify__qw38_8cpp" local="yes">tests/voice/test_voice_assistant_verifyIdentify_qw38.cpp</includedby>
+    <includedby refid="test__voice__auth__security__focused_8cpp" local="yes">tests/voice/test_voice_auth_security_focused.cpp</includedby>
+    <includedby refid="test__voice__production_8cpp" local="yes">tests/voice/test_voice_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_auth.h</label>
+        <link refid="voice__auth_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/voice/bench_voice_assistant.cpp</label>
+        <link refid="bench__voice__assistant_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/voice/voice_assistant.h</label>
+        <link refid="voice__assistant_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/voice/voice_auth.h</label>
+        <link refid="voice__auth_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/voice/voice_assistant.cpp</label>
+        <link refid="voice__assistant_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/voice/voice_assistant_llm.cpp</label>
+        <link refid="voice__assistant__llm_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/voice/voice_authenticator.cpp</label>
+        <link refid="voice__authenticator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/voice/test_voice_api_handler.cpp</label>
+        <link refid="test__voice__api__handler_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/voice/test_voice_assistant.cpp</label>
+        <link refid="test__voice__assistant_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp</label>
+        <link refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/voice/test_voice_assistant_verifyIdentify_qw38.cpp</label>
+        <link refid="test__voice__assistant__verify_identify__qw38_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/voice/test_voice_auth_security_focused.cpp</label>
+        <link refid="test__voice__auth__security__focused_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/voice/test_voice_production.cpp</label>
+        <link refid="test__voice__production_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_enrollment_config" prot="public">themis::voice::EnrollmentConfig</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_verification_result" prot="public">themis::voice::VerificationResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_speaker_match" prot="public">themis::voice::SpeakerMatch</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_identification_result" prot="public">themis::voice::IdentificationResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_liveness_score" prot="public">themis::voice::LivenessScore</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_auth_result" prot="public">themis::voice::VoiceAuthResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_auth_config" prot="public">themis::voice::VoiceAuthConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_biometric_authenticator" prot="public">themis::voice::VoiceBiometricAuthenticator</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_biometric_authenticator_1_1_voice_profile" prot="private">themis::voice::VoiceBiometricAuthenticator::VoiceProfile</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Voice Biometric Authentication — Frozen API Contract for Phase 1. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>v1.0 frozen as of 2026-08-08</para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Design/API Contract Frozen (Phase 1)</para>
+</simplesect>
+</para>
+<sect1 id="voice__auth_8h_1autotoc_md9_1s1"><sect2 id="voice__auth_8h_1autotoc_md9">
+<title>Authentication Workflow (Frozen State Machine)</title><para><programlisting><codeline><highlight class="normal">[Enrollment]<sp/>→<sp/>[Voice<sp/>Profile]<sp/>→<sp/>[Authentication]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>(3+<sp/>samples)<sp/><sp/><sp/><sp/><sp/><sp/>(stored)<sp/><sp/><sp/><sp/><sp/><sp/>(liveness<sp/>+<sp/>1:1<sp/>verification)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[Authenticated<sp/>or<sp/>Rejected]</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="voice__auth_8h_1autotoc_md10_1s1"><sect2 id="voice__auth_8h_1autotoc_md10">
+<title>Access Control Matrix (Frozen)</title><para><table rows="6" cols="4"><row>
+<entry thead="yes"><para>Action  </para>
+</entry><entry thead="yes"><para>Caller  </para>
+</entry><entry thead="yes"><para>Precondition  </para>
+</entry><entry thead="yes"><para>Postcondition  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Enroll  </para>
+</entry><entry thead="no"><para>User/Admin  </para>
+</entry><entry thead="no"><para>User ID provided, 3+ audio samples ≥ 3s  </para>
+</entry><entry thead="no"><para>Profile ID created, stored  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Verify  </para>
+</entry><entry thead="no"><para>User  </para>
+</entry><entry thead="no"><para>Profile exists, live audio probe  </para>
+</entry><entry thead="no"><para>Match score computed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Identify  </para>
+</entry><entry thead="no"><para>Application  </para>
+</entry><entry thead="no"><para>Candidate profiles provided  </para>
+</entry><entry thead="no"><para>Top N matches ranked  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Authenticate  </para>
+</entry><entry thead="no"><para>User  </para>
+</entry><entry thead="no"><para>User ID + audio  </para>
+</entry><entry thead="no"><para>Liveness + verification passed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Delete  </para>
+</entry><entry thead="no"><para>User/Admin  </para>
+</entry><entry thead="no"><para>Profile exists, User ID match  </para>
+</entry><entry thead="no"><para>Profile removed, irreversible  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="voice__auth_8h_1autotoc_md11_1s1"><sect2 id="voice__auth_8h_1autotoc_md11">
+<title>Error Codes (Voice Module — Auth/Security)</title><para><itemizedlist>
+<listitem><para>7000: Authentication failed</para>
+</listitem><listitem><para>7001: Insufficient enrollment samples</para>
+</listitem><listitem><para>7002: Liveness check failed (replay/synthesis detected)</para>
+</listitem><listitem><para>7003: Verification failed (speaker mismatch)</para>
+</listitem><listitem><para>7004: Profile not found</para>
+</listitem><listitem><para>7005: Privilege escalation attempt (unauthorized user)</para>
+</listitem><listitem><para>7006: Audio quality too low</para>
+</listitem><listitem><para>7007-7099: Reserved for auth-related errors</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__auth_8h_1autotoc_md12_1s1"><sect2 id="voice__auth_8h_1autotoc_md12">
+<title>Thread Safety</title><para>VoiceBiometricAuthenticator is thread-safe (internal mutex). All public methods acquire mutex for duration of call. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Type<sp/>aliases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1voice_1_1_enrollment_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_enrollment_config" kindref="compound">EnrollmentConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1voice_1_1_enrollment_config_1afe3c0a5d339b5bd536fabe240b8c7e8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_enrollment_config_1afe3c0a5d339b5bd536fabe240b8c7e8b" kindref="member">min_samples</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1voice_1_1_enrollment_config_1a3846c4070d7365d3d07c4e50ddd72372" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_enrollment_config_1a3846c4070d7365d3d07c4e50ddd72372" kindref="member">sample_duration_ms</ref><sp/>=<sp/>3000;<sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1voice_1_1_enrollment_config_1a1b0a6d67edf69bfa398868229cb21f62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_enrollment_config_1a1b0a6d67edf69bfa398868229cb21f62" kindref="member">quality_threshold</ref><sp/><sp/>=<sp/>0.60f;<sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1voice_1_1_enrollment_config_1a4bacfafa6b1427c26e6cbcc2f0ba687e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1voice_1_1_enrollment_config_1a4bacfafa6b1427c26e6cbcc2f0ba687e" kindref="member">require_liveness</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1voice_1_1_verification_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1voice_1_1_verification_result_1ac6b33f918208554dd2e8cd4b5b0e9be6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_verification_result_1ac6b33f918208554dd2e8cd4b5b0e9be6" kindref="member">verified</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1voice_1_1_verification_result_1a53317757a1158e0c1a2cb160f8536ca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_verification_result_1a53317757a1158e0c1a2cb160f8536ca7" kindref="member">match_score</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1voice_1_1_verification_result_1a6484dfca50791ab5fea194d1876972d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_verification_result_1a6484dfca50791ab5fea194d1876972d8" kindref="member">threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1voice_1_1_verification_result_1ab53f771e87e17a2d422c7f371e51ff1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_verification_result_1ab53f771e87e17a2d422c7f371e51ff1f" kindref="member">decision_reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1voice_1_1_speaker_match" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_speaker_match" kindref="compound">SpeakerMatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1voice_1_1_speaker_match_1a5e5a41f2fb4512fd76245d93cdc5bdca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref><sp/><ref refid="structthemis_1_1voice_1_1_speaker_match_1a5e5a41f2fb4512fd76245d93cdc5bdca" kindref="member">profile_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1voice_1_1_speaker_match_1a27fb9c31decee5b5c7f61f2e5cafd23d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_speaker_match_1a27fb9c31decee5b5c7f61f2e5cafd23d" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1voice_1_1_speaker_match_1a6f290b22828e10e9fdec428659c74905" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_speaker_match_1a6f290b22828e10e9fdec428659c74905" kindref="member">match_score</ref><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1voice_1_1_speaker_match_1a05264bec77c6c9e22e0b5df826970f5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_speaker_match_1a05264bec77c6c9e22e0b5df826970f5b" kindref="member">rank</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1voice_1_1_identification_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_identification_result" kindref="compound">IdentificationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1voice_1_1_identification_result_1a5bec8975ac8c5811c978f1f5833627d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SpeakerMatch&gt;<sp/><ref refid="structthemis_1_1voice_1_1_identification_result_1a5bec8975ac8c5811c978f1f5833627d0" kindref="member">matches</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1voice_1_1_identification_result_1a9e27c2cf25c8c2465c7c9a262ac7a6d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_identification_result_1a9e27c2cf25c8c2465c7c9a262ac7a6d4" kindref="member">identified</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1voice_1_1_identification_result_1ae6fd83b0afde6957e0bc35c52ace8df6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_identification_result_1ae6fd83b0afde6957e0bc35c52ace8df6" kindref="member">top_match_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1voice_1_1_identification_result_1a2c11e337ca8ef56f19b3c6132a12958a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_identification_result_1a2c11e337ca8ef56f19b3c6132a12958a" kindref="member">top_match_score</ref><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1voice_1_1_liveness_score" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_liveness_score" kindref="compound">LivenessScore</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1voice_1_1_liveness_score_1a52e63e7e9bf7e81f54ee2405fe943344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_liveness_score_1a52e63e7e9bf7e81f54ee2405fe943344" kindref="member">is_live</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1voice_1_1_liveness_score_1a4c8c5dd0676c3ccca540b5086b4f74ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_liveness_score_1a4c8c5dd0676c3ccca540b5086b4f74ee" kindref="member">score</ref><sp/><sp/><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1voice_1_1_liveness_score_1a2fef5968b5e105518a80c90d26096368" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_liveness_score_1a2fef5968b5e105518a80c90d26096368" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1voice_1_1_voice_auth_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_auth_result" kindref="compound">VoiceAuthResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1voice_1_1_voice_auth_result_1ae974f7e327cf8a7fc130c6ec5bb185c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_result_1ae974f7e327cf8a7fc130c6ec5bb185c1" kindref="member">authenticated</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1voice_1_1_voice_auth_result_1ad25c865f3a1d73e26221f70c22ddfaef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_result_1ad25c865f3a1d73e26221f70c22ddfaef" kindref="member">confidence_score</ref><sp/>=<sp/>0.0f;<sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1voice_1_1_voice_auth_result_1af6b9825126d208b9370de9966a7bd110" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_result_1af6b9825126d208b9370de9966a7bd110" kindref="member">threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1voice_1_1_voice_auth_result_1a660958a7709a974349bb9693861ab746" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_result_1a660958a7709a974349bb9693861ab746" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1voice_1_1_voice_auth_result_1ae7fe3e5dd12f77396f39a747b9dbcc68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_result_1ae7fe3e5dd12f77396f39a747b9dbcc68" kindref="member">decision_reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1voice_1_1_voice_auth_result_1a887cdcfe041116b8500c5f8da7a36cc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_result_1a887cdcfe041116b8500c5f8da7a36cc3" kindref="member">timestamp_ms</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1voice_1_1_voice_auth_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_auth_config" kindref="compound">VoiceAuthConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1voice_1_1_voice_auth_config_1a709596e2b9b07ecf39e36f57ed7d0754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_config_1a709596e2b9b07ecf39e36f57ed7d0754" kindref="member">verification_threshold</ref><sp/><sp/><sp/>=<sp/>0.72f;<sp/></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1voice_1_1_voice_auth_config_1a1b629dab4a5afe22768e8520aad2928a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_config_1a1b629dab4a5afe22768e8520aad2928a" kindref="member">identification_threshold</ref><sp/>=<sp/>0.68f;<sp/></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1voice_1_1_voice_auth_config_1a61011405eb3fa09809d45aa7a7b01187" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_config_1a61011405eb3fa09809d45aa7a7b01187" kindref="member">liveness_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.55f;<sp/></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1voice_1_1_voice_auth_config_1acb3f4a8da36b48a8667f1d92a45c12cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_config_1acb3f4a8da36b48a8667f1d92a45c12cc" kindref="member">feature_vector_size</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>32;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceBiometricAuthenticator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1voice_1_1_voice_biometric_authenticator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref><sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_config" kindref="compound">VoiceAuthConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a76ff087765eb6ea6a8a176df1de305df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a76ff087765eb6ea6a8a176df1de305df" kindref="member">~VoiceBiometricAuthenticator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ab5c253bc6029ec8f6e20c53d81688936" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ab5c253bc6029ec8f6e20c53d81688936" kindref="member">VoiceBiometricAuthenticator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a1dccb51b314f135ccf0632d3bfde0664" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a1dccb51b314f135ccf0632d3bfde0664" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a17c0c6efccc96afdd1abfdd43ec3b6c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a17c0c6efccc96afdd1abfdd43ec3b6c5" kindref="member">VoiceBiometricAuthenticator</ref>(<ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a21e5e47bd5f0b378de8aa175c3880568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a51862d05669648d6a6a1c68c98ef5b73" kindref="member">VoiceBiometricAuthenticator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enrollment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aafa7ba7b0fd16b824e6e4e954a0cb667" kindref="member">enroll_voice</ref>(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user_id,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;&amp;<sp/>audio_samples,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out_profile_id,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1voice_1_1_enrollment_config" kindref="compound">EnrollmentConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verification<sp/>&amp;<sp/>identification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a84538ab024de9682efbf5abc50081e78" kindref="member">verify_speaker</ref>(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>profile_id,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/><sp/><sp/>audio_sample);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_identification_result" kindref="compound">IdentificationResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a8b4abaaab6d6c2910d46e95c7b7d7074" kindref="member">identify_speaker</ref>(</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;VoiceProfileID&gt;&amp;<sp/>candidate_profiles,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audio_sample);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_liveness_score" kindref="compound">LivenessScore</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1af7eaeb5ec9a0c9fad4ae8af5b38b4ef4" kindref="member">detect_liveness</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_sample);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_result" kindref="compound">VoiceAuthResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aba803f97105f71c7020025a147a38941" kindref="member">authenticate</ref>(</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user_id,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_sample);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Profile<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1ae8e184e728655a5d67849b4f109757da" kindref="member">delete_profile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref>&amp;<sp/>profile_id);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa17384bd0a15ee20e5082bf8c99095cf" kindref="member">has_profile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref>&amp;<sp/>profile_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VoiceProfileID&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a65a8926c5bdec453df638d8a8c7e00de" kindref="member">list_profiles</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a1c370c6ee5081ad55fcb00a27aa41b71" kindref="member">get_user_id</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref>&amp;<sp/>profile_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>&amp;<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a92ec9b098be2bb055f7b7f89ba627547" kindref="member">set_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_config" kindref="compound">VoiceAuthConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_config" kindref="compound">VoiceAuthConfig</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a749078d45751e701182c56664ea5225d" kindref="member">get_config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1aa204a4dfa7dea35b3452de3a827787f0" kindref="member">get_statistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_biometric_authenticator_1a490c1d3f887312b53647939abbc35d49" kindref="member">setAuthAuditCallback</ref>(</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_auth_result" kindref="compound">VoiceAuthResult</ref>&amp;)&gt;<sp/>callback);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stored<sp/>voice<sp/>profile</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_profile" kindref="compound">VoiceProfile</ref><sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref><sp/><sp/><sp/><sp/><sp/><sp/>id;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user_id;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/>feature_vector;<sp/></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quality_score<sp/><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>created_at_ms<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>num_samples<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceAuthConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;VoiceProfileID,<sp/>VoiceProfile&gt;<sp/>profiles_;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>VoiceProfileID&gt;<sp/><sp/>user_to_profile_;<sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_enrollments_<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_verifications_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_identifications_=<sp/>0;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>successful_authentications_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_auth_audit_events_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VoiceAuthResult&amp;)&gt;<sp/>auth_audit_callback_;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feature<sp/>extraction<sp/>pipeline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>extractFeatures(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>pcmToFloat(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>raw)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>l2Normalize(std::vector&lt;float&gt;&amp;<sp/>vec)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Similarity<sp/>&amp;<sp/>quality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>cosineSimilarity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>b)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeAudioQuality(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>samples)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/>nowMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateProfileId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>emitAuthAuditEvent(</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>claimed_user_id,</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VoiceAuthResult&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>voice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_auth.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,778 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_advanced_cache_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::AdvancedCacheManager</compoundname>
+    <includes refid="advanced__cache__manager_8h" local="no">advanced_cache_manager.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_bloom_filter" prot="private">themis::performance::AdvancedCacheManager::BloomFilter</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_entry" prot="private">themis::performance::AdvancedCacheManager::Entry</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state" prot="private">themis::performance::AdvancedCacheManager::PartitionState</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1_advanced_cache_manager_1ab4004984c2c409a7c51fbfbd89047a1a" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;, <ref refid="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508" kindref="member">CompressionAlgorithm</ref>)&gt;</type>
+        <definition>using themis::performance::AdvancedCacheManager::CompressFn = std::function&lt;std::string(const std::string&amp;, CompressionAlgorithm)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CompressFn</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::CompressFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="114" column="5" bodyfile="include/performance/advanced_cache_manager.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1_advanced_cache_manager_1ae257403256d8b2a24b4833866937e520" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;, <ref refid="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508" kindref="member">CompressionAlgorithm</ref>)&gt;</type>
+        <definition>using themis::performance::AdvancedCacheManager::DecompressFn = std::function&lt;std::string(const std::string&amp;, CompressionAlgorithm)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DecompressFn</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::DecompressFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="115" column="5" bodyfile="include/performance/advanced_cache_manager.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_advanced_cache_manager_1aacea27abeef1068fc666c06e07eae4fa" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_cache_config" kindref="compound">CacheConfig</ref></type>
+        <definition>CacheConfig themis::performance::AdvancedCacheManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="261" column="17" bodyfile="include/performance/advanced_cache_manager.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a44ab272b5cf1e334468f0fc5df96cc80" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; PartitionState &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;PartitionState&gt; &gt; themis::performance::AdvancedCacheManager::partitions_</definition>
+        <argsstring></argsstring>
+        <name>partitions_</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::partitions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="262" column="17" bodyfile="include/performance/advanced_cache_manager.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1adde888c6b26e6801809d68c5aeb60142" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdvancedCacheManager::AdvancedCacheManager</definition>
+        <argsstring>()</argsstring>
+        <name>AdvancedCacheManager</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::AdvancedCacheManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="121" column="5" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="345" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1aa67a02f8556bef1dfb8503200e034529" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdvancedCacheManager::AdvancedCacheManager</definition>
+        <argsstring>(const CacheConfig &amp;config)</argsstring>
+        <name>AdvancedCacheManager</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::AdvancedCacheManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_cache_config" kindref="compound">CacheConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="122" column="14" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="352" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1aed696de62fd6862a48ed52e634c98841" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdvancedCacheManager::~AdvancedCacheManager</definition>
+        <argsstring>()</argsstring>
+        <name>~AdvancedCacheManager</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::~AdvancedCacheManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1af25a292c91a8d90bd1d815ba26507aff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdvancedCacheManager::AdvancedCacheManager</definition>
+        <argsstring>(const AdvancedCacheManager &amp;)=delete</argsstring>
+        <name>AdvancedCacheManager</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::AdvancedCacheManager</qualifiedname>
+        <param>
+          <type>const AdvancedCacheManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a6900f5c92f6f5bbe07a0f14fefd4b375" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_advanced_cache_manager_1adde888c6b26e6801809d68c5aeb60142" kindref="member">AdvancedCacheManager</ref> &amp;</type>
+        <definition>AdvancedCacheManager &amp; themis::performance::AdvancedCacheManager::operator=</definition>
+        <argsstring>(const AdvancedCacheManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_advanced_cache_manager_1adde888c6b26e6801809d68c5aeb60142" kindref="member">AdvancedCacheManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="126" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1ad18d1a3caed98ef03804529c6be82d83" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AdvancedCacheManager::AdvancedCacheManager</definition>
+        <argsstring>(AdvancedCacheManager &amp;&amp;) noexcept=default</argsstring>
+        <name>AdvancedCacheManager</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::AdvancedCacheManager</qualifiedname>
+        <param>
+          <type>AdvancedCacheManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="127" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a0dca4da3963baff65e4b0aed3d657dcc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_advanced_cache_manager_1adde888c6b26e6801809d68c5aeb60142" kindref="member">AdvancedCacheManager</ref> &amp;</type>
+        <definition>AdvancedCacheManager &amp; themis::performance::AdvancedCacheManager::operator=</definition>
+        <argsstring>(AdvancedCacheManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_advanced_cache_manager_1adde888c6b26e6801809d68c5aeb60142" kindref="member">AdvancedCacheManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="128" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a74e9d6cd19ea003eb9bef76b4389c9a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdvancedCacheManager::create_partitions</definition>
+        <argsstring>(const CacheConfig &amp;config)</argsstring>
+        <name>create_partitions</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::create_partitions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_cache_config" kindref="compound">CacheConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>(Re)create partitions from a <ref refid="structthemis_1_1performance_1_1_cache_config" kindref="compound">CacheConfig</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create partitions.</para>
+<para>Discards all existing entries and bloom-filter state.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clear(), entries_for_mb(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="139" column="10" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="363" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a8ff9518d5a47db6ba5d96aca29c25b0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::performance::AdvancedCacheManager::partition_names</definition>
+        <argsstring>() const</argsstring>
+        <name>partition_names</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::partition_names</qualifiedname>
+        <briefdescription>
+<para>Return the names of all registered partitions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="144" column="17" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="377" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a10ecd79f0aaba0b63ddef9404b83167e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::performance::AdvancedCacheManager::get</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;partition)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition</declname>
+        </param>
+        <briefdescription>
+<para>Look up key in the named partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get.</para>
+<para><simplesect kind="return"><para>The cached value, or std::nullopt on a miss.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_partition(), lk(), maybe_contains(), find(), end(), splice(), begin(), decompress(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="155" column="19" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="403" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a89080c1b89aba09cae017f41ed00f252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdvancedCacheManager::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value, const std::string &amp;partition)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition</declname>
+        </param>
+        <briefdescription>
+<para>Insert or update key in the named partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para>Evicts the least-recently-used entry when the partition is full. When bloom-filter pre-screening is enabled, the key is added to the partition&apos;s Bloom filter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find_partition(), lk(), compress(), find(), end(), std::move(), splice(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="165" column="10" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="449" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1ac57d13874930ae3133502e3666d4d589" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::AdvancedCacheManager::evict</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;partition)</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::evict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition</declname>
+        </param>
+        <briefdescription>
+<para>Remove key from the named partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evict.</para>
+<para><simplesect kind="return"><para>true if the key was present and removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find_partition(), lk(), find(), end(), size(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="174" column="10" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="497" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a3e81d3f3f5410f9847879b24b73b592f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::AdvancedCacheManager::contains</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;partition) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::contains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition</declname>
+        </param>
+        <briefdescription>
+<para>Check whether key is in the named partition without modifying LRU state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="180" column="10" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="520" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a37f420cb4c09a1574ba8b0e1f01ca956" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_partition_stats" kindref="compound">PartitionStats</ref></type>
+        <definition>PartitionStats themis::performance::AdvancedCacheManager::get_partition_stats</definition>
+        <argsstring>(const std::string &amp;partition) const</argsstring>
+        <name>get_partition_stats</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::get_partition_stats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition</declname>
+        </param>
+        <briefdescription>
+<para>Return per-partition statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="211" column="20" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="530" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1aa154476cf9d5dd2ad4c4215404d8698b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdvancedCacheManager::reset_stats</definition>
+        <argsstring>()</argsstring>
+        <name>reset_stats</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::reset_stats</qualifiedname>
+        <briefdescription>
+<para>Reset all statistics counters without flushing cached data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset stats.</para>
+<para>Calls: lk(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="214" column="10" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="542" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1ab913ed3f8655dbe16b3393f727de26a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdvancedCacheManager::flush_partition</definition>
+        <argsstring>(const std::string &amp;partition)</argsstring>
+        <name>flush_partition</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::flush_partition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition</declname>
+        </param>
+        <briefdescription>
+<para>Flush all entries from a single partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush partition.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find_partition(), lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="217" column="10" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="559" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a516ddeae8eb884ea343bed9ef5fd5ab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdvancedCacheManager::flush_all</definition>
+        <argsstring>()</argsstring>
+        <name>flush_all</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::flush_all</qualifiedname>
+        <briefdescription>
+<para>Flush all partitions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush all.</para>
+<para>Calls: <ref refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ab913ed3f8655dbe16b3393f727de26a0" kindref="member">flush_partition()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="220" column="10" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="575" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1af2dc180d250a1387836bf50632948acf" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1performance_1_1_cache_config" kindref="compound">CacheConfig</ref> &amp;</type>
+        <definition>const CacheConfig &amp; themis::performance::AdvancedCacheManager::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="226" column="23" bodyfile="include/performance/advanced_cache_manager.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a761e51374a5473642187198373ab6899" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Iterator</type>
+          </param>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::performance::AdvancedCacheManager::cache_oblivious_scan</definition>
+        <argsstring>(Iterator begin, Iterator end, Func func, size_t tile_size=64)</argsstring>
+        <name>cache_oblivious_scan</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::cache_oblivious_scan</qualifiedname>
+        <param>
+          <type>Iterator</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>Iterator</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>Func</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>tile_size</declname>
+          <defval>64</defval>
+        </param>
+        <briefdescription>
+<para>Apply func to each element in [begin, end) in cache-friendly tiles of tile_size elements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Improves spatial locality for large sequential scans by processing kTileSize = 64 elements per tile. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="194" column="17" bodyfile="include/performance/advanced_cache_manager.h" bodystart="194" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a49a051817883addd1cedbe8308eb64a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdvancedCacheManager::setCompressFn</definition>
+        <argsstring>(CompressFn fn)</argsstring>
+        <name>setCompressFn</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::setCompressFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ab4004984c2c409a7c51fbfbd89047a1a" kindref="member">CompressFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Compress Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="228" column="17" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="134" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1a475652b578492ff6eac5a4886858d35c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AdvancedCacheManager::setDecompressFn</definition>
+        <argsstring>(DecompressFn fn)</argsstring>
+        <name>setDecompressFn</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::setDecompressFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ae257403256d8b2a24b4833866937e520" kindref="member">DecompressFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Decompress Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="229" column="17" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="144" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1ab1e5bcafc5ea864dcbf848c6724e8abc" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>PartitionState *</type>
+        <definition>AdvancedCacheManager::PartitionState * themis::performance::AdvancedCacheManager::find_partition</definition>
+        <argsstring>(const std::string &amp;name) const noexcept</argsstring>
+        <name>find_partition</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::find_partition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="264" column="20" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="387" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1abee6d52e31d3086d3822e10d0ffb108f" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdvancedCacheManager::entries_for_mb</definition>
+        <argsstring>(size_t mb) noexcept</argsstring>
+        <name>entries_for_mb</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::entries_for_mb</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>mb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="266" column="19" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="336" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1ab6990537758d132c3580299867aeef75" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::AdvancedCacheManager::compress</definition>
+        <argsstring>(const std::string &amp;val, CompressionAlgorithm algo)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::compress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508" kindref="member">CompressionAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+<para>Compress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::string(), data(), size(), LZ4_compressBound(), out(), write_le32(), LZ4_compress_HC(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="267" column="24" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="156" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_advanced_cache_manager_1ab3f5a9163d385e39e38ec3696db7ce57" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::AdvancedCacheManager::decompress</definition>
+        <argsstring>(const std::string &amp;val, CompressionAlgorithm algo)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::decompress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508" kindref="member">CompressionAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+<para>Decompress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), substr(), read_le32(), out(), LZ4_decompress_safe(), snappy::Uncompress(), ZSTD_decompress(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="269" column="24" bodyfile="src/performance/advanced_cache_manager.cpp" bodystart="254" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-level cache manager with partitioning and bloom-filter pre-screening (v1.9.0, Issue #229). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Research basis: Multiple cache optimization papers.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Cache Partitioning: hot / cold / metadata regions with independent eviction policies.</para>
+</listitem><listitem><para>Cache-Oblivious Scan: template helper that processes an iterator range in small tiles to improve cache reuse.</para>
+</listitem><listitem><para>Bloom Filter Pre-Screening: optional per-partition Bloom filter that avoids polluting the partition for definite misses.</para>
+</listitem><listitem><para>Adaptive Eviction: LRU (default) or LRU-2 approximation.</para>
+</listitem><listitem><para>Cache Compression: transparent value compression for cold partitions (stubbed codec layer).</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance targets:<itemizedlist>
+<listitem><para>Hit rate: +15–25 % vs single-partition cache</para>
+</listitem><listitem><para>Memory efficiency: +30–50 % with compression on cold partition</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/performance/advanced_cache_manager.h" line="112" column="1" bodyfile="include/performance/advanced_cache_manager.h" bodystart="112" bodyend="271"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1adde888c6b26e6801809d68c5aeb60142" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>AdvancedCacheManager</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1aa67a02f8556bef1dfb8503200e034529" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>AdvancedCacheManager</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1af25a292c91a8d90bd1d815ba26507aff" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>AdvancedCacheManager</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ad18d1a3caed98ef03804529c6be82d83" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>AdvancedCacheManager</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a761e51374a5473642187198373ab6899" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>cache_oblivious_scan</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ab6990537758d132c3580299867aeef75" prot="private" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>compress</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ab4004984c2c409a7c51fbfbd89047a1a" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>CompressFn</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1af2dc180d250a1387836bf50632948acf" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>config</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1aacea27abeef1068fc666c06e07eae4fa" prot="private" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a3e81d3f3f5410f9847879b24b73b592f" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>contains</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a74e9d6cd19ea003eb9bef76b4389c9a4" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>create_partitions</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ab3f5a9163d385e39e38ec3696db7ce57" prot="private" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>decompress</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ae257403256d8b2a24b4833866937e520" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>DecompressFn</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1abee6d52e31d3086d3822e10d0ffb108f" prot="private" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>entries_for_mb</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ac57d13874930ae3133502e3666d4d589" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>evict</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ab1e5bcafc5ea864dcbf848c6724e8abc" prot="private" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>find_partition</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a516ddeae8eb884ea343bed9ef5fd5ab4" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>flush_all</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1ab913ed3f8655dbe16b3393f727de26a0" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>flush_partition</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a10ecd79f0aaba0b63ddef9404b83167e" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>get</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a37f420cb4c09a1574ba8b0e1f01ca956" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>get_partition_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a6900f5c92f6f5bbe07a0f14fefd4b375" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a0dca4da3963baff65e4b0aed3d657dcc" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a8ff9518d5a47db6ba5d96aca29c25b0e" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>partition_names</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a44ab272b5cf1e334468f0fc5df96cc80" prot="private" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>partitions_</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a89080c1b89aba09cae017f41ed00f252" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>put</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1aa154476cf9d5dd2ad4c4215404d8698b" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>reset_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a49a051817883addd1cedbe8308eb64a7" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>setCompressFn</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1a475652b578492ff6eac5a4886858d35c" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>setDecompressFn</name></member>
+      <member refid="classthemis_1_1performance_1_1_advanced_cache_manager_1aed696de62fd6862a48ed52e634c98841" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager</scope><name>~AdvancedCacheManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

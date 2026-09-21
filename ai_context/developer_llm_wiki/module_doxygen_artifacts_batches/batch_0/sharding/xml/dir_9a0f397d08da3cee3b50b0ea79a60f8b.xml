@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9a0f397d08da3cee3b50b0ea79a60f8b" kind="dir">
+    <compoundname>benchmarks/sharding</compoundname>
+    <innerfile refid="bench__distributed__coordinator_8cpp">bench_distributed_coordinator.cpp</innerfile>
+    <innerfile refid="bench__gossip__config_8cpp">bench_gossip_config.cpp</innerfile>
+    <innerfile refid="bench__locality__aware__router_8cpp">bench_locality_aware_router.cpp</innerfile>
+    <innerfile refid="bench__shard__resource__manager_8cpp">bench_shard_resource_manager.cpp</innerfile>
+    <innerfile refid="bench__shard__routing_8cpp">bench_shard_routing.cpp</innerfile>
+    <innerfile refid="bench__sharding__dedicated__gates_8cpp">bench_sharding_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__sharding__performance_8cpp">bench_sharding_performance.cpp</innerfile>
+    <innerfile refid="bench__sharding__release__gates_8cpp">bench_sharding_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/sharding/"/>
+  </compounddef>
+</doxygen>

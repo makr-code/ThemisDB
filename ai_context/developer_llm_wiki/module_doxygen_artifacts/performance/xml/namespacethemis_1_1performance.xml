@@ -1,0 +1,1728 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1performance" kind="namespace" language="C++">
+    <compoundname>themis::performance</compoundname>
+    <innerclass refid="classthemis_1_1performance_1_1_adaptive_query_compiler" prot="public">themis::performance::AdaptiveQueryCompiler</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_advanced_cache_manager" prot="public">themis::performance::AdvancedCacheManager</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_allocation_hint" prot="public">themis::performance::AllocationHint</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_async_metrics_exporter" prot="public">themis::performance::AsyncMetricsExporter</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_cache_config" prot="public">themis::performance::CacheConfig</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_cache_partition" prot="public">themis::performance::CachePartition</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_cache_stats" prot="public">themis::performance::CacheStats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_c_h_i_m_e_r_a_exporter" prot="public">themis::performance::CHIMERAExporter</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_cicada_record" prot="public">themis::performance::CicadaRecord</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_cicada_transaction" prot="public">themis::performance::CicadaTransaction</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_column_schema" prot="public">themis::performance::ColumnSchema</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_contention_manager" prot="public">themis::performance::ContentionManager</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_cycle_metrics_collector" prot="public">themis::performance::CycleMetricsCollector</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m" prot="public">themis::performance::DostoevskeyLSM</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_edge" prot="public">themis::performance::Edge</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_execution_result" prot="public">themis::performance::ExecutionResult</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_expected_cycles" prot="public">themis::performance::ExpectedCycles</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_frontier" prot="public">themis::performance::Frontier</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_hardware_accelerator" prot="public">themis::performance::HardwareAccelerator</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_hardware_capabilities" prot="public">themis::performance::HardwareCapabilities</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_hardware_cycle_counter" prot="public">themis::performance::HardwareCycleCounter</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_intelligent_prefetcher" prot="public">themis::performance::IntelligentPrefetcher</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_ligra_processor" prot="public">themis::performance::LigraProcessor</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_l_i_r_s_cache" prot="public">themis::performance::LIRSCache</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_lock_free_histogram" prot="public">themis::performance::LockFreeHistogram</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_lock_free_ring_buffer" prot="public">themis::performance::LockFreeRingBuffer</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_metrics_entry" prot="public">themis::performance::MetricsEntry</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_n_u_m_a_memory_manager" prot="public">themis::performance::NUMAMemoryManager</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_numa_node" prot="public">themis::performance::NumaNode</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_n_u_m_a_stats" prot="public">themis::performance::NUMAStats</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_numa_topology" prot="public">themis::performance::NumaTopology</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_numa_topology_detector" prot="public">themis::performance::NumaTopologyDetector</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_n_u_m_a_topology_info" prot="public">themis::performance::NUMATopologyInfo</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_operation_cycle_metrics" prot="public">themis::performance::OperationCycleMetrics</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_optimization_strategy" prot="public">themis::performance::OptimizationStrategy</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_parsed_query" prot="public">themis::performance::ParsedQuery</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_partition_stats" prot="public">themis::performance::PartitionStats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_performance_feature_flags" prot="public">themis::performance::PerformanceFeatureFlags</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_phase2_feature_flags" prot="public">themis::performance::Phase2FeatureFlags</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_pool_acquire_result" prot="public">themis::performance::PoolAcquireResult</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_predicate" prot="public">themis::performance::Predicate</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_prefetch_config" prot="public">themis::performance::PrefetchConfig</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_product_quantizer" prot="public">themis::performance::ProductQuantizer</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_prometheus_exporter" prot="public">themis::performance::PrometheusExporter</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_query_operator" prot="public">themis::performance::QueryOperator</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_query_params" prot="public">themis::performance::QueryParams</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_query_result" prot="public">themis::performance::QueryResult</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_query_row" prot="public">themis::performance::QueryRow</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_ra_bit_q_encoder" prot="public">themis::performance::RaBitQEncoder</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_ra_bit_q_index" prot="public">themis::performance::RaBitQIndex</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_ra_bit_q_vector" prot="public">themis::performance::RaBitQVector</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_runtime_config" prot="public">themis::performance::RuntimeConfig</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_scale_recommendation" prot="public">themis::performance::ScaleRecommendation</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_schema" prot="public">themis::performance::Schema</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_scoped_cycle_timer" prot="public">themis::performance::ScopedCycleTimer</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_table_schema" prot="public">themis::performance::TableSchema</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer" prot="public">themis::performance::ThreadLocalMetricsBuffer</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_thread_pinner" prot="public">themis::performance::ThreadPinner</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_value_address" prot="public">themis::performance::ValueAddress</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_value_log" prot="public">themis::performance::ValueLog</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_wisc_key_storage" prot="public">themis::performance::WiscKeyStorage</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_workload_adaptive_optimizer" prot="public">themis::performance::WorkloadAdaptiveOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_workload_forecast" prot="public">themis::performance::WorkloadForecast</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_workload_monitor" prot="public">themis::performance::WorkloadMonitor</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_workload_predictor" prot="public">themis::performance::WorkloadPredictor</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_workload_profile" prot="public">themis::performance::WorkloadProfile</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_workload_snapshot" prot="public">themis::performance::WorkloadSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_workload_stats" prot="public">themis::performance::WorkloadStats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_work_stealing_queue" prot="public">themis::performance::WorkStealingQueue</innerclass>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase3">themis::performance::phase3</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance_1_1phase4">themis::performance::phase4</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ColumnType</name>
+        <qualifiedname>themis::performance::ColumnType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97afbde23b11d7e59af7828e81144c8b487" prot="public">
+          <name>Int64</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97ad909d38d705ce75386dd86e611a82f5b" prot="public">
+          <name>Double</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97ac26f15e86e3de4c398a8273272aba034" prot="public">
+          <name>Bool</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97a27118326006d3829667a400ad23d5d98" prot="public">
+          <name>String</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a1344dcc296fb0b3d28c0b5b17befec97a88183b946cc5f0e8c96b2e66e1c74a7e" prot="public">
+          <name>Unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Value type descriptor for a schema column. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="103" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QueryOpType</name>
+        <qualifiedname>themis::performance::QueryOpType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8ad7778d0c64b6ba21494c97f77a66885a" prot="public">
+          <name>Filter</name>
+          <briefdescription>
+<para>SELECT … WHERE predicate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8a2ee34178bb8415b7d7234cd27b83aed6" prot="public">
+          <name>Aggregate</name>
+          <briefdescription>
+<para>GROUP BY + aggregate functions (COUNT/SUM/AVG/MIN/MAX). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8aa286d9991c6a547ae25a5f5216164b8f" prot="public">
+          <name>Join</name>
+          <briefdescription>
+<para>Two-table equi-join. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8a2121e8333850befac5412d69d52306f7" prot="public">
+          <name>Projection</name>
+          <briefdescription>
+<para>SELECT subset of columns. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8a6b46ae48421828d9973deec5fa9aa0c3" prot="public">
+          <name>Sort</name>
+          <briefdescription>
+<para>ORDER BY. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8a80d2677cf518f4d04320042f4ea6c146" prot="public">
+          <name>Limit</name>
+          <briefdescription>
+<para>LIMIT / OFFSET. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8a88183b946cc5f0e8c96b2e66e1c74a7e" prot="public">
+          <name>Unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration of supported query operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="141" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="141" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1a36f69b01c7f892bb544c20c0e47c0d3b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EvictionPolicy</name>
+        <qualifiedname>themis::performance::EvictionPolicy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1a36f69b01c7f892bb544c20c0e47c0d3ba875ecb34f6d21d13d4b9fd4980a8b5af" prot="public">
+          <name>LRU</name>
+          <briefdescription>
+<para>Least Recently Used. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a36f69b01c7f892bb544c20c0e47c0d3ba9a089987ebd7d472ad2d43d307b0a811" prot="public">
+          <name>LIRS</name>
+          <briefdescription>
+<para>Low Inter-reference Recency Set (scan-resistant). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a36f69b01c7f892bb544c20c0e47c0d3bad72a48a8ebd238e1497a911e938f46e8" prot="public">
+          <name>ARC</name>
+          <briefdescription>
+<para>Adaptive Replacement Cache. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a36f69b01c7f892bb544c20c0e47c0d3ba8f634e685d1bf0d6b5ccf84d335972f8" prot="public">
+          <name>TwoQ</name>
+          <briefdescription>
+<para>Two-Queue (2Q). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Eviction policy for a cache partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="38" column="1" bodyfile="include/performance/advanced_cache_manager.h" bodystart="38" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionAlgorithm</name>
+        <qualifiedname>themis::performance::CompressionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508aca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508a6d8acb35ee079683724753caac0ef588" prot="public">
+          <name>Snappy</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a96e9e9877069811441df4c5d31c22508a0c8468c9ff2f38e853335e1e40ade4c3" prot="public">
+          <name>Zstd</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Compression algorithm for cold partitions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="48" column="1" bodyfile="include/performance/advanced_cache_manager.h" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MergePolicy</name>
+        <qualifiedname>themis::performance::MergePolicy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879a256b68b36c17e1c85641d281b39500bb" prot="public">
+          <name>LEVELING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879a2a2a5060965ea83c0f91a767923549ec" prot="public">
+          <name>TIERING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879ae8c99bad2c2cc7ece76d6a758391ea49" prot="public">
+          <name>LAZY_LEVELING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Merge policy for LSM tree levels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="32" column="1" bodyfile="include/performance/dostoevsky.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OperatorType</name>
+        <qualifiedname>themis::performance::OperatorType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520a78e3a48d40583cd018362874c2db2253" prot="public">
+          <name>HashJoin</name>
+          <briefdescription>
+<para>Hash join between two row sets. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520ae44ef900f27a19912b9d14692f45bb18" prot="public">
+          <name>SortMergeJoin</name>
+          <briefdescription>
+<para>Sort-merge join. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520a2ee34178bb8415b7d7234cd27b83aed6" prot="public">
+          <name>Aggregate</name>
+          <briefdescription>
+<para>SUM / COUNT / MIN / MAX / AVG. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520ad7778d0c64b6ba21494c97f77a66885a" prot="public">
+          <name>Filter</name>
+          <briefdescription>
+<para>Predicate-based row filter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520a6b46ae48421828d9973deec5fa9aa0c3" prot="public">
+          <name>Sort</name>
+          <briefdescription>
+<para>Sort by one or more keys. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520a980a4bed3ccaa0296a623be319f0cd6e" prot="public">
+          <name>PatternMatch</name>
+          <briefdescription>
+<para>LIKE / regex string matching. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520a6f6e148d771b258fc86d4617ba5a7daa" prot="public">
+          <name>VectorOp</name>
+          <briefdescription>
+<para>SIMD / vector arithmetic operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1af037b56411b542aa58e44b0922aba520a88183b946cc5f0e8c96b2e66e1c74a7e" prot="public">
+          <name>Unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>The kind of relational operator being dispatched to the accelerator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="36" column="1" bodyfile="include/performance/hardware_accelerator.h" bodystart="36" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1a3ca0eec9f6a15a00c1b98c06ec6be8b1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HistogramMode</name>
+        <qualifiedname>themis::performance::HistogramMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1a3ca0eec9f6a15a00c1b98c06ec6be8b1a32a843da6ea40ab3b17a3421ccdf671b" prot="public">
+          <name>Linear</name>
+          <briefdescription>
+<para>Uniform bucket width: bucket = value / bucket_width. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a3ca0eec9f6a15a00c1b98c06ec6be8b1ac1e19c09f700938f0ff7f1fd4722a3ac" prot="public">
+          <name>Exponential</name>
+          <briefdescription>
+<para>Power-of-2 buckets: bucket = floor(log2(value + 1)). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Bucket-mapping strategy for <ref refid="classthemis_1_1performance_1_1_lock_free_histogram" kindref="compound">LockFreeHistogram</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="42" column="1" bodyfile="include/performance/lockfree_histogram.h" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72c" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>PerfError</name>
+        <qualifiedname>themis::performance::PerfError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca96c9cef347530152b0eac10de2fc31df" prot="public">
+          <name>kCompileTimeout</name>
+          <initializer>= 7100</initializer>
+          <briefdescription>
+<para>Query compilation exceeded budget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca044bdf56d56983d01dd83029a79f0cdc" prot="public">
+          <name>kCacheEvictionFull</name>
+          <initializer>= 7101</initializer>
+          <briefdescription>
+<para>Cache eviction cannot free space. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca1b2b165717a1de7a26bb87921998ae69" prot="public">
+          <name>kPoolExhausted</name>
+          <initializer>= 7102</initializer>
+          <briefdescription>
+<para>Resource pool exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca32f0414d3e55eaffcf850f9f444f2f14" prot="public">
+          <name>kCostModelInvalid</name>
+          <initializer>= 7103</initializer>
+          <briefdescription>
+<para>Cost model input invalid. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72caf4b756c3bcf39d7884dba71be6130fc4" prot="public">
+          <name>kNoHealthyNode</name>
+          <initializer>= 7104</initializer>
+          <briefdescription>
+<para>No healthy load-balancer target. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72cacf86471a31adf3ee37b772fdc58a9185" prot="public">
+          <name>kPlanStale</name>
+          <initializer>= 7105</initializer>
+          <briefdescription>
+<para>Cached plan has been invalidated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca6fa126f6c514e6f2fe7a28568d14b52e" prot="public">
+          <name>kStatsUnavailable</name>
+          <initializer>= 7106</initializer>
+          <briefdescription>
+<para>Statistics not yet collected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for the performance module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/performance_api_contract.h" line="82" column="1" bodyfile="include/performance/performance_api_contract.h" bodystart="82" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PrefetchHint</name>
+        <qualifiedname>themis::performance::PrefetchHint</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37eaa48788bd63a0384007cd7d089af6c610" prot="public">
+          <name>T0</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>High temporal locality - prefetch to L1 cache Use for: hot data, imminent access within ~100 cycles </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37eace499dea30cfce118f4fe85da0227e83" prot="public">
+          <name>T1</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Moderate temporal locality - prefetch to L2 cache Use for: data accessed soon, within ~1000 cycles </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37ea71d2c46af01feeea54a0f541243e297b" prot="public">
+          <name>T2</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Low temporal locality - prefetch to L3 cache Use for: data that may be reused, accessed within ~10000 cycles </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37ea0e8babb93364c6b9ba9a3dd44dc13bdc" prot="public">
+          <name>NTA</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Non-temporal - bypass cache hierarchy Use for: streaming data accessed once, no reuse expected </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Prefetch cache locality hints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Controls which cache level to prefetch data into:<itemizedlist>
+<listitem><para>T0: Temporal data with high locality (L1 cache) - most aggressive</para>
+</listitem><listitem><para>T1: Temporal data with moderate locality (L2 cache)</para>
+</listitem><listitem><para>T2: Temporal data with low locality (L3 cache)</para>
+</listitem><listitem><para>NTA: Non-temporal data (bypass cache) - for streaming workloads </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/prefetch_hints.h" line="48" column="1" bodyfile="include/performance/prefetch_hints.h" bodystart="48" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WorkloadType</name>
+        <qualifiedname>themis::performance::WorkloadType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10a3edb9cc3b98f151feb21dbde6323e82a" prot="public">
+          <name>OLTP</name>
+          <briefdescription>
+<para>High-concurrency, short transactions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10ac9b0643ce6454d72f12fbe3475ed4899" prot="public">
+          <name>OLAP</name>
+          <briefdescription>
+<para>Complex analytical queries. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10a516a2342953891f249b58ff1c3943723" prot="public">
+          <name>MIXED</name>
+          <briefdescription>
+<para>Both OLTP and OLAP. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10ae27e2917b6444fcd3452d2d87046a487" prot="public">
+          <name>GRAPH</name>
+          <briefdescription>
+<para>Graph traversal and analytics. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10a87752381b583740610f1dfeb07fdad7e" prot="public">
+          <name>VECTOR</name>
+          <briefdescription>
+<para>Vector similarity search. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10a5eb907bdd20f7bdad174e0525e3c4097" prot="public">
+          <name>TIMESERIES</name>
+          <briefdescription>
+<para>Time-series queries. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1aecb65b69acb8cebd5d5bba70b9b22a10a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>Insufficient data to classify. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classification of the current database workload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="38" column="1" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="38" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ScaleDirection</name>
+        <qualifiedname>themis::performance::ScaleDirection</qualifiedname>
+        <enumvalue id="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2dab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>Current resources are adequate; no change needed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2dafbaedde498cdead4f2780217646e9ba1" prot="public">
+          <name>UP</name>
+          <briefdescription>
+<para>Workload trend suggests resources should be increased. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2dac4e0e4e3118472beeb2ae75827450f1f" prot="public">
+          <name>DOWN</name>
+          <briefdescription>
+<para>Workload trend suggests resources can be reduced. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Direction of a resource scaling recommendation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="75" column="1" bodyfile="include/performance/workload_predictor.h" bodystart="75" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1a4b5c55a5414421d460094d7033233c09" prot="public" static="no">
+        <type>std::variant&lt; std::monostate, int64_t, double, bool, std::string &gt;</type>
+        <definition>using themis::performance::QueryValue = std::variant&lt;std::monostate,  
+                               int64_t,
+                               double,
+                               bool,
+                               std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>QueryValue</name>
+        <qualifiedname>themis::performance::QueryValue</qualifiedname>
+        <briefdescription>
+<para>Value type for query parameters and results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supports the common scalar types used in ThemisDB predicates. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="42" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1ad0b29cf012eb42840266ee9e49d1265b" prot="public" static="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>using themis::performance::Row = std::vector&lt;uint64_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>Row</name>
+        <qualifiedname>themis::performance::Row</qualifiedname>
+        <briefdescription>
+<para>A single row represented as a vector of uint64_t values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Numeric values are stored directly; string/opaque data is passed as 64-bit hashes for join-key purposes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="53" column="1" bodyfile="include/performance/hardware_accelerator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1afff41a926807efadac62efcb39769d58" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::performance::NodeID = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>NodeID</name>
+        <qualifiedname>themis::performance::NodeID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="33" column="1" bodyfile="include/performance/ligra.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1a53588e696a8b11b34a9ad00470009b9e" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::performance::EdgeID = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>EdgeID</name>
+        <qualifiedname>themis::performance::EdgeID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="34" column="1" bodyfile="include/performance/ligra.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1a6b6bc28a8cd8c2683241fc87ce3aaae2" prot="public" static="no">
+        <type><ref refid="classthemis_1_1performance_1_1_lock_free_histogram" kindref="compound">LockFreeHistogram</ref>&lt; uint64_t, 32, <ref refid="namespacethemis_1_1performance_1a3ca0eec9f6a15a00c1b98c06ec6be8b1ac1e19c09f700938f0ff7f1fd4722a3ac" kindref="member">HistogramMode::Exponential</ref> &gt;</type>
+        <definition>using themis::performance::LatencyHistogram = LockFreeHistogram&lt;uint64_t, 32, HistogramMode::Exponential&gt;</definition>
+        <argsstring></argsstring>
+        <name>LatencyHistogram</name>
+        <qualifiedname>themis::performance::LatencyHistogram</qualifiedname>
+        <briefdescription>
+<para>32-bucket exponential histogram for sub-millisecond latency tracking (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="263" column="1" bodyfile="include/performance/lockfree_histogram.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1ac2a9cb14e4b98da16baf34bb515d2ccc" prot="public" static="no">
+        <type><ref refid="classthemis_1_1performance_1_1_lock_free_histogram" kindref="compound">LockFreeHistogram</ref>&lt; uint64_t, 64, <ref refid="namespacethemis_1_1performance_1a3ca0eec9f6a15a00c1b98c06ec6be8b1ac1e19c09f700938f0ff7f1fd4722a3ac" kindref="member">HistogramMode::Exponential</ref> &gt;</type>
+        <definition>using themis::performance::WideHistogram = LockFreeHistogram&lt;uint64_t, 64, HistogramMode::Exponential&gt;</definition>
+        <argsstring></argsstring>
+        <name>WideHistogram</name>
+        <qualifiedname>themis::performance::WideHistogram</qualifiedname>
+        <briefdescription>
+<para>64-bucket exponential histogram for wider value ranges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="266" column="1" bodyfile="include/performance/lockfree_histogram.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1acff55f8cc898a64a008a851cdb35dbce" prot="public" static="no">
+        <type>double</type>
+        <definition>using themis::performance::CostEstimate = double</definition>
+        <argsstring></argsstring>
+        <name>CostEstimate</name>
+        <qualifiedname>themis::performance::CostEstimate</qualifiedname>
+        <briefdescription>
+<para>Query cost estimate (non-negative). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/performance_api_contract.h" line="107" column="1" bodyfile="include/performance/performance_api_contract.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1performance_1ab39ce6f680c06f9bbfd7a7f2f2798336" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1performance_1_1_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;old_profile, const <ref refid="structthemis_1_1performance_1_1_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;new_profile, const <ref refid="structthemis_1_1performance_1_1_optimization_strategy" kindref="compound">OptimizationStrategy</ref> &amp;strategy)&gt;</type>
+        <definition>using themis::performance::AdaptationCallback = 
+std::function&lt;void(const WorkloadProfile&amp; old_profile,
+                   const WorkloadProfile&amp; new_profile,
+                   const OptimizationStrategy&amp; strategy)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AdaptationCallback</name>
+        <qualifiedname>themis::performance::AdaptationCallback</qualifiedname>
+        <briefdescription>
+<para>Callback invoked when the optimizer adapts to a workload change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_adaptive_optimizer.h" line="75" column="1" bodyfile="include/performance/workload_adaptive_optimizer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a709ef58baf6d75c8e758c7319cdda61c" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>size_t</type>
+            <declname>RequiredAlignment</declname>
+            <defname>RequiredAlignment</defname>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::performance::check_alignment</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>check_alignment</name>
+        <qualifiedname>themis::performance::check_alignment</qualifiedname>
+        <briefdescription>
+<para>Compile-time alignment verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that a type has the required alignment at compile time. Fails to compile if alignment requirement not met.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type to verify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>RequiredAlignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected alignment in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if T has exact alignment, false otherwise</para>
+</simplesect>
+<programlisting><codeline><highlight class="keyword">struct<sp/></highlight><highlight class="keyword">alignas</highlight><highlight class="normal">(64)<sp/>MyStruct<sp/>{<sp/>uint64_t<sp/>x;<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a709ef58baf6d75c8e758c7319cdda61c" kindref="member">check_alignment&lt;MyStruct, 64&gt;</ref>());<sp/><sp/></highlight><highlight class="comment">//<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1performance_1a709ef58baf6d75c8e758c7319cdda61c" kindref="member">check_alignment&lt;MyStruct, 32&gt;</ref>());<sp/><sp/></highlight><highlight class="comment">//<sp/>COMPILE<sp/>ERROR</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="46" column="16" bodyfile="include/performance/alignment_helpers.h" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a04abdc2aad0e2a16634c43d4a85775b7" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>size_t</type>
+            <declname>MinAlignment</declname>
+            <defname>MinAlignment</defname>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::performance::check_min_alignment</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>check_min_alignment</name>
+        <qualifiedname>themis::performance::check_min_alignment</qualifiedname>
+        <briefdescription>
+<para>Verify alignment is at least the required value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type to verify </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>MinAlignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum alignment in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if T has at least MinAlignment, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="58" column="16" bodyfile="include/performance/alignment_helpers.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a99f431616aaeee8f3b8e63998f002b24" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>Alignment</declname>
+            <defname>Alignment</defname>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool themis::performance::is_aligned</definition>
+        <argsstring>(const void *ptr) noexcept</argsstring>
+        <name>is_aligned</name>
+        <qualifiedname>themis::performance::is_aligned</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Verify pointer is aligned to required boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required alignment in bytes (must be power of 2) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if pointer is aligned, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="70" column="16" bodyfile="include/performance/alignment_helpers.h" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a2c47cf9f46a5273f887fc3c2d8f7266c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>Alignment</declname>
+            <defname>Alignment</defname>
+          </param>
+        </templateparamlist>
+        <type>void *</type>
+        <definition>void * themis::performance::align_up</definition>
+        <argsstring>(void *ptr) noexcept</argsstring>
+        <name>align_up</name>
+        <qualifiedname>themis::performance::align_up</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Align a pointer up to the next alignment boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required alignment in bytes (must be power of 2) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to align </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aligned pointer (&gt;= original pointer) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="84" column="13" bodyfile="include/performance/alignment_helpers.h" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a6a2e5b9095aeb41854b6388cb6d14dd6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>Alignment</declname>
+            <defname>Alignment</defname>
+          </param>
+        </templateparamlist>
+        <type>const void *</type>
+        <definition>const void * themis::performance::align_up</definition>
+        <argsstring>(const void *ptr) noexcept</argsstring>
+        <name>align_up</name>
+        <qualifiedname>themis::performance::align_up</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Align a pointer up to the next alignment boundary (const version). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required alignment in bytes (must be power of 2) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to align </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aligned pointer (&gt;= original pointer) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="99" column="19" bodyfile="include/performance/alignment_helpers.h" bodystart="99" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a1052ca070a9be7375a96fde1486acaac" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>Alignment</declname>
+            <defname>Alignment</defname>
+          </param>
+        </templateparamlist>
+        <type>void *</type>
+        <definition>void * themis::performance::align_down</definition>
+        <argsstring>(void *ptr) noexcept</argsstring>
+        <name>align_down</name>
+        <qualifiedname>themis::performance::align_down</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Align a pointer down to the nearest alignment boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required alignment in bytes (must be power of 2) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to align </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aligned pointer (&lt;= original pointer) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="114" column="13" bodyfile="include/performance/alignment_helpers.h" bodystart="114" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1affa1633747b1b5ea3732bfba3a8a7f7d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>Alignment</declname>
+            <defname>Alignment</defname>
+          </param>
+        </templateparamlist>
+        <type>const void *</type>
+        <definition>const void * themis::performance::align_down</definition>
+        <argsstring>(const void *ptr) noexcept</argsstring>
+        <name>align_down</name>
+        <qualifiedname>themis::performance::align_down</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Align a pointer down to the nearest alignment boundary (const version). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required alignment in bytes (must be power of 2) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to align </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aligned pointer (&lt;= original pointer) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="129" column="19" bodyfile="include/performance/alignment_helpers.h" bodystart="129" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a99e04057c83cffefd6084d5673c4ed72" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>Alignment</declname>
+            <defname>Alignment</defname>
+          </param>
+        </templateparamlist>
+        <type>size_t</type>
+        <definition>size_t themis::performance::padding_for_alignment</definition>
+        <argsstring>(size_t current_offset) noexcept</argsstring>
+        <name>padding_for_alignment</name>
+        <qualifiedname>themis::performance::padding_for_alignment</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>current_offset</declname>
+        </param>
+        <briefdescription>
+<para>Calculate padding needed to align to boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required alignment in bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current offset to align </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of bytes of padding needed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_helpers.h" line="144" column="18" bodyfile="include/performance/alignment_helpers.h" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1ae10ca77296d44f247985fa77c0905b6e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::prefetch</definition>
+        <argsstring>(const void *ptr, PrefetchHint hint=PrefetchHint::T0) noexcept</argsstring>
+        <name>prefetch</name>
+        <qualifiedname>themis::performance::prefetch</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37e" kindref="member">PrefetchHint</ref></type>
+          <declname>hint</declname>
+          <defval><ref refid="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37eaa48788bd63a0384007cd7d089af6c610" kindref="member">PrefetchHint::T0</ref></defval>
+        </param>
+        <briefdescription>
+<para>Prefetch memory location into CPU cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Issues a prefetch instruction to bring data from main memory into cache before it&apos;s actually accessed. This can hide memory latency for predictable access patterns.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to memory location to prefetch </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cache locality hint (default: T0 for high locality)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>This is a hint to the CPU and may be ignored </para>
+</simplesect>
+<simplesect kind="note"><para>No-op on platforms without prefetch support </para>
+</simplesect>
+<simplesect kind="note"><para>Safe to call with null pointer (becomes no-op)</para>
+</simplesect>
+<programlisting><codeline><highlight class="comment">//<sp/>Prefetch<sp/>next<sp/>key<sp/>before<sp/>processing<sp/>current<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>keys.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>+<sp/>1<sp/>&lt;<sp/>keys.size())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1ae10ca77296d44f247985fa77c0905b6e" kindref="member">prefetch</ref>(&amp;keys[i<sp/>+<sp/>1],<sp/><ref refid="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37eaa48788bd63a0384007cd7d089af6c610" kindref="member">PrefetchHint::T0</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>process(keys[i]);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/prefetch_hints.h" line="90" column="13" bodyfile="include/performance/prefetch_hints.h" bodystart="90" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a86cc7ea53bd815552d55b134c56a4ddd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::prefetch_write</definition>
+        <argsstring>(void *ptr, PrefetchHint hint=PrefetchHint::T0) noexcept</argsstring>
+        <name>prefetch_write</name>
+        <qualifiedname>themis::performance::prefetch_write</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37e" kindref="member">PrefetchHint</ref></type>
+          <declname>hint</declname>
+          <defval><ref refid="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37eaa48788bd63a0384007cd7d089af6c610" kindref="member">PrefetchHint::T0</ref></defval>
+        </param>
+        <briefdescription>
+<para>Prefetch for write access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prefetches memory location with intent to write. Some CPUs can optimize cache line ownership transfer when write intent is known.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to memory location to prefetch </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cache locality hint (default: T0 for high locality) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/prefetch_hints.h" line="142" column="13" bodyfile="include/performance/prefetch_hints.h" bodystart="142" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1af005d4e0c938cb11176191cc098fba4a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::prefetch_range</definition>
+        <argsstring>(const void *ptr, size_t size, PrefetchHint hint=PrefetchHint::T0) noexcept</argsstring>
+        <name>prefetch_range</name>
+        <qualifiedname>themis::performance::prefetch_range</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37e" kindref="member">PrefetchHint</ref></type>
+          <declname>hint</declname>
+          <defval><ref refid="namespacethemis_1_1performance_1a2ff543312cc9287d2e5df5120f8ce37eaa48788bd63a0384007cd7d089af6c610" kindref="member">PrefetchHint::T0</ref></defval>
+        </param>
+        <briefdescription>
+<para>Prefetch multiple cache lines starting from pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for prefetching large data structures that span multiple cache lines (typically 64 bytes per line on modern CPUs).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size in bytes to prefetch </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cache locality hint</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<programlisting><codeline><highlight class="comment">//<sp/>Prefetch<sp/>entire<sp/>key-value<sp/>pair<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">KVPair<sp/>{<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>key[128];<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>value[256];<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacethemis_1_1performance_1af005d4e0c938cb11176191cc098fba4a" kindref="member">prefetch_range</ref>(&amp;kv,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(KVPair));</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/prefetch_hints.h" line="186" column="13" bodyfile="include/performance/prefetch_hints.h" bodystart="186" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1abb0421121afda76a415200d8ccf22ff9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::performance::batch_prefetch</definition>
+        <argsstring>(const T *items, size_t current_index, size_t total_count, const PrefetchConfig &amp;config) noexcept</argsstring>
+        <name>batch_prefetch</name>
+        <qualifiedname>themis::performance::batch_prefetch</qualifiedname>
+        <param>
+          <type>const T *</type>
+          <declname>items</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current_index</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_count</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Helper for batch prefetching with configurable distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of items being prefetched </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>items</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of items </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>current_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current item being processed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of items </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prefetch configuration</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<programlisting><codeline><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref><sp/>config{.prefetch_distance<sp/>=<sp/>3};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>keys.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1abb0421121afda76a415200d8ccf22ff9" kindref="member">batch_prefetch</ref>(keys.data(),<sp/>i,<sp/>keys.size(),<sp/>config);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>process(keys[i]);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/prefetch_hints.h" line="244" column="13" bodyfile="include/performance/prefetch_hints.h" bodystart="244" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a10da6a485e246895744c4c5ac2383e12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::exportPrometheusMetrics</definition>
+        <argsstring>(const std::vector&lt; MetricsEntry &gt; &amp;metrics_list)</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themis::performance::exportPrometheusMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1performance_1_1_metrics_entry" kindref="compound">MetricsEntry</ref> &gt; &amp;</type>
+          <declname>metrics_list</declname>
+        </param>
+        <briefdescription>
+<para>Exporter entry points implemented in prometheus_exporter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Export Prometheus Metrics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+cpp / <ref refid="chimera__exporter_8cpp" kindref="compound">chimera_exporter.cpp</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_prometheus_exporter_1a9af7db9d7f2688cd3dc0fe989a275776" kindref="member">PrometheusExporter::exportMetrics()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/prometheus_exporter.cpp" line="196" column="15" bodyfile="src/performance/prometheus_exporter.cpp" bodystart="196" bodyend="198" declfile="src/performance/async_metrics_exporter.cpp" declline="34" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a61ef3260270e7755d86aa6d8d7078203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::exportChimeraMetrics</definition>
+        <argsstring>(const std::vector&lt; MetricsEntry &gt; &amp;metrics_list)</argsstring>
+        <name>exportChimeraMetrics</name>
+        <qualifiedname>themis::performance::exportChimeraMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1performance_1_1_metrics_entry" kindref="compound">MetricsEntry</ref> &gt; &amp;</type>
+          <declname>metrics_list</declname>
+        </param>
+        <briefdescription>
+<para>Export Chimera Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_c_h_i_m_e_r_a_exporter_1aa03961e902b6300c5978f75bd6124a81" kindref="member">CHIMERAExporter::exportMetrics()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/chimera_exporter.cpp" line="263" column="13" bodyfile="src/performance/chimera_exporter.cpp" bodystart="263" bodyend="265" declfile="src/performance/async_metrics_exporter.cpp" declline="40" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1ac22435e14632aeb02a3d41ef0de8cf4b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::performance::is_cicada_hardware_supported</definition>
+        <argsstring>()</argsstring>
+        <name>is_cicada_hardware_supported</name>
+        <qualifiedname>themis::performance::is_cicada_hardware_supported</qualifiedname>
+        <briefdescription>
+<para>Hardware validation for Cicada OCC. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" kindref="member">Phase2FeatureFlags::instance()</ref>, cicada_hardware_supported(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/cicada.cpp" line="25" column="13" bodyfile="src/performance/cicada.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a1d82cbfbae4ffbe217fb72dd3d9f6c4c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::performance::is_dostoevsky_hardware_supported</definition>
+        <argsstring>()</argsstring>
+        <name>is_dostoevsky_hardware_supported</name>
+        <qualifiedname>themis::performance::is_dostoevsky_hardware_supported</qualifiedname>
+        <briefdescription>
+<para>Is dostoevsky hardware supported. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" kindref="member">Phase2FeatureFlags::instance()</ref>, dostoevsky_hardware_supported(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/dostoevsky.cpp" line="25" column="13" bodyfile="src/performance/dostoevsky.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a36c90eb6a65b176c1d8d1200d337a660" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::performance::is_ligra_hardware_supported</definition>
+        <argsstring>()</argsstring>
+        <name>is_ligra_hardware_supported</name>
+        <qualifiedname>themis::performance::is_ligra_hardware_supported</qualifiedname>
+        <briefdescription>
+<para>Hardware validation for Ligra. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" kindref="member">Phase2FeatureFlags::instance()</ref>, ligra_hardware_supported(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/ligra.cpp" line="26" column="13" bodyfile="src/performance/ligra.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1af40fa3cc7665d3f117138a86d0cd332b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_n_u_m_a_topology_info" kindref="compound">NUMATopologyInfo</ref></type>
+        <definition>static NUMATopologyInfo themis::performance::detect_topology</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>detect_topology</name>
+        <qualifiedname>themis::performance::detect_topology</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/numa_memory_manager.cpp" line="37" column="25" bodyfile="src/performance/numa_memory_manager.cpp" bodystart="37" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a64d431cf2c5b48a27d7da3e2f3ba5c32" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::performance::detect_x86_capabilities</definition>
+        <argsstring>(HardwareCapabilities &amp;caps)</argsstring>
+        <name>detect_x86_capabilities</name>
+        <qualifiedname>themis::performance::detect_x86_capabilities</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1_hardware_capabilities" kindref="compound">HardwareCapabilities</ref> &amp;</type>
+          <declname>caps</declname>
+        </param>
+        <briefdescription>
+<para>CPUID detection for x86/x64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">caps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: __cpuidex(), __get_cpuid(), __get_cpuid_count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase2_feature_flags.cpp" line="48" column="13" bodyfile="src/performance/phase2_feature_flags.cpp" bodystart="48" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a9580d512d2ce10684e2d582473da4983" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::performance::detect_arm_capabilities</definition>
+        <argsstring>(HardwareCapabilities &amp;caps)</argsstring>
+        <name>detect_arm_capabilities</name>
+        <qualifiedname>themis::performance::detect_arm_capabilities</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1_hardware_capabilities" kindref="compound">HardwareCapabilities</ref> &amp;</type>
+          <declname>caps</declname>
+        </param>
+        <briefdescription>
+<para>Detect arm capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">caps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: defined(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase2_feature_flags.cpp" line="87" column="13" bodyfile="src/performance/phase2_feature_flags.cpp" bodystart="87" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a986585c48c2c0f35ccc346cb7ae8f100" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::performance::detect_storage_capabilities</definition>
+        <argsstring>(HardwareCapabilities &amp;caps)</argsstring>
+        <name>detect_storage_capabilities</name>
+        <qualifiedname>themis::performance::detect_storage_capabilities</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1_hardware_capabilities" kindref="compound">HardwareCapabilities</ref> &amp;</type>
+          <declname>caps</declname>
+        </param>
+        <briefdescription>
+<para>Storage detection for Linux: probe sysfs rotational flag to determine whether any candidate block device (NVMe, virtio, SATA/SSD) is present. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">caps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Falls back to true on Windows/macOS where SSD is the common case. Calls: defined(), static_assert(), rot(), good(), dev(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/phase2_feature_flags.cpp" line="99" column="13" bodyfile="src/performance/phase2_feature_flags.cpp" bodystart="99" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a51d3759220881e581caeb6643e3841c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::performance::is_rabitq_hardware_supported</definition>
+        <argsstring>()</argsstring>
+        <name>is_rabitq_hardware_supported</name>
+        <qualifiedname>themis::performance::is_rabitq_hardware_supported</qualifiedname>
+        <briefdescription>
+<para>Hardware validation for RaBitQ. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" kindref="member">Phase2FeatureFlags::instance()</ref>, rabitq_hardware_supported(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/rabitq.cpp" line="30" column="13" bodyfile="src/performance/rabitq.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1ac7ee2cd2fc3170d8539eae85ee869f82" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::performance::validate_rabitq_dimension</definition>
+        <argsstring>(size_t dimension)</argsstring>
+        <name>validate_rabitq_dimension</name>
+        <qualifiedname>themis::performance::validate_rabitq_dimension</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Validate rabitq dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: is_rabitq_hardware_supported(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/rabitq.cpp" line="41" column="15" bodyfile="src/performance/rabitq.cpp" bodystart="41" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1performance_1a2c5e20c54afe4f245483cccfd30a6a50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::is_wisckey_hardware_supported</definition>
+        <argsstring>()</argsstring>
+        <name>is_wisckey_hardware_supported</name>
+        <qualifiedname>themis::performance::is_wisckey_hardware_supported</qualifiedname>
+        <briefdescription>
+<para>Is wisckey hardware supported. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" kindref="member">Phase2FeatureFlags::instance()</ref>, wisckey_hardware_supported(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/wisckey.cpp" line="31" column="6" bodyfile="src/performance/wisckey.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="31" column="1"/>
+  </compounddef>
+</doxygen>

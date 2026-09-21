@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_mmap_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MmapGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_mmap_guard_1aa0ac0a2d5577afb4eaff32d75204d8f8" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::MmapGuard::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::llm::MmapGuard::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="119" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_mmap_guard_1af89c5a1ec370b11fd127086276c08e07" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MmapGuard::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::llm::MmapGuard::size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="120" column="12" bodyfile="src/llm/gguf_loader.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mmap_guard_1a5a32e485bbbe8d252e0ef57aa5cbc284" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MmapGuard::MmapGuard</definition>
+        <argsstring>(void *ptr, size_t size) noexcept</argsstring>
+        <name>MmapGuard</name>
+        <qualifiedname>themis::llm::MmapGuard::MmapGuard</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="80" column="5" bodyfile="src/llm/gguf_loader.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mmap_guard_1a7ca19481ea253f2c51c909da3ae7221a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MmapGuard::~MmapGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~MmapGuard</name>
+        <qualifiedname>themis::llm::MmapGuard::~MmapGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="82" column="5" bodyfile="src/llm/gguf_loader.cpp" bodystart="82" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mmap_guard_1af3188a045f9affe631dc6847c286b347" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MmapGuard::MmapGuard</definition>
+        <argsstring>(const MmapGuard &amp;)=delete</argsstring>
+        <name>MmapGuard</name>
+        <qualifiedname>themis::llm::MmapGuard::MmapGuard</qualifiedname>
+        <param>
+          <type>const MmapGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="91" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mmap_guard_1a9bb40182750ff8fb489053c4b8bab1cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_mmap_guard_1a5a32e485bbbe8d252e0ef57aa5cbc284" kindref="member">MmapGuard</ref> &amp;</type>
+        <definition>MmapGuard &amp; themis::llm::MmapGuard::operator=</definition>
+        <argsstring>(const MmapGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::MmapGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_mmap_guard_1a5a32e485bbbe8d252e0ef57aa5cbc284" kindref="member">MmapGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="92" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mmap_guard_1a0d3a425ecfcb37cb4b192f618a84b09d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MmapGuard::MmapGuard</definition>
+        <argsstring>(MmapGuard &amp;&amp;other) noexcept</argsstring>
+        <name>MmapGuard</name>
+        <qualifiedname>themis::llm::MmapGuard::MmapGuard</qualifiedname>
+        <param>
+          <type>MmapGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="95" column="5" bodyfile="src/llm/gguf_loader.cpp" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mmap_guard_1acac8fdfc406c88ce5c70f75a7c5d2502" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_mmap_guard_1a5a32e485bbbe8d252e0ef57aa5cbc284" kindref="member">MmapGuard</ref> &amp;</type>
+        <definition>MmapGuard &amp; themis::llm::MmapGuard::operator=</definition>
+        <argsstring>(MmapGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::MmapGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_mmap_guard_1a5a32e485bbbe8d252e0ef57aa5cbc284" kindref="member">MmapGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="98" column="15" bodyfile="src/llm/gguf_loader.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mmap_guard_1ab38817c179ceca4ccbdb610c0ea21062" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::MmapGuard::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::MmapGuard::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="104" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mmap_guard_1a3ccc1d5fd6acf558e51e7c48f122630c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::MmapGuard::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::MmapGuard::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="105" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="105" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_mmap_guard_1a9f94fc8d164c0fa2b6ca5f530bac7f1b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MmapGuard::reset</definition>
+        <argsstring>(void *ptr, size_t size) noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::MmapGuard::reset</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/gguf_loader.cpp" line="110" column="10" bodyfile="src/llm/gguf_loader.cpp" bodystart="110" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/gguf_loader.cpp" line="78" column="1" bodyfile="src/llm/gguf_loader.cpp" bodystart="78" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1ab38817c179ceca4ccbdb610c0ea21062" prot="public" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1a5a32e485bbbe8d252e0ef57aa5cbc284" prot="public" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>MmapGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1af3188a045f9affe631dc6847c286b347" prot="public" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>MmapGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1a0d3a425ecfcb37cb4b192f618a84b09d" prot="public" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>MmapGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1a9bb40182750ff8fb489053c4b8bab1cc" prot="public" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1acac8fdfc406c88ce5c70f75a7c5d2502" prot="public" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1aa0ac0a2d5577afb4eaff32d75204d8f8" prot="private" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1a3ccc1d5fd6acf558e51e7c48f122630c" prot="public" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1a9f94fc8d164c0fa2b6ca5f530bac7f1b" prot="public" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1af89c5a1ec370b11fd127086276c08e07" prot="private" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>size_</name></member>
+      <member refid="classthemis_1_1llm_1_1_mmap_guard_1a7ca19481ea253f2c51c909da3ae7221a" prot="public" virt="non-virtual"><scope>themis::llm::MmapGuard</scope><name>~MmapGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

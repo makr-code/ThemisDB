@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ea664ba48352c10e82f679d554c07e1e" kind="dir">
+    <compoundname>include/config</compoundname>
+    <innerfile refid="config__audit__log_8h">config_audit_log.h</innerfile>
+    <innerfile refid="config__contract_8h">config_contract.h</innerfile>
+    <innerfile refid="config__encrypted__store_8h">config_encrypted_store.h</innerfile>
+    <innerfile refid="config__errors_8h">config_errors.h</innerfile>
+    <innerfile refid="config__file__watcher_8h">config_file_watcher.h</innerfile>
+    <innerfile refid="config__metrics__exporter_8h">config_metrics_exporter.h</innerfile>
+    <innerfile refid="config__migration__scanner__impl_8h">config_migration_scanner_impl.h</innerfile>
+    <innerfile refid="config__path__resolver_8h">config_path_resolver.h</innerfile>
+    <innerfile refid="config__schema__validator_8h">config_schema_validator.h</innerfile>
+    <innerfile refid="lru__cache_8h">lru_cache.h</innerfile>
+    <innerfile refid="path__mapping__metadata_8h">path_mapping_metadata.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/"/>
+  </compounddef>
+</doxygen>

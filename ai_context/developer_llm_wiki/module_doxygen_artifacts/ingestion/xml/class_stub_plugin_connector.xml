@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_plugin_connector" kind="class" language="C++" prot="public">
+    <compoundname>StubPluginConnector</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_source_connector" prot="public" virt="non-virtual">themis::ingestion::ISourceConnector</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_stub_plugin_connector_1a5c9ff79f2bfab3f9dfdd1f2271b5c1a9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref></type>
+        <definition>SourceConfig StubPluginConnector::last_config_</definition>
+        <argsstring></argsstring>
+        <name>last_config_</name>
+        <qualifiedname>StubPluginConnector::last_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="66" column="18" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_plugin_connector_1abdc9a7bc5dde92c08456529fc044b055" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; StubPluginConnector::ingest_call_count_</definition>
+        <argsstring></argsstring>
+        <name>ingest_call_count_</name>
+        <qualifiedname>StubPluginConnector::ingest_call_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="67" column="17" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_plugin_connector_1a093567bab2e8a9c150bd63f2f4155358" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int StubPluginConnector::doc_count_</definition>
+        <argsstring></argsstring>
+        <name>doc_count_</name>
+        <qualifiedname>StubPluginConnector::doc_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="70" column="10" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_plugin_connector_1a7d2dd818cceb9c18705e03349b67ba76" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubPluginConnector::init_ok_</definition>
+        <argsstring></argsstring>
+        <name>init_ok_</name>
+        <qualifiedname>StubPluginConnector::init_ok_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="71" column="10" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_plugin_connector_1a1961701ce6336d9811a811db7732b22f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubPluginConnector::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>StubPluginConnector::available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="72" column="10" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_plugin_connector_1a580b8d7be78632c4dcf05a9305b6684d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubPluginConnector::StubPluginConnector</definition>
+        <argsstring>(int doc_count=3, bool init_ok=true, bool available=true)</argsstring>
+        <name>StubPluginConnector</name>
+        <qualifiedname>StubPluginConnector::StubPluginConnector</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>doc_count</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>init_ok</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="36" column="14" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_plugin_connector_1a98d1404f399dffe2883ed2d833b8e553" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubPluginConnector::initialize</definition>
+        <argsstring>(const SourceConfig &amp;cfg) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>StubPluginConnector::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ab6a018a611fc4bcc353665f96b59bfd5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the connector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialization successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="41" column="10" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_plugin_connector_1ad8af581cd8a5d1d8b9ab21320376b3ed" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubPluginConnector::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>StubPluginConnector::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1ae6d4963df23947b6546b6a943f8a7d2d">isAvailable</reimplements>
+        <briefdescription>
+<para>Check if source is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if source can be accessed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="46" column="10" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_plugin_connector_1a9a1546ca769f7a25378f88279f0f6412" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t StubPluginConnector::getDocumentCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>StubPluginConnector::getDocumentCount</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1a22a97b14d4935c62895fa668e021ab4e">getDocumentCount</reimplements>
+        <briefdescription>
+<para>Get total number of documents available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Document count (0 if unknown) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="48" column="12" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_plugin_connector_1a81fc97b046f7eb0337e92d0c10ed2cdf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats StubPluginConnector::ingest</definition>
+        <argsstring>(const std::string &amp;, ProgressCallback cb) override</argsstring>
+        <name>ingest</name>
+        <qualifiedname>StubPluginConnector::ingest</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_source_connector_1add9fbbb52139b936dba9a2236a80edbb">ingest</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest documents from source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>target_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Progress callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ingestion statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="52" column="20" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="52" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StubPluginConnector</label>
+        <link refid="class_stub_plugin_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StubPluginConnector</label>
+        <link refid="class_stub_plugin_connector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>last_config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ISourceConnector</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_source_connector"/>
+      </node>
+      <node id="3">
+        <label>themis::ingestion::SourceConfig</label>
+        <link refid="structthemis_1_1ingestion_1_1_source_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/ingestion/test_ingestion_plugin_api.cpp" line="34" column="1" bodyfile="tests/ingestion/test_ingestion_plugin_api.cpp" bodystart="34" bodyend="73"/>
+    <listofallmembers>
+      <member refid="class_stub_plugin_connector_1a1961701ce6336d9811a811db7732b22f" prot="private" virt="non-virtual"><scope>StubPluginConnector</scope><name>available_</name></member>
+      <member refid="class_stub_plugin_connector_1a093567bab2e8a9c150bd63f2f4155358" prot="private" virt="non-virtual"><scope>StubPluginConnector</scope><name>doc_count_</name></member>
+      <member refid="class_stub_plugin_connector_1a9a1546ca769f7a25378f88279f0f6412" prot="public" virt="virtual"><scope>StubPluginConnector</scope><name>getDocumentCount</name></member>
+      <member refid="class_stub_plugin_connector_1a81fc97b046f7eb0337e92d0c10ed2cdf" prot="public" virt="virtual"><scope>StubPluginConnector</scope><name>ingest</name></member>
+      <member refid="class_stub_plugin_connector_1abdc9a7bc5dde92c08456529fc044b055" prot="public" virt="non-virtual"><scope>StubPluginConnector</scope><name>ingest_call_count_</name></member>
+      <member refid="class_stub_plugin_connector_1a7d2dd818cceb9c18705e03349b67ba76" prot="private" virt="non-virtual"><scope>StubPluginConnector</scope><name>init_ok_</name></member>
+      <member refid="class_stub_plugin_connector_1a98d1404f399dffe2883ed2d833b8e553" prot="public" virt="virtual"><scope>StubPluginConnector</scope><name>initialize</name></member>
+      <member refid="class_stub_plugin_connector_1ad8af581cd8a5d1d8b9ab21320376b3ed" prot="public" virt="virtual"><scope>StubPluginConnector</scope><name>isAvailable</name></member>
+      <member refid="class_stub_plugin_connector_1a5c9ff79f2bfab3f9dfdd1f2271b5c1a9" prot="public" virt="non-virtual"><scope>StubPluginConnector</scope><name>last_config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1a762b4b0305a9c2a3e466d00c6e05df84" prot="public" virt="virtual"><scope>StubPluginConnector</scope><name>setDocumentValidator</name></member>
+      <member refid="class_stub_plugin_connector_1a580b8d7be78632c4dcf05a9305b6684d" prot="public" virt="non-virtual"><scope>StubPluginConnector</scope><name>StubPluginConnector</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_source_connector_1af3935b3583056d092875221c07ecf7d4" prot="public" virt="virtual"><scope>StubPluginConnector</scope><name>~ISourceConnector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

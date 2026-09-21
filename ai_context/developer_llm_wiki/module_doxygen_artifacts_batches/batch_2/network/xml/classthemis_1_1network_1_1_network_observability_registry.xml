@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_network_observability_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::NetworkObservabilityRegistry</compoundname>
+    <includes refid="network__observability_8h" local="no">network_observability.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_observability_registry_1a14ed68ef89955aa0bafc41ad748d8c27" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::NetworkObservabilityRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="303" column="32" bodyfile="include/network/network_observability.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_observability_registry_1a49102f86526e266f186b2ab8b7aedeca" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1network_1_1_i_network_observability_sink" kindref="compound">INetworkObservabilitySink</ref> *</type>
+        <definition>INetworkObservabilitySink* themis::network::NetworkObservabilityRegistry::sink_</definition>
+        <argsstring></argsstring>
+        <name>sink_</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::sink_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="304" column="31" bodyfile="include/network/network_observability.h" bodystart="304" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_observability_registry_1aabfafed5f6d2c4e4fef4cdd089238069" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1network_1_1_network_metrics" kindref="compound">NetworkMetrics</ref></type>
+        <definition>NetworkMetrics themis::network::NetworkObservabilityRegistry::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="305" column="32" bodyfile="include/network/network_observability.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_observability_registry_1a257d9390b933e09738eb76662b3f44ba" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_observability_registry_1aa585f9ab34ad2fd375ffda490fc612a0" kindref="member">NetworkObservabilityRegistry</ref> &amp;</type>
+        <definition>static NetworkObservabilityRegistry &amp; themis::network::NetworkObservabilityRegistry::instance</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Return the process-wide singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="250" column="41" bodyfile="include/network/network_observability.h" bodystart="250" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_observability_registry_1aa585f9ab34ad2fd375ffda490fc612a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkObservabilityRegistry::NetworkObservabilityRegistry</definition>
+        <argsstring>(const NetworkObservabilityRegistry &amp;)=delete</argsstring>
+        <name>NetworkObservabilityRegistry</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::NetworkObservabilityRegistry</qualifiedname>
+        <param>
+          <type>const NetworkObservabilityRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="256" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_observability_registry_1a05f42ad6061763c901410bf935df9946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_observability_registry_1aa585f9ab34ad2fd375ffda490fc612a0" kindref="member">NetworkObservabilityRegistry</ref> &amp;</type>
+        <definition>NetworkObservabilityRegistry &amp; themis::network::NetworkObservabilityRegistry::operator=</definition>
+        <argsstring>(const NetworkObservabilityRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_network_observability_registry_1aa585f9ab34ad2fd375ffda490fc612a0" kindref="member">NetworkObservabilityRegistry</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="257" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_observability_registry_1a6fbc88c76958735190ea0778e9b071f7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkObservabilityRegistry::setSink</definition>
+        <argsstring>(INetworkObservabilitySink *sink) noexcept</argsstring>
+        <name>setSink</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::setSink</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_i_network_observability_sink" kindref="compound">INetworkObservabilitySink</ref> *</type>
+          <declname>sink</declname>
+        </param>
+        <briefdescription>
+<para>Register the observability sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Call before starting any network I/O threads. The registry does NOT take ownership; the sink must outlive the registry.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the sink implementation, or nullptr to reset to the null (discard) sink. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="268" column="10" bodyfile="include/network/network_observability.h" bodystart="268" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_observability_registry_1a982667cd4ba240bf47c950424260c5ff" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_i_network_observability_sink" kindref="compound">INetworkObservabilitySink</ref> *</type>
+        <definition>INetworkObservabilitySink * themis::network::NetworkObservabilityRegistry::getSink</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getSink</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::getSink</qualifiedname>
+        <briefdescription>
+<para>Return the currently registered sink (may be nullptr). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="276" column="31" bodyfile="include/network/network_observability.h" bodystart="276" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_observability_registry_1aaeb2dd3a6a7bf57a80bcb6b2f37f18d8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_network_metrics" kindref="compound">NetworkMetrics</ref> &amp;</type>
+        <definition>NetworkMetrics &amp; themis::network::NetworkObservabilityRegistry::metrics</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::metrics</qualifiedname>
+        <briefdescription>
+<para>Return a reference to the global per-process metrics aggregator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="284" column="20" bodyfile="include/network/network_observability.h" bodystart="284" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_observability_registry_1a9260555f35d962959de27f2ec90b846a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1network_1_1_network_metrics" kindref="compound">NetworkMetrics</ref> &amp;</type>
+        <definition>const NetworkMetrics &amp; themis::network::NetworkObservabilityRegistry::metrics</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="285" column="26" bodyfile="include/network/network_observability.h" bodystart="285" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_observability_registry_1aa061f0e85779a9eba5bb4d6f225b8c91" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkObservabilityRegistry::emit</definition>
+        <argsstring>(const NetworkSpanEvent &amp;event) noexcept</argsstring>
+        <name>emit</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::emit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_network_span_event" kindref="compound">NetworkSpanEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Forward a span event to the registered sink (no-op if no sink). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the hot-path emit call. It is inline to avoid a function-call overhead when no sink is registered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="293" column="10" bodyfile="include/network/network_observability.h" bodystart="293" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_observability_registry_1a7906ee835b98d2f820d29c5d1abb5d94" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkObservabilityRegistry::NetworkObservabilityRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>NetworkObservabilityRegistry</name>
+        <qualifiedname>themis::network::NetworkObservabilityRegistry::NetworkObservabilityRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="301" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Process-wide registry for the network observability sink and metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread safety: <computeroutput><ref refid="classthemis_1_1network_1_1_network_observability_registry_1a6fbc88c76958735190ea0778e9b071f7" kindref="member">setSink()</ref></computeroutput> must be called before I/O threads start. <computeroutput><ref refid="classthemis_1_1network_1_1_network_observability_registry_1a982667cd4ba240bf47c950424260c5ff" kindref="member">getSink()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1network_1_1_network_observability_registry_1aaeb2dd3a6a7bf57a80bcb6b2f37f18d8" kindref="member">metrics()</ref></computeroutput> are safe to call from any thread. </para>
+    </detaileddescription>
+    <location file="include/network/network_observability.h" line="247" column="1" bodyfile="include/network/network_observability.h" bodystart="247" bodyend="306"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1aa061f0e85779a9eba5bb4d6f225b8c91" prot="public" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>emit</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1a982667cd4ba240bf47c950424260c5ff" prot="public" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>getSink</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1a257d9390b933e09738eb76662b3f44ba" prot="public" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1aaeb2dd3a6a7bf57a80bcb6b2f37f18d8" prot="public" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>metrics</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1a9260555f35d962959de27f2ec90b846a" prot="public" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>metrics</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1aabfafed5f6d2c4e4fef4cdd089238069" prot="private" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1a14ed68ef89955aa0bafc41ad748d8c27" prot="private" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1aa585f9ab34ad2fd375ffda490fc612a0" prot="public" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>NetworkObservabilityRegistry</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1a7906ee835b98d2f820d29c5d1abb5d94" prot="private" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>NetworkObservabilityRegistry</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1a05f42ad6061763c901410bf935df9946" prot="public" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1a6fbc88c76958735190ea0778e9b071f7" prot="public" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>setSink</name></member>
+      <member refid="classthemis_1_1network_1_1_network_observability_registry_1a49102f86526e266f186b2ab8b7aedeca" prot="private" virt="non-virtual"><scope>themis::network::NetworkObservabilityRegistry</scope><name>sink_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

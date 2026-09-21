@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_time_series" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::TimeSeries</compoundname>
+    <includes refid="root__cause__analyzer_8h" local="no">root_cause_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_time_series_1af31c9863e74f72ba28ebe1821108ac1f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::TimeSeries::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::observability::TimeSeries::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="43" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_time_series_1af8db79aedc7bd9fb83e7dda711183123" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::TimeSeries::unit</definition>
+        <argsstring></argsstring>
+        <name>unit</name>
+        <qualifiedname>themis::observability::TimeSeries::unit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="44" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_time_series_1a3581c6a9881c53f6a680c28d1b02f2b5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_time_series_point" kindref="compound">TimeSeriesPoint</ref> &gt;</type>
+        <definition>std::vector&lt;TimeSeriesPoint&gt; themis::observability::TimeSeries::points</definition>
+        <argsstring></argsstring>
+        <name>points</name>
+        <qualifiedname>themis::observability::TimeSeries::points</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="45" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_time_series_1a16d219044031ddcdf88c543ad86ba58b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::TimeSeries::change_percent</definition>
+        <argsstring>() const</argsstring>
+        <name>change_percent</name>
+        <qualifiedname>themis::observability::TimeSeries::change_percent</qualifiedname>
+        <briefdescription>
+<para>Returns the change between the last and first value, as a percentage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="48" column="12" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_time_series_1ab9f05a80e80c926f1b34abbf5ac44322" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::TimeSeries::mean</definition>
+        <argsstring>() const</argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::observability::TimeSeries::mean</qualifiedname>
+        <briefdescription>
+<para>Returns the average value across all points. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="51" column="12" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="37" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A named metric time series. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/root_cause_analyzer.h" line="42" column="1" bodyfile="include/observability/root_cause_analyzer.h" bodystart="42" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_time_series_1a16d219044031ddcdf88c543ad86ba58b" prot="public" virt="non-virtual"><scope>themis::observability::TimeSeries</scope><name>change_percent</name></member>
+      <member refid="structthemis_1_1observability_1_1_time_series_1ab9f05a80e80c926f1b34abbf5ac44322" prot="public" virt="non-virtual"><scope>themis::observability::TimeSeries</scope><name>mean</name></member>
+      <member refid="structthemis_1_1observability_1_1_time_series_1af31c9863e74f72ba28ebe1821108ac1f" prot="public" virt="non-virtual"><scope>themis::observability::TimeSeries</scope><name>name</name></member>
+      <member refid="structthemis_1_1observability_1_1_time_series_1a3581c6a9881c53f6a680c28d1b02f2b5" prot="public" virt="non-virtual"><scope>themis::observability::TimeSeries</scope><name>points</name></member>
+      <member refid="structthemis_1_1observability_1_1_time_series_1af8db79aedc7bd9fb83e7dda711183123" prot="public" virt="non-virtual"><scope>themis::observability::TimeSeries</scope><name>unit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

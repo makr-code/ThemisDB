@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rewrite__engine_8h" kind="file" language="C++">
+    <compoundname>rewrite_engine.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes refid="prompt__engineering__errors_8h" local="yes">prompt_engineering_errors.h</includes>
+    <includedby refid="bench__rewrite__engine_8cpp" local="yes">benchmarks/prompt_engineering/bench_rewrite_engine.cpp</includedby>
+    <includedby refid="rewrite__rule_8h" local="yes">include/prompt_engineering/rewrite_rule.h</includedby>
+    <includedby refid="rewrite__rule__loader_8h" local="yes">include/prompt_engineering/rewrite_rule_loader.h</includedby>
+    <includedby refid="rewrite__engine_8cpp" local="yes">src/prompt_engineering/rewrite_engine.cpp</includedby>
+    <includedby refid="rewrite__metrics_8cpp" local="yes">src/prompt_engineering/rewrite_metrics.cpp</includedby>
+    <includedby refid="test__rewrite__engine__focused_8cpp" local="yes">tests/prompt_engineering/test_rewrite_engine_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>prompt_engineering_errors.h</label>
+        <link refid="prompt__engineering__errors_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/prompt_engineering/rewrite_engine.h</label>
+        <link refid="rewrite__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/prompt_engineering/bench_rewrite_engine.cpp</label>
+        <link refid="bench__rewrite__engine_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/prompt_engineering/rewrite_engine.h</label>
+        <link refid="rewrite__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/prompt_engineering/rewrite_rule.h</label>
+        <link refid="rewrite__rule_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/prompt_engineering/rewrite_rule_loader.h</label>
+        <link refid="rewrite__rule__loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/prompt_engineering/rewrite_engine.cpp</label>
+        <link refid="rewrite__engine_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/prompt_engineering/rewrite_metrics.cpp</label>
+        <link refid="rewrite__metrics_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/prompt_engineering/rewrite_rule_base.cpp</label>
+        <link refid="rewrite__rule__base_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/prompt_engineering/rewrite_rule_loader.cpp</label>
+        <link refid="rewrite__rule__loader_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/prompt_engineering/test_rewrite_engine_focused.cpp</label>
+        <link refid="test__rewrite__engine__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace" prot="public">themis::prompt_engineering::RewriteTrace</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" prot="public">themis::prompt_engineering::RewriteResult</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" prot="public">themis::prompt_engineering::RewriteContext</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" prot="public">themis::prompt_engineering::RewriteDocument</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule" prot="public">themis::prompt_engineering::IRewriteRule</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine" prot="public">themis::prompt_engineering::IRewriteEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+<para>RewriteEngine interface contract for prompt normalization and policy enforcement (Phase 1 design). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 DESIGN/CONTRACT </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 1 frozen interface (Q3 2026)</para>
+</simplesect>
+RewriteEngine is a deterministic rule-based transformation system for normalizing and enforcing policy on prompt content. It operates in ordered phases:</para>
+<para>Phase 1: Input Normalization (lexical rewriting, whitespace, encoding) Phase 2: Policy Enforcement (blocked patterns, safety rules, allow-list checks) Phase 3: NL→AQL Preprocessing (semantic normalization, intent markers, schema hints) Phase 4: Post-Generation (structured output canonicalization, agent/tool normalization)</para>
+<para>This header defines the core interfaces. Implementation is Phase 2 work (Q4 2026).</para>
+<para>(Automatisch generiert, Änderungen werden überschrieben) </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__engineering__errors_8h" kindref="compound">prompt_engineering_errors.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29acc6ccb78843064148f3ff5ba504173dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29acc6ccb78843064148f3ff5ba504173dc" kindref="member">PHASE_1_INPUT_NORMALIZATION</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29a8eb474c3a1b117113ef4018f541c03b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29a8eb474c3a1b117113ef4018f541c03b2" kindref="member">PHASE_2_POLICY_ENFORCEMENT</ref><sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29ae1f7f147338c42de53e416180166486e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29ae1f7f147338c42de53e416180166486e" kindref="member">PHASE_3_NL_AQL_PREPROCESSING</ref><sp/>=<sp/>3,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29a53445d203682d08ec7b6d821a056ffb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29a53445d203682d08ec7b6d821a056ffb7" kindref="member">PHASE_4_POST_GENERATION</ref><sp/>=<sp/>4,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7" kindref="member">RewriteRuleType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7af176338d29d8c14985e566b91bdb7991" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7af176338d29d8c14985e566b91bdb7991" kindref="member">LEXICAL</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7a0dfb69ba8b5b824dfb9c6a2f63532707" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7a0dfb69ba8b5b824dfb9c6a2f63532707" kindref="member">SEMANTIC</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7aaad76255cae74d57c49d545ce1334093" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7aaad76255cae74d57c49d545ce1334093" kindref="member">POLICY_TERMINAL</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7a0c492362198c078f15d252a1cb0ab331" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7a0c492362198c078f15d252a1cb0ab331" kindref="member">POLICY_ALLOW_LIST</ref><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace" kindref="compound">RewriteTrace</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1af4eeff669dd9fcfe7fedbf1610f1d53d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1af4eeff669dd9fcfe7fedbf1610f1d53d" kindref="member">rule_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a8aa2d186eb39aba0aa6c5e22c3a83142" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a8aa2d186eb39aba0aa6c5e22c3a83142" kindref="member">phase</ref>{<ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29acc6ccb78843064148f3ff5ba504173dc" kindref="member">RewritePhase::PHASE_1_INPUT_NORMALIZATION</ref>};<sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1aa6bd24ac3a5b977fe5301a5d83ad7d3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1aa6bd24ac3a5b977fe5301a5d83ad7d3b" kindref="member">match_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a9b601f0d7074f0237ac4d79ac8ea5171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a9b601f0d7074f0237ac4d79ac8ea5171" kindref="member">text_offset</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a79dd4d07666bfe488400d7e1689a96d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a79dd4d07666bfe488400d7e1689a96d2" kindref="member">matched_text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a96347db272a613010511070def9f8ab4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a96347db272a613010511070def9f8ab4" kindref="member">replacement_text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1aef0228cee853af42a6a00efdb5198fe3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1aef0228cee853af42a6a00efdb5198fe3" kindref="member">rule_latency_micros</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1af3731ba03b4f05ba89de30831648cdad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1af3731ba03b4f05ba89de30831648cdad" kindref="member">transformation_applied</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a9cea195eff713ad740699078f19aa610" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace_1a9cea195eff713ad740699078f19aa610" kindref="member">safety_notes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" kindref="compound">RewriteResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1ab40dd4510d03a2e16ef81be1305bd15c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1ab40dd4510d03a2e16ef81be1305bd15c" kindref="member">success</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a273ee8a87e8b09021c46f352e8fd1be7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10" kindref="member">PromptEngineeringErrorCode</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a273ee8a87e8b09021c46f352e8fd1be7" kindref="member">error_code</ref>;<sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1ae7c39041b052f2fe6c7846c62d4a080d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1ae7c39041b052f2fe6c7846c62d4a080d" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1aec80e6efb15a1c849d49afff131eb028" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1aec80e6efb15a1c849d49afff131eb028" kindref="member">transformed_text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a0dfa467ebf64642d448e2651409ec433" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RewriteTrace&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a0dfa467ebf64642d448e2651409ec433" kindref="member">traces</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a37a1c67c5330de8fd57c41ada6fad977" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a37a1c67c5330de8fd57c41ada6fad977" kindref="member">rules_matched</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a4bdf7a02ba849ce0cc322cf808700dac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a4bdf7a02ba849ce0cc322cf808700dac" kindref="member">total_transformations</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1aa47b2ffc693edf1ad40d57a0820986d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1aa47b2ffc693edf1ad40d57a0820986d9" kindref="member">total_latency_micros</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a9a5152994d7d5e5623b9d8705dc7792c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a9a5152994d7d5e5623b9d8705dc7792c" kindref="member">was_blocked</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a4818938ff2c56c8743cecf0465d22a3d" kindref="member">RewriteContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a6593fc0513bff34e96a6c0ebf86985b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a6593fc0513bff34e96a6c0ebf86985b8" kindref="member">current_phase</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a424d8d963f1fd5e9f63680504eb72cec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a424d8d963f1fd5e9f63680504eb72cec" kindref="member">max_steps</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a9c0aa0ac7911470ab7c03fb5810ac2c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a9c0aa0ac7911470ab7c03fb5810ac2c5" kindref="member">current_step</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad31772ffc6d902727949c7839db5ed50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad31772ffc6d902727949c7839db5ed50" kindref="member">deadline_micros</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a61af90b51fe68747ae5d399ba598f1d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a61af90b51fe68747ae5d399ba598f1d8" kindref="member">environment_tag</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a8e140f1d6841d737cfaf3c8a6a807a4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a8e140f1d6841d737cfaf3c8a6a807a4f" kindref="member">allow_unsafe_transformations</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a12629a86b135230b5fcce716abe007e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a12629a86b135230b5fcce716abe007e5" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a413ce2c405548d2a32f60ffbe751096d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a413ce2c405548d2a32f60ffbe751096d" kindref="member">trace_enabled</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad58e9f4ed39db30351af0fefd2e4bb19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad58e9f4ed39db30351af0fefd2e4bb19" kindref="member">max_trace_entries</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a4818938ff2c56c8743cecf0465d22a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a4818938ff2c56c8743cecf0465d22a3d" kindref="member">RewriteContext</ref>()</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a6593fc0513bff34e96a6c0ebf86985b8" kindref="member">current_phase</ref>(<ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref>::<ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29acc6ccb78843064148f3ff5ba504173dc" kindref="member">PHASE_1_INPUT_NORMALIZATION</ref>),</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a424d8d963f1fd5e9f63680504eb72cec" kindref="member">max_steps</ref>(1000),</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a9c0aa0ac7911470ab7c03fb5810ac2c5" kindref="member">current_step</ref>(0),</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad31772ffc6d902727949c7839db5ed50" kindref="member">deadline_micros</ref>(0),</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a8e140f1d6841d737cfaf3c8a6a807a4f" kindref="member">allow_unsafe_transformations</ref>(false),</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1a413ce2c405548d2a32f60ffbe751096d" kindref="member">trace_enabled</ref>(true),</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context_1ad58e9f4ed39db30351af0fefd2e4bb19" kindref="member">max_trace_entries</ref>(512)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1af3b3c181866ce85b79af794fac68f71f" kindref="member">RewriteDocument</ref><sp/>{</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a3f5f7d661d59a640851462c647e4d6aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a3f5f7d661d59a640851462c647e4d6aa" kindref="member">content</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ac15db3a9e5293aea2c1e954b8ba57c4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ac15db3a9e5293aea2c1e954b8ba57c4c" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ae325978fa2505e7e010e0d305a8b446d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ae325978fa2505e7e010e0d305a8b446d" kindref="member">document_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a791422c5499b72df1f0d99a363a2d810" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a791422c5499b72df1f0d99a363a2d810" kindref="member">source_language</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a9fc684a5e414d591a83a2212526b9649" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a9fc684a5e414d591a83a2212526b9649" kindref="member">size_bytes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1aadf1b957237d57e9a60906084d0278de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1aadf1b957237d57e9a60906084d0278de" kindref="member">is_multi_modal</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ad38cb1e9afab95a4c322d9af36637c67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ad38cb1e9afab95a4c322d9af36637c67" kindref="member">language_code</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1af3b3c181866ce85b79af794fac68f71f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1af3b3c181866ce85b79af794fac68f71f" kindref="member">RewriteDocument</ref>()<sp/>:<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1a9fc684a5e414d591a83a2212526b9649" kindref="member">size_bytes</ref>(0),<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1aadf1b957237d57e9a60906084d0278de" kindref="member">is_multi_modal</ref>(false),<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document_1ad38cb1e9afab95a4c322d9af36637c67" kindref="member">language_code</ref>(0)<sp/>{}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule" kindref="compound">IRewriteRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1abe61bdebb8f31cb941d29b1e0f2e79f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1abe61bdebb8f31cb941d29b1e0f2e79f4" kindref="member">~IRewriteRule</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1abdac55b5c172f35998bc6e3ba826d516" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1abdac55b5c172f35998bc6e3ba826d516" kindref="member">rule_id</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a7ee491c8ebf4dede3f8ae8bce8c6f7ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7" kindref="member">RewriteRuleType</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a7ee491c8ebf4dede3f8ae8bce8c6f7ea" kindref="member">rule_type</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a8cff66e51ce54d6bfa02ea4904b74d37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a8cff66e51ce54d6bfa02ea4904b74d37" kindref="member">execution_phase</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a7d852b2b8ea9d71318f6f6b8d5aa844b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a7d852b2b8ea9d71318f6f6b8d5aa844b" kindref="member">priority</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1ae363f0d2002df92cef20d5a7505b4012" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1ae363f0d2002df92cef20d5a7505b4012" kindref="member">matches</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref>&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1afa58b78c0f4549d08052d8b56bccc523" kindref="member">doc</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1aeb643586f46598ba4c5d534a625b929f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" kindref="compound">RewriteResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1aeb643586f46598ba4c5d534a625b929f" kindref="member">apply</ref>(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref>&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1afa58b78c0f4549d08052d8b56bccc523" kindref="member">doc</ref>,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace" kindref="compound">RewriteTrace</ref>&amp;<sp/>trace</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a0558ace035f5a5479af1b0185d7e8428" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a0558ace035f5a5479af1b0185d7e8428" kindref="member">is_idempotent</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1af92c4fce0e99b7c7683206dceb98407e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1af92c4fce0e99b7c7683206dceb98407e" kindref="member">description</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine" kindref="compound">IRewriteEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="229" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a4bc8d191e6dcc118cd0df2e931c8a23e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a4bc8d191e6dcc118cd0df2e931c8a23e" kindref="member">~IRewriteEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a864adceffd5be80c142252037a5c6983" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a864adceffd5be80c142252037a5c6983" kindref="member">register_rule</ref>(std::shared_ptr&lt;IRewriteRule&gt;<sp/>rule)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ac9ca3b7e6adc488c72d4858bc784800e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ac9ca3b7e6adc488c72d4858bc784800e" kindref="member">unregister_rule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ad4b49d5ac70c49c41a514f82639b0485" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IRewriteRule&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ad4b49d5ac70c49c41a514f82639b0485" kindref="member">get_rule</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a58c9c2aee26214cc5366a7ada4ce417f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a58c9c2aee26214cc5366a7ada4ce417f" kindref="member">list_rules</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a266a55e933114b2745240f990b0d69da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a266a55e933114b2745240f990b0d69da" kindref="member">load_rules_from_yaml</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>yaml_path)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a0b8adac0288ae5ad88a12ebe276aab27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" kindref="compound">RewriteResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a0b8adac0288ae5ad88a12ebe276aab27" kindref="member">rewrite</ref>(<ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref>&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1afa58b78c0f4549d08052d8b56bccc523" kindref="member">doc</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a13a7db0087fd05aeb5960e043b2afaf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" kindref="compound">RewriteResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a13a7db0087fd05aeb5960e043b2afaf3" kindref="member">rewrite_phase</ref>(</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref><sp/>phase,</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref>&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1afa58b78c0f4549d08052d8b56bccc523" kindref="member">doc</ref>,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref>&amp;<sp/>ctx</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ac5b4a677fb6ab4f9b66293f9258d9626" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1ac5b4a677fb6ab4f9b66293f9258d9626" kindref="member">get_stats_json</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320" refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a7aea6f3710ff3f4412515fbed49de6ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_engine_1a7aea6f3710ff3f4412515fbed49de6ac" kindref="member">reset_stats</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal">std::unique_ptr&lt;IRewriteEngine&gt;<sp/><ref refid="namespacethemis_1_1prompt__engineering_1ae0b76e648b50caadeb45517b95d97dcf" kindref="member">create_rewrite_engine</ref>();</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/rewrite_engine.h"/>
+  </compounddef>
+</doxygen>

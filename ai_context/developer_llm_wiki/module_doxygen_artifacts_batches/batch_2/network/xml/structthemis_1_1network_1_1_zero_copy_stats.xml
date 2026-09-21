@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_zero_copy_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::ZeroCopyStats</compoundname>
+    <includes refid="wire__protocol__zero__copy_8h" local="no">wire_protocol_zero_copy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_zero_copy_stats_1a5272864282cdf9543edef7e5b9c21c38" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::ZeroCopyStats::frames_written</definition>
+        <argsstring></argsstring>
+        <name>frames_written</name>
+        <qualifiedname>themis::network::ZeroCopyStats::frames_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total frames sent via writeTo(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="270" column="14" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_zero_copy_stats_1a63520f5cb7563f787751fe0d0ec3d1a2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::ZeroCopyStats::bytes_written</definition>
+        <argsstring></argsstring>
+        <name>bytes_written</name>
+        <qualifiedname>themis::network::ZeroCopyStats::bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes sent via writeTo(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="271" column="14" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_zero_copy_stats_1a1861d38ba5bf5f66c14d628acd43d877" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::ZeroCopyStats::mmap_opens</definition>
+        <argsstring></argsstring>
+        <name>mmap_opens</name>
+        <qualifiedname>themis::network::ZeroCopyStats::mmap_opens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1network_1_1_memory_mapped_payload" kindref="compound">MemoryMappedPayload</ref> constructions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="272" column="14" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_zero_copy_stats_1a9a4272ce13c30929ec53fbff46309799" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::ZeroCopyStats::mmap_bytes_mapped</definition>
+        <argsstring></argsstring>
+        <name>mmap_bytes_mapped</name>
+        <qualifiedname>themis::network::ZeroCopyStats::mmap_bytes_mapped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes memory-mapped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="273" column="14" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_zero_copy_stats_1aaf64d0f9f2db107df2aec7a7b8936bc2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::ZeroCopyStats::write_errors</definition>
+        <argsstring></argsstring>
+        <name>write_errors</name>
+        <qualifiedname>themis::network::ZeroCopyStats::write_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Failed writev() calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="274" column="14" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_zero_copy_stats_1af37ec4f2894a1a23e7e6132922598445" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ZeroCopyStats::recordWrite</definition>
+        <argsstring>(size_t bytes) noexcept</argsstring>
+        <name>recordWrite</name>
+        <qualifiedname>themis::network::ZeroCopyStats::recordWrite</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="276" column="10" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="276" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_zero_copy_stats_1a9b1726a3af9d8b55e06824448faa2df0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ZeroCopyStats::recordWriteError</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>recordWriteError</name>
+        <qualifiedname>themis::network::ZeroCopyStats::recordWriteError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="280" column="10" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="280" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_zero_copy_stats_1a08e6dc7fd9dda63a32607bb0dc511d05" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::ZeroCopyStats::recordMmap</definition>
+        <argsstring>(size_t bytes) noexcept</argsstring>
+        <name>recordMmap</name>
+        <qualifiedname>themis::network::ZeroCopyStats::recordMmap</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_zero_copy.h" line="281" column="10" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="281" bodyend="284"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate statistics for zero-copy I/O operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Attach one instance to a connection or session and call the appropriate record* method on each write/map operation. </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_zero_copy.h" line="269" column="1" bodyfile="include/network/wire_protocol_zero_copy.h" bodystart="269" bodyend="285"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_zero_copy_stats_1a63520f5cb7563f787751fe0d0ec3d1a2" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyStats</scope><name>bytes_written</name></member>
+      <member refid="structthemis_1_1network_1_1_zero_copy_stats_1a5272864282cdf9543edef7e5b9c21c38" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyStats</scope><name>frames_written</name></member>
+      <member refid="structthemis_1_1network_1_1_zero_copy_stats_1a9a4272ce13c30929ec53fbff46309799" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyStats</scope><name>mmap_bytes_mapped</name></member>
+      <member refid="structthemis_1_1network_1_1_zero_copy_stats_1a1861d38ba5bf5f66c14d628acd43d877" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyStats</scope><name>mmap_opens</name></member>
+      <member refid="structthemis_1_1network_1_1_zero_copy_stats_1a08e6dc7fd9dda63a32607bb0dc511d05" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyStats</scope><name>recordMmap</name></member>
+      <member refid="structthemis_1_1network_1_1_zero_copy_stats_1af37ec4f2894a1a23e7e6132922598445" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyStats</scope><name>recordWrite</name></member>
+      <member refid="structthemis_1_1network_1_1_zero_copy_stats_1a9b1726a3af9d8b55e06824448faa2df0" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyStats</scope><name>recordWriteError</name></member>
+      <member refid="structthemis_1_1network_1_1_zero_copy_stats_1aaf64d0f9f2db107df2aec7a7b8936bc2" prot="public" virt="non-virtual"><scope>themis::network::ZeroCopyStats</scope><name>write_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

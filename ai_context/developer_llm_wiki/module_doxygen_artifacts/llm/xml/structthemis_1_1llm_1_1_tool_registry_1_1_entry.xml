@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_tool_registry_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::ToolRegistry::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tool_registry_1_1_entry_1aa006d8c2de80e451ee0a23932d8e7891" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_tool_spec" kindref="compound">ToolSpec</ref></type>
+        <definition>ToolSpec themis::llm::ToolRegistry::Entry::spec</definition>
+        <argsstring></argsstring>
+        <name>spec</name>
+        <qualifiedname>themis::llm::ToolRegistry::Entry::spec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="278" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tool_registry_1_1_entry_1addd44987258fa151f59d5287c8d4049c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a5ee2e0db132c3cd589cbed87d140888e" kindref="member">ToolHandler</ref></type>
+        <definition>ToolHandler themis::llm::ToolRegistry::Entry::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>themis::llm::ToolRegistry::Entry::handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="279" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tool_registry_1_1_entry_1a988d908edb6d93a77b5fd993e75f0b1f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ToolRegistry::Entry::is_plugin</definition>
+        <argsstring></argsstring>
+        <name>is_plugin</name>
+        <qualifiedname>themis::llm::ToolRegistry::Entry::is_plugin</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when backed by a DLL plugin </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="280" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::ToolRegistry::Entry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ToolSpec</label>
+        <link refid="structthemis_1_1llm_1_1_tool_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/ai_orchestrator.h" line="277" column="5" bodyfile="include/llm/ai_orchestrator.h" bodystart="277" bodyend="281"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_tool_registry_1_1_entry_1addd44987258fa151f59d5287c8d4049c" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry::Entry</scope><name>handler</name></member>
+      <member refid="structthemis_1_1llm_1_1_tool_registry_1_1_entry_1a988d908edb6d93a77b5fd993e75f0b1f" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry::Entry</scope><name>is_plugin</name></member>
+      <member refid="structthemis_1_1llm_1_1_tool_registry_1_1_entry_1aa006d8c2de80e451ee0a23932d8e7891" prot="public" virt="non-virtual"><scope>themis::llm::ToolRegistry::Entry</scope><name>spec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

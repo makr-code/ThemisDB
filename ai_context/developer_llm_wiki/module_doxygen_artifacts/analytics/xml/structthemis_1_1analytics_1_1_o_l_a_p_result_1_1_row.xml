@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_o_l_a_p_result_1_1_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::OLAPResult::Row</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_result_1_1_row_1a60d6f8fc9c0f35a32b2d15ba149a0ee6" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::variant&lt; std::nullptr_t, bool, int64_t, double, std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::variant&lt;std::nullptr_t, bool, int64_t, double, std::string&gt; &gt; themis::analytics::OLAPResult::Row::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::analytics::OLAPResult::Row::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="161" column="28" bodyfile="include/analytics/olap.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_o_l_a_p_result_1_1_row_1a371357b2b035db9f42594b00182d3c7c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::analytics::OLAPResult::Row::grouping_id</definition>
+        <argsstring></argsstring>
+        <name>grouping_id</name>
+        <qualifiedname>themis::analytics::OLAPResult::Row::grouping_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="162" column="17" bodyfile="include/analytics/olap.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="160" column="5" bodyfile="include/analytics/olap.h" bodystart="160" bodyend="163"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1_1_row_1a371357b2b035db9f42594b00182d3c7c" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPResult::Row</scope><name>grouping_id</name></member>
+      <member refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1_1_row_1a60d6f8fc9c0f35a32b2d15ba149a0ee6" prot="public" virt="non-virtual"><scope>themis::analytics::OLAPResult::Row</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

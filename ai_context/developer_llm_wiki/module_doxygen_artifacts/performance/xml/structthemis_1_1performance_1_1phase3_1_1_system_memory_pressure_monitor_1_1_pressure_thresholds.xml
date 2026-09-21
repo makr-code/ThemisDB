@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds</compoundname>
+    <includes refid="memory__pressure_8h" local="no">memory_pressure.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds_1aa513312fc05dd3f991080d5c573ca557" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds::moderate_threshold</definition>
+        <argsstring></argsstring>
+        <name>moderate_threshold</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds::moderate_threshold</qualifiedname>
+        <initializer>{70.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="108" column="16" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds_1a7e2246adf9e77a7bc795bd8e925cf9c9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds::high_threshold</definition>
+        <argsstring></argsstring>
+        <name>high_threshold</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds::high_threshold</qualifiedname>
+        <initializer>{85.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="109" column="16" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds_1aabbccf058e422ecfbac7d629e7739f0e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds::critical_threshold</definition>
+        <argsstring></argsstring>
+        <name>critical_threshold</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds::critical_threshold</qualifiedname>
+        <initializer>{95.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="110" column="16" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds_1a2e6aaed100795dedc8196fcfb5912299" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds::PressureThresholds</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>PressureThresholds</name>
+        <qualifiedname>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds::PressureThresholds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/memory_pressure.h" line="111" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thresholds (%) separating the four pressure levels. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>usage_percent &lt; moderate_threshold → NORMAL usage_percent &lt; high_threshold → MODERATE usage_percent &lt; critical_threshold → HIGH usage_percent &gt;= critical_threshold → CRITICAL </para>
+    </detaileddescription>
+    <location file="include/performance/phase3/memory_pressure.h" line="107" column="5" bodyfile="include/performance/phase3/memory_pressure.h" bodystart="107" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds_1aabbccf058e422ecfbac7d629e7739f0e" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds</scope><name>critical_threshold</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds_1a7e2246adf9e77a7bc795bd8e925cf9c9" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds</scope><name>high_threshold</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds_1aa513312fc05dd3f991080d5c573ca557" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds</scope><name>moderate_threshold</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_system_memory_pressure_monitor_1_1_pressure_thresholds_1a2e6aaed100795dedc8196fcfb5912299" prot="public" virt="non-virtual"><scope>themis::performance::phase3::SystemMemoryPressureMonitor::PressureThresholds</scope><name>PressureThresholds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

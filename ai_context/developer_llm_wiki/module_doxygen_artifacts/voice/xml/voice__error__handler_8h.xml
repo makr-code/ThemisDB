@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__error__handler_8h" kind="file" language="C++">
+    <compoundname>voice_error_handler.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="voice__error__handler_8cpp" local="yes">src/voice/voice_error_handler.cpp</includedby>
+    <includedby refid="test__phase3__error__handling_8cpp" local="yes">tests/voice/test_phase3_error_handling.cpp</includedby>
+    <includedby refid="test__voice__coverage_8cpp" local="yes">tests/voice/test_voice_coverage.cpp</includedby>
+    <includedby refid="test__voice__production_8cpp" local="yes">tests/voice/test_voice_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_error_handler.h</label>
+        <link refid="voice__error__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>algorithm</label>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/voice/voice_error_handler.h</label>
+        <link refid="voice__error__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/voice/voice_error_handler.cpp</label>
+        <link refid="voice__error__handler_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/voice/test_phase3_error_handling.cpp</label>
+        <link refid="test__phase3__error__handling_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/voice/test_voice_coverage.cpp</label>
+        <link refid="test__voice__coverage_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/voice/test_voice_production.cpp</label>
+        <link refid="test__voice__production_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_exception" prot="public">themis::voice::VoiceException</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_circuit_breaker_config" prot="public">themis::voice::CircuitBreakerConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_circuit_breaker" prot="public">themis::voice::VoiceCircuitBreaker</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_retry_config" prot="public">themis::voice::RetryConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_retry_handler" prot="public">themis::voice::VoiceRetryHandler</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_fallback_strategy" prot="public">themis::voice::VoiceFallbackStrategy</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" prot="public">themis::voice::VoiceFallbackStrategy::FallbackResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_error_context" prot="public">themis::voice::ErrorContext</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_error_handler" prot="public">themis::voice::VoiceErrorHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.42 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>handling<sp/>and<sp/>resilience<sp/>for<sp/>Phase<sp/>8<sp/>production<sp/>readiness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Voice-specific<sp/>error<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" kindref="member">VoiceErrorCode</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0afdd2c3274e42cbf32d77a90e764f1faf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0afdd2c3274e42cbf32d77a90e764f1faf" kindref="member">INITIALIZATION_FAILED</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0ac4a871a5e43e174abb4faf731da4b3da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0ac4a871a5e43e174abb4faf731da4b3da" kindref="member">MODEL_NOT_LOADED</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a80e2ad0c536a65cab8c6f16f3625c0b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a80e2ad0c536a65cab8c6f16f3625c0b7" kindref="member">AUDIO_PROCESSING_FAILED</ref>,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0afca4b0ac046d5fbb5009a5dda46f93c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0afca4b0ac046d5fbb5009a5dda46f93c9" kindref="member">STT_FAILED</ref>,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a3f1a405bb91a12cc72f0fd97ba73016b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a3f1a405bb91a12cc72f0fd97ba73016b" kindref="member">TTS_FAILED</ref>,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a0008281c1912b92b3567441b2ff28abb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a0008281c1912b92b3567441b2ff28abb" kindref="member">LLM_FAILED</ref>,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a94cd7c3ce960e79d496085b1d835ad4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a94cd7c3ce960e79d496085b1d835ad4a" kindref="member">SESSION_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0aee7c1374d9480eb0dafeedd8d6f1ee12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0aee7c1374d9480eb0dafeedd8d6f1ee12" kindref="member">SESSION_EXPIRED</ref>,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a6f94953f7398cfa61244f520559075d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a6f94953f7398cfa61244f520559075d1" kindref="member">CONSENT_MISSING</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0ad5396b5bf47321267f6db180394b4582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0ad5396b5bf47321267f6db180394b4582" kindref="member">RATE_LIMIT_EXCEEDED</ref>,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a547ba52b62f9302ee1b6950111c36f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a547ba52b62f9302ee1b6950111c36f9f" kindref="member">NETWORK_ERROR</ref>,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a070a0fb40f6c308ab544b227660aadff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a070a0fb40f6c308ab544b227660aadff" kindref="member">TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a73c5530f88bc1217b624b702d4f44804" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a73c5530f88bc1217b624b702d4f44804" kindref="member">STORAGE_FAILED</ref>,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a64ed4e8a806fcac3cfe3b0b8385f27ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a64ed4e8a806fcac3cfe3b0b8385f27ac" kindref="member">SECURITY_VIOLATION</ref>,</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a12df9265b79368d5b81b950e55bbc6f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1a95ab75259f01680f71a9ba0968b7b735" kindref="member">errorCodeToString</ref>(<ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" kindref="member">VoiceErrorCode</ref><sp/>code);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Voice<sp/>error<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1voice_1_1_voice_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_exception_1abba0d2ebe44d72583d862bbac9fbf315" kindref="member">VoiceException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_exception_1abba0d2ebe44d72583d862bbac9fbf315" kindref="member">VoiceException</ref>(<ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" kindref="member">VoiceErrorCode</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_exception_1a68ec1b32996c3c4c985fc6a58bebaa8f" kindref="member">code</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1voice_1_1_voice_exception_1a68ec1b32996c3c4c985fc6a58bebaa8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" kindref="member">VoiceErrorCode</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_exception_1a68ec1b32996c3c4c985fc6a58bebaa8f" kindref="member">code</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code_;<sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" kindref="member">VoiceErrorCode</ref><sp/>code_;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Circuit<sp/>breaker<sp/>states</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0" kindref="member">CircuitState</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0a110ccf2f5d2ff4eda1fd1a494293467d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CLOSED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normal<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0aa38bd5138bf35514df41a1795ebbf5c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">OPEN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failing<sp/>-<sp/>reject<sp/>requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0a5c1c0fca237f238d3c656d55a4db3ca4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0a5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">HALF_OPEN</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Testing<sp/>if<sp/>service<sp/>recovered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1ac7073abf9c22bec9403e45f3aad24ad1" kindref="member">circuitStateToString</ref>(<ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0" kindref="member">CircuitState</ref><sp/>state);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Circuit<sp/>breaker<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1voice_1_1_circuit_breaker_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a5402a51f16298776dc070d5a7473380e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a5402a51f16298776dc070d5a7473380e" kindref="member">failure_threshold</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a5cf2ca844a9e32c64a95d16fcf4259a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a5cf2ca844a9e32c64a95d16fcf4259a3" kindref="member">success_threshold</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a613e1058bc925a41576dc20580c1fa4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a613e1058bc925a41576dc20580c1fa4c" kindref="member">open_duration_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a9ce1b3f5f57e9b0aa87128225bc6d2e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_circuit_breaker_config_1a9ce1b3f5f57e9b0aa87128225bc6d2e4" kindref="member">half_open_probe_interval_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Circuit<sp/>breaker<sp/>for<sp/>voice<sp/>services</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1voice_1_1_voice_circuit_breaker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a0821b099d6f2681b5cf8dd54441ead6a" kindref="member">VoiceCircuitBreaker</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a0821b099d6f2681b5cf8dd54441ead6a" kindref="member">VoiceCircuitBreaker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a1da106bbd02fea407bcc534f7405fc78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a1da106bbd02fea407bcc534f7405fc78" kindref="member">call</ref>(Func&amp;&amp;<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a216b6f7aa771601412ca2a89b3ffbc4e" kindref="member">canCall</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>func();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a451591b8f2bf59f668575f755c82872e" kindref="member">recordSuccess</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1acb94989231c21f53c065011ec156763d" kindref="member">recordFailure</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a216b6f7aa771601412ca2a89b3ffbc4e" kindref="member">canCall</ref>();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a451591b8f2bf59f668575f755c82872e" kindref="member">recordSuccess</ref>();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1acb94989231c21f53c065011ec156763d" kindref="member">recordFailure</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a1332d80010b08ea91edef8da8922f353" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0" kindref="member">CircuitState</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a09c5fc4a53564a3637356c78527d2c14" kindref="member">getState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a28186fee6cfb50e6e40ff76012044abb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a28186fee6cfb50e6e40ff76012044abb" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>name_;<sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker_1a22590ab0c9dc3cb7718a864ed177971e" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name_;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0" kindref="member">CircuitState</ref><sp/>state_<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>failure_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>success_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>last_failure_time_ms_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>last_state_change_ms_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_calls_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>successful_calls_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>rejected_calls_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>nowMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retry<sp/>configuration<sp/>with<sp/>exponential<sp/>backoff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1voice_1_1_retry_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_retry_config" kindref="compound">RetryConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1voice_1_1_retry_config_1a8e8d8af763890ec7596cd7cc9f52c878" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_retry_config_1a8e8d8af763890ec7596cd7cc9f52c878" kindref="member">max_attempts</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1voice_1_1_retry_config_1a1dd9b17c313b75d04df9353b0d923629" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_retry_config_1a1dd9b17c313b75d04df9353b0d923629" kindref="member">initial_delay_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1voice_1_1_retry_config_1a5747ed83ed42b88a9b3f936fbc8f1ed4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_retry_config_1a5747ed83ed42b88a9b3f936fbc8f1ed4" kindref="member">backoff_multiplier</ref><sp/>=<sp/>2.0f;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1voice_1_1_retry_config_1a6f10a62cd93fdd9b8883b8e580ac0f11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_retry_config_1a6f10a62cd93fdd9b8883b8e580ac0f11" kindref="member">max_delay_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1voice_1_1_retry_config_1a95c1f1d88d68965f73e3ae7b9dc9f142" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_retry_config_1a95c1f1d88d68965f73e3ae7b9dc9f142" kindref="member">jitter</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1voice_1_1_retry_config_1a12e42c1b333cfd0e26cbc05f4ab933aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VoiceErrorCode&gt;<sp/><ref refid="structthemis_1_1voice_1_1_retry_config_1a12e42c1b333cfd0e26cbc05f4ab933aa" kindref="member">retryable_errors</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a547ba52b62f9302ee1b6950111c36f9f" kindref="member">VoiceErrorCode::NETWORK_ERROR</ref>,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a070a0fb40f6c308ab544b227660aadff" kindref="member">VoiceErrorCode::TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0a73c5530f88bc1217b624b702d4f44804" kindref="member">VoiceErrorCode::STORAGE_FAILED</ref></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retry<sp/>helper<sp/>with<sp/>exponential<sp/>backoff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1voice_1_1_voice_retry_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_retry_handler_1ae8c82cb120d68384dded9473b5bd1bd8" kindref="member">VoiceRetryHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_retry_handler_1ae8c82cb120d68384dded9473b5bd1bd8" kindref="member">VoiceRetryHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_retry_config" kindref="compound">RetryConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1voice_1_1_voice_retry_handler_1aaf4f1877c3d9784814e00d1e31c191b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>T<sp/><ref refid="classthemis_1_1voice_1_1_voice_retry_handler_1aaf4f1877c3d9784814e00d1e31c191b3" kindref="member">executeWithRetry</ref>(Func&amp;&amp;<sp/>func,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*operation_name*/</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>attempt<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>delay<sp/>=<sp/>config_.initial_delay_ms;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>func();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_exception" kindref="compound">VoiceException</ref>&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempt++;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_retryable<sp/>=<sp/>std::find(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_.retryable_errors.begin(),</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_.retryable_errors.end(),</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.<ref refid="classthemis_1_1voice_1_1_voice_exception_1a68ec1b32996c3c4c985fc6a58bebaa8f" kindref="member">code</ref>()</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)<sp/>!=<sp/>config_.retryable_errors.end();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!is_retryable<sp/>||<sp/>attempt<sp/>&gt;=<sp/>config_.max_attempts)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_failures_++;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_retries_++;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sleepMs(delay);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delay<sp/>=<sp/>std::min(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(delay<sp/>*<sp/>config_.backoff_multiplier),<sp/>config_.max_delay_ms);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_retry_handler_1ab64ccebba2b228cb93688ab12812122b" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_retry_config" kindref="compound">RetryConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_retries_{0};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_failures_{0};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sleepMs(int64_t<sp/>ms)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fallback<sp/>strategy<sp/>for<sp/>graceful<sp/>degradation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1voice_1_1_voice_fallback_strategy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_fallback_strategy" kindref="compound">VoiceFallbackStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kindref="compound">FallbackResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1ab532c2a18676ad67a4b18e7b9b08f890" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1ab532c2a18676ad67a4b18e7b9b08f890" kindref="member">used_fallback</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1ae8179fffdd51e0dafb1fb15c6742bafa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1ae8179fffdd51e0dafb1fb15c6742bafa" kindref="member">fallback_type</ref>;</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1a53dcdcf3d3cedef096a1fd616c12ccf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result_1a53dcdcf3d3cedef096a1fd616c12ccf0" kindref="member">result</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kindref="compound">FallbackResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_fallback_strategy_1a04a1b31e5dc4ce67be5a76dd2958801b" kindref="member">sttFallback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_context);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kindref="compound">FallbackResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_fallback_strategy_1ae5b6e3d1095f2738dbd942443deba82e" kindref="member">ttsFallback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_context);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kindref="compound">FallbackResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_fallback_strategy_1a627fad6fb9d28a12cf67c4f6bc82ad91" kindref="member">llmFallback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_input);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kindref="compound">FallbackResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_fallback_strategy_1ac032c2d1bad8e9431bc71b384357bfa3" kindref="member">sessionFallback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>context<sp/>for<sp/>Phase<sp/>3<sp/>diagnostics<sp/>and<sp/>audit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1voice_1_1_error_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1voice_1_1_error_context_1a4e77d895e801f952a717042dee526419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" kindref="member">VoiceErrorCode</ref><sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a4e77d895e801f952a717042dee526419" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0ab50339a10e1de285ac99d4c3990b8693" kindref="member">VoiceErrorCode::NONE</ref>;</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1voice_1_1_error_context_1ad6f4d662c7c96737564889aa69df9dd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1ad6f4d662c7c96737564889aa69df9dd7" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1voice_1_1_error_context_1a47256d1b7fbb82720f692ec026b51ba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a47256d1b7fbb82720f692ec026b51ba6" kindref="member">cause</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;LLM<sp/>timeout<sp/>after<sp/>30s&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1voice_1_1_error_context_1adc6de3eb1abf893c4634d24740618e6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1adc6de3eb1abf893c4634d24740618e6b" kindref="member">recovery_action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;please<sp/>try<sp/>again&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1voice_1_1_error_context_1a844f257a851ef1708401dc5f7bba99b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a844f257a851ef1708401dc5f7bba99b9" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="203" refid="structthemis_1_1voice_1_1_error_context_1a098075b621c55d81bb748f08c7081484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a098075b621c55d81bb748f08c7081484" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="204" refid="structthemis_1_1voice_1_1_error_context_1af8940bc7b4f37939d6d7a95ab61bcad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1af8940bc7b4f37939d6d7a95ab61bcad1" kindref="member">action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;STT<sp/>processing&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="structthemis_1_1voice_1_1_error_context_1a36252109f06eec9cc092e599d895f8d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a36252109f06eec9cc092e599d895f8d1" kindref="member">auth_token_masked</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;token_****...&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1voice_1_1_error_context_1aa211fab1ae31d05b265efd9e73620d92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_error_context_1aa211fab1ae31d05b265efd9e73620d92" kindref="member">audit_context</ref>;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize<sp/>to<sp/>JSON<sp/>for<sp/>logging<sp/>(no<sp/>sensitive<sp/>data)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="structthemis_1_1voice_1_1_error_context_1a384ff7758f5ac6970ee1fd513fd1c959" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a384ff7758f5ac6970ee1fd513fd1c959" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;error_code&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1voice_1a95ab75259f01680f71a9ba0968b7b735" kindref="member">errorCodeToString</ref>(<ref refid="structthemis_1_1voice_1_1_error_context_1a4e77d895e801f952a717042dee526419" kindref="member">error_code</ref>)},</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timestamp_ms&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1ad6f4d662c7c96737564889aa69df9dd7" kindref="member">timestamp_ms</ref>},</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cause&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a47256d1b7fbb82720f692ec026b51ba6" kindref="member">cause</ref>},</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;recovery_action&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1adc6de3eb1abf893c4634d24740618e6b" kindref="member">recovery_action</ref>},</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a844f257a851ef1708401dc5f7bba99b9" kindref="member">user_id</ref>},</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;session_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a098075b621c55d81bb748f08c7081484" kindref="member">session_id</ref>},</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1af8940bc7b4f37939d6d7a95ab61bcad1" kindref="member">action</ref>},</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;auth_token_masked&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1a36252109f06eec9cc092e599d895f8d1" kindref="member">auth_token_masked</ref>},</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;audit_context&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1voice_1_1_error_context_1aa211fab1ae31d05b265efd9e73620d92" kindref="member">audit_context</ref>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceErrorHandler:<sp/>Phase<sp/>8<sp/>production<sp/>component</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1voice_1_1_voice_error_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1a8bfa6c44560f153b20126bd48f5c364f" kindref="member">VoiceErrorHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1a8bfa6c44560f153b20126bd48f5c364f" kindref="member">VoiceErrorHandler</ref>();</highlight></codeline>
+<codeline lineno="229" refid="classthemis_1_1voice_1_1_voice_error_handler_1a2ac1ad44870cdb5f77d09a5d8201f3ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1a2ac1ad44870cdb5f77d09a5d8201f3ca" kindref="member">~VoiceErrorHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker" kindref="compound">VoiceCircuitBreaker</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1a6eb92e8dd92cbffc60ba0f4aefb497da" kindref="member">sttCircuit</ref>();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker" kindref="compound">VoiceCircuitBreaker</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1a8a34b66b40fa365b7aab8671a8e98291" kindref="member">ttsCircuit</ref>();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker" kindref="compound">VoiceCircuitBreaker</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1a01795633cb4d0db27e9fb2c833c3a6ce" kindref="member">llmCircuit</ref>();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker" kindref="compound">VoiceCircuitBreaker</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1a81fa6bf8ed6aa3f1d9de74350788fa17" kindref="member">storageCircuit</ref>();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_retry_handler" kindref="compound">VoiceRetryHandler</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1abd967cdc3c203dd93447573852a57f12" kindref="member">getRetryHandler</ref>();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1a76837aac5162375445c2e23cc9f9b27e" kindref="member">handleError</ref>(<ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0" kindref="member">VoiceErrorCode</ref><sp/>code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>context,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>details<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Error<sp/>context<sp/>with<sp/>diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1acba523171bb74932d5c170315f0ec5d2" kindref="member">createErrorContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>ctx);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3:<sp/>Log<sp/>error<sp/>with<sp/>sanitized<sp/>context<sp/>(no<sp/>credentials)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1a9cde7b38849bc6d712ebd700515e653f" kindref="member">logErrorWithContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_error_context" kindref="compound">ErrorContext</ref>&amp;<sp/>ctx);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1ab8ff77fccfb8a87ce642ea4505d05418" kindref="member">isSystemHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler_1af6f20cc532ba266694e24db54a157246" kindref="member">getHealthStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker" kindref="compound">VoiceCircuitBreaker</ref><sp/>stt_circuit_{</highlight><highlight class="stringliteral">&quot;stt&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_circuit_breaker" kindref="compound">VoiceCircuitBreaker</ref><sp/>tts_circuit_{</highlight><highlight class="stringliteral">&quot;tts&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceCircuitBreaker<sp/>llm_circuit_{</highlight><highlight class="stringliteral">&quot;llm&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceCircuitBreaker<sp/>storage_circuit_{</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceRetryHandler<sp/>retry_handler_;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>total_errors_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_error_handler.h"/>
+  </compounddef>
+</doxygen>

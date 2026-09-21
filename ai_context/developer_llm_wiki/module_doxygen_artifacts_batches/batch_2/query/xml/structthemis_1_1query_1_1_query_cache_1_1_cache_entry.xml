@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryCache::CacheEntry</compoundname>
+    <includes refid="query__cache_8h" local="no">query_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1ac2f27d415822967dddf5b87e2ccffe36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryCache::CacheEntry::query_fingerprint</definition>
+        <argsstring></argsstring>
+        <name>query_fingerprint</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::query_fingerprint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="60" column="21" bodyfile="include/query/query_cache.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a05055c581b9099e16059b6cc3827bad8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryCache::CacheEntry::original_query</definition>
+        <argsstring></argsstring>
+        <name>original_query</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::original_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="61" column="21" bodyfile="include/query/query_cache.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1ac574910a071d461ddf569227203784d7" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryCache::CacheEntry::query_params</definition>
+        <argsstring></argsstring>
+        <name>query_params</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::query_params</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="62" column="24" bodyfile="include/query/query_cache.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1ad9c86a7940ad04498598f87b9b0b207e" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryCache::CacheEntry::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="63" column="24" bodyfile="include/query/query_cache.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1abf97bd583cc409ebf97a59646db2e6b7" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::QueryCache::CacheEntry::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="64" column="47" bodyfile="include/query/query_cache.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a20ea3d8355f3ca8aba5ac524444402cb" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::QueryCache::CacheEntry::last_accessed</definition>
+        <argsstring></argsstring>
+        <name>last_accessed</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::last_accessed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="65" column="47" bodyfile="include/query/query_cache.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a7fa376ecd65abb7cf32368f5d8fecfb6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCache::CacheEntry::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="66" column="16" bodyfile="include/query/query_cache.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a532d1778f3361a1412b9c0b5e05261d6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCache::CacheEntry::result_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>result_size_bytes</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::result_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="67" column="16" bodyfile="include/query/query_cache.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a4ef70c6087aadc4b4372bc9c864f13ba" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::QueryCache::CacheEntry::ttl</definition>
+        <argsstring></argsstring>
+        <name>ttl</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::ttl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="68" column="30" bodyfile="include/query/query_cache.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a679a70af0cb0f39d252412aff1841cf5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryCache::CacheEntry::dependencies</definition>
+        <argsstring></argsstring>
+        <name>dependencies</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::dependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="69" column="21" bodyfile="include/query/query_cache.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1affe9b23ae8504ef3aef08a41ad58630a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCache::CacheEntry::isExpired</definition>
+        <argsstring>() const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::query::QueryCache::CacheEntry::isExpired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="71" column="14" bodyfile="include/query/query_cache.h" bodystart="71" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_cache.h" line="59" column="5" bodyfile="include/query/query_cache.h" bodystart="59" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a7fa376ecd65abb7cf32368f5d8fecfb6" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1abf97bd583cc409ebf97a59646db2e6b7" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a679a70af0cb0f39d252412aff1841cf5" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>dependencies</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1affe9b23ae8504ef3aef08a41ad58630a" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a20ea3d8355f3ca8aba5ac524444402cb" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>last_accessed</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a05055c581b9099e16059b6cc3827bad8" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>original_query</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1ac2f27d415822967dddf5b87e2ccffe36" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>query_fingerprint</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1ac574910a071d461ddf569227203784d7" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>query_params</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1ad9c86a7940ad04498598f87b9b0b207e" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>result</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a532d1778f3361a1412b9c0b5e05261d6" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>result_size_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_cache_entry_1a4ef70c6087aadc4b4372bc9c864f13ba" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::CacheEntry</scope><name>ttl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

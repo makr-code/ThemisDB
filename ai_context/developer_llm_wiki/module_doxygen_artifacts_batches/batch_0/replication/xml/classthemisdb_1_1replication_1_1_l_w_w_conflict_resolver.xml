@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::LWWConflictResolver</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_i_conflict_resolver" prot="public" virt="non-virtual">themisdb::replication::IConflictResolver</basecompoundref>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver_1a5ad5da65b55c436641864f93bef6f4e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LWWConflictResolver::resolve</definition>
+        <argsstring>(const std::string &amp;local, const std::string &amp;remote, const std::string &amp;collection, const std::string &amp;document_id) override</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themisdb::replication::LWWConflictResolver::resolve</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_conflict_resolver_1a46e8014383a23a2bf047ab962d3a89ed">resolve</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="353" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="2496" bodyend="2521"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver_1a001f773e8c452c38ce381d7796597f65" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::LWWConflictResolver::extractTimestamp</definition>
+        <argsstring>(const std::string &amp;json_doc)</argsstring>
+        <name>extractTimestamp</name>
+        <qualifiedname>themisdb::replication::LWWConflictResolver::extractTimestamp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_doc</declname>
+        </param>
+        <briefdescription>
+<para>Extract the &quot;updated_at&quot; field from a minimal JSON payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+We intentionally avoid a full JSON parser dependency; we just scan for the first occurrence of &quot;updated_at&quot;:&lt;number&gt; pattern. BATCH B ANNOTATION: Version Tracking: This method extracts a monotonic timestamp that serves as a version vector component for causality tracking. The extracted timestamp represents the write&apos;s logical time in the system and should be propagated to all conflict resolution decision points. Consensus Expectation: All replicas must produce deterministic timestamp extraction from the same JSON payload to ensure convergence. Calls: find(), size(), std::stoll(), substr(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="363" column="20" bodyfile="src/replication/replication_manager.cpp" bodystart="2463" bodyend="2486"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Last-Write-Wins conflict resolver based on embedded timestamp field. Selects the document with the higher &quot;updated_at&quot; (milliseconds epoch) in its JSON payload. Falls back to remote on parse errors. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::replication::IConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_conflict_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::LWWConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::replication::IConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_conflict_resolver"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::LWWConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/replication_manager.h" line="351" column="1" bodyfile="include/replication/replication_manager.h" bodystart="351" bodyend="364"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver_1a001f773e8c452c38ce381d7796597f65" prot="private" virt="non-virtual"><scope>themisdb::replication::LWWConflictResolver</scope><name>extractTimestamp</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver_1a5ad5da65b55c436641864f93bef6f4e4" prot="public" virt="virtual"><scope>themisdb::replication::LWWConflictResolver</scope><name>resolve</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_conflict_resolver_1ad798a71010b55a58a5a3ef7ac24104f1" prot="public" virt="virtual"><scope>themisdb::replication::LWWConflictResolver</scope><name>~IConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

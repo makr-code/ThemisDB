@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_phase_gap_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::PhaseGapReport</compoundname>
+    <includes refid="graph__phase__gate__orchestrator_8h" local="no">graph_phase_gate_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_phase_gap_report_1afd25349ae7f3326cb2ab6ec88cc65244" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PhaseGapReport::phase_name</definition>
+        <argsstring></argsstring>
+        <name>phase_name</name>
+        <qualifiedname>themis::graph::PhaseGapReport::phase_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="76" column="17" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_phase_gap_report_1a22cc13aac130b216e2739b7fcb934acd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10f" kindref="member">GateStatus</ref></type>
+        <definition>GateStatus themis::graph::PhaseGapReport::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::graph::PhaseGapReport::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac69f06e1a9b016d133907b4e5f5864d2" kindref="member">GateStatus::PENDING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="77" column="16" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_phase_gap_report_1afcfb3ea91e793ff05fb4193ed2957c84" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::PhaseGapReport::unsatisfied_criteria</definition>
+        <argsstring></argsstring>
+        <name>unsatisfied_criteria</name>
+        <qualifiedname>themis::graph::PhaseGapReport::unsatisfied_criteria</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="78" column="17" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_phase_gap_report_1a183ee11757e0c8fed1bb42b82231df3f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::PhaseGapReport::blocked_by_phases</definition>
+        <argsstring></argsstring>
+        <name>blocked_by_phases</name>
+        <qualifiedname>themis::graph::PhaseGapReport::blocked_by_phases</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="79" column="17" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_phase_gap_report_1a191f03a340cbde0ac962d0de712b5e8b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PhaseGapReport::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::graph::PhaseGapReport::summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_phase_gate_orchestrator.h" line="80" column="17" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_phase_gate_orchestrator.h" line="75" column="1" bodyfile="include/graph/graph_phase_gate_orchestrator.h" bodystart="75" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_phase_gap_report_1a183ee11757e0c8fed1bb42b82231df3f" prot="public" virt="non-virtual"><scope>themis::graph::PhaseGapReport</scope><name>blocked_by_phases</name></member>
+      <member refid="structthemis_1_1graph_1_1_phase_gap_report_1afd25349ae7f3326cb2ab6ec88cc65244" prot="public" virt="non-virtual"><scope>themis::graph::PhaseGapReport</scope><name>phase_name</name></member>
+      <member refid="structthemis_1_1graph_1_1_phase_gap_report_1a22cc13aac130b216e2739b7fcb934acd" prot="public" virt="non-virtual"><scope>themis::graph::PhaseGapReport</scope><name>status</name></member>
+      <member refid="structthemis_1_1graph_1_1_phase_gap_report_1a191f03a340cbde0ac962d0de712b5e8b" prot="public" virt="non-virtual"><scope>themis::graph::PhaseGapReport</scope><name>summary</name></member>
+      <member refid="structthemis_1_1graph_1_1_phase_gap_report_1afcfb3ea91e793ff05fb4193ed2957c84" prot="public" virt="non-virtual"><scope>themis::graph::PhaseGapReport</scope><name>unsatisfied_criteria</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

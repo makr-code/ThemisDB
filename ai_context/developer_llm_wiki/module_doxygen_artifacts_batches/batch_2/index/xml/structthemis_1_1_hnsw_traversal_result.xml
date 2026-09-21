@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hnsw_traversal_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HnswTraversalResult</compoundname>
+    <includes refid="cuda__hnsw__graph__traversal_8h" local="no">cuda_hnsw_graph_traversal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_traversal_result_1a4cada14525554b063760f356fb1fd05c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::HnswTraversalResult::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::HnswTraversalResult::id</qualifiedname>
+        <briefdescription>
+<para>Vector ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="22" column="13" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_traversal_result_1a6586e106855ea27c826e6ae2fd76802e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::HnswTraversalResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::HnswTraversalResult::score</qualifiedname>
+        <briefdescription>
+<para>Distance / similarity score (lower = closer for L2). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="23" column="13" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/cuda_hnsw_graph_traversal.h" line="21" column="1" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="21" bodyend="24"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hnsw_traversal_result_1a4cada14525554b063760f356fb1fd05c" prot="public" virt="non-virtual"><scope>themis::HnswTraversalResult</scope><name>id</name></member>
+      <member refid="structthemis_1_1_hnsw_traversal_result_1a6586e106855ea27c826e6ae2fd76802e" prot="public" virt="non-virtual"><scope>themis::HnswTraversalResult</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMModelStorage::Config</compoundname>
+    <includes refid="llm__model__storage_8h" local="no">llm_model_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a71be4fe89d26a16d34712f25f838034a" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::llm::LLMModelStorage::Config::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="193" column="25" bodyfile="include/llm/llm_model_storage.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a29d5d1aa45c0607fa8dd6100d91dc423" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::BlobStorageManager &gt;</type>
+        <definition>std::shared_ptr&lt;storage::BlobStorageManager&gt; themis::llm::LLMModelStorage::Config::blob_manager</definition>
+        <argsstring></argsstring>
+        <name>blob_manager</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::blob_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="194" column="25" bodyfile="include/llm/llm_model_storage.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a02d2c5a6137e56bc18236864529dfb88" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::SecuritySignatureManager &gt;</type>
+        <definition>std::shared_ptr&lt;storage::SecuritySignatureManager&gt; themis::llm::LLMModelStorage::Config::signature_manager</definition>
+        <argsstring></argsstring>
+        <name>signature_manager</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::signature_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="195" column="25" bodyfile="include/llm/llm_model_storage.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a05856a5fc0d6b14d120a00918a88dec3" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;KeyProvider&gt; themis::llm::LLMModelStorage::Config::key_provider</definition>
+        <argsstring></argsstring>
+        <name>key_provider</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::key_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="196" column="25" bodyfile="include/llm/llm_model_storage.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a421868f0421213a879ba3fdd610654e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelStorage::Config::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::key_prefix</qualifiedname>
+        <initializer>= &quot;llm_model::&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="200" column="21" bodyfile="include/llm/llm_model_storage.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a4c4e09c043ffd1759ba5c60fbd3160c0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::Config::enable_encryption</definition>
+        <argsstring></argsstring>
+        <name>enable_encryption</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::enable_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="203" column="14" bodyfile="include/llm/llm_model_storage.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a240a9551f82f5ff168f73f29427ec0a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelStorage::Config::encryption_key_id</definition>
+        <argsstring></argsstring>
+        <name>encryption_key_id</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::encryption_key_id</qualifiedname>
+        <initializer>= &quot;llm_models&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="204" column="21" bodyfile="include/llm/llm_model_storage.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a387e3f38fe7c2e0708f497fa20ca5fdd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::Config::enable_signatures</definition>
+        <argsstring></argsstring>
+        <name>enable_signatures</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::enable_signatures</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="205" column="14" bodyfile="include/llm/llm_model_storage.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a8b59e490d922e660ee14cfb08db6e0be" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMModelStorage::Config::use_blob_storage</definition>
+        <argsstring></argsstring>
+        <name>use_blob_storage</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::use_blob_storage</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="208" column="14" bodyfile="include/llm/llm_model_storage.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a2896af1a6cd68b511d55afe8a89b18c6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMModelStorage::Config::inline_threshold_mb</definition>
+        <argsstring></argsstring>
+        <name>inline_threshold_mb</name>
+        <qualifiedname>themis::llm::LLMModelStorage::Config::inline_threshold_mb</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="209" column="16" bodyfile="include/llm/llm_model_storage.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_model_storage.h" line="191" column="5" bodyfile="include/llm/llm_model_storage.h" bodystart="191" bodyend="210"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a29d5d1aa45c0607fa8dd6100d91dc423" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>blob_manager</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a71be4fe89d26a16d34712f25f838034a" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>db</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a4c4e09c043ffd1759ba5c60fbd3160c0" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>enable_encryption</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a387e3f38fe7c2e0708f497fa20ca5fdd" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>enable_signatures</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a240a9551f82f5ff168f73f29427ec0a3" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>encryption_key_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a2896af1a6cd68b511d55afe8a89b18c6" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>inline_threshold_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a421868f0421213a879ba3fdd610654e5" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a05856a5fc0d6b14d120a00918a88dec3" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>key_provider</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a02d2c5a6137e56bc18236864529dfb88" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>signature_manager</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a8b59e490d922e660ee14cfb08db6e0be" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelStorage::Config</scope><name>use_blob_storage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

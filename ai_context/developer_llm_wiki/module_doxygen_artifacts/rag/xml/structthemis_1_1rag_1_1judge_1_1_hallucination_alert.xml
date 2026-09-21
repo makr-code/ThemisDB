@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_hallucination_alert" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::HallucinationAlert</compoundname>
+    <includes refid="hallucination__dashboard_8h" local="no">hallucination_dashboard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1ab46665c50f96212a25a96b4fbb4b2643" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983b" kindref="member">AlertSeverity</ref></type>
+        <definition>AlertSeverity themis::rag::judge::HallucinationAlert::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::rag::judge::HallucinationAlert::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="51" column="19" bodyfile="include/rag/hallucination_dashboard.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1aea4602b438db8e4daa86aa5698667903" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationAlert::current_rate</definition>
+        <argsstring></argsstring>
+        <name>current_rate</name>
+        <qualifiedname>themis::rag::judge::HallucinationAlert::current_rate</qualifiedname>
+        <briefdescription>
+<para>Current hallucination rate [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="52" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a016452bb25580649f576c2b3004dea9c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationAlert::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::rag::judge::HallucinationAlert::threshold</qualifiedname>
+        <briefdescription>
+<para>Alert threshold that was exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="53" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1adf56bf24fcd41f7994b93b4999c84f5d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::HallucinationAlert::window_size</definition>
+        <argsstring></argsstring>
+        <name>window_size</name>
+        <qualifiedname>themis::rag::judge::HallucinationAlert::window_size</qualifiedname>
+        <briefdescription>
+<para>Number of evaluations in window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="54" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a3e406ad670132cfaa28e78cb4e10e85a" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::judge::HallucinationAlert::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::judge::HallucinationAlert::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="55" column="43" bodyfile="include/rag/hallucination_dashboard.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a204d8fa5eced30629a68027107e62060" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::HallucinationAlert::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::rag::judge::HallucinationAlert::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="56" column="17" bodyfile="include/rag/hallucination_dashboard.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Alert issued when the hallucination rate exceeds a threshold. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/hallucination_dashboard.h" line="50" column="1" bodyfile="include/rag/hallucination_dashboard.h" bodystart="50" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1aea4602b438db8e4daa86aa5698667903" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationAlert</scope><name>current_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a204d8fa5eced30629a68027107e62060" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationAlert</scope><name>message</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1ab46665c50f96212a25a96b4fbb4b2643" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationAlert</scope><name>severity</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a016452bb25580649f576c2b3004dea9c" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationAlert</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a3e406ad670132cfaa28e78cb4e10e85a" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationAlert</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1adf56bf24fcd41f7994b93b4999c84f5d" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationAlert</scope><name>window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classrocksdb_1_1_event_listener" kind="class" language="C++" prot="public">
+    <compoundname>rocksdb::EventListener</compoundname>
+    <derivedcompoundref refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener" prot="public" virt="non-virtual">themisdb::storage::RocksDBBlobListener</derivedcompoundref>
+    <includes refid="rocksdb__wrapper_8h" local="no">rocksdb_wrapper.h</includes>
+    <briefdescription>
+<para>Event event listener. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>rocksdb::EventListener</label>
+        <link refid="classrocksdb_1_1_event_listener"/>
+      </node>
+      <node id="2">
+        <label>themisdb::storage::RocksDBBlobListener</label>
+        <link refid="classthemisdb_1_1storage_1_1_rocks_d_b_blob_listener"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/storage/rocksdb_wrapper.h" line="82" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="82" bodyend="82"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

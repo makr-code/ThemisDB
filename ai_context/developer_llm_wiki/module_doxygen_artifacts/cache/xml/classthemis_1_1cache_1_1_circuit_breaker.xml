@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::CircuitBreaker</compoundname>
+    <includes refid="cache__metrics_8h" local="no">cache_metrics.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config" prot="public">themis::cache::CircuitBreaker::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1cache_1_1_circuit_breaker_1ac3433f54250fcc2c2eed3831b4aab9fc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::cache::CircuitBreaker::State</qualifiedname>
+        <enumvalue id="classthemis_1_1cache_1_1_circuit_breaker_1ac3433f54250fcc2c2eed3831b4aab9fca110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1cache_1_1_circuit_breaker_1ac3433f54250fcc2c2eed3831b4aab9fcaa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1cache_1_1_circuit_breaker_1ac3433f54250fcc2c2eed3831b4aab9fca5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="270" column="5" bodyfile="include/cache/cache_metrics.h" bodystart="270" bodyend="274"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_circuit_breaker_1a51e4279bf1bddf615de1e3aa11d40d17" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::cache::CircuitBreaker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cache::CircuitBreaker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="393" column="12" bodyfile="include/cache/cache_metrics.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_circuit_breaker_1a7c7ef796e69b92800aa30e8e85b6de47" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="classthemis_1_1cache_1_1_circuit_breaker_1ac3433f54250fcc2c2eed3831b4aab9fc" kindref="member">State</ref> &gt;</type>
+        <definition>std::atomic&lt;State&gt; themis::cache::CircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::cache::CircuitBreaker::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="394" column="17" bodyfile="include/cache/cache_metrics.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_circuit_breaker_1a47c44021beed32b3e75f9ecc5d529894" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::cache::CircuitBreaker::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::cache::CircuitBreaker::failure_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="395" column="17" bodyfile="include/cache/cache_metrics.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_circuit_breaker_1a6b79c2ad3b848615baa3185a32e0e0f4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::cache::CircuitBreaker::success_count_</definition>
+        <argsstring></argsstring>
+        <name>success_count_</name>
+        <qualifiedname>themis::cache::CircuitBreaker::success_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="396" column="17" bodyfile="include/cache/cache_metrics.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_circuit_breaker_1aa06fe03a3adf9a4167eb2df1ea492d35" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::chrono::steady_clock::time_point &gt;</type>
+        <definition>std::atomic&lt;std::chrono::steady_clock::time_point&gt; themis::cache::CircuitBreaker::last_failure_time_</definition>
+        <argsstring></argsstring>
+        <name>last_failure_time_</name>
+        <qualifiedname>themis::cache::CircuitBreaker::last_failure_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="397" column="17" bodyfile="include/cache/cache_metrics.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_circuit_breaker_1aa83e40fdcaad025c17b893284ff6b42c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::cache::CircuitBreaker::half_open_calls_</definition>
+        <argsstring></argsstring>
+        <name>half_open_calls_</name>
+        <qualifiedname>themis::cache::CircuitBreaker::half_open_calls_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="398" column="17" bodyfile="include/cache/cache_metrics.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_circuit_breaker_1aef9ee592960df6d39d40b9d9561751c7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::CircuitBreaker::CircuitBreaker</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>CircuitBreaker</name>
+        <qualifiedname>themis::cache::CircuitBreaker::CircuitBreaker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1a16da34b5acd92e0c1d0c7226075664f7" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="289" column="14" bodyfile="include/cache/cache_metrics.h" bodystart="289" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_circuit_breaker_1a7e67edd668279afc205c43ba5b872148" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CircuitBreaker::allowRequest</definition>
+        <argsstring>()</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::cache::CircuitBreaker::allowRequest</qualifiedname>
+        <briefdescription>
+<para>Allow Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), load(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="302" column="10" bodyfile="include/cache/cache_metrics.h" bodystart="302" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_circuit_breaker_1a53c0df7dc2823efcf96113765e494b1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CircuitBreaker::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::cache::CircuitBreaker::recordSuccess</qualifiedname>
+        <briefdescription>
+<para>Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordSuccess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="335" column="10" bodyfile="include/cache/cache_metrics.h" bodystart="335" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_circuit_breaker_1a77c5457e53351b85da1330fa8774e191" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CircuitBreaker::recordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::cache::CircuitBreaker::recordFailure</qualifiedname>
+        <briefdescription>
+<para>Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="353" column="10" bodyfile="include/cache/cache_metrics.h" bodystart="353" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_circuit_breaker_1a83861e379ffbc209261d59fc965fe063" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_circuit_breaker_1ac3433f54250fcc2c2eed3831b4aab9fc" kindref="member">State</ref></type>
+        <definition>State themis::cache::CircuitBreaker::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::cache::CircuitBreaker::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="369" column="11" bodyfile="include/cache/cache_metrics.h" bodystart="369" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_circuit_breaker_1a5325582c948c2191843ceb02fe97f258" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::CircuitBreaker::isOpen</definition>
+        <argsstring>() const</argsstring>
+        <name>isOpen</name>
+        <qualifiedname>themis::cache::CircuitBreaker::isOpen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="373" column="10" bodyfile="include/cache/cache_metrics.h" bodystart="373" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_circuit_breaker_1a2cf9e84499f34fc544939837c8dd1597" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::CircuitBreaker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::cache::CircuitBreaker::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="381" column="10" bodyfile="include/cache/cache_metrics.h" bodystart="381" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_circuit_breaker_1ab93c93b35c5dfc09c7da65c99ce7666c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CircuitBreaker::getFailureCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailureCount</name>
+        <qualifiedname>themis::cache::CircuitBreaker::getFailureCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="388" column="14" bodyfile="include/cache/cache_metrics.h" bodystart="388" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_metrics.h" line="268" column="1" bodyfile="include/cache/cache_metrics.h" bodystart="268" bodyend="399"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a7e67edd668279afc205c43ba5b872148" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1aef9ee592960df6d39d40b9d9561751c7" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>CircuitBreaker</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a51e4279bf1bddf615de1e3aa11d40d17" prot="private" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a47c44021beed32b3e75f9ecc5d529894" prot="private" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1ab93c93b35c5dfc09c7da65c99ce7666c" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>getFailureCount</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a83861e379ffbc209261d59fc965fe063" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1aa83e40fdcaad025c17b893284ff6b42c" prot="private" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>half_open_calls_</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a5325582c948c2191843ceb02fe97f258" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>isOpen</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1aa06fe03a3adf9a4167eb2df1ea492d35" prot="private" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>last_failure_time_</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a77c5457e53351b85da1330fa8774e191" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a53c0df7dc2823efcf96113765e494b1d" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a2cf9e84499f34fc544939837c8dd1597" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1ac3433f54250fcc2c2eed3831b4aab9fc" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>State</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a7c7ef796e69b92800aa30e8e85b6de47" prot="private" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1cache_1_1_circuit_breaker_1a6b79c2ad3b848615baa3185a32e0e0f4" prot="private" virt="non-virtual"><scope>themis::cache::CircuitBreaker</scope><name>success_count_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

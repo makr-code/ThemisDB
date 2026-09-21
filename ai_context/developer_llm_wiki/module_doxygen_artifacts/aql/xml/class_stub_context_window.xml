@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_context_window" kind="class" language="C++" prot="public">
+    <compoundname>StubContextWindow</compoundname>
+    <innerclass refid="struct_stub_context_window_1_1_turn" prot="private">StubContextWindow::Turn</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_context_window_1a8c7cc80a111120fe5809833a4fa99f2d" prot="private" static="no" mutable="no">
+        <type>const std::size_t</type>
+        <definition>const std::size_t StubContextWindow::budget_</definition>
+        <argsstring></argsstring>
+        <name>budget_</name>
+        <qualifiedname>StubContextWindow::budget_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="120" column="31" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_context_window_1ac5665f6666f8082aba9fcf1d422bb516" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t StubContextWindow::used_tokens_</definition>
+        <argsstring></argsstring>
+        <name>used_tokens_</name>
+        <qualifiedname>StubContextWindow::used_tokens_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="121" column="31" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_context_window_1ad6bcbf92005c1ddc629591e001d92979" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Turn &gt;</type>
+        <definition>std::vector&lt;Turn&gt; StubContextWindow::turns_</definition>
+        <argsstring></argsstring>
+        <name>turns_</name>
+        <qualifiedname>StubContextWindow::turns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="122" column="25" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_context_window_1ac53cb0ae8b1ee52cb1557fe042122b16" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubContextWindow::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubContextWindow::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="123" column="31" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_context_window_1ae054cf1ee3486bcd44756e00a9527e75" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubContextWindow::evictions_</definition>
+        <argsstring></argsstring>
+        <name>evictions_</name>
+        <qualifiedname>StubContextWindow::evictions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="124" column="21" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_context_window_1ad0a1c7bf9523571b33de63a13b5ed0e7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubContextWindow::StubContextWindow</definition>
+        <argsstring>(std::size_t token_budget)</argsstring>
+        <name>StubContextWindow</name>
+        <qualifiedname>StubContextWindow::StubContextWindow</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>token_budget</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="92" column="14" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_context_window_1a6ad246314109479df023b8316fc7aa85" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubContextWindow::addTurn</definition>
+        <argsstring>(const std::string &amp;nl, const std::string &amp;aql)</argsstring>
+        <name>addTurn</name>
+        <qualifiedname>StubContextWindow::addTurn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <briefdescription>
+<para>Add a turn (NL query + AQL response); evict oldest turns if budget exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="95" column="10" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="95" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_context_window_1aecf43cc3e8e77e1318a58bd658636fa6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubContextWindow::evictionCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>evictionCount</name>
+        <qualifiedname>StubContextWindow::evictionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="109" column="14" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="109" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_context_window_1a0f402832467e22604c0b7c498d21d5a8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubContextWindow::turnCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>turnCount</name>
+        <qualifiedname>StubContextWindow::turnCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="113" column="17" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="113" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Token-budget stub: tracks total token count and evicts oldest turns. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_highcardinality_stress.cpp" line="90" column="1" bodyfile="tests/aql/test_aql_highcardinality_stress.cpp" bodystart="90" bodyend="125"/>
+    <listofallmembers>
+      <member refid="class_stub_context_window_1a6ad246314109479df023b8316fc7aa85" prot="public" virt="non-virtual"><scope>StubContextWindow</scope><name>addTurn</name></member>
+      <member refid="class_stub_context_window_1a8c7cc80a111120fe5809833a4fa99f2d" prot="private" virt="non-virtual"><scope>StubContextWindow</scope><name>budget_</name></member>
+      <member refid="class_stub_context_window_1aecf43cc3e8e77e1318a58bd658636fa6" prot="public" virt="non-virtual"><scope>StubContextWindow</scope><name>evictionCount</name></member>
+      <member refid="class_stub_context_window_1ae054cf1ee3486bcd44756e00a9527e75" prot="private" virt="non-virtual"><scope>StubContextWindow</scope><name>evictions_</name></member>
+      <member refid="class_stub_context_window_1ac53cb0ae8b1ee52cb1557fe042122b16" prot="private" virt="non-virtual"><scope>StubContextWindow</scope><name>mu_</name></member>
+      <member refid="class_stub_context_window_1ad0a1c7bf9523571b33de63a13b5ed0e7" prot="public" virt="non-virtual"><scope>StubContextWindow</scope><name>StubContextWindow</name></member>
+      <member refid="class_stub_context_window_1a0f402832467e22604c0b7c498d21d5a8" prot="public" virt="non-virtual"><scope>StubContextWindow</scope><name>turnCount</name></member>
+      <member refid="class_stub_context_window_1ad6bcbf92005c1ddc629591e001d92979" prot="private" virt="non-virtual"><scope>StubContextWindow</scope><name>turns_</name></member>
+      <member refid="class_stub_context_window_1ac5665f6666f8082aba9fcf1d422bb516" prot="private" virt="non-virtual"><scope>StubContextWindow</scope><name>used_tokens_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

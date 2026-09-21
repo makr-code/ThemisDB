@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classwave1__exd_1_1_stub_speculative_decoder" kind="class" language="C++" prot="public">
+    <compoundname>wave1_exd::StubSpeculativeDecoder</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classwave1__exd_1_1_stub_speculative_decoder_1a10097a9f9855c314236933d66c1555c0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool wave1_exd::StubSpeculativeDecoder::shut_down_</definition>
+        <argsstring></argsstring>
+        <name>shut_down_</name>
+        <qualifiedname>wave1_exd::StubSpeculativeDecoder::shut_down_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="176" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classwave1__exd_1_1_stub_speculative_decoder_1a23634387099cccd9a0b17039281b2e93" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>wave1_exd::StubSpeculativeDecoder::~StubSpeculativeDecoder</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~StubSpeculativeDecoder</name>
+        <qualifiedname>wave1_exd::StubSpeculativeDecoder::~StubSpeculativeDecoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="168" column="5" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="168" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classwave1__exd_1_1_stub_speculative_decoder_1a209b93907713ba52593da976d5385c9c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void wave1_exd::StubSpeculativeDecoder::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>wave1_exd::StubSpeculativeDecoder::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="173" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classwave1__exd_1_1_stub_speculative_decoder_1a79b49ae28402c7913dab2ed5e70a98e8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool wave1_exd::StubSpeculativeDecoder::wasShutDown</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>wasShutDown</name>
+        <qualifiedname>wave1_exd::StubSpeculativeDecoder::wasShutDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="174" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="174" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Models CrossShardSpeculativeDecoder destructor contract. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="166" column="1" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="166" bodyend="177"/>
+    <listofallmembers>
+      <member refid="classwave1__exd_1_1_stub_speculative_decoder_1a10097a9f9855c314236933d66c1555c0" prot="private" virt="non-virtual"><scope>wave1_exd::StubSpeculativeDecoder</scope><name>shut_down_</name></member>
+      <member refid="classwave1__exd_1_1_stub_speculative_decoder_1a209b93907713ba52593da976d5385c9c" prot="public" virt="non-virtual"><scope>wave1_exd::StubSpeculativeDecoder</scope><name>shutdown</name></member>
+      <member refid="classwave1__exd_1_1_stub_speculative_decoder_1a79b49ae28402c7913dab2ed5e70a98e8" prot="public" virt="non-virtual"><scope>wave1_exd::StubSpeculativeDecoder</scope><name>wasShutDown</name></member>
+      <member refid="classwave1__exd_1_1_stub_speculative_decoder_1a23634387099cccd9a0b17039281b2e93" prot="public" virt="non-virtual"><scope>wave1_exd::StubSpeculativeDecoder</scope><name>~StubSpeculativeDecoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__api__contract_8h" kind="file" language="C++">
+    <compoundname>process_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__process__release__gates_8cpp" local="yes">benchmarks/process/bench_process_release_gates.cpp</includedby>
+    <includedby refid="process__diagnostics_8h" local="yes">include/process/process_diagnostics.h</includedby>
+    <includedby refid="process__diagnostics__api_8h" local="yes">include/process/process_diagnostics_api.h</includedby>
+    <includedby refid="test__process__concurrency__churn__focused_8cpp" local="yes">tests/process/test_process_concurrency_churn_focused.cpp</includedby>
+    <includedby refid="test__process__contract__hardening__focused_8cpp" local="yes">tests/process/test_process_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__process__determinism__conflict__focused_8cpp" local="yes">tests/process/test_process_determinism_conflict_focused.cpp</includedby>
+    <includedby refid="test__process__diagnostics__incident__focused_8cpp" local="yes">tests/process/test_process_diagnostics_incident_focused.cpp</includedby>
+    <includedby refid="test__process__linker__edge__focused_8cpp" local="yes">tests/process/test_process_linker_edge_focused.cpp</includedby>
+    <includedby refid="test__process__parser__edge__focused_8cpp" local="yes">tests/process/test_process_parser_edge_focused.cpp</includedby>
+    <includedby refid="test__process__retriever__edge__focused_8cpp" local="yes">tests/process/test_process_retriever_edge_focused.cpp</includedby>
+    <includedby refid="test__process__retriever__resilience__focused_8cpp" local="yes">tests/process/test_process_retriever_resilience_focused.cpp</includedby>
+    <includedby refid="test__process__stress__churn__focused_8cpp" local="yes">tests/process/test_process_stress_churn_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_api_contract.h</label>
+        <link refid="process__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/process/bench_process_release_gates.cpp</label>
+        <link refid="bench__process__release__gates_8cpp"/>
+      </node>
+      <node id="6">
+        <label>include/process/object_centric_tracer.h</label>
+        <link refid="object__centric__tracer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/process/ocel_exporter.h</label>
+        <link refid="ocel__exporter_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/process/process_agentic_rag.h</label>
+        <link refid="process__agentic__rag_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/process/process_api_contract.h</label>
+        <link refid="process__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/process/process_diagnostics.h</label>
+        <link refid="process__diagnostics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/process/process_diagnostics_api.h</label>
+        <link refid="process__diagnostics__api_8h"/>
+      </node>
+      <node id="12">
+        <label>include/process/process_graph_rag.h</label>
+        <link refid="process__graph__rag_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/process/process_light_retriever.h</label>
+        <link refid="process__light__retriever_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/process/process_linker.h</label>
+        <link refid="process__linker_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/process/serializer_hardening.h</label>
+        <link refid="serializer__hardening_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>src/process/bpmn_serializer.cpp</label>
+        <link refid="bpmn__serializer_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/process/cmmn_serializer.cpp</label>
+        <link refid="cmmn__serializer_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/process/epk_serializer.cpp</label>
+        <link refid="epk__serializer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/process/object_centric_tracer.cpp</label>
+        <link refid="object__centric__tracer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/process/ocel_exporter.cpp</label>
+        <link refid="ocel__exporter_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/process/process_agentic_rag.cpp</label>
+        <link refid="process__agentic__rag_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/process/process_diagnostics.cpp</label>
+        <link refid="process__diagnostics_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/process/process_graph_rag.cpp</label>
+        <link refid="process__graph__rag_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/process/process_light_retriever.cpp</label>
+        <link refid="process__light__retriever_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/process/process_linker.cpp</label>
+        <link refid="process__linker_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/process/serializer_hardening.cpp</label>
+        <link refid="serializer__hardening_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/process/test_bottleneck_analytics.cpp</label>
+        <link refid="test__bottleneck__analytics_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/process/test_object_centric_tracer.cpp</label>
+        <link refid="test__object__centric__tracer_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/process/test_process_aris_xml.cpp</label>
+        <link refid="test__process__aris__xml_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/process/test_process_concurrency_churn_focused.cpp</label>
+        <link refid="test__process__concurrency__churn__focused_8cpp"/>
+      </node>
+      <node id="36">
+        <label>tests/process/test_process_contract_hardening_focused.cpp</label>
+        <link refid="test__process__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/process/test_process_determinism_conflict_focused.cpp</label>
+        <link refid="test__process__determinism__conflict__focused_8cpp"/>
+      </node>
+      <node id="35">
+        <label>tests/process/test_process_diagnostics_incident_focused.cpp</label>
+        <link refid="test__process__diagnostics__incident__focused_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/process/test_process_high_batch_2a.cpp</label>
+        <link refid="test__process__high__batch__2a_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/process/test_process_light_retriever.cpp</label>
+        <link refid="test__process__light__retriever_8cpp"/>
+      </node>
+      <node id="27">
+        <label>tests/process/test_process_linker_edge_focused.cpp</label>
+        <link refid="test__process__linker__edge__focused_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/process/test_process_module.cpp</label>
+        <link refid="test__process__module_8cpp"/>
+      </node>
+      <node id="37">
+        <label>tests/process/test_process_parser_edge_focused.cpp</label>
+        <link refid="test__process__parser__edge__focused_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/process/test_process_retriever_edge_focused.cpp</label>
+        <link refid="test__process__retriever__edge__focused_8cpp"/>
+      </node>
+      <node id="38">
+        <label>tests/process/test_process_retriever_resilience_focused.cpp</label>
+        <link refid="test__process__retriever__resilience__focused_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/process/test_process_stress_churn_focused.cpp</label>
+        <link refid="test__process__stress__churn__focused_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/process/test_sla_monitoring.cpp</label>
+        <link refid="test__sla__monitoring_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Frozen API contract for the ThemisDB process module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="process__stress__scenarios_8h_1purpose">
+<title>Purpose</title><para>The process module implements BPMN / CMMN workflow serialisation and execution tracking. This contract covers serialisation fidelity, execution state machine transitions, and error handling.</para>
+</sect1>
+<sect1 id="process__api__contract_8h_1contracts">
+<title>API Contracts</title><para><heading level="3">BpmnSerializer</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>serialize()</computeroutput> / <computeroutput>deserialize()</computeroutput> round-trip is lossless for all BPMN 2.0 constructs supported by ThemisDB.</para>
+</listitem><listitem><para>Unsupported constructs → PROC_UNSUPPORTED_ELEMENT (never silently dropped).</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">CmmnSerializer</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Same round-trip guarantee for CMMN 1.1.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">WorkflowEngine</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>State transitions follow the BPMN 2.0 token semantics.</para>
+</listitem><listitem><para>Transition to an invalid state → PROC_INVALID_TRANSITION.</para>
+</listitem><listitem><para>All transition events are logged via the configured audit sink.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__api__contract_8h_1error_taxonomy">
+<title>Error Taxonomy</title><para><table rows="11" cols="2"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_UNSUPPORTED_ELEMENT  </para>
+</entry><entry thead="no"><para>BPMN/CMMN element not supported  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_INVALID_TRANSITION  </para>
+</entry><entry thead="no"><para>Invalid workflow state transition  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_SERIALISE_FAILED  </para>
+</entry><entry thead="no"><para>Serialisation error (schema violation)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_DESERIALISE_FAILED  </para>
+</entry><entry thead="no"><para>Malformed input during deserialisation  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_EXECUTION_TIMEOUT  </para>
+</entry><entry thead="no"><para>Workflow execution exceeded deadline  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_MAX_DEPTH_EXCEEDED  </para>
+</entry><entry thead="no"><para>Max nesting depth exceeded in model  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_MAX_ELEMENTS_EXCEEDED  </para>
+</entry><entry thead="no"><para>Max element count exceeded in model  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_MAX_CONTEXT_EXCEEDED  </para>
+</entry><entry thead="no"><para>Max retrieval context size exceeded  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_VALIDATION_FAILED  </para>
+</entry><entry thead="no"><para>Model validation failed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PROC_LINKING_FAILED  </para>
+</entry><entry thead="no"><para>Process linking operation failed  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="process__api__contract_8h_1threading">
+<title>Threading Guarantees</title><para><itemizedlist>
+<listitem><para><computeroutput>BpmnSerializer</computeroutput> / <computeroutput>CmmnSerializer</computeroutput> are stateless; fully thread-safe.</para>
+</listitem><listitem><para><computeroutput>WorkflowEngine</computeroutput> is thread-safe for concurrent execution handles.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1contract_freeze">
+<title>Contract Freeze</title><para>Frozen for ThemisDB v2.x. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a8c632159fa131f09d04f94e3cbcd8782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a8c632159fa131f09d04f94e3cbcd8782" kindref="member">kSuccess</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a686191482703054dccb0dcb10756527d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a686191482703054dccb0dcb10756527d" kindref="member">kUnsupportedElement</ref><sp/><sp/>=<sp/>7600,</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a9aa96dad5ce68b8d3813b7641f664c18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a9aa96dad5ce68b8d3813b7641f664c18" kindref="member">kInvalidTransition</ref><sp/><sp/><sp/>=<sp/>7601,</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a4b60aca2ee1bb78b46307ea39eae7042" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a4b60aca2ee1bb78b46307ea39eae7042" kindref="member">kSerialiserFailed</ref><sp/><sp/><sp/><sp/>=<sp/>7602,</highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a6811861e69e4abb67fbe059223210c0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a6811861e69e4abb67fbe059223210c0b" kindref="member">kDeserialiserFailed</ref><sp/><sp/>=<sp/>7603,</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a7b53e5920b10cd9111864160d63d4551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a7b53e5920b10cd9111864160d63d4551" kindref="member">kExecutionTimeout</ref><sp/><sp/><sp/><sp/>=<sp/>7604,</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ac207639b800282b33c02fd182df33b52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ac207639b800282b33c02fd182df33b52" kindref="member">kRetrievalFailed</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7610,</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a7d0d7447539b3056ebe92da4b4b2bf74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a7d0d7447539b3056ebe92da4b4b2bf74" kindref="member">kLinkingStateInvalid</ref><sp/>=<sp/>7611,</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ae29a5249b0da49807ed60f4232f937da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ae29a5249b0da49807ed60f4232f937da" kindref="member">kMaxDepthExceeded</ref><sp/><sp/><sp/><sp/>=<sp/>7605,<sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a8e0e11194fb78b1085583dc23e4ff396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a8e0e11194fb78b1085583dc23e4ff396" kindref="member">kMaxElementsExceeded</ref><sp/>=<sp/>7606,<sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7aadc0b8561a111ad40f9fc660b73b7f66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7aadc0b8561a111ad40f9fc660b73b7f66" kindref="member">kMaxContextSizeExceeded</ref><sp/>=<sp/>7607,<sp/></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ad8f434f2bfdc5abac58b9c2b64d69e9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ad8f434f2bfdc5abac58b9c2b64d69e9b" kindref="member">kValidationFailed</ref><sp/><sp/><sp/><sp/>=<sp/>7608,<sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a9fcd1532c11b8ef3b30f702300891625" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a9fcd1532c11b8ef3b30f702300891625" kindref="member">kLinkingFailed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7609,<sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_api_contract.h"/>
+  </compounddef>
+</doxygen>

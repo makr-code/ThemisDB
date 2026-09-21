@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_ocel_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::OcelExporter</compoundname>
+    <includes refid="ocel__exporter_8h" local="no">ocel_exporter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_ocel_exporter_1ab6f346e0737ff9aafa278884f7cbebf2" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::process::OcelExporter::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::process::OcelExporter::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="121" column="25" bodyfile="include/process/ocel_exporter.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_ocel_exporter_1a0620b667ffe81a20cf6b7e2f1a7269e3" prot="private" static="no" mutable="no">
+        <type>ProcessGraphManager &amp;</type>
+        <definition>ProcessGraphManager&amp; themis::process::OcelExporter::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>themis::process::OcelExporter::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="122" column="25" bodyfile="include/process/ocel_exporter.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_ocel_exporter_1a19d912ba56d4bf8be9f198fcfc7229f4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> &amp;</type>
+        <definition>ProcessModelManager&amp; themis::process::OcelExporter::models_</definition>
+        <argsstring></argsstring>
+        <name>models_</name>
+        <qualifiedname>themis::process::OcelExporter::models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="123" column="25" bodyfile="include/process/ocel_exporter.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_ocel_exporter_1a4ebfe07543104f426e970007635e57e6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref> &amp;</type>
+        <definition>ProcessLinker&amp; themis::process::OcelExporter::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>themis::process::OcelExporter::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="124" column="25" bodyfile="include/process/ocel_exporter.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_ocel_exporter_1a333f3c03577195417230c9b62f0b4826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::OcelExporter::OcelExporter</definition>
+        <argsstring>(RocksDBWrapper &amp;db, ProcessGraphManager &amp;engine, ProcessModelManager &amp;models, ProcessLinker &amp;linker)</argsstring>
+        <name>OcelExporter</name>
+        <qualifiedname>themis::process::OcelExporter::OcelExporter</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>ProcessGraphManager &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> &amp;</type>
+          <declname>models</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref> &amp;</type>
+          <declname>linker</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="70" column="5" bodyfile="src/process/ocel_exporter.cpp" bodystart="42" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_ocel_exporter_1aa9d2672d253204723000015ef54fdd36" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::OcelExporter::exportInstance</definition>
+        <argsstring>(std::string_view instance_id) const</argsstring>
+        <name>exportInstance</name>
+        <qualifiedname>themis::process::OcelExporter::exportInstance</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Export a single process instance as an OCEL 2.0 JSON log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned document contains all events derived from token traversal history and all attached objects as OCEL objects.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process instance identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>OCEL 2.0 JSON object; empty <computeroutput>{}</computeroutput> on error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="88" column="21" bodyfile="src/process/ocel_exporter.cpp" bodystart="229" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_ocel_exporter_1ac81cfe96d24d46051f911fb6c7eb7cfe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::OcelExporter::exportModel</definition>
+        <argsstring>(std::string_view model_id) const</argsstring>
+        <name>exportModel</name>
+        <qualifiedname>themis::process::OcelExporter::exportModel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Export all instances of a process model as a combined OCEL 2.0 JSON log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All instances that reference <computeroutput>model_id</computeroutput> are included in a single event log, enabling cross-case analytics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process model / definition identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>OCEL 2.0 JSON; empty <computeroutput>{}</computeroutput> if no instances found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="102" column="21" bodyfile="src/process/ocel_exporter.cpp" bodystart="256" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_ocel_exporter_1a8836824cc1e1dde9da6d624d1330c80d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::OcelExporter::exportFiltered</definition>
+        <argsstring>(std::string_view model_id, int64_t from_ms, int64_t to_ms) const</argsstring>
+        <name>exportFiltered</name>
+        <qualifiedname>themis::process::OcelExporter::exportFiltered</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>from_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <briefdescription>
+<para>Export instances of a process model within a time window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process model identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of time window (epoch milliseconds, inclusive). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of time window (epoch milliseconds, inclusive). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>OCEL 2.0 JSON; empty <computeroutput>{}</computeroutput> if no matching instances. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="114" column="21" bodyfile="src/process/ocel_exporter.cpp" bodystart="266" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_ocel_exporter_1a6c3867c8e965d7e360ea7560300418cc" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::OcelExporter::buildEvents_</definition>
+        <argsstring>(const ProcessInstance &amp;inst) const</argsstring>
+        <name>buildEvents_</name>
+        <qualifiedname>themis::process::OcelExporter::buildEvents_</qualifiedname>
+        <param>
+          <type>const ProcessInstance &amp;</type>
+          <declname>inst</declname>
+        </param>
+        <briefdescription>
+<para>Build the OCEL 2.0 event list from a process instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="127" column="21" bodyfile="src/process/ocel_exporter.cpp" bodystart="106" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_ocel_exporter_1aff85cb24634602cc5ed84846629b2b5d" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::OcelExporter::buildObjects_</definition>
+        <argsstring>(std::string_view instance_id) const</argsstring>
+        <name>buildObjects_</name>
+        <qualifiedname>themis::process::OcelExporter::buildObjects_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Build the OCEL 2.0 object list from instance attachments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="132" column="21" bodyfile="src/process/ocel_exporter.cpp" bodystart="73" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_ocel_exporter_1aceee6e55f5775b271f8d66832eefeb4b" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::OcelExporter::deriveObjectTypes_</definition>
+        <argsstring>(const nlohmann::json &amp;objects)</argsstring>
+        <name>deriveObjectTypes_</name>
+        <qualifiedname>themis::process::OcelExporter::deriveObjectTypes_</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>objects</declname>
+        </param>
+        <briefdescription>
+<para>Derive the set of objectTypes from all objects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="137" column="28" bodyfile="src/process/ocel_exporter.cpp" bodystart="197" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_ocel_exporter_1ac67223198eabe78fb2b1d96075f3ba15" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::OcelExporter::deriveEventTypes_</definition>
+        <argsstring>(const nlohmann::json &amp;events)</argsstring>
+        <name>deriveEventTypes_</name>
+        <qualifiedname>themis::process::OcelExporter::deriveEventTypes_</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+<para>Derive the set of eventTypes from all events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="142" column="28" bodyfile="src/process/ocel_exporter.cpp" bodystart="213" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_ocel_exporter_1a65d05376d4d77890514fd02515f2b0c6" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::OcelExporter::toIso8601_</definition>
+        <argsstring>(int64_t epoch_ms)</argsstring>
+        <name>toIso8601_</name>
+        <qualifiedname>themis::process::OcelExporter::toIso8601_</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>epoch_ms</declname>
+        </param>
+        <briefdescription>
+<para>Convert epoch ms to ISO-8601 timestamp string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/ocel_exporter.h" line="147" column="25" bodyfile="src/process/ocel_exporter.cpp" bodystart="54" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exports ThemisDB process instances as OCEL 2.0 JSON event logs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enables import into external process mining tools (PM4Py, Celonis, ProM) for advanced analytics: object-centric discovery, conformance checking, and process enhancement.</para>
+<para>Object types are derived from <computeroutput><ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">ProcessLinker</ref></computeroutput> attachment collections. Events are derived from <computeroutput>ProcessToken::visited_nodes</computeroutput> and their timestamps stored in <computeroutput>ProcessToken::visit_timestamps</computeroutput>.</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1process_1_1_ocel_exporter_1a333f3c03577195417230c9b62f0b4826" kindref="member">OcelExporter</ref><sp/>exp(db,<sp/>engine,<sp/>models,<sp/>linker);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>log<sp/>=<sp/>exp.exportInstance(</highlight><highlight class="stringliteral">&quot;bauantrag-inst-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>log<sp/>is<sp/>OCEL<sp/>2.0<sp/>JSON<sp/>—<sp/>ready<sp/>for<sp/>PM4Py::ocel.read_ocel2_json()</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/process/ocel_exporter.h" line="68" column="1" bodyfile="include/process/ocel_exporter.h" bodystart="68" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1a6c3867c8e965d7e360ea7560300418cc" prot="private" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>buildEvents_</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1aff85cb24634602cc5ed84846629b2b5d" prot="private" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>buildObjects_</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1ab6f346e0737ff9aafa278884f7cbebf2" prot="private" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>db_</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1ac67223198eabe78fb2b1d96075f3ba15" prot="private" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>deriveEventTypes_</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1aceee6e55f5775b271f8d66832eefeb4b" prot="private" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>deriveObjectTypes_</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1a0620b667ffe81a20cf6b7e2f1a7269e3" prot="private" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>engine_</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1a8836824cc1e1dde9da6d624d1330c80d" prot="public" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>exportFiltered</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1aa9d2672d253204723000015ef54fdd36" prot="public" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>exportInstance</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1ac81cfe96d24d46051f911fb6c7eb7cfe" prot="public" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>exportModel</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1a4ebfe07543104f426e970007635e57e6" prot="private" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>linker_</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1a19d912ba56d4bf8be9f198fcfc7229f4" prot="private" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>models_</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1a333f3c03577195417230c9b62f0b4826" prot="public" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>OcelExporter</name></member>
+      <member refid="classthemis_1_1process_1_1_ocel_exporter_1a65d05376d4d77890514fd02515f2b0c6" prot="private" virt="non-virtual"><scope>themis::process::OcelExporter</scope><name>toIso8601_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

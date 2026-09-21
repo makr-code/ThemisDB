@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptTemplateCompileError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="prompt__template__compiler_8h" local="no">prompt_template_compiler.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error_1a3cc24cc800be1729acdc766ffdd32417" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::PromptTemplateCompileError::PromptTemplateCompileError</definition>
+        <argsstring>(const std::string &amp;what)</argsstring>
+        <name>PromptTemplateCompileError</name>
+        <qualifiedname>themis::prompt_engineering::PromptTemplateCompileError::PromptTemplateCompileError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>what</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="121" column="14" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="121" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thrown by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler_1a651b5195f7f78a64884d9a7ea7dfd27e" kindref="member">PromptTemplateCompiler::compile()</ref></computeroutput> on parse errors. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::PromptTemplateCompileError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::PromptTemplateCompileError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/prompt_template_compiler.h" line="119" column="1" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="119" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error_1a3cc24cc800be1729acdc766ffdd32417" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptTemplateCompileError</scope><name>PromptTemplateCompileError</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,628 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_quorum_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::QuorumManager</compoundname>
+    <includes refid="quorum__manager_8h" local="no">quorum_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" prot="public">themisdb::sharding::QuorumManager::Statistics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a1f2cc58f58680418eadf08f8d1d8cacc" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;node_id)&gt;</type>
+        <definition>using themisdb::sharding::QuorumManager::WriteOperation = std::function&lt;bool(const std::string&amp; node_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WriteOperation</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::WriteOperation</qualifiedname>
+        <briefdescription>
+<para>Callable signature for node-local write execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="93" column="5" bodyfile="include/sharding/quorum_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a10071ed3abe9880840504fca74983951" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; std::string &gt;(const std::string &amp;node_id)&gt;</type>
+        <definition>using themisdb::sharding::QuorumManager::ReadOperation = std::function&lt;std::optional&lt;std::string&gt;(const std::string&amp; node_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReadOperation</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::ReadOperation</qualifiedname>
+        <briefdescription>
+<para>Callable signature for node-local read execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="95" column="5" bodyfile="include/sharding/quorum_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a201dbdd2218d323603842059cbc0a02c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_quorum_config" kindref="compound">QuorumConfig</ref></type>
+        <definition>QuorumConfig themisdb::sharding::QuorumManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="175" column="18" bodyfile="include/sharding/quorum_manager.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a6d03e9d87175149ddf09f46fd567a932" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::QuorumManager::config_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_mutex_</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::config_mutex_</qualifiedname>
+        <briefdescription>
+<para>LOCK ORDERING (CANONICAL): Single-tier lock hierarchy for simplicity: Tier 1 (terminal): config_mutex_ — protects config_ and all operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>RATIONALE: Quorum manager has minimal state (just config_), so a single mutex is sufficient. <ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" kindref="compound">Statistics</ref> are atomic (no mutex required for lock-free updates). All acquisitions must release before returning to prevent deadlock. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="184" column="24" bodyfile="include/sharding/quorum_manager.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a06eace26364ba91d4dcc16666510c953" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themisdb::sharding::QuorumManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" kindref="compound">Statistics</ref> are maintained using relaxed atomic operations since they&apos;re diagnostic counters with no synchronization requirements with other state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="185" column="16" bodyfile="include/sharding/quorum_manager.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a6a4f37cfcb386d3c9c52e35d99726f1c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::QuorumManager::QuorumManager</definition>
+        <argsstring>(const QuorumConfig &amp;config)</argsstring>
+        <name>QuorumManager</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::QuorumManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_quorum_config" kindref="compound">QuorumConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct quorum manager with initial configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quorum policy and timeout settings. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="101" column="14" bodyfile="src/sharding/quorum_manager.cpp" bodystart="61" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a91b8ba64f946ec823b1806279356401c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::QuorumManager::~QuorumManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~QuorumManager</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::~QuorumManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1ad8bcbaae36adf9c2617ce067d7dce84d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_quorum_result" kindref="compound">QuorumResult</ref></type>
+        <definition>QuorumResult themisdb::sharding::QuorumManager::executeWrite</definition>
+        <argsstring>(WriteOperation operation, const std::vector&lt; std::string &gt; &amp;target_nodes)</argsstring>
+        <name>executeWrite</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::executeWrite</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a1f2cc58f58680418eadf08f8d1d8cacc" kindref="member">WriteOperation</ref></type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>target_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Execute a write operation with quorum enforcement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Write operation to execute on each node </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of nodes to write to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating success/failure and acknowledgments</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: operation(), <ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1adefa371890a96cb7a6993cb7f18579b5" kindref="member">QuorumResult::successful()</ref>, size(), std::chrono::milliseconds(), fetch_add(), std::chrono::steady_clock::now(), <ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1ada432dd8136802c2e4b839f134f46e86" kindref="member">getWriteQuorumSize()</ref>, <ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1ab3315828b950526e6029c1b005461ea4" kindref="member">isQuorumAchievable()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="110" column="18" bodyfile="src/sharding/quorum_manager.cpp" bodystart="71" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a9367697ff5c61869560bd6a5408c8f73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_quorum_result" kindref="compound">QuorumResult</ref></type>
+        <definition>QuorumResult themisdb::sharding::QuorumManager::executeRead</definition>
+        <argsstring>(ReadOperation operation, const std::vector&lt; std::string &gt; &amp;target_nodes)</argsstring>
+        <name>executeRead</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::executeRead</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a10071ed3abe9880840504fca74983951" kindref="member">ReadOperation</ref></type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>target_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Execute a read operation with quorum enforcement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Read.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Read operation to execute </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of nodes to read from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with data from quorum</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: operation(), has_value(), <ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1adefa371890a96cb7a6993cb7f18579b5" kindref="member">QuorumResult::successful()</ref>, std::chrono::milliseconds(), <ref refid="structthemisdb_1_1sharding_1_1_quorum_result_1a6730a6f79457baa80f41c050537f1e83" kindref="member">QuorumResult::failed()</ref>, fetch_add(), std::chrono::steady_clock::now(), <ref refid="classthemisdb_1_1sharding_1_1_quorum_manager_1adbe8ad7b05d26422ecefa26b69878e7d" kindref="member">getReadQuorumSize()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="119" column="18" bodyfile="src/sharding/quorum_manager.cpp" bodystart="187" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1ada432dd8136802c2e4b839f134f46e86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::QuorumManager::getWriteQuorumSize</definition>
+        <argsstring>(size_t total_nodes) const</argsstring>
+        <name>getWriteQuorumSize</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::getWriteQuorumSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Calculate required acknowledgments for write quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of nodes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of acks required </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="127" column="12" bodyfile="src/sharding/quorum_manager.cpp" bodystart="289" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1adbe8ad7b05d26422ecefa26b69878e7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::QuorumManager::getReadQuorumSize</definition>
+        <argsstring>(size_t total_nodes) const</argsstring>
+        <name>getReadQuorumSize</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::getReadQuorumSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>total_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Calculate required acknowledgments for read quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of nodes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of acks required </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="134" column="12" bodyfile="src/sharding/quorum_manager.cpp" bodystart="299" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1ab3315828b950526e6029c1b005461ea4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::QuorumManager::isQuorumAchievable</definition>
+        <argsstring>(size_t available_nodes, bool is_write) const</argsstring>
+        <name>isQuorumAchievable</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::isQuorumAchievable</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>available_nodes</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_write</declname>
+        </param>
+        <briefdescription>
+<para>Check if quorum is achievable with current node count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>available_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of available nodes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True for write quorum, false for read </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if quorum is possible </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="142" column="10" bodyfile="src/sharding/quorum_manager.cpp" bodystart="309" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a2e1ad6025624c2619fcb0fcccd1fc6a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::QuorumManager::updateConfig</definition>
+        <argsstring>(const QuorumConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_quorum_config" kindref="compound">QuorumConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New runtime configuration to apply atomically.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="148" column="10" bodyfile="src/sharding/quorum_manager.cpp" bodystart="320" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a17bb13ea65c276b0e8db8f0db5918f32" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_quorum_config" kindref="compound">QuorumConfig</ref> &amp;</type>
+        <definition>const QuorumConfig &amp; themisdb::sharding::QuorumManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Immutable reference to current configuration snapshot. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="154" column="24" bodyfile="include/sharding/quorum_manager.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a81df08be02f6acc4ac908a353d099681" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" kindref="compound">Statistics</ref> &amp;</type>
+        <definition>const Statistics &amp; themisdb::sharding::QuorumManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return live statistics counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="170" column="22" bodyfile="include/sharding/quorum_manager.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a4109d63978aa3a8274ad8d84ccbe86d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::QuorumManager::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset all statistics counters to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset <ref refid="structthemisdb_1_1sharding_1_1_quorum_manager_1_1_statistics" kindref="compound">Statistics</ref>.</para>
+<para>Implements resetStatistics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="172" column="10" bodyfile="src/sharding/quorum_manager.cpp" bodystart="329" bodyend="337"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1a6a3d99c9f646595c94186822989348df" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::QuorumManager::calculateQuorumSize</definition>
+        <argsstring>(QuorumType type, size_t custom_size, size_t total_nodes) const</argsstring>
+        <name>calculateQuorumSize</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::calculateQuorumSize</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a378ba4f50a9adde08693eb85e677682d" kindref="member">QuorumType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>custom_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Calculate quorum size based on type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quorum policy variant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>custom_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom threshold when type is CUSTOM. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of candidate nodes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Required acknowledgments for success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="197" column="12" bodyfile="src/sharding/quorum_manager.cpp" bodystart="339" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_quorum_manager_1aef6f0b611054eb58fe7193b9ee936f88" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; std::pair&lt; std::string, T &gt; &gt;</type>
+        <definition>template std::vector&lt; std::pair&lt; std::string, std::optional&lt; std::string &gt; &gt; &gt; themisdb::sharding::QuorumManager::waitForOperations</definition>
+        <argsstring>(std::vector&lt; std::pair&lt; std::string, std::future&lt; T &gt; &gt; &gt; &amp;futures, size_t required_acks, std::chrono::milliseconds timeout)</argsstring>
+        <name>waitForOperations</name>
+        <qualifiedname>themisdb::sharding::QuorumManager::waitForOperations</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::pair&lt; std::string, std::future&lt; T &gt; &gt; &gt; &amp;</type>
+          <declname>futures</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>required_acks</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Wait for operation futures with timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Future result type (<computeroutput>bool</computeroutput> for writes, optional payload for reads). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>futures</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pending futures associated with node IDs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required_acks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required successful acknowledgments for early success. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time window for collecting results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Node/result tuples for operations that completed within timeout. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="209" column="17" bodyfile="src/sharding/quorum_manager.cpp" bodystart="356" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages quorum-based operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coordinates write and read operations across multiple replicas, ensuring quorum requirements are met before acknowledging success. </para>
+    </detaileddescription>
+    <location file="include/sharding/quorum_manager.h" line="90" column="1" bodyfile="include/sharding/quorum_manager.h" bodystart="90" bodyend="213"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a6a3d99c9f646595c94186822989348df" prot="private" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>calculateQuorumSize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a201dbdd2218d323603842059cbc0a02c" prot="private" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a6d03e9d87175149ddf09f46fd567a932" prot="private" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>config_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a9367697ff5c61869560bd6a5408c8f73" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>executeRead</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1ad8bcbaae36adf9c2617ce067d7dce84d" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>executeWrite</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a17bb13ea65c276b0e8db8f0db5918f32" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1adbe8ad7b05d26422ecefa26b69878e7d" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>getReadQuorumSize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a81df08be02f6acc4ac908a353d099681" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1ada432dd8136802c2e4b839f134f46e86" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>getWriteQuorumSize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1ab3315828b950526e6029c1b005461ea4" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>isQuorumAchievable</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a6a4f37cfcb386d3c9c52e35d99726f1c" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>QuorumManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a10071ed3abe9880840504fca74983951" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>ReadOperation</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a4109d63978aa3a8274ad8d84ccbe86d9" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>resetStatistics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a06eace26364ba91d4dcc16666510c953" prot="private" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a2e1ad6025624c2619fcb0fcccd1fc6a8" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>updateConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1aef6f0b611054eb58fe7193b9ee936f88" prot="private" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>waitForOperations</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a1f2cc58f58680418eadf08f8d1d8cacc" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>WriteOperation</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_quorum_manager_1a91b8ba64f946ec823b1806279356401c" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumManager</scope><name>~QuorumManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

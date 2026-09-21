@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1replication_1_1crdt" kind="namespace" language="C++">
+    <compoundname>themisdb::replication::crdt</compoundname>
+    <innerclass refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" prot="public">themisdb::replication::crdt::Dot</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_counter" prot="public">themisdb::replication::crdt::GrowOnlyCounter</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_p_n_counter" prot="public">themisdb::replication::crdt::PNCounter</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_register" prot="public">themisdb::replication::crdt::LWWRegister</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register" prot="public">themisdb::replication::crdt::MVRegister</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set" prot="public">themisdb::replication::crdt::GrowOnlySet</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set" prot="public">themisdb::replication::crdt::TwoPSet</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_o_r_set" prot="public">themisdb::replication::crdt::ORSet</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_l_w_w_map" prot="public">themisdb::replication::crdt::LWWMap</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array" prot="public">themisdb::replication::crdt::RGArray</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_enable_wins_flag" prot="public">themisdb::replication::crdt::EnableWinsFlag</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1crdt_1_1_disable_wins_flag" prot="public">themisdb::replication::crdt::DisableWinsFlag</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="26" column="1"/>
+  </compounddef>
+</doxygen>

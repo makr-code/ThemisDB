@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::tests::LicenseDataInitializationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test_1aeeca8fd31f975d58d389a28118edc244" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::tests::LicenseDataInitializationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::security::tests::LicenseDataInitializationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="48" column="10" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test_1ae468d1150d39f2fa3b0622ddc78527d8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::tests::LicenseDataInitializationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::security::tests::LicenseDataInitializationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="49" column="10" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::security::tests::LicenseDataInitializationTest</label>
+        <link refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::security::tests::LicenseDataInitializationTest</label>
+        <link refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_security_hardening_fixes.cpp" line="46" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="46" bodyend="50"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test_1aeeca8fd31f975d58d389a28118edc244" prot="protected" virt="non-virtual"><scope>themis::security::tests::LicenseDataInitializationTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test_1ae468d1150d39f2fa3b0622ddc78527d8" prot="protected" virt="non-virtual"><scope>themis::security::tests::LicenseDataInitializationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

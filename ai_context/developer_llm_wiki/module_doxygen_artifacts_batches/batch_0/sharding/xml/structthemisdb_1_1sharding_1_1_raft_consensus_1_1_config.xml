@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftConsensus::Config</compoundname>
+    <includes refid="raft__consensus_8h" local="no">raft_consensus.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a13c81675d48040d0a17b98c3368a8f6a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_raft_config" kindref="compound">RaftConfig</ref></type>
+        <definition>RaftConfig themisdb::sharding::RaftConsensus::Config::raft_config</definition>
+        <argsstring></argsstring>
+        <name>raft_config</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::Config::raft_config</qualifiedname>
+        <briefdescription>
+<para>Core Raft timing and membership config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="93" column="20" bodyfile="include/sharding/raft_consensus.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a0ab8fb3a2e5926345384525565071ea9" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::RaftConsensus::Config::heartbeat_timeout</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_timeout</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::Config::heartbeat_timeout</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Timeout used to judge heartbeat staleness. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="94" column="35" bodyfile="include/sharding/raft_consensus.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a370a1adaa50b4fc5cf0a20b918d75807" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::RaftConsensus::Config::partition_detection_interval</definition>
+        <argsstring></argsstring>
+        <name>partition_detection_interval</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::Config::partition_detection_interval</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Poll interval for partition detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="95" column="35" bodyfile="include/sharding/raft_consensus.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1ababdf53ac6ce3ce0478db6b7b9114101" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::RaftConsensus::Config::max_consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>max_consecutive_failures</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::Config::max_consecutive_failures</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+<para>Failure threshold before replica becomes unreachable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="96" column="18" bodyfile="include/sharding/raft_consensus.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a39fba300c36fa26c51bfdfc2bd159602" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftConsensus::Config::enable_partition_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_partition_detection</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::Config::enable_partition_detection</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Enables background partition detector thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="97" column="14" bodyfile="include/sharding/raft_consensus.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a90d72ac4edcadd539093c9f0dac4a2d0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftConsensus::Config::enable_split_brain_prevention</definition>
+        <argsstring></argsstring>
+        <name>enable_split_brain_prevention</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::Config::enable_split_brain_prevention</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Enables partition-aware safety measures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="98" column="14" bodyfile="include/sharding/raft_consensus.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1abbea2ae9ba956f84a47637c0dc6e8286" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftConsensus::Config::read_only_on_partition</definition>
+        <argsstring></argsstring>
+        <name>read_only_on_partition</name>
+        <qualifiedname>themisdb::sharding::RaftConsensus::Config::read_only_on_partition</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Enter read-only mode in minority partition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="99" column="14" bodyfile="include/sharding/raft_consensus.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Consensus configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::sharding::RaftConfig</label>
+        <link refid="structthemisdb_1_1sharding_1_1_raft_config"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::RaftConsensus::Config</label>
+        <link refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>raft_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/raft_consensus.h" line="92" column="5" bodyfile="include/sharding/raft_consensus.h" bodystart="92" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a39fba300c36fa26c51bfdfc2bd159602" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus::Config</scope><name>enable_partition_detection</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a90d72ac4edcadd539093c9f0dac4a2d0" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus::Config</scope><name>enable_split_brain_prevention</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a0ab8fb3a2e5926345384525565071ea9" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus::Config</scope><name>heartbeat_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1ababdf53ac6ce3ce0478db6b7b9114101" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus::Config</scope><name>max_consecutive_failures</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a370a1adaa50b4fc5cf0a20b918d75807" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus::Config</scope><name>partition_detection_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1a13c81675d48040d0a17b98c3368a8f6a" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus::Config</scope><name>raft_config</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_consensus_1_1_config_1abbea2ae9ba956f84a47637c0dc6e8286" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConsensus::Config</scope><name>read_only_on_partition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gradient__checkpointing_8h" kind="file" language="C++">
+    <compoundname>gradient_checkpointing.h</compoundname>
+    <includes refid="gpu__tensor_8h" local="yes">llm/lora_framework/gpu_tensor.h</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">cstddef</includes>
+    <includedby refid="gpu__training__loop_8h" local="yes">include/llm/lora_framework/gpu_training_loop.h</includedby>
+    <includedby refid="gradient__checkpointing_8cpp" local="yes">src/llm/lora_framework/gradient_checkpointing.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/gradient_checkpointing.h</label>
+        <link refid="gradient__checkpointing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>llm/lora_framework/tensor_dtype.h</label>
+        <link refid="tensor__dtype_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>cstring</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="16">
+        <label>unordered_set</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/gradient_checkpointing.h</label>
+        <link refid="gradient__checkpointing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/llm/lora_framework/gradient_checkpointing.cpp</label>
+        <link refid="gradient__checkpointing_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" prot="public">themis::llm::lora::CheckpointConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats" prot="public">themis::llm::lora::CheckpointStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data" prot="public">themis::llm::lora::CheckpointData</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer" prot="public">themis::llm::lora::GradientCheckpointer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__tensor_8h" kindref="compound">llm/lora_framework/gpu_tensor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51" kindref="member">CheckpointStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51a891f35a29c3d51d02ffd42dd6dcc69b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51a891f35a29c3d51d02ffd42dd6dcc69b2" kindref="member">UNIFORM</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51ac79ccdb9e2ea037575fb8d91a53814aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51ac79ccdb9e2ea037575fb8d91a53814aa" kindref="member">SQRT_N</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51a1bf31e8621de73f56a244b64c3fe52f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51a1bf31e8621de73f56a244b64c3fe52f4" kindref="member">ATTENTION_ONLY</ref>,<sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51a72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a665ebd0d57c444b674573596b0c2e015a72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6" kindref="member">LayerType</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a097cc86b24ec939a19f8783e64fbb4ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a097cc86b24ec939a19f8783e64fbb4ee" kindref="member">ATTENTION</ref>,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a52aae576bf589d25050d77c1514e4101" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a52aae576bf589d25050d77c1514e4101" kindref="member">FFN</ref>,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a0e968adc02e193605cca80a818a751aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a0e968adc02e193605cca80a818a751aa" kindref="member">LORA</ref>,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a7f2699c7a1e80cc61c1873b896421176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a7f2699c7a1e80cc61c1873b896421176" kindref="member">EMBEDDING</ref></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" kindref="compound">CheckpointConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a8aa4a2f509f8daaf2fe025e0bf0f67b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51" kindref="member">CheckpointStrategy</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a8aa4a2f509f8daaf2fe025e0bf0f67b8" kindref="member">strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51ac79ccdb9e2ea037575fb8d91a53814aa" kindref="member">CheckpointStrategy::SQRT_N</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a55612d873b5a98995844a9bf6fc35e79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a55612d873b5a98995844a9bf6fc35e79" kindref="member">checkpoint_frequency</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a26f9929d1fc655e0943be4351c315653" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1a26f9929d1fc655e0943be4351c315653" kindref="member">checkpoint_attention</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1af54bc4e8ad606186f8007f174ecb5de7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1af54bc4e8ad606186f8007f174ecb5de7" kindref="member">checkpoint_ffn</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1abe3733636c24a09c36694fa7e97e4b5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1abe3733636c24a09c36694fa7e97e4b5b" kindref="member">checkpoint_lora</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>layers<sp/>(required<sp/>for<sp/>SQRT_N<sp/>strategy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1aaaa0d75449ef779a9e5fcc0659fcb683" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config_1aaaa0d75449ef779a9e5fcc0659fcb683" kindref="member">total_layers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats" kindref="compound">CheckpointStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a7d8b357935b30b16ceb75296f185bed9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a7d8b357935b30b16ceb75296f185bed9" kindref="member">memory_saved_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a2f91851133daef3a33760e2c896be118" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a2f91851133daef3a33760e2c896be118" kindref="member">recomputation_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a8b63ac4a8b410c1b31fd2b91acf884a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a8b63ac4a8b410c1b31fd2b91acf884a4" kindref="member">memory_reduction_pct</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a3ae3cdb84081136ceedf0667116f75ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a3ae3cdb84081136ceedf0667116f75ff" kindref="member">num_checkpoints</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a0de3f63cc9228e453426330ae64a9258" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1a0de3f63cc9228e453426330ae64a9258" kindref="member">total_layers</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1ad1785e4ae14f765f873c75b888fef331" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats_1ad1785e4ae14f765f873c75b888fef331" kindref="member">compute_overhead_pct</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1llm_1_1lora_1a8021be19948014b1a5aef926382e8662" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1a8021be19948014b1a5aef926382e8662" kindref="member">ForwardFunction</ref><sp/>=<sp/>std::function&lt;<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a7ac43be5aa3225a3c1264e721e2a9145" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a7ac43be5aa3225a3c1264e721e2a9145" kindref="member">~CheckpointData</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a5d049f3412f25073956c030050ff8023" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a5d049f3412f25073956c030050ff8023" kindref="member">CheckpointData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a45a3f4690303b259adf840ca68e569a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref>&amp;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a45a3f4690303b259adf840ca68e569a8" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a4328e8f287f20581b1802af891f764ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a4328e8f287f20581b1802af891f764ff" kindref="member">CheckpointData</ref>(<ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1ae59e14476a71a73d100c99a31a7d3bca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref>&amp;<sp/>operator=(<ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a0556d30327eaafeb1d5d8478026801f4" kindref="member">CheckpointData</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8cd7ea5e6222a06877ef4af58f06c9e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8cd7ea5e6222a06877ef4af58f06c9e6" kindref="member">input</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8b5e2ddd761d2f212bff3814315fa8f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a8021be19948014b1a5aef926382e8662" kindref="member">ForwardFunction</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8b5e2ddd761d2f212bff3814315fa8f5" kindref="member">forward_fn</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a312047e6304ea038fad3509eda9893ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a312047e6304ea038fad3509eda9893ea" kindref="member">activation_size_bytes</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a446f3513392ebc26a32cc0a7a3c36572" kindref="member">GradientCheckpointer</ref><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a446f3513392ebc26a32cc0a7a3c36572" kindref="member">GradientCheckpointer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" kindref="compound">CheckpointConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a95ba84710fddc42a4438d4ad1d65c885" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a1c4f72fcf86183a088ba3da58140dde4" kindref="member">shouldCheckpoint</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>layer_id,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6" kindref="member">LayerType</ref><sp/>layer_type<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">LayerType::UNKNOWN</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a3b592a9d0ecd2f8a2dd828cda3949e89" kindref="member">saveCheckpoint</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>layer_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref>&amp;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8cd7ea5e6222a06877ef4af58f06c9e6" kindref="member">input</ref>,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a8021be19948014b1a5aef926382e8662" kindref="member">ForwardFunction</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_data_1a8b5e2ddd761d2f212bff3814315fa8f5" kindref="member">forward_fn</ref>);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ae567d83c907ad9c17606a0bad3115df9" kindref="member">hasCheckpoint</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>layer_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a48184dd96a34b20fa28493b4e55cbae7" kindref="member">recomputeActivation</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>layer_id);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a6289ee319da6d8223c5038502748b634" kindref="member">clearCheckpoint</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>layer_id);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a8cf790991db296d9da070fa0bb37e87e" kindref="member">clearAll</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a3329650a17e13d94775ebb27c0979640" kindref="member">addCustomCheckpoint</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>layer_id);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a8aa0f7c54757980396ed1952c1562b6d" kindref="member">setLayerType</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>layer_id,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ade258c80a0e79e88870e6276eb7bc1a6" kindref="member">LayerType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats" kindref="compound">CheckpointStats</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1aaec8a5a75690f5b8c9c7f574e142002a" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1ab7d315d739b8b51c73580479cf4ff7d6" kindref="member">estimateMemorySavings</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>avg_activation_size)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1afa35bdef161fbbb83f82bcffe114be08" kindref="member">estimateComputeOverhead</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a833812929a6b482f88eee99e7cf6d087" kindref="member">updateRecomputeTime</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>recompute_time_ms);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a95ba84710fddc42a4438d4ad1d65c885" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" kindref="compound">CheckpointConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_checkpointer_1a95ba84710fddc42a4438d4ad1d65c885" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_config" kindref="compound">CheckpointConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>CheckpointData&gt;<sp/>checkpoints_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>LayerType&gt;<sp/>layer_types_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;int&gt;<sp/>custom_checkpoints_;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_stats" kindref="compound">CheckpointStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>calculateSqrtNInterval()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/gradient_checkpointing.h"/>
+  </compounddef>
+</doxygen>

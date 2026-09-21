@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="fts__parser_8h" kind="file" language="C++">
+    <compoundname>fts_parser.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bm25__scorer_8h" local="yes">include/query/bm25_scorer.h</includedby>
+    <includedby refid="fts__executor_8h" local="yes">include/query/fts_executor.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/fts_parser.h</label>
+        <link refid="fts__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/query/bm25_scorer.h</label>
+        <link refid="bm25__scorer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/query/fts_executor.h</label>
+        <link refid="fts__executor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/fts_parser.h</label>
+        <link refid="fts__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/query/bm25_scorer.cpp</label>
+        <link refid="bm25__scorer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/query/fts_executor.cpp</label>
+        <link refid="fts__executor_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/query/test_fts_bm25_scorer.cpp</label>
+        <link refid="test__fts__bm25__scorer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_fts_executor.cpp</label>
+        <link refid="test__fts__executor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_search_node" prot="public">themis::query::fts::SearchNode</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1fts">themis::query::fts</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1fts" kindref="compound">themis::query::fts</ref><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746" kindref="member">SearchNodeType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="11" refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a8baeec6d282f1791ea9954d0c514ed8d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a8baeec6d282f1791ea9954d0c514ed8d" kindref="member">TERM</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="12" refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a326989110ddd70abcc96d1e4bf40afc9" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a326989110ddd70abcc96d1e4bf40afc9" kindref="member">PHRASE</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="13" refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a558ffc8f5770d8e4f95f51d822685532" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a558ffc8f5770d8e4f95f51d822685532" kindref="member">AND</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="14" refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a1d00e7dce692e8dc3f6877f035e3a616" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a1d00e7dce692e8dc3f6877f035e3a616" kindref="member">OR</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="15" refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a10df3d67626099df882920ba6552f16d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a10df3d67626099df882920ba6552f16d" kindref="member">NOT</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="structthemis_1_1query_1_1fts_1_1_search_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="19" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a229ef8b30f825481f0ab5654ada15066" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746" kindref="member">SearchNodeType</ref><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a229ef8b30f825481f0ab5654ada15066" kindref="member">type</ref>{<ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a8baeec6d282f1791ea9954d0c514ed8d" kindref="member">SearchNodeType::TERM</ref>};</highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a1d94eaf81fbedf014d575d049f54bae7" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a1d94eaf81fbedf014d575d049f54bae7" kindref="member">term</ref>;</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1query_1_1fts_1_1_search_node_1adc5679d645b2e59fcf35399aae9344cf" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;SearchNode&gt;<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1adc5679d645b2e59fcf35399aae9344cf" kindref="member">children</ref>;</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a8306e97fba2dd0a29c3c6777a25027c8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a8306e97fba2dd0a29c3c6777a25027c8" kindref="member">boost</ref>{1.0f};</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a19c91020c0d4241665cb2ef8700f7f8c" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a19c91020c0d4241665cb2ef8700f7f8c" kindref="member">proximity_distance</ref>{0};</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1query_1_1fts_1_1_search_node_1aa1729b5a653d7e84357a9be5ae6f3014" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1aa1729b5a653d7e84357a9be5ae6f3014" kindref="member">field</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>execution<sp/>annotations<sp/>consumed<sp/>by<sp/>the<sp/>scorer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a56319587ae3f7673cc5e8423b49a8453" refkind="member"><highlight class="normal"><sp/><sp/>std::optional&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a56319587ae3f7673cc5e8423b49a8453" kindref="member">document_frequency</ref>;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a6f80384baf3fa36aafe2352fe172eb6a" refkind="member"><highlight class="normal"><sp/><sp/>std::optional&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a6f80384baf3fa36aafe2352fe172eb6a" kindref="member">document_term_frequency</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a2e714657b33204b9094ad0f896cfb095" refkind="member"><highlight class="normal"><sp/><sp/>std::optional&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a2e714657b33204b9094ad0f896cfb095" kindref="member">document_length_tokens</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a1c5e2946356794a192c502450e9991d3" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a1c5e2946356794a192c502450e9991d3" kindref="member">makeTerm</ref>(std::string<sp/>value,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>term_boost<sp/>=<sp/>1.0f)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref><sp/>node;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>node.<ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a229ef8b30f825481f0ab5654ada15066" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a8baeec6d282f1791ea9954d0c514ed8d" kindref="member">SearchNodeType::TERM</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>node.<ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a1d94eaf81fbedf014d575d049f54bae7" kindref="member">term</ref><sp/>=<sp/>std::move(value);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>node.<ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a8306e97fba2dd0a29c3c6777a25027c8" kindref="member">boost</ref><sp/>=<sp/>term_boost;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>node;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a2c3663a95745f92fbf1fe32a296a480d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a2c3663a95745f92fbf1fe32a296a480d" kindref="member">makePhrase</ref>(std::string<sp/>value,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>term_boost<sp/>=<sp/>1.0f)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref><sp/>node;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>node.<ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a229ef8b30f825481f0ab5654ada15066" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746a326989110ddd70abcc96d1e4bf40afc9" kindref="member">SearchNodeType::PHRASE</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>node.<ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a1d94eaf81fbedf014d575d049f54bae7" kindref="member">term</ref><sp/>=<sp/>std::move(value);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>node.<ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a8306e97fba2dd0a29c3c6777a25027c8" kindref="member">boost</ref><sp/>=<sp/>term_boost;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>node;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1query_1_1fts_1_1_search_node_1a62890cc451cc12ecf740296d9c0539fd" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a62890cc451cc12ecf740296d9c0539fd" kindref="member">makeBoolean</ref>(<ref refid="namespacethemis_1_1query_1_1fts_1a6fab7786511692e6467bbe5628e5a746" kindref="member">SearchNodeType</ref><sp/>boolean_type,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;SearchNode&gt;<sp/>operands)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref><sp/>node;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>node.<ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1a229ef8b30f825481f0ab5654ada15066" kindref="member">type</ref><sp/>=<sp/>boolean_type;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>node.<ref refid="structthemis_1_1query_1_1fts_1_1_search_node_1adc5679d645b2e59fcf35399aae9344cf" kindref="member">children</ref><sp/>=<sp/>std::move(operands);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>node;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::query::fts</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/fts_parser.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IToTEvaluator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator" prot="public" virt="non-virtual">themis::prompt_engineering::HeuristicToTEvaluator</derivedcompoundref>
+    <includes refid="tree__of__thoughts_8h" local="no">tree_of_thoughts.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator_1a1ebf032ba4a56b06903bed1ff5f9f4a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IToTEvaluator::~IToTEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IToTEvaluator</name>
+        <qualifiedname>themis::prompt_engineering::IToTEvaluator::~IToTEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="120" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator_1a5bbabe8b417a68809be68c1cbf4c8073" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::pair&lt; double, <ref refid="namespacethemis_1_1prompt__engineering_1a00b067daf3c39b120137faa40ec9ff61" kindref="member">ToTVerdict</ref> &gt;</type>
+        <definition>virtual std::pair&lt; double, ToTVerdict &gt; themis::prompt_engineering::IToTEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;problem, const ToTNode &amp;node)=0</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::prompt_engineering::IToTEvaluator::evaluate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator_1a121e0b12ef269c8c4d2bebe130d9f344">evaluate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_node" kindref="compound">ToTNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Score a thought node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original problem statement. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The node to evaluate (path and thought are populated). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of (score in [0, 1], verdict). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="129" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for evaluating and scoring a candidate thought node. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementors score the plausibility of a partial reasoning path and assign a verdict used for pruning. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::HeuristicToTEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_heuristic_to_t_evaluator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::IToTEvaluator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/tree_of_thoughts.h" line="118" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="118" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator_1a5bbabe8b417a68809be68c1cbf4c8073" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IToTEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator_1a1ebf032ba4a56b06903bed1ff5f9f4a7" prot="public" virt="virtual"><scope>themis::prompt_engineering::IToTEvaluator</scope><name>~IToTEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

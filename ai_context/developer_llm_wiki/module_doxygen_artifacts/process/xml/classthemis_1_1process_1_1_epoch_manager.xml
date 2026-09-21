@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_epoch_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::EpochManager</compoundname>
+    <includes refid="lock__free__linker__contract_8h" local="no">lock_free_linker_contract.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_epoch_manager_1ac8f58c11f6fc64be51e207d90fa417ba" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::process::EpochManager::global_epoch_</definition>
+        <argsstring></argsstring>
+        <name>global_epoch_</name>
+        <qualifiedname>themis::process::EpochManager::global_epoch_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="310" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epoch_manager_1a0190c253d38852f92e2014040ed6b7c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EpochManager &amp;</type>
+        <definition>static EpochManager &amp; themis::process::EpochManager::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::process::EpochManager::instance</qualifiedname>
+        <briefdescription>
+<para>Get singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to global epoch manager </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="247" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epoch_manager_1a01dc7141ce513ef5b3b0cea1056deb82" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::EpochManager::currentEpoch</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>currentEpoch</name>
+        <qualifiedname>themis::process::EpochManager::currentEpoch</qualifiedname>
+        <briefdescription>
+<para>Get current global epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Monotonically increasing epoch number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="253" column="14" bodyfile="include/process/lock_free_linker_contract.h" bodystart="253" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epoch_manager_1a803cf73e86cba598edfdccadfd133a95" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::EpochManager::enterEpoch</definition>
+        <argsstring>(uint64_t epoch) noexcept</argsstring>
+        <name>enterEpoch</name>
+        <qualifiedname>themis::process::EpochManager::enterEpoch</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>epoch</declname>
+        </param>
+        <briefdescription>
+<para>Announce that current thread is using this epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread must call this before dereferencing any lock-free data. Call <computeroutput><ref refid="classthemis_1_1process_1_1_epoch_manager_1a108b36b62d42b0f34a24ea475bf3e605" kindref="member">leaveEpoch()</ref></computeroutput> when done.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Epoch to enter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="265" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epoch_manager_1a108b36b62d42b0f34a24ea475bf3e605" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::EpochManager::leaveEpoch</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>leaveEpoch</name>
+        <qualifiedname>themis::process::EpochManager::leaveEpoch</qualifiedname>
+        <briefdescription>
+<para>Announce that current thread is done with current epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread may now advance to next epoch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="272" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epoch_manager_1ac7a3b8c9fc6bcc2b18d945a688104894" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::EpochManager::waitForEpoch</definition>
+        <argsstring>(uint64_t epoch, uint32_t timeout_ms=0) noexcept</argsstring>
+        <name>waitForEpoch</name>
+        <qualifiedname>themis::process::EpochManager::waitForEpoch</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Wait for all threads to leave a given epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocks until all threads have called <computeroutput><ref refid="classthemis_1_1process_1_1_epoch_manager_1a108b36b62d42b0f34a24ea475bf3e605" kindref="member">leaveEpoch()</ref></computeroutput> for epoch. Used before reclaiming memory associated with epoch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Epoch to synchronize on </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait (0 = no limit) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all threads left epoch; false if timeout </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="284" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epoch_manager_1ae31107208e51cfe4ead1e21672dba10d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::EpochManager::advanceEpoch</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>advanceEpoch</name>
+        <qualifiedname>themis::process::EpochManager::advanceEpoch</qualifiedname>
+        <briefdescription>
+<para>Advance global epoch and trigger reclamation if safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called periodically (every 10-100ms); checks if all threads past an epoch. If safe, reclaims memory deferred from that epoch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="292" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epoch_manager_1a2d6163355174ff121b14a152450f81fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Deleter</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::process::EpochManager::deferDeletion</definition>
+        <argsstring>(uint64_t epoch, Deleter deleter)</argsstring>
+        <name>deferDeletion</name>
+        <qualifiedname>themis::process::EpochManager::deferDeletion</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>Deleter</type>
+          <declname>deleter</declname>
+        </param>
+        <briefdescription>
+<para>Defer object deletion until epoch is safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Object is not deleted immediately; instead queued for deletion when all threads have left the current epoch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Epoch to defer deletion until </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>deleter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable to delete object (e.g., lambda or std::function) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="304" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epoch_manager_1a11ef55e2525cf8efd66cc0fd113a4d3f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::EpochManager::EpochManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>EpochManager</name>
+        <qualifiedname>themis::process::EpochManager::EpochManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="307" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epoch_manager_1afb3176d756fbbec749080f1663a86334" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::EpochManager::~EpochManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EpochManager</name>
+        <qualifiedname>themis::process::EpochManager::~EpochManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="308" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Global epoch counter for memory reclamation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each thread announces the epoch it&apos;s in; memory is reclaimed when all threads have advanced past a given epoch. </para>
+    </detaileddescription>
+    <location file="include/process/lock_free_linker_contract.h" line="241" column="1" bodyfile="include/process/lock_free_linker_contract.h" bodystart="241" bodyend="312"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1ae31107208e51cfe4ead1e21672dba10d" prot="public" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>advanceEpoch</name></member>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1a01dc7141ce513ef5b3b0cea1056deb82" prot="public" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>currentEpoch</name></member>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1a2d6163355174ff121b14a152450f81fa" prot="public" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>deferDeletion</name></member>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1a803cf73e86cba598edfdccadfd133a95" prot="public" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>enterEpoch</name></member>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1a11ef55e2525cf8efd66cc0fd113a4d3f" prot="private" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>EpochManager</name></member>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1ac8f58c11f6fc64be51e207d90fa417ba" prot="private" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>global_epoch_</name></member>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1a0190c253d38852f92e2014040ed6b7c1" prot="public" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>instance</name></member>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1a108b36b62d42b0f34a24ea475bf3e605" prot="public" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>leaveEpoch</name></member>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1ac7a3b8c9fc6bcc2b18d945a688104894" prot="public" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>waitForEpoch</name></member>
+      <member refid="classthemis_1_1process_1_1_epoch_manager_1afb3176d756fbbec749080f1663a86334" prot="private" virt="non-virtual"><scope>themis::process::EpochManager</scope><name>~EpochManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

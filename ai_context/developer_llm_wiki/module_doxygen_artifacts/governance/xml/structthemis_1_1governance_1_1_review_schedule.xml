@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_review_schedule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ReviewSchedule</compoundname>
+    <includes refid="review__scheduler_8h" local="no">review_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_review_schedule_1aeebe45ef73d9f9e71d4535733a755fd7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ReviewSchedule::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::ReviewSchedule::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="49" column="17" bodyfile="include/governance/review_scheduler.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_review_schedule_1a960873861f58c1a32b07c34a5050eb17" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ReviewSchedule::review_period_days</definition>
+        <argsstring></argsstring>
+        <name>review_period_days</name>
+        <qualifiedname>themis::governance::ReviewSchedule::review_period_days</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="50" column="9" bodyfile="include/governance/review_scheduler.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_review_schedule_1acf348cc4c95232cf4924c2a62be205a1" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::governance::ReviewSchedule::last_review_date</definition>
+        <argsstring></argsstring>
+        <name>last_review_date</name>
+        <qualifiedname>themis::governance::ReviewSchedule::last_review_date</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="51" column="18" bodyfile="include/governance/review_scheduler.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_review_schedule_1af8306bf8511a6440b0d16c1bfd373e4c" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::governance::ReviewSchedule::next_review_date</definition>
+        <argsstring></argsstring>
+        <name>next_review_date</name>
+        <qualifiedname>themis::governance::ReviewSchedule::next_review_date</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="52" column="18" bodyfile="include/governance/review_scheduler.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_review_schedule_1a0dfa0034c748afcacbdc6b78d777d6fe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ReviewSchedule::auto_schedule</definition>
+        <argsstring></argsstring>
+        <name>auto_schedule</name>
+        <qualifiedname>themis::governance::ReviewSchedule::auto_schedule</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="53" column="10" bodyfile="include/governance/review_scheduler.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_review_schedule_1a132efaaafd7d9232290ce859cd120f2a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ReviewSchedule::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ReviewSchedule::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="59" column="20" bodyfile="src/governance/review_scheduler.cpp" bodystart="78" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_review_schedule_1a733887bf5b1aceae7b6748e92dbba357" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_review_schedule" kindref="compound">ReviewSchedule</ref></type>
+        <definition>ReviewSchedule themis::governance::ReviewSchedule::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::ReviewSchedule::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/review_scheduler.h" line="65" column="27" bodyfile="src/governance/review_scheduler.cpp" bodystart="94" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/review_scheduler.h" line="48" column="1" bodyfile="include/governance/review_scheduler.h" bodystart="48" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_review_schedule_1a0dfa0034c748afcacbdc6b78d777d6fe" prot="public" virt="non-virtual"><scope>themis::governance::ReviewSchedule</scope><name>auto_schedule</name></member>
+      <member refid="structthemis_1_1governance_1_1_review_schedule_1a733887bf5b1aceae7b6748e92dbba357" prot="public" virt="non-virtual"><scope>themis::governance::ReviewSchedule</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_review_schedule_1acf348cc4c95232cf4924c2a62be205a1" prot="public" virt="non-virtual"><scope>themis::governance::ReviewSchedule</scope><name>last_review_date</name></member>
+      <member refid="structthemis_1_1governance_1_1_review_schedule_1af8306bf8511a6440b0d16c1bfd373e4c" prot="public" virt="non-virtual"><scope>themis::governance::ReviewSchedule</scope><name>next_review_date</name></member>
+      <member refid="structthemis_1_1governance_1_1_review_schedule_1a960873861f58c1a32b07c34a5050eb17" prot="public" virt="non-virtual"><scope>themis::governance::ReviewSchedule</scope><name>review_period_days</name></member>
+      <member refid="structthemis_1_1governance_1_1_review_schedule_1aeebe45ef73d9f9e71d4535733a755fd7" prot="public" virt="non-virtual"><scope>themis::governance::ReviewSchedule</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_review_schedule_1a132efaaafd7d9232290ce859cd120f2a" prot="public" virt="non-virtual"><scope>themis::governance::ReviewSchedule</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RAGJudge::BiasAnalysisSummary</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1a5f91d35307d79fd0c539e7e0c0bcc880" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::BiasAnalysisSummary::has_significant_length_bias</definition>
+        <argsstring></argsstring>
+        <name>has_significant_length_bias</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::BiasAnalysisSummary::has_significant_length_bias</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Correlation between score and answer length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="386" column="14" bodyfile="include/rag/rag_judge.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1ac756655759618487b48efd55d1a3911b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::BiasAnalysisSummary::has_significant_position_bias</definition>
+        <argsstring></argsstring>
+        <name>has_significant_position_bias</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::BiasAnalysisSummary::has_significant_position_bias</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Preference for first/second doc position. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="387" column="14" bodyfile="include/rag/rag_judge.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1aef88a8fcf1d89393316faccc196a7dc6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::BiasAnalysisSummary::length_bias_magnitude</definition>
+        <argsstring></argsstring>
+        <name>length_bias_magnitude</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::BiasAnalysisSummary::length_bias_magnitude</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Absolute Pearson correlation [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="388" column="16" bodyfile="include/rag/rag_judge.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1ae95905170722bbc411973af5d209e4f5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::BiasAnalysisSummary::position_bias_magnitude</definition>
+        <argsstring></argsstring>
+        <name>position_bias_magnitude</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::BiasAnalysisSummary::position_bias_magnitude</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Deviation from 50/50 position split [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="389" column="16" bodyfile="include/rag/rag_judge.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1a96fc658b67d099082bc2a21154e294b4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::RAGJudge::BiasAnalysisSummary::samples_analyzed</definition>
+        <argsstring></argsstring>
+        <name>samples_analyzed</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::BiasAnalysisSummary::samples_analyzed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of evaluations included. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="390" column="16" bodyfile="include/rag/rag_judge.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Summary of bias analysis accumulated over evaluation history. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returned by <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a5e1406c0b2fc0adb0323882d14aefcd9" kindref="member">getBiasAnalysis()</ref>. Self-contained; does not require inclusion of <ref refid="bias__detector_8h" kindref="compound">bias_detector.h</ref> by the caller. </para>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="385" column="5" bodyfile="include/rag/rag_judge.h" bodystart="385" bodyend="391"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1a5f91d35307d79fd0c539e7e0c0bcc880" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge::BiasAnalysisSummary</scope><name>has_significant_length_bias</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1ac756655759618487b48efd55d1a3911b" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge::BiasAnalysisSummary</scope><name>has_significant_position_bias</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1aef88a8fcf1d89393316faccc196a7dc6" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge::BiasAnalysisSummary</scope><name>length_bias_magnitude</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1ae95905170722bbc411973af5d209e4f5" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge::BiasAnalysisSummary</scope><name>position_bias_magnitude</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary_1a96fc658b67d099082bc2a21154e294b4" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge::BiasAnalysisSummary</scope><name>samples_analyzed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

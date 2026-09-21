@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_tool_call" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ToolCall</compoundname>
+    <includes refid="json__schema__converter_8h" local="no">json_schema_converter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tool_call_1a2f691a43f1cd62460d1c905d1822be8a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ToolCall::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::ToolCall::name</qualifiedname>
+        <briefdescription>
+<para>Tool name matched from <ref refid="structthemis_1_1llm_1_1_tool_definition_1a18e678d2a46a5c2bb0f920ad6c0040cb" kindref="member">ToolDefinition::name</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="31" column="17" bodyfile="include/llm/json_schema_converter.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_tool_call_1abe38487f2296879a6dc89c489a928e4e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::ToolCall::arguments</definition>
+        <argsstring></argsstring>
+        <name>arguments</name>
+        <qualifiedname>themis::llm::ToolCall::arguments</qualifiedname>
+        <briefdescription>
+<para>Parsed argument JSON object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="32" column="10" bodyfile="include/llm/json_schema_converter.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/json_schema_converter.h" line="30" column="1" bodyfile="include/llm/json_schema_converter.h" bodystart="30" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_tool_call_1abe38487f2296879a6dc89c489a928e4e" prot="public" virt="non-virtual"><scope>themis::llm::ToolCall</scope><name>arguments</name></member>
+      <member refid="structthemis_1_1llm_1_1_tool_call_1a2f691a43f1cd62460d1c905d1822be8a" prot="public" virt="non-virtual"><scope>themis::llm::ToolCall</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

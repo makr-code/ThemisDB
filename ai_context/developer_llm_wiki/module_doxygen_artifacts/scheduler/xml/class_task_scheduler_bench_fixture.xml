@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_task_scheduler_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>TaskSchedulerBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_task_scheduler_bench_fixture_1aa063c594e8757b38d97b2549eae14b72" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TaskSchedulerBenchFixture::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>TaskSchedulerBenchFixture::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_task_scheduler.cpp" line="76" column="45" bodyfile="benchmarks/scheduler/bench_task_scheduler.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_task_scheduler_bench_fixture_1a90754b8f6133cb5ffca083cfbe225215" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; TaskSchedulerBenchFixture::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>TaskSchedulerBenchFixture::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_task_scheduler.cpp" line="77" column="29" bodyfile="benchmarks/scheduler/bench_task_scheduler.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_task_scheduler_bench_fixture_1a9f271dc672fa0f7f9e9bf7e373e851db" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; TaskSchedulerBenchFixture::idx_</definition>
+        <argsstring></argsstring>
+        <name>idx_</name>
+        <qualifiedname>TaskSchedulerBenchFixture::idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_task_scheduler.cpp" line="78" column="22" bodyfile="benchmarks/scheduler/bench_task_scheduler.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_task_scheduler_bench_fixture_1a4d57ea738d547e529cdcee2f0e7c5e2d" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" kindref="member">QueryEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;QueryEngine&gt; TaskSchedulerBenchFixture::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>TaskSchedulerBenchFixture::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_task_scheduler.cpp" line="79" column="32" bodyfile="benchmarks/scheduler/bench_task_scheduler.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_task_scheduler_bench_fixture_1a22f11f1d560b86014624b946ff882584" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TaskScheduler&gt; TaskSchedulerBenchFixture::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>TaskSchedulerBenchFixture::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_task_scheduler.cpp" line="80" column="30" bodyfile="benchmarks/scheduler/bench_task_scheduler.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_task_scheduler_bench_fixture_1adfac30892dc21326e53a91095b44f46e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TaskSchedulerBenchFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TaskSchedulerBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_task_scheduler.cpp" line="37" column="10" bodyfile="benchmarks/scheduler/bench_task_scheduler.cpp" bodystart="37" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_task_scheduler_bench_fixture_1a9de6fc85c3db20c6b3914264fdcf28f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TaskSchedulerBenchFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TaskSchedulerBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/scheduler/bench_task_scheduler.cpp" line="64" column="10" bodyfile="benchmarks/scheduler/bench_task_scheduler.cpp" bodystart="64" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TaskSchedulerBenchFixture</label>
+        <link refid="class_task_scheduler_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TaskSchedulerBenchFixture</label>
+        <link refid="class_task_scheduler_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/scheduler/bench_task_scheduler.cpp" line="35" column="1" bodyfile="benchmarks/scheduler/bench_task_scheduler.cpp" bodystart="35" bodyend="81"/>
+    <listofallmembers>
+      <member refid="class_task_scheduler_bench_fixture_1aa063c594e8757b38d97b2549eae14b72" prot="public" virt="non-virtual"><scope>TaskSchedulerBenchFixture</scope><name>db_path_</name></member>
+      <member refid="class_task_scheduler_bench_fixture_1a4d57ea738d547e529cdcee2f0e7c5e2d" prot="public" virt="non-virtual"><scope>TaskSchedulerBenchFixture</scope><name>engine_</name></member>
+      <member refid="class_task_scheduler_bench_fixture_1a9f271dc672fa0f7f9e9bf7e373e851db" prot="public" virt="non-virtual"><scope>TaskSchedulerBenchFixture</scope><name>idx_</name></member>
+      <member refid="class_task_scheduler_bench_fixture_1a22f11f1d560b86014624b946ff882584" prot="public" virt="non-virtual"><scope>TaskSchedulerBenchFixture</scope><name>scheduler_</name></member>
+      <member refid="class_task_scheduler_bench_fixture_1adfac30892dc21326e53a91095b44f46e" prot="public" virt="non-virtual"><scope>TaskSchedulerBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_task_scheduler_bench_fixture_1a90754b8f6133cb5ffca083cfbe225215" prot="public" virt="non-virtual"><scope>TaskSchedulerBenchFixture</scope><name>storage_</name></member>
+      <member refid="class_task_scheduler_bench_fixture_1a9de6fc85c3db20c6b3914264fdcf28f5" prot="public" virt="non-virtual"><scope>TaskSchedulerBenchFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

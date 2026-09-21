@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_streaming_ingest_manager_1_1_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::StreamingIngestManager::Event</compoundname>
+    <includes refid="streaming__ingest__manager_8h" local="no">streaming_ingest_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_event_1a88635df3a6ad1d18783d81abde8ba8df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::StreamingIngestManager::Event::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::StreamingIngestManager::Event::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="39" column="21" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_streaming_ingest_manager_1_1_event_1a99dbfd786b0c4ea3c4e8613e8ac60063" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::StreamingIngestManager::Event::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::StreamingIngestManager::Event::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/streaming_ingest_manager.h" line="40" column="21" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single ingest event. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemis_1_1_streaming_ingest_manager_1_1_event_1a88635df3a6ad1d18783d81abde8ba8df" kindref="member">key</ref></computeroutput> and <computeroutput><ref refid="structthemis_1_1_streaming_ingest_manager_1_1_event_1a99dbfd786b0c4ea3c4e8613e8ac60063" kindref="member">value</ref></computeroutput> are owned by the event once enqueued. </para>
+    </detaileddescription>
+    <location file="include/storage/streaming_ingest_manager.h" line="38" column="5" bodyfile="include/storage/streaming_ingest_manager.h" bodystart="38" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_event_1a88635df3a6ad1d18783d81abde8ba8df" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Event</scope><name>key</name></member>
+      <member refid="structthemis_1_1_streaming_ingest_manager_1_1_event_1a99dbfd786b0c4ea3c4e8613e8ac60063" prot="public" virt="non-virtual"><scope>themis::StreamingIngestManager::Event</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

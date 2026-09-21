@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1sbom_1_1_s_b_o_m_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::sbom::SBOMParser</compoundname>
+    <innerclass refid="structthemis_1_1security_1_1sbom_1_1_s_b_o_m_parser_1_1_artifact" prot="public">themis::security::sbom::SBOMParser::Artifact</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1sbom_1_1_s_b_o_m_parser_1a631e0b8e5b3a20d99cea8145ae89313b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1security_1_1sbom_1_1_s_b_o_m_parser_1_1_artifact" kindref="compound">Artifact</ref> &gt;</type>
+        <definition>static std::vector&lt; Artifact &gt; themis::security::sbom::SBOMParser::parse_sbom_json</definition>
+        <argsstring>(const std::string &amp;json_content)</argsstring>
+        <name>parse_sbom_json</name>
+        <qualifiedname>themis::security::sbom::SBOMParser::parse_sbom_json</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="48" column="24" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="48" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SBOM Parser. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="39" column="1" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="39" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1sbom_1_1_s_b_o_m_parser_1a631e0b8e5b3a20d99cea8145ae89313b" prot="public" virt="non-virtual"><scope>themis::security::sbom::SBOMParser</scope><name>parse_sbom_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

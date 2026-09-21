@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_i_global_region_participant" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::transaction::IGlobalRegionParticipant</compoundname>
+    <includes refid="global__transaction__manager_8h" local="no">global_transaction_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_global_region_participant_1a159a20d6be71fa52255327b948334ef5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::transaction::IGlobalRegionParticipant::~IGlobalRegionParticipant</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGlobalRegionParticipant</name>
+        <qualifiedname>themis::transaction::IGlobalRegionParticipant::~IGlobalRegionParticipant</qualifiedname>
+        <briefdescription>
+<para>IGlobal Region <ref refid="structthemis_1_1transaction_1_1_participant" kindref="compound">Participant</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="68" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_global_region_participant_1a744e6743aee3ad92bfc75da0bf64e288" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::transaction::IGlobalRegionParticipant::prepare</definition>
+        <argsstring>(const std::string &amp;txn_id, const nlohmann::json &amp;ops)=0</argsstring>
+        <name>prepare</name>
+        <qualifiedname>themis::transaction::IGlobalRegionParticipant::prepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>ops</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="70" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_global_region_participant_1a40e6823c864ae7b0e3cdc665218f1107" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::transaction::IGlobalRegionParticipant::commit</definition>
+        <argsstring>(const std::string &amp;txn_id, int64_t commit_timestamp)=0</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::transaction::IGlobalRegionParticipant::commit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>commit_timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">commit_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="80" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_global_region_participant_1af531764b2028faa4328629202bdce279" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::transaction::IGlobalRegionParticipant::abort</definition>
+        <argsstring>(const std::string &amp;txn_id)=0</argsstring>
+        <name>abort</name>
+        <qualifiedname>themis::transaction::IGlobalRegionParticipant::abort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/global_transaction_manager.h" line="89" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/global_transaction_manager.h" line="62" column="1" bodyfile="include/transaction/global_transaction_manager.h" bodystart="62" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_i_global_region_participant_1af531764b2028faa4328629202bdce279" prot="public" virt="pure-virtual"><scope>themis::transaction::IGlobalRegionParticipant</scope><name>abort</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_global_region_participant_1a40e6823c864ae7b0e3cdc665218f1107" prot="public" virt="pure-virtual"><scope>themis::transaction::IGlobalRegionParticipant</scope><name>commit</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_global_region_participant_1a744e6743aee3ad92bfc75da0bf64e288" prot="public" virt="pure-virtual"><scope>themis::transaction::IGlobalRegionParticipant</scope><name>prepare</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_global_region_participant_1a159a20d6be71fa52255327b948334ef5" prot="public" virt="virtual"><scope>themis::transaction::IGlobalRegionParticipant</scope><name>~IGlobalRegionParticipant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

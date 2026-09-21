@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GNNEmbeddingManager::SimilarityResult</compoundname>
+    <includes refid="gnn__embeddings_8h" local="no">gnn_embeddings.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result_1a3e8d3dd794fc4ed5294c628d6d0cb8a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GNNEmbeddingManager::SimilarityResult::entity_id</definition>
+        <argsstring></argsstring>
+        <name>entity_id</name>
+        <qualifiedname>themis::GNNEmbeddingManager::SimilarityResult::entity_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="58" column="21" bodyfile="include/index/gnn_embeddings.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result_1a8e7e2249f55fda4e4c80c3c0d20d484f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::GNNEmbeddingManager::SimilarityResult::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::GNNEmbeddingManager::SimilarityResult::similarity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="59" column="15" bodyfile="include/index/gnn_embeddings.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result_1a417ae03eff78bd9124e7233f19a0ac04" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GNNEmbeddingManager::SimilarityResult::entity_type</definition>
+        <argsstring></argsstring>
+        <name>entity_type</name>
+        <qualifiedname>themis::GNNEmbeddingManager::SimilarityResult::entity_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="60" column="21" bodyfile="include/index/gnn_embeddings.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result_1a90db98390307d472a70e69b962fe7d7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::GNNEmbeddingManager::SimilarityResult::graph_id</definition>
+        <argsstring></argsstring>
+        <name>graph_id</name>
+        <qualifiedname>themis::GNNEmbeddingManager::SimilarityResult::graph_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gnn_embeddings.h" line="61" column="21" bodyfile="include/index/gnn_embeddings.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gnn_embeddings.h" line="57" column="5" bodyfile="include/index/gnn_embeddings.h" bodystart="57" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result_1a3e8d3dd794fc4ed5294c628d6d0cb8a3" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager::SimilarityResult</scope><name>entity_id</name></member>
+      <member refid="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result_1a417ae03eff78bd9124e7233f19a0ac04" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager::SimilarityResult</scope><name>entity_type</name></member>
+      <member refid="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result_1a90db98390307d472a70e69b962fe7d7d" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager::SimilarityResult</scope><name>graph_id</name></member>
+      <member refid="structthemis_1_1_g_n_n_embedding_manager_1_1_similarity_result_1a8e7e2249f55fda4e4c80c3c0d20d484f" prot="public" virt="non-virtual"><scope>themis::GNNEmbeddingManager::SimilarityResult</scope><name>similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

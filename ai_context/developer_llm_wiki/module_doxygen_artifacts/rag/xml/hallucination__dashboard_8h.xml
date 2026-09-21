@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hallucination__dashboard_8h" kind="file" language="C++">
+    <compoundname>hallucination_dashboard.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">ostream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="hallucination__dashboard_8cpp" local="yes">src/rag/hallucination_dashboard.cpp</includedby>
+    <includedby refid="test__rag__hallucination__dashboard_8cpp" local="yes">tests/rag/test_rag_hallucination_dashboard.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/hallucination_dashboard.h</label>
+        <link refid="hallucination__dashboard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="11">
+        <label>deque</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>iostream</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>ostream</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/hallucination_dashboard.h</label>
+        <link refid="hallucination__dashboard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/hallucination_dashboard.cpp</label>
+        <link refid="hallucination__dashboard_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_hallucination_dashboard.cpp</label>
+        <link refid="test__rag__hallucination__dashboard_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry" prot="public">themis::rag::judge::HallucinationEntry</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert" prot="public">themis::rag::judge::HallucinationAlert</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot" prot="public">themis::rag::judge::DashboardSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" prot="public">themis::rag::judge::HallucinationDashboardConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard" prot="public">themis::rag::judge::HallucinationDashboard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry" kindref="compound">HallucinationEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1ab25965b18e1c7aa359b21e1c04dca987" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1ab25965b18e1c7aa359b21e1c04dca987" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1a4516e34a1f131967fe41e2ed6a7463f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1a4516e34a1f131967fe41e2ed6a7463f9" kindref="member">query</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1aaa621d5609918b7b4fa3473dc5cbb5d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1aaa621d5609918b7b4fa3473dc5cbb5d1" kindref="member">faithfulness_score</ref><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1a41b0e4a908d9a2a56b4f4357b180a13d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1a41b0e4a908d9a2a56b4f4357b180a13d" kindref="member">is_hallucination</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1aeae1881db551a0dcaf62e760c065520f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1aeae1881db551a0dcaf62e760c065520f" kindref="member">evaluation_mode</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983b" kindref="member">AlertSeverity</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983ba551b723eafd6a31d444fcb2f5920fbd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983ba551b723eafd6a31d444fcb2f5920fbd3" kindref="member">INFO</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983ba059e9861e0400dfbe05c98a841f3f96b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983ba059e9861e0400dfbe05c98a841f3f96b" kindref="member">WARNING</ref>,<sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983ba99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983ba99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert" kindref="compound">HallucinationAlert</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1ab46665c50f96212a25a96b4fbb4b2643" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983b" kindref="member">AlertSeverity</ref><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1ab46665c50f96212a25a96b4fbb4b2643" kindref="member">severity</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1aea4602b438db8e4daa86aa5698667903" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1aea4602b438db8e4daa86aa5698667903" kindref="member">current_rate</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a016452bb25580649f576c2b3004dea9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a016452bb25580649f576c2b3004dea9c" kindref="member">threshold</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1adf56bf24fcd41f7994b93b4999c84f5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1adf56bf24fcd41f7994b93b4999c84f5d" kindref="member">window_size</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a3e406ad670132cfaa28e78cb4e10e85a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a3e406ad670132cfaa28e78cb4e10e85a" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a204d8fa5eced30629a68027107e62060" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert_1a204d8fa5eced30629a68027107e62060" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot" kindref="compound">DashboardSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a7aa7249e76964d7372ba4c9912ecde8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a7aa7249e76964d7372ba4c9912ecde8c" kindref="member">total_recorded</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1acb87f334ac8e3a8ed49c8b6f2f585296" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1acb87f334ac8e3a8ed49c8b6f2f585296" kindref="member">window_size</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a5bbfc82d3bd07fd70b732259e98ac272" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a5bbfc82d3bd07fd70b732259e98ac272" kindref="member">hallucination_count</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a5f0b5c4c829c5c56dfe408a175276a2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a5f0b5c4c829c5c56dfe408a175276a2f" kindref="member">hallucination_rate</ref><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a032c15f9bb0b94c17cc6d06d58e51eb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a032c15f9bb0b94c17cc6d06d58e51eb3" kindref="member">mean_faithfulness</ref><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a37fad00ec32e804473cda756bd3a2bf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a37fad00ec32e804473cda756bd3a2bf1" kindref="member">min_faithfulness</ref><sp/><sp/><sp/><sp/>=<sp/>1.0;<sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a55675311373880e62ad8f969633ae89a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a55675311373880e62ad8f969633ae89a" kindref="member">max_faithfulness</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a2b9f1e3feeb4d3a4a1f69ea3f26e7de5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a2b9f1e3feeb4d3a4a1f69ea3f26e7de5" kindref="member">std_faithfulness</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1af3b7aae39c3da66b9db5e9ed68757b24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1af3b7aae39c3da66b9db5e9ed68757b24" kindref="member">faithfulness_trend</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1ae0b786960c406deb9ea5274f359b80b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1ae0b786960c406deb9ea5274f359b80b0" kindref="member">alert_triggered</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a45eb782851614f4b0362a006d24af9b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HallucinationAlert&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a45eb782851614f4b0362a006d24af9b0" kindref="member">active_alerts</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" kindref="compound">HallucinationDashboardConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a955156780f06755798e1b3b4c458731b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a955156780f06755798e1b3b4c458731b" kindref="member">faithfulness_threshold</ref><sp/>=<sp/>0.8;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a20eb34ebb289b2d6243d5e4a3e615a4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a20eb34ebb289b2d6243d5e4a3e615a4e" kindref="member">window_size</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a4521617d9e8aeb49ee694e29cf124a62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a4521617d9e8aeb49ee694e29cf124a62" kindref="member">alert_threshold_info</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.05;<sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a974254394a42ea9f107ebb86826d69d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a974254394a42ea9f107ebb86826d69d8" kindref="member">alert_threshold_warning</ref><sp/><sp/>=<sp/>0.15;<sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a984f01894041b8b870123d43a4ce0024" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config_1a984f01894041b8b870123d43a4ce0024" kindref="member">alert_threshold_critical</ref><sp/>=<sp/>0.30;<sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a5b6b4309e9d3a8127df62a22fdec9dc9" kindref="member">HallucinationDashboard</ref><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a5b6b4309e9d3a8127df62a22fdec9dc9" kindref="member">HallucinationDashboard</ref>();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a5b6b4309e9d3a8127df62a22fdec9dc9" kindref="member">HallucinationDashboard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" kindref="compound">HallucinationDashboardConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1ad847f072d127c8db4da001346f1c8893" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a18f1e74274a7ffe20550b7df2550b9c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a18f1e74274a7ffe20550b7df2550b9c5" kindref="member">~HallucinationDashboard</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Recording<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a800d782f65903aa285c737ef833befd4" kindref="member">record</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>&amp;<sp/>result,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mode<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BALANCED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a561429e96c8d5acae7d48ef2695799c9" kindref="member">recordFaithfulness</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>faithfulness_score,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mode<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BALANCED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Querying<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot" kindref="compound">DashboardSnapshot</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a786130e85d468e2643be4ef528ea1fa5" kindref="member">snapshot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a597a55bc36bbb3d4472ab4e520e2591b" kindref="member">hallucinationRate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HallucinationEntry&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a6745560c2563eef8fc1e8b4ac236a217" kindref="member">recentEntries</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Alerting<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a69f16ff0eb8b791e0703dda9ccaa0609" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a69f16ff0eb8b791e0703dda9ccaa0609" kindref="member">AlertCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert" kindref="compound">HallucinationAlert</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a7d47c37fefaeb5353f1397927d5a112c" kindref="member">setAlertCallback</ref>(<ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a69f16ff0eb8b791e0703dda9ccaa0609" kindref="member">AlertCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HallucinationAlert&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a86eb06df7f84498650122de2b55b5afa" kindref="member">checkAlerts</ref>();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Persistence<sp/>/<sp/>Reporting<sp/>──────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a48dca9703d9479f640de4d2923edc926" kindref="member">exportCSV</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a08343c8007126e97519e0c7d5876b605" kindref="member">printReport</ref>(std::ostream&amp;<sp/>os<sp/>=<sp/>std::cout)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a55660c02e53761f890f6d1f1ed05402d" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1ad847f072d127c8db4da001346f1c8893" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" kindref="compound">HallucinationDashboardConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1ad847f072d127c8db4da001346f1c8893" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" kindref="compound">HallucinationDashboardConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1a69f16ff0eb8b791e0703dda9ccaa0609" kindref="member">AlertCallback</ref><sp/>alert_callback_;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordEntry(<ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry" kindref="compound">HallucinationEntry</ref><sp/>entry);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>fireAlertsUnlocked(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rate);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeMean(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::deque&lt;double&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeStdDev(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::deque&lt;double&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mean)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>computeTrend(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::deque&lt;double&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::judge</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/hallucination_dashboard.h"/>
+  </compounddef>
+</doxygen>

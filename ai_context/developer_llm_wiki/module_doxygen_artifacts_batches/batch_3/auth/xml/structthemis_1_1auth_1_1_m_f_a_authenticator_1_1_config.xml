@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::MFAAuthenticator::Config</compoundname>
+    <includes refid="mfa__authenticator_8h" local="no">mfa_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1a53c7d1f54a3c57b750d3ae5d8bda9e2a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::MFAAuthenticator::Config::time_step_seconds</definition>
+        <argsstring></argsstring>
+        <name>time_step_seconds</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::Config::time_step_seconds</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="31" column="13" bodyfile="include/auth/mfa_authenticator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1a4b81531100868c25eda887ba24b0a1ec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::MFAAuthenticator::Config::code_length</definition>
+        <argsstring></argsstring>
+        <name>code_length</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::Config::code_length</qualifiedname>
+        <initializer>= 6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="34" column="13" bodyfile="include/auth/mfa_authenticator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1ac167ebd4bba7fa3b8e631f0d12c4aec6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::MFAAuthenticator::Config::time_window</definition>
+        <argsstring></argsstring>
+        <name>time_window</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::Config::time_window</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="37" column="13" bodyfile="include/auth/mfa_authenticator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1a7a108f3330fd62dd764e7bbd11bfec88" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::auth::MFAAuthenticator::Config::max_window_steps</definition>
+        <argsstring></argsstring>
+        <name>max_window_steps</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::Config::max_window_steps</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="42" column="17" bodyfile="include/auth/mfa_authenticator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1a2ff661e36f5009165b8f8da7863c367d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::MFAAuthenticator::Config::recovery_codes_count</definition>
+        <argsstring></argsstring>
+        <name>recovery_codes_count</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::Config::recovery_codes_count</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="45" column="13" bodyfile="include/auth/mfa_authenticator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1ac5b14669b4ffe2a08e26deef6f3690cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MFAAuthenticator::Config::issuer</definition>
+        <argsstring></argsstring>
+        <name>issuer</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::Config::issuer</qualifiedname>
+        <initializer>= &quot;ThemisDB&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="48" column="21" bodyfile="include/auth/mfa_authenticator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/mfa_authenticator.h" line="29" column="5" bodyfile="include/auth/mfa_authenticator.h" bodystart="29" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1a4b81531100868c25eda887ba24b0a1ec" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::Config</scope><name>code_length</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1ac5b14669b4ffe2a08e26deef6f3690cb" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::Config</scope><name>issuer</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1a7a108f3330fd62dd764e7bbd11bfec88" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::Config</scope><name>max_window_steps</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1a2ff661e36f5009165b8f8da7863c367d" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::Config</scope><name>recovery_codes_count</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1a53c7d1f54a3c57b750d3ae5d8bda9e2a" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::Config</scope><name>time_step_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config_1ac167ebd4bba7fa3b8e631f0d12c4aec6" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator::Config</scope><name>time_window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

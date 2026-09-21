@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::test::FieldLevelMergeResolverTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1aa615e6c837e05edfadfb21c451ef2341" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kindref="compound">AdvancedConflictResolver::ResolutionContext</ref></type>
+        <definition>AdvancedConflictResolver::ResolutionContext themisdb::replication::test::FieldLevelMergeResolverTest::default_context_</definition>
+        <argsstring></argsstring>
+        <name>default_context_</name>
+        <qualifiedname>themisdb::replication::test::FieldLevelMergeResolverTest::default_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="136" column="49" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1a254afd02438e76882604fbd1229f261d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::test::FieldLevelMergeResolverTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::replication::test::FieldLevelMergeResolverTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="138" column="10" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="138" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1a603fcb5a41adbb2d2f42b02b84c76919" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_m_m_write_entry" kindref="compound">MMWriteEntry</ref></type>
+        <definition>static MMWriteEntry themisdb::replication::test::FieldLevelMergeResolverTest::createTestWrite</definition>
+        <argsstring>(const std::string &amp;write_id, const std::string &amp;doc_id, const std::string &amp;collection)</argsstring>
+        <name>createTestWrite</name>
+        <qualifiedname>themisdb::replication::test::FieldLevelMergeResolverTest::createTestWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>write_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="146" column="25" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="146" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RCS-02: Field-Level Merge Strategy Tests</para>
+<para>Tests validate that the field-level merge resolver correctly implements UNION, INTERSECT, LEFT_BIAS, and RIGHT_BIAS strategies. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::test::FieldLevelMergeResolverTest</label>
+        <link refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::AdvancedConflictResolver::ResolutionContext</label>
+        <link refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::test::FieldLevelMergeResolverTest</label>
+        <link refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>default_context_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_conflict_focused.cpp" line="134" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="134" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1a603fcb5a41adbb2d2f42b02b84c76919" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::FieldLevelMergeResolverTest</scope><name>createTestWrite</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1aa615e6c837e05edfadfb21c451ef2341" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::FieldLevelMergeResolverTest</scope><name>default_context_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test_1a254afd02438e76882604fbd1229f261d" prot="protected" virt="non-virtual"><scope>themisdb::replication::test::FieldLevelMergeResolverTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

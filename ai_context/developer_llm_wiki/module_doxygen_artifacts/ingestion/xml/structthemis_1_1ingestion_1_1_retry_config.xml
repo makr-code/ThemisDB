@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_retry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::RetryConfig</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_retry_config_1a5dc3a06cb4db4a568f777fd4e3f0e39c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::RetryConfig::max_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_attempts</name>
+        <qualifiedname>themis::ingestion::RetryConfig::max_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum total attempts (1 = no retry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="159" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_retry_config_1a6ad35e8a4ad21588fe68c6b8e3c18ec9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::RetryConfig::initial_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>initial_delay_ms</name>
+        <qualifiedname>themis::ingestion::RetryConfig::initial_delay_ms</qualifiedname>
+        <initializer>= 500.0</initializer>
+        <briefdescription>
+<para>First back-off delay (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="160" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_retry_config_1aef034121fd5ada802ec875f87ec4bf91" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::RetryConfig::backoff_factor</definition>
+        <argsstring></argsstring>
+        <name>backoff_factor</name>
+        <qualifiedname>themis::ingestion::RetryConfig::backoff_factor</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+<para>Exponential multiplier per attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="161" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_retry_config_1a986a17d8762431ea89dd1f9b2e412c91" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::RetryConfig::max_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>max_delay_ms</name>
+        <qualifiedname>themis::ingestion::RetryConfig::max_delay_ms</qualifiedname>
+        <initializer>= 30000.0</initializer>
+        <briefdescription>
+<para>Cap on per-attempt delay (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="162" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_retry_config_1a2dabfeb1bdc6fcba2123fe1f07bd2640" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::RetryConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::ingestion::RetryConfig::timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Per-request timeout (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="163" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_retry_config_1a75e10491bdd831a4e8a2668f319c7e97" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::RetryConfig::max_quarantine_retries</definition>
+        <argsstring></argsstring>
+        <name>max_quarantine_retries</name>
+        <qualifiedname>themis::ingestion::RetryConfig::max_quarantine_retries</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Max per-document quarantine retry attempts </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="164" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_retry_config_1a828f4d4ffd1687194642e82c94581bca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::RetryConfig::ca_bundle_path</definition>
+        <argsstring></argsstring>
+        <name>ca_bundle_path</name>
+        <qualifiedname>themis::ingestion::RetryConfig::ca_bundle_path</qualifiedname>
+        <briefdescription>
+<para>CA bundle path; empty = system default. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Path to a CA bundle file (PEM) for TLS certificate verification. Empty string means use the default system CA bundle (recommended for most deployments). Set to an explicit path when the server uses a private or self-signed CA that is not in the system bundle. <simplesect kind="note"><para>CURLOPT_SSL_VERIFYPEER is always enabled; this field only overrides which CA store is used for verification. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="171" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_retry_config_1a2268ee8e65f07634849e660e6f78c292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::RetryConfig::RetryConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>RetryConfig</name>
+        <qualifiedname>themis::ingestion::RetryConfig::RetryConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="173" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retry / back-off configuration for connectors. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="158" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="158" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_retry_config_1aef034121fd5ada802ec875f87ec4bf91" prot="public" virt="non-virtual"><scope>themis::ingestion::RetryConfig</scope><name>backoff_factor</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_retry_config_1a828f4d4ffd1687194642e82c94581bca" prot="public" virt="non-virtual"><scope>themis::ingestion::RetryConfig</scope><name>ca_bundle_path</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_retry_config_1a6ad35e8a4ad21588fe68c6b8e3c18ec9" prot="public" virt="non-virtual"><scope>themis::ingestion::RetryConfig</scope><name>initial_delay_ms</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_retry_config_1a5dc3a06cb4db4a568f777fd4e3f0e39c" prot="public" virt="non-virtual"><scope>themis::ingestion::RetryConfig</scope><name>max_attempts</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_retry_config_1a986a17d8762431ea89dd1f9b2e412c91" prot="public" virt="non-virtual"><scope>themis::ingestion::RetryConfig</scope><name>max_delay_ms</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_retry_config_1a75e10491bdd831a4e8a2668f319c7e97" prot="public" virt="non-virtual"><scope>themis::ingestion::RetryConfig</scope><name>max_quarantine_retries</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_retry_config_1a2268ee8e65f07634849e660e6f78c292" prot="public" virt="non-virtual"><scope>themis::ingestion::RetryConfig</scope><name>RetryConfig</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_retry_config_1a2dabfeb1bdc6fcba2123fe1f07bd2640" prot="public" virt="non-virtual"><scope>themis::ingestion::RetryConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

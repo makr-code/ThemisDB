@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_drift_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::DriftReport</compoundname>
+    <includes refid="training__pipeline_8h" local="no">training_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_drift_report_1a4b2b9e3e67ce3806c59c1050658cca01" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::DriftReport::drift_detected</definition>
+        <argsstring></argsstring>
+        <name>drift_detected</name>
+        <qualifiedname>themis::training::DriftReport::drift_detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="94" column="12" bodyfile="include/training/training_pipeline.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_drift_report_1ac7d27c9318a8df8b62b51b17fe6a3677" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DriftReport::drift_score</definition>
+        <argsstring></argsstring>
+        <name>drift_score</name>
+        <qualifiedname>themis::training::DriftReport::drift_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0..1 – higher means more drift </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="95" column="12" bodyfile="include/training/training_pipeline.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_drift_report_1ad0fd3e8e6a4e8a824b8f5e83a1d87861" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::training::DriftReport::category_shifts</definition>
+        <argsstring></argsstring>
+        <name>category_shifts</name>
+        <qualifiedname>themis::training::DriftReport::category_shifts</qualifiedname>
+        <briefdescription>
+<para>Per-category confidence delta. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="96" column="14" bodyfile="include/training/training_pipeline.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_drift_report_1a2fe7c74df46e57fa0c341f582315bde4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::DriftReport::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::training::DriftReport::summary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="97" column="17" bodyfile="include/training/training_pipeline.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_drift_report_1aa770697c02e219ce462e125c902e7548" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::DriftReport::DriftReport</definition>
+        <argsstring>()=default</argsstring>
+        <name>DriftReport</name>
+        <qualifiedname>themis::training::DriftReport::DriftReport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_pipeline.h" line="99" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Label-drift detection result (Phase 7). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_pipeline.h" line="93" column="1" bodyfile="include/training/training_pipeline.h" bodystart="93" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_drift_report_1ad0fd3e8e6a4e8a824b8f5e83a1d87861" prot="public" virt="non-virtual"><scope>themis::training::DriftReport</scope><name>category_shifts</name></member>
+      <member refid="structthemis_1_1training_1_1_drift_report_1a4b2b9e3e67ce3806c59c1050658cca01" prot="public" virt="non-virtual"><scope>themis::training::DriftReport</scope><name>drift_detected</name></member>
+      <member refid="structthemis_1_1training_1_1_drift_report_1ac7d27c9318a8df8b62b51b17fe6a3677" prot="public" virt="non-virtual"><scope>themis::training::DriftReport</scope><name>drift_score</name></member>
+      <member refid="structthemis_1_1training_1_1_drift_report_1aa770697c02e219ce462e125c902e7548" prot="public" virt="non-virtual"><scope>themis::training::DriftReport</scope><name>DriftReport</name></member>
+      <member refid="structthemis_1_1training_1_1_drift_report_1a2fe7c74df46e57fa0c341f582315bde4" prot="public" virt="non-virtual"><scope>themis::training::DriftReport</scope><name>summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

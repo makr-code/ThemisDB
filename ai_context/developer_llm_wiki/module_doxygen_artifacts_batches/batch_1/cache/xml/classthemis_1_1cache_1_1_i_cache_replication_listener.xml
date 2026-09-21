@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_i_cache_replication_listener" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::ICacheReplicationListener</compoundname>
+    <derivedcompoundref refid="class_mock_cache_replication_listener" prot="public" virt="non-virtual">MockCacheReplicationListener</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1cache_1_1_cache_replication_manager" prot="public" virt="non-virtual">themis::cache::CacheReplicationManager</derivedcompoundref>
+    <includes refid="cache__replication_8h" local="no">cache_replication.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_cache_replication_listener_1abb06224526a928d2c57b076bbc90d19e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::ICacheReplicationListener::~ICacheReplicationListener</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICacheReplicationListener</name>
+        <qualifiedname>themis::cache::ICacheReplicationListener::~ICacheReplicationListener</qualifiedname>
+        <briefdescription>
+<para>ICache Replication Listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="78" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_cache_replication_listener_1a44503ca56ac98a7b91a5104cf0e19bca" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::ICacheReplicationListener::onReplicationEvent</definition>
+        <argsstring>(const CacheReplicationEvent &amp;event)=0</argsstring>
+        <name>onReplicationEvent</name>
+        <qualifiedname>themis::cache::ICacheReplicationListener::onReplicationEvent</qualifiedname>
+        <reimplementedby refid="class_mock_cache_replication_listener_1a7eecd90b9e05a91eacfdbc04b7667c7a">onReplicationEvent</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_cache_replication_manager_1a6c27fd1914b9af01eb109e1a62f395d4">onReplicationEvent</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="80" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_cache_replication_listener_1a3e23ee2bcc13b88166fee02b99804766" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::ICacheReplicationListener::ping</definition>
+        <argsstring>()</argsstring>
+        <name>ping</name>
+        <qualifiedname>themis::cache::ICacheReplicationListener::ping</qualifiedname>
+        <reimplementedby refid="class_mock_cache_replication_listener_1a6931fb20bf66469d21b844539fa6e2a9">ping</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_cache_replication_manager_1a4f31d208d3c35a7f9a327c74eef901c9">ping</reimplementedby>
+        <briefdescription>
+<para>Ping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements ping without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="87" column="18" bodyfile="include/cache/cache_replication.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_cache_replication_listener_1af3b04a5644cfb5e525e02570daba78da" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::cache::ICacheReplicationListener::replicaId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>replicaId</name>
+        <qualifiedname>themis::cache::ICacheReplicationListener::replicaId</qualifiedname>
+        <reimplementedby refid="class_mock_cache_replication_listener_1af8a99d281d60806ac95a33d63dede874">replicaId</reimplementedby>
+        <reimplementedby refid="classthemis_1_1cache_1_1_cache_replication_manager_1aafe350f6c2b4064d8d1c375c66717d7a">replicaId</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="89" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockCacheReplicationListener</label>
+        <link refid="class_mock_cache_replication_listener"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::cache::CacheReplicationManager</label>
+        <link refid="classthemis_1_1cache_1_1_cache_replication_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::ICacheReplicationListener</label>
+        <link refid="classthemis_1_1cache_1_1_i_cache_replication_listener"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/cache_replication.h" line="72" column="1" bodyfile="include/cache/cache_replication.h" bodystart="72" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a44503ca56ac98a7b91a5104cf0e19bca" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheReplicationListener</scope><name>onReplicationEvent</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a3e23ee2bcc13b88166fee02b99804766" prot="public" virt="virtual"><scope>themis::cache::ICacheReplicationListener</scope><name>ping</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1af3b04a5644cfb5e525e02570daba78da" prot="public" virt="pure-virtual"><scope>themis::cache::ICacheReplicationListener</scope><name>replicaId</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1abb06224526a928d2c57b076bbc90d19e" prot="public" virt="virtual"><scope>themis::cache::ICacheReplicationListener</scope><name>~ICacheReplicationListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

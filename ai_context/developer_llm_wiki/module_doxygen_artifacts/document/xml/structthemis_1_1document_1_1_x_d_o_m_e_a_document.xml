@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_x_d_o_m_e_a_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::XDOMEADocument</compoundname>
+    <includes refid="xdomea__connector_8h" local="no">xdomea_connector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a8a60e6ba142e066cbf21f98e3abeadbc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::document::XDOMEADocument::id</qualifiedname>
+        <briefdescription>
+<para>Unique XDOMEA object identifier (UUID-style). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="116" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a19e758e007cb01b28a7d043319bce0e7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1af" kindref="member">XDOMEAObjectType</ref></type>
+        <definition>XDOMEAObjectType themis::document::XDOMEADocument::object_type</definition>
+        <argsstring></argsstring>
+        <name>object_type</name>
+        <qualifiedname>themis::document::XDOMEADocument::object_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1afa6fb2c509ca56fbd0d9d932592c8e6e28" kindref="member">XDOMEAObjectType::DOKUMENT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="117" column="22" bodyfile="include/document/xdomea_connector.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1afe0729b828b2cb734c80c65e0aac6fd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::aktenzeichen</definition>
+        <argsstring></argsstring>
+        <name>aktenzeichen</name>
+        <qualifiedname>themis::document::XDOMEADocument::aktenzeichen</qualifiedname>
+        <briefdescription>
+<para>File number / reference code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="118" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1acd59bddac33d4c063aa38c7d772dd83a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::betreff</definition>
+        <argsstring></argsstring>
+        <name>betreff</name>
+        <qualifiedname>themis::document::XDOMEADocument::betreff</qualifiedname>
+        <briefdescription>
+<para>Subject / title of the document or dossier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="119" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a163290d5216e0cc9a2dbeb20516c323f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::xdomea_version</definition>
+        <argsstring></argsstring>
+        <name>xdomea_version</name>
+        <qualifiedname>themis::document::XDOMEADocument::xdomea_version</qualifiedname>
+        <briefdescription>
+<para>&quot;2.1.0&quot; or &quot;3.0.0&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="120" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a5bfbfab9f998325994cbc15605a72e52" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::document::XDOMEADocument::parent_id</definition>
+        <argsstring></argsstring>
+        <name>parent_id</name>
+        <qualifiedname>themis::document::XDOMEADocument::parent_id</qualifiedname>
+        <briefdescription>
+<para>ID of the parent Akte or Vorgang. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="123" column="19" bodyfile="include/document/xdomea_connector.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a9606df1428d19370e27aa5086c453d3b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::document::XDOMEADocument::child_ids</definition>
+        <argsstring></argsstring>
+        <name>child_ids</name>
+        <qualifiedname>themis::document::XDOMEADocument::child_ids</qualifiedname>
+        <briefdescription>
+<para>IDs of child objects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="124" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1accb13435534992c6fef598fe06e8f20f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::document::XDOMEADocument::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="127" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a1439011a3d126cdee1cc7009ad51bfa1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::modified_at</definition>
+        <argsstring></argsstring>
+        <name>modified_at</name>
+        <qualifiedname>themis::document::XDOMEADocument::modified_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 last-modification timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="128" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a18c7eb482be83be928b60c2ebcaaeeb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::closed_at</definition>
+        <argsstring></argsstring>
+        <name>closed_at</name>
+        <qualifiedname>themis::document::XDOMEADocument::closed_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 closing / completion timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="129" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a13579ce75dc277abc3f4455ae3588cae" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1document_1aa8f4314205d0f230309b84b619d42073" kindref="member">XDOMEARetentionCategory</ref></type>
+        <definition>XDOMEARetentionCategory themis::document::XDOMEADocument::retention</definition>
+        <argsstring></argsstring>
+        <name>retention</name>
+        <qualifiedname>themis::document::XDOMEADocument::retention</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1document_1aa8f4314205d0f230309b84b619d42073a406ff6406b04d200b6884f808e71afef" kindref="member">XDOMEARetentionCategory::UNGEKLAERT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="130" column="29" bodyfile="include/document/xdomea_connector.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1ae94cf59e50f7de5e869d65e334c3841e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::document::XDOMEADocument::retention_end</definition>
+        <argsstring></argsstring>
+        <name>retention_end</name>
+        <qualifiedname>themis::document::XDOMEADocument::retention_end</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 end of retention period. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="131" column="19" bodyfile="include/document/xdomea_connector.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a6627e2051d30004154f91603d10c1cab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::document::XDOMEADocument::author</qualifiedname>
+        <briefdescription>
+<para>Author (Ersteller). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="134" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a348b845f529e5681fc5e3a742a7824b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::responsible_unit</definition>
+        <argsstring></argsstring>
+        <name>responsible_unit</name>
+        <qualifiedname>themis::document::XDOMEADocument::responsible_unit</qualifiedname>
+        <briefdescription>
+<para>Responsible organisational unit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="135" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a8d82e33345bda5eb7f3aa778f076923b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::source_authority</definition>
+        <argsstring></argsstring>
+        <name>source_authority</name>
+        <qualifiedname>themis::document::XDOMEADocument::source_authority</qualifiedname>
+        <briefdescription>
+<para>Sending authority (ABS) identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="136" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a6e4ab71e1b258f8549bae32e101c879f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::document::XDOMEADocument::mime_type</qualifiedname>
+        <briefdescription>
+<para>MIME type of the primary file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="139" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a93d3d8fc9cba2a02cc897e525a43e00e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::file_name</definition>
+        <argsstring></argsstring>
+        <name>file_name</name>
+        <qualifiedname>themis::document::XDOMEADocument::file_name</qualifiedname>
+        <briefdescription>
+<para>Original file name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="140" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1ad9f08bba32115947a732cffa2ef81ede" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::content_hash_sha256</definition>
+        <argsstring></argsstring>
+        <name>content_hash_sha256</name>
+        <qualifiedname>themis::document::XDOMEADocument::content_hash_sha256</qualifiedname>
+        <briefdescription>
+<para>SHA-256 hex-digest of the file content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="141" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1af89218b953fb918efd560aa86c0d3cef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::content_base64</definition>
+        <argsstring></argsstring>
+        <name>content_base64</name>
+        <qualifiedname>themis::document::XDOMEADocument::content_base64</qualifiedname>
+        <briefdescription>
+<para>Base64-encoded file content (may be empty for stubs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="142" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1abdb8ca1eed8ea91d04769f32f622293a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::XDOMEADocument::classification</definition>
+        <argsstring></argsstring>
+        <name>classification</name>
+        <qualifiedname>themis::document::XDOMEADocument::classification</qualifiedname>
+        <briefdescription>
+<para>Vertraulichkeitsstufe (VS-NfD, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="145" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a6186321596e488d2ee6cec58f93b1ea2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::document::XDOMEADocument::keywords</definition>
+        <argsstring></argsstring>
+        <name>keywords</name>
+        <qualifiedname>themis::document::XDOMEADocument::keywords</qualifiedname>
+        <briefdescription>
+<para>Free-text keywords / tags. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="146" column="17" bodyfile="include/document/xdomea_connector.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a9df769bec5f3d45c03b9c4d4cec801dd" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::document::XDOMEADocument::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::document::XDOMEADocument::metadata</qualifiedname>
+        <briefdescription>
+<para>Arbitrary KV metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="149" column="14" bodyfile="include/document/xdomea_connector.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/xdomea_connector.h" line="114" column="1" bodyfile="include/document/xdomea_connector.h" bodystart="114" bodyend="150"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1afe0729b828b2cb734c80c65e0aac6fd5" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>aktenzeichen</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a6627e2051d30004154f91603d10c1cab" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>author</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1acd59bddac33d4c063aa38c7d772dd83a" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>betreff</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a9606df1428d19370e27aa5086c453d3b" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>child_ids</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1abdb8ca1eed8ea91d04769f32f622293a" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>classification</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a18c7eb482be83be928b60c2ebcaaeeb2" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>closed_at</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1af89218b953fb918efd560aa86c0d3cef" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>content_base64</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1ad9f08bba32115947a732cffa2ef81ede" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>content_hash_sha256</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1accb13435534992c6fef598fe06e8f20f" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a93d3d8fc9cba2a02cc897e525a43e00e" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>file_name</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a8a60e6ba142e066cbf21f98e3abeadbc" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>id</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a6186321596e488d2ee6cec58f93b1ea2" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>keywords</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a9df769bec5f3d45c03b9c4d4cec801dd" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a6e4ab71e1b258f8549bae32e101c879f" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a1439011a3d126cdee1cc7009ad51bfa1" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>modified_at</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a19e758e007cb01b28a7d043319bce0e7" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>object_type</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a5bfbfab9f998325994cbc15605a72e52" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>parent_id</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a348b845f529e5681fc5e3a742a7824b0" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>responsible_unit</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a13579ce75dc277abc3f4455ae3588cae" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>retention</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1ae94cf59e50f7de5e869d65e334c3841e" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>retention_end</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a8d82e33345bda5eb7f3aa778f076923b" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>source_authority</name></member>
+      <member refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document_1a163290d5216e0cc9a2dbeb20516c323f" prot="public" virt="non-virtual"><scope>themis::document::XDOMEADocument</scope><name>xdomea_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,597 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_data_augmentation_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::DataAugmentationPipeline</compoundname>
+    <includes refid="data__augmentation_8h" local="no">data_augmentation.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a1b94a6cb287c758d5b717fcda7926313" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_augmentation_config" kindref="compound">AugmentationConfig</ref></type>
+        <definition>AugmentationConfig themis::exporters::DataAugmentationPipeline::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="93" column="24" bodyfile="include/exporters/data_augmentation.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1ae2f4aea0e92dd56d147958e16cbdc980" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::DataAugmentationPipeline::DataAugmentationPipeline</definition>
+        <argsstring>(const AugmentationConfig &amp;config={})</argsstring>
+        <name>DataAugmentationPipeline</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::DataAugmentationPipeline</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_augmentation_config" kindref="compound">AugmentationConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="64" column="14" bodyfile="src/exporters/data_augmentation.cpp" bodystart="303" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a7b27b5f1ca9b826afbae78dbf4e28c51" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; themis::exporters::DataAugmentationPipeline::augment</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, AugmentationStats *stats=nullptr) const</argsstring>
+        <name>augment</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::augment</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1exporters_1_1_augmentation_stats" kindref="compound">AugmentationStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="66" column="17" bodyfile="src/exporters/data_augmentation.cpp" bodystart="339" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1aec16b97c857053559e0b4637bc3db9ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; themis::exporters::DataAugmentationPipeline::applyStrategy</definition>
+        <argsstring>(const BaseEntity &amp;entity, AugmentationStrategy strategy, uint32_t count) const</argsstring>
+        <name>applyStrategy</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::applyStrategy</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1exporters_1a5f45db58d9e4a101eeda699e0ed18aee" kindref="member">AugmentationStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Apply Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="78" column="17" bodyfile="src/exporters/data_augmentation.cpp" bodystart="305" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a1ed379f84b130479cb6601ffd30a0b54" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1exporters_1_1_augmentation_config" kindref="compound">AugmentationConfig</ref> &amp;</type>
+        <definition>const AugmentationConfig &amp; themis::exporters::DataAugmentationPipeline::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="84" column="30" bodyfile="include/exporters/data_augmentation.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a869e4f5bb814f2632fd5db20116e157b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::DataAugmentationPipeline::setConfig</definition>
+        <argsstring>(const AugmentationConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_augmentation_config" kindref="compound">AugmentationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="90" column="10" bodyfile="include/exporters/data_augmentation.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1adeb385aa3dc5cc330269c33cfaa1ccd4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity themis::exporters::DataAugmentationPipeline::applySynonymReplacement</definition>
+        <argsstring>(const BaseEntity &amp;entity, uint32_t variant) const</argsstring>
+        <name>applySynonymReplacement</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::applySynonymReplacement</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>variant</declname>
+        </param>
+        <briefdescription>
+<para>Apply Synonym Replacement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">variant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="102" column="16" bodyfile="src/exporters/data_augmentation.cpp" bodystart="246" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a04b2e0a8497141cb71edaa368f353f72" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity themis::exporters::DataAugmentationPipeline::applyQuestionReformulation</definition>
+        <argsstring>(const BaseEntity &amp;entity, uint32_t variant) const</argsstring>
+        <name>applyQuestionReformulation</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::applyQuestionReformulation</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>variant</declname>
+        </param>
+        <briefdescription>
+<para>Apply Question Reformulation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">variant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="109" column="16" bodyfile="src/exporters/data_augmentation.cpp" bodystart="257" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1ae967d76da7437f41147a31df1e192970" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity themis::exporters::DataAugmentationPipeline::applyWhitespaceNormalization</definition>
+        <argsstring>(const BaseEntity &amp;entity) const</argsstring>
+        <name>applyWhitespaceNormalization</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::applyWhitespaceNormalization</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Apply Whitespace Normalization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="115" column="16" bodyfile="src/exporters/data_augmentation.cpp" bodystart="266" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1abcd6a2024a0df28d0475ee93e6061c86" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity themis::exporters::DataAugmentationPipeline::applyLowercase</definition>
+        <argsstring>(const BaseEntity &amp;entity) const</argsstring>
+        <name>applyLowercase</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::applyLowercase</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Apply Lowercase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="121" column="16" bodyfile="src/exporters/data_augmentation.cpp" bodystart="277" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a751934789a5a6b3d7e08ab548616e3c6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity themis::exporters::DataAugmentationPipeline::applySentenceCasing</definition>
+        <argsstring>(const BaseEntity &amp;entity) const</argsstring>
+        <name>applySentenceCasing</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::applySentenceCasing</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Apply Sentence Casing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="127" column="16" bodyfile="src/exporters/data_augmentation.cpp" bodystart="288" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a0b4ed1e5fb4c65ffb89dc1be14711b0c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::exporters::DataAugmentationPipeline::selectFields</definition>
+        <argsstring>(const BaseEntity &amp;entity) const</argsstring>
+        <name>selectFields</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::selectFields</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Select Fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="135" column="17" bodyfile="src/exporters/data_augmentation.cpp" bodystart="227" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a03e197274bd7fc02e041d4b8f575ac56" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::DataAugmentationPipeline::replaceSynonyms</definition>
+        <argsstring>(const std::string &amp;text, uint32_t variant) const</argsstring>
+        <name>replaceSynonyms</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::replaceSynonyms</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>variant</declname>
+        </param>
+        <briefdescription>
+<para>Replace Synonyms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">variant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="143" column="17" bodyfile="src/exporters/data_augmentation.cpp" bodystart="157" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1abaabae38809b68a69f36dafafb192120" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::DataAugmentationPipeline::reformulateQuestion</definition>
+        <argsstring>(const std::string &amp;text, uint32_t variant)</argsstring>
+        <name>reformulateQuestion</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::reformulateQuestion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>variant</declname>
+        </param>
+        <briefdescription>
+<para>Reformulate Question. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">variant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="151" column="24" bodyfile="src/exporters/data_augmentation.cpp" bodystart="77" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1abb886d6ebf215e2895d1f38cff21ee21" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::DataAugmentationPipeline::normalizeWhitespace</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>normalizeWhitespace</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::normalizeWhitespace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Whitespace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="158" column="24" bodyfile="src/exporters/data_augmentation.cpp" bodystart="110" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1ad96e88cb5780c8d0f9d2d3b0d040dd98" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::DataAugmentationPipeline::toLowercase</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>toLowercase</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::toLowercase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>To Lowercase. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="165" column="24" bodyfile="src/exporters/data_augmentation.cpp" bodystart="132" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a361f258bdc4535fb33b441e1b6461c34" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::DataAugmentationPipeline::toSentenceCasing</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>toSentenceCasing</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::toSentenceCasing</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>To Sentence Casing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="172" column="24" bodyfile="src/exporters/data_augmentation.cpp" bodystart="140" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a0ad2488e5b9d676b95479cfe516686a0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp;</type>
+        <definition>const std::map&lt; std::string, std::vector&lt; std::string &gt; &gt; &amp; themis::exporters::DataAugmentationPipeline::builtinSynonyms</definition>
+        <argsstring>()</argsstring>
+        <name>builtinSynonyms</name>
+        <qualifiedname>themis::exporters::DataAugmentationPipeline::builtinSynonyms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/data_augmentation.h" line="176" column="27" bodyfile="src/exporters/data_augmentation.cpp" bodystart="27" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/data_augmentation.h" line="62" column="1" bodyfile="include/exporters/data_augmentation.h" bodystart="62" bodyend="177"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1abcd6a2024a0df28d0475ee93e6061c86" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>applyLowercase</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a04b2e0a8497141cb71edaa368f353f72" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>applyQuestionReformulation</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a751934789a5a6b3d7e08ab548616e3c6" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>applySentenceCasing</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1aec16b97c857053559e0b4637bc3db9ac" prot="public" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>applyStrategy</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1adeb385aa3dc5cc330269c33cfaa1ccd4" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>applySynonymReplacement</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1ae967d76da7437f41147a31df1e192970" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>applyWhitespaceNormalization</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a7b27b5f1ca9b826afbae78dbf4e28c51" prot="public" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>augment</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a0ad2488e5b9d676b95479cfe516686a0" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>builtinSynonyms</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a1b94a6cb287c758d5b717fcda7926313" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>config_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1ae2f4aea0e92dd56d147958e16cbdc980" prot="public" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>DataAugmentationPipeline</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a1ed379f84b130479cb6601ffd30a0b54" prot="public" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1abb886d6ebf215e2895d1f38cff21ee21" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>normalizeWhitespace</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1abaabae38809b68a69f36dafafb192120" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>reformulateQuestion</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a03e197274bd7fc02e041d4b8f575ac56" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>replaceSynonyms</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a0b4ed1e5fb4c65ffb89dc1be14711b0c" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>selectFields</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a869e4f5bb814f2632fd5db20116e157b" prot="public" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1ad96e88cb5780c8d0f9d2d3b0d040dd98" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>toLowercase</name></member>
+      <member refid="classthemis_1_1exporters_1_1_data_augmentation_pipeline_1a361f258bdc4535fb33b441e1b6461c34" prot="private" virt="non-virtual"><scope>themis::exporters::DataAugmentationPipeline</scope><name>toSentenceCasing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

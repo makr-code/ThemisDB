@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1evaluation_1_1_0d234357071373162255261116132103335120262231232261" kind="namespace" language="C++">
+    <compoundname>themis::evaluation::@234357071373162255261116132103335120262231232261</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/src/hardware_profile.cc" line="9" column="1"/>
+  </compounddef>
+</doxygen>

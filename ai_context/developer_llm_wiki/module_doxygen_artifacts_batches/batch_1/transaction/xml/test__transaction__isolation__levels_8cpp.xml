@@ -1,0 +1,771 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__transaction__isolation__levels_8cpp" kind="file" language="C++">
+    <compoundname>test_transaction_isolation_levels.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="transaction__manager_8h" local="yes">transaction/transaction_manager.h</includes>
+    <includes refid="lock__manager_8h" local="yes">transaction/lock_manager.h</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="23">
+        <label>transaction/crash_recovery_manager.h</label>
+        <link refid="crash__recovery__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>transaction/deadlock_predictor.h</label>
+        <link refid="deadlock__predictor_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>transaction/isolation_level.h</label>
+        <link refid="isolation__level_8h"/>
+      </node>
+      <node id="19">
+        <label>transaction/lock_manager.h</label>
+        <link refid="lock__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>transaction/transaction_manager.h</label>
+        <link refid="transaction__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/transaction/test_transaction_isolation_levels.cpp</label>
+        <link refid="test__transaction__isolation__levels_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>condition_variable</label>
+      </node>
+      <node id="24">
+        <label>cstdint</label>
+      </node>
+      <node id="16">
+        <label>deque</label>
+      </node>
+      <node id="21">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="20">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="26">
+        <label>set</label>
+      </node>
+      <node id="18">
+        <label>storage/history_manager.h</label>
+      </node>
+      <node id="17">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelEnum, AllFourLevelsDefined)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelEnum</type>
+        </param>
+        <param>
+          <type>AllFourLevelsDefined</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="10" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="10" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1ac475bb7b97229e3532109aa17ec1bb88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelEnum, LegacyAliasesMatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelEnum</type>
+        </param>
+        <param>
+          <type>LegacyAliasesMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="19" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="19" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a0de98ab40be443c2993a198867d53361" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelEnum, StrictnessOrder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelEnum</type>
+        </param>
+        <param>
+          <type>StrictnessOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="26" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1affe220f20646a1365158ff5138b3f490" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelEnum, ExactNumericValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelEnum</type>
+        </param>
+        <param>
+          <type>ExactNumericValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="35" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="35" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a4d1b06a0c4413f3628ce3403bd8c14cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelEnum, ValueTwoIsUnused)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelEnum</type>
+        </param>
+        <param>
+          <type>ValueTwoIsUnused</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="45" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a0e2bf93b4c4534aba4a0d3d112595a89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelEnum, ReadUncommittedIsLowest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelEnum</type>
+        </param>
+        <param>
+          <type>ReadUncommittedIsLowest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="53" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1ac32e4dc2edeb8417a40e1ec822014053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelEnum, SerializableIsHighest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelEnum</type>
+        </param>
+        <param>
+          <type>SerializableIsHighest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="57" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="57" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1af08aead9efff31864138188fb6a00979" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelComplianceRC, ReadCommittedAllowsNonRepeatableReads)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelComplianceRC</type>
+        </param>
+        <param>
+          <type>ReadCommittedAllowsNonRepeatableReads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="68" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="68" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a65d07ab2e13cf79031cd5e826fe3bd1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelComplianceRC, ReadCommittedWriterBlocksReader)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelComplianceRC</type>
+        </param>
+        <param>
+          <type>ReadCommittedWriterBlocksReader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="77" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="77" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1ab43f8c5231e44f02bf62409328e7e46e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelComplianceRC, ReadCommittedAfterReleaseReaderSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelComplianceRC</type>
+        </param>
+        <param>
+          <type>ReadCommittedAfterReleaseReaderSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="85" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="85" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a918372b30395715db120b87bb2b9a0ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelComplianceRR, RepeatableReadHoldsSharedLock)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelComplianceRR</type>
+        </param>
+        <param>
+          <type>RepeatableReadHoldsSharedLock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="93" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="93" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1ad6605c1146257fc0ede5cafe68756c0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelComplianceSZ, SerializableExclusivePreventsAllAccess)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelComplianceSZ</type>
+        </param>
+        <param>
+          <type>SerializableExclusivePreventsAllAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="104" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="104" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1ac91cc4d2e61d30ba49f509034b76d0ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelComplianceSZ, SerializableAfterCommitOtherCanRead)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelComplianceSZ</type>
+        </param>
+        <param>
+          <type>SerializableAfterCommitOtherCanRead</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="115" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="115" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a2abbeadf922079b946e522d3e69a1f9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevel2PL, GrowingPhaseAllowsAcquisition)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevel2PL</type>
+        </param>
+        <param>
+          <type>GrowingPhaseAllowsAcquisition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="126" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="126" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a2e19fbfd87d6407340d4ce5390afae8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevel2PL, ShrinkingPhaseBlocksAcquisition)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevel2PL</type>
+        </param>
+        <param>
+          <type>ShrinkingPhaseBlocksAcquisition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="133" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="133" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a31f0af0f3977d6865b0c450ebac7e733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevel2PL, ShrinkingPhaseAllowsRelease)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevel2PL</type>
+        </param>
+        <param>
+          <type>ShrinkingPhaseAllowsRelease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="142" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="142" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a8af28f162e9f364d3b916d6032b1a06c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelIntent, IntentSharedCompatibleWithShared)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelIntent</type>
+        </param>
+        <param>
+          <type>IntentSharedCompatibleWithShared</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="151" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="151" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1a67f6af5d3ccabaa29616298cc5c4766c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelIntent, IntentExclusiveIncompatibleWithShared)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelIntent</type>
+        </param>
+        <param>
+          <type>IntentExclusiveIncompatibleWithShared</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="159" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="159" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1ab270a798c0c668732f4ee1925c52de8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelIntent, IntentExclusiveCompatibleWithIntentExclusive)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelIntent</type>
+        </param>
+        <param>
+          <type>IntentExclusiveCompatibleWithIntentExclusive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="167" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="167" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__transaction__isolation__levels_8cpp_1acef380ee6354217d7534027226964edd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IsolationLevelIntent, ExclusiveBlocksIntentShared)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IsolationLevelIntent</type>
+        </param>
+        <param>
+          <type>ExclusiveBlocksIntentShared</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_isolation_levels.cpp" line="175" column="1" bodyfile="tests/transaction/test_transaction_isolation_levels.cpp" bodystart="175" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="transaction__manager_8h" kindref="compound">transaction/transaction_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lock__manager_8h" kindref="compound">transaction/lock_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Enum<sp/>correctness<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelEnum,<sp/>AllFourLevelsDefined)<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a7b5722b7d02a9d8ff3a8bdfcb7d278c3" kindref="member">IsolationLevel::READ_UNCOMMITTED</ref>),</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>));</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>),</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">IsolationLevel::REPEATABLE_READ</ref>));</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">IsolationLevel::REPEATABLE_READ</ref>),</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">IsolationLevel::SERIALIZABLE</ref>));</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelEnum,<sp/>LegacyAliasesMatch)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a90ed941e4502c163cb075594c5f7df1c" kindref="member">IsolationLevel::ReadCommitted</ref>),</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>));</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7ad4e2713d1b1725a1592f9268589f990d" kindref="member">IsolationLevel::Snapshot</ref>),</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">IsolationLevel::REPEATABLE_READ</ref>));</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelEnum,<sp/>StrictnessOrder)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a7b5722b7d02a9d8ff3a8bdfcb7d278c3" kindref="member">IsolationLevel::READ_UNCOMMITTED</ref>),</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>));</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>),</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">IsolationLevel::REPEATABLE_READ</ref>));</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">IsolationLevel::REPEATABLE_READ</ref>),</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">IsolationLevel::SERIALIZABLE</ref>));</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelEnum,<sp/>ExactNumericValues)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>values<sp/>are<sp/>part<sp/>of<sp/>the<sp/>public<sp/>ABI:<sp/>changing<sp/>them<sp/>would<sp/>break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>persisted<sp/>isolation-level<sp/>fields<sp/>in<sp/>RocksDB,<sp/>so<sp/>they<sp/>are<sp/>intentionally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tested<sp/>as<sp/>a<sp/>regression<sp/>guard.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a7b5722b7d02a9d8ff3a8bdfcb7d278c3" kindref="member">IsolationLevel::READ_UNCOMMITTED</ref>),<sp/>0);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>),<sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">IsolationLevel::REPEATABLE_READ</ref>),<sp/><sp/>3);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">IsolationLevel::SERIALIZABLE</ref>),<sp/><sp/><sp/><sp/><sp/>4);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelEnum,<sp/>ValueTwoIsUnused)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>gap<sp/>at<sp/>value<sp/>2<sp/>is<sp/>intentional:<sp/>the<sp/>legacy<sp/>Snapshot<sp/>alias<sp/>must<sp/>equal<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(REPEATABLE_READ)<sp/>for<sp/>binary<sp/>compatibility,<sp/>and<sp/>value<sp/>2<sp/>is<sp/>reserved<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>future<sp/>intermediate<sp/>level.<sp/><sp/>See<sp/>IsolationLevel<sp/>documentation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>),<sp/><sp/>2);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">IsolationLevel::REPEATABLE_READ</ref>),<sp/>2);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelEnum,<sp/>ReadUncommittedIsLowest)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a7b5722b7d02a9d8ff3a8bdfcb7d278c3" kindref="member">IsolationLevel::READ_UNCOMMITTED</ref>),<sp/>0);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelEnum,<sp/>SerializableIsHighest)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">IsolationLevel::SERIALIZABLE</ref>),</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">IsolationLevel::REPEATABLE_READ</ref>));</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">IsolationLevel::SERIALIZABLE</ref>),</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">IsolationLevel::READ_COMMITTED</ref>));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">IsolationLevel::SERIALIZABLE</ref>),</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a7b5722b7d02a9d8ff3a8bdfcb7d278c3" kindref="member">IsolationLevel::READ_UNCOMMITTED</ref>));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>IsolationLevel<sp/>and<sp/>LockManager<sp/>interactions<sp/>───────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelComplianceRC,<sp/>ReadCommittedAllowsNonRepeatableReads)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>READ_COMMITTED<sp/>multiple<sp/>readers<sp/>of<sp/>the<sp/>same<sp/>key<sp/>can<sp/>run<sp/>concurrently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;row:A&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;row:A&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r2.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelComplianceRC,<sp/>ReadCommittedWriterBlocksReader)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;row:B&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29af45c3a0bb3687ed8e221253b3fd4a2ce" kindref="member">LockType::EXCLUSIVE</ref>);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;row:B&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(20));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba070a0fb40f6c308ab544b227660aadff" kindref="member">LockStatus::TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelComplianceRC,<sp/>ReadCommittedAfterReleaseReaderSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;row:C&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29af45c3a0bb3687ed8e221253b3fd4a2ce" kindref="member">LockType::EXCLUSIVE</ref>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1aebb0827fcaea3d6dbff9cef61d50bbb9" kindref="member">releaseLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;row:C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;row:C&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelComplianceRR,<sp/>RepeatableReadHoldsSharedLock)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>REPEATABLE_READ:<sp/>once<sp/>a<sp/>row<sp/>is<sp/>read<sp/>the<sp/>shared<sp/>lock<sp/>is<sp/>kept<sp/>until</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>end-of-transaction,<sp/>so<sp/>a<sp/>writer<sp/>must<sp/>wait.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;row:D&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Writer<sp/>is<sp/>blocked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>w<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;row:D&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29af45c3a0bb3687ed8e221253b3fd4a2ce" kindref="member">LockType::EXCLUSIVE</ref>,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(20));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(w.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba070a0fb40f6c308ab544b227660aadff" kindref="member">LockStatus::TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelComplianceSZ,<sp/>SerializableExclusivePreventsAllAccess)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;row:E&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29af45c3a0bb3687ed8e221253b3fd4a2ce" kindref="member">LockType::EXCLUSIVE</ref>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;row:E&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(20)).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba070a0fb40f6c308ab544b227660aadff" kindref="member">LockStatus::TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;row:E&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29af45c3a0bb3687ed8e221253b3fd4a2ce" kindref="member">LockType::EXCLUSIVE</ref>,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(20)).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba070a0fb40f6c308ab544b227660aadff" kindref="member">LockStatus::TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelComplianceSZ,<sp/>SerializableAfterCommitOtherCanRead)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;row:F&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29af45c3a0bb3687ed8e221253b3fd4a2ce" kindref="member">LockType::EXCLUSIVE</ref>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>commit:<sp/>release<sp/>all<sp/>locks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1ab39b132262097eff52fb40a98a798946" kindref="member">releaseAllLocks</ref>(1);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;row:F&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Two-Phase<sp/>Locking<sp/>isolation<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevel2PL,<sp/>GrowingPhaseAllowsAcquisition)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(lm.<ref refid="classthemis_1_1_lock_manager_1ae2603c40350360c553cf14cb8062365d" kindref="member">isInShrinkingPhase</ref>(1));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevel2PL,<sp/>ShrinkingPhaseBlocksAcquisition)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4bca35d98872da2469f4609ad3e683c0" kindref="member">beginShrinkingPhase</ref>(1);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba66d5e0b0ce726b4aeb4ddf6c25b6c12b" kindref="member">LockStatus::DENIED</ref>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevel2PL,<sp/>ShrinkingPhaseAllowsRelease)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29af45c3a0bb3687ed8e221253b3fd4a2ce" kindref="member">LockType::EXCLUSIVE</ref>);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4bca35d98872da2469f4609ad3e683c0" kindref="member">beginShrinkingPhase</ref>(1);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(lm.<ref refid="classthemis_1_1_lock_manager_1aebb0827fcaea3d6dbff9cef61d50bbb9" kindref="member">releaseLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Intent<sp/>lock<sp/>isolation<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelIntent,<sp/>IntentSharedCompatibleWithShared)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29ad85fde840488b12bdb6e76415af6949b" kindref="member">LockType::INTENT_SHARED</ref>).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelIntent,<sp/>IntentExclusiveIncompatibleWithShared)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a049518eb4dc1859c7cebbe15876cfd63" kindref="member">LockType::SHARED</ref>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a7c9512baf3e6c6dc108612a602bed0e1" kindref="member">LockType::INTENT_EXCLUSIVE</ref>,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(20));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba070a0fb40f6c308ab544b227660aadff" kindref="member">LockStatus::TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelIntent,<sp/>IntentExclusiveCompatibleWithIntentExclusive)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a7c9512baf3e6c6dc108612a602bed0e1" kindref="member">LockType::INTENT_EXCLUSIVE</ref>).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29a7c9512baf3e6c6dc108612a602bed0e1" kindref="member">LockType::INTENT_EXCLUSIVE</ref>).<ref refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" kindref="member">status</ref>,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__transaction__isolation__levels_8cpp_1a8ec0f500fb7c6d5e061b6df2e61fa4c8" kindref="member">TEST</ref>(IsolationLevelIntent,<sp/>ExclusiveBlocksIntentShared)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_lock_manager" kindref="compound">LockManager</ref><sp/>lm;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(1,<sp/></highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29af45c3a0bb3687ed8e221253b3fd4a2ce" kindref="member">LockType::EXCLUSIVE</ref>);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>lm.<ref refid="classthemis_1_1_lock_manager_1a4b82afe4beeacb42511d466aceb935a7" kindref="member">acquireLock</ref>(2,<sp/></highlight><highlight class="stringliteral">&quot;tbl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1a14d8571088d518528df6e7b5669cbf29ad85fde840488b12bdb6e76415af6949b" kindref="member">LockType::INTENT_SHARED</ref>,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(20));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.status,<sp/><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba070a0fb40f6c308ab544b227660aadff" kindref="member">LockStatus::TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/transaction/test_transaction_isolation_levels.cpp"/>
+  </compounddef>
+</doxygen>

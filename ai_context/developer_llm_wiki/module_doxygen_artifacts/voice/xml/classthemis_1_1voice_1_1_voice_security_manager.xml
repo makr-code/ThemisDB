@@ -1,0 +1,1157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_security_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceSecurityManager</compoundname>
+    <includes refid="voice__security_8h" local="no">voice_security.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_security_manager_1ac69fd4799cede67a3bf5b8d533e955a7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_security_config" kindref="compound">VoiceSecurityConfig</ref></type>
+        <definition>VoiceSecurityConfig themis::voice::VoiceSecurityManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="259" column="25" bodyfile="include/voice/voice_security.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_security_manager_1ae87dfb6f6be353e99b4d493a3f1a21f1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceSecurityManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="260" column="24" bodyfile="include/voice/voice_security.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_security_manager_1adba89949637fd00be9c11af99bb75e71" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1voice_1_1_consent_record" kindref="compound">ConsentRecord</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ConsentRecord&gt; themis::voice::VoiceSecurityManager::consents_</definition>
+        <argsstring></argsstring>
+        <name>consents_</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::consents_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="262" column="14" bodyfile="include/voice/voice_security.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_security_manager_1a46739fa17c58f9d133ad851926ce38c2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_voice_audit_entry" kindref="compound">VoiceAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt;VoiceAuditEntry&gt; themis::voice::VoiceSecurityManager::audit_log_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::audit_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="263" column="17" bodyfile="include/voice/voice_security.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_security_manager_1a3d52a6cf642d5771d63bc5bdb391de2b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>std::map&lt;std::string, int64_t&gt; themis::voice::VoiceSecurityManager::auto_delete_schedule_</definition>
+        <argsstring></argsstring>
+        <name>auto_delete_schedule_</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::auto_delete_schedule_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="264" column="14" bodyfile="include/voice/voice_security.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_security_manager_1a98b0a1e9a5c51b134d64b63b3b72e9a8" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt;std::string, int&gt; themis::voice::VoiceSecurityManager::failure_counts_</definition>
+        <argsstring></argsstring>
+        <name>failure_counts_</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::failure_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="267" column="14" bodyfile="include/voice/voice_security.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_security_manager_1a0804debb798b4bd8c5af7ff9a5038930" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>std::map&lt;std::string, int64_t&gt; themis::voice::VoiceSecurityManager::last_failure_times_</definition>
+        <argsstring></argsstring>
+        <name>last_failure_times_</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::last_failure_times_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="268" column="14" bodyfile="include/voice/voice_security.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_security_manager_1a2cfc1fcfabf40a16d1b9b0450fdfb90a" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>std::map&lt;std::string, int64_t&gt; themis::voice::VoiceSecurityManager::lockout_until_ms_</definition>
+        <argsstring></argsstring>
+        <name>lockout_until_ms_</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::lockout_until_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="269" column="14" bodyfile="include/voice/voice_security.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_security_manager_1adb9fd633602f0af54706d2e82d60d7f7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_security_denial_entry" kindref="compound">SecurityDenialEntry</ref> &gt;</type>
+        <definition>std::vector&lt;SecurityDenialEntry&gt; themis::voice::VoiceSecurityManager::denial_trail_</definition>
+        <argsstring></argsstring>
+        <name>denial_trail_</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::denial_trail_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="272" column="17" bodyfile="include/voice/voice_security.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a2fecc599cf007ba0917ea4320b488d15" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceSecurityManager::VoiceSecurityManager</definition>
+        <argsstring>(const VoiceSecurityConfig &amp;config={})</argsstring>
+        <name>VoiceSecurityManager</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::VoiceSecurityManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_security_config" kindref="compound">VoiceSecurityConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="187" column="14" bodyfile="src/voice/voice_security.cpp" bodystart="43" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a9bb09584b555d5db0d4c0a7127620ace" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceSecurityManager::~VoiceSecurityManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VoiceSecurityManager</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::~VoiceSecurityManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="188" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a7a127fa717a4e83114dcf106d6aa7a52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_redaction_result" kindref="compound">RedactionResult</ref></type>
+        <definition>RedactionResult themis::voice::VoiceSecurityManager::redactPII</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>redactPII</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::redactPII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Redact PII. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1voice_1_1_voice_security_manager_1a02cdf37dcee5b60d6e5f64faf1f32fe4" kindref="member">redactPIITypes()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="191" column="21" bodyfile="src/voice/voice_security.cpp" bodystart="145" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a02cdf37dcee5b60d6e5f64faf1f32fe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_redaction_result" kindref="compound">RedactionResult</ref></type>
+        <definition>RedactionResult themis::voice::VoiceSecurityManager::redactPIITypes</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; PIIType &gt; &amp;types)</argsstring>
+        <name>redactPIITypes</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::redactPIITypes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" kindref="member">PIIType</ref> &gt; &amp;</type>
+          <declname>types</declname>
+        </param>
+        <briefdescription>
+<para>Redact PIITypes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="192" column="21" bodyfile="src/voice/voice_security.cpp" bodystart="117" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a1d5db6a52c45266aeabc4e52bebd4184" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityManager::containsPII</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>containsPII</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::containsPII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Create a temporary manager to check without modifying state <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="193" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="149" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a69f473f813b5be65f4e3fce2ca69bbd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityManager::recordConsent</definition>
+        <argsstring>(const ConsentRecord &amp;record)</argsstring>
+        <name>recordConsent</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::recordConsent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_consent_record" kindref="compound">ConsentRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> Consent Management -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="196" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="167" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a6d0a650d48795eb9a584e0d2581782fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1voice_1_1_consent_record" kindref="compound">ConsentRecord</ref> &gt;</type>
+        <definition>std::optional&lt; ConsentRecord &gt; themis::voice::VoiceSecurityManager::getConsent</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>getConsent</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::getConsent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="197" column="19" bodyfile="src/voice/voice_security.cpp" bodystart="173" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1add547c8a147c3d9b79110738b657bf1e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityManager::hasRecordingConsent</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>hasRecordingConsent</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::hasRecordingConsent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="198" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="187" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1aaad42be5970687e12a5bcc44d421a91c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityManager::hasTranscriptionConsent</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>hasTranscriptionConsent</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::hasTranscriptionConsent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="199" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="192" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a827278e69f4f85d33db91907e8219628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityManager::revokeConsent</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>revokeConsent</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::revokeConsent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Revoke Consent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="200" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="203" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1aff36cc4bcc7582f0b384736740b49955" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceSecurityManager::logEvent</definition>
+        <argsstring>(const VoiceAuditEntry &amp;entry)</argsstring>
+        <name>logEvent</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::logEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_audit_entry" kindref="compound">VoiceAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> Audit Logging -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="203" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="214" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1af9d65d6d2ad5d559ff73b7cc18162fac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceSecurityManager::logAccess</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;session_id, const std::string &amp;resource)</argsstring>
+        <name>logAccess</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::logAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Log Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="204" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="228" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a3187ec3208bd040604e9d9a0a3db56eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceSecurityManager::logError</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;session_id, const std::string &amp;error)</argsstring>
+        <name>logError</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::logError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Log Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="205" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="249" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a2bd99527e4539bc881b15f98bc9ebbea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_voice_audit_entry" kindref="compound">VoiceAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; VoiceAuditEntry &gt; themis::voice::VoiceSecurityManager::getAuditLog</definition>
+        <argsstring>(const std::string &amp;user_id=&quot;&quot;, size_t limit=100) const</argsstring>
+        <name>getAuditLog</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::getAuditLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="206" column="17" bodyfile="src/voice/voice_security.cpp" bodystart="264" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1afb9966a79a50eef1493cf3ffff59900d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_data_deletion_result" kindref="compound">DataDeletionResult</ref></type>
+        <definition>DataDeletionResult themis::voice::VoiceSecurityManager::deleteUserData</definition>
+        <argsstring>(const DataDeletionRequest &amp;request)</argsstring>
+        <name>deleteUserData</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::deleteUserData</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_data_deletion_request" kindref="compound">DataDeletionRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> GDPR / CCPA -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), erase(), std::remove_if(), begin(), end(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="209" column="24" bodyfile="src/voice/voice_security.cpp" bodystart="294" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1af1aaef13ee48d19a1f28bfdd72000749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityManager::scheduleAutoDelete</definition>
+        <argsstring>(const std::string &amp;user_id, int64_t delete_after_ms)</argsstring>
+        <name>scheduleAutoDelete</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::scheduleAutoDelete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>delete_after_ms</declname>
+        </param>
+        <briefdescription>
+<para>Schedule Auto Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delete_after_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="210" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="329" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1abab782a43d97091df0ee5c4987122d4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceSecurityManager::exportUserData</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>exportUserData</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::exportUserData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="213" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="337" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1acd8804e5957265f1a99a35c73a452402" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceSecurityManager::getSecurityStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getSecurityStats</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::getSecurityStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="216" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="370" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1aafad00ab9926bc3d613b04608544dd43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityManager::recordAuthFailure</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>recordAuthFailure</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::recordAuthFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Record authentication failure (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Auth Failure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if user is NOT locked out; false if reached lockout threshold</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), cleanupExpiredLockouts(), find(), end(), nowMs(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="223" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="423" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a576471824fe5e46c789289d7d108a522" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityManager::isRateLimited</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>isRateLimited</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::isRateLimited</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if user is locked out due to rate limiting (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if user is currently locked out; false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="228" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="468" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a38f37b3c3dcf101064886410a462fbf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceSecurityManager::resetRateLimiter</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>resetRateLimiter</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::resetRateLimiter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Reset rate limiter for a user (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Rate Limiter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="232" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="493" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a3daa24622d159ef2b9fb23b2d4088bb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceSecurityManager::logSecurityDenial</definition>
+        <argsstring>(const SecurityDenialEntry &amp;entry)</argsstring>
+        <name>logSecurityDenial</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::logSecurityDenial</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_security_denial_entry" kindref="compound">SecurityDenialEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Log security denial for audit trail (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Security Denial.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1voice_1_1_security_denial_entry" kindref="compound">SecurityDenialEntry</ref> with user, action, reason</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="238" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="505" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a466ddc57c5aba436992306f50ee17870" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_security_denial_entry" kindref="compound">SecurityDenialEntry</ref> &gt;</type>
+        <definition>std::vector&lt; SecurityDenialEntry &gt; themis::voice::VoiceSecurityManager::getSecurityDenials</definition>
+        <argsstring>(const std::string &amp;user_id, size_t limit=100) const</argsstring>
+        <name>getSecurityDenials</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::getSecurityDenials</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Get all security denials for a user (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1voice_1_1_security_denial_entry" kindref="compound">SecurityDenialEntry</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="243" column="17" bodyfile="src/voice/voice_security.cpp" bodystart="514" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a3734d3f6d219a4c4485de82db7b37822" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityManager::denyOperationWithAudit</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;session_id, const std::string &amp;action, const std::string &amp;resource, const std::string &amp;reason)</argsstring>
+        <name>denyOperationWithAudit</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::denyOperationWithAudit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Deny operation with full audit context (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deny Operation With Audit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Action being attempted (e.g., &quot;escalate_privileges&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resource being accessed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Denial reason (e.g., &quot;privilege_escalation_attempt&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Always false (denial)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="252" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="545" bodyend="569"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a4ce4a3c13372c378584772712160b5b6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_redaction_result" kindref="compound">RedactionResult</ref></type>
+        <definition>RedactionResult themis::voice::VoiceSecurityManager::applyPattern</definition>
+        <argsstring>(const std::string &amp;text, PIIType type) const</argsstring>
+        <name>applyPattern</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::applyPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" kindref="member">PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="274" column="21" bodyfile="src/voice/voice_security.cpp" bodystart="59" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1a711aaac479c00ead28eb0beed199076e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceSecurityManager::maskValue</definition>
+        <argsstring>(const std::string &amp;value, PIIType type) const</argsstring>
+        <name>maskValue</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::maskValue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" kindref="member">PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="275" column="17" bodyfile="src/voice/voice_security.cpp" bodystart="46" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1ae2e5a59c2af0ae7cc27dc63d9111c804" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceSecurityManager::nowMs</definition>
+        <argsstring>() const</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::nowMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="278" column="13" bodyfile="src/voice/voice_security.cpp" bodystart="388" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_security_manager_1ae5db6dd0e6b7989f46fdba755149790e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceSecurityManager::cleanupExpiredLockouts</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupExpiredLockouts</name>
+        <qualifiedname>themis::voice::VoiceSecurityManager::cleanupExpiredLockouts</qualifiedname>
+        <briefdescription>
+<para>Cleanup Expired Lockouts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: nowMs(), push_back(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="279" column="10" bodyfile="src/voice/voice_security.cpp" bodystart="397" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1voice_1_1_voice_security_manager" kindref="compound">VoiceSecurityManager</ref>: Phase 7 production component (Phase 3 enhancements). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_security.h" line="185" column="1" bodyfile="include/voice/voice_security.h" bodystart="185" bodyend="280"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a4ce4a3c13372c378584772712160b5b6" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>applyPattern</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a46739fa17c58f9d133ad851926ce38c2" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>audit_log_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a3d52a6cf642d5771d63bc5bdb391de2b" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>auto_delete_schedule_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1ae5db6dd0e6b7989f46fdba755149790e" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>cleanupExpiredLockouts</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1ac69fd4799cede67a3bf5b8d533e955a7" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1adba89949637fd00be9c11af99bb75e71" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>consents_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a1d5db6a52c45266aeabc4e52bebd4184" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>containsPII</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1afb9966a79a50eef1493cf3ffff59900d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>deleteUserData</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1adb9fd633602f0af54706d2e82d60d7f7" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>denial_trail_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a3734d3f6d219a4c4485de82db7b37822" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>denyOperationWithAudit</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1abab782a43d97091df0ee5c4987122d4f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>exportUserData</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a98b0a1e9a5c51b134d64b63b3b72e9a8" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>failure_counts_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a2bd99527e4539bc881b15f98bc9ebbea" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>getAuditLog</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a6d0a650d48795eb9a584e0d2581782fa" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>getConsent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a466ddc57c5aba436992306f50ee17870" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>getSecurityDenials</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1acd8804e5957265f1a99a35c73a452402" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>getSecurityStats</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1add547c8a147c3d9b79110738b657bf1e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>hasRecordingConsent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1aaad42be5970687e12a5bcc44d421a91c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>hasTranscriptionConsent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a576471824fe5e46c789289d7d108a522" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>isRateLimited</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a0804debb798b4bd8c5af7ff9a5038930" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>last_failure_times_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a2cfc1fcfabf40a16d1b9b0450fdfb90a" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>lockout_until_ms_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1af9d65d6d2ad5d559ff73b7cc18162fac" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>logAccess</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a3187ec3208bd040604e9d9a0a3db56eb" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>logError</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1aff36cc4bcc7582f0b384736740b49955" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>logEvent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a3daa24622d159ef2b9fb23b2d4088bb3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>logSecurityDenial</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a711aaac479c00ead28eb0beed199076e" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>maskValue</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1ae87dfb6f6be353e99b4d493a3f1a21f1" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1ae2e5a59c2af0ae7cc27dc63d9111c804" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1aafad00ab9926bc3d613b04608544dd43" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>recordAuthFailure</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a69f473f813b5be65f4e3fce2ca69bbd5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>recordConsent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a7a127fa717a4e83114dcf106d6aa7a52" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>redactPII</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a02cdf37dcee5b60d6e5f64faf1f32fe4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>redactPIITypes</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a38f37b3c3dcf101064886410a462fbf2" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>resetRateLimiter</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a827278e69f4f85d33db91907e8219628" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>revokeConsent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1af1aaef13ee48d19a1f28bfdd72000749" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>scheduleAutoDelete</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a2fecc599cf007ba0917ea4320b488d15" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>VoiceSecurityManager</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_security_manager_1a9bb09584b555d5db0d4c0a7127620ace" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityManager</scope><name>~VoiceSecurityManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

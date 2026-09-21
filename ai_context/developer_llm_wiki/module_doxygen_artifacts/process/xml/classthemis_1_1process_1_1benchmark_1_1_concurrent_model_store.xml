@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ConcurrentModelStore</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1aaca5e81035fd6fa08103dbad1a5ae112" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::process::benchmark::ConcurrentModelStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="44" column="16" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a2bc9005afdda813c892612ac7b42c747" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kindref="compound">SimProcessModel</ref> &gt;</type>
+        <definition>std::vector&lt;SimProcessModel&gt; themis::process::benchmark::ConcurrentModelStore::models_</definition>
+        <argsstring></argsstring>
+        <name>models_</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="45" column="17" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1ad3e6c5fc54b6de42deee5d9077a23160" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ConcurrentModelStore::op_counter_</definition>
+        <argsstring></argsstring>
+        <name>op_counter_</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::op_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="46" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a7b2ff08713d0546394be420b170d5f1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::ConcurrentModelStore::ConcurrentModelStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>ConcurrentModelStore</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::ConcurrentModelStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1acdeab50ae037293e8ec38cb6d05f6002" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::benchmark::ConcurrentModelStore::~ConcurrentModelStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ConcurrentModelStore</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::~ConcurrentModelStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a232be7410d48a64a48a2ba5ec74f05dd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ConcurrentModelStore::create</definition>
+        <argsstring>(const SimProcessModel &amp;model)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kindref="compound">SimProcessModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="53" column="10" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a1569a723983785e2ac108879b9d0ef24" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ConcurrentModelStore::read</definition>
+        <argsstring>(const std::string &amp;id, SimProcessModel &amp;out)</argsstring>
+        <name>read</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::read</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kindref="compound">SimProcessModel</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="61" column="10" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="61" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1aaa7f7c8b4aa57684694a424142034afd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ConcurrentModelStore::update</definition>
+        <argsstring>(const std::string &amp;id, const SimProcessModel &amp;model)</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::update</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kindref="compound">SimProcessModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="74" column="10" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="74" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a69e4fe7914d4f3b5c8aaedb2f8160719" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::benchmark::ConcurrentModelStore::delete_model</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>delete_model</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::delete_model</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="89" column="10" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="89" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a5b7ccbb05a8b7ecefa916e956005798c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_sim_process_model" kindref="compound">SimProcessModel</ref> &gt;</type>
+        <definition>std::vector&lt; SimProcessModel &gt; themis::process::benchmark::ConcurrentModelStore::list</definition>
+        <argsstring>()</argsstring>
+        <name>list</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="102" column="17" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="102" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a034ca3ebcf9d0c6b5647d62ff46e703d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ConcurrentModelStore::op_counter</definition>
+        <argsstring>() const</argsstring>
+        <name>op_counter</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::op_counter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="108" column="13" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a26a4ae7514fa18b54c57d260823bb6fd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::benchmark::ConcurrentModelStore::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="109" column="12" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1ac3385e498510b2e173946c75f046f69c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::benchmark::ConcurrentModelStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::process::benchmark::ConcurrentModelStore::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="111" column="10" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="111" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe model store simulation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_concurrency_gates.cpp" line="42" column="1" bodyfile="benchmarks/process/bench_process_concurrency_gates.cpp" bodystart="42" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1ac3385e498510b2e173946c75f046f69c" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a7b2ff08713d0546394be420b170d5f1e" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>ConcurrentModelStore</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a232be7410d48a64a48a2ba5ec74f05dd" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>create</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a69e4fe7914d4f3b5c8aaedb2f8160719" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>delete_model</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a5b7ccbb05a8b7ecefa916e956005798c" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>list</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a2bc9005afdda813c892612ac7b42c747" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>models_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1aaca5e81035fd6fa08103dbad1a5ae112" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a034ca3ebcf9d0c6b5647d62ff46e703d" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>op_counter</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1ad3e6c5fc54b6de42deee5d9077a23160" prot="private" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>op_counter_</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a1569a723983785e2ac108879b9d0ef24" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>read</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1a26a4ae7514fa18b54c57d260823bb6fd" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>size</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1aaa7f7c8b4aa57684694a424142034afd" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>update</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_concurrent_model_store_1acdeab50ae037293e8ec38cb6d05f6002" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ConcurrentModelStore</scope><name>~ConcurrentModelStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

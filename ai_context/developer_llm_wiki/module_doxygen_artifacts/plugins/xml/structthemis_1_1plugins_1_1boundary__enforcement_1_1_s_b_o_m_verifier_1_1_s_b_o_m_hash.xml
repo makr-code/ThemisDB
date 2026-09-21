@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1boundary__enforcement_1_1_s_b_o_m_verifier_1_1_s_b_o_m_hash" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::boundary_enforcement::SBOMVerifier::SBOMHash</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1boundary__enforcement_1_1_s_b_o_m_verifier_1_1_s_b_o_m_hash_1a3126cb2f3e6e9ee42690071524f3967f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::boundary_enforcement::SBOMVerifier::SBOMHash::sbom_content_hash</definition>
+        <argsstring></argsstring>
+        <name>sbom_content_hash</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::SBOMVerifier::SBOMHash::sbom_content_hash</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="165" column="21" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1boundary__enforcement_1_1_s_b_o_m_verifier_1_1_s_b_o_m_hash_1ae0d0eae78d44dc1a8df2888101c4f620" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1boundary__enforcement_1_1_s_b_o_m_verifier_1_1_s_b_o_m_entry" kindref="compound">SBOMEntry</ref> &gt;</type>
+        <definition>std::vector&lt;SBOMEntry&gt; themis::plugins::boundary_enforcement::SBOMVerifier::SBOMHash::dependencies</definition>
+        <argsstring></argsstring>
+        <name>dependencies</name>
+        <qualifiedname>themis::plugins::boundary_enforcement::SBOMVerifier::SBOMHash::dependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="166" column="21" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" line="164" column="5" bodyfile="tests/plugins/test_plugin_boundary_enforcement_focused.cpp" bodystart="164" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1boundary__enforcement_1_1_s_b_o_m_verifier_1_1_s_b_o_m_hash_1ae0d0eae78d44dc1a8df2888101c4f620" prot="public" virt="non-virtual"><scope>themis::plugins::boundary_enforcement::SBOMVerifier::SBOMHash</scope><name>dependencies</name></member>
+      <member refid="structthemis_1_1plugins_1_1boundary__enforcement_1_1_s_b_o_m_verifier_1_1_s_b_o_m_hash_1a3126cb2f3e6e9ee42690071524f3967f" prot="public" virt="non-virtual"><scope>themis::plugins::boundary_enforcement::SBOMVerifier::SBOMHash</scope><name>sbom_content_hash</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

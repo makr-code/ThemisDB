@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_connection_keepalive" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::ConnectionKeepalive</compoundname>
+    <includes refid="database__connection__manager_8h" local="no">database_connection_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_keepalive_1a720228d01d789b1fb1af8feff067d35d" prot="private" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::ConnectionKeepalive::interval_</definition>
+        <argsstring></argsstring>
+        <name>interval_</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::interval_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="316" column="26" bodyfile="include/storage/database_connection_manager.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_keepalive_1a919140735621bd93b852934d60159140" prot="private" static="no" mutable="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>std::function&lt;bool()&gt; themis::storage::ConnectionKeepalive::keepalive_fn_</definition>
+        <argsstring></argsstring>
+        <name>keepalive_fn_</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::keepalive_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="317" column="19" bodyfile="include/storage/database_connection_manager.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_keepalive_1afb3276d3eb4af82dc196f677f1d819f9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::ConnectionKeepalive::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="318" column="17" bodyfile="include/storage/database_connection_manager.h" bodystart="318" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_keepalive_1a07b49c42dad8f1d7e3adf1ae5d0542dd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::storage::ConnectionKeepalive::should_stop_</definition>
+        <argsstring></argsstring>
+        <name>should_stop_</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::should_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="319" column="17" bodyfile="include/storage/database_connection_manager.h" bodystart="319" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_keepalive_1a61a140223cdebf81b1f56f39e23298fe" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::storage::ConnectionKeepalive::keepalive_thread_</definition>
+        <argsstring></argsstring>
+        <name>keepalive_thread_</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::keepalive_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="320" column="17" bodyfile="include/storage/database_connection_manager.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_keepalive_1a5c33baa84ee2a39eded89f5ba7acdfa8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::ConnectionKeepalive::stop_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stop_mutex_</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::stop_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="321" column="24" bodyfile="include/storage/database_connection_manager.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_keepalive_1ab3e07646d3bc4688ae808ff8b75c26e1" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::storage::ConnectionKeepalive::stop_cv_</definition>
+        <argsstring></argsstring>
+        <name>stop_cv_</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::stop_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="322" column="29" bodyfile="include/storage/database_connection_manager.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_keepalive_1a336059b308c55f7e97e5526017d9ee76" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::storage::ConnectionKeepalive::keepalive_count_</definition>
+        <argsstring></argsstring>
+        <name>keepalive_count_</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::keepalive_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="323" column="17" bodyfile="include/storage/database_connection_manager.h" bodystart="323" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_connection_keepalive_1aecb8a3a3bece2d897a4aec3a5c2d86e7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::storage::ConnectionKeepalive::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::failure_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="324" column="17" bodyfile="include/storage/database_connection_manager.h" bodystart="324" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_keepalive_1a07a998bcf472024074014581e19ffb84" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ConnectionKeepalive::ConnectionKeepalive</definition>
+        <argsstring>(std::chrono::seconds interval, std::function&lt; bool()&gt; keepalive_fn)</argsstring>
+        <name>ConnectionKeepalive</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::ConnectionKeepalive</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>interval</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool()&gt;</type>
+          <declname>keepalive_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="283" column="14" bodyfile="src/storage/database_connection_manager.cpp" bodystart="558" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_keepalive_1abc71127548c050693ab1cbe1ec8c7eb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ConnectionKeepalive::~ConnectionKeepalive</definition>
+        <argsstring>()</argsstring>
+        <name>~ConnectionKeepalive</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::~ConnectionKeepalive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="288" column="5" bodyfile="src/storage/database_connection_manager.cpp" bodystart="566" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_keepalive_1a603e5b89a0c602d17a59d7c5d7526b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ConnectionKeepalive::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::start</qualifiedname>
+        <briefdescription>
+<para>Start keepalive thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: load(), keepalive_fn_(), spdlog::warn(), spdlog::error(), what(), std::thread(), spdlog::info(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="293" column="10" bodyfile="src/storage/database_connection_manager.cpp" bodystart="574" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_keepalive_1ae8e27bad7edb081b9dc715f3e44e55ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ConnectionKeepalive::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::stop</qualifiedname>
+        <briefdescription>
+<para>Stop keepalive thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: load(), keepalive_fn_(), spdlog::warn(), spdlog::error(), what(), lock(), notify_all(), joinable(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="298" column="10" bodyfile="src/storage/database_connection_manager.cpp" bodystart="605" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_keepalive_1acccf365675d1e6cdc191cad26b433f85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ConnectionKeepalive::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::isRunning</qualifiedname>
+        <briefdescription>
+<para>Check if keepalive is running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="303" column="10" bodyfile="src/storage/database_connection_manager.cpp" bodystart="641" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_keepalive_1a56cbd90a6783b887285dad1666637377" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConnectionKeepalive::getKeepaliveCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getKeepaliveCount</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::getKeepaliveCount</qualifiedname>
+        <briefdescription>
+<para>Get number of keepalive attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="308" column="12" bodyfile="src/storage/database_connection_manager.cpp" bodystart="645" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_keepalive_1a9f03d9c14aba148a33b7a8a4c73cf9fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConnectionKeepalive::getFailureCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getFailureCount</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::getFailureCount</qualifiedname>
+        <briefdescription>
+<para>Get number of failed keepalives. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="313" column="12" bodyfile="src/storage/database_connection_manager.cpp" bodystart="649" bodyend="651"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_connection_keepalive_1ab3840c72a258c2abe169c668cd46e304" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ConnectionKeepalive::keepaliveLoop</definition>
+        <argsstring>()</argsstring>
+        <name>keepaliveLoop</name>
+        <qualifiedname>themis::storage::ConnectionKeepalive::keepaliveLoop</qualifiedname>
+        <briefdescription>
+<para>Keepalive Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), unlock(), keepalive_fn_(), spdlog::warn(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="326" column="10" bodyfile="src/storage/database_connection_manager.cpp" bodystart="657" bodyend="682"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Connection Keepalive Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Periodically sends keepalive messages to maintain connections </para>
+    </detaileddescription>
+    <location file="include/storage/database_connection_manager.h" line="281" column="1" bodyfile="include/storage/database_connection_manager.h" bodystart="281" bodyend="327"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a07a998bcf472024074014581e19ffb84" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>ConnectionKeepalive</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1aecb8a3a3bece2d897a4aec3a5c2d86e7" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a9f03d9c14aba148a33b7a8a4c73cf9fe" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>getFailureCount</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a56cbd90a6783b887285dad1666637377" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>getKeepaliveCount</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a720228d01d789b1fb1af8feff067d35d" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>interval_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1acccf365675d1e6cdc191cad26b433f85" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a336059b308c55f7e97e5526017d9ee76" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>keepalive_count_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a919140735621bd93b852934d60159140" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>keepalive_fn_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a61a140223cdebf81b1f56f39e23298fe" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>keepalive_thread_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1ab3840c72a258c2abe169c668cd46e304" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>keepaliveLoop</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1afb3276d3eb4af82dc196f677f1d819f9" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>running_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a07b49c42dad8f1d7e3adf1ae5d0542dd" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>should_stop_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a603e5b89a0c602d17a59d7c5d7526b44" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>start</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1ae8e27bad7edb081b9dc715f3e44e55ee" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>stop</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1ab3e07646d3bc4688ae808ff8b75c26e1" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>stop_cv_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1a5c33baa84ee2a39eded89f5ba7acdfa8" prot="private" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>stop_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_connection_keepalive_1abc71127548c050693ab1cbe1ec8c7eb0" prot="public" virt="non-virtual"><scope>themis::storage::ConnectionKeepalive</scope><name>~ConnectionKeepalive</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationObserver::Bottleneck</compoundname>
+    <includes refid="observability_8h" local="no">observability.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1abdfebc79babaa76b7b97a46cea5f9efa" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::Bottleneck::Type</qualifiedname>
+        <enumvalue id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1abdfebc79babaa76b7b97a46cea5f9efaa25835188a2355e9530d3a10fcbe4c65b" prot="public">
+          <name>NETWORK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1abdfebc79babaa76b7b97a46cea5f9efaa22db262eca19b18602722fa13453af72" prot="public">
+          <name>DISK_IO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1abdfebc79babaa76b7b97a46cea5f9efaa2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1abdfebc79babaa76b7b97a46cea5f9efaa7014705458ee3cf0192f6aa52cfddea5" prot="public">
+          <name>MEMORY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="104" column="9" bodyfile="include/replication/observability.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1a44aac6b478ca6522a5cee704b248c9ec" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1abdfebc79babaa76b7b97a46cea5f9efa" kindref="member">Type</ref></type>
+        <definition>Type themisdb::replication::ReplicationObserver::Bottleneck::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::Bottleneck::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="106" column="34" bodyfile="include/replication/observability.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1a4bcbff327b232502f090f2a1a3f32d0e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationObserver::Bottleneck::affected_replica</definition>
+        <argsstring></argsstring>
+        <name>affected_replica</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::Bottleneck::affected_replica</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="107" column="34" bodyfile="include/replication/observability.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1a85a7f7de2c7228e7f93e1492e9b26151" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::replication::ReplicationObserver::Bottleneck::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::Bottleneck::severity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0 (minor) – 1.0 (critical) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="108" column="34" bodyfile="include/replication/observability.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1aebbb082d553a49cd2754452d1658475b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationObserver::Bottleneck::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::Bottleneck::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="109" column="34" bodyfile="include/replication/observability.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1a9341a8b189be17e9372a9c729967ef8e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::ReplicationObserver::Bottleneck::recommendations</definition>
+        <argsstring></argsstring>
+        <name>recommendations</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::Bottleneck::recommendations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="110" column="21" bodyfile="include/replication/observability.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Detected performance bottleneck in the replication pipeline. </para>
+    </detaileddescription>
+    <location file="include/replication/observability.h" line="103" column="5" bodyfile="include/replication/observability.h" bodystart="103" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1a4bcbff327b232502f090f2a1a3f32d0e" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::Bottleneck</scope><name>affected_replica</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1aebbb082d553a49cd2754452d1658475b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::Bottleneck</scope><name>description</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1a9341a8b189be17e9372a9c729967ef8e" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::Bottleneck</scope><name>recommendations</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1a85a7f7de2c7228e7f93e1492e9b26151" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::Bottleneck</scope><name>severity</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1abdfebc79babaa76b7b97a46cea5f9efa" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::Bottleneck</scope><name>Type</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_bottleneck_1a44aac6b478ca6522a5cee704b248c9ec" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::Bottleneck</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

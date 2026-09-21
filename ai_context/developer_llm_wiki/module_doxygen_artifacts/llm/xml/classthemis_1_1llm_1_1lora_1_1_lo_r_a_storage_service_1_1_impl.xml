@@ -1,0 +1,1387 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAStorageService::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a5ab58b4316c53ec538a419463a1b329b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::lora::LoRAStorageService::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="305" column="12" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a5a0bfc33a5197406c34889b97ca19eaa" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;FieldEncryption&gt; themis::llm::lora::LoRAStorageService::Impl::encryption_</definition>
+        <argsstring></argsstring>
+        <name>encryption_</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::encryption_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="495" column="21" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="495" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1aef0a28064102d4af239048f54a11786e" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::lora::LoRAStorageService::Impl::DEFAULT_HSM_CACHE_TTL_MS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_HSM_CACHE_TTL_MS</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::DEFAULT_HSM_CACHE_TTL_MS</qualifiedname>
+        <initializer>= 300000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="498" column="30" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="498" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a1005a477bda59141218994163b58d1fb" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::LoRAStorageService::Impl::DEFAULT_HSM_MAX_CACHE_SIZE</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_HSM_MAX_CACHE_SIZE</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::DEFAULT_HSM_MAX_CACHE_SIZE</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="499" column="29" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="499" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a13c99d1e9bd8f39159d4dba66fb6e5eb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAStorageService::Impl::Impl</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="27" column="14" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="27" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a155b6fed6d921ba25defba6ed2283c14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::saveAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const AdapterWeights &amp;weights, const AdapterMetadata &amp;metadata)</argsstring>
+        <name>saveAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::saveAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Save Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: saveToFilesystem(), spdlog::error(), backendToString(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="51" column="10" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="51" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a9354421cfe13218b71a46e89e6160320" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterWeights &gt; themis::llm::lora::LoRAStorageService::Impl::loadAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadFromFilesystem(), spdlog::error(), backendToString(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="79" column="19" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="79" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a469bdc0754dfcf30d7344fc4667b2928" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::lora::LoRAStorageService::Impl::loadMetadata</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadMetadata</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadMetadataFromFilesystem(), spdlog::error(), backendToString(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="101" column="19" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="101" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ad2952fce4fa4e09ed5c73ec599215bc9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::deleteAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>deleteAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::deleteAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fs::path(), fs::exists(), fs::remove_all(), spdlog::info(), spdlog::error(), backendToString(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="123" column="10" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="123" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a4977e8299fd8a39212757c66fc949be2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::exists</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::exists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="145" column="10" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="145" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a487cb7637d342a53e793375ffc5aa81a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::LoRAStorageService::Impl::listAdapters</definition>
+        <argsstring>() const</argsstring>
+        <name>listAdapters</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::listAdapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="153" column="17" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="153" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ab13273f027e98be98f3a4b8c4ed3d728" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Impl::createVersion</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>createVersion</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::createVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Create Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a7655cd7dacb0d46aec9a0da792efed0f" kindref="member">listVersions()</ref>, size(), std::stoi(), substr(), std::max(), std::to_string(), fs::path(), fs::exists(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="177" column="17" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="177" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a2188901450c9a8146d62bd2c61bdcdab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::rollbackToVersion</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;version)</argsstring>
+        <name>rollbackToVersion</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::rollbackToVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Rollback To Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fs::path(), fs::exists(), fs::copy_file(), spdlog::info(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="218" column="10" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="218" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a7655cd7dacb0d46aec9a0da792efed0f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::LoRAStorageService::Impl::listVersions</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>listVersions</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::listVersions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="237" column="17" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="237" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a50f3cf626059121735a710483e2a9cac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::updateMetadata</definition>
+        <argsstring>(const std::string &amp;adapter_id, const AdapterMetadata &amp;metadata)</argsstring>
+        <name>updateMetadata</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::updateMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Update Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fs::path(), toJSON(), file(), dump(), spdlog::info(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="274" column="10" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="274" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a8b253dc48f499b7391c1871789190b04" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAStorageService::Impl::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="294" column="10" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="294" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a13c99d1e9bd8f39159d4dba66fb6e5eb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAStorageService::Impl::Impl</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="35" column="14" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="35" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a155b6fed6d921ba25defba6ed2283c14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::saveAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const AdapterWeights &amp;weights, const AdapterMetadata &amp;metadata)</argsstring>
+        <name>saveAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::saveAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Save Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: saveToThemisDB(), saveToFilesystem(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="84" column="10" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="84" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a9354421cfe13218b71a46e89e6160320" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterWeights &gt; themis::llm::lora::LoRAStorageService::Impl::loadAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadFromThemisDB(), loadFromFilesystem(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="107" column="19" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="107" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a469bdc0754dfcf30d7344fc4667b2928" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::lora::LoRAStorageService::Impl::loadMetadata</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadMetadata</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadMetadataFromThemisDB(), loadMetadataFromFilesystem(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="126" column="19" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="126" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ad2952fce4fa4e09ed5c73ec599215bc9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::deleteAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>deleteAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::deleteAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeCollectionKey(), get(), BaseEntity::deserialize(), hasField(), getFieldAsInt(), value_or(), spdlog::warn(), getFieldAsString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="145" column="10" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="145" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a4977e8299fd8a39212757c66fc949be2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::exists</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::exists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="216" column="10" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="216" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a487cb7637d342a53e793375ffc5aa81a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::LoRAStorageService::Impl::listAdapters</definition>
+        <argsstring>() const</argsstring>
+        <name>listAdapters</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::listAdapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="226" column="17" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="226" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ab13273f027e98be98f3a4b8c4ed3d728" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Impl::createVersion</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>createVersion</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::createVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Create Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a7655cd7dacb0d46aec9a0da792efed0f" kindref="member">listVersions()</ref>, size(), std::stoi(), substr(), std::max(), std::to_string(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="278" column="17" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="278" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a2188901450c9a8146d62bd2c61bdcdab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::rollbackToVersion</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;version)</argsstring>
+        <name>rollbackToVersion</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::rollbackToVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Rollback To Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), makeCollectionKey(), get(), spdlog::error(), put(), fs::path(), fs::exists(), string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="309" column="10" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="309" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a7655cd7dacb0d46aec9a0da792efed0f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::LoRAStorageService::Impl::listVersions</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>listVersions</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::listVersions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="374" column="17" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="374" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a50f3cf626059121735a710483e2a9cac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::updateMetadata</definition>
+        <argsstring>(const std::string &amp;adapter_id, const AdapterMetadata &amp;metadata)</argsstring>
+        <name>updateMetadata</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::updateMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Update Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeCollectionKey(), get(), spdlog::error(), BaseEntity::deserialize(), setField(), Value(), serialize(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="433" column="10" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="433" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a8b253dc48f499b7391c1871789190b04" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAStorageService::Impl::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="481" column="10" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="481" bodyend="491"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ae4d47608bddd1963ca02c1e687b326b4" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::llm::lora::LoRAStorageService::Impl::backendToString</definition>
+        <argsstring>(Backend backend)</argsstring>
+        <name>backendToString</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::backendToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0d" kindref="member">Backend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0d" kindref="member">Backend</ref> To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements backendToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="313" column="24" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="313" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ae296544397a14fa0463e39b90b1414f3" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::llm::lora::LoRAStorageService::Impl::isProductionEnvironment</definition>
+        <argsstring>()</argsstring>
+        <name>isProductionEnvironment</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::isProductionEnvironment</qualifiedname>
+        <briefdescription>
+<para>Is Production Environment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::getenv(), std::strcmp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="506" column="17" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="506" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ae4d47608bddd1963ca02c1e687b326b4" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::llm::lora::LoRAStorageService::Impl::backendToString</definition>
+        <argsstring>(Backend backend)</argsstring>
+        <name>backendToString</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::backendToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0d" kindref="member">Backend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0d" kindref="member">Backend</ref> To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements backendToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="678" column="24" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="678" bodyend="685"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a28c9c968dcb11d762a02473d9cabb15b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::saveToFilesystem</definition>
+        <argsstring>(const std::string &amp;adapter_id, const AdapterWeights &amp;weights, const AdapterMetadata &amp;metadata)</argsstring>
+        <name>saveToFilesystem</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::saveToFilesystem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Save To Filesystem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fs::path(), fs::create_directories(), weights_file(), spdlog::error(), string(), write(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="330" column="10" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="330" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a8d07780632f6d91181b56be0e84e8503" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterWeights &gt; themis::llm::lora::LoRAStorageService::Impl::loadFromFilesystem</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadFromFilesystem</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadFromFilesystem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load From Filesystem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::path(), fs::exists(), spdlog::warn(), string(), weights_file(), spdlog::error(), tellg(), seekg(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="376" column="19" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="376" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a037005c737608cac3bd5cb4123ca6f22" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::lora::LoRAStorageService::Impl::loadMetadataFromFilesystem</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadMetadataFromFilesystem</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadMetadataFromFilesystem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Metadata From Filesystem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::path(), fs::exists(), spdlog::warn(), string(), metadata_file(), spdlog::error(), <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a6658c74cc07aa638ecf9155e67b11b51" kindref="member">AdapterMetadata::fromJSON()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service.cpp" line="414" column="19" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="414" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a044e90567a3b3339afcfa88e8e3ae598" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt; KeyProvider &gt; themis::llm::lora::LoRAStorageService::Impl::createHSMKeyProvider</definition>
+        <argsstring>()</argsstring>
+        <name>createHSMKeyProvider</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::createHSMKeyProvider</qualifiedname>
+        <briefdescription>
+<para>Create HSMKey Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), initialize(), getLastError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="519" column="21" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="519" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a70c4277f4575ef2130e2d04015cd7ca7" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt; KeyProvider &gt; themis::llm::lora::LoRAStorageService::Impl::createVaultKeyProvider</definition>
+        <argsstring>()</argsstring>
+        <name>createVaultKeyProvider</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::createVaultKeyProvider</qualifiedname>
+        <briefdescription>
+<para>Create Vault Key Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="561" column="21" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="561" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ae5c0b35a0fe698143da3eedf53cd09df" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt; KeyProvider &gt; themis::llm::lora::LoRAStorageService::Impl::createPKIKeyProvider</definition>
+        <argsstring>()</argsstring>
+        <name>createPKIKeyProvider</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::createPKIKeyProvider</qualifiedname>
+        <briefdescription>
+<para>Create PKIKey Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="584" column="21" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="584" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1afc49a62387396e4c8ed15c641ee2d275" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt; KeyProvider &gt; themis::llm::lora::LoRAStorageService::Impl::createMockKeyProvider</definition>
+        <argsstring>()</argsstring>
+        <name>createMockKeyProvider</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::createMockKeyProvider</qualifiedname>
+        <briefdescription>
+<para>Create Mock Key Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="618" column="21" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="618" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a24b6494d829fcd34875338626dffde06" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt; KeyProvider &gt; themis::llm::lora::LoRAStorageService::Impl::createKeyProvider</definition>
+        <argsstring>()</argsstring>
+        <name>createKeyProvider</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::createKeyProvider</qualifiedname>
+        <briefdescription>
+<para>Create Key Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), createHSMKeyProvider(), createVaultKeyProvider(), createPKIKeyProvider(), isProductionEnvironment(), spdlog::error(), Vault(), createMockKeyProvider(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="633" column="21" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="633" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1add0dbeb487daf51957a58dcc27a01acf" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAStorageService::Impl::makeCollectionKey</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>makeCollectionKey</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::makeCollectionKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="687" column="17" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="687" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a46e8c558ef58d75e54e8a3cb0c7870fc" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::saveToThemisDB</definition>
+        <argsstring>(const std::string &amp;adapter_id, const AdapterWeights &amp;weights, const AdapterMetadata &amp;metadata)</argsstring>
+        <name>saveToThemisDB</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::saveToThemisDB</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Save To Themis DB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeCollectionKey(), Value(), BaseEntity::fromFields(), size(), spdlog::info(), put(), serialize(), encrypt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="699" column="10" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="699" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ab3b82d6f05045a14ad101418722282fc" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterWeights &gt; themis::llm::lora::LoRAStorageService::Impl::loadFromThemisDB</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadFromThemisDB</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadFromThemisDB</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load From Themis DB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeCollectionKey(), get(), spdlog::warn(), encrypted_b64(), begin(), end(), EncryptedBlob::fromBase64(), decryptToBytes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="779" column="19" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="779" bodyend="848"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a36c31ba506880b61313daa0fe4747089" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::lora::LoRAStorageService::Impl::loadMetadataFromThemisDB</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadMetadataFromThemisDB</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadMetadataFromThemisDB</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Metadata From Themis DB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeCollectionKey(), get(), BaseEntity::deserialize(), getFieldAsString(), value_or(), getFieldAsInt(), getFieldAsDouble(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="856" column="19" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="856" bodyend="875"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a28c9c968dcb11d762a02473d9cabb15b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAStorageService::Impl::saveToFilesystem</definition>
+        <argsstring>(const std::string &amp;adapter_id, const AdapterWeights &amp;weights, const AdapterMetadata &amp;metadata)</argsstring>
+        <name>saveToFilesystem</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::saveToFilesystem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Filesystem fallback implementations (original code). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fs::path(), fs::create_directories(), weights_file(), spdlog::error(), string(), write(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="885" column="10" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="885" bodyend="918"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a8d07780632f6d91181b56be0e84e8503" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterWeights &gt; themis::llm::lora::LoRAStorageService::Impl::loadFromFilesystem</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadFromFilesystem</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadFromFilesystem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load From Filesystem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::path(), fs::exists(), weights_file(), tellg(), seekg(), resize(), read(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="926" column="19" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="926" bodyend="950"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a037005c737608cac3bd5cb4123ca6f22" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::lora::LoRAStorageService::Impl::loadMetadataFromFilesystem</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>loadMetadataFromFilesystem</name>
+        <qualifiedname>themis::llm::lora::LoRAStorageService::Impl::loadMetadataFromFilesystem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Load Metadata From Filesystem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::path(), fs::exists(), metadata_file(), <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a6658c74cc07aa638ecf9155e67b11b51" kindref="member">AdapterMetadata::fromJSON()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_storage_service_themisdb.cpp" line="958" column="19" bodyfile="src/llm/lora_framework/lora_storage_service_themisdb.cpp" bodystart="958" bodyend="975"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/lora_storage_service.cpp" line="25" column="1" bodyfile="src/llm/lora_framework/lora_storage_service.cpp" bodystart="25" bodyend="434"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ae4d47608bddd1963ca02c1e687b326b4" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>backendToString</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ae4d47608bddd1963ca02c1e687b326b4" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>backendToString</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a5ab58b4316c53ec538a419463a1b329b" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a044e90567a3b3339afcfa88e8e3ae598" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>createHSMKeyProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a24b6494d829fcd34875338626dffde06" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>createKeyProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1afc49a62387396e4c8ed15c641ee2d275" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>createMockKeyProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ae5c0b35a0fe698143da3eedf53cd09df" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>createPKIKeyProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a70c4277f4575ef2130e2d04015cd7ca7" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>createVaultKeyProvider</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ab13273f027e98be98f3a4b8c4ed3d728" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>createVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ab13273f027e98be98f3a4b8c4ed3d728" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>createVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1aef0a28064102d4af239048f54a11786e" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>DEFAULT_HSM_CACHE_TTL_MS</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a1005a477bda59141218994163b58d1fb" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>DEFAULT_HSM_MAX_CACHE_SIZE</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ad2952fce4fa4e09ed5c73ec599215bc9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>deleteAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ad2952fce4fa4e09ed5c73ec599215bc9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>deleteAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a5a0bfc33a5197406c34889b97ca19eaa" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>encryption_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a4977e8299fd8a39212757c66fc949be2" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>exists</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a4977e8299fd8a39212757c66fc949be2" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>exists</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a8b253dc48f499b7391c1871789190b04" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a8b253dc48f499b7391c1871789190b04" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a13c99d1e9bd8f39159d4dba66fb6e5eb" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a13c99d1e9bd8f39159d4dba66fb6e5eb" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ae296544397a14fa0463e39b90b1414f3" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>isProductionEnvironment</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a487cb7637d342a53e793375ffc5aa81a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>listAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a487cb7637d342a53e793375ffc5aa81a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>listAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a7655cd7dacb0d46aec9a0da792efed0f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>listVersions</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a7655cd7dacb0d46aec9a0da792efed0f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>listVersions</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a9354421cfe13218b71a46e89e6160320" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a9354421cfe13218b71a46e89e6160320" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a8d07780632f6d91181b56be0e84e8503" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadFromFilesystem</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a8d07780632f6d91181b56be0e84e8503" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadFromFilesystem</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1ab3b82d6f05045a14ad101418722282fc" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadFromThemisDB</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a469bdc0754dfcf30d7344fc4667b2928" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a469bdc0754dfcf30d7344fc4667b2928" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a037005c737608cac3bd5cb4123ca6f22" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadMetadataFromFilesystem</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a037005c737608cac3bd5cb4123ca6f22" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadMetadataFromFilesystem</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a36c31ba506880b61313daa0fe4747089" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>loadMetadataFromThemisDB</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1add0dbeb487daf51957a58dcc27a01acf" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>makeCollectionKey</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a2188901450c9a8146d62bd2c61bdcdab" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>rollbackToVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a2188901450c9a8146d62bd2c61bdcdab" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>rollbackToVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a155b6fed6d921ba25defba6ed2283c14" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>saveAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a155b6fed6d921ba25defba6ed2283c14" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>saveAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a28c9c968dcb11d762a02473d9cabb15b" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>saveToFilesystem</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a28c9c968dcb11d762a02473d9cabb15b" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>saveToFilesystem</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a46e8c558ef58d75e54e8a3cb0c7870fc" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>saveToThemisDB</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a50f3cf626059121735a710483e2a9cac" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>updateMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_impl_1a50f3cf626059121735a710483e2a9cac" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAStorageService::Impl</scope><name>updateMetadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

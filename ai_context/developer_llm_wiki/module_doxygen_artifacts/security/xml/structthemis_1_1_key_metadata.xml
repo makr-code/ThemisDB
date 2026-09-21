@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_key_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::KeyMetadata</compoundname>
+    <includes refid="include_2security_2key__provider_8h" local="no">key_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_key_metadata_1ac6488314abf2aa18ff4ceb1b8e2cb2c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::KeyMetadata::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>themis::KeyMetadata::key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="35" column="17" bodyfile="include/security/key_provider.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_key_metadata_1ae2a9e4c63e2875882552d0354c3ab78a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::KeyMetadata::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::KeyMetadata::version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="36" column="14" bodyfile="include/security/key_provider.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_key_metadata_1a73d0e6363a384587ce223bd7998c9f73" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::KeyMetadata::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::KeyMetadata::algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="37" column="17" bodyfile="include/security/key_provider.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_key_metadata_1a95b63a05b947e6b311c33d45b58ab191" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::KeyMetadata::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::KeyMetadata::created_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="38" column="13" bodyfile="include/security/key_provider.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_key_metadata_1a395e2e74b53dcd547febec34879dee1a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::KeyMetadata::expires_at_ms</definition>
+        <argsstring></argsstring>
+        <name>expires_at_ms</name>
+        <qualifiedname>themis::KeyMetadata::expires_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="39" column="13" bodyfile="include/security/key_provider.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_key_metadata_1a9b0ac49ed48955ab3da13ea569054fa5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1acc655e7d5180ddc2996e4086d71566b2" kindref="member">KeyStatus</ref></type>
+        <definition>KeyStatus themis::KeyMetadata::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::KeyMetadata::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1acc655e7d5180ddc2996e4086d71566b2a18ff74f43da410c5529f7d6fca84f115" kindref="member">KeyStatus::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="40" column="15" bodyfile="include/security/key_provider.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/key_provider.h" line="34" column="1" bodyfile="include/security/key_provider.h" bodystart="34" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_key_metadata_1a73d0e6363a384587ce223bd7998c9f73" prot="public" virt="non-virtual"><scope>themis::KeyMetadata</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1_key_metadata_1a95b63a05b947e6b311c33d45b58ab191" prot="public" virt="non-virtual"><scope>themis::KeyMetadata</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1_key_metadata_1a395e2e74b53dcd547febec34879dee1a" prot="public" virt="non-virtual"><scope>themis::KeyMetadata</scope><name>expires_at_ms</name></member>
+      <member refid="structthemis_1_1_key_metadata_1ac6488314abf2aa18ff4ceb1b8e2cb2c7" prot="public" virt="non-virtual"><scope>themis::KeyMetadata</scope><name>key_id</name></member>
+      <member refid="structthemis_1_1_key_metadata_1a9b0ac49ed48955ab3da13ea569054fa5" prot="public" virt="non-virtual"><scope>themis::KeyMetadata</scope><name>status</name></member>
+      <member refid="structthemis_1_1_key_metadata_1ae2a9e4c63e2875882552d0354c3ab78a" prot="public" virt="non-virtual"><scope>themis::KeyMetadata</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::QTTMappingDescriptor</compoundname>
+    <includes refid="hiss__structural__search_8h" local="no">hiss_structural_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a76f602c37f198044351240756a1164fe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::QTTMappingDescriptor::grid_sizes</definition>
+        <argsstring></argsstring>
+        <name>grid_sizes</name>
+        <qualifiedname>themis::tensor::QTTMappingDescriptor::grid_sizes</qualifiedname>
+        <briefdescription>
+<para>Original (unpadded) physical extents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="108" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a102458465562825c31c6d75cfd74eb54" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::QTTMappingDescriptor::padded_grid_sizes</definition>
+        <argsstring></argsstring>
+        <name>padded_grid_sizes</name>
+        <qualifiedname>themis::tensor::QTTMappingDescriptor::padded_grid_sizes</qualifiedname>
+        <briefdescription>
+<para>Power-of-2 padded extents (2^bit_depths[d]). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="109" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1ae374972f72c7120bcd58a1f37739df5f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::QTTMappingDescriptor::bit_depths</definition>
+        <argsstring></argsstring>
+        <name>bit_depths</name>
+        <qualifiedname>themis::tensor::QTTMappingDescriptor::bit_depths</qualifiedname>
+        <briefdescription>
+<para>Number of binary QTT modes per dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="110" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1ae0d5f8703e519cccf99cee23fa44a7bf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::QTTMappingDescriptor::physicalToQTT</definition>
+        <argsstring>(std::size_t physical_idx) const</argsstring>
+        <name>physicalToQTT</name>
+        <qualifiedname>themis::tensor::QTTMappingDescriptor::physicalToQTT</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>physical_idx</declname>
+        </param>
+        <briefdescription>
+<para>Convert a flat physical index to a flat QTT index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Interprets <computeroutput>physical_idx</computeroutput> as a C-contiguous (row-major) flat index into a tensor of shape <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a76f602c37f198044351240756a1164fe" kindref="member">grid_sizes</ref></computeroutput>, extracts the per-dimension indices, and encodes each dimension&apos;s index into <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1ae374972f72c7120bcd58a1f37739df5f" kindref="member">bit_depths</ref>[d]</computeroutput> binary QTT modes (MSB first), yielding a flat C-contiguous index into the all-2 quantics-mode tensor.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>physical_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat index into the unpadded tensor. Must satisfy <computeroutput>physical_idx &lt; product(grid_sizes)</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flat QTT index into the quantics-mode tensor. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>physical_idx &gt;= product(grid_sizes)</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the descriptor is empty or inconsistent. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Convert flat physical index to C-contiguous multi-index in grid_sizes. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ndims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="127" column="18" bodyfile="src/tensor/hiss_structural_search.cpp" bodystart="231" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a13cd4a6d64fd5bb3a9191a4d67a92648" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::size_t &gt;</type>
+        <definition>std::optional&lt; std::size_t &gt; themis::tensor::QTTMappingDescriptor::qttToPhysical</definition>
+        <argsstring>(std::size_t qtt_idx) const</argsstring>
+        <name>qttToPhysical</name>
+        <qualifiedname>themis::tensor::QTTMappingDescriptor::qttToPhysical</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>qtt_idx</declname>
+        </param>
+        <briefdescription>
+<para>Convert a flat QTT index to a flat physical index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Interprets <computeroutput>qtt_idx</computeroutput> as a C-contiguous (row-major) flat index into the all-2 quantics-mode tensor, reconstructs the per-dimension indices from the packed bit sequence (MSB first per dimension), and maps them back to a flat physical index in the original unpadded tensor.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>qtt_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat index into the quantics-mode tensor. Must satisfy <computeroutput>qtt_idx &lt; product(padded_grid_sizes)</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The corresponding flat physical index in the unpadded tensor, or <computeroutput>std::nullopt</computeroutput> when <computeroutput>qtt_idx</computeroutput> addresses a zero-padded element (any reconstructed per-dimension index ≥ <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a76f602c37f198044351240756a1164fe" kindref="member">grid_sizes</ref>[d]</computeroutput>). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>qtt_idx &gt;= product(padded_grid_sizes)</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the descriptor is empty or inconsistent. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Decode per-dimension indices from the packed QTT bit sequence (MSB first). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ndims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="145" column="20" bodyfile="src/tensor/hiss_structural_search.cpp" bodystart="288" bodyend="343"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reversible index mapping descriptor for a pure-binary QTT layout. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>After <computeroutput><ref refid="classthemis_1_1tensor_1_1_hiss_reshaper_1a3b8d787f17f79ffa0f66490220f7ca2e" kindref="member">HissReshaper::exposeQuantics()</ref></computeroutput> pads each physical dimension to the next power-of-two extent and decomposes the zero-padded tensor into an all-2 quantics-mode train, this descriptor provides lossless, O(D·B) functions to convert between:<itemizedlist>
+<listitem><para>a <bold>flat physical index</bold> into the original (unpadded) tensor, and</para>
+</listitem><listitem><para>a <bold>flat QTT index</bold> into the all-2 quantics-mode tensor.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Bit-ordering convention (MSB-first per dimension)</heading>
+</para>
+<para>For dimension <computeroutput>d</computeroutput> with <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1ae374972f72c7120bcd58a1f37739df5f" kindref="member">bit_depths</ref>[d]</computeroutput> = B_d bits, the most-significant bit of the per-dimension index is stored in the first QTT mode for that dimension and the least-significant bit in the last mode. Modes from successive dimensions are concatenated in C-contiguous order.</para>
+<para><heading level="3">Padding region</heading>
+</para>
+<para>QTT indices whose per-dimension index meets or exceeds <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a76f602c37f198044351240756a1164fe" kindref="member">grid_sizes</ref>[d]</computeroutput> correspond to the zero-padded region and have no valid physical counterpart. <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a13cd4a6d64fd5bb3a9191a4d67a92648" kindref="member">qttToPhysical()</ref></computeroutput> returns <computeroutput>std::nullopt</computeroutput> for those indices.</para>
+<para><heading level="3">Preconditions</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a76f602c37f198044351240756a1164fe" kindref="member">grid_sizes</ref></computeroutput>, <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a102458465562825c31c6d75cfd74eb54" kindref="member">padded_grid_sizes</ref></computeroutput>, and <computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1ae374972f72c7120bcd58a1f37739df5f" kindref="member">bit_depths</ref></computeroutput> must all have the same non-zero length (number of physical dimensions).</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a102458465562825c31c6d75cfd74eb54" kindref="member">padded_grid_sizes</ref>[d] == (1 &lt;&lt; <ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1ae374972f72c7120bcd58a1f37739df5f" kindref="member">bit_depths</ref>[d])</computeroutput> for every dimension <computeroutput>d</computeroutput>.</para>
+</listitem><listitem><para><computeroutput><ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a102458465562825c31c6d75cfd74eb54" kindref="member">padded_grid_sizes</ref>[d] &gt;= <ref refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a76f602c37f198044351240756a1164fe" kindref="member">grid_sizes</ref>[d]</computeroutput> for every dimension <computeroutput>d</computeroutput>. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/tensor/hiss_structural_search.h" line="107" column="1" bodyfile="include/tensor/hiss_structural_search.h" bodystart="107" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1ae374972f72c7120bcd58a1f37739df5f" prot="public" virt="non-virtual"><scope>themis::tensor::QTTMappingDescriptor</scope><name>bit_depths</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a76f602c37f198044351240756a1164fe" prot="public" virt="non-virtual"><scope>themis::tensor::QTTMappingDescriptor</scope><name>grid_sizes</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a102458465562825c31c6d75cfd74eb54" prot="public" virt="non-virtual"><scope>themis::tensor::QTTMappingDescriptor</scope><name>padded_grid_sizes</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1ae0d5f8703e519cccf99cee23fa44a7bf" prot="public" virt="non-virtual"><scope>themis::tensor::QTTMappingDescriptor</scope><name>physicalToQTT</name></member>
+      <member refid="structthemis_1_1tensor_1_1_q_t_t_mapping_descriptor_1a13cd4a6d64fd5bb3a9191a4d67a92648" prot="public" virt="non-virtual"><scope>themis::tensor::QTTMappingDescriptor</scope><name>qttToPhysical</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

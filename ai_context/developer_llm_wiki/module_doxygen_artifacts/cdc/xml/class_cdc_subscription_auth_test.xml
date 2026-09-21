@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cdc_subscription_auth_test" kind="class" language="C++" prot="public">
+    <compoundname>CdcSubscriptionAuthTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cdc_subscription_auth_test_1acd0246a7f6507470835c69ee9c7c3251" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CdcSubscriptionAuthTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>CdcSubscriptionAuthTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="183" column="61" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_subscription_auth_test_1a00949f8bc891665ffb5cd59a292e3aac" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; CdcSubscriptionAuthTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>CdcSubscriptionAuthTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="184" column="37" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_subscription_auth_test_1a9c2a73a9e665959e8859b34738fc7d87" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_changefeed" kindref="compound">themis::Changefeed</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::Changefeed&gt; CdcSubscriptionAuthTest::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>CdcSubscriptionAuthTest::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="185" column="41" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_subscription_auth_test_1afc9a6a831f5408012303e123c9b45442" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::AuthMiddleware &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; CdcSubscriptionAuthTest::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>CdcSubscriptionAuthTest::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="186" column="37" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cdc_subscription_auth_test_1ad04bd15e3ee9f65fe6eab904bb3c1656" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::ChangefeedApiHandler &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::ChangefeedApiHandler&gt; CdcSubscriptionAuthTest::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>CdcSubscriptionAuthTest::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="187" column="23" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cdc_subscription_auth_test_1abaa45cb199e8d53056f497d472b5bd01" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcSubscriptionAuthTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CdcSubscriptionAuthTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="109" column="10" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="109" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cdc_subscription_auth_test_1a4df7d3b61723853e6f4e4c8aea4f14e5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcSubscriptionAuthTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CdcSubscriptionAuthTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="160" column="10" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="160" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cdc_subscription_auth_test_1a27a09f6e7feb8b263dbf0a0b284ca971" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CdcSubscriptionAuthTest::recordEvent</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value=&quot;val&quot;)</argsstring>
+        <name>recordEvent</name>
+        <qualifiedname>CdcSubscriptionAuthTest::recordEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+          <defval>&quot;val&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="175" column="10" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="175" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_cdc_subscription_auth_test_1a256be55167b69d367892c3236fc0f118" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string CdcSubscriptionAuthTest::bearer</definition>
+        <argsstring>(const char *token)</argsstring>
+        <name>bearer</name>
+        <qualifiedname>CdcSubscriptionAuthTest::bearer</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="170" column="24" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CdcSubscriptionAuthTest</label>
+        <link refid="class_cdc_subscription_auth_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CdcSubscriptionAuthTest</label>
+        <link refid="class_cdc_subscription_auth_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_subscription_auth.cpp" line="107" column="1" bodyfile="tests/cdc/test_cdc_subscription_auth.cpp" bodystart="107" bodyend="188"/>
+    <listofallmembers>
+      <member refid="class_cdc_subscription_auth_test_1afc9a6a831f5408012303e123c9b45442" prot="protected" virt="non-virtual"><scope>CdcSubscriptionAuthTest</scope><name>auth_</name></member>
+      <member refid="class_cdc_subscription_auth_test_1a256be55167b69d367892c3236fc0f118" prot="protected" virt="non-virtual"><scope>CdcSubscriptionAuthTest</scope><name>bearer</name></member>
+      <member refid="class_cdc_subscription_auth_test_1a9c2a73a9e665959e8859b34738fc7d87" prot="protected" virt="non-virtual"><scope>CdcSubscriptionAuthTest</scope><name>changefeed_</name></member>
+      <member refid="class_cdc_subscription_auth_test_1acd0246a7f6507470835c69ee9c7c3251" prot="protected" virt="non-virtual"><scope>CdcSubscriptionAuthTest</scope><name>db_path_</name></member>
+      <member refid="class_cdc_subscription_auth_test_1ad04bd15e3ee9f65fe6eab904bb3c1656" prot="protected" virt="non-virtual"><scope>CdcSubscriptionAuthTest</scope><name>handler_</name></member>
+      <member refid="class_cdc_subscription_auth_test_1a27a09f6e7feb8b263dbf0a0b284ca971" prot="protected" virt="non-virtual"><scope>CdcSubscriptionAuthTest</scope><name>recordEvent</name></member>
+      <member refid="class_cdc_subscription_auth_test_1abaa45cb199e8d53056f497d472b5bd01" prot="protected" virt="non-virtual"><scope>CdcSubscriptionAuthTest</scope><name>SetUp</name></member>
+      <member refid="class_cdc_subscription_auth_test_1a00949f8bc891665ffb5cd59a292e3aac" prot="protected" virt="non-virtual"><scope>CdcSubscriptionAuthTest</scope><name>storage_</name></member>
+      <member refid="class_cdc_subscription_auth_test_1a4df7d3b61723853e6f4e4c8aea4f14e5" prot="protected" virt="non-virtual"><scope>CdcSubscriptionAuthTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

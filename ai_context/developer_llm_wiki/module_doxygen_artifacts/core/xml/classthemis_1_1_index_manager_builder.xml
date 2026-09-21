@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_index_manager_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::IndexManagerBuilder</compoundname>
+    <includes refid="index__initialization_8h" local="no">index_initialization.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_builder_1a043384d7ddddce3db3e2d40e787caaf0" prot="private" static="no" mutable="no">
+        <type>IExpressionEvaluatorPtr</type>
+        <definition>IExpressionEvaluatorPtr themis::IndexManagerBuilder::evaluator_</definition>
+        <argsstring></argsstring>
+        <name>evaluator_</name>
+        <qualifiedname>themis::IndexManagerBuilder::evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/index_initialization.h" line="88" column="29" bodyfile="include/core/index_initialization.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_builder_1a76e14f7024bb9afb85c6710e0299b611" prot="private" static="no" mutable="no">
+        <type>IStorageEnginePtr</type>
+        <definition>IStorageEnginePtr themis::IndexManagerBuilder::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::IndexManagerBuilder::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/index_initialization.h" line="89" column="23" bodyfile="include/core/index_initialization.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_index_manager_builder_1a6587c5088404c6221f24be5fe380cc00" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::IndexManagerBuilder::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::IndexManagerBuilder::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/index_initialization.h" line="90" column="21" bodyfile="include/core/index_initialization.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_index_manager_builder_1ae36ce941d6a70fefc736c67eeb5bce86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::IndexManagerBuilder::IndexManagerBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>IndexManagerBuilder</name>
+        <qualifiedname>themis::IndexManagerBuilder::IndexManagerBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/index_initialization.h" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_builder_1a2a4cae0292028a5d051eaa980b4c7d37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_index_manager_builder_1ae36ce941d6a70fefc736c67eeb5bce86" kindref="member">IndexManagerBuilder</ref> &amp;</type>
+        <definition>IndexManagerBuilder &amp; themis::IndexManagerBuilder::withEvaluator</definition>
+        <argsstring>(IExpressionEvaluatorPtr evaluator)</argsstring>
+        <name>withEvaluator</name>
+        <qualifiedname>themis::IndexManagerBuilder::withEvaluator</qualifiedname>
+        <param>
+          <type>IExpressionEvaluatorPtr</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>With Evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withEvaluator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/index_initialization.h" line="32" column="25" bodyfile="include/core/index_initialization.h" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_builder_1a4874e40ac7a49d9f79bb67183c9e0661" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_index_manager_builder_1ae36ce941d6a70fefc736c67eeb5bce86" kindref="member">IndexManagerBuilder</ref> &amp;</type>
+        <definition>IndexManagerBuilder &amp; themis::IndexManagerBuilder::withStorage</definition>
+        <argsstring>(IStorageEnginePtr storage)</argsstring>
+        <name>withStorage</name>
+        <qualifiedname>themis::IndexManagerBuilder::withStorage</qualifiedname>
+        <param>
+          <type>IStorageEnginePtr</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+<para>With Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/index_initialization.h" line="43" column="25" bodyfile="include/core/index_initialization.h" bodystart="43" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_builder_1a4cc521588cd75d99c24eaaa3ac541667" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_index_manager_builder_1ae36ce941d6a70fefc736c67eeb5bce86" kindref="member">IndexManagerBuilder</ref> &amp;</type>
+        <definition>IndexManagerBuilder &amp; themis::IndexManagerBuilder::withRocksDB</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db)</argsstring>
+        <name>withRocksDB</name>
+        <qualifiedname>themis::IndexManagerBuilder::withRocksDB</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>With Rocks DB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withRocksDB without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/index_initialization.h" line="54" column="25" bodyfile="include/core/index_initialization.h" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_index_manager_builder_1a34cfec0f9cbf8cd1bf3f5cee33a1d9d4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; IndexManager &gt;</type>
+        <definition>std::shared_ptr&lt; IndexManager &gt; themis::IndexManagerBuilder::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::IndexManagerBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: setRocksDB(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/index_initialization.h" line="64" column="21" bodyfile="include/core/index_initialization.h" bodystart="64" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_index_manager_builder_1a74bed16a92fc461b8bd439cef66bd981" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_index_manager_builder_1ae36ce941d6a70fefc736c67eeb5bce86" kindref="member">IndexManagerBuilder</ref></type>
+        <definition>static IndexManagerBuilder themis::IndexManagerBuilder::standard</definition>
+        <argsstring>()</argsstring>
+        <name>standard</name>
+        <qualifiedname>themis::IndexManagerBuilder::standard</qualifiedname>
+        <briefdescription>
+<para>Standard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements standard without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/index_initialization.h" line="81" column="32" bodyfile="include/core/index_initialization.h" bodystart="81" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/index_initialization.h" line="22" column="1" bodyfile="include/core/index_initialization.h" bodystart="22" bodyend="91"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_index_manager_builder_1a34cfec0f9cbf8cd1bf3f5cee33a1d9d4" prot="public" virt="non-virtual"><scope>themis::IndexManagerBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1_index_manager_builder_1a6587c5088404c6221f24be5fe380cc00" prot="private" virt="non-virtual"><scope>themis::IndexManagerBuilder</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_index_manager_builder_1a043384d7ddddce3db3e2d40e787caaf0" prot="private" virt="non-virtual"><scope>themis::IndexManagerBuilder</scope><name>evaluator_</name></member>
+      <member refid="classthemis_1_1_index_manager_builder_1ae36ce941d6a70fefc736c67eeb5bce86" prot="public" virt="non-virtual"><scope>themis::IndexManagerBuilder</scope><name>IndexManagerBuilder</name></member>
+      <member refid="classthemis_1_1_index_manager_builder_1a74bed16a92fc461b8bd439cef66bd981" prot="public" virt="non-virtual"><scope>themis::IndexManagerBuilder</scope><name>standard</name></member>
+      <member refid="classthemis_1_1_index_manager_builder_1a76e14f7024bb9afb85c6710e0299b611" prot="private" virt="non-virtual"><scope>themis::IndexManagerBuilder</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1_index_manager_builder_1a2a4cae0292028a5d051eaa980b4c7d37" prot="public" virt="non-virtual"><scope>themis::IndexManagerBuilder</scope><name>withEvaluator</name></member>
+      <member refid="classthemis_1_1_index_manager_builder_1a4cc521588cd75d99c24eaaa3ac541667" prot="public" virt="non-virtual"><scope>themis::IndexManagerBuilder</scope><name>withRocksDB</name></member>
+      <member refid="classthemis_1_1_index_manager_builder_1a4874e40ac7a49d9f79bb67183c9e0661" prot="public" virt="non-virtual"><scope>themis::IndexManagerBuilder</scope><name>withStorage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

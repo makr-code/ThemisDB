@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessEvent</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_event_1a558c9c8ef5ff534638f287f112af3642" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessEvent::case_id</definition>
+        <argsstring></argsstring>
+        <name>case_id</name>
+        <qualifiedname>themis::ProcessEvent::case_id</qualifiedname>
+        <briefdescription>
+<para>Prozess-Instanz-ID (z.B. Bestellnummer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="39" column="17" bodyfile="include/analytics/process_mining.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_event_1a54dc066656ae4f8431e844dfdd215543" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessEvent::activity</definition>
+        <argsstring></argsstring>
+        <name>activity</name>
+        <qualifiedname>themis::ProcessEvent::activity</qualifiedname>
+        <briefdescription>
+<para>Aktivitätsname (z.B. &quot;Bestellung erfasst&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="40" column="17" bodyfile="include/analytics/process_mining.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_event_1a6f4b31f8da38a19810a89495d60875b6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ProcessEvent::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::ProcessEvent::timestamp_ms</qualifiedname>
+        <briefdescription>
+<para>Zeitstempel in Millisekunden. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="41" column="13" bodyfile="include/analytics/process_mining.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_event_1abc4a302a2d0dfdbef358f93f6c81d5ca" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ProcessEvent::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::ProcessEvent::resource</qualifiedname>
+        <briefdescription>
+<para>Ausführender (Benutzer/System). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="44" column="19" bodyfile="include/analytics/process_mining.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_event_1af875070ef1312c86efb697076d57bf5c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ProcessEvent::lifecycle</definition>
+        <argsstring></argsstring>
+        <name>lifecycle</name>
+        <qualifiedname>themis::ProcessEvent::lifecycle</qualifiedname>
+        <briefdescription>
+<para>start, complete, suspend, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="45" column="19" bodyfile="include/analytics/process_mining.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_event_1a13101ee46255935198f76e21d6900a55" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::ProcessEvent::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::ProcessEvent::attributes</qualifiedname>
+        <briefdescription>
+<para>Weitere Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="46" column="20" bodyfile="include/analytics/process_mining.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_event_1a008a928c6c3cdbba5fb155020de4bba4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;float&gt; &gt; themis::ProcessEvent::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::ProcessEvent::embedding</qualifiedname>
+        <briefdescription>
+<para>Vektor-Embedding der Aktivität. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="49" column="19" bodyfile="include/analytics/process_mining.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_event_1a847b31517b4df8884a4fdda7177c4702" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::ProcessEvent::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>themis::ProcessEvent::location</qualifiedname>
+        <briefdescription>
+<para>Geo-Location (WKT). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="50" column="19" bodyfile="include/analytics/process_mining.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="38" column="1" bodyfile="include/analytics/process_mining.h" bodystart="38" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_event_1a54dc066656ae4f8431e844dfdd215543" prot="public" virt="non-virtual"><scope>themis::ProcessEvent</scope><name>activity</name></member>
+      <member refid="structthemis_1_1_process_event_1a13101ee46255935198f76e21d6900a55" prot="public" virt="non-virtual"><scope>themis::ProcessEvent</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1_process_event_1a558c9c8ef5ff534638f287f112af3642" prot="public" virt="non-virtual"><scope>themis::ProcessEvent</scope><name>case_id</name></member>
+      <member refid="structthemis_1_1_process_event_1a008a928c6c3cdbba5fb155020de4bba4" prot="public" virt="non-virtual"><scope>themis::ProcessEvent</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1_process_event_1af875070ef1312c86efb697076d57bf5c" prot="public" virt="non-virtual"><scope>themis::ProcessEvent</scope><name>lifecycle</name></member>
+      <member refid="structthemis_1_1_process_event_1a847b31517b4df8884a4fdda7177c4702" prot="public" virt="non-virtual"><scope>themis::ProcessEvent</scope><name>location</name></member>
+      <member refid="structthemis_1_1_process_event_1abc4a302a2d0dfdbef358f93f6c81d5ca" prot="public" virt="non-virtual"><scope>themis::ProcessEvent</scope><name>resource</name></member>
+      <member refid="structthemis_1_1_process_event_1a6f4b31f8da38a19810a89495d60875b6" prot="public" virt="non-virtual"><scope>themis::ProcessEvent</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

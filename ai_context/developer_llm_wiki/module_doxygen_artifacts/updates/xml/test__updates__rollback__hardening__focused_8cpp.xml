@@ -1,0 +1,1018 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__updates__rollback__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_updates_rollback_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="update__state__machine_8h" local="yes">updates/update_state_machine.h</includes>
+    <includes refid="coordinated__update__manager_8h" local="yes">updates/coordinated_update_manager.h</includes>
+    <includes refid="hot__reload__engine_8h" local="yes">updates/hot_reload_engine.h</includes>
+    <includes refid="updates__diagnostics_8h" local="yes">updates/updates_diagnostics.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>updates/coordinated_update_manager.h</label>
+        <link refid="coordinated__update__manager_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>updates/hot_reload_engine.h</label>
+        <link refid="hot__reload__engine_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>updates/manifest_database.h</label>
+        <link refid="manifest__database_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>updates/release_manifest.h</label>
+        <link refid="release__manifest_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>updates/update_history_logger.h</label>
+        <link refid="update__history__logger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>updates/update_state_machine.h</label>
+        <link refid="update__state__machine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>updates/updates_diagnostics.h</label>
+        <link refid="updates__diagnostics_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/updates/test_updates_rollback_hardening_focused.cpp</label>
+        <link refid="test__updates__rollback__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>acceleration/plugin_security.h</label>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="19">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>thread</label>
+      </node>
+      <node id="21">
+        <label>utils/update_checker.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_rollback_hardening_test" prot="public">RollbackHardeningTest</innerclass>
+    <innerclass refid="class_coordinated_rollback_test" prot="public">CoordinatedRollbackTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a4f65e3104a0f53b42d390bfd7c62bcc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_01_CreateCheckpointAndRollback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_01_CreateCheckpointAndRollback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="64" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="64" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a09c63f3e3ae36530afc2851d37da1d73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_02_RollbackToLatestCheckpoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_02_RollbackToLatestCheckpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="79" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="79" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a9f38c929bf117eed0d890fc261193828" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_03_RollbackFailsWithNoCheckpoints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_03_RollbackFailsWithNoCheckpoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="95" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="95" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a3629d5a40ae985db111fb03c4ff52af8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_04_CheckpointCountTracking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_04_CheckpointCountTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="104" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="104" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1afd78b83af72099a7acb945c0eb05e33f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_05_PartialRollbackFallbackImmediateAbort)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_05_PartialRollbackFallbackImmediateAbort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="120" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a0696dc2ea6da3bdbcc88afec943c6f9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_06_PartialRollbackFallbackPartialContinue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_06_PartialRollbackFallbackPartialContinue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="132" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="132" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a2fd465099918dc6b86db6b9aa17755eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_07_PartialRollbackFallbackDefer)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_07_PartialRollbackFallbackDefer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="144" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="144" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1ae33591a4840017d69523fea2dcc53871" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_08_RollbackCallbackInvocation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_08_RollbackCallbackInvocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="156" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="156" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a1e9c71da0266ac4c572b13d12a8588a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_09_ClearCheckpoints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_09_ClearCheckpoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="175" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="175" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a91e9c2cc06db929290355709b7a6a01c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RollbackHardeningTest, ADD_10_ListCheckpoints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_10_ListCheckpoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="187" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="187" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a860a00df6dab5b84d5f560fa32e5e83a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_11_CoordinatedRollbackReverseSequence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_11_CoordinatedRollbackReverseSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="207" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="207" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a3ae46f0296a59898c2d5c3983ec5ebb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_12_IsolatedNodeTracking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_12_IsolatedNodeTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="228" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="228" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a9ceecc70773a9890410e50803d7db724" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_13_CoordinatedUpdateResultStructure)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_13_CoordinatedUpdateResultStructure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="245" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="245" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1aef68447fd9036d914448c7a1d7b70837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_14_NodeSequenceOrdering)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_14_NodeSequenceOrdering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="265" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="265" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a911d1e1c74a748cff31ed216f7f4c528" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_15_ProgressCallbackDuringCoordination)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_15_ProgressCallbackDuringCoordination</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="284" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="284" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1ae11f8dfdd871073589e98944e56580ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_16_WaitForPreviousCallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_16_WaitForPreviousCallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="305" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="305" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a7fe4dd44af836ab954f17331bb3dbcda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_17_SignalReadyCallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_17_SignalReadyCallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="326" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="326" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a304f4366e174f1fe0d03eb187b5f4254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_18_CascadePreventionNetworkPartition)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_18_CascadePreventionNetworkPartition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="346" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="346" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1a95b2641e45060a03c30b08ebed9bdf9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_19_PerNodeStatusTracking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_19_PerNodeStatusTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="370" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="370" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__rollback__hardening__focused_8cpp_1af3a8c75af7e225d74ce6360e1d3df3a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoordinatedRollbackTest, ADD_20_LeaderLastSequencing)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ADD_20_LeaderLastSequencing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="392" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="392" bodyend="416"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase A Item 1: Focused tests for rollback hardening and coordinated rollout. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="since"><para>1.8.1 (Q3 2026)</para>
+</simplesect>
+Coverage targets:<itemizedlist>
+<listitem><para>Partial rollback capability under multi-step updates</para>
+</listitem><listitem><para>Rollback-on-failure callback integration</para>
+</listitem><listitem><para>Checkpoints for intermediate rollback states</para>
+</listitem><listitem><para>Coordinated rollback across cluster nodes</para>
+</listitem><listitem><para>Reverse-sequence rollback (leader first, then replicas)</para>
+</listitem><listitem><para>Per-node rollback failure with isolation</para>
+</listitem><listitem><para>Cascade prevention via explicit state tracking</para>
+</listitem></itemizedlist>
+</para>
+<para>Test suite: 20+ focused tests covering:<itemizedlist>
+<listitem><para>ADD-01 to ADD-20: Rollback hardening scenarios</para>
+</listitem></itemizedlist>
+</para>
+<para>Target: &gt;90% code coverage for rollback paths </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="update__state__machine_8h" kindref="compound">updates/update_state_machine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="coordinated__update__manager_8h" kindref="compound">updates/coordinated_update_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hot__reload__engine_8h" kindref="compound">updates/hot_reload_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="updates__diagnostics_8h" kindref="compound">updates/updates_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">themis::updates</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="class_rollback_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/><ref refid="class_rollback_hardening_test_1ad3928585b3093c6c56ef3848b3d4c31b" kindref="member">state_machine_</ref>{</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="class_coordinated_rollback_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HotReloadEngine&gt;<sp/><ref refid="class_coordinated_rollback_test_1ada229436dc59866e6f68ec4cd23c6d8b" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_coordinated_rollback_test_1a16a03160a283f996331504279949507b" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_coordinated_rollback_test_1ada229436dc59866e6f68ec4cd23c6d8b" kindref="member">engine_</ref><sp/>=<sp/>std::make_shared&lt;HotReloadEngine&gt;(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ManifestDatabase&gt;{},</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::utils::UpdateChecker&gt;{});</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Item<sp/>1:<sp/>State<sp/>Machine<sp/>Rollback<sp/>Hardening<sp/>Tests<sp/>(ADD-01<sp/>to<sp/>ADD-10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-01:<sp/>Create<sp/>checkpoint<sp/>and<sp/>rollback<sp/>to<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_01_CreateCheckpointAndRollback)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>checkpoint_id<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;before_apply&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(checkpoint_id,<sp/>0);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>state_machine_.rollbackToCheckpoint(checkpoint_id);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(success);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(state_machine_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-02:<sp/>Rollback<sp/>to<sp/>latest<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_02_RollbackToLatestCheckpoint)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;cp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cp2<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;cp2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rollback<sp/>to<sp/>latest<sp/>(cp2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>state_machine_.rollbackToLatestCheckpoint();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(success);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(state_machine_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-03:<sp/>Rollback<sp/>fails<sp/>when<sp/>no<sp/>checkpoints<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_03_RollbackFailsWithNoCheckpoints)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>state_machine_.rollbackToLatestCheckpoint();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(success);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(state_machine_.checkpointCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-04:<sp/>Checkpoint<sp/>count<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_04_CheckpointCountTracking)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.checkpointCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;cp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(state_machine_.checkpointCount(),<sp/>1);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;cp2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(state_machine_.checkpointCount(),<sp/>2);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;cp3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(state_machine_.checkpointCount(),<sp/>3);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-05:<sp/>Partial<sp/>rollback<sp/>with<sp/>fallback<sp/>strategy<sp/>-<sp/>IMMEDIATE_ABORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_05_PartialRollbackFallbackImmediateAbort)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cp<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;before_apply&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>state_machine_.rollbackToCheckpointWithFallback(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cp,<sp/><ref refid="namespacethemis_1_1updates_1a792bd5fd2184366a191fd40223c960cbaf7c607da1cb078ebdbfd6a5f5af30c7d" kindref="member">RollbackFallbackStrategy::IMMEDIATE_ABORT</ref>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(success);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(state_machine_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-06:<sp/>Partial<sp/>rollback<sp/>with<sp/>fallback<sp/>strategy<sp/>-<sp/>PARTIAL_CONTINUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_06_PartialRollbackFallbackPartialContinue)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cp<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;cp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rollback<sp/>with<sp/>PARTIAL_CONTINUE<sp/>even<sp/>if<sp/>checkpoint<sp/>missing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>state_machine_.rollbackToCheckpointWithFallback(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>9999,<sp/><ref refid="namespacethemis_1_1updates_1a792bd5fd2184366a191fd40223c960cbade6b8bc172e42b37eb67273d3a4718e5" kindref="member">RollbackFallbackStrategy::PARTIAL_CONTINUE</ref>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(success);<sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>true<sp/>even<sp/>though<sp/>no<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-07:<sp/>Partial<sp/>rollback<sp/>with<sp/>fallback<sp/>strategy<sp/>-<sp/>DEFER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_07_PartialRollbackFallbackDefer)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cp<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;cp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>state_machine_.rollbackToCheckpointWithFallback(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>9999,<sp/><ref refid="namespacethemis_1_1updates_1a792bd5fd2184366a191fd40223c960cba7f5e3f26a1a530c4cc7f9b80e963e9cc" kindref="member">RollbackFallbackStrategy::DEFER</ref>);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(success);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(state_machine_.hasPendingRollback());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-08:<sp/>Rollback<sp/>callback<sp/>invocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_08_RollbackCallbackInvocation)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>callback_count{0};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>callback_result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>state_machine_.setRollbackCallback([&amp;](<ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>err)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++callback_count;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_result<sp/>=<sp/>success<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal"><sp/>:<sp/>err;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cp<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>state_machine_.emitRollbackDiagnostic(cp,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(callback_count,<sp/>1);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(callback_result,<sp/></highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-09:<sp/>Clear<sp/>checkpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_09_ClearCheckpoints)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;cp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;cp2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.checkpointCount(),<sp/>2);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>state_machine_.clearCheckpoints();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(state_machine_.checkpointCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-10:<sp/>List<sp/>checkpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_rollback_hardening_test" kindref="compound">RollbackHardeningTest</ref>,<sp/>ADD_10_ListCheckpoints)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;first&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cp2<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;second&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>checkpoints<sp/>=<sp/>state_machine_.listCheckpoints();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(checkpoints.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(checkpoints[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>cp1);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(checkpoints[1].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>cp2);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(checkpoints[0].description,<sp/></highlight><highlight class="stringliteral">&quot;first&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(checkpoints[1].description,<sp/></highlight><highlight class="stringliteral">&quot;second&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Item<sp/>1:<sp/>Coordinated<sp/>Rollback<sp/>Tests<sp/>(ADD-11<sp/>to<sp/>ADD-20)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-11:<sp/>Coordinated<sp/>rollback<sp/>in<sp/>reverse<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_11_CoordinatedRollbackReverseSequence)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">,<sp/>2,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>leader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1ae95ea6e8d320fc57942beda20aa79874" kindref="member">rollback_on_failure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1ac45b03f1a6343582b8885c7aad627c6c" kindref="member">leader_last</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Apply<sp/>would<sp/>normally<sp/>happen<sp/>first;<sp/>we&apos;re<sp/>just<sp/>testing<sp/>rollback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>this<sp/>unit<sp/>test,<sp/>we<sp/>test<sp/>that<sp/>the<sp/>method<sp/>exists<sp/>and<sp/>is<sp/>callable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(manager.isLeader()<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>node-b<sp/>is<sp/>not<sp/>leader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(manager.localSequenceNumber(),<sp/>1);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-12:<sp/>Isolated<sp/>node<sp/>tracking<sp/>on<sp/>rollback<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_12_IsolatedNodeTracking)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">,<sp/>2,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.hasIsolatedNodes());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.isolatedNodeCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-13:<sp/>Coordinated<sp/>update<sp/>result<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_13_CoordinatedUpdateResultStructure)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.8.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>statuses<sp/>=<sp/>manager.nodeStatuses();</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(statuses.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(statuses[0].node_id,<sp/></highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(statuses[0].state,<sp/><ref refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">NodeUpdateState::PENDING</ref>);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(statuses[1].node_id,<sp/></highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(statuses[1].state,<sp/><ref refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">NodeUpdateState::PENDING</ref>);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-14:<sp/>Node<sp/>sequence<sp/>ordering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_14_NodeSequenceOrdering)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Will<sp/>be<sp/>resequenced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/><sp/></highlight><highlight class="comment">//<sp/>Will<sp/>get<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Will<sp/>get<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1ac45b03f1a6343582b8885c7aad627c6c" kindref="member">leader_last</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader<sp/>should<sp/>be<sp/>last<sp/>in<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.isLeader()<sp/>==<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>node-b<sp/>is<sp/>not<sp/>leader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.totalNodes(),<sp/>3);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-15:<sp/>Progress<sp/>callback<sp/>during<sp/>coordinated<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_15_ProgressCallbackDuringCoordination)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>progress_calls{0};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.setProgressCallback([&amp;](uint32_t<sp/>done,<sp/>uint32_t<sp/>total,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++progress_calls;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Progress<sp/>callbacks<sp/>would<sp/>be<sp/>invoked<sp/>during<sp/>actual<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(progress_calls,<sp/>0);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-16:<sp/>Wait<sp/>for<sp/>previous<sp/>node<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_16_WaitForPreviousCallback)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>wait_calls{0};</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.setWaitForPreviousFunc([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prev_id,<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>timeout)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++wait_calls;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>predecessor<sp/>ready</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(wait_calls,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>called<sp/>until<sp/>applyLocalUpdate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-17:<sp/>Signal<sp/>ready<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_17_SignalReadyCallback)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>signal_calls{0};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.setSignalReadyFunc([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++signal_calls;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(signal_calls,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>called<sp/>until<sp/>applyLocalUpdate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-18:<sp/>Cascade<sp/>prevention<sp/>under<sp/>network<sp/>partition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_18_CascadePreventionNetworkPartition)<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">,<sp/>2,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a94c91740c4f8b3c676cb2a96e8fa85c5" kindref="member">wait_timeout</ref><sp/>=<sp/>std::chrono::milliseconds(100);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>network<sp/>partition:<sp/>predecessor<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.setWaitForPreviousFunc([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prev_id,<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>timeout)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Timeout/partition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>manager.applyLocalUpdate();</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.error_message.length(),<sp/>0);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-19:<sp/>Per-node<sp/>status<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_19_PerNodeStatusTracking)<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">,<sp/>2,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>statuses<sp/>=<sp/>manager.nodeStatuses();</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(statuses.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>status<sp/>:<sp/>statuses)<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(status.state,<sp/><ref refid="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">NodeUpdateState::PENDING</ref>);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(status.error_message.empty());</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="389"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADD-20:<sp/>Leader<sp/>last<sp/>sequencing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><ref refid="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" kindref="member">TEST_F</ref>(<ref refid="class_coordinated_rollback_test" kindref="compound">CoordinatedRollbackTest</ref>,<sp/>ADD_20_LeaderLastSequencing)<sp/>{</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_coordinated_update_config" kindref="compound">CoordinatedUpdateConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a4e5d78bf26bc72705027f4411cb65a54" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.7.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a7a87c9326352e48ad63cefceda63a2dc" kindref="member">local_node_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1a753f9b3ec5f16e6e8a6ec4e3771f897f" kindref="member">nodes</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Marked<sp/>as<sp/>leader</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1updates_1_1_coordinated_update_config_1ac45b03f1a6343582b8885c7aad627c6c" kindref="member">leader_last</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_coordinated_update_manager" kindref="compound">CoordinatedUpdateManager</ref><sp/>manager(engine_,<sp/>config);</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader<sp/>should<sp/>be<sp/>updated<sp/>last</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.isLeader());</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>statuses<sp/>=<sp/>manager.nodeStatuses();</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>leader<sp/>in<sp/>status<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>leader_status<sp/>=<sp/>std::find_if(statuses.begin(),<sp/>statuses.end(),</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_node_update_status" kindref="compound">NodeUpdateStatus</ref>&amp;<sp/>s)<sp/>{<sp/>return<sp/>s.node_id<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;node-c&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(leader_status,<sp/>statuses.end());</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Leader<sp/>should<sp/>have<sp/>highest<sp/>sequence<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(leader_status-&gt;sequence_number,<sp/>2);</highlight></codeline>
+<codeline lineno="416"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/updates/test_updates_rollback_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

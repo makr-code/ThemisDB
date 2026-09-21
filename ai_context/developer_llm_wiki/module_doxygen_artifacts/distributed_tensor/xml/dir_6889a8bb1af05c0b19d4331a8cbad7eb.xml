@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6889a8bb1af05c0b19d4331a8cbad7eb" kind="dir">
+    <compoundname>src/distributed_tensor/src</compoundname>
+    <innerfile refid="artifact__invalidation_8cc">artifact_invalidation.cc</innerfile>
+    <innerfile refid="src_2artifact__manifest_8cc">artifact_manifest.cc</innerfile>
+    <innerfile refid="crash__recovery__checkpoint_8cc">crash_recovery_checkpoint.cc</innerfile>
+    <innerfile refid="distributed__lock__manager_8cc">distributed_lock_manager.cc</innerfile>
+    <innerfile refid="src_2distributed__planner_8cc">distributed_planner.cc</innerfile>
+    <innerfile refid="error__recovery__handler_8cc">error_recovery_handler.cc</innerfile>
+    <innerfile refid="exact__graph__fallback_8cc">exact_graph_fallback.cc</innerfile>
+    <innerfile refid="src_2integrity__verification_8cc">integrity_verification.cc</innerfile>
+    <innerfile refid="manifest__store_8cc">manifest_store.cc</innerfile>
+    <innerfile refid="manifest__store_8cpp">manifest_store.cpp</innerfile>
+    <innerfile refid="shard__summary__coordinator_8cc">shard_summary_coordinator.cc</innerfile>
+    <innerfile refid="snapshot__update__worker_8cc">snapshot_update_worker.cc</innerfile>
+    <innerfile refid="stale__artifact__detector_8cc">stale_artifact_detector.cc</innerfile>
+    <innerfile refid="tensor__delta__log_8cc">tensor_delta_log.cc</innerfile>
+    <innerfile refid="tensor__storage__strategy_8cc">tensor_storage_strategy.cc</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/src/"/>
+  </compounddef>
+</doxygen>

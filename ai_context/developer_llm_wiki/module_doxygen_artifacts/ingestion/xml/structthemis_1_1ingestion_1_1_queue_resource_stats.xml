@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_queue_resource_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::QueueResourceStats</compoundname>
+    <includes refid="bounded__queue_8h" local="no">bounded_queue.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1ae0f1085dcae2e99715c3e89209152e07" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::QueueResourceStats::current_item_count</definition>
+        <argsstring></argsstring>
+        <name>current_item_count</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::current_item_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current number of items in queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="115" column="17" bodyfile="include/ingestion/bounded_queue.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1a980abac83731b6ee553a45091615cded" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::QueueResourceStats::current_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>current_memory_bytes</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::current_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current total memory used (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="116" column="17" bodyfile="include/ingestion/bounded_queue.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1a0a6f3560cd7b08b665a7643d56966ba0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::QueueResourceStats::max_item_count_observed</definition>
+        <argsstring></argsstring>
+        <name>max_item_count_observed</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::max_item_count_observed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Peak item count since creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="117" column="17" bodyfile="include/ingestion/bounded_queue.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1a2c8144c26aff77a4cffaed18bf214f83" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::QueueResourceStats::max_memory_observed</definition>
+        <argsstring></argsstring>
+        <name>max_memory_observed</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::max_memory_observed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Peak memory usage since creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="118" column="17" bodyfile="include/ingestion/bounded_queue.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1a5c6ad750161c0f789bb6982ad3959226" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::QueueResourceStats::enqueue_attempts</definition>
+        <argsstring></argsstring>
+        <name>enqueue_attempts</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::enqueue_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total attempts to enqueue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="119" column="19" bodyfile="include/ingestion/bounded_queue.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1a64572a1ecfa0a70dd2cf63f14c5c252f" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::QueueResourceStats::enqueue_successes</definition>
+        <argsstring></argsstring>
+        <name>enqueue_successes</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::enqueue_successes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful enqueues. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="120" column="19" bodyfile="include/ingestion/bounded_queue.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1a6f174a2d9e95eab6baf87ac3a781d0e7" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::QueueResourceStats::enqueue_saturation_blocks</definition>
+        <argsstring></argsstring>
+        <name>enqueue_saturation_blocks</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::enqueue_saturation_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Blocked due to saturation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="121" column="19" bodyfile="include/ingestion/bounded_queue.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1acabf2c900795959e4ce09654b4945b77" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::QueueResourceStats::enqueue_memory_blocks</definition>
+        <argsstring></argsstring>
+        <name>enqueue_memory_blocks</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::enqueue_memory_blocks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Blocked due to memory limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="122" column="19" bodyfile="include/ingestion/bounded_queue.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1ad44dd8f872592b89dbc20b5de5e319df" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::QueueResourceStats::dequeue_count</definition>
+        <argsstring></argsstring>
+        <name>dequeue_count</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::dequeue_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total successful dequeues. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="123" column="19" bodyfile="include/ingestion/bounded_queue.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_queue_resource_stats_1aa4a3b2e82857568f327ddbee576626c8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1aa83216e8fac562e6287d60ad69e592be" kindref="member">QueueSaturationState</ref></type>
+        <definition>QueueSaturationState themis::ingestion::QueueResourceStats::current_state</definition>
+        <argsstring></argsstring>
+        <name>current_state</name>
+        <qualifiedname>themis::ingestion::QueueResourceStats::current_state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1aa83216e8fac562e6287d60ad69e592bea1e23852820b9154316c7c06e2b7ba051" kindref="member">QueueSaturationState::NORMAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="124" column="26" bodyfile="include/ingestion/bounded_queue.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for queue resource usage and saturation events. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/bounded_queue.h" line="114" column="1" bodyfile="include/ingestion/bounded_queue.h" bodystart="114" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1ae0f1085dcae2e99715c3e89209152e07" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>current_item_count</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1a980abac83731b6ee553a45091615cded" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>current_memory_bytes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1aa4a3b2e82857568f327ddbee576626c8" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>current_state</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1ad44dd8f872592b89dbc20b5de5e319df" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>dequeue_count</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1a5c6ad750161c0f789bb6982ad3959226" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>enqueue_attempts</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1acabf2c900795959e4ce09654b4945b77" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>enqueue_memory_blocks</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1a6f174a2d9e95eab6baf87ac3a781d0e7" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>enqueue_saturation_blocks</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1a64572a1ecfa0a70dd2cf63f14c5c252f" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>enqueue_successes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1a0a6f3560cd7b08b665a7643d56966ba0" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>max_item_count_observed</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_queue_resource_stats_1a2c8144c26aff77a4cffaed18bf214f83" prot="public" virt="non-virtual"><scope>themis::ingestion::QueueResourceStats</scope><name>max_memory_observed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

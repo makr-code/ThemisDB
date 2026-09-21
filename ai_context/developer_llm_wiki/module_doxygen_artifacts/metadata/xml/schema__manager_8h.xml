@@ -1,0 +1,519 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="schema__manager_8h" kind="file" language="C++">
+    <compoundname>schema_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__metadata__cache_8cpp" local="yes">benchmarks/metadata/bench_metadata_cache.cpp</includedby>
+    <includedby refid="aql__schema__bridge_8h" local="yes">include/metadata/aql_schema_bridge.h</includedby>
+    <includedby refid="catalog__exporter_8h" local="yes">include/metadata/catalog_exporter.h</includedby>
+    <includedby refid="distributed__catalog_8h" local="yes">include/metadata/distributed_catalog.h</includedby>
+    <includedby refid="er__diagram__exporter_8h" local="yes">include/metadata/er_diagram_exporter.h</includedby>
+    <includedby refid="metadata__snapshot_8h" local="yes">include/metadata/metadata_snapshot.h</includedby>
+    <includedby refid="schema__diff_8h" local="yes">include/metadata/schema_diff.h</includedby>
+    <includedby refid="schema__version__manager_8h" local="yes">include/metadata/schema_version_manager.h</includedby>
+    <includedby refid="information__schema_8cpp" local="yes">src/metadata/information_schema.cpp</includedby>
+    <includedby refid="schema__consistency__checker_8cpp" local="yes">src/metadata/schema_consistency_checker.cpp</includedby>
+    <includedby refid="schema__manager_8cpp" local="yes">src/metadata/schema_manager.cpp</includedby>
+    <includedby refid="test__catalog__exporter_8cpp" local="yes">tests/metadata/test_catalog_exporter.cpp</includedby>
+    <includedby refid="test__distributed__catalog_8cpp" local="yes">tests/metadata/test_distributed_catalog.cpp</includedby>
+    <includedby refid="test__metadata__schema__churn__stress__focused_8cpp" local="yes">tests/metadata/test_metadata_schema_churn_stress_focused.cpp</includedby>
+    <includedby refid="test__schema__consistency__checker_8cpp" local="yes">tests/metadata/test_schema_consistency_checker.cpp</includedby>
+    <includedby refid="test__schema__manager_8cpp" local="yes">tests/metadata/test_schema_manager.cpp</includedby>
+    <includedby refid="test__schema__migration__regression_8cpp" local="yes">tests/metadata/test_schema_migration_regression.cpp</includedby>
+    <includedby refid="test__schema__migration__script_8cpp" local="yes">tests/metadata/test_schema_migration_script.cpp</includedby>
+    <includedby refid="test__schema__version__dryrun_8cpp" local="yes">tests/metadata/test_schema_version_dryrun.cpp</includedby>
+    <includedby refid="test__schema__version__manager_8cpp" local="yes">tests/metadata/test_schema_version_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/metadata/schema_manager.h</label>
+        <link refid="schema__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>deque</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/metadata/bench_metadata_cache.cpp</label>
+        <link refid="bench__metadata__cache_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/metadata/aql_schema_bridge.h</label>
+        <link refid="aql__schema__bridge_8h"/>
+      </node>
+      <node id="4">
+        <label>include/metadata/catalog_exporter.h</label>
+        <link refid="catalog__exporter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/metadata/distributed_catalog.h</label>
+        <link refid="distributed__catalog_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/metadata/er_diagram_exporter.h</label>
+        <link refid="er__diagram__exporter_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/metadata/metadata_snapshot.h</label>
+        <link refid="metadata__snapshot_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/metadata/schema_diff.h</label>
+        <link refid="schema__diff_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/metadata/schema_manager.h</label>
+        <link refid="schema__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/metadata/schema_version_manager.h</label>
+        <link refid="schema__version__manager_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/metadata/catalog_exporter.cpp</label>
+        <link refid="catalog__exporter_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/metadata/distributed_catalog.cpp</label>
+        <link refid="distributed__catalog_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/metadata/er_diagram_exporter.cpp</label>
+        <link refid="er__diagram__exporter_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/metadata/information_schema.cpp</label>
+        <link refid="information__schema_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/metadata/schema_consistency_checker.cpp</label>
+        <link refid="schema__consistency__checker_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/metadata/schema_manager.cpp</label>
+        <link refid="schema__manager_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/metadata/schema_version_manager.cpp</label>
+        <link refid="schema__version__manager_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/metadata/test_catalog_exporter.cpp</label>
+        <link refid="test__catalog__exporter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/metadata/test_catalog_exporter_failure_paths_focused.cpp</label>
+        <link refid="test__catalog__exporter__failure__paths__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/metadata/test_distributed_catalog.cpp</label>
+        <link refid="test__distributed__catalog_8cpp"/>
+      </node>
+      <node id="27">
+        <label>tests/metadata/test_metadata_schema_churn_stress_focused.cpp</label>
+        <link refid="test__metadata__schema__churn__stress__focused_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/metadata/test_metadata_snapshot.cpp</label>
+        <link refid="test__metadata__snapshot_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/metadata/test_schema_consistency_checker.cpp</label>
+        <link refid="test__schema__consistency__checker_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/metadata/test_schema_diff.cpp</label>
+        <link refid="test__schema__diff_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/metadata/test_schema_manager.cpp</label>
+        <link refid="test__schema__manager_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/metadata/test_schema_migration_regression.cpp</label>
+        <link refid="test__schema__migration__regression_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/metadata/test_schema_migration_script.cpp</label>
+        <link refid="test__schema__migration__script_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/metadata/test_schema_version_dryrun.cpp</label>
+        <link refid="test__schema__version__dryrun_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/metadata/test_schema_version_manager.cpp</label>
+        <link refid="test__schema__version__manager_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/metadata/test_schema_version_manager_lock_contract_focused.cpp</label>
+        <link refid="test__schema__version__manager__lock__contract__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_adaptive_t_t_l_config" prot="public">themis::AdaptiveTTLConfig</innerclass>
+    <innerclass refid="classthemis_1_1_schema_manager" prot="public">themis::SchemaManager</innerclass>
+    <innerclass refid="structthemis_1_1_schema_manager_1_1_property_info" prot="public">themis::SchemaManager::PropertyInfo</innerclass>
+    <innerclass refid="structthemis_1_1_schema_manager_1_1_index_info" prot="public">themis::SchemaManager::IndexInfo</innerclass>
+    <innerclass refid="structthemis_1_1_schema_manager_1_1_table_schema" prot="public">themis::SchemaManager::TableSchema</innerclass>
+    <innerclass refid="structthemis_1_1_schema_manager_1_1_relationship_schema" prot="public">themis::SchemaManager::RelationshipSchema</innerclass>
+    <innerclass refid="structthemis_1_1_schema_manager_1_1_database_metadata" prot="public">themis::SchemaManager::DatabaseMetadata</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SecondaryIndexManager;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Changefeed;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_adaptive_t_t_l_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_adaptive_t_t_l_config" kindref="compound">AdaptiveTTLConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_adaptive_t_t_l_config_1a4e427440817eb7425fc951c7d5b564c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1_adaptive_t_t_l_config_1a4e427440817eb7425fc951c7d5b564c5" kindref="member">min_ttl</ref>{5};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1_adaptive_t_t_l_config_1a7440a365f633e53fb47c2310aa391a27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1_adaptive_t_t_l_config_1a7440a365f633e53fb47c2310aa391a27" kindref="member">max_ttl</ref>{300};<sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_adaptive_t_t_l_config_1aa33c2d156d6c28be0d98690675c790d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1_adaptive_t_t_l_config_1aa33c2d156d6c28be0d98690675c790d6" kindref="member">window</ref>{60};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1_adaptive_t_t_l_config_1aa8f01eadf1a433e0c34e2fbdfe14a52e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_adaptive_t_t_l_config_1aa8f01eadf1a433e0c34e2fbdfe14a52e" kindref="member">scale_factor</ref>{1.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1_schema_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_schema_manager_1adb6fc1750dabf192a95c12da05e9cd5d" kindref="member">SchemaManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_schema_manager_1_1_property_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_schema_manager_1_1_property_info" kindref="compound">PropertyInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_schema_manager_1_1_property_info_1a72638179465ba329bc40d136f9faa218" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a72638179465ba329bc40d136f9faa218" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Property<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_schema_manager_1_1_property_info_1a7afd3536032e8224b6d2696c0be87c69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a7afd3536032e8224b6d2696c0be87c69" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Type:<sp/>&quot;string&quot;,<sp/>&quot;integer&quot;,<sp/>&quot;double&quot;,<sp/>&quot;boolean&quot;,<sp/>&quot;vector&quot;,<sp/>&quot;binary&quot;,<sp/>&quot;null&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_schema_manager_1_1_property_info_1af5f992f85a43bfdd540b7fcd4a7844e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info_1af5f992f85a43bfdd540b7fcd4a7844e1" kindref="member">indexed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Has<sp/>secondary<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_schema_manager_1_1_property_info_1a21065c64cb1ef17c77f149a03bc2f3b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a21065c64cb1ef17c77f149a03bc2f3b6" kindref="member">nullable</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>be<sp/>null/missing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_schema_manager_1_1_property_info_1ab5c598ddceb1f1c42c8056d49da114fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info_1ab5c598ddceb1f1c42c8056d49da114fe" kindref="member">index_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;regular&quot;,<sp/>&quot;range&quot;,<sp/>&quot;sparse&quot;,<sp/>&quot;geo&quot;,<sp/>&quot;ttl&quot;,<sp/>&quot;fulltext&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info_1aff537e21fd597d9c3a822d26ea20fc1e" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_schema_manager_1_1_index_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_schema_manager_1_1_index_info" kindref="compound">IndexInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_schema_manager_1_1_index_info_1a715654fdc58bd3b5918371d5bc4fb32f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a715654fdc58bd3b5918371d5bc4fb32f" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>name<sp/>(column<sp/>name)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_schema_manager_1_1_index_info_1a52228e0967fed9a160ff256a047b201b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a52228e0967fed9a160ff256a047b201b" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;regular&quot;,<sp/>&quot;range&quot;,<sp/>&quot;sparse&quot;,<sp/>&quot;geo&quot;,<sp/>&quot;ttl&quot;,<sp/>&quot;fulltext&quot;,<sp/>&quot;composite&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1_schema_manager_1_1_index_info_1a9ccca2392c0af0bab85291c4392d6c55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a9ccca2392c0af0bab85291c4392d6c55" kindref="member">columns</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Column<sp/>list<sp/>(for<sp/>composite<sp/>indexes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1_schema_manager_1_1_index_info_1a298558009fb53e3fad581fe898328d30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a298558009fb53e3fad581fe898328d30" kindref="member">unique</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>constraint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a93e755fbcc72019f912870e1ab09f98b" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1_schema_manager_1_1_table_schema" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">TableSchema</ref><sp/>{</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1_schema_manager_1_1_table_schema_1a6b4c1d0652b1b08f0e5e7523ac99c9c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1a6b4c1d0652b1b08f0e5e7523ac99c9c3" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Table/collection<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1_schema_manager_1_1_table_schema_1ac8dbecaf7e33861d7acdfe967f749283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1ac8dbecaf7e33861d7acdfe967f749283" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;relational&quot;,<sp/>&quot;document&quot;,<sp/>&quot;graph_node&quot;,<sp/>&quot;graph_edge&quot;,<sp/>&quot;vector&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1_schema_manager_1_1_table_schema_1aa026c87a390275400814b6eb20a6136b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;PropertyInfo&gt;<sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1aa026c87a390275400814b6eb20a6136b" kindref="member">properties</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Properties/columns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1_schema_manager_1_1_table_schema_1ac7988ec26997e693ab7c32198c3b6490" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;IndexInfo&gt;<sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1ac7988ec26997e693ab7c32198c3b6490" kindref="member">indexes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Secondary<sp/>indexes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1_schema_manager_1_1_table_schema_1a7e39421d0c53176af457e08e5b50c1ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1a7e39421d0c53176af457e08e5b50c1ce" kindref="member">estimated_row_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Approximate<sp/>row<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1a6d521e410055baa029e1046e93a97d74" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1_schema_manager_1_1_relationship_schema" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema" kindref="compound">RelationshipSchema</ref><sp/>{</highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1a084e1c97e7ef438299c8803ba66fd7b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1a084e1c97e7ef438299c8803ba66fd7b9" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>type/relationship<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1a521ce9ab9f24a38288b720a20249bcb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1a521ce9ab9f24a38288b720a20249bcb1" kindref="member">from_table</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Source<sp/>node<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1ab146c5f55a339bdda16b6663800c6b49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1ab146c5f55a339bdda16b6663800c6b49" kindref="member">to_table</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>node<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1a5211c8e9b9ca4050f170960c95d3a59c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;PropertyInfo&gt;<sp/><ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1a5211c8e9b9ca4050f170960c95d3a59c" kindref="member">properties</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>properties</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1abba7849e8c177989428e63e16930499c" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1_schema_manager_1_1_database_metadata" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_schema_manager_1_1_database_metadata" kindref="compound">DatabaseMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1_schema_manager_1_1_database_metadata_1afd38e6682cd55f567ae03dfcaadc1799" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_schema_manager_1_1_database_metadata_1afd38e6682cd55f567ae03dfcaadc1799" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1_schema_manager_1_1_database_metadata_1a359b319e4b26811307d0f6fb14ce5d45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_schema_manager_1_1_database_metadata_1a359b319e4b26811307d0f6fb14ce5d45" kindref="member">table_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>tables/collections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1_schema_manager_1_1_database_metadata_1ac2e037f13f164913f2e51557159d1ff0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_schema_manager_1_1_database_metadata_1ac2e037f13f164913f2e51557159d1ff0" kindref="member">total_rows</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>entities<sp/>(approx)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1_schema_manager_1_1_database_metadata_1a482aeb5d2fa0f8d9e79bd9c65b30fa55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1_schema_manager_1_1_database_metadata_1a482aeb5d2fa0f8d9e79bd9c65b30fa55" kindref="member">capabilities</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enabled<sp/>features</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1_schema_manager_1_1_database_metadata_1aee5c5f6a7c9c5f18e737edbda8eb07c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1_schema_manager_1_1_database_metadata_1aee5c5f6a7c9c5f18e737edbda8eb07c3" kindref="member">last_refresh</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1_schema_manager_1_1_database_metadata_1af0d3bc5175fcb4fa5c610e467b361db9" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1adb6fc1750dabf192a95c12da05e9cd5d" kindref="member">SchemaManager</ref>(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/>db,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SecondaryIndexManager*<sp/>index_mgr<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1_schema_manager_1ab3eab199d595fcd62a39566fb0b8ed3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_manager_1ab3eab199d595fcd62a39566fb0b8ed3f" kindref="member">~SchemaManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy<sp/>and<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1_schema_manager_1a9809bd2170d217067e95def28bcf9d42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_manager_1a9809bd2170d217067e95def28bcf9d42" kindref="member">SchemaManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1adb6fc1750dabf192a95c12da05e9cd5d" kindref="member">SchemaManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1_schema_manager_1a7878c028feec5fad04b430b72c062004" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_manager_1adb6fc1750dabf192a95c12da05e9cd5d" kindref="member">SchemaManager</ref>&amp;<sp/><ref refid="classthemis_1_1_schema_manager_1a7878c028feec5fad04b430b72c062004" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1adb6fc1750dabf192a95c12da05e9cd5d" kindref="member">SchemaManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1_schema_manager_1a8a0ae7a29dbfd538eb2e97ae686753cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_manager_1a8a0ae7a29dbfd538eb2e97ae686753cc" kindref="member">SchemaManager</ref>(<ref refid="classthemis_1_1_schema_manager_1adb6fc1750dabf192a95c12da05e9cd5d" kindref="member">SchemaManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1_schema_manager_1aff4f150b2de7e7763bc2b375049acf09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_manager_1adb6fc1750dabf192a95c12da05e9cd5d" kindref="member">SchemaManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_schema_manager_1adb6fc1750dabf192a95c12da05e9cd5d" kindref="member">SchemaManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Public<sp/>API<sp/>-<sp/>Schema<sp/>Discovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">TableSchema</ref>&gt;<sp/><ref refid="classthemis_1_1_schema_manager_1a6b7f46cd431ceff6052d470ee1bcf7a3" kindref="member">getAllTables</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">TableSchema</ref>&gt;<sp/><ref refid="classthemis_1_1_schema_manager_1a3dd98fbd1d5a53b17ee6e3921f55b17c" kindref="member">getTable</ref>(std::string_view<sp/>name);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_schema_manager_1_1_relationship_schema" kindref="compound">RelationshipSchema</ref>&gt;<sp/><ref refid="classthemis_1_1_schema_manager_1aab61c5c4f13e54a309f8f6b01b144d37" kindref="member">getAllRelationships</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_database_metadata" kindref="compound">DatabaseMetadata</ref><sp/><ref refid="classthemis_1_1_schema_manager_1a92f38d0edc90f0edb8af9f09282ea7bd" kindref="member">getDatabaseMetadata</ref>();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1a3b04bbd1862c1bb1601e9fd72feb469b" kindref="member">refreshCache</ref>();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1a0dcfe35bc124bcf05f38cb134e0c6605" kindref="member">setCacheTTL</ref>(std::chrono::seconds<sp/>ttl);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1ac7f11434d796c29dee80e57053afc4d4" kindref="member">setChangefeed</ref>(Changefeed*<sp/>changefeed);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1a1e1cb59ea2a6336687bff5fabc4e9533" kindref="member">recordMutation</ref>(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1a00e070bf8920ad546ab13418fb76cad1" kindref="member">enableAdaptiveTTL</ref>(<ref refid="structthemis_1_1_adaptive_t_t_l_config" kindref="compound">AdaptiveTTLConfig</ref><sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1a9db66ceb8063dad6bf7fa5ff9e47c0cf" kindref="member">disableAdaptiveTTL</ref>();</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="classthemis_1_1_schema_manager_1a658451451e57ddcc373fdf0d131ad459" kindref="member">getEffectiveTTL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JSON<sp/>Export<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="classthemis_1_1_schema_manager_1a80cce1df2a0d23a01c51936f104ee504" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="classthemis_1_1_schema_manager_1aee7bb278d585f4b317eba6bf2937f7e8" kindref="member">tableToJSON</ref>(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref><sp/><ref refid="classthemis_1_1_schema_manager_1a340f7d49aeabc62f6cc1e295c523627c" kindref="member">getCapabilitiesJSON</ref>();</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Schema<sp/>Management<sp/>API<sp/>(PUT/PATCH)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1a56b30cbacce28d540cbd22b751ad5fdc" kindref="member">setTableSchema</ref>(std::string_view<sp/>table_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TableSchema&amp;<sp/>schema);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1a1b6eae0790153465bb8201a0c7de2cd6" kindref="member">patchTableSchema</ref>(std::string_view<sp/>table_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref>&amp;<sp/>updates);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_schema_manager_1a5e0c4e0e729cfa1e820640bbc0efd83e" kindref="member">deleteTableSchema</ref>(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_schema_manager_1a2ef428c77de9e0282b83888ee79043cc" kindref="member">validateSchema</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TableSchema&amp;<sp/>schema)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>TableSchema<sp/><ref refid="classthemis_1_1_schema_manager_1abcacb07337af1f6ae7bafeaa3d9dca4a" kindref="member">parseTableSchema</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>Implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>discoverTableNames();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PropertyInfo&gt;<sp/>discoverProperties(</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>table_name,</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sample_size<sp/>=<sp/>100</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IndexInfo&gt;<sp/>discoverIndexes(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimateRowCount(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>determineTableType(std::string_view<sp/>table_name);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isCacheValid()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>buildCache();</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>notifySchemaChange(std::string_view<sp/>table_name,<sp/>std::string_view<sp/>event_kind);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadCustomSchemas();</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>saveCustomSchema(std::string_view<sp/>table_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TableSchema&amp;<sp/>schema);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>computeAdaptiveTTL()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Member<sp/>Variables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/>db_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Database<sp/>wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>SecondaryIndexManager*<sp/>index_mgr_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>manager<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>Changefeed*<sp/>changefeed_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Changefeed<sp/>for<sp/>schema<sp/>notifications<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>TableSchema&gt;<sp/>table_cache_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Table<sp/>name<sp/>-&gt;<sp/>schema</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>RelationshipSchema&gt;<sp/>rel_cache_;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>type<sp/>-&gt;<sp/>schema</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_refresh_;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>cache<sp/>refresh<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>cache_ttl_{60};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>TTL<sp/>(default:<sp/>60s)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>schemas<sp/>(persisted<sp/>in<sp/>RocksDB<sp/>under<sp/>&quot;config:schema:{table_name}&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>TableSchema&gt;<sp/>custom_schemas_;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User-defined<sp/>schemas</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>cache_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read-write<sp/>lock<sp/>for<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adaptive<sp/>TTL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>adaptive_ttl_enabled_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>adaptive<sp/>TTL<sp/>is<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveTTLConfig<sp/>adaptive_ttl_config_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adaptive<sp/>TTL<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-table<sp/>mutation<sp/>timestamps<sp/>within<sp/>the<sp/>sliding<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::deque&lt;std::chrono::system_clock::time_point&gt;&gt;<sp/>mutation_log_;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutation_mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protects<sp/>mutation_log_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/metadata/schema_manager.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_redundancy_consistency_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::RedundancyConsistencyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_redundancy_consistency_test_1a2cb11bbcc810a3f81420b22d59b2796b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RedundancyStrategy&gt; themis::sharding::RedundancyConsistencyTest::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::sharding::RedundancyConsistencyTest::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_redundancy_consistency.cpp" line="27" column="21" bodyfile="tests/sharding/test_redundancy_consistency.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_redundancy_consistency_test_1a8d7dca4d609589469c47c9eb2f1fd397" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::RedundancyConsistencyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::sharding::RedundancyConsistencyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_redundancy_consistency.cpp" line="20" column="10" bodyfile="tests/sharding/test_redundancy_consistency.cpp" bodystart="20" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::RedundancyConsistencyTest</label>
+        <link refid="classthemis_1_1sharding_1_1_redundancy_consistency_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::sharding::RedundancyConsistencyTest</label>
+        <link refid="classthemis_1_1sharding_1_1_redundancy_consistency_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_redundancy_consistency.cpp" line="18" column="1" bodyfile="tests/sharding/test_redundancy_consistency.cpp" bodystart="18" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_consistency_test_1a8d7dca4d609589469c47c9eb2f1fd397" prot="protected" virt="non-virtual"><scope>themis::sharding::RedundancyConsistencyTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1sharding_1_1_redundancy_consistency_test_1a2cb11bbcc810a3f81420b22d59b2796b" prot="protected" virt="non-virtual"><scope>themis::sharding::RedundancyConsistencyTest</scope><name>strategy_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

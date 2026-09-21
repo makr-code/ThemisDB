@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdaLoRAAdapter::Impl::Layer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a01f92502d559f26f501290aa2869c1bd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaLoRAAdapter::Impl::Layer::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Layer::layer_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="73" column="21" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a18f1917b2a73ec9c612a4e2ed2af78b6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::Layer::in_dim</definition>
+        <argsstring></argsstring>
+        <name>in_dim</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Layer::in_dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="74" column="21" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1af70e93cfabc8f608015b7685ca8f1152" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::Layer::out_dim</definition>
+        <argsstring></argsstring>
+        <name>out_dim</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Layer::out_dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="75" column="21" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1ab468cf774c37be31071451a3ab095a28" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::Layer::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Layer::max_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="76" column="21" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a4b385757b594c1e511afb5a152598f41" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdaLoRAAdapter::Impl::Layer::active_rank</definition>
+        <argsstring></argsstring>
+        <name>active_rank</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Layer::active_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="77" column="21" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a95938c861678918d75ca68022da3b4f9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::AdaLoRAAdapter::Impl::Layer::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Layer::alpha</qualifiedname>
+        <initializer>= 8.0f</initializer>
+        <briefdescription>
+<para>scaling = alpha / max_rank </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="78" column="21" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1ac1122974f7387386c5010f55c2ff6462" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::AdaLoRAAdapter::Impl::Layer::importance</definition>
+        <argsstring></argsstring>
+        <name>importance</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Layer::importance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="79" column="21" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a903f6358be2389f9b7809dc9c9977450" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::AdaLoRAAdapter::Impl::Layer::B</definition>
+        <argsstring></argsstring>
+        <name>B</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Layer::B</qualifiedname>
+        <briefdescription>
+<para>in_dim × max_rank </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="80" column="21" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a3908e0bf2469766a0bf5647dca8988dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::AdaLoRAAdapter::Impl::Layer::A</definition>
+        <argsstring></argsstring>
+        <name>A</name>
+        <qualifiedname>themis::training::AdaLoRAAdapter::Impl::Layer::A</qualifiedname>
+        <briefdescription>
+<para>max_rank × out_dim </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/ada_lora_adapter.cpp" line="81" column="21" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/ada_lora_adapter.cpp" line="72" column="5" bodyfile="src/training/ada_lora_adapter.cpp" bodystart="72" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a3908e0bf2469766a0bf5647dca8988dd" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl::Layer</scope><name>A</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a4b385757b594c1e511afb5a152598f41" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl::Layer</scope><name>active_rank</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a95938c861678918d75ca68022da3b4f9" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl::Layer</scope><name>alpha</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a903f6358be2389f9b7809dc9c9977450" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl::Layer</scope><name>B</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1ac1122974f7387386c5010f55c2ff6462" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl::Layer</scope><name>importance</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a18f1917b2a73ec9c612a4e2ed2af78b6" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl::Layer</scope><name>in_dim</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1a01f92502d559f26f501290aa2869c1bd" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl::Layer</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1ab468cf774c37be31071451a3ab095a28" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl::Layer</scope><name>max_rank</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lo_r_a_adapter_1_1_impl_1_1_layer_1af70e93cfabc8f608015b7685ca8f1152" prot="public" virt="non-virtual"><scope>themis::training::AdaLoRAAdapter::Impl::Layer</scope><name>out_dim</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

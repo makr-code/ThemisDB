@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IProTeGiLLMProvider</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_heuristic_pro_te_gi_provider" prot="public" virt="non-virtual">themis::prompt_engineering::HeuristicProTeGiProvider</derivedcompoundref>
+    <includes refid="protegi__optimizer_8h" local="no">protegi_optimizer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider_1a4cbd1dde35a6d6b610b1be764ab82ce1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IProTeGiLLMProvider::~IProTeGiLLMProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IProTeGiLLMProvider</name>
+        <qualifiedname>themis::prompt_engineering::IProTeGiLLMProvider::~IProTeGiLLMProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="83" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider_1a55fe8e04ec8f8c9a824767c01d930d44" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient" kindref="compound">ProTeGiGradient</ref></type>
+        <definition>virtual ProTeGiGradient themis::prompt_engineering::IProTeGiLLMProvider::computeGradient</definition>
+        <argsstring>(const std::string &amp;prompt, const std::vector&lt; std::string &gt; &amp;errors)=0</argsstring>
+        <name>computeGradient</name>
+        <qualifiedname>themis::prompt_engineering::IProTeGiLLMProvider::computeGradient</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_heuristic_pro_te_gi_provider_1a5b504c3ef952b90f37a44b91bbdd930f">computeGradient</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Compute a textual gradient from mini-batch errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current prompt being evaluated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-example failure strings collected from the mini-batch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient" kindref="compound">ProTeGiGradient</ref> describing what to change and why. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="92" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider_1a25e871398940d67b178a6b644e0cfcfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::prompt_engineering::IProTeGiLLMProvider::generateCandidates</definition>
+        <argsstring>(const std::string &amp;prompt, const ProTeGiGradient &amp;gradient, size_t k)=0</argsstring>
+        <name>generateCandidates</name>
+        <qualifiedname>themis::prompt_engineering::IProTeGiLLMProvider::generateCandidates</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_heuristic_pro_te_gi_provider_1ac496c7650808e1cdfb990868ef132d18">generateCandidates</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient" kindref="compound">ProTeGiGradient</ref> &amp;</type>
+          <declname>gradient</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Generate prompt candidates from the gradient. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gradient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Textual gradient computed by <computeroutput>computeGradient</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of candidate prompts to generate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of up to <computeroutput>k</computeroutput> candidate prompt strings. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="104" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface that the ProTeGi optimizer calls for LLM-dependent operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers inject an implementation backed by any LLM. A built-in <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_heuristic_pro_te_gi_provider" kindref="compound">HeuristicProTeGiProvider</ref></computeroutput> is supplied for unit testing without a live model. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::HeuristicProTeGiProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_heuristic_pro_te_gi_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::IProTeGiLLMProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/protegi_optimizer.h" line="81" column="1" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="81" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider_1a55fe8e04ec8f8c9a824767c01d930d44" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IProTeGiLLMProvider</scope><name>computeGradient</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider_1a25e871398940d67b178a6b644e0cfcfd" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IProTeGiLLMProvider</scope><name>generateCandidates</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider_1a4cbd1dde35a6d6b610b1be764ab82ce1" prot="public" virt="virtual"><scope>themis::prompt_engineering::IProTeGiLLMProvider</scope><name>~IProTeGiLLMProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

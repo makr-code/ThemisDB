@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_watchdog_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::WatchdogConfig</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_config_1af859c5e767b9564f5f6f213cdb80f548" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WatchdogConfig::check_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>check_interval_ms</name>
+        <qualifiedname>themis::modules::WatchdogConfig::check_interval_ms</qualifiedname>
+        <initializer>= 30&apos;000</initializer>
+        <briefdescription>
+<para>Interval between successive health-check sweeps (default: 30 s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="260" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_config_1a3b6b4386e4b23543c3681f57e305bc81" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::WatchdogConfig::max_restart_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_restart_attempts</name>
+        <qualifiedname>themis::modules::WatchdogConfig::max_restart_attempts</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of restart attempts before a module is declared permanently failed (0 = unlimited). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="264" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_config_1a9b8fc27808bf80a2fe3b31fcb665d05a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WatchdogConfig::initial_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>initial_backoff_ms</name>
+        <qualifiedname>themis::modules::WatchdogConfig::initial_backoff_ms</qualifiedname>
+        <initializer>= 5&apos;000</initializer>
+        <briefdescription>
+<para>Initial backoff delay after the first restart attempt (default: 5 s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="267" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_config_1a863290a64dc0a240f8d2fe1099398a17" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::WatchdogConfig::backoff_multiplier</definition>
+        <argsstring></argsstring>
+        <name>backoff_multiplier</name>
+        <qualifiedname>themis::modules::WatchdogConfig::backoff_multiplier</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+<para>Multiplicative factor applied to backoff after each consecutive failure (default: 2×). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="270" column="12" bodyfile="include/themis/base/module_loader.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_config_1ac926fe0f09a88e735c484a8ea557cec3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WatchdogConfig::max_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>max_backoff_ms</name>
+        <qualifiedname>themis::modules::WatchdogConfig::max_backoff_ms</qualifiedname>
+        <initializer>= 300&apos;000</initializer>
+        <briefdescription>
+<para>Upper bound on calculated backoff (default: 5 min). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="273" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_config_1a1f4c6a1b99cf6993e3768cbc0a98c8ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::WatchdogConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::modules::WatchdogConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>When false the watchdog thread is started but performs no work until re-enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="276" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the plugin watchdog monitor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All time fields are in milliseconds for easy unit-testing. </para>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="258" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="258" bodyend="277"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_watchdog_config_1a863290a64dc0a240f8d2fe1099398a17" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogConfig</scope><name>backoff_multiplier</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_config_1af859c5e767b9564f5f6f213cdb80f548" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogConfig</scope><name>check_interval_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_config_1a1f4c6a1b99cf6993e3768cbc0a98c8ee" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_config_1a9b8fc27808bf80a2fe3b31fcb665d05a" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogConfig</scope><name>initial_backoff_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_config_1ac926fe0f09a88e735c484a8ea557cec3" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogConfig</scope><name>max_backoff_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_config_1a3b6b4386e4b23543c3681f57e305bc81" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogConfig</scope><name>max_restart_attempts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

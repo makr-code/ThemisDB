@@ -1,0 +1,491 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ann__frontdoor_8h" kind="file" language="C++">
+    <compoundname>ann_frontdoor.h</compoundname>
+    <includes refid="ann__index_8h" local="yes">index/ann_index.h</includes>
+    <includes refid="tiered__index__manager_8h" local="yes">index/tiered_index_manager.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="ann__frontdoor_8cpp" local="yes">src/index/ann_frontdoor.cpp</includedby>
+    <includedby refid="test__ann__cpu__parity_8cpp" local="yes">tests/index/test_ann_cpu_parity.cpp</includedby>
+    <includedby refid="test__ann__frontdoor_8cpp" local="yes">tests/index/test_ann_frontdoor.cpp</includedby>
+    <includedby refid="test__ann__frontdoor__single__shard_8cpp" local="yes">tests/index/test_ann_frontdoor_single_shard.cpp</includedby>
+    <includedby refid="test__ann__frontdoor__validation__focused_8cpp" local="yes">tests/index/test_ann_frontdoor_validation_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/ann_frontdoor.h</label>
+        <link refid="ann__frontdoor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>index/ann_index.h</label>
+        <link refid="ann__index_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>index/tiered_index_manager.h</label>
+        <link refid="tiered__index__manager_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>limits</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/ann_frontdoor.h</label>
+        <link refid="ann__frontdoor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/ann_frontdoor.cpp</label>
+        <link refid="ann__frontdoor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/index/test_ann_cpu_parity.cpp</label>
+        <link refid="test__ann__cpu__parity_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/index/test_ann_frontdoor.cpp</label>
+        <link refid="test__ann__frontdoor_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/index/test_ann_frontdoor_single_shard.cpp</label>
+        <link refid="test__ann__frontdoor__single__shard_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/index/test_ann_frontdoor_validation_focused.cpp</label>
+        <link refid="test__ann__frontdoor__validation__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1index_1_1_shard_metadata" prot="public">themis::index::ShardMetadata</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_ann_query_context" prot="public">themis::index::AnnQueryContext</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_ann_retrieval_plan" prot="public">themis::index::AnnRetrievalPlan</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_ann_frontdoor_result" prot="public">themis::index::AnnFrontdoorResult</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_ann_frontdoor" prot="public">themis::index::AnnFrontdoor</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config" prot="public">themis::index::AnnFrontdoor::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <briefdescription>
+<para>Front-door interface for approximate-nearest-neighbour index operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a unified entry-point that dispatches ANN queries to the appropriate backend (HNSW, IVF, flat-scan) based on runtime configuration. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ANN<sp/>Frontdoor<sp/>—<sp/>explicit<sp/>first<sp/>universal<sp/>retrieval<sp/>gate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Purpose:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Single<sp/>entry<sp/>point<sp/>for<sp/>all<sp/>approximate<sp/>nearest-neighbour<sp/>(ANN)<sp/>queries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Selects<sp/>the<sp/>appropriate<sp/>backend<sp/>(HNSW,<sp/>ScaNN,<sp/>DiskANN,<sp/>Distributed)<sp/>based</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>on<sp/>dataset<sp/>size,<sp/>query<sp/>context,<sp/>hot/cold<sp/>tier,<sp/>recall<sp/>target,<sp/>and<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>budget.<sp/><sp/>Downstream<sp/>layers<sp/>(Tensor<sp/>mid-layer,<sp/>Graph<sp/>Truth<sp/>Layer)<sp/>receive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>candidates<sp/>exclusively<sp/>from<sp/>this<sp/>class.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Architecture<sp/>position:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Query<sp/>→<sp/>AnnFrontdoor<sp/>→<sp/>[HNSW<sp/>|<sp/>ScaNN<sp/>|<sp/>DiskANN<sp/>|<sp/>Distributed]<sp/>→<sp/>candidates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Tensor<sp/>Mid-Layer<sp/>(re-ranking)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Graph<sp/>Truth<sp/>Layer<sp/>(validation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>search()<sp/>and<sp/>planStrategy()<sp/>are<sp/>read-only<sp/>and<sp/>safe<sp/>to<sp/>call<sp/>concurrently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>registerBackend()<sp/>/<sp/>registerVectorIndexManager()<sp/>must<sp/>not<sp/>be<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>concurrently<sp/>with<sp/>search()<sp/>—<sp/>perform<sp/>all<sp/>registration<sp/>before<sp/>first<sp/>query.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ann__index_8h" kindref="compound">index/ann_index.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tiered__index__manager_8h" kindref="compound">index/tiered_index_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>—<sp/>avoid<sp/>pulling<sp/>in<sp/>heavy<sp/>headers<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AnnStrategy<sp/>—<sp/>backend<sp/>selected<sp/>by<sp/>the<sp/>frontdoor<sp/>router</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aeddfb2a2864a735ae508076a555c5075" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aeddfb2a2864a735ae508076a555c5075" kindref="member">HNSW</ref>,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a385de3137cb58d1ee721f975dfd81b33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a385de3137cb58d1ee721f975dfd81b33" kindref="member">SCANN</ref>,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aa254198e98bc183414ff01924b04343a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aa254198e98bc183414ff01924b04343a" kindref="member">DISKANN</ref>,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aabd866add2ca5a884a9ea8cc58e8ca73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aabd866add2ca5a884a9ea8cc58e8ca73" kindref="member">DISTRIBUTED</ref>,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a04c98307d4984db79645011e79cba449" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a04c98307d4984db79645011e79cba449" kindref="member">FLAT_BRUTE_FORCE</ref>,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8045a0a6c688b0635e3caccc408a1446" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8045a0a6c688b0635e3caccc408a1446" kindref="member">Generic</ref>,</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8601c10b2797050a900697daac0c0001" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8601c10b2797050a900697daac0c0001" kindref="member">Adapter</ref>,</highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca209802fb858e2c83205027dbbb5d9e6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca209802fb858e2c83205027dbbb5d9e6c" kindref="member">Package</ref>,</highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca7ef9473d9fc5a4ee368e734a585ca9b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca7ef9473d9fc5a4ee368e734a585ca9b7" kindref="member">ShardSummary</ref>,</highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca0945359809dad1fbf3dea1c95a0da951" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca0945359809dad1fbf3dea1c95a0da951" kindref="member">Document</ref>,</highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca88255d7e6104ae03101ff725ce36cbb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca88255d7e6104ae03101ff725ce36cbb6" kindref="member">Chunk</ref>,</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca1a434befae3f49ae09347ded52032f6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca1a434befae3f49ae09347ded52032f6f" kindref="member">Entity</ref>,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1index_1_1_shard_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_shard_metadata" kindref="compound">ShardMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1index_1_1_shard_metadata_1a11952d7398f9ec46485aed4fc92a9f88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_shard_metadata_1a11952d7398f9ec46485aed4fc92a9f88" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1index_1_1_shard_metadata_1a47c93017d7ddbd740e7fe66ef7621ded" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_shard_metadata_1a47c93017d7ddbd740e7fe66ef7621ded" kindref="member">estimated_cost</ref><sp/>=<sp/>1.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1index_1_1_shard_metadata_1af5c1ca8fdb3cb5fed62315f6f33cf6f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_shard_metadata_1af5c1ca8fdb3cb5fed62315f6f33cf6f0" kindref="member">estimated_relevance</ref><sp/>=<sp/>0.5;<sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1index_1_1_shard_metadata_1a11a41cbe86efc6a726dd356fadba8ccb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_shard_metadata_1a11a41cbe86efc6a726dd356fadba8ccb" kindref="member">estimated_freshness</ref><sp/>=<sp/>1.0;<sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1index_1_1_shard_metadata_1a5a5ab4e0e76da3e6e67afa111e3ac542" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_shard_metadata_1a5a5ab4e0e76da3e6e67afa111e3ac542" kindref="member">estimated_locality</ref><sp/>=<sp/>0.5;<sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1index_1_1_shard_metadata_1a93712bab9e87ca2e63eee19ff8f56dc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_shard_metadata_1a93712bab9e87ca2e63eee19ff8f56dc0" kindref="member">estimated_recall</ref><sp/>=<sp/>0.95;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AnnQueryContext<sp/>—<sp/>routing<sp/>hints<sp/>provided<sp/>by<sp/>the<sp/>caller</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1index_1_1_ann_query_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1index_1_1_ann_query_context_1ac24bf63685d5d008530b2f2cd5d96424" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1index_1_1_ann_query_context_1ac24bf63685d5d008530b2f2cd5d96424" kindref="member">dataset_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1index_1_1_ann_query_context_1ac9b8997853672b7ebe1f2c095bb3199c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_query_context_1ac9b8997853672b7ebe1f2c095bb3199c" kindref="member">hot_tier</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1index_1_1_ann_query_context_1acac70d5acb2a17ff2733ec96f0b37214" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_query_context_1acac70d5acb2a17ff2733ec96f0b37214" kindref="member">shard_aware</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1index_1_1_ann_query_context_1a85419040e63df176b5ef3535430d6782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_query_context_1a85419040e63df176b5ef3535430d6782" kindref="member">recall_target</ref><sp/>=<sp/>0.95;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1index_1_1_ann_query_context_1a1b12a1c96a4b82fd2f74223c95f24d76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_query_context_1a1b12a1c96a4b82fd2f74223c95f24d76" kindref="member">latency_budget_ms</ref><sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1index_1_1_ann_query_context_1a3666eb4e1798a13d2d3cd19fa4235344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_query_context_1a3666eb4e1798a13d2d3cd19fa4235344" kindref="member">scope_id</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1index_1_1_ann_query_context_1a9bd29a57f2bc22f92ac83847281acc19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_query_context_1a9bd29a57f2bc22f92ac83847281acc19" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1index_1_1_ann_query_context_1a10e842193c08e2212550d0b98c991c98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_query_context_1a10e842193c08e2212550d0b98c991c98" kindref="member">confidence_policy_version</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1index_1_1_ann_query_context_1a742032c2ee8f42b6a71e8479360e5c25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_query_context_1a742032c2ee8f42b6a71e8479360e5c25" kindref="member">confidence_threshold_key</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1index_1_1_ann_retrieval_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan" kindref="compound">AnnRetrievalPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1index_1_1_ann_retrieval_plan_1abdece3d141271642809b17ad722bfd32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref><sp/><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan_1abdece3d141271642809b17ad722bfd32" kindref="member">strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a04c98307d4984db79645011e79cba449" kindref="member">AnnStrategy::FLAT_BRUTE_FORCE</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1index_1_1_ann_retrieval_plan_1a4a7784f18a7a74fcd61cafa26bd0e2af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_tier_meta_1afaccd90a18f11929eb20d90843bbdcd6" kindref="member">IndexTierMeta::Tier</ref><sp/><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan_1a4a7784f18a7a74fcd61cafa26bd0e2af" kindref="member">effective_tier</ref><sp/>=<sp/>IndexTierMeta::Tier::HOT;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1index_1_1_ann_retrieval_plan_1afc1bf4bd501299183cc4286cf5702c86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref><sp/><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan_1afc1bf4bd501299183cc4286cf5702c86" kindref="member">scope_kind</ref><sp/>=<sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8045a0a6c688b0635e3caccc408a1446" kindref="member">AnnScopeKind::Generic</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1index_1_1_ann_retrieval_plan_1a8a10aa10a2db8cb35077e042c21032b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan_1a8a10aa10a2db8cb35077e042c21032b2" kindref="member">distributed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1index_1_1_ann_retrieval_plan_1ae81f713ddb9fa9e7a688140f54d1325b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan_1ae81f713ddb9fa9e7a688140f54d1325b" kindref="member">hot_path</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1index_1_1_ann_retrieval_plan_1a02847c8d71c2d3ae7e0f1caac5cff84e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan_1a02847c8d71c2d3ae7e0f1caac5cff84e" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1index_1_1_ann_retrieval_plan_1aae3a016414578eeb0650e991b406f491" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan_1aae3a016414578eeb0650e991b406f491" kindref="member">pruned_shard_ids</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AnnFrontdoorResult<sp/>—<sp/>candidates<sp/>+<sp/>routing<sp/>metadata<sp/>returned<sp/>by<sp/>search()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1index_1_1_ann_frontdoor_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result" kindref="compound">AnnFrontdoorResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a3e0da3a66234e1fd222e35c851b79c4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AnnSearchResult&gt;<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a3e0da3a66234e1fd222e35c851b79c4c" kindref="member">candidates</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a77db81e965961bf3862a47dff8cb9292" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a77db81e965961bf3862a47dff8cb9292" kindref="member">strategy_used</ref><sp/>=<sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a04c98307d4984db79645011e79cba449" kindref="member">AnnStrategy::FLAT_BRUTE_FORCE</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aef248ad7eb1ee25027314fa7982d5fab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aef248ad7eb1ee25027314fa7982d5fab" kindref="member">estimated_recall</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a54a9708f189b36ebf4d9ca49448a40ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a54a9708f189b36ebf4d9ca49448a40ea" kindref="member">routing_reason</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1af9d3fc5d0c8850864d79275579196513" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1af9d3fc5d0c8850864d79275579196513" kindref="member">routing_reason_code</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a9616e385fb06bde8b314a370285af5dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a9616e385fb06bde8b314a370285af5dd" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a6e3391b569643cb7b08d34ca81de9fe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a6e3391b569643cb7b08d34ca81de9fe4" kindref="member">confidence_policy_version</ref>;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aa2879a9c97a9a1f8c7500a1e85314b35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aa2879a9c97a9a1f8c7500a1e85314b35" kindref="member">confidence_threshold_key</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a1a7851d339666c7e2024da3cfd575def" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a1a7851d339666c7e2024da3cfd575def" kindref="member">fallback_mode</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a2a8952bbf1764177d5fb98b9128393e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a2a8952bbf1764177d5fb98b9128393e3" kindref="member">fallback_reason_code</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1ac89d9fd4d2520b4b3d0e7c507e11bd8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1ac89d9fd4d2520b4b3d0e7c507e11bd8c" kindref="member">is_distributed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aa4aa6d0141fc424e422e57accfa2e100" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aa4aa6d0141fc424e422e57accfa2e100" kindref="member">shards_attempted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a72dd5c4ea515e2952be2a6a1d8eb90cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a72dd5c4ea515e2952be2a6a1d8eb90cc" kindref="member">shards_succeeded</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aad25ec64484fb420d628c1c856ecf742" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1aad25ec64484fb420d628c1c856ecf742" kindref="member">shards_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a72d3eef1e0813fbd193ab407fab9bd57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a72d3eef1e0813fbd193ab407fab9bd57" kindref="member">merged_candidates_before_trim</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a890cf4c2be391ea639011fb1f11386d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a890cf4c2be391ea639011fb1f11386d7" kindref="member">partial_results</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a99fed24010d7345facc0ad9b4e6575c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1a99fed24010d7345facc0ad9b4e6575c7" kindref="member">distributed_merge_policy</ref>;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AnnFrontdoor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1index_1_1_ann_frontdoor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref><sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a4e41e037e8f5350cac64de39c9b8d3e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a4e41e037e8f5350cac64de39c9b8d3e8" kindref="member">hnsw_max_elements</ref><sp/>=<sp/>1&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1ac1b5245bde558ffe2daca56fe6eb9ea9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1ac1b5245bde558ffe2daca56fe6eb9ea9" kindref="member">scann_max_elements</ref><sp/>=<sp/>50&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Above<sp/>scann_max_elements:<sp/>DiskANN<sp/>(if<sp/>available)<sp/>or<sp/>ScaNN<sp/>fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a88ab5d1af819261eb80195d78c5c9c96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a88ab5d1af819261eb80195d78c5c9c96" kindref="member">default_k</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a18bc2ca1cb58b15372bcdc352dc8c535" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a18bc2ca1cb58b15372bcdc352dc8c535" kindref="member">diskann_available</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a7547e050a11a08dc181a68754312c1c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a7547e050a11a08dc181a68754312c1c2" kindref="member">distributed_max_fanout</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1ab0833e15e668a99b80e0dada40cfc1e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1ab0833e15e668a99b80e0dada40cfc1e5" kindref="member">distributed_retry_attempts</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a2e16cc168b0cc9e8f467ea1f1f666389" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a2e16cc168b0cc9e8f467ea1f1f666389" kindref="member">distributed_allow_partial_results</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1af9e16a49694c9e404ace324692ddd388" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1af9e16a49694c9e404ace324692ddd388" kindref="member">distributed_include_global_backend</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1af1f1db320472b1a1729f50ccf9776149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1af1f1db320472b1a1729f50ccf9776149" kindref="member">distributed_cost_budget</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1aec94d7ca7344f590b772f1a21aa82a00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1aec94d7ca7344f590b772f1a21aa82a00" kindref="member">distributed_quality_floor</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1adf7dbfbfa659440b0d89c01d4edaa5f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1adf7dbfbfa659440b0d89c01d4edaa5f5" kindref="member">distributed_utility_alpha</ref><sp/>=<sp/>0.6;</highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1abc33c1b1a4d7c6edb929c6052a8e6224" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1abc33c1b1a4d7c6edb929c6052a8e6224" kindref="member">distributed_utility_beta</ref><sp/>=<sp/>0.2;</highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a55160935e4788a1a1708e658ca3370e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config_1a55160935e4788a1a1708e658ca3370e2" kindref="member">distributed_utility_gamma</ref><sp/>=<sp/>0.2;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref>();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref>(<ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config" kindref="compound">Config</ref><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a3e7c3bbdf33f000cdeee17d2dbca8a60" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="213" refid="classthemis_1_1index_1_1_ann_frontdoor_1ae15714c76c41e7fae9e7175094213e3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae15714c76c41e7fae9e7175094213e3d" kindref="member">~AnnFrontdoor</ref>();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>move<sp/>is<sp/>allowed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1index_1_1_ann_frontdoor_1a386ad9fb77cdf10206a05187999abde8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a386ad9fb77cdf10206a05187999abde8" kindref="member">AnnFrontdoor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1index_1_1_ann_frontdoor_1aedffa6112a3a8629ba265b540a939efb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1aedffa6112a3a8629ba265b540a939efb" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1index_1_1_ann_frontdoor_1a45372154214b046a98808e0de2d046ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a45372154214b046a98808e0de2d046ac" kindref="member">AnnFrontdoor</ref>(<ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="219" refid="classthemis_1_1index_1_1_ann_frontdoor_1a3d92229d16be19a4da51a6610ae803fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backend<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae7d0744c7321fa6fa34ca7cb8eae04f8" kindref="member">registerBackend</ref>(std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>scope_id,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref>&gt;<sp/>backend,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref><sp/>kind<sp/>=<sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref>::<ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8045a0a6c688b0635e3caccc408a1446" kindref="member">Generic</ref>);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ac112f2655c8d9d694927eef081d77140" kindref="member">registerScopeKind</ref>(std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>scope_id,<sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref><sp/>kind);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1aef8f933d6581da164056cdb3f986df51" kindref="member">getScopeKind</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>scope_id)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a7115aa6eb4dbf467a107806cb8696f12" kindref="member">registerVectorIndexManager</ref>(std::shared_ptr&lt;<ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>&gt;<sp/>vim);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a082e4a0fa905858d01bb21ff34d14097" kindref="member">registerTieredIndexManager</ref>(</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1index_1_1_tiered_index_manager" kindref="compound">TieredIndexManager</ref>&gt;<sp/>tim);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retrieval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result" kindref="compound">AnnFrontdoorResult</ref><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a03ee3efc87eb19d0a05c81e4c60b7d9b" kindref="member">search</ref>(</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_vector,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dim,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref>&amp;<sp/>context<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a0218d2ff498f1193738f6a704e9c5751" kindref="member">planStrategy</ref>(</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref>&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan" kindref="compound">AnnRetrievalPlan</ref><sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a26d93a0a3439a5ed1bdea7315e3d994b" kindref="member">planRetrieval</ref>(</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref>&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1aacc1ea1a23cb87d9860d6729ca10564f" kindref="member">explainStrategy</ref>(</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref>&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ac150f33f642d879292ec700edfb3363c" kindref="member">registeredBackendCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>const<sp/>Config&amp;<sp/><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1a3e7c3bbdf33f000cdeee17d2dbca8a60" kindref="member">config</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resolve<sp/>the<sp/>IAnnIndex<sp/>for<sp/>a<sp/>given<sp/>scope;<sp/>returns<sp/>nullptr<sp/>when<sp/>absent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref>&gt;<sp/>resolveBackend(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>scope_id)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execute<sp/>search<sp/>against<sp/>an<sp/>IAnnIndex;<sp/>throws<sp/>on<sp/>backend<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::<ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>&lt;<ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref>&gt;<sp/>executeSearch(</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>backend,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dim,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k)<sp/>const;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Brute-force<sp/>fallback<sp/>using<sp/>the<sp/>registered<sp/>VectorIndexManager.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::<ref refid="namespacethemis_1_1vector" kindref="compound">vector</ref>&lt;<ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref>&gt;<sp/>bruteForceSearch(</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query,</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dim,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>the<sp/>routing_reason<sp/>string.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>buildRoutingReason(</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>strategy,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref>&amp;<sp/>context)<sp/>const;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>recallEstimate(<ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref><sp/>strategy)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref>&gt;&gt;<sp/>backends_;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scope_kinds_;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vim_;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1index_1_1_tiered_index_manager" kindref="compound">TieredIndexManager</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tiered_;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Utility:<sp/>strategy<sp/>name<sp/>for<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321" refid="namespacethemis_1_1index_1acd8d35f1928eb5c01fefa1234d75f87a" refkind="member"><highlight class="normal">[[nodiscard]]<sp/>constexpr<sp/>const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1index_1acd8d35f1928eb5c01fefa1234d75f87a" kindref="member">annStrategyName</ref>(<ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref><sp/>s)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(s)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aeddfb2a2864a735ae508076a555c5075" kindref="member">AnnStrategy::HNSW</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;HNSW&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a385de3137cb58d1ee721f975dfd81b33" kindref="member">AnnStrategy::SCANN</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SCANN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aa254198e98bc183414ff01924b04343a" kindref="member">AnnStrategy::DISKANN</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DISKANN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aabd866add2ca5a884a9ea8cc58e8ca73" kindref="member">AnnStrategy::DISTRIBUTED</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DISTRIBUTED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a04c98307d4984db79645011e79cba449" kindref="member">AnnStrategy::FLAT_BRUTE_FORCE</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;FLAT_BRUTE_FORCE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="namespacethemis_1_1index_1a740ccfbc3f5c285aa7a26975bba30bc1" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1index_1a740ccfbc3f5c285aa7a26975bba30bc1" kindref="member">annScopeKindName</ref>(<ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref><sp/>k)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(k)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8045a0a6c688b0635e3caccc408a1446" kindref="member">AnnScopeKind::Generic</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Generic&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8601c10b2797050a900697daac0c0001" kindref="member">AnnScopeKind::Adapter</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca209802fb858e2c83205027dbbb5d9e6c" kindref="member">AnnScopeKind::Package</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Package&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca7ef9473d9fc5a4ee368e734a585ca9b7" kindref="member">AnnScopeKind::ShardSummary</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ShardSummary&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca0945359809dad1fbf3dea1c95a0da951" kindref="member">AnnScopeKind::Document</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Document&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca88255d7e6104ae03101ff725ce36cbb6" kindref="member">AnnScopeKind::Chunk</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Chunk&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca1a434befae3f49ae09347ded52032f6f" kindref="member">AnnScopeKind::Entity</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Entity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/ann_frontdoor.h"/>
+  </compounddef>
+</doxygen>

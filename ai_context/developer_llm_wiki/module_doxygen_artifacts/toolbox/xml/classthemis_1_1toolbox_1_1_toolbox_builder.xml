@@ -1,0 +1,757 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1toolbox_1_1_toolbox_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::toolbox::ToolboxBuilder</compoundname>
+    <includes refid="toolbox__builder_8h" local="no">toolbox_builder.h</includes>
+    <innerclass refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" prot="public">themis::toolbox::ToolboxBuilder::BuiltToolbox</innerclass>
+    <innerclass refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl" prot="public">themis::toolbox::ToolboxBuilder::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1toolbox_1_1_toolbox_builder_1aad0671b27170c4d9bcd7f210639b6b20" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::toolbox::ToolboxBuilder::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="313" column="21" bodyfile="include/toolbox/toolbox_builder.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxBuilder::ToolboxBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>ToolboxBuilder</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::ToolboxBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="111" column="5" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1ae1ec02d660be94c9ab86cb3766ac55e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxBuilder::~ToolboxBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>~ToolboxBuilder</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::~ToolboxBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1ab2f050a924f2da782ff13ddb466bdf2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxBuilder::ToolboxBuilder</definition>
+        <argsstring>(const ToolboxBuilder &amp;)=delete</argsstring>
+        <name>ToolboxBuilder</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::ToolboxBuilder</qualifiedname>
+        <param>
+          <type>const ToolboxBuilder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="115" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a0adf47fce8fae8908393f5de64ec8b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::operator=</definition>
+        <argsstring>(const ToolboxBuilder &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="116" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a41cde7a967e7272a5dfc74a4664e62e5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ToolboxBuilder::ToolboxBuilder</definition>
+        <argsstring>(ToolboxBuilder &amp;&amp;) noexcept</argsstring>
+        <name>ToolboxBuilder</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::ToolboxBuilder</qualifiedname>
+        <param>
+          <type>ToolboxBuilder &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="117" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1abea0293f11ad757a4bc0e5b491288f53" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::operator=</definition>
+        <argsstring>(ToolboxBuilder &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="118" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a0acdb896d36ad5b8339d5fa9a15c10f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::withWorkflowProfile</definition>
+        <argsstring>(std::string profile_path)</argsstring>
+        <name>withWorkflowProfile</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::withWorkflowProfile</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>profile_path</declname>
+        </param>
+        <briefdescription>
+<para>Add a workflow profile file to load during <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Workflow Profile.</para>
+<para>Multiple profiles can be added; they are loaded in registration order. Each profile is loaded via <computeroutput>WorkflowEngine::loadProfile(path)</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>profile_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute or relative path to a YAML workflow profile file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>*this</computeroutput> for chaining. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>profile_path</computeroutput> is empty.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="133" column="20" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="58" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a86e2e51bc39c3ecb87e7362763ed3086" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::withGraphWriter</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::IGraphWriter &gt; writer)</argsstring>
+        <name>withGraphWriter</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::withGraphWriter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::IGraphWriter &gt;</type>
+          <declname>writer</declname>
+        </param>
+        <briefdescription>
+<para>Attach a graph-writer sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Graph Writer.</para>
+<para>When set, the <computeroutput>AQLIngestionBridge</computeroutput> and <computeroutput>RAGIngestionBridge</computeroutput> that wrap this toolbox will write extracted entity nodes and relation edges to the provided sink.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Graph-store sink. May be null to clear a previously set writer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="146" column="20" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a92b73d731aeed09050db9655132596b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::withVectorWriter</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::IVectorWriter &gt; writer)</argsstring>
+        <name>withVectorWriter</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::withVectorWriter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::IVectorWriter &gt;</type>
+          <declname>writer</declname>
+        </param>
+        <briefdescription>
+<para>Attach a vector-writer sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Vector Writer.</para>
+<para>When set and <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9969154491b7b874b762c41506102d13" kindref="member">buildWithBridges()</ref></computeroutput> is used, the resulting <computeroutput>RAGIngestionBridge</computeroutput> will write embedding chunks to this sink.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector-store sink. May be null to clear a previously set writer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="159" column="20" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="83" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a0c158eaf4c0d80ba8288779bc803ce8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::withTextBackend</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::ITextGenerationBackend &gt; backend)</argsstring>
+        <name>withTextBackend</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::withTextBackend</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::ITextGenerationBackend &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Inject a text-generation backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Text Backend.</para>
+<para>Replaces the default <computeroutput>NullTextGenerationBackend</computeroutput>. The backend is forwarded to <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a1e8e208ea9a06265a0528db9f61196d7" kindref="member">IngestionToolbox::setTextBackend()</ref></computeroutput> which propagates it to all registered NER / LLM steps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LLM text-generation implementation. Passing <computeroutput>nullptr</computeroutput> reinstates the null backend. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="173" column="20" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="95" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1ac3b086d0e7f9bc1efeafb0eef5170856" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::withWorkflowEngine</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::WorkflowEngine &gt; engine)</argsstring>
+        <name>withWorkflowEngine</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::withWorkflowEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::WorkflowEngine &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Use a pre-constructed <computeroutput>WorkflowEngine</computeroutput> instead of the default. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Workflow Engine.</para>
+<para>Useful for test isolation or for engines pre-loaded with custom step implementations. Profile paths added via <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0acdb896d36ad5b8339d5fa9a15c10f6" kindref="member">withWorkflowProfile()</ref></computeroutput> are still loaded on top of the injected engine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom engine. Must not be null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>*this</computeroutput> for chaining. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>engine</computeroutput> is null.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="187" column="20" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="131" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a299e548106c175ca05a6d046ca1cdb74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::withFormatExtractor</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::IFormatExtractor &gt; extractor)</argsstring>
+        <name>withFormatExtractor</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::withFormatExtractor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::IFormatExtractor &gt;</type>
+          <declname>extractor</declname>
+        </param>
+        <briefdescription>
+<para>Register a format extractor and wire it into the corresponding builtin parse step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Format Extractor.</para>
+<para>Calling this multiple times with different extractors registers all of them. For each extractor, the matching builtin step is created and registered in the <computeroutput>StepRegistry</computeroutput> during <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build()</ref></computeroutput>:</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>IFormatExtractor</computeroutput> supporting <computeroutput>application/pdf</computeroutput> → <computeroutput>builtin.parse_pdf</computeroutput></para>
+</listitem><listitem><para>Supporting <computeroutput>application/vnd.openxmlformats-*</computeroutput> → <computeroutput>builtin.parse_office</computeroutput></para>
+</listitem><listitem><para>Supporting <computeroutput>image/\*</computeroutput> → <computeroutput>builtin.parse_image</computeroutput></para>
+</listitem><listitem><para>Supporting <computeroutput>application/zip</computeroutput> / <computeroutput>application/x-tar</computeroutput> → <computeroutput>builtin.parse_archive</computeroutput></para>
+</listitem><listitem><para>Supporting <computeroutput>audio/\*</computeroutput> → <computeroutput>builtin.parse_audio</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para>When a <computeroutput>FormatExtractorFactory</computeroutput> (from <computeroutput>content/adapters/</computeroutput>) is available, use <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9e781764bc012d8fc666a8b0c18949f6" kindref="member">withFormatExtractorFactory()</ref></computeroutput> to register all extractors at once.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Format extractor to register. Must not be null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>*this</computeroutput> for chaining. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>extractor</computeroutput> is null.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="211" column="20" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a9e781764bc012d8fc666a8b0c18949f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::withFormatExtractorFactory</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::IFormatExtractorFactory &gt; factory)</argsstring>
+        <name>withFormatExtractorFactory</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::withFormatExtractorFactory</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::IFormatExtractorFactory &gt;</type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para>Register all format extractors from a factory at once. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Format Extractor Factory.</para>
+<para>Iterates over <computeroutput>factory-&gt;registeredMimeTypes()</computeroutput> and calls <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a299e548106c175ca05a6d046ca1cdb74" kindref="member">withFormatExtractor()</ref></computeroutput> for each distinct extractor. This is the preferred way to wire a <computeroutput>content::adapters::FormatExtractorFactory</computeroutput> into the toolbox.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-populated factory. Must not be null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="225" column="20" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="161" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_ingestion_toolbox" kindref="compound">IngestionToolbox</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IngestionToolbox &gt; themis::toolbox::ToolboxBuilder::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Construct and return a fully configured <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build.</para>
+<para>Steps performed in order:<orderedlist>
+<listitem><para>Create or reuse a <computeroutput>WorkflowEngine</computeroutput> (from <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ac3b086d0e7f9bc1efeafb0eef5170856" kindref="member">withWorkflowEngine()</ref></computeroutput> or via <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault()</ref></computeroutput>).</para>
+</listitem><listitem><para>Load each workflow profile added via <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0acdb896d36ad5b8339d5fa9a15c10f6" kindref="member">withWorkflowProfile()</ref></computeroutput>.</para>
+</listitem><listitem><para>Inject the text-generation backend if one was provided.</para>
+</listitem><listitem><para>Return the configured toolbox instance.</para>
+</listitem></orderedlist>
+</para>
+<para>Profile load failures are logged at <computeroutput>warn</computeroutput> level; all loadable profiles are applied and the toolbox is returned even when some profiles fail.</para>
+<para><simplesect kind="return"><para>Fully configured <computeroutput>shared_ptr&lt;<ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref>&gt;</computeroutput>. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build()</ref></computeroutput> has already been called on this builder instance.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), <ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault()</ref>, setWorkflowEngine(), stepRegistry(), supportedMimeTypes(), front(), ingestion::builtin::createParsePdfStep(), registerStep(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="247" column="22" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="192" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a9969154491b7b874b762c41506102d13" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kindref="compound">BuiltToolbox</ref></type>
+        <definition>ToolboxBuilder::BuiltToolbox themis::toolbox::ToolboxBuilder::buildWithBridges</definition>
+        <argsstring>()</argsstring>
+        <name>buildWithBridges</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::buildWithBridges</qualifiedname>
+        <briefdescription>
+<para>Construct the toolbox and auto-wire <computeroutput>AQLIngestionBridge</computeroutput> and <computeroutput>RAGIngestionBridge</computeroutput> from the registered sinks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9969154491b7b874b762c41506102d13" kindref="member">buildWithBridges()</ref> ────────────────────────────────────────────────────────</para>
+<para>Performs the same steps as <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build()</ref></computeroutput>, then creates:</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>AQLIngestionBridge(toolbox, graph_writer)</computeroutput> when a graph-writer has been set via <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a86e2e51bc39c3ecb87e7362763ed3086" kindref="member">withGraphWriter()</ref></computeroutput>.</para>
+</listitem><listitem><para><computeroutput>RAGIngestionBridge(toolbox, vector_writer, graph_writer)</computeroutput> when a vector-writer or graph-writer has been set.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1toolbox_1_1_toolbox_builder_1_1_built_toolbox" kindref="compound">BuiltToolbox</ref></computeroutput> with all applicable fields populated. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9969154491b7b874b762c41506102d13" kindref="member">buildWithBridges()</ref></computeroutput> has already been called on this builder instance.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build()</ref>, THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="264" column="19" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="324" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a403a81322ab115d0da891aef78129de6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IGraphWriter &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IGraphWriter &gt; themis::toolbox::ToolboxBuilder::graphWriter</definition>
+        <argsstring>() const</argsstring>
+        <name>graphWriter</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::graphWriter</qualifiedname>
+        <briefdescription>
+<para>Return the graph-writer that was set via <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a86e2e51bc39c3ecb87e7362763ed3086" kindref="member">withGraphWriter()</ref></computeroutput>. May return null if no writer was configured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="272" column="21" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="298" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a8a16836a2a2a2d71bb129ae7513c1984" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; ingestion::IVectorWriter &gt;</type>
+        <definition>std::shared_ptr&lt; ingestion::IVectorWriter &gt; themis::toolbox::ToolboxBuilder::vectorWriter</definition>
+        <argsstring>() const</argsstring>
+        <name>vectorWriter</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::vectorWriter</qualifiedname>
+        <briefdescription>
+<para>Return the vector-writer that was set via <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a92b73d731aeed09050db9655132596b8" kindref="member">withVectorWriter()</ref></computeroutput>. May return null if no writer was configured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="278" column="21" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="302" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1a6e59f67dce9b7ef2d3fba2b0c7d325a0" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::toolbox::ToolboxBuilder::profileCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>profileCount</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::profileCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of profile paths registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="283" column="17" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="306" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1ac11a62e03c86033383d921f3bf14b80f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::withTensorDecompositionBackend</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::ITensorDecompositionBackend &gt; backend)</argsstring>
+        <name>withTensorDecompositionBackend</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::withTensorDecompositionBackend</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::ITensorDecompositionBackend &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Inject a real <computeroutput>ITensorDecompositionBackend</computeroutput> for TT-core production. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Tensor Decomposition Backend.</para>
+<para>Re-registers the <computeroutput>builtin.chunk_tt_decompose</computeroutput> step with the supplied backend, replacing the default <computeroutput>NullTensorDecompositionBackend</computeroutput>. Pass <computeroutput>nullptr</computeroutput> to restore the no-op fallback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <computeroutput>TensorIngestionBridge</computeroutput> (or any custom implementation). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="295" column="20" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="107" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_toolbox_builder_1ad164f814b2576bd77fe171f8c722201a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" kindref="member">ToolboxBuilder</ref> &amp;</type>
+        <definition>ToolboxBuilder &amp; themis::toolbox::ToolboxBuilder::withTensorCoreSink</definition>
+        <argsstring>(std::shared_ptr&lt; ingestion::ITensorCoreBridge &gt; sink)</argsstring>
+        <name>withTensorCoreSink</name>
+        <qualifiedname>themis::toolbox::ToolboxBuilder::withTensorCoreSink</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; ingestion::ITensorCoreBridge &gt;</type>
+          <declname>sink</declname>
+        </param>
+        <briefdescription>
+<para>Inject a real <computeroutput>ITensorCoreBridge</computeroutput> for durable TT-core storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With Tensor Core Sink.</para>
+<para>Re-registers the <computeroutput>builtin.tensor_core_bridge</computeroutput> step with the supplied sink, replacing the default no-op fallback. Pass <computeroutput>nullptr</computeroutput> to restore the no-op fallback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <computeroutput>TensorCoreStorageBridge</computeroutput> (or any custom implementation). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/toolbox_builder.h" line="308" column="20" bodyfile="src/toolbox/toolbox_builder.cpp" bodystart="119" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fluent builder for constructing production <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput> instances with custom workflow profiles, sinks, and backends. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1toolbox_1_1_toolbox_builder_1autotoc_md8_1s1"><sect2 id="classthemis_1_1toolbox_1_1_toolbox_builder_1autotoc_md8">
+<title>Motivation</title><para><computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">IngestionToolbox::createDefault()</ref></computeroutput> is suitable for simple integration scenarios. Production deployments need finer control: loading workflow profiles from disk, injecting a real LLM text-generation backend, and attaching graph-writer or vector-writer sinks. <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">ToolboxBuilder</ref></computeroutput> provides this control without exposing internal construction details.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1toolbox_1_1_toolbox_builder_1autotoc_md9_1s1"><sect2 id="classthemis_1_1toolbox_1_1_toolbox_builder_1autotoc_md9">
+<title>Usage</title><para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toolbox<sp/>=<sp/>themis::toolbox::ToolboxBuilder()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withWorkflowProfile(</highlight><highlight class="stringliteral">&quot;/etc/themis/profiles/legal.yaml&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withTextBackend(llm_bridge)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.withGraphWriter(graph_sink)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.build();</highlight></codeline>
+</programlisting></para>
+<para>Each <computeroutput>with*()</computeroutput> call returns a reference to <computeroutput>*this</computeroutput> for chaining. A builder instance can only be used to call <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build()</ref></computeroutput> once; calling <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build()</ref></computeroutput> again throws <computeroutput>std::logic_error</computeroutput>.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1toolbox_1_1_toolbox_builder_1autotoc_md10_1s1"><sect2 id="classthemis_1_1toolbox_1_1_toolbox_builder_1autotoc_md10">
+<title>Dependency direction</title><para><programlisting><codeline><highlight class="normal">toolbox/<sp/><sp/>→<sp/><sp/>ingestion/</highlight></codeline>
+</programlisting> <computeroutput>toolbox/</computeroutput> must never be imported by <computeroutput>ingestion/</computeroutput>.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1toolbox_1_1_toolbox_builder_1autotoc_md11_1s1"><sect2 id="classthemis_1_1toolbox_1_1_toolbox_builder_1autotoc_md11">
+<title>Thread-safety</title><para><computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">ToolboxBuilder</ref></computeroutput> instances are not thread-safe; all configuration calls and the final <computeroutput><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build()</ref></computeroutput> call must happen on the same thread. The resulting <computeroutput><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox" kindref="compound">IngestionToolbox</ref></computeroutput> is fully thread-safe. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/toolbox/toolbox_builder.h" line="75" column="1" bodyfile="include/toolbox/toolbox_builder.h" bodystart="75" bodyend="314"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9969154491b7b874b762c41506102d13" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>buildWithBridges</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a403a81322ab115d0da891aef78129de6" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>graphWriter</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1aad0671b27170c4d9bcd7f210639b6b20" prot="private" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0adf47fce8fae8908393f5de64ec8b76" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abea0293f11ad757a4bc0e5b491288f53" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a6e59f67dce9b7ef2d3fba2b0c7d325a0" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>profileCount</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1acab4af460dc384c1df2ba202ee7872ff" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>ToolboxBuilder</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ab2f050a924f2da782ff13ddb466bdf2e" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>ToolboxBuilder</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a41cde7a967e7272a5dfc74a4664e62e5" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>ToolboxBuilder</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a8a16836a2a2a2d71bb129ae7513c1984" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>vectorWriter</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a299e548106c175ca05a6d046ca1cdb74" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>withFormatExtractor</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a9e781764bc012d8fc666a8b0c18949f6" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>withFormatExtractorFactory</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a86e2e51bc39c3ecb87e7362763ed3086" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>withGraphWriter</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ad164f814b2576bd77fe171f8c722201a" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>withTensorCoreSink</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ac11a62e03c86033383d921f3bf14b80f" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>withTensorDecompositionBackend</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0c158eaf4c0d80ba8288779bc803ce8f" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>withTextBackend</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a92b73d731aeed09050db9655132596b8" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>withVectorWriter</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ac3b086d0e7f9bc1efeafb0eef5170856" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>withWorkflowEngine</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1a0acdb896d36ad5b8339d5fa9a15c10f6" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>withWorkflowProfile</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_toolbox_builder_1ae1ec02d660be94c9ab86cb3766ac55e2" prot="public" virt="non-virtual"><scope>themis::toolbox::ToolboxBuilder</scope><name>~ToolboxBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

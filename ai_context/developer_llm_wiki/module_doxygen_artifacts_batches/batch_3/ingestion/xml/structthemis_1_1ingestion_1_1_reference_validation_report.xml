@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_reference_validation_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::ReferenceValidationReport</compoundname>
+    <includes refid="agentic__reference__validator_8h" local="no">agentic_reference_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_reference_validation_report_1a2b77f4e89e2bc3dbd97b271105789666" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_legal_reference" kindref="compound">LegalReference</ref> &gt;</type>
+        <definition>std::vector&lt;LegalReference&gt; themis::ingestion::ReferenceValidationReport::extracted</definition>
+        <argsstring></argsstring>
+        <name>extracted</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationReport::extracted</qualifiedname>
+        <briefdescription>
+<para>All extracted references. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="89" column="26" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_reference_validation_report_1a37fcc1430e69498b9aa97a482bb4f414" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_reference_validation_result" kindref="compound">ReferenceValidationResult</ref> &gt;</type>
+        <definition>std::vector&lt;ReferenceValidationResult&gt; themis::ingestion::ReferenceValidationReport::validated</definition>
+        <argsstring></argsstring>
+        <name>validated</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationReport::validated</qualifiedname>
+        <briefdescription>
+<para>Per-reference validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="90" column="17" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_reference_validation_report_1abb8ec7c1afc0db7fc9f492119c1d9d30" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::ReferenceValidationReport::dangling_count</definition>
+        <argsstring></argsstring>
+        <name>dangling_count</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationReport::dangling_count</qualifiedname>
+        <briefdescription>
+<para>References that did not resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="91" column="43" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_reference_validation_report_1a7dbc4f65c0d794f340ffbaef4818b985" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::ReferenceValidationReport::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationReport::warnings</qualifiedname>
+        <briefdescription>
+<para>Validation warnings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="92" column="30" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_reference_validation_report_1a8774ec86c568d9a05c7303780fb17f57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::ReferenceValidationReport::ReferenceValidationReport</definition>
+        <argsstring>()</argsstring>
+        <name>ReferenceValidationReport</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationReport::ReferenceValidationReport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="94" column="5" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_reference_validation_report_1ac2bc577c737995fe5efbacaef641d3c1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::ReferenceValidationReport::hasNoDanglingRefs</definition>
+        <argsstring>() const</argsstring>
+        <name>hasNoDanglingRefs</name>
+        <qualifiedname>themis::ingestion::ReferenceValidationReport::hasNoDanglingRefs</qualifiedname>
+        <briefdescription>
+<para>Returns true when there are no dangling (unresolved) references. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/agentic_reference_validator.h" line="97" column="10" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated reference validation results for a document. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/agentic_reference_validator.h" line="88" column="1" bodyfile="include/ingestion/agentic_reference_validator.h" bodystart="88" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_report_1abb8ec7c1afc0db7fc9f492119c1d9d30" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationReport</scope><name>dangling_count</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a2b77f4e89e2bc3dbd97b271105789666" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationReport</scope><name>extracted</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_report_1ac2bc577c737995fe5efbacaef641d3c1" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationReport</scope><name>hasNoDanglingRefs</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a8774ec86c568d9a05c7303780fb17f57" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationReport</scope><name>ReferenceValidationReport</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a37fcc1430e69498b9aa97a482bb4f414" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationReport</scope><name>validated</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_reference_validation_report_1a7dbc4f65c0d794f340ffbaef4818b985" prot="public" virt="non-virtual"><scope>themis::ingestion::ReferenceValidationReport</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

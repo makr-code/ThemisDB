@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::SseConnectionManager::ConnectionStats</compoundname>
+    <includes refid="sse__connection__manager_8h" local="no">sse_connection_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1a8e785e731684a82c327bdba94a22623f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::SseConnectionManager::ConnectionStats::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionStats::active_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="45" column="16" bodyfile="include/server/sse_connection_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1ab48bf726a54be5767cacac89cf09af57" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::SseConnectionManager::ConnectionStats::total_events_sent</definition>
+        <argsstring></argsstring>
+        <name>total_events_sent</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionStats::total_events_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="46" column="18" bodyfile="include/server/sse_connection_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1a6c52e9b77af69fd809b7696e733def2f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::SseConnectionManager::ConnectionStats::total_heartbeats_sent</definition>
+        <argsstring></argsstring>
+        <name>total_heartbeats_sent</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionStats::total_heartbeats_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="47" column="18" bodyfile="include/server/sse_connection_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1aaeee9793e60c3a7e3e16ad748845c6aa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::SseConnectionManager::ConnectionStats::total_disconnects</definition>
+        <argsstring></argsstring>
+        <name>total_disconnects</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionStats::total_disconnects</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="48" column="18" bodyfile="include/server/sse_connection_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1a9f9cdead736c6e3149c91bf2609be0c7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::SseConnectionManager::ConnectionStats::total_dropped_events</definition>
+        <argsstring></argsstring>
+        <name>total_dropped_events</name>
+        <qualifiedname>themis::server::SseConnectionManager::ConnectionStats::total_dropped_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sse_connection_manager.h" line="49" column="18" bodyfile="include/server/sse_connection_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/sse_connection_manager.h" line="44" column="5" bodyfile="include/server/sse_connection_manager.h" bodystart="44" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1a8e785e731684a82c327bdba94a22623f" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionStats</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1aaeee9793e60c3a7e3e16ad748845c6aa" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionStats</scope><name>total_disconnects</name></member>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1a9f9cdead736c6e3149c91bf2609be0c7" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionStats</scope><name>total_dropped_events</name></member>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1ab48bf726a54be5767cacac89cf09af57" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionStats</scope><name>total_events_sent</name></member>
+      <member refid="structthemis_1_1server_1_1_sse_connection_manager_1_1_connection_stats_1a6c52e9b77af69fd809b7696e733def2f" prot="public" virt="non-virtual"><scope>themis::server::SseConnectionManager::ConnectionStats</scope><name>total_heartbeats_sent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

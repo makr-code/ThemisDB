@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d143214033336365370354032207241042023100176313050" kind="namespace" language="C++">
+    <compoundname>@143214033336365370354032207241042023100176313050</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

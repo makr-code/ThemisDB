@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_doc_writer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::IDocWriter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter" prot="public" virt="non-virtual">themis::ingestion::DocumentStoreSinkAdapter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer" prot="public" virt="non-virtual">themis::ingestion::InMemoryDocWriter</derivedcompoundref>
+    <includes refid="ingestion__sinks_8h" local="no">ingestion_sinks.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_doc_writer_1a1b32aa16b450fd4fabb6f0fbc965dbce" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::IDocWriter::~IDocWriter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDocWriter</name>
+        <qualifiedname>themis::ingestion::IDocWriter::~IDocWriter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="147" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_doc_writer_1a416afd3de63f544163f7c83dfee7141c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>virtual Result&lt; std::string &gt; themis::ingestion::IDocWriter::writeDocument</definition>
+        <argsstring>(const BaseEntitySet &amp;entity_set, const std::string &amp;collection=&quot;ingested&quot;)=0</argsstring>
+        <name>writeDocument</name>
+        <qualifiedname>themis::ingestion::IDocWriter::writeDocument</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a2e5a9cded508cad2a753dbc22c154d41">writeDocument</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer_1a20410cd0c8aa3783b87b443762001f38">writeDocument</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref> &amp;</type>
+          <declname>entity_set</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;ingested&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Store the entity set as a document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity_set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Assembled entity set to persist. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection name in the document store. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Assigned document ID on success, or an error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="156" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_doc_writer_1a430cc204a7b983824c97feb9aa06238e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::ingestion::IDocWriter::documentCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>documentCount</name>
+        <qualifiedname>themis::ingestion::IDocWriter::documentCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter_1a63343767da39f012c7d64c4c29028e43">documentCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer_1a4ff2fa06ebf63aeb3f52bbb36ce0f0b8">documentCount</reimplementedby>
+        <briefdescription>
+<para>Returns the number of documents written. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="162" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for persisting a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput> as a document. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The default implementation serialises the entity set to JSON and stores it via <computeroutput>IDocumentStore</computeroutput>.</para>
+<para>Thread-safety: <computeroutput><ref refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a416afd3de63f544163f7c83dfee7141c" kindref="member">writeDocument()</ref></computeroutput> MUST be thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::DocumentStoreSinkAdapter</label>
+        <link refid="classthemis_1_1ingestion_1_1_document_store_sink_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::IDocWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_doc_writer"/>
+      </node>
+      <node id="3">
+        <label>themis::ingestion::InMemoryDocWriter</label>
+        <link refid="classthemis_1_1ingestion_1_1_in_memory_doc_writer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/ingestion_sinks.h" line="145" column="1" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="145" bodyend="163"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a430cc204a7b983824c97feb9aa06238e" prot="public" virt="pure-virtual"><scope>themis::ingestion::IDocWriter</scope><name>documentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a416afd3de63f544163f7c83dfee7141c" prot="public" virt="pure-virtual"><scope>themis::ingestion::IDocWriter</scope><name>writeDocument</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_doc_writer_1a1b32aa16b450fd4fabb6f0fbc965dbce" prot="public" virt="virtual"><scope>themis::ingestion::IDocWriter</scope><name>~IDocWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

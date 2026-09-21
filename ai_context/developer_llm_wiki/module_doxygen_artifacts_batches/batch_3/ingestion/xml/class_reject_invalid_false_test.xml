@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_reject_invalid_false_test" kind="class" language="C++" prot="public">
+    <compoundname>RejectInvalidFalseTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_reject_invalid_false_test_1a55c35bf5b34e7d0544c01aff28869732" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path RejectInvalidFalseTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>RejectInvalidFalseTest::tmp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_schema_validation.cpp" line="595" column="14" bodyfile="tests/ingestion/test_ingestion_schema_validation.cpp" bodystart="595" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_reject_invalid_false_test_1a7112da3e4571a5ce9c3e5ab24780199c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RejectInvalidFalseTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RejectInvalidFalseTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_schema_validation.cpp" line="597" column="10" bodyfile="tests/ingestion/test_ingestion_schema_validation.cpp" bodystart="597" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="class_reject_invalid_false_test_1a6af19aca26e2efe8b84b68f02d66ce43" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RejectInvalidFalseTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>RejectInvalidFalseTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_schema_validation.cpp" line="602" column="10" bodyfile="tests/ingestion/test_ingestion_schema_validation.cpp" bodystart="602" bodyend="604"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RejectInvalidFalseTest</label>
+        <link refid="class_reject_invalid_false_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RejectInvalidFalseTest</label>
+        <link refid="class_reject_invalid_false_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/ingestion/test_ingestion_schema_validation.cpp" line="593" column="1" bodyfile="tests/ingestion/test_ingestion_schema_validation.cpp" bodystart="593" bodyend="605"/>
+    <listofallmembers>
+      <member refid="class_reject_invalid_false_test_1a7112da3e4571a5ce9c3e5ab24780199c" prot="protected" virt="non-virtual"><scope>RejectInvalidFalseTest</scope><name>SetUp</name></member>
+      <member refid="class_reject_invalid_false_test_1a6af19aca26e2efe8b84b68f02d66ce43" prot="protected" virt="non-virtual"><scope>RejectInvalidFalseTest</scope><name>TearDown</name></member>
+      <member refid="class_reject_invalid_false_test_1a55c35bf5b34e7d0544c01aff28869732" prot="protected" virt="non-virtual"><scope>RejectInvalidFalseTest</scope><name>tmp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

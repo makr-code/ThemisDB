@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig</compoundname>
+    <includes refid="prompt__engineering__metrics_8h" local="no">prompt_engineering_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1a439d78b9252aec052b5f18a3809e6486" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig::max_failure_rate</definition>
+        <argsstring></argsstring>
+        <name>max_failure_rate</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig::max_failure_rate</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Fire alert when failure_rate &gt; threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_metrics.h" line="48" column="16" bodyfile="include/prompt_engineering/prompt_engineering_metrics.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1accd4b7c213e56910cbc0d4a84ac06bcd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig::min_success_rate</definition>
+        <argsstring></argsstring>
+        <name>min_success_rate</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig::min_success_rate</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Fire alert when success_rate &lt; threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_metrics.h" line="49" column="16" bodyfile="include/prompt_engineering/prompt_engineering_metrics.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1a81565a92f8fccd7acd4eb931d58cfc83" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig::max_hallucinations</definition>
+        <argsstring></argsstring>
+        <name>max_hallucinations</name>
+        <qualifiedname>themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig::max_hallucinations</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Fire alert when hallucination count exceeds this. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_engineering_metrics.h" line="50" column="17" bodyfile="include/prompt_engineering/prompt_engineering_metrics.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for threshold-based alerting. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_engineering_metrics.h" line="47" column="5" bodyfile="include/prompt_engineering/prompt_engineering_metrics.h" bodystart="47" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1a439d78b9252aec052b5f18a3809e6486" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig</scope><name>max_failure_rate</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1a81565a92f8fccd7acd4eb931d58cfc83" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig</scope><name>max_hallucinations</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1_1_alert_config_1accd4b7c213e56910cbc0d4a84ac06bcd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptEngineeringMetrics::AlertConfig</scope><name>min_success_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_high_churn_scenario_guidelines" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::HighChurnScenarioGuidelines</compoundname>
+    <includes refid="process__concurrency__contract_8h" local="no">process_concurrency_contract.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a6973e2f722c5b50b51584b7302eaf8c4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::HighChurnScenarioGuidelines::max_conflict_probability</definition>
+        <argsstring></argsstring>
+        <name>max_conflict_probability</name>
+        <qualifiedname>themis::process::HighChurnScenarioGuidelines::max_conflict_probability</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+<para>Maximum acceptable probability of LWW conflicts under &gt;500 concurrent writes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="262" column="29" bodyfile="include/process/process_concurrency_contract.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a7cc4ac633c3014ac5088e23ad951d1ce" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::HighChurnScenarioGuidelines::min_link_throughput</definition>
+        <argsstring></argsstring>
+        <name>min_link_throughput</name>
+        <qualifiedname>themis::process::HighChurnScenarioGuidelines::min_link_throughput</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Minimum expected throughput for link creation (links/sec) under high churn. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="265" column="30" bodyfile="include/process/process_concurrency_contract.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a39c3f2624e2e092a8140f873c19ffcc9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::HighChurnScenarioGuidelines::max_serialize_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>max_serialize_latency_ms</name>
+        <qualifiedname>themis::process::HighChurnScenarioGuidelines::max_serialize_latency_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Maximum acceptable model serialization latency under any churn condition (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="268" column="30" bodyfile="include/process/process_concurrency_contract.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1aedc379cd9225d4c862d579cf9f1ec4b3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::HighChurnScenarioGuidelines::churn_alert_threshold</definition>
+        <argsstring></argsstring>
+        <name>churn_alert_threshold</name>
+        <qualifiedname>themis::process::HighChurnScenarioGuidelines::churn_alert_threshold</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Soft alert threshold for concurrent operations (logs warning if exceeded). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="271" column="30" bodyfile="include/process/process_concurrency_contract.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Guidelines for high-churn scenario behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Definition:</bold> High churn = &gt;100 model updates/sec or &gt;1000 concurrent links/sec</para>
+<para><bold>Expected Performance Envelope:</bold><itemizedlist>
+<listitem><para>Model serialization: 5-50 ms (independent of churn)</para>
+</listitem><listitem><para>Link creation: 1-10 ms per link (scales with contention)</para>
+</listitem><listitem><para>Conflict probability: 5-15% under &gt;500 concurrent operations</para>
+</listitem><listitem><para>No silent failures; all conflicts explicitly reported </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_concurrency_contract.h" line="260" column="1" bodyfile="include/process/process_concurrency_contract.h" bodystart="260" bodyend="272"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1aedc379cd9225d4c862d579cf9f1ec4b3" prot="public" virt="non-virtual"><scope>themis::process::HighChurnScenarioGuidelines</scope><name>churn_alert_threshold</name></member>
+      <member refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a6973e2f722c5b50b51584b7302eaf8c4" prot="public" virt="non-virtual"><scope>themis::process::HighChurnScenarioGuidelines</scope><name>max_conflict_probability</name></member>
+      <member refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a39c3f2624e2e092a8140f873c19ffcc9" prot="public" virt="non-virtual"><scope>themis::process::HighChurnScenarioGuidelines</scope><name>max_serialize_latency_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a7cc4ac633c3014ac5088e23ad951d1ce" prot="public" virt="non-virtual"><scope>themis::process::HighChurnScenarioGuidelines</scope><name>min_link_throughput</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_index_stats_test" kind="class" language="C++" prot="public">
+    <compoundname>IndexStatsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_index_stats_test_1a1433bdce3489718700238004656828ca" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string IndexStatsTest::dbPath_</definition>
+        <argsstring></argsstring>
+        <name>dbPath_</name>
+        <qualifiedname>IndexStatsTest::dbPath_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_stats.cpp" line="41" column="17" bodyfile="tests/index/test_index_stats.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_index_stats_test_1a047d8c4a0e50a7b69c1fe5be4bc59de3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; IndexStatsTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>IndexStatsTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_stats.cpp" line="42" column="21" bodyfile="tests/index/test_index_stats.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_index_stats_test_1a5032fba6da15228f5b142a8a9b09a1f7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_secondary_index_manager" kindref="compound">SecondaryIndexManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; IndexStatsTest::indexMgr_</definition>
+        <argsstring></argsstring>
+        <name>indexMgr_</name>
+        <qualifiedname>IndexStatsTest::indexMgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_stats.cpp" line="43" column="21" bodyfile="tests/index/test_index_stats.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_index_stats_test_1aab8bcffd1329483d6c30a3f8aba122ef" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IndexStatsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IndexStatsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_stats.cpp" line="14" column="10" bodyfile="tests/index/test_index_stats.cpp" bodystart="14" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_index_stats_test_1a66ab499a8acc76ca29f5baf3f487e3e9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IndexStatsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>IndexStatsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_stats.cpp" line="35" column="10" bodyfile="tests/index/test_index_stats.cpp" bodystart="35" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IndexStatsTest</label>
+        <link refid="class_index_stats_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IndexStatsTest</label>
+        <link refid="class_index_stats_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_index_stats.cpp" line="12" column="1" bodyfile="tests/index/test_index_stats.cpp" bodystart="12" bodyend="44"/>
+    <listofallmembers>
+      <member refid="class_index_stats_test_1a047d8c4a0e50a7b69c1fe5be4bc59de3" prot="protected" virt="non-virtual"><scope>IndexStatsTest</scope><name>db_</name></member>
+      <member refid="class_index_stats_test_1a1433bdce3489718700238004656828ca" prot="protected" virt="non-virtual"><scope>IndexStatsTest</scope><name>dbPath_</name></member>
+      <member refid="class_index_stats_test_1a5032fba6da15228f5b142a8a9b09a1f7" prot="protected" virt="non-virtual"><scope>IndexStatsTest</scope><name>indexMgr_</name></member>
+      <member refid="class_index_stats_test_1aab8bcffd1329483d6c30a3f8aba122ef" prot="protected" virt="non-virtual"><scope>IndexStatsTest</scope><name>SetUp</name></member>
+      <member refid="class_index_stats_test_1a66ab499a8acc76ca29f5baf3f487e3e9" prot="protected" virt="non-virtual"><scope>IndexStatsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_temporal_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TemporalFilter</compoundname>
+    <includes refid="temporal__graph_8h" local="no">temporal_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_temporal_filter_1a954b27fb8c50c3f70dfcc2abae51227f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::TemporalFilter::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::TemporalFilter::timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="47" column="19" bodyfile="include/index/temporal_graph.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_temporal_filter_1aae74aabc23c6df4eb3983e1e96d4e98f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TemporalFilter::isValid</definition>
+        <argsstring>(std::optional&lt; int64_t &gt; valid_from, std::optional&lt; int64_t &gt; valid_to) const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::TemporalFilter::isValid</qualifiedname>
+        <param>
+          <type>std::optional&lt; int64_t &gt;</type>
+          <declname>valid_from</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; int64_t &gt;</type>
+          <declname>valid_to</declname>
+        </param>
+        <briefdescription>
+<para>Check if edge is valid at query timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>valid_from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Edge validity start (null = always valid from past) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valid_to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Edge validity end (null = always valid into future) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if edge should be included in results </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="55" column="10" bodyfile="include/index/temporal_graph.h" bodystart="55" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_temporal_filter_1ab7bf48060c51b67c64cd970d98abe998" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_temporal_filter" kindref="compound">TemporalFilter</ref></type>
+        <definition>static TemporalFilter themis::TemporalFilter::now</definition>
+        <argsstring>()</argsstring>
+        <name>now</name>
+        <qualifiedname>themis::TemporalFilter::now</qualifiedname>
+        <briefdescription>
+<para>Create filter for current time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="79" column="27" bodyfile="include/index/temporal_graph.h" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_temporal_filter_1a97fe019c27c2777c47cb323ec7895f2e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_temporal_filter" kindref="compound">TemporalFilter</ref></type>
+        <definition>static TemporalFilter themis::TemporalFilter::at</definition>
+        <argsstring>(int64_t timestamp_ms)</argsstring>
+        <name>at</name>
+        <qualifiedname>themis::TemporalFilter::at</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Create filter for specific timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="89" column="27" bodyfile="include/index/temporal_graph.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_temporal_filter_1a16864c8e10afe3976937c540281d14a5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_temporal_filter" kindref="compound">TemporalFilter</ref></type>
+        <definition>static TemporalFilter themis::TemporalFilter::all</definition>
+        <argsstring>()</argsstring>
+        <name>all</name>
+        <qualifiedname>themis::TemporalFilter::all</qualifiedname>
+        <briefdescription>
+<para>Create filter that includes all edges (no temporal filtering). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/temporal_graph.h" line="96" column="27" bodyfile="include/index/temporal_graph.h" bodystart="96" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Temporal Graph Extension (Sprint B). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Adds time-awareness to graph edges with valid_from/valid_to timestamps.</para>
+<para>Design:<itemizedlist>
+<listitem><para>Edges can have optional valid_from and valid_to fields (int64_t milliseconds since epoch)</para>
+</listitem><listitem><para>Traversal queries can filter by time point: t ∈ [valid_from, valid_to]</para>
+</listitem><listitem><para>Null values mean unbounded (valid_from=null → valid since beginning, valid_to=null → valid forever)</para>
+</listitem></itemizedlist>
+</para>
+<para>Schema Addition (BaseEntity fields for edges):<itemizedlist>
+<listitem><para>valid_from: int64_t (optional) - Start of validity period</para>
+</listitem><listitem><para>valid_to: int64_t (optional) - End of validity period</para>
+</listitem></itemizedlist>
+</para>
+<para>Query Examples:<itemizedlist>
+<listitem><para>Find all edges valid at specific timestamp</para>
+</listitem><listitem><para>Find path through graph at specific point in time</para>
+</listitem><listitem><para>Track relationship evolution over time</para>
+</listitem></itemizedlist>
+</para>
+<para>MVP Scope:<itemizedlist>
+<listitem><para>Filter edges by timestamp in traversal</para>
+</listitem><listitem><para>AQL extension: FILTER e.valid_from &lt;= @t AND e.valid_to &gt;= @t</para>
+</listitem><listitem><para>No automatic expiration (handled by queries) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/index/temporal_graph.h" line="46" column="1" bodyfile="include/index/temporal_graph.h" bodystart="46" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_temporal_filter_1a16864c8e10afe3976937c540281d14a5" prot="public" virt="non-virtual"><scope>themis::TemporalFilter</scope><name>all</name></member>
+      <member refid="structthemis_1_1_temporal_filter_1a97fe019c27c2777c47cb323ec7895f2e" prot="public" virt="non-virtual"><scope>themis::TemporalFilter</scope><name>at</name></member>
+      <member refid="structthemis_1_1_temporal_filter_1aae74aabc23c6df4eb3983e1e96d4e98f" prot="public" virt="non-virtual"><scope>themis::TemporalFilter</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1_temporal_filter_1ab7bf48060c51b67c64cd970d98abe998" prot="public" virt="non-virtual"><scope>themis::TemporalFilter</scope><name>now</name></member>
+      <member refid="structthemis_1_1_temporal_filter_1a954b27fb8c50c3f70dfcc2abae51227f" prot="public" virt="non-virtual"><scope>themis::TemporalFilter</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

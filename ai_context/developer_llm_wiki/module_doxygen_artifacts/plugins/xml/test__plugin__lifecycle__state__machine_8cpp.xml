@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__plugin__lifecycle__state__machine_8cpp" kind="file" language="C++">
+    <compoundname>test_plugin_lifecycle_state_machine.cpp</compoundname>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes refid="plugin__interface_8h" local="yes">plugins/plugin_interface.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>plugins/plugin_interface.h</label>
+        <link refid="plugin__interface_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/plugins/test_plugin_lifecycle_state_machine.cpp</label>
+        <link refid="test__plugin__lifecycle__state__machine_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>cstdio</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>tuple</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1test">themis::plugins::test</innernamespace>
+    <briefdescription>
+<para>Phase 2A focused tests for plugin lifecycle state machine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: PLG-09 through PLG-16 Validates explicit state transitions and transition contract enforcement.</para>
+<para><simplesect kind="see"><para><ref refid="plugin__interface_8h" kindref="compound">include/plugins/plugin_interface.h</ref> (PluginLifecycleState enum) </para>
+</simplesect>
+<simplesect kind="see"><para>src/plugins/ROADMAP.md — Phase 2A implementation </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__interface_8h" kindref="compound">plugins/plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-09<sp/>—<sp/>Lifecycle<sp/>state<sp/>enum<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginLifecycleStateMachine,<sp/>PLG09_StateEnumValues)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>enum<sp/>values<sp/>are<sp/>as<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginLifecycleState::UNLOADED</ref>),<sp/>0u);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccaf9f6955ebca09a484157c05f80acd65e" kindref="member">PluginLifecycleState::LOADING</ref>),<sp/>1u);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccab638272ceeff54912f043465e9a28c9b" kindref="member">PluginLifecycleState::LOADED</ref>),<sp/>2u);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">PluginLifecycleState::UNLOADING</ref>),<sp/>3u);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca696b031073e74bf2cb98e5ef201d4aa3" kindref="member">PluginLifecycleState::UNKNOWN</ref>),<sp/>255u);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-10<sp/>—<sp/>State<sp/>to<sp/>string<sp/>conversion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginLifecycleStateMachine,<sp/>PLG10_StateToString)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString</ref>(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginLifecycleState::UNLOADED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;UNLOADED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString</ref>(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccaf9f6955ebca09a484157c05f80acd65e" kindref="member">PluginLifecycleState::LOADING</ref>),<sp/></highlight><highlight class="stringliteral">&quot;LOADING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString</ref>(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccab638272ceeff54912f043465e9a28c9b" kindref="member">PluginLifecycleState::LOADED</ref>),<sp/></highlight><highlight class="stringliteral">&quot;LOADED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString</ref>(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">PluginLifecycleState::UNLOADING</ref>),<sp/></highlight><highlight class="stringliteral">&quot;UNLOADING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString</ref>(<ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca696b031073e74bf2cb98e5ef201d4aa3" kindref="member">PluginLifecycleState::UNKNOWN</ref>),<sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>state<sp/>should<sp/>return<sp/>safe<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(<ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cc" kindref="member">PluginLifecycleState</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(99)),<sp/></highlight><highlight class="stringliteral">&quot;INVALID&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-11<sp/>—<sp/>Valid<sp/>transition<sp/>from<sp/>UNLOADED<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginLifecycleStateMachine,<sp/>PLG11_TransitionsFromUnloaded)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unloaded<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginLifecycleState::UNLOADED</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loading<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccaf9f6955ebca09a484157c05f80acd65e" kindref="member">PluginLifecycleState::LOADING</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccab638272ceeff54912f043465e9a28c9b" kindref="member">PluginLifecycleState::LOADED</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unloading<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">PluginLifecycleState::UNLOADING</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>UNLOADED<sp/>→<sp/>LOADING<sp/>is<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(unloaded,<sp/>loading));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(unloaded,<sp/>loaded));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(unloaded,<sp/>unloading));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(unloaded,<sp/>unloaded));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-12<sp/>—<sp/>Valid<sp/>transitions<sp/>from<sp/>LOADING<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginLifecycleStateMachine,<sp/>PLG12_TransitionsFromLoading)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unloaded<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginLifecycleState::UNLOADED</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loading<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccaf9f6955ebca09a484157c05f80acd65e" kindref="member">PluginLifecycleState::LOADING</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccab638272ceeff54912f043465e9a28c9b" kindref="member">PluginLifecycleState::LOADED</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unloading<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">PluginLifecycleState::UNLOADING</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOADING<sp/>→<sp/>LOADED<sp/>(success)<sp/>or<sp/>LOADING<sp/>→<sp/>UNLOADED<sp/>(rollback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loading,<sp/>loaded));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loading,<sp/>unloaded));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loading,<sp/>unloading));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loading,<sp/>loading));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-13<sp/>—<sp/>Valid<sp/>transitions<sp/>from<sp/>LOADED<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginLifecycleStateMachine,<sp/>PLG13_TransitionsFromLoaded)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unloaded<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginLifecycleState::UNLOADED</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loading<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccaf9f6955ebca09a484157c05f80acd65e" kindref="member">PluginLifecycleState::LOADING</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccab638272ceeff54912f043465e9a28c9b" kindref="member">PluginLifecycleState::LOADED</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unloading<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">PluginLifecycleState::UNLOADING</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOADED<sp/>→<sp/>UNLOADING<sp/>(unload)<sp/>or<sp/>LOADED<sp/>→<sp/>LOADED<sp/>(reload)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loaded,<sp/>unloading));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loaded,<sp/>loaded));<sp/></highlight><highlight class="comment">//<sp/>Reload<sp/>case</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loaded,<sp/>loading));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loaded,<sp/>unloaded));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-14<sp/>—<sp/>Valid<sp/>transitions<sp/>from<sp/>UNLOADING<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginLifecycleStateMachine,<sp/>PLG14_TransitionsFromUnloading)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unloaded<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginLifecycleState::UNLOADED</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loading<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccaf9f6955ebca09a484157c05f80acd65e" kindref="member">PluginLifecycleState::LOADING</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccab638272ceeff54912f043465e9a28c9b" kindref="member">PluginLifecycleState::LOADED</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unloading<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">PluginLifecycleState::UNLOADING</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>UNLOADING<sp/>→<sp/>UNLOADED<sp/>is<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(unloading,<sp/>unloaded));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(unloading,<sp/>loading));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(unloading,<sp/>loaded));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(unloading,<sp/>unloading));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-15<sp/>—<sp/>Complete<sp/>valid<sp/>lifecycle<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginLifecycleStateMachine,<sp/>PLG15_CompleteValidPath)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>complete<sp/>plugin<sp/>lifecycle:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UNLOADED<sp/>→<sp/>LOADING<sp/>→<sp/>LOADED<sp/>→<sp/>UNLOADING<sp/>→<sp/>UNLOADED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PluginLifecycleState&gt;<sp/>path<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginLifecycleState::UNLOADED</ref>,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccaf9f6955ebca09a484157c05f80acd65e" kindref="member">PluginLifecycleState::LOADING</ref>,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccab638272ceeff54912f043465e9a28c9b" kindref="member">PluginLifecycleState::LOADED</ref>,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">PluginLifecycleState::UNLOADING</ref>,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca795b8a51556d0b2cf4fbc11a896f6269" kindref="member">PluginLifecycleState::UNLOADED</ref>,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>each<sp/>transition<sp/>in<sp/>the<sp/>path<sp/>is<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>+<sp/>1<sp/>&lt;<sp/>path.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(path[i],<sp/>path[i<sp/>+<sp/>1]))</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Transition<sp/>from<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString</ref>(path[i])</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>to<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacethemis_1_1plugins_1a3e2ad9ac929dcdf91edcb84bf6575b9f" kindref="member">lifecycleStateToString</ref>(path[i<sp/>+<sp/>1])<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>should<sp/>be<sp/>valid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-16<sp/>—<sp/>Reload<sp/>path<sp/>(LOADED<sp/>→<sp/>LOADED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginLifecycleStateMachine,<sp/>PLG16_ReloadPath)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Plugin<sp/>reload<sp/>allows<sp/>direct<sp/>LOADED<sp/>→<sp/>LOADED<sp/>transition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71ccab638272ceeff54912f043465e9a28c9b" kindref="member">PluginLifecycleState::LOADED</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loaded,<sp/>loaded));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>But<sp/>reload<sp/>followed<sp/>by<sp/>unload<sp/>should<sp/>also<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a747d5dbd259d608892be0cb99faeb801" kindref="member">isValidLifecycleTransition</ref>(loaded,<sp/><ref refid="namespacethemis_1_1plugins_1a8e1f547c93c2fcdf65a1fe4a45ac71cca47a9a5e95b0b32bb9f2c74187c02bddd" kindref="member">PluginLifecycleState::UNLOADING</ref>));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/plugins/test_plugin_lifecycle_state_machine.cpp"/>
+  </compounddef>
+</doxygen>

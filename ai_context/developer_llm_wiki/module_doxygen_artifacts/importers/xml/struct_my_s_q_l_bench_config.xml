@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_my_s_q_l_bench_config" kind="struct" language="C++" prot="public">
+    <compoundname>MySQLBenchConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_my_s_q_l_bench_config_1aab1b7e41fd3d2eeb6f125b721987001a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MySQLBenchConfig::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>MySQLBenchConfig::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="581" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="581" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_my_s_q_l_bench_config_1acea71afb7ca700abb1edcafe28c3c0b5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MySQLBenchConfig::num_rows</definition>
+        <argsstring></argsstring>
+        <name>num_rows</name>
+        <qualifiedname>MySQLBenchConfig::num_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="582" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="582" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_my_s_q_l_bench_config_1aa16eeeccc72d3fc012d51de8e8abe4e4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MySQLBenchConfig::num_tables</definition>
+        <argsstring></argsstring>
+        <name>num_tables</name>
+        <qualifiedname>MySQLBenchConfig::num_tables</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="583" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="583" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_my_s_q_l_bench_config_1ab9a4ed9e6e816bc0beed1a37f29403cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MySQLBenchConfig::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>MySQLBenchConfig::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="584" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="584" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importer_throughput.cpp" line="580" column="1" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="580" bodyend="585"/>
+    <listofallmembers>
+      <member refid="struct_my_s_q_l_bench_config_1ab9a4ed9e6e816bc0beed1a37f29403cf" prot="public" virt="non-virtual"><scope>MySQLBenchConfig</scope><name>dry_run</name></member>
+      <member refid="struct_my_s_q_l_bench_config_1aab1b7e41fd3d2eeb6f125b721987001a" prot="public" virt="non-virtual"><scope>MySQLBenchConfig</scope><name>label</name></member>
+      <member refid="struct_my_s_q_l_bench_config_1acea71afb7ca700abb1edcafe28c3c0b5" prot="public" virt="non-virtual"><scope>MySQLBenchConfig</scope><name>num_rows</name></member>
+      <member refid="struct_my_s_q_l_bench_config_1aa16eeeccc72d3fc012d51de8e8abe4e4" prot="public" virt="non-virtual"><scope>MySQLBenchConfig</scope><name>num_tables</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

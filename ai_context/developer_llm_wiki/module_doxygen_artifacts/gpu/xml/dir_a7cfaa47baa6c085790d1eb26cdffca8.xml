@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a7cfaa47baa6c085790d1eb26cdffca8" kind="dir">
+    <compoundname>include/gpu</compoundname>
+    <innerfile refid="cuda__operations_8h">cuda_operations.h</innerfile>
+    <innerfile refid="cuda__raii_8h">cuda_raii.h</innerfile>
+    <innerfile refid="gpu__backend__dispatch__contract_8h">gpu_backend_dispatch_contract.h</innerfile>
+    <innerfile refid="gpu__backend__dispatch__diagnostics_8h">gpu_backend_dispatch_diagnostics.h</innerfile>
+    <innerfile refid="gpu__batch__a9__safety_8hpp">gpu_batch_a9_safety.hpp</innerfile>
+    <innerfile refid="gpu__cuda__error__hardening_8h">gpu_cuda_error_hardening.h</innerfile>
+    <innerfile refid="gpu__kernel__manager_8h">gpu_kernel_manager.h</innerfile>
+    <innerfile refid="gpu__memory__allocator_8h">gpu_memory_allocator.h</innerfile>
+    <innerfile refid="gpu__memory__pool__safety_8h">gpu_memory_pool_safety.h</innerfile>
+    <innerfile refid="gpu__raii__wrappers_8hpp">gpu_raii_wrappers.hpp</innerfile>
+    <innerfile refid="gpu__resource__handles_8h">gpu_resource_handles.h</innerfile>
+    <innerfile refid="gpu__safe__operations_8h">gpu_safe_operations.h</innerfile>
+    <innerfile refid="gpu__safe__raii_8h">gpu_safe_raii.h</innerfile>
+    <innerfile refid="kernel__timeout__enforcer_8h">kernel_timeout_enforcer.h</innerfile>
+    <innerfile refid="unified__memory__coordinator_8h">unified_memory_coordinator.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_routing_table" kind="class" language="C++" prot="public">
+    <compoundname>StubRoutingTable</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_routing_table_1ac3362f9c2c6fae0ea47b579d71e6d9fe" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int StubRoutingTable::num_shards_</definition>
+        <argsstring></argsstring>
+        <name>num_shards_</name>
+        <qualifiedname>StubRoutingTable::num_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="66" column="9" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_routing_table_1a227386fd236d2082e6641be052bf38a4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubRoutingTable::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubRoutingTable::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="67" column="24" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_routing_table_1a91eecfe2498be00d5c64f51d3a000c1b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; StubRoutingTable::overrides_</definition>
+        <argsstring></argsstring>
+        <name>overrides_</name>
+        <qualifiedname>StubRoutingTable::overrides_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="68" column="24" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_routing_table_1a9e75c3006030e8c606f725e76a58d771" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubRoutingTable::StubRoutingTable</definition>
+        <argsstring>(int num_shards)</argsstring>
+        <name>StubRoutingTable</name>
+        <qualifiedname>StubRoutingTable::StubRoutingTable</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="40" column="14" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_routing_table_1a790eec44d8469ca219d6d554f2cf0e49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int StubRoutingTable::route</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>route</name>
+        <qualifiedname>StubRoutingTable::route</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="42" column="9" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_routing_table_1a2e6669ec10357709cbebba37be694cc8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubRoutingTable::corrupt</definition>
+        <argsstring>(const std::string &amp;key, int bad_shard)</argsstring>
+        <name>corrupt</name>
+        <qualifiedname>StubRoutingTable::corrupt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>bad_shard</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="46" column="10" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_routing_table_1aaeff008764447fb86f6ec8f028d53f14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubRoutingTable::heal</definition>
+        <argsstring>()</argsstring>
+        <name>heal</name>
+        <qualifiedname>StubRoutingTable::heal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="51" column="10" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_routing_table_1a8305097cbe72c7c76ab5ccea257ec420" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int StubRoutingTable::routeWithOverride</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>routeWithOverride</name>
+        <qualifiedname>StubRoutingTable::routeWithOverride</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="56" column="9" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_routing_table_1a967fe3f46ae8fdffe97d12063448e0cc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int StubRoutingTable::numShards</definition>
+        <argsstring>() const</argsstring>
+        <name>numShards</name>
+        <qualifiedname>StubRoutingTable::numShards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="63" column="9" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub routing table: maps key → shard index. Thread-safe. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="38" column="1" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="38" bodyend="69"/>
+    <listofallmembers>
+      <member refid="class_stub_routing_table_1a2e6669ec10357709cbebba37be694cc8" prot="public" virt="non-virtual"><scope>StubRoutingTable</scope><name>corrupt</name></member>
+      <member refid="class_stub_routing_table_1aaeff008764447fb86f6ec8f028d53f14" prot="public" virt="non-virtual"><scope>StubRoutingTable</scope><name>heal</name></member>
+      <member refid="class_stub_routing_table_1a227386fd236d2082e6641be052bf38a4" prot="private" virt="non-virtual"><scope>StubRoutingTable</scope><name>mu_</name></member>
+      <member refid="class_stub_routing_table_1ac3362f9c2c6fae0ea47b579d71e6d9fe" prot="private" virt="non-virtual"><scope>StubRoutingTable</scope><name>num_shards_</name></member>
+      <member refid="class_stub_routing_table_1a967fe3f46ae8fdffe97d12063448e0cc" prot="public" virt="non-virtual"><scope>StubRoutingTable</scope><name>numShards</name></member>
+      <member refid="class_stub_routing_table_1a91eecfe2498be00d5c64f51d3a000c1b" prot="private" virt="non-virtual"><scope>StubRoutingTable</scope><name>overrides_</name></member>
+      <member refid="class_stub_routing_table_1a790eec44d8469ca219d6d554f2cf0e49" prot="public" virt="non-virtual"><scope>StubRoutingTable</scope><name>route</name></member>
+      <member refid="class_stub_routing_table_1a8305097cbe72c7c76ab5ccea257ec420" prot="public" virt="non-virtual"><scope>StubRoutingTable</scope><name>routeWithOverride</name></member>
+      <member refid="class_stub_routing_table_1a9e75c3006030e8c606f725e76a58d771" prot="public" virt="non-virtual"><scope>StubRoutingTable</scope><name>StubRoutingTable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

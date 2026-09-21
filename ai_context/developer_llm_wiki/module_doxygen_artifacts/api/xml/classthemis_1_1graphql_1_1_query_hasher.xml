@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_query_hasher" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::QueryHasher</compoundname>
+    <includes refid="persisted__queries_8h" local="no">persisted_queries.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_hasher_1a7408d8e1b0135d667d0644024e612241" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::graphql::QueryHasher::hash</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>hash</name>
+        <qualifiedname>themis::graphql::QueryHasher::hash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), hasher(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="294" column="24" bodyfile="include/api/persisted_queries.h" bodystart="294" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_hasher_1a51164fd552bee11eb2b6f2e44afdaa58" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::graphql::QueryHasher::normalize</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::graphql::QueryHasher::normalize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Normalize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::isspace(), empty(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/persisted_queries.h" line="306" column="24" bodyfile="include/api/persisted_queries.h" bodystart="306" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/persisted_queries.h" line="286" column="1" bodyfile="include/api/persisted_queries.h" bodystart="286" bodyend="360"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_query_hasher_1a7408d8e1b0135d667d0644024e612241" prot="public" virt="non-virtual"><scope>themis::graphql::QueryHasher</scope><name>hash</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_hasher_1a51164fd552bee11eb2b6f2e44afdaa58" prot="public" virt="non-virtual"><scope>themis::graphql::QueryHasher</scope><name>normalize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

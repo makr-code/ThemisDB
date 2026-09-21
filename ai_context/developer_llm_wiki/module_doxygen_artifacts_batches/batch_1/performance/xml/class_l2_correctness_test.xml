@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l2_correctness_test" kind="class" language="C++" prot="public">
+    <compoundname>L2CorrectnessTest</compoundname>
+    <basecompoundref refid="class_simd_distance_test" prot="public" virt="non-virtual">SimdDistanceTest</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">testing::WithParamInterface&lt; std::size_t &gt;</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>L2CorrectnessTest</label>
+        <link refid="class_l2_correctness_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SimdDistanceTest</label>
+        <link refid="class_simd_distance_test"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>testing::WithParamInterface&lt; std::size_t &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>L2CorrectnessTest</label>
+        <link refid="class_l2_correctness_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SimdDistanceTest</label>
+        <link refid="class_simd_distance_test"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>testing::WithParamInterface&lt; std::size_t &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/performance/phase3/test_simd_distance.cpp" line="125" column="1" bodyfile="tests/performance/phase3/test_simd_distance.cpp" bodystart="126" bodyend="126"/>
+    <listofallmembers>
+      <member refid="class_simd_distance_test_1a2c3973fd0232c8733360a485c664851f" prot="protected" virt="non-virtual"><scope>L2CorrectnessTest</scope><name>expect_near</name></member>
+      <member refid="class_simd_distance_test_1aa50769f95b0bd314c8c7cdb9b5f91e9f" prot="protected" virt="non-virtual"><scope>L2CorrectnessTest</scope><name>kTol</name></member>
+      <member refid="class_simd_distance_test_1aa41b880ac0b6db22945b8bacfd47960c" prot="protected" virt="non-virtual"><scope>L2CorrectnessTest</scope><name>make_rand</name></member>
+      <member refid="class_simd_distance_test_1a201d7ae8e8ea0dbba8bf7ffd1468f5e9" prot="protected" virt="non-virtual"><scope>L2CorrectnessTest</scope><name>make_vec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

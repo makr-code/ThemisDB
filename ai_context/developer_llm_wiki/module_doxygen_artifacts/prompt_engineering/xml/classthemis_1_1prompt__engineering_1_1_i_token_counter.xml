@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_token_counter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::ITokenCounter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_char_division_counter" prot="public" virt="non-virtual">themis::prompt_engineering::CharDivisionCounter</derivedcompoundref>
+    <includes refid="context__window__manager_8h" local="no">context_window_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_token_counter_1a1ed59b241ca1c052b5d8d975b8b61ee0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::ITokenCounter::~ITokenCounter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITokenCounter</name>
+        <qualifiedname>themis::prompt_engineering::ITokenCounter::~ITokenCounter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="84" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_token_counter_1a03b3d7df769469c2c7e8efa71214f494" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::prompt_engineering::ITokenCounter::count</definition>
+        <argsstring>(const std::string &amp;text) const =0</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::prompt_engineering::ITokenCounter::count</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_char_division_counter_1adc311631bf10595e42014c6d3c9269b6">count</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Return the estimated token count for <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input string (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Estimated number of tokens (≥1 for non-empty input). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="91" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for counting tokens in a text string. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this to wrap tiktoken, SentencePiece, or any other tokenizer. The default implementation (<computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_char_division_counter" kindref="compound">CharDivisionCounter</ref></computeroutput>) divides character count by 4, which approximates GPT-style BPE token counts on English text with ≤10% error at the 95th percentile. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::CharDivisionCounter</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_char_division_counter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::ITokenCounter</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_token_counter"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/context_window_manager.h" line="82" column="1" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="82" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_token_counter_1a03b3d7df769469c2c7e8efa71214f494" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::ITokenCounter</scope><name>count</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_token_counter_1a1ed59b241ca1c052b5d8d975b8b61ee0" prot="public" virt="virtual"><scope>themis::prompt_engineering::ITokenCounter</scope><name>~ITokenCounter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

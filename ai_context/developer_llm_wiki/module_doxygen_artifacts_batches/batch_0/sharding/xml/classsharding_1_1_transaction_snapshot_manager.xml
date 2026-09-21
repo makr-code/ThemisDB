@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classsharding_1_1_transaction_snapshot_manager" kind="class" language="C++" prot="public">
+    <compoundname>sharding::TransactionSnapshotManager</compoundname>
+    <includes refid="transaction__snapshot_8h" local="no">transaction_snapshot.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classsharding_1_1_transaction_snapshot_manager_1ab0215553311c41fd5f80226cb6b6c578" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sharding::TransactionSnapshotManager::snapshot_directory_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_directory_</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::snapshot_directory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="154" column="17" bodyfile="include/sharding/transaction_snapshot.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsharding_1_1_transaction_snapshot_manager_1a455bf2e050358e405a067feb58c8f746" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t sharding::TransactionSnapshotManager::max_snapshots_</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots_</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::max_snapshots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="155" column="12" bodyfile="include/sharding/transaction_snapshot.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1a9a3cbde60de52fd299d7ef3532d2e7ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>sharding::TransactionSnapshotManager::TransactionSnapshotManager</definition>
+        <argsstring>(const std::string &amp;snapshot_directory, size_t max_snapshots=10)</argsstring>
+        <name>TransactionSnapshotManager</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::TransactionSnapshotManager</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_directory</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_snapshots</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Construct manager with target directory and retention size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot storage directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_snapshots</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum retained snapshot files. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="122" column="5" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="312" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1abbc8583fb9ab35034168b2e1bd727a62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>sharding::TransactionSnapshotManager::~TransactionSnapshotManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TransactionSnapshotManager</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::~TransactionSnapshotManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1aec19565001213dacc6cfa9682a1ac90c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt; uint64_t &gt; sharding::TransactionSnapshotManager::createSnapshot</definition>
+        <argsstring>(const std::string &amp;coordinator_id, LSN last_applied_lsn, const std::vector&lt; TransactionSnapshotEntry &gt; &amp;active_transactions)</argsstring>
+        <name>createSnapshot</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::createSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>coordinator_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+          <declname>last_applied_lsn</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structsharding_1_1_transaction_snapshot_entry" kindref="compound">TransactionSnapshotEntry</ref> &gt; &amp;</type>
+          <declname>active_transactions</declname>
+        </param>
+        <briefdescription>
+<para>Create and persist a new transaction snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Snapshot.</para>
+<para><simplesect kind="return"><para>Snapshot id on success, nullopt on persistence/error failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">coordinator_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the coordinator. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_applied_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">active_transactions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), size(), toJson(), calculateChecksum(), saveSnapshotToFile(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="129" column="19" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="351" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1a1cbfe4175acfc03779c02d529ebe8116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structsharding_1_1_transaction_snapshot" kindref="compound">TransactionSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionSnapshot &gt; sharding::TransactionSnapshotManager::loadLatestSnapshot</definition>
+        <argsstring>()</argsstring>
+        <name>loadLatestSnapshot</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::loadLatestSnapshot</qualifiedname>
+        <briefdescription>
+<para>Load most recent snapshot by snapshot-id ordering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Latest Snapshot.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classsharding_1_1_transaction_snapshot_manager_1adbbb47ef5cf95b047f772502791b8316" kindref="member">listSnapshots()</ref>, empty(), spdlog::info(), <ref refid="classsharding_1_1_transaction_snapshot_manager_1a6de93999ddbb7568e868073159ed8532" kindref="member">loadSnapshot()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="136" column="19" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="462" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1a6de93999ddbb7568e868073159ed8532" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structsharding_1_1_transaction_snapshot" kindref="compound">TransactionSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionSnapshot &gt; sharding::TransactionSnapshotManager::loadSnapshot</definition>
+        <argsstring>(uint64_t snapshot_id)</argsstring>
+        <name>loadSnapshot</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::loadSnapshot</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Load snapshot by explicit id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Snapshot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getSnapshotPath(), loadSnapshotFromFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="139" column="19" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="479" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1adbbb47ef5cf95b047f772502791b8316" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; sharding::TransactionSnapshotManager::listSnapshots</definition>
+        <argsstring>()</argsstring>
+        <name>listSnapshots</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::listSnapshots</qualifiedname>
+        <briefdescription>
+<para>List all available snapshot ids (newest first). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>List Snapshots.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::filesystem::exists(), std::filesystem::directory_iterator(), is_regular_file(), path(), filename(), string(), find(), ends_with(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="142" column="17" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="489" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1a72c2dfd6afc16ac2a510596dcda6ea58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sharding::TransactionSnapshotManager::deleteSnapshot</definition>
+        <argsstring>(uint64_t snapshot_id)</argsstring>
+        <name>deleteSnapshot</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::deleteSnapshot</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete snapshot file by id if it exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Snapshot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getSnapshotPath(), std::filesystem::exists(), std::filesystem::remove(), spdlog::info(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="145" column="10" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="530" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1aef7493a2f71c7e2ed9de8b68819dc391" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sharding::TransactionSnapshotManager::cleanupOldSnapshots</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupOldSnapshots</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::cleanupOldSnapshots</qualifiedname>
+        <briefdescription>
+<para>Remove oldest snapshot files beyond retention window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Old Snapshots.</para>
+<para>Calls: <ref refid="classsharding_1_1_transaction_snapshot_manager_1adbbb47ef5cf95b047f772502791b8316" kindref="member">listSnapshots()</ref>, size(), <ref refid="classsharding_1_1_transaction_snapshot_manager_1a72c2dfd6afc16ac2a510596dcda6ea58" kindref="member">deleteSnapshot()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="148" column="10" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="549" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1a56676be71dbd3c9e5604b1bb6327f0af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sharding::TransactionSnapshotManager::verifySnapshot</definition>
+        <argsstring>(const TransactionSnapshot &amp;snapshot)</argsstring>
+        <name>verifySnapshot</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::verifySnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structsharding_1_1_transaction_snapshot" kindref="compound">TransactionSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Verify snapshot checksum against serialized payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Snapshot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: toJson(), calculateChecksum(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="151" column="10" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="571" bodyend="587"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1a62c49f7aa9ee48e5d5038f77a82b8735" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string sharding::TransactionSnapshotManager::getSnapshotPath</definition>
+        <argsstring>(uint64_t snapshot_id) const</argsstring>
+        <name>getSnapshotPath</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::getSnapshotPath</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Build absolute snapshot filepath for a snapshot id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="158" column="17" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="326" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1a32cfc38bb60e317ba9e33070312d9100" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string sharding::TransactionSnapshotManager::calculateChecksum</definition>
+        <argsstring>(const nlohmann::json &amp;data) const</argsstring>
+        <name>calculateChecksum</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::calculateChecksum</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA-256 checksum for serialized JSON payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="161" column="17" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="330" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1a743d3c360ce93632b184698b232f75ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sharding::TransactionSnapshotManager::saveSnapshotToFile</definition>
+        <argsstring>(const TransactionSnapshot &amp;snapshot)</argsstring>
+        <name>saveSnapshotToFile</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::saveSnapshotToFile</qualifiedname>
+        <param>
+          <type>const <ref refid="structsharding_1_1_transaction_snapshot" kindref="compound">TransactionSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Persist snapshot document to disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Save Snapshot To File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getSnapshotPath(), toJson(), file(), is_open(), spdlog::error(), dump(), close(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="164" column="10" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="394" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_snapshot_manager_1a9b1c02b7e6b7cee4b12a41cbce7f387e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structsharding_1_1_transaction_snapshot" kindref="compound">TransactionSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionSnapshot &gt; sharding::TransactionSnapshotManager::loadSnapshotFromFile</definition>
+        <argsstring>(const std::string &amp;filepath)</argsstring>
+        <name>loadSnapshotFromFile</name>
+        <qualifiedname>sharding::TransactionSnapshotManager::loadSnapshotFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+<para>Load snapshot document from disk path and validate checksum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Snapshot From File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filepath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), is_open(), spdlog::error(), close(), <ref refid="structsharding_1_1_transaction_snapshot_1a4d75afda5021b1efcfc97d30f88a9c12" kindref="member">TransactionSnapshot::fromJson()</ref>, has_value(), <ref refid="classsharding_1_1_transaction_snapshot_manager_1a56676be71dbd3c9e5604b1bb6327f0af" kindref="member">verifySnapshot()</ref>, value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="167" column="19" bodyfile="src/sharding/transaction_snapshot.cpp" bodystart="424" bodyend="455"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Filesystem-backed manager for writing/reading transaction snapshots. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/transaction_snapshot.h" line="115" column="1" bodyfile="include/sharding/transaction_snapshot.h" bodystart="115" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a32cfc38bb60e317ba9e33070312d9100" prot="private" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>calculateChecksum</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1aef7493a2f71c7e2ed9de8b68819dc391" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>cleanupOldSnapshots</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1aec19565001213dacc6cfa9682a1ac90c" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>createSnapshot</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a72c2dfd6afc16ac2a510596dcda6ea58" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>deleteSnapshot</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a62c49f7aa9ee48e5d5038f77a82b8735" prot="private" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>getSnapshotPath</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1adbbb47ef5cf95b047f772502791b8316" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>listSnapshots</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a1cbfe4175acfc03779c02d529ebe8116" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>loadLatestSnapshot</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a6de93999ddbb7568e868073159ed8532" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>loadSnapshot</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a9b1c02b7e6b7cee4b12a41cbce7f387e" prot="private" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>loadSnapshotFromFile</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a455bf2e050358e405a067feb58c8f746" prot="private" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>max_snapshots_</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a743d3c360ce93632b184698b232f75ad" prot="private" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>saveSnapshotToFile</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1ab0215553311c41fd5f80226cb6b6c578" prot="private" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>snapshot_directory_</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a9a3cbde60de52fd299d7ef3532d2e7ee" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>TransactionSnapshotManager</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1a56676be71dbd3c9e5604b1bb6327f0af" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>verifySnapshot</name></member>
+      <member refid="classsharding_1_1_transaction_snapshot_manager_1abbc8583fb9ab35034168b2e1bd727a62" prot="public" virt="non-virtual"><scope>sharding::TransactionSnapshotManager</scope><name>~TransactionSnapshotManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

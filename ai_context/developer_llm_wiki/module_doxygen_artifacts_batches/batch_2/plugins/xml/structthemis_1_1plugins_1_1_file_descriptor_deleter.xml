@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_file_descriptor_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::FileDescriptorDeleter</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_file_descriptor_deleter_1a170d03469580a1783bb512f2a2fd4a49" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::FileDescriptorDeleter::operator()</definition>
+        <argsstring>(int *fd_ptr) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::plugins::FileDescriptorDeleter::operator()</qualifiedname>
+        <param>
+          <type>int *</type>
+          <declname>fd_ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/plugins/plugin_hot_plug_monitor.cpp" line="64" column="10" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="64" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/plugins/plugin_hot_plug_monitor.cpp" line="63" column="1" bodyfile="src/plugins/plugin_hot_plug_monitor.cpp" bodystart="63" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_file_descriptor_deleter_1a170d03469580a1783bb512f2a2fd4a49" prot="public" virt="non-virtual"><scope>themis::plugins::FileDescriptorDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

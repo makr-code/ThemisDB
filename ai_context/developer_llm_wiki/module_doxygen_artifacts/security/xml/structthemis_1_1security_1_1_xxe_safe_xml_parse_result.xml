@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_xxe_safe_xml_parse_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::XxeSafeXmlParseResult</compoundname>
+    <includes refid="xxe__safe__xml__parser_8h" local="no">xxe_safe_xml_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1abd595a13e87426e3d6a19972bb37ec46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::XxeSafeXmlParseResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::security::XxeSafeXmlParseResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/xxe_safe_xml_parser.h" line="27" column="10" bodyfile="include/security/xxe_safe_xml_parser.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a5c163046c0192bc47676e43461cd0176" prot="public" static="no" mutable="no">
+        <type>pugi::xml_document</type>
+        <definition>pugi::xml_document themis::security::XxeSafeXmlParseResult::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>themis::security::XxeSafeXmlParseResult::document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/xxe_safe_xml_parser.h" line="28" column="24" bodyfile="include/security/xxe_safe_xml_parser.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a96fbd65e80b4521e53748265d97a9c03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::XxeSafeXmlParseResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::security::XxeSafeXmlParseResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/xxe_safe_xml_parser.h" line="29" column="17" bodyfile="include/security/xxe_safe_xml_parser.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a0f738ad6faeaf8fbef085d710986fc1c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::XxeSafeXmlParseResult::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::security::XxeSafeXmlParseResult::max_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/xxe_safe_xml_parser.h" line="30" column="9" bodyfile="include/security/xxe_safe_xml_parser.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/xxe_safe_xml_parser.h" line="26" column="1" bodyfile="include/security/xxe_safe_xml_parser.h" bodystart="26" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a5c163046c0192bc47676e43461cd0176" prot="public" virt="non-virtual"><scope>themis::security::XxeSafeXmlParseResult</scope><name>document</name></member>
+      <member refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a96fbd65e80b4521e53748265d97a9c03" prot="public" virt="non-virtual"><scope>themis::security::XxeSafeXmlParseResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1a0f738ad6faeaf8fbef085d710986fc1c" prot="public" virt="non-virtual"><scope>themis::security::XxeSafeXmlParseResult</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1security_1_1_xxe_safe_xml_parse_result_1abd595a13e87426e3d6a19972bb37ec46" prot="public" virt="non-virtual"><scope>themis::security::XxeSafeXmlParseResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

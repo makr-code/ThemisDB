@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_rag_cost_estimate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RagCostEstimate</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_estimate_1aa88a3896ee02920bfc52d06d240afe10" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::RagCostEstimate::total_cost</definition>
+        <argsstring></argsstring>
+        <name>total_cost</name>
+        <qualifiedname>themis::llm::RagCostEstimate::total_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="462" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="462" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_estimate_1a69f49d16237174461136f5c1d208b0e7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::RagCostEstimate::retrieval_cost</definition>
+        <argsstring></argsstring>
+        <name>retrieval_cost</name>
+        <qualifiedname>themis::llm::RagCostEstimate::retrieval_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="463" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_estimate_1a57b61c3f22d3bb38692b1d621e541b05" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::RagCostEstimate::inference_cost</definition>
+        <argsstring></argsstring>
+        <name>inference_cost</name>
+        <qualifiedname>themis::llm::RagCostEstimate::inference_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="464" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_estimate_1aa21bba82fdbe395e5af8c920c3a4d385" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::RagCostEstimate::adapter_cost</definition>
+        <argsstring></argsstring>
+        <name>adapter_cost</name>
+        <qualifiedname>themis::llm::RagCostEstimate::adapter_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="465" column="12" bodyfile="include/llm/ai_orchestrator.h" bodystart="465" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_estimate_1a090c700202f8192f49f7aba1a3348b82" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RagCostEstimate::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>themis::llm::RagCostEstimate::model</qualifiedname>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="466" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="466" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_estimate_1a9335cf791ce2d412bcceab8d9e7732c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RagCostEstimate::unit</definition>
+        <argsstring></argsstring>
+        <name>unit</name>
+        <qualifiedname>themis::llm::RagCostEstimate::unit</qualifiedname>
+        <initializer>= &quot;cost_units&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="467" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="467" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rag_cost_estimate_1ab817fd540deda65f15916df56d4dc0ec" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::RagCostEstimate::extra</definition>
+        <argsstring></argsstring>
+        <name>extra</name>
+        <qualifiedname>themis::llm::RagCostEstimate::extra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="468" column="10" bodyfile="include/llm/ai_orchestrator.h" bodystart="468" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="461" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="461" bodyend="469"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_estimate_1aa21bba82fdbe395e5af8c920c3a4d385" prot="public" virt="non-virtual"><scope>themis::llm::RagCostEstimate</scope><name>adapter_cost</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_estimate_1ab817fd540deda65f15916df56d4dc0ec" prot="public" virt="non-virtual"><scope>themis::llm::RagCostEstimate</scope><name>extra</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_estimate_1a57b61c3f22d3bb38692b1d621e541b05" prot="public" virt="non-virtual"><scope>themis::llm::RagCostEstimate</scope><name>inference_cost</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_estimate_1a090c700202f8192f49f7aba1a3348b82" prot="public" virt="non-virtual"><scope>themis::llm::RagCostEstimate</scope><name>model</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_estimate_1a69f49d16237174461136f5c1d208b0e7" prot="public" virt="non-virtual"><scope>themis::llm::RagCostEstimate</scope><name>retrieval_cost</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_estimate_1aa88a3896ee02920bfc52d06d240afe10" prot="public" virt="non-virtual"><scope>themis::llm::RagCostEstimate</scope><name>total_cost</name></member>
+      <member refid="structthemis_1_1llm_1_1_rag_cost_estimate_1a9335cf791ce2d412bcceab8d9e7732c1" prot="public" virt="non-virtual"><scope>themis::llm::RagCostEstimate</scope><name>unit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_disk_space_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::DiskSpaceGuard</compoundname>
+    <includes refid="disk__space__monitor_8h" local="no">disk_space_monitor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_guard_1a161bb0233df3fffb448a5115fae7294b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor" kindref="compound">DiskSpaceMonitor</ref> &amp;</type>
+        <definition>DiskSpaceMonitor&amp; themis::storage::DiskSpaceGuard::monitor_</definition>
+        <argsstring></argsstring>
+        <name>monitor_</name>
+        <qualifiedname>themis::storage::DiskSpaceGuard::monitor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="276" column="22" bodyfile="include/storage/disk_space_monitor.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_guard_1ad114935991ecbf672a972aba27677285" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DiskSpaceGuard::required_bytes_</definition>
+        <argsstring></argsstring>
+        <name>required_bytes_</name>
+        <qualifiedname>themis::storage::DiskSpaceGuard::required_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="277" column="12" bodyfile="include/storage/disk_space_monitor.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_guard_1a3d98ed005c0a06df0116740d58265728" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DiskSpaceGuard::operation_name_</definition>
+        <argsstring></argsstring>
+        <name>operation_name_</name>
+        <qualifiedname>themis::storage::DiskSpaceGuard::operation_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="278" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_guard_1a5cbf4419c7eb435a43656df0a6276df8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceGuard::valid_</definition>
+        <argsstring></argsstring>
+        <name>valid_</name>
+        <qualifiedname>themis::storage::DiskSpaceGuard::valid_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="279" column="10" bodyfile="include/storage/disk_space_monitor.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_disk_space_guard_1acd253969150c9a86cf4dbd2b1364f09b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DiskSpaceGuard::error_</definition>
+        <argsstring></argsstring>
+        <name>error_</name>
+        <qualifiedname>themis::storage::DiskSpaceGuard::error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="280" column="17" bodyfile="include/storage/disk_space_monitor.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_guard_1aac7dd15839bc675d140b2bb8ec512600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DiskSpaceGuard::DiskSpaceGuard</definition>
+        <argsstring>(DiskSpaceMonitor &amp;monitor, size_t required_bytes, const std::string &amp;operation_name)</argsstring>
+        <name>DiskSpaceGuard</name>
+        <qualifiedname>themis::storage::DiskSpaceGuard::DiskSpaceGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_disk_space_monitor" kindref="compound">DiskSpaceMonitor</ref> &amp;</type>
+          <declname>monitor</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>required_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="257" column="5" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="580" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_guard_1a9479c37089df5c0c1e05aadcd2579da4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DiskSpaceGuard::~DiskSpaceGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~DiskSpaceGuard</name>
+        <qualifiedname>themis::storage::DiskSpaceGuard::~DiskSpaceGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="263" column="5" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="598" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_guard_1ab5e40276dceb1eb76e38db101d6a03f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::DiskSpaceGuard::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::storage::DiskSpaceGuard::isValid</qualifiedname>
+        <briefdescription>
+<para>Check if guard acquired space successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="268" column="10" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="602" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_disk_space_guard_1af817e8288a62d6c30167e13b5ae87975" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DiskSpaceGuard::getError</definition>
+        <argsstring>() const</argsstring>
+        <name>getError</name>
+        <qualifiedname>themis::storage::DiskSpaceGuard::getError</qualifiedname>
+        <briefdescription>
+<para>Get error message if guard is invalid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/disk_space_monitor.h" line="273" column="17" bodyfile="src/storage/disk_space_monitor.cpp" bodystart="606" bodyend="608"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Disk Space Guard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>RAII-style guard that ensures enough disk space exists before operation </para>
+    </detaileddescription>
+    <location file="include/storage/disk_space_monitor.h" line="255" column="1" bodyfile="include/storage/disk_space_monitor.h" bodystart="255" bodyend="281"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_disk_space_guard_1aac7dd15839bc675d140b2bb8ec512600" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceGuard</scope><name>DiskSpaceGuard</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_guard_1acd253969150c9a86cf4dbd2b1364f09b" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceGuard</scope><name>error_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_guard_1af817e8288a62d6c30167e13b5ae87975" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceGuard</scope><name>getError</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_guard_1ab5e40276dceb1eb76e38db101d6a03f9" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceGuard</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_guard_1a161bb0233df3fffb448a5115fae7294b" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceGuard</scope><name>monitor_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_guard_1a3d98ed005c0a06df0116740d58265728" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceGuard</scope><name>operation_name_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_guard_1ad114935991ecbf672a972aba27677285" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceGuard</scope><name>required_bytes_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_guard_1a5cbf4419c7eb435a43656df0a6276df8" prot="private" virt="non-virtual"><scope>themis::storage::DiskSpaceGuard</scope><name>valid_</name></member>
+      <member refid="classthemis_1_1storage_1_1_disk_space_guard_1a9479c37089df5c0c1e05aadcd2579da4" prot="public" virt="non-virtual"><scope>themis::storage::DiskSpaceGuard</scope><name>~DiskSpaceGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

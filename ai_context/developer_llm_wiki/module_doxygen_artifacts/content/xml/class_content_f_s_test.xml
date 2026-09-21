@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_content_f_s_test" kind="class" language="C++" prot="public">
+    <compoundname>ContentFSTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_content_f_s_test_1ac0058810998044d7a4ff6dab50c36a60" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ContentFSTest::test_dir</definition>
+        <argsstring></argsstring>
+        <name>test_dir</name>
+        <qualifiedname>ContentFSTest::test_dir</qualifiedname>
+        <initializer>= &quot;./test_content_fs_tmp&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fs.cpp" line="43" column="17" bodyfile="tests/content/test_content_fs.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_content_f_s_test_1ab65ace8ef3581c4a4efe6fae6f7c79f3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ContentFSTest::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>ContentFSTest::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fs.cpp" line="44" column="21" bodyfile="tests/content/test_content_fs.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_content_f_s_test_1a46f7b50f4844933f907e48da02332e38" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_content_f_s" kindref="compound">ContentFS</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ContentFS&gt; ContentFSTest::cfs</definition>
+        <argsstring></argsstring>
+        <name>cfs</name>
+        <qualifiedname>ContentFSTest::cfs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fs.cpp" line="45" column="21" bodyfile="tests/content/test_content_fs.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_content_f_s_test_1afc9aad61b862ee9d197340e38b7c9271" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ContentFSTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ContentFSTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fs.cpp" line="24" column="10" bodyfile="tests/content/test_content_fs.cpp" bodystart="24" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_content_f_s_test_1a7c625d6b40ed108266bebf23e8f9dca0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ContentFSTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ContentFSTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fs.cpp" line="34" column="10" bodyfile="tests/content/test_content_fs.cpp" bodystart="34" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ContentFSTest</label>
+        <link refid="class_content_f_s_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ContentFSTest</label>
+        <link refid="class_content_f_s_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_fs.cpp" line="22" column="1" bodyfile="tests/content/test_content_fs.cpp" bodystart="22" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_content_f_s_test_1a46f7b50f4844933f907e48da02332e38" prot="protected" virt="non-virtual"><scope>ContentFSTest</scope><name>cfs</name></member>
+      <member refid="class_content_f_s_test_1ab65ace8ef3581c4a4efe6fae6f7c79f3" prot="protected" virt="non-virtual"><scope>ContentFSTest</scope><name>db</name></member>
+      <member refid="class_content_f_s_test_1afc9aad61b862ee9d197340e38b7c9271" prot="protected" virt="non-virtual"><scope>ContentFSTest</scope><name>SetUp</name></member>
+      <member refid="class_content_f_s_test_1a7c625d6b40ed108266bebf23e8f9dca0" prot="protected" virt="non-virtual"><scope>ContentFSTest</scope><name>TearDown</name></member>
+      <member refid="class_content_f_s_test_1ac0058810998044d7a4ff6dab50c36a60" prot="protected" virt="non-virtual"><scope>ContentFSTest</scope><name>test_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

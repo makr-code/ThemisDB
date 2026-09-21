@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_raft_vote_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::RaftVoteResponse</compoundname>
+    <includes refid="federated__consensus__contract_8h" local="no">federated_consensus_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_vote_response_1a48756b7543a3a9ba20cbcdf61f9b3837" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::RaftVoteResponse::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themis::process::RaftVoteResponse::term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current term of voter (to update candidate&apos;s term if needed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="284" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_vote_response_1a5bac3d6601662a77091d908b6865448d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::RaftVoteResponse::vote_granted</definition>
+        <argsstring></argsstring>
+        <name>vote_granted</name>
+        <qualifiedname>themis::process::RaftVoteResponse::vote_granted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if vote was granted to candidate </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="287" column="10" bodyfile="include/process/federated_consensus_contract.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_vote_response_1ac0128a28e40054813bdafdb1c6a122dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RaftVoteResponse::denial_reason</definition>
+        <argsstring></argsstring>
+        <name>denial_reason</name>
+        <qualifiedname>themis::process::RaftVoteResponse::denial_reason</qualifiedname>
+        <briefdescription>
+<para>Reason for denial (if vote_granted=false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="290" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_raft_vote_response_1a10159262056dd50cd5baaf296821f8aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RaftVoteResponse::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::RaftVoteResponse::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="293" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Vote response for Raft leader election. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federated_consensus_contract.h" line="282" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="282" bodyend="294"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_raft_vote_response_1ac0128a28e40054813bdafdb1c6a122dc" prot="public" virt="non-virtual"><scope>themis::process::RaftVoteResponse</scope><name>denial_reason</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_vote_response_1a48756b7543a3a9ba20cbcdf61f9b3837" prot="public" virt="non-virtual"><scope>themis::process::RaftVoteResponse</scope><name>term</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_vote_response_1a10159262056dd50cd5baaf296821f8aa" prot="public" virt="non-virtual"><scope>themis::process::RaftVoteResponse</scope><name>trace_id</name></member>
+      <member refid="structthemis_1_1process_1_1_raft_vote_response_1a5bac3d6601662a77091d908b6865448d" prot="public" virt="non-virtual"><scope>themis::process::RaftVoteResponse</scope><name>vote_granted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

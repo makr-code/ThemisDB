@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_adapter_merge_failsafe" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::AdapterMergeFailsafe</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1training_1_1_adapter_merge_failsafe_1ad770752a934cd5bdc898fd1f3dafbb03" prot="public" static="no">
+        <type><ref refid="structthemis_1_1training_1_1_adapter_merge_fault_result_1a4810b475b31067532562024237187840" kindref="member">AdapterMergeFaultResult::RecoveryStrategy</ref></type>
+        <definition>using themis::training::AdapterMergeFailsafe::RecoveryStrategy = AdapterMergeFaultResult::RecoveryStrategy</definition>
+        <argsstring></argsstring>
+        <name>RecoveryStrategy</name>
+        <qualifiedname>themis::training::AdapterMergeFailsafe::RecoveryStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="230" column="5" bodyfile="include/training/training_failsafe.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_adapter_merge_failsafe_1a2667da3387dc11231a2c6f05cc95b760" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_adapter_merge_fault_result" kindref="compound">AdapterMergeFaultResult</ref></type>
+        <definition>AdapterMergeFaultResult themis::training::AdapterMergeFailsafe::handle</definition>
+        <argsstring>(const AdapterMergeFaultContext &amp;ctx, TrainingIncidentEmitter *emitter) const noexcept</argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::training::AdapterMergeFailsafe::handle</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_adapter_merge_fault_context" kindref="compound">AdapterMergeFaultContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_training_incident_emitter" kindref="compound">TrainingIncidentEmitter</ref> *</type>
+          <declname>emitter</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a merge fault and return the recovery decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Merge fault context. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>emitter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional incident emitter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resolved <ref refid="structthemis_1_1training_1_1_adapter_merge_fault_result" kindref="compound">AdapterMergeFaultResult</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="239" column="30" bodyfile="include/training/training_failsafe.h" bodystart="400" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fail-safe handler for adapter merge faults. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Policy:<itemizedlist>
+<listitem><para>Any fault during a merge that has a valid pre-merge snapshot triggers ROLLBACK to the snapshot, regardless of how many layers were merged.</para>
+</listitem><listitem><para>If the snapshot is empty (no adapter_id), strategy is ABORT_MERGE.</para>
+</listitem><listitem><para>Partial merges (layers_merged_before_fault &gt; 0) always emit a PARTIAL_MERGE diagnostic incident before the rollback decision. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_failsafe.h" line="228" column="1" bodyfile="include/training/training_failsafe.h" bodystart="228" bodyend="242"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_adapter_merge_failsafe_1a2667da3387dc11231a2c6f05cc95b760" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFailsafe</scope><name>handle</name></member>
+      <member refid="classthemis_1_1training_1_1_adapter_merge_failsafe_1ad770752a934cd5bdc898fd1f3dafbb03" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeFailsafe</scope><name>RecoveryStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::test::MockRecoveryOperation</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation" prot="public" virt="non-virtual">themis::sharding::IdempotentRecoveryOperation</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a32baab0a94ffd6b22abb5e0ddfcdaf54" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::test::MockRecoveryOperation::operation_id_</definition>
+        <argsstring></argsstring>
+        <name>operation_id_</name>
+        <qualifiedname>themis::sharding::test::MockRecoveryOperation::operation_id_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="87" column="17" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a643f1d02d378b01bcbf83b0f87edc865" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::test::MockRecoveryOperation::should_succeed_</definition>
+        <argsstring></argsstring>
+        <name>should_succeed_</name>
+        <qualifiedname>themis::sharding::test::MockRecoveryOperation::should_succeed_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="88" column="10" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1ac59d9c6e5b0aa86761ebfc1e6fd3ac97" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int themis::sharding::test::MockRecoveryOperation::execution_count_</definition>
+        <argsstring></argsstring>
+        <name>execution_count_</name>
+        <qualifiedname>themis::sharding::test::MockRecoveryOperation::execution_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="89" column="17" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1aa323d6eb5b356d847fe15ec67b39be66" prot="private" static="no" mutable="yes">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::test::MockRecoveryOperation::last_result_</definition>
+        <argsstring></argsstring>
+        <name>last_result_</name>
+        <qualifiedname>themis::sharding::test::MockRecoveryOperation::last_result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="90" column="25" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1af6f79775a3d6242b4cab36afc19eb962" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::test::MockRecoveryOperation::MockRecoveryOperation</definition>
+        <argsstring>(const std::string &amp;op_id, bool succeed=true)</argsstring>
+        <name>MockRecoveryOperation</name>
+        <qualifiedname>themis::sharding::test::MockRecoveryOperation::MockRecoveryOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>succeed</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="93" column="14" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="93" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a00171f81fd24f522581014507b61952e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::pair&lt; bool, std::string &gt;</type>
+        <definition>std::pair&lt; bool, std::string &gt; themis::sharding::test::MockRecoveryOperation::execute</definition>
+        <argsstring>() override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::sharding::test::MockRecoveryOperation::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac583e9dc96677d69ccaa779924a417e8">execute</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute the recovery operation. Safe to call multiple times. <simplesect kind="return"><para>Pair of (success, description). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="98" column="15" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="98" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1ac4a0f95ab48d53f8e9a5688204a0f889" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::test::MockRecoveryOperation::getOperationId</definition>
+        <argsstring>() const override</argsstring>
+        <name>getOperationId</name>
+        <qualifiedname>themis::sharding::test::MockRecoveryOperation::getOperationId</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1a5c539439ace01812256ec7957d43572f">getOperationId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a unique operation identifier (e.g., transaction-id). Used for deduplication and log tracking. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="105" column="17" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a0c38cd36b2f6f86db7e35aceadbf70fe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::sharding::test::MockRecoveryOperation::getExecutionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getExecutionCount</name>
+        <qualifiedname>themis::sharding::test::MockRecoveryOperation::getExecutionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="109" column="9" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock recovery operation for testing idempotence. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks how many times <ref refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a00171f81fd24f522581014507b61952e" kindref="member">execute()</ref> is called. Idempotent operations should return the same result on every call. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::IdempotentRecoveryOperation</label>
+        <link refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::test::MockRecoveryOperation</label>
+        <link refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::IdempotentRecoveryOperation</label>
+        <link refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::test::MockRecoveryOperation</label>
+        <link refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_phase3_edgecases.cpp" line="85" column="1" bodyfile="tests/sharding/test_sharding_phase3_edgecases.cpp" bodystart="85" bodyend="110"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a00171f81fd24f522581014507b61952e" prot="public" virt="virtual"><scope>themis::sharding::test::MockRecoveryOperation</scope><name>execute</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1ac59d9c6e5b0aa86761ebfc1e6fd3ac97" prot="private" virt="non-virtual"><scope>themis::sharding::test::MockRecoveryOperation</scope><name>execution_count_</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a0c38cd36b2f6f86db7e35aceadbf70fe" prot="public" virt="non-virtual"><scope>themis::sharding::test::MockRecoveryOperation</scope><name>getExecutionCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1ac4a0f95ab48d53f8e9a5688204a0f889" prot="public" virt="virtual"><scope>themis::sharding::test::MockRecoveryOperation</scope><name>getOperationId</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1aa323d6eb5b356d847fe15ec67b39be66" prot="private" virt="non-virtual"><scope>themis::sharding::test::MockRecoveryOperation</scope><name>last_result_</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1af6f79775a3d6242b4cab36afc19eb962" prot="public" virt="non-virtual"><scope>themis::sharding::test::MockRecoveryOperation</scope><name>MockRecoveryOperation</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a32baab0a94ffd6b22abb5e0ddfcdaf54" prot="private" virt="non-virtual"><scope>themis::sharding::test::MockRecoveryOperation</scope><name>operation_id_</name></member>
+      <member refid="classthemis_1_1sharding_1_1test_1_1_mock_recovery_operation_1a643f1d02d378b01bcbf83b0f87edc865" prot="private" virt="non-virtual"><scope>themis::sharding::test::MockRecoveryOperation</scope><name>should_succeed_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_idempotent_recovery_operation_1ac119b5d89fed52c976b73ec3e6645563" prot="public" virt="virtual"><scope>themis::sharding::test::MockRecoveryOperation</scope><name>~IdempotentRecoveryOperation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

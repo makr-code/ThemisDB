@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::distributed_tensor::IntegrityRecoveryHook</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2integrity__verification_8h" local="no">integrity_verification.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook_1ad5f4df7416d135fc8fd54a77695b77fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::IntegrityRecoveryHook::~IntegrityRecoveryHook</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IntegrityRecoveryHook</name>
+        <qualifiedname>themis::distributed_tensor::IntegrityRecoveryHook::~IntegrityRecoveryHook</qualifiedname>
+        <briefdescription>
+<para>Integrity Recovery Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="279" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook_1acbe6d42c8410bc2619c654af2efb25da" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::distributed_tensor::IntegrityRecoveryHook::requestArtifactRecovery</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;reason)=0</argsstring>
+        <name>requestArtifactRecovery</name>
+        <qualifiedname>themis::distributed_tensor::IntegrityRecoveryHook::requestArtifactRecovery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Request Artifact Recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="287" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook_1a86cf968f05da43a4db9bc47bec389d89" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::distributed_tensor::IntegrityRecoveryHook::requestChainRebuild</definition>
+        <argsstring>(const std::string &amp;artifact_id)=0</argsstring>
+        <name>requestChainRebuild</name>
+        <qualifiedname>themis::distributed_tensor::IntegrityRecoveryHook::requestChainRebuild</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Request Chain Rebuild. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="296" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook_1aeb29fb43b3dafb50daf0913646252be2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::distributed_tensor::IntegrityRecoveryHook::getRecoveryStatus</definition>
+        <argsstring>(const std::string &amp;artifact_id)=0</argsstring>
+        <name>getRecoveryStatus</name>
+        <qualifiedname>themis::distributed_tensor::IntegrityRecoveryHook::getRecoveryStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Recovery Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="303" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/integrity_verification.h" line="273" column="1" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="273" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook_1aeb29fb43b3dafb50daf0913646252be2" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::IntegrityRecoveryHook</scope><name>getRecoveryStatus</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook_1acbe6d42c8410bc2619c654af2efb25da" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::IntegrityRecoveryHook</scope><name>requestArtifactRecovery</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook_1a86cf968f05da43a4db9bc47bec389d89" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::IntegrityRecoveryHook</scope><name>requestChainRebuild</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook_1ad5f4df7416d135fc8fd54a77695b77fe" prot="public" virt="virtual"><scope>themis::distributed_tensor::IntegrityRecoveryHook</scope><name>~IntegrityRecoveryHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

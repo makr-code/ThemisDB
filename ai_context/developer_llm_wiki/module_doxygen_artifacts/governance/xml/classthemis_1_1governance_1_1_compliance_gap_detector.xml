@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_compliance_gap_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceGapDetector</compoundname>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" prot="public">themis::governance::ComplianceGapDetector::ComplianceRequirement</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap" prot="public">themis::governance::ComplianceGapDetector::ComplianceGap</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status" prot="public">themis::governance::ComplianceGapDetector::ComplianceStatus</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_gap_detector_1a12c4e84dc6828bbc9c0ae8a802e10626" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &gt;</type>
+        <definition>std::vector&lt;ComplianceRequirement&gt; themis::governance::ComplianceGapDetector::requirements_</definition>
+        <argsstring></argsstring>
+        <name>requirements_</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::requirements_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="201" column="17" bodyfile="include/governance/compliance_reporting.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_gap_detector_1aa3fe9d152fe1d0683ca772f2d8d281ca" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::ComplianceGapDetector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="202" column="24" bodyfile="include/governance/compliance_reporting.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_gap_detector_1a9f006729fe3d04bb9a0cb7e2222fa686" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ComplianceGapDetector::addRequirement</definition>
+        <argsstring>(const ComplianceRequirement &amp;req)</argsstring>
+        <name>addRequirement</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::addRequirement</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Add Requirement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>========== <ref refid="classthemis_1_1governance_1_1_compliance_gap_detector" kindref="compound">ComplianceGapDetector</ref> Implementation ==========</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="173" column="10" bodyfile="src/governance/compliance_reporting.cpp" bodystart="493" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_gap_detector_1acae8b703d9766e6f6cc00efc52dc1375" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_gap" kindref="compound">ComplianceGap</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceGapDetector::ComplianceGap &gt; themis::governance::ComplianceGapDetector::detectGaps</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>detectGaps</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::detectGaps</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Detect Gaps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="180" column="17" bodyfile="src/governance/compliance_reporting.cpp" bodystart="500" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_gap_detector_1abe9483634d8ccd797f9d165616f77d42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_status" kindref="compound">ComplianceStatus</ref></type>
+        <definition>ComplianceGapDetector::ComplianceStatus themis::governance::ComplianceGapDetector::getComplianceStatus</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::string &amp;framework=&quot;&quot;) const</argsstring>
+        <name>getComplianceStatus</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::getComplianceStatus</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>framework</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="182" column="22" bodyfile="src/governance/compliance_reporting.cpp" bodystart="587" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_gap_detector_1a5b5718b977819f6b89eab8f66ed164b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceGapDetector::loadRequirements</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadRequirements</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::loadRequirements</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), is_open(), THEMIS_ERROR(), lock(), clear(), contains(), is_array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="192" column="10" bodyfile="src/governance/compliance_reporting.cpp" bodystart="641" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_gap_detector_1ae9fa83c5367768855ee134e85307b2a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceGapDetector::exportRequirements</definition>
+        <argsstring>() const</argsstring>
+        <name>exportRequirements</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::exportRequirements</qualifiedname>
+        <briefdescription>
+<para>Export Requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="198" column="20" bodyfile="src/governance/compliance_reporting.cpp" bodystart="670" bodyend="686"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_gap_detector_1a5d9c7711f754ab00795f1c4c2393d1fb" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceGapDetector::checkRequirement</definition>
+        <argsstring>(const ComplianceRequirement &amp;req, const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>checkRequirement</name>
+        <qualifiedname>themis::governance::ComplianceGapDetector::checkRequirement</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_gap_detector_1_1_compliance_requirement" kindref="compound">ComplianceRequirement</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Check Requirement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="210" column="10" bodyfile="src/governance/compliance_reporting.cpp" bodystart="688" bodyend="730"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporting.h" line="113" column="1" bodyfile="include/governance/compliance_reporting.h" bodystart="113" bodyend="211"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_compliance_gap_detector_1a9f006729fe3d04bb9a0cb7e2222fa686" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector</scope><name>addRequirement</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_gap_detector_1a5d9c7711f754ab00795f1c4c2393d1fb" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector</scope><name>checkRequirement</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_gap_detector_1acae8b703d9766e6f6cc00efc52dc1375" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector</scope><name>detectGaps</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_gap_detector_1ae9fa83c5367768855ee134e85307b2a3" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector</scope><name>exportRequirements</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_gap_detector_1abe9483634d8ccd797f9d165616f77d42" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector</scope><name>getComplianceStatus</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_gap_detector_1a5b5718b977819f6b89eab8f66ed164b5" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector</scope><name>loadRequirements</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_gap_detector_1aa3fe9d152fe1d0683ca772f2d8d281ca" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_gap_detector_1a12c4e84dc6828bbc9c0ae8a802e10626" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceGapDetector</scope><name>requirements_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

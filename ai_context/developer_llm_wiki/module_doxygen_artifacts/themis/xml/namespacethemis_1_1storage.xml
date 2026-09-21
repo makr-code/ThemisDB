@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1storage" kind="namespace" language="C++">
+    <compoundname>themis::storage</compoundname>
+    <innerclass refid="classthemis_1_1storage_1_1_i_storage_ops_policy" prot="public">themis::storage::IStorageOpsPolicy</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/storage/istorage_ops_policy.h" line="32" column="1"/>
+  </compounddef>
+</doxygen>

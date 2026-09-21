@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::functions::geo_helpers::MBR</compoundname>
+    <includes refid="geo__functions_8h" local="no">geo_functions.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a7d28bfa95d8ed1cde4c9d96be49b7a8e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::MBR::minx</definition>
+        <argsstring></argsstring>
+        <name>minx</name>
+        <qualifiedname>themis::query::functions::geo_helpers::MBR::minx</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="46" column="12" bodyfile="include/query/functions/geo_functions.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1ab56ca0c5edefbdec50558abe43f67e7c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::MBR::miny</definition>
+        <argsstring></argsstring>
+        <name>miny</name>
+        <qualifiedname>themis::query::functions::geo_helpers::MBR::miny</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="46" column="18" bodyfile="include/query/functions/geo_functions.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a9c323f778bfbbb204a257f7b86bef484" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::MBR::maxx</definition>
+        <argsstring></argsstring>
+        <name>maxx</name>
+        <qualifiedname>themis::query::functions::geo_helpers::MBR::maxx</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="46" column="24" bodyfile="include/query/functions/geo_functions.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1ae53bd6d558ed55aef699d84062bb17cc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::MBR::maxy</definition>
+        <argsstring></argsstring>
+        <name>maxy</name>
+        <qualifiedname>themis::query::functions::geo_helpers::MBR::maxy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="46" column="30" bodyfile="include/query/functions/geo_functions.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a7a99229edf523f41d7cc95928999d837" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::functions::geo_helpers::MBR::contains</definition>
+        <argsstring>(double x, double y) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::query::functions::geo_helpers::MBR::contains</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="48" column="10" bodyfile="include/query/functions/geo_functions.h" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a863dc488edc820648aca957276986c4f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::functions::geo_helpers::MBR::containsMBR</definition>
+        <argsstring>(const MBR &amp;other) const</argsstring>
+        <name>containsMBR</name>
+        <qualifiedname>themis::query::functions::geo_helpers::MBR::containsMBR</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r" kindref="compound">MBR</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="52" column="10" bodyfile="include/query/functions/geo_functions.h" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a446bdfc4e3945db351a79a966e158782" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::functions::geo_helpers::MBR::intersects</definition>
+        <argsstring>(const MBR &amp;other) const</argsstring>
+        <name>intersects</name>
+        <qualifiedname>themis::query::functions::geo_helpers::MBR::intersects</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r" kindref="compound">MBR</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="57" column="10" bodyfile="include/query/functions/geo_functions.h" bodystart="57" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/geo_functions.h" line="44" column="1" bodyfile="include/query/functions/geo_functions.h" bodystart="44" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a7a99229edf523f41d7cc95928999d837" prot="public" virt="non-virtual"><scope>themis::query::functions::geo_helpers::MBR</scope><name>contains</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a863dc488edc820648aca957276986c4f" prot="public" virt="non-virtual"><scope>themis::query::functions::geo_helpers::MBR</scope><name>containsMBR</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a446bdfc4e3945db351a79a966e158782" prot="public" virt="non-virtual"><scope>themis::query::functions::geo_helpers::MBR</scope><name>intersects</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a9c323f778bfbbb204a257f7b86bef484" prot="public" virt="non-virtual"><scope>themis::query::functions::geo_helpers::MBR</scope><name>maxx</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1ae53bd6d558ed55aef699d84062bb17cc" prot="public" virt="non-virtual"><scope>themis::query::functions::geo_helpers::MBR</scope><name>maxy</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1a7d28bfa95d8ed1cde4c9d96be49b7a8e" prot="public" virt="non-virtual"><scope>themis::query::functions::geo_helpers::MBR</scope><name>minx</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r_1ab56ca0c5edefbdec50558abe43f67e7c" prot="public" virt="non-virtual"><scope>themis::query::functions::geo_helpers::MBR</scope><name>miny</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

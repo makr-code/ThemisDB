@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_collect_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CollectNode</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_collect_node_1_1_aggregation" prot="public">themis::query::CollectNode::Aggregation</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_collect_node_1a306287d8d60e2ff35fc9307d87192d7d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::shared_ptr&lt;Expression&gt; &gt; &gt; themis::query::CollectNode::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>themis::query::CollectNode::groups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="655" column="17" bodyfile="include/query/aql_parser.h" bodystart="655" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_collect_node_1ac3527dadf0128d20b9367f7cb65546b8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_collect_node_1_1_aggregation" kindref="compound">Aggregation</ref> &gt;</type>
+        <definition>std::vector&lt;Aggregation&gt; themis::query::CollectNode::aggregations</definition>
+        <argsstring></argsstring>
+        <name>aggregations</name>
+        <qualifiedname>themis::query::CollectNode::aggregations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="662" column="17" bodyfile="include/query/aql_parser.h" bodystart="662" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_collect_node_1af8ad8638b00eed1e06c14a1f7aecc034" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::CollectNode::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::CollectNode::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="664" column="20" bodyfile="include/query/aql_parser.h" bodystart="664" bodyend="678"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="653" column="1" bodyfile="include/query/aql_parser.h" bodystart="653" bodyend="679"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_collect_node_1ac3527dadf0128d20b9367f7cb65546b8" prot="public" virt="non-virtual"><scope>themis::query::CollectNode</scope><name>aggregations</name></member>
+      <member refid="structthemis_1_1query_1_1_collect_node_1a306287d8d60e2ff35fc9307d87192d7d" prot="public" virt="non-virtual"><scope>themis::query::CollectNode</scope><name>groups</name></member>
+      <member refid="structthemis_1_1query_1_1_collect_node_1af8ad8638b00eed1e06c14a1f7aecc034" prot="public" virt="non-virtual"><scope>themis::query::CollectNode</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

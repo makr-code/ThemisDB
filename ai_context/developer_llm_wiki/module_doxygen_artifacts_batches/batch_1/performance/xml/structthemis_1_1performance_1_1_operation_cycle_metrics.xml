@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_operation_cycle_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::OperationCycleMetrics</compoundname>
+    <includes refid="cycle__metrics_8h" local="no">cycle_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::hnsw_search_cycles</definition>
+        <argsstring></argsstring>
+        <name>hnsw_search_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::hnsw_search_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="139" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a446f843157a3b9c7bf7dc0849aa32dcf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::hnsw_index_traversal_cycles</definition>
+        <argsstring></argsstring>
+        <name>hnsw_index_traversal_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::hnsw_index_traversal_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="140" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9bb45127211030a478a51c4edd37f486" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::hnsw_distance_computation_cycles</definition>
+        <argsstring></argsstring>
+        <name>hnsw_distance_computation_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::hnsw_distance_computation_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="141" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::pointer_passing_cycles</definition>
+        <argsstring></argsstring>
+        <name>pointer_passing_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::pointer_passing_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="143" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9c2ba4a7b29b1c2c4c27eab5443e7687" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::memory_copy_cycles</definition>
+        <argsstring></argsstring>
+        <name>memory_copy_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::memory_copy_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="144" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a3d823b1b1d0e17fde0ad27326a68b59c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::llm_inference_cycles</definition>
+        <argsstring></argsstring>
+        <name>llm_inference_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::llm_inference_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="146" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1ad6acc9829def230d1d59a05dc3ddb189" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::llm_tokenization_cycles</definition>
+        <argsstring></argsstring>
+        <name>llm_tokenization_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::llm_tokenization_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="147" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a2594225b315ff7ed41f1ff297660dd44" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::llm_forward_pass_cycles</definition>
+        <argsstring></argsstring>
+        <name>llm_forward_pass_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::llm_forward_pass_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="148" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1aa8d54b8f29afd4e00162814242606ca2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::llm_sampling_cycles</definition>
+        <argsstring></argsstring>
+        <name>llm_sampling_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::llm_sampling_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="149" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1afa8efdc98a9b96a9a19a37587607dc7a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::l1_cache_cycles</definition>
+        <argsstring></argsstring>
+        <name>l1_cache_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::l1_cache_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="152" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a6a706adade0c4e1218ea01287b30ccb0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::l2_cache_cycles</definition>
+        <argsstring></argsstring>
+        <name>l2_cache_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::l2_cache_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="153" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1adcaa7362d909d156ee116f823b711052" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::l3_cache_cycles</definition>
+        <argsstring></argsstring>
+        <name>l3_cache_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::l3_cache_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="154" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a37fb50de054e8e0da165f85187784ae6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::ram_access_cycles</definition>
+        <argsstring></argsstring>
+        <name>ram_access_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::ram_access_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="155" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1ab30720bc6ae6d48496947500996b613e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::cache_miss_cycles</definition>
+        <argsstring></argsstring>
+        <name>cache_miss_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::cache_miss_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="156" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1aa0e8729686c88f03a9f435234528a6d1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::gpu_kernel_launch_cycles</definition>
+        <argsstring></argsstring>
+        <name>gpu_kernel_launch_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::gpu_kernel_launch_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="159" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a6b3e732c6d2cd783a1bd25de75c03dc1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::gpu_compute_cycles</definition>
+        <argsstring></argsstring>
+        <name>gpu_compute_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::gpu_compute_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="160" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1ac2e9df8114d227c06eb386847d7b80ec" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::gpu_memory_cycles</definition>
+        <argsstring></argsstring>
+        <name>gpu_memory_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::gpu_memory_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="161" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a63b9fe66b187738d52dfa74fd169de01" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::pcie_host_to_device_cycles</definition>
+        <argsstring></argsstring>
+        <name>pcie_host_to_device_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::pcie_host_to_device_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="164" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a06ae3746106bf4939a9e4be9f61b0984" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::pcie_device_to_host_cycles</definition>
+        <argsstring></argsstring>
+        <name>pcie_device_to_host_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::pcie_device_to_host_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="165" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9a75ae708595fcf7bd16d95e70522333" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::total_cycles</definition>
+        <argsstring></argsstring>
+        <name>total_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::total_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="168" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a93df68c37078b99a68c42d8497605093" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::idle_cycles</definition>
+        <argsstring></argsstring>
+        <name>idle_cycles</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::idle_cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="169" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a661e864b4cc2daeb8cc85d6c88b09b27" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::OperationCycleMetrics::cpu_efficiency_ratio</definition>
+        <argsstring></argsstring>
+        <name>cpu_efficiency_ratio</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::cpu_efficiency_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="172" column="12" bodyfile="include/performance/cycle_metrics.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a31c6da22036e2a15b9261e3f96f95561" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::OperationCycleMetrics::memory_efficiency_ratio</definition>
+        <argsstring></argsstring>
+        <name>memory_efficiency_ratio</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::memory_efficiency_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="173" column="12" bodyfile="include/performance/cycle_metrics.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1afaaf797c441b8f1c7361f2d8d5de7636" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::OperationCycleMetrics::pcie_efficiency_ratio</definition>
+        <argsstring></argsstring>
+        <name>pcie_efficiency_ratio</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::pcie_efficiency_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="174" column="12" bodyfile="include/performance/cycle_metrics.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1af9d97f4d9564b92a01f1ab1c014fc546" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::OperationCycleMetrics::cpu_frequency_hz</definition>
+        <argsstring></argsstring>
+        <name>cpu_frequency_hz</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::cpu_frequency_hz</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="177" column="14" bodyfile="include/performance/cycle_metrics.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1ada9dcc9408de2ed134756c617074b2f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::OperationCycleMetrics::cpu_model</definition>
+        <argsstring></argsstring>
+        <name>cpu_model</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::cpu_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="178" column="17" bodyfile="include/performance/cycle_metrics.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_operation_cycle_metrics_1a7b433e68c7fc969677f1a25126940f2a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::OperationCycleMetrics::calculate_totals</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>calculate_totals</name>
+        <qualifiedname>themis::performance::OperationCycleMetrics::calculate_totals</qualifiedname>
+        <briefdescription>
+<para>Calculate total cycles from components. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cycle_metrics.h" line="183" column="10" bodyfile="include/performance/cycle_metrics.h" bodystart="183" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cycle metrics for a single operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures cycle counts for all major components of the ThemisDB pipeline. </para>
+    </detaileddescription>
+    <location file="include/performance/cycle_metrics.h" line="137" column="1" bodyfile="include/performance/cycle_metrics.h" bodystart="137" bodyend="189"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ab30720bc6ae6d48496947500996b613e" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>cache_miss_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a7b433e68c7fc969677f1a25126940f2a" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>calculate_totals</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a661e864b4cc2daeb8cc85d6c88b09b27" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>cpu_efficiency_ratio</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1af9d97f4d9564b92a01f1ab1c014fc546" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>cpu_frequency_hz</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ada9dcc9408de2ed134756c617074b2f0" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>cpu_model</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a6b3e732c6d2cd783a1bd25de75c03dc1" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>gpu_compute_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1aa0e8729686c88f03a9f435234528a6d1" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>gpu_kernel_launch_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ac2e9df8114d227c06eb386847d7b80ec" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>gpu_memory_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9bb45127211030a478a51c4edd37f486" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>hnsw_distance_computation_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a446f843157a3b9c7bf7dc0849aa32dcf" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>hnsw_index_traversal_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>hnsw_search_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a93df68c37078b99a68c42d8497605093" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>idle_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1afa8efdc98a9b96a9a19a37587607dc7a" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>l1_cache_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a6a706adade0c4e1218ea01287b30ccb0" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>l2_cache_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1adcaa7362d909d156ee116f823b711052" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>l3_cache_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a2594225b315ff7ed41f1ff297660dd44" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>llm_forward_pass_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a3d823b1b1d0e17fde0ad27326a68b59c" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>llm_inference_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1aa8d54b8f29afd4e00162814242606ca2" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>llm_sampling_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1ad6acc9829def230d1d59a05dc3ddb189" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>llm_tokenization_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9c2ba4a7b29b1c2c4c27eab5443e7687" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>memory_copy_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a31c6da22036e2a15b9261e3f96f95561" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>memory_efficiency_ratio</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a06ae3746106bf4939a9e4be9f61b0984" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>pcie_device_to_host_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1afaaf797c441b8f1c7361f2d8d5de7636" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>pcie_efficiency_ratio</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a63b9fe66b187738d52dfa74fd169de01" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>pcie_host_to_device_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>pointer_passing_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a37fb50de054e8e0da165f85187784ae6" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>ram_access_cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a9a75ae708595fcf7bd16d95e70522333" prot="public" virt="non-virtual"><scope>themis::performance::OperationCycleMetrics</scope><name>total_cycles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

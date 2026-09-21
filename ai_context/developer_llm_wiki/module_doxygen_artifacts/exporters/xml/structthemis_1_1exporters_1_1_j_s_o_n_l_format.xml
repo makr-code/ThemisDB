@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_j_s_o_n_l_format" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::JSONLFormat</compoundname>
+    <includes refid="jsonl__llm__exporter_8h" local="no">jsonl_llm_exporter.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1exporters_1_1_j_s_o_n_l_format_1af7a497b7c10f291ef12f5d3cb57d3ee2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Style</name>
+        <qualifiedname>themis::exporters::JSONLFormat::Style</qualifiedname>
+        <enumvalue id="structthemis_1_1exporters_1_1_j_s_o_n_l_format_1af7a497b7c10f291ef12f5d3cb57d3ee2a52e7f967cf4d218b5c0dbf4b01593dba" prot="public">
+          <name>INSTRUCTION_TUNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1exporters_1_1_j_s_o_n_l_format_1af7a497b7c10f291ef12f5d3cb57d3ee2a6f8d401188fa08d87b98b29800facd15" prot="public">
+          <name>CHAT_COMPLETION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1exporters_1_1_j_s_o_n_l_format_1af7a497b7c10f291ef12f5d3cb57d3ee2a535e136f99fc0e5f43b2a91de0528ab3" prot="public">
+          <name>TEXT_COMPLETION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1exporters_1_1_j_s_o_n_l_format_1af7a497b7c10f291ef12f5d3cb57d3ee2a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="25" column="5" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="25" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/jsonl_llm_exporter.h" line="24" column="1" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="24" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_format_1af7a497b7c10f291ef12f5d3cb57d3ee2" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLFormat</scope><name>Style</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

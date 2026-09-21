@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::ONNXModelLoaderConfig</compoundname>
+    <includes refid="onnx__model__loader_8h" local="no">onnx_model_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a660dd9d57630f4899fede9666c25e98c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ONNXModelLoaderConfig::cache_dir</definition>
+        <argsstring></argsstring>
+        <name>cache_dir</name>
+        <qualifiedname>themis::rag::judge::ONNXModelLoaderConfig::cache_dir</qualifiedname>
+        <initializer>= &quot;./models&quot;</initializer>
+        <briefdescription>
+<para>Directory for model caching. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="40" column="17" bodyfile="include/rag/onnx_model_loader.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a76cdc2a47704b7785ca4a809b11a85b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::ONNXModelLoaderConfig::verify_checksum</definition>
+        <argsstring></argsstring>
+        <name>verify_checksum</name>
+        <qualifiedname>themis::rag::judge::ONNXModelLoaderConfig::verify_checksum</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Verify model checksums. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="41" column="10" bodyfile="include/rag/onnx_model_loader.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a39f5f548762cfbd6d692d89782ba12d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::ONNXModelLoaderConfig::auto_download</definition>
+        <argsstring></argsstring>
+        <name>auto_download</name>
+        <qualifiedname>themis::rag::judge::ONNXModelLoaderConfig::auto_download</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Auto-download missing models. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="42" column="10" bodyfile="include/rag/onnx_model_loader.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a0bedab02c1c0cedfc767342ecf3d8d47" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::ONNXModelLoaderConfig::download_timeout_sec</definition>
+        <argsstring></argsstring>
+        <name>download_timeout_sec</name>
+        <qualifiedname>themis::rag::judge::ONNXModelLoaderConfig::download_timeout_sec</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>Download timeout (5 minutes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="43" column="9" bodyfile="include/rag/onnx_model_loader.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a9776ddf1262f4bc95df27327348ac365" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::ONNXModelLoaderConfig::create_cache_dir</definition>
+        <argsstring></argsstring>
+        <name>create_cache_dir</name>
+        <qualifiedname>themis::rag::judge::ONNXModelLoaderConfig::create_cache_dir</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Create cache dir if missing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/onnx_model_loader.h" line="44" column="10" bodyfile="include/rag/onnx_model_loader.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>ONNX model loader configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/onnx_model_loader.h" line="39" column="1" bodyfile="include/rag/onnx_model_loader.h" bodystart="39" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a39f5f548762cfbd6d692d89782ba12d6" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelLoaderConfig</scope><name>auto_download</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a660dd9d57630f4899fede9666c25e98c" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelLoaderConfig</scope><name>cache_dir</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a9776ddf1262f4bc95df27327348ac365" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelLoaderConfig</scope><name>create_cache_dir</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a0bedab02c1c0cedfc767342ecf3d8d47" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelLoaderConfig</scope><name>download_timeout_sec</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config_1a76cdc2a47704b7785ca4a809b11a85b4" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelLoaderConfig</scope><name>verify_checksum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_node_profile" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::NodeProfile</compoundname>
+    <includes refid="distributed__flame__graph_8h" local="no">distributed_flame_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_node_profile_1a3e4d37fbd1b51d058a9371eeb9d7bfa3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::NodeProfile::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::observability::NodeProfile::node_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for the node (e.g. &quot;node-1&quot;, &quot;10.0.0.5:9100&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="36" column="17" bodyfile="include/observability/distributed_flame_graph.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_node_profile_1a5391d4aaa9161bbb74436da27caf4ad3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::NodeProfile::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::observability::NodeProfile::host</qualifiedname>
+        <briefdescription>
+<para>Optional human-readable hostname for display purposes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="38" column="17" bodyfile="include/observability/distributed_flame_graph.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_node_profile_1a4e4c8b52411a7a40cdc857121743ae7e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::NodeProfile::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::observability::NodeProfile::version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Monotonic version for last-write-wins conflict resolution per node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="40" column="14" bodyfile="include/observability/distributed_flame_graph.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_node_profile_1aaa6e5b45ebba6a41ba31ac37be7fa083" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref></type>
+        <definition>ProfileSnapshot themis::observability::NodeProfile::snapshot</definition>
+        <argsstring></argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::observability::NodeProfile::snapshot</qualifiedname>
+        <briefdescription>
+<para>The profile snapshot contributed by this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="42" column="21" bodyfile="include/observability/distributed_flame_graph.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Profile snapshot contributed by a single cluster node. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <computeroutput>snapshot</computeroutput> field holds the profiling data in pprof folded-stacks text format, identical to the format produced by <computeroutput><ref refid="classthemis_1_1observability_1_1_continuous_profiler" kindref="compound">ContinuousProfiler</ref></computeroutput>. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::NodeProfile</label>
+        <link refid="structthemis_1_1observability_1_1_node_profile"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>snapshot</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::ProfileSnapshot</label>
+        <link refid="structthemis_1_1observability_1_1_profile_snapshot"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/distributed_flame_graph.h" line="34" column="1" bodyfile="include/observability/distributed_flame_graph.h" bodystart="34" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_node_profile_1a5391d4aaa9161bbb74436da27caf4ad3" prot="public" virt="non-virtual"><scope>themis::observability::NodeProfile</scope><name>host</name></member>
+      <member refid="structthemis_1_1observability_1_1_node_profile_1a3e4d37fbd1b51d058a9371eeb9d7bfa3" prot="public" virt="non-virtual"><scope>themis::observability::NodeProfile</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_node_profile_1aaa6e5b45ebba6a41ba31ac37be7fa083" prot="public" virt="non-virtual"><scope>themis::observability::NodeProfile</scope><name>snapshot</name></member>
+      <member refid="structthemis_1_1observability_1_1_node_profile_1a4e4c8b52411a7a40cdc857121743ae7e" prot="public" virt="non-virtual"><scope>themis::observability::NodeProfile</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

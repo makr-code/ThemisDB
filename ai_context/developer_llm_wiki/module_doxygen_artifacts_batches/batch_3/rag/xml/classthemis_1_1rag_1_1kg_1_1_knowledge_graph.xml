@@ -1,0 +1,514 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KnowledgeGraph</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl" prot="public">themis::rag::kg::KnowledgeGraph::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a6a927933302114d85b977526293fc963" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1kg_1_1_knowledge_graph_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::kg::KnowledgeGraph::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="318" column="21" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::kg::KnowledgeGraph::KnowledgeGraph</definition>
+        <argsstring>()</argsstring>
+        <name>KnowledgeGraph</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::KnowledgeGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="225" column="5" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1abf33847b9980cbfea9779d11da55ae4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::kg::KnowledgeGraph::~KnowledgeGraph</definition>
+        <argsstring>()</argsstring>
+        <name>~KnowledgeGraph</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::~KnowledgeGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="226" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a6c32a268b2f7467b9f929dbfdd69187a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::kg::KnowledgeGraph::KnowledgeGraph</definition>
+        <argsstring>(const KnowledgeGraph &amp;)=delete</argsstring>
+        <name>KnowledgeGraph</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::KnowledgeGraph</qualifiedname>
+        <param>
+          <type>const KnowledgeGraph &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="228" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1aad39013c49a902ace91ed8ada7452430" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref> &amp;</type>
+        <definition>KnowledgeGraph &amp; themis::rag::kg::KnowledgeGraph::operator=</definition>
+        <argsstring>(const KnowledgeGraph &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="229" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a5b987b57402b539872bd3e069969750b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::kg::KnowledgeGraph::KnowledgeGraph</definition>
+        <argsstring>(KnowledgeGraph &amp;&amp;)</argsstring>
+        <name>KnowledgeGraph</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::KnowledgeGraph</qualifiedname>
+        <param>
+          <type>KnowledgeGraph &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="230" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a7bbc2ea79266409d9618227b96314646" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref> &amp;</type>
+        <definition>KnowledgeGraph &amp; themis::rag::kg::KnowledgeGraph::operator=</definition>
+        <argsstring>(KnowledgeGraph &amp;&amp;)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="231" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a2fe797bb9972932d735af1176d3067dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::kg::KnowledgeGraph::addNode</definition>
+        <argsstring>(KGNode node)</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::addNode</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" kindref="compound">KGNode</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Add or replace a node. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The node to insert.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), THEMIS_DEBUG(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="239" column="10" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="145" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a86c29b848ac368c091150e41ede7353c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::kg::KnowledgeGraph::removeNode</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::removeNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a node and all edges incident to it. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the node existed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), count(), erase(), find(), end(), size(), std::remove_if(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="246" column="10" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="158" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1aaf8bd06622e3fb542cbc27afa6678aa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" kindref="compound">KGNode</ref> *</type>
+        <definition>const KGNode * themis::rag::kg::KnowledgeGraph::findNode</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>findNode</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::findNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Look up a node by identifier. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the node, or nullptr if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="253" column="18" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="184" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a368ab6c003171a33775b634912e5a604" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" kindref="compound">KGNode</ref> *</type>
+        <definition>const KGNode * themis::rag::kg::KnowledgeGraph::findNodeByName</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>findNodeByName</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::findNodeByName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Find a node whose canonical_name or aliases match <computeroutput>text</computeroutput> (case-insensitive normalised comparison). Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Surface form to search. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the best-matching node, or nullptr. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="261" column="18" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="190" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a753f6e3c8312fadcca6441190fd9f9ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::kg::KnowledgeGraph::nodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::nodeCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="266" column="12" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="213" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1ae218468cc394c68eda007e3f2ae1402d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::kg::KnowledgeGraph::addEdge</definition>
+        <argsstring>(KGEdge edge)</argsstring>
+        <name>addEdge</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::addEdge</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge" kindref="compound">KGEdge</ref></type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+<para>Add a directed edge. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Edge.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Edge to insert.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), THEMIS_DEBUG(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="274" column="10" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="223" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a3a035a31289f4b6e5918ec90032cce91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::kg::KnowledgeGraph::removeEdge</definition>
+        <argsstring>(const std::string &amp;from_id, const std::string &amp;to_id, RelationType relation)</argsstring>
+        <name>removeEdge</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::removeEdge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7" kindref="member">RelationType</ref></type>
+          <declname>relation</declname>
+        </param>
+        <briefdescription>
+<para>Remove a specific directed edge. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Edge.</para>
+<para><simplesect kind="return"><para>true if the edge existed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">relation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), size(), erase(), std::remove_if(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="280" column="10" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="239" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a32daac2ee248a5c33f71ce06de727e5e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::kg::KnowledgeGraph::edgeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>edgeCount</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::edgeCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of edges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="286" column="12" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="260" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1af2fee84812d8e7f02f9d90fdb8a40042" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt; std::string &gt; themis::rag::kg::KnowledgeGraph::neighbours</definition>
+        <argsstring>(const std::string &amp;start_id, size_t max_depth=1, double min_edge_weight=0.0, size_t max_nodes=4096) const</argsstring>
+        <name>neighbours</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::neighbours</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_edge_weight</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_nodes</declname>
+          <defval>4096</defval>
+        </param>
+        <briefdescription>
+<para>BFS neighbourhood starting from <computeroutput>start_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns all nodes reachable within <computeroutput>max_depth</computeroutput> hops over edges whose weight is at least <computeroutput>min_edge_weight</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting node identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum BFS depth (1 = direct neighbours only). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_edge_weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum edge weight to follow. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of nodes to visit (DoS guard, GAP-010). The BFS terminates once this many nodes have been enqueued, preventing unbounded traversal of dense graphs. Defaults to 4096. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Set of reachable node IDs (excluding start_id). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="305" column="24" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="265" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a58e2c5532aa03fbcc34e1156826505a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge" kindref="compound">KGEdge</ref> &gt;</type>
+        <definition>std::vector&lt; KGEdge &gt; themis::rag::kg::KnowledgeGraph::outEdges</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>outEdges</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraph::outEdges</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Return all outgoing edges from <computeroutput>node_id</computeroutput>. Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="314" column="17" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="333" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe in-memory knowledge graph. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores nodes and directed edges and exposes BFS neighbourhood queries.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" kindref="member">KnowledgeGraph</ref><sp/>g;</highlight></codeline>
+<codeline><highlight class="normal">g.addNode({</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HNSW&quot;</highlight><highlight class="normal">,<sp/>{},<sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da7b01b9814e77b3f808c6ddb9ffa1b666" kindref="member">EntityType::CONCEPT</ref>});</highlight></codeline>
+<codeline><highlight class="normal">g.addNode({</highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ANN<sp/>Search&quot;</highlight><highlight class="normal">,<sp/>{},<sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da7b01b9814e77b3f808c6ddb9ffa1b666" kindref="member">EntityType::CONCEPT</ref>});</highlight></codeline>
+<codeline><highlight class="normal">g.addEdge({</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;n2&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7af37175f0a7b09454894406e66c907588" kindref="member">RelationType::RELATED_TO</ref>,<sp/>0.8});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1af2fee84812d8e7f02f9d90fdb8a40042" kindref="member">neighbours</ref><sp/>=<sp/>g.neighbours(</highlight><highlight class="stringliteral">&quot;n1&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>0.5);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/knowledge_graph_retriever.h" line="223" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="223" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1ae218468cc394c68eda007e3f2ae1402d" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>addEdge</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a2fe797bb9972932d735af1176d3067dc" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>addNode</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a32daac2ee248a5c33f71ce06de727e5e" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>edgeCount</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1aaf8bd06622e3fb542cbc27afa6678aa6" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>findNode</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a368ab6c003171a33775b634912e5a604" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>findNodeByName</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a6a927933302114d85b977526293fc963" prot="private" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a61eb4f748d5e7c77383b9c861ccfbfcc" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>KnowledgeGraph</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a6c32a268b2f7467b9f929dbfdd69187a" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>KnowledgeGraph</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a5b987b57402b539872bd3e069969750b" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>KnowledgeGraph</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1af2fee84812d8e7f02f9d90fdb8a40042" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>neighbours</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a753f6e3c8312fadcca6441190fd9f9ef" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1aad39013c49a902ace91ed8ada7452430" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a7bbc2ea79266409d9618227b96314646" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a58e2c5532aa03fbcc34e1156826505a4" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>outEdges</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a3a035a31289f4b6e5918ec90032cce91" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>removeEdge</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a86c29b848ac368c091150e41ede7353c" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>removeNode</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1abf33847b9980cbfea9779d11da55ae4c" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraph</scope><name>~KnowledgeGraph</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

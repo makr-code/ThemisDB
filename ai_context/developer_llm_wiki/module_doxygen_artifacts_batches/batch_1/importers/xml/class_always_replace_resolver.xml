@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_always_replace_resolver" kind="class" language="C++" prot="public">
+    <compoundname>AlwaysReplaceResolver</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_import_conflict_resolver" prot="public" virt="non-virtual">themis::importers::IImportConflictResolver</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_always_replace_resolver_1af87d8b17d464c249a4b92781254906c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref></type>
+        <definition>ConflictResolutionResult AlwaysReplaceResolver::resolve</definition>
+        <argsstring>(const json &amp;, const json &amp;) const override</argsstring>
+        <name>resolve</name>
+        <qualifiedname>AlwaysReplaceResolver::resolve</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_import_conflict_resolver_1a2c916d46f479c564c6bd96e05cedf841">resolve</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="45" column="30" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="45" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AlwaysReplaceResolver</label>
+        <link refid="class_always_replace_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImportConflictResolver</label>
+        <link refid="classthemis_1_1importers_1_1_i_import_conflict_resolver"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AlwaysReplaceResolver</label>
+        <link refid="class_always_replace_resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IImportConflictResolver</label>
+        <link refid="classthemis_1_1importers_1_1_i_import_conflict_resolver"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_interfaces.cpp" line="43" column="1" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="43" bodyend="53"/>
+    <listofallmembers>
+      <member refid="class_always_replace_resolver_1af87d8b17d464c249a4b92781254906c9" prot="public" virt="virtual"><scope>AlwaysReplaceResolver</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_import_conflict_resolver_1a4a7b20ff9a19de8b06c27808dc633cbe" prot="public" virt="virtual"><scope>AlwaysReplaceResolver</scope><name>~IImportConflictResolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_graph_manager_1_1_node_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessGraphManager::NodeMetrics</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a026708d46bdcce10f6ab95dc0f236b9e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessGraphManager::NodeMetrics::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::ProcessGraphManager::NodeMetrics::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="658" column="21" bodyfile="include/index/process_graph.h" bodystart="658" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a1a25eef7952b3878c28c28f06de70a00" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ProcessGraphManager::NodeMetrics::execution_count</definition>
+        <argsstring></argsstring>
+        <name>execution_count</name>
+        <qualifiedname>themis::ProcessGraphManager::NodeMetrics::execution_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="659" column="16" bodyfile="include/index/process_graph.h" bodystart="659" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a0eab39deeb784c6ff85f09a1f9ea8c55" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessGraphManager::NodeMetrics::avg_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_duration_ms</name>
+        <qualifiedname>themis::ProcessGraphManager::NodeMetrics::avg_duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="660" column="16" bodyfile="include/index/process_graph.h" bodystart="660" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a0ed5cc964df40c12412727e686698989" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessGraphManager::NodeMetrics::max_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>max_duration_ms</name>
+        <qualifiedname>themis::ProcessGraphManager::NodeMetrics::max_duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="661" column="16" bodyfile="include/index/process_graph.h" bodystart="661" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a8ab4606ceeb14f3909d2160a9b86ebe0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ProcessGraphManager::NodeMetrics::failure_count</definition>
+        <argsstring></argsstring>
+        <name>failure_count</name>
+        <qualifiedname>themis::ProcessGraphManager::NodeMetrics::failure_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="662" column="16" bodyfile="include/index/process_graph.h" bodystart="662" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Find bottlenecks (nodes with longest average duration). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="657" column="5" bodyfile="include/index/process_graph.h" bodystart="657" bodyend="663"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a0eab39deeb784c6ff85f09a1f9ea8c55" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::NodeMetrics</scope><name>avg_duration_ms</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a1a25eef7952b3878c28c28f06de70a00" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::NodeMetrics</scope><name>execution_count</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a8ab4606ceeb14f3909d2160a9b86ebe0" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::NodeMetrics</scope><name>failure_count</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a0ed5cc964df40c12412727e686698989" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::NodeMetrics</scope><name>max_duration_ms</name></member>
+      <member refid="structthemis_1_1_process_graph_manager_1_1_node_metrics_1a026708d46bdcce10f6ab95dc0f236b9e" prot="public" virt="non-virtual"><scope>themis::ProcessGraphManager::NodeMetrics</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::WebAuthnAuthenticator::AttestationResult</compoundname>
+    <includes refid="webauthn__authenticator_8h" local="no">webauthn_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1a1117618f9ae9d1e9768555ebb1fb2533" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::WebAuthnAuthenticator::AttestationResult::credential_id</definition>
+        <argsstring></argsstring>
+        <name>credential_id</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AttestationResult::credential_id</qualifiedname>
+        <briefdescription>
+<para>Base64url-encoded credential identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="86" column="21" bodyfile="include/auth/webauthn_authenticator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1aa0da55aac53763037d54682b33b973c6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::auth::WebAuthnAuthenticator::AttestationResult::public_key</definition>
+        <argsstring></argsstring>
+        <name>public_key</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AttestationResult::public_key</qualifiedname>
+        <briefdescription>
+<para>DER-encoded SubjectPublicKeyInfo (SPKI). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="87" column="21" bodyfile="include/auth/webauthn_authenticator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1a94ae0f6a16017c7365b91ffce6cf06f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::WebAuthnAuthenticator::AttestationResult::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AttestationResult::algorithm</qualifiedname>
+        <briefdescription>
+<para>&quot;ES256&quot; or &quot;RS256&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="88" column="21" bodyfile="include/auth/webauthn_authenticator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1aaa3455ed32fe38caa82da8f41e0a09c4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::WebAuthnAuthenticator::AttestationResult::sign_count</definition>
+        <argsstring></argsstring>
+        <name>sign_count</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AttestationResult::sign_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Initial signature counter value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="89" column="18" bodyfile="include/auth/webauthn_authenticator.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1ada0276319dfc63c2f5b8759d5e6ea4e9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::auth::WebAuthnAuthenticator::AttestationResult::aaguid</definition>
+        <argsstring></argsstring>
+        <name>aaguid</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AttestationResult::aaguid</qualifiedname>
+        <briefdescription>
+<para>16-byte authenticator model GUID </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="90" column="21" bodyfile="include/auth/webauthn_authenticator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/webauthn_authenticator.h" line="85" column="5" bodyfile="include/auth/webauthn_authenticator.h" bodystart="85" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1ada0276319dfc63c2f5b8759d5e6ea4e9" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AttestationResult</scope><name>aaguid</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1a94ae0f6a16017c7365b91ffce6cf06f4" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AttestationResult</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1a1117618f9ae9d1e9768555ebb1fb2533" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AttestationResult</scope><name>credential_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1aa0da55aac53763037d54682b33b973c6" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AttestationResult</scope><name>public_key</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_attestation_result_1aaa3455ed32fe38caa82da8f41e0a09c4" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AttestationResult</scope><name>sign_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

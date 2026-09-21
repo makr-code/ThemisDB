@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUAdminAPI</compoundname>
+    <includes refid="admin__api_8h" local="no">admin_api.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a8405703696ed7ab22dcc55b5bf934ec0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_config" kindref="compound">GPUConfig</ref></type>
+        <definition>GPUConfig themis::gpu::GPUAdminAPI::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="127" column="22" bodyfile="include/themis/gpu/admin_api.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a13bf5c6892de1bba39a0da6023c2a567" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer" kindref="compound">GPULoadBalancer</ref> *</type>
+        <definition>GPULoadBalancer* themis::gpu::GPUAdminAPI::balancer_</definition>
+        <argsstring></argsstring>
+        <name>balancer_</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::balancer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="128" column="21" bodyfile="include/themis/gpu/admin_api.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a2fd815780fb61ea194143bbf72a2dcfc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUAdminAPI::GPUAdminAPI</definition>
+        <argsstring>(const GPUConfig &amp;config, GPULoadBalancer *balancer=nullptr)</argsstring>
+        <name>GPUAdminAPI</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::GPUAdminAPI</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_config" kindref="compound">GPUConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer" kindref="compound">GPULoadBalancer</ref> *</type>
+          <declname>balancer</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Default constructor: uses the global <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> singleton and <ref refid="classthemis_1_1gpu_1_1_g_p_u_metrics" kindref="compound">GPUMetrics</ref> singleton. Pass a non-null balancer for device stats; if nullptr the devices endpoint returns an empty list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="51" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a5fe558be86fcfa28f8ef065fe5db11b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAdminAPI::getStatsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatsJson</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::getStatsJson</qualifiedname>
+        <briefdescription>
+<para>Serialise global GPU stats to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a JSON object with keys: edition_vram_limit_bytes, allocated_bytes, peak_bytes, allocation_count, deallocation_count, usage_percent, gpu_acceleration_enabled, edition_info </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="66" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1aef6fbe76b89047520c48244d6b19c366" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAdminAPI::getTenantsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getTenantsJson</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::getTenantsJson</qualifiedname>
+        <briefdescription>
+<para>Serialise per-tenant VRAM breakdown to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a JSON array where each element has: tenant_id, quota_bytes, allocated_bytes, peak_bytes, headroom_bytes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="74" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a8128554b85162e99493031de61ad6d2f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAdminAPI::getDevicesJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getDevicesJson</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::getDevicesJson</qualifiedname>
+        <briefdescription>
+<para>Serialise per-device load to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a JSON array where each element has: index, name, backend, free_vram_bytes, tracked_alloc_bytes, is_healthy, failure_reason</para>
+<para>Returns an empty JSON array if no load balancer was provided. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="85" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a7ed8eb4a5c3496673e768798a16e418d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAdminAPI::simulateJson</definition>
+        <argsstring>(uint64_t bytes) const</argsstring>
+        <name>simulateJson</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::simulateJson</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Dry-run simulation: would <computeroutput>bytes</computeroutput> be accepted right now? </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses <ref refid="structthemis_1_1gpu_1_1_g_p_u_config_1ac9f5a50c84ed4cb389aa386f5bf2c314" kindref="member">GPUConfig::simulateAllocation()</ref> against the current live allocation counter.</para>
+<para>Input JSON (optional, for logging): { &quot;bytes&quot;: &lt;uint64&gt;, &quot;tag&quot;: &quot;...&quot; } Returns JSON: { &quot;accepted&quot;: true/false, &quot;reason&quot;: &quot;...&quot; } </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="96" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a65da93ca6cfc7c3a35436b95d2951537" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAdminAPI::getGeoBackendStatsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getGeoBackendStatsJson</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::getGeoBackendStatsJson</qualifiedname>
+        <briefdescription>
+<para>Serialise GPU spatial backend (geo) stats to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a JSON object with keys: backend_name, gpu_present, circuit_open, device_name, batch_calls, batch_fallbacks, batch_pairs_processed, exact_calls, exact_errors, batch_avg_latency_us, batch_max_latency_us</para>
+<para>Suitable for the endpoint: GET /admin/gpu/geo </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="109" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1aff748a1ab999f95c8a61b69bbbe27a87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUAdminAPI::getMIGInstancesJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getMIGInstancesJson</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::getMIGInstancesJson</qualifiedname>
+        <briefdescription>
+<para>Serialise active MIG partition list to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a JSON array where each element has: instance_id, device_index, gi_id, profile, memory_bytes, is_active, tenant_id</para>
+<para>Returns an empty JSON array when no MIG instances exist. Because <computeroutput><ref refid="classthemis_1_1gpu_1_1_m_i_g_manager_1a219a0266fcf2f4e6fb27f5cc26be522f" kindref="member">MIGManager::createPartition()</ref></computeroutput> is gated on the <computeroutput>MIG_MANAGER</computeroutput> feature flag, the array will naturally be empty when the flag is disabled.</para>
+<para>Suitable for the endpoint: GET /admin/gpu/mig </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="124" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1aaa042da1eb7a8103096a5d873ee29567" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::gpu::GPUAdminAPI::jsonEscape</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>jsonEscape</name>
+        <qualifiedname>themis::gpu::GPUAdminAPI::jsonEscape</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/admin_api.h" line="130" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>JSON-serialising admin/ops API for the GPU module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides three read-only and one simulation endpoint:</para>
+<para>GET /admin/gpu/stats — Global VRAM stats, circuit state, fallback count. GET /admin/gpu/tenants — Per-tenant VRAM usage and quota breakdown. GET /admin/gpu/devices — Per-device load from the load balancer. POST /admin/gpu/simulate — Dry-run allocation check using <ref refid="structthemis_1_1gpu_1_1_g_p_u_config" kindref="compound">GPUConfig</ref> rules.</para>
+<para>All methods return a UTF-8 JSON string; no HTTP transport is assumed so the class can be used from any HTTP framework or CLI tool.</para>
+<para>Thread safety: methods are const and delegate to thread-safe sub-systems. </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/admin_api.h" line="40" column="1" bodyfile="include/themis/gpu/admin_api.h" bodystart="40" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a13bf5c6892de1bba39a0da6023c2a567" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>balancer_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a8405703696ed7ab22dcc55b5bf934ec0" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>config_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a8128554b85162e99493031de61ad6d2f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>getDevicesJson</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a65da93ca6cfc7c3a35436b95d2951537" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>getGeoBackendStatsJson</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1aff748a1ab999f95c8a61b69bbbe27a87" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>getMIGInstancesJson</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a5fe558be86fcfa28f8ef065fe5db11b6" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>getStatsJson</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1aef6fbe76b89047520c48244d6b19c366" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>getTenantsJson</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a2fd815780fb61ea194143bbf72a2dcfc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>GPUAdminAPI</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1aaa042da1eb7a8103096a5d873ee29567" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>jsonEscape</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_admin_a_p_i_1a7ed8eb4a5c3496673e768798a16e418d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAdminAPI</scope><name>simulateJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_encoded_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::EncodedEvent</compoundname>
+    <includes refid="schema__registry_8h" local="no">schema_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_encoded_event_1a2e6a90135143bd62e716ece1d7321394" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::cdc::EncodedEvent::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::cdc::EncodedEvent::data</qualifiedname>
+        <briefdescription>
+<para>Wire-format bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="408" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_encoded_event_1a64834f4bfaa4dcf3a92e7f076db086e4" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::cdc::EncodedEvent::schema_id</definition>
+        <argsstring></argsstring>
+        <name>schema_id</name>
+        <qualifiedname>themis::cdc::EncodedEvent::schema_id</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+<para>Schema ID embedded in the header. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="409" column="26" bodyfile="include/cdc/schema_registry.h" bodystart="409" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_encoded_event_1a3364dfa7c2ec785d6892908ac3e3fd45" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" kindref="member">SchemaFormat</ref></type>
+        <definition>SchemaFormat themis::cdc::EncodedEvent::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::cdc::EncodedEvent::format</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">SchemaFormat::JSON</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="410" column="26" bodyfile="include/cdc/schema_registry.h" bodystart="410" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_encoded_event_1a418fb269d27d16f470430c53af98de8a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::EncodedEvent::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::cdc::EncodedEvent::subject</qualifiedname>
+        <briefdescription>
+<para>Registry subject used for encoding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="411" column="26" bodyfile="include/cdc/schema_registry.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/schema_registry.h" line="407" column="1" bodyfile="include/cdc/schema_registry.h" bodystart="407" bodyend="412"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_encoded_event_1a2e6a90135143bd62e716ece1d7321394" prot="public" virt="non-virtual"><scope>themis::cdc::EncodedEvent</scope><name>data</name></member>
+      <member refid="structthemis_1_1cdc_1_1_encoded_event_1a3364dfa7c2ec785d6892908ac3e3fd45" prot="public" virt="non-virtual"><scope>themis::cdc::EncodedEvent</scope><name>format</name></member>
+      <member refid="structthemis_1_1cdc_1_1_encoded_event_1a64834f4bfaa4dcf3a92e7f076db086e4" prot="public" virt="non-virtual"><scope>themis::cdc::EncodedEvent</scope><name>schema_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_encoded_event_1a418fb269d27d16f470430c53af98de8a" prot="public" virt="non-virtual"><scope>themis::cdc::EncodedEvent</scope><name>subject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

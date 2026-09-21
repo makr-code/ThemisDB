@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_expression_1_1_unary_op_expression" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::Expression::UnaryOpExpression</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_string_unary_op_expr" prot="public" virt="non-virtual">themis::query::StringUnaryOpExpr</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_expression_1_1_unary_op_expression_1a88c3ab522cb3ae673607f13dcf35e5f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::Expression::UnaryOpExpression::UnaryOpExpression</definition>
+        <argsstring>()=default</argsstring>
+        <name>UnaryOpExpression</name>
+        <qualifiedname>themis::query::Expression::UnaryOpExpression::UnaryOpExpression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1197" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_expression_1_1_unary_op_expression_1a386e6a78f4b2aa37cd23323215cd9245" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::StringUnaryOpExpr::StringUnaryOpExpr</definition>
+        <argsstring>()=default</argsstring>
+        <name>StringUnaryOpExpr</name>
+        <qualifiedname>themis::query::Expression::UnaryOpExpression::StringUnaryOpExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1196" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::Expression::UnaryOpExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_unary_op_expression"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::StringUnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_string_unary_op_expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::Expression::UnaryOpExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_unary_op_expression"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::StringUnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_string_unary_op_expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="1195" column="1" bodyfile="include/query/aql_parser.h" bodystart="1195" bodyend="1198"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_string_unary_op_expr_1a2f6ce7f4fcdd4a59c2e3ae841dc01208" prot="public" virt="virtual"><scope>themis::query::Expression::UnaryOpExpression</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_string_unary_op_expr_1a066d2594250a5be54412c0691af37569" prot="public" virt="non-virtual"><scope>themis::query::Expression::UnaryOpExpression</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_string_unary_op_expr_1a781d1ff936c3f3ce8a24e4a80e4d79dd" prot="public" virt="non-virtual"><scope>themis::query::Expression::UnaryOpExpression</scope><name>operand</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1_1_unary_op_expression_1a386e6a78f4b2aa37cd23323215cd9245" prot="public" virt="non-virtual"><scope>themis::query::Expression::UnaryOpExpression</scope><name>StringUnaryOpExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_string_unary_op_expr_1a44b4974d9e9286834690ff7b5c8f992f" prot="public" virt="virtual"><scope>themis::query::Expression::UnaryOpExpression</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1_1_unary_op_expression_1a88c3ab522cb3ae673607f13dcf35e5f6" prot="public" virt="non-virtual"><scope>themis::query::Expression::UnaryOpExpression</scope><name>UnaryOpExpression</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>themis::query::Expression::UnaryOpExpression</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

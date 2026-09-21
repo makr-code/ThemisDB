@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_diff" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptDiff</compoundname>
+    <includes refid="prompt__version__control_8h" local="no">prompt_version_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_diff_1ab766e8ea8bb8d31f28823dc047f9d0e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptDiff::version_a</definition>
+        <argsstring></argsstring>
+        <name>version_a</name>
+        <qualifiedname>themis::prompt_engineering::PromptDiff::version_a</qualifiedname>
+        <briefdescription>
+<para>First version ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="58" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_diff_1aa34a18892b7f8b9616333da06a3fdc5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptDiff::version_b</definition>
+        <argsstring></argsstring>
+        <name>version_b</name>
+        <qualifiedname>themis::prompt_engineering::PromptDiff::version_b</qualifiedname>
+        <briefdescription>
+<para>Second version ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="59" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a418a31ac745e1a79beb349f7517c7d56" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::PromptDiff::added_lines</definition>
+        <argsstring></argsstring>
+        <name>added_lines</name>
+        <qualifiedname>themis::prompt_engineering::PromptDiff::added_lines</qualifiedname>
+        <briefdescription>
+<para>Lines added in B. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="60" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a3b83a3d2e588b63b3a8a282b325492e0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::PromptDiff::removed_lines</definition>
+        <argsstring></argsstring>
+        <name>removed_lines</name>
+        <qualifiedname>themis::prompt_engineering::PromptDiff::removed_lines</qualifiedname>
+        <briefdescription>
+<para>Lines removed from A. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="61" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a9be3f28ebaa617519ce1512666a6c263" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::PromptDiff::modified_lines</definition>
+        <argsstring></argsstring>
+        <name>modified_lines</name>
+        <qualifiedname>themis::prompt_engineering::PromptDiff::modified_lines</qualifiedname>
+        <briefdescription>
+<para>Lines changed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="62" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_diff_1aac892069e0aced8badface1c7d4f8cce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptDiff::unified_diff</definition>
+        <argsstring></argsstring>
+        <name>unified_diff</name>
+        <qualifiedname>themis::prompt_engineering::PromptDiff::unified_diff</qualifiedname>
+        <briefdescription>
+<para>Unified diff format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="63" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a5270564b5b1fffa958ce0a13e3a8ee15" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptDiff::additions</definition>
+        <argsstring></argsstring>
+        <name>additions</name>
+        <qualifiedname>themis::prompt_engineering::PromptDiff::additions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total additions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="64" column="12" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a74613e2aec54d0f4be69f593de5d0f2a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptDiff::deletions</definition>
+        <argsstring></argsstring>
+        <name>deletions</name>
+        <qualifiedname>themis::prompt_engineering::PromptDiff::deletions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total deletions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="65" column="12" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a5701a2c0eea93c5ed3c221ac0e4ecfbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptDiff::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptDiff::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="70" column="20" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="77" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Difference between two versions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_version_control.h" line="57" column="1" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="57" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a418a31ac745e1a79beb349f7517c7d56" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptDiff</scope><name>added_lines</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a5270564b5b1fffa958ce0a13e3a8ee15" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptDiff</scope><name>additions</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a74613e2aec54d0f4be69f593de5d0f2a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptDiff</scope><name>deletions</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a9be3f28ebaa617519ce1512666a6c263" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptDiff</scope><name>modified_lines</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a3b83a3d2e588b63b3a8a282b325492e0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptDiff</scope><name>removed_lines</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_diff_1a5701a2c0eea93c5ed3c221ac0e4ecfbc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptDiff</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_diff_1aac892069e0aced8badface1c7d4f8cce" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptDiff</scope><name>unified_diff</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_diff_1ab766e8ea8bb8d31f28823dc047f9d0e8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptDiff</scope><name>version_a</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_diff_1aa34a18892b7f8b9616333da06a3fdc5b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptDiff</scope><name>version_b</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

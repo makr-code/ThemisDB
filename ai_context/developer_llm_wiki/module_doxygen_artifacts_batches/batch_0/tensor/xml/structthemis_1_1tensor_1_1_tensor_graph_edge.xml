@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_graph_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorGraphEdge</compoundname>
+    <includes refid="hiss__structural__search_8h" local="no">hiss_structural_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_edge_1a3d0ddf5a931325033173702b58b5e2d3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorGraphEdge::from</definition>
+        <argsstring></argsstring>
+        <name>from</name>
+        <qualifiedname>themis::tensor::TensorGraphEdge::from</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="37" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_edge_1a6373c9d132fae38391cfdea220c783b7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorGraphEdge::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>themis::tensor::TensorGraphEdge::to</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="38" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_edge_1a92fed434cacfceddb950133f44f70fa5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorGraphEdge::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::tensor::TensorGraphEdge::weight</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="39" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_graph_edge_1a6d3bb620564dbfacc1e5863725b852c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorGraphEdge::topology</definition>
+        <argsstring></argsstring>
+        <name>topology</name>
+        <qualifiedname>themis::tensor::TensorGraphEdge::topology</qualifiedname>
+        <initializer>= &quot;tree&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="40" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/hiss_structural_search.h" line="36" column="1" bodyfile="include/tensor/hiss_structural_search.h" bodystart="36" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_edge_1a3d0ddf5a931325033173702b58b5e2d3" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphEdge</scope><name>from</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_edge_1a6373c9d132fae38391cfdea220c783b7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphEdge</scope><name>to</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_edge_1a6d3bb620564dbfacc1e5863725b852c5" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphEdge</scope><name>topology</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_graph_edge_1a92fed434cacfceddb950133f44f70fa5" prot="public" virt="non-virtual"><scope>themis::tensor::TensorGraphEdge</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_w_a_l_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::WALEntry</compoundname>
+    <includes refid="wal__manager_8h" local="no">wal_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_entry_1a67b91082c9d904e0c3fc509dcc8f574c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALEntry::lsn</definition>
+        <argsstring></argsstring>
+        <name>lsn</name>
+        <qualifiedname>themis::sharding::WALEntry::lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="132" column="9" bodyfile="include/sharding/wal_manager.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_entry_1a66fb7a161e6b76f41a4ef41afeffb93a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">WALEntryType</ref></type>
+        <definition>WALEntryType themis::sharding::WALEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::sharding::WALEntry::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="133" column="18" bodyfile="include/sharding/wal_manager.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_entry_1abc8c60e5472ef9b41df487f0557f7785" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::WALEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::sharding::WALEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="134" column="14" bodyfile="include/sharding/wal_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_entry_1a9cebed1fa32109f926d7e631c57fa757" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::WALEntry::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::sharding::WALEntry::transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="135" column="17" bodyfile="include/sharding/wal_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_w_a_l_entry_1a3780b1bf5afba4984ee6d9de3558176f" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::WALEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::sharding::WALEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="136" column="20" bodyfile="include/sharding/wal_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_w_a_l_entry_1afa567a5535a0e65efbbee49d6bdef758" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::sharding::WALEntry::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::sharding::WALEntry::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize WAL entry into binary wire/storage format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="139" column="17" bodyfile="src/sharding/wal_manager.cpp" bodystart="49" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_w_a_l_entry_1a9dccd7cd37e8cc58216aa26dd696dde8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::WALEntry::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::sharding::WALEntry::size</qualifiedname>
+        <briefdescription>
+<para>Return serialized entry size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="145" column="12" bodyfile="src/sharding/wal_manager.cpp" bodystart="163" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_w_a_l_entry_1ae29f68045fd1dfb95fa837ccfb99619b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref></type>
+        <definition>WALEntry themis::sharding::WALEntry::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::sharding::WALEntry::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize WAL entry from binary bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a9dccd7cd37e8cc58216aa26dd696dde8" kindref="member">size()</ref>, std::string(), begin(), data_str(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_manager.h" line="142" column="21" bodyfile="src/sharding/wal_manager.cpp" bodystart="102" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One atomic WAL record including type, <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>, timestamp and payload. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::WALEntry</label>
+        <link refid="structthemis_1_1sharding_1_1_w_a_l_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/wal_manager.h" line="131" column="1" bodyfile="include/sharding/wal_manager.h" bodystart="131" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a3780b1bf5afba4984ee6d9de3558176f" prot="public" virt="non-virtual"><scope>themis::sharding::WALEntry</scope><name>data</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_entry_1ae29f68045fd1dfb95fa837ccfb99619b" prot="public" virt="non-virtual"><scope>themis::sharding::WALEntry</scope><name>deserialize</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a67b91082c9d904e0c3fc509dcc8f574c" prot="public" virt="non-virtual"><scope>themis::sharding::WALEntry</scope><name>lsn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_entry_1afa567a5535a0e65efbbee49d6bdef758" prot="public" virt="non-virtual"><scope>themis::sharding::WALEntry</scope><name>serialize</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a9dccd7cd37e8cc58216aa26dd696dde8" prot="public" virt="non-virtual"><scope>themis::sharding::WALEntry</scope><name>size</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_entry_1abc8c60e5472ef9b41df487f0557f7785" prot="public" virt="non-virtual"><scope>themis::sharding::WALEntry</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a9cebed1fa32109f926d7e631c57fa757" prot="public" virt="non-virtual"><scope>themis::sharding::WALEntry</scope><name>transaction_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a66fb7a161e6b76f41a4ef41afeffb93a" prot="public" virt="non-virtual"><scope>themis::sharding::WALEntry</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

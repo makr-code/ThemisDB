@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_network_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::NetworkMetrics</compoundname>
+    <includes refid="network__observability_8h" local="no">network_observability.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_network_metrics_1_1_snapshot" prot="public">themis::network::NetworkMetrics::Snapshot</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1abc3ce73065190a77d1da516b1bd82997" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::frames_dispatched</definition>
+        <argsstring></argsstring>
+        <name>frames_dispatched</name>
+        <qualifiedname>themis::network::NetworkMetrics::frames_dispatched</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="107" column="17" bodyfile="include/network/network_observability.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1a9dcce1920b3ddac199a1d1c9a5f6f25d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::frames_received</definition>
+        <argsstring></argsstring>
+        <name>frames_received</name>
+        <qualifiedname>themis::network::NetworkMetrics::frames_received</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="108" column="17" bodyfile="include/network/network_observability.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1a78b77ff7a9fea3f57a3c5700b176436b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::auth_checks_passed</definition>
+        <argsstring></argsstring>
+        <name>auth_checks_passed</name>
+        <qualifiedname>themis::network::NetworkMetrics::auth_checks_passed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="109" column="17" bodyfile="include/network/network_observability.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1ab8cda7cc49a2b6a9a08304db678b654e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::auth_checks_failed</definition>
+        <argsstring></argsstring>
+        <name>auth_checks_failed</name>
+        <qualifiedname>themis::network::NetworkMetrics::auth_checks_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="110" column="17" bodyfile="include/network/network_observability.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1a0095348a092bc4c9c95adac48db56841" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::rate_limit_allows</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_allows</name>
+        <qualifiedname>themis::network::NetworkMetrics::rate_limit_allows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="111" column="17" bodyfile="include/network/network_observability.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1a2a3a7d9d29572fbfb33d46baa5456ac3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::rate_limit_drops</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_drops</name>
+        <qualifiedname>themis::network::NetworkMetrics::rate_limit_drops</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="112" column="17" bodyfile="include/network/network_observability.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1a644a101e21ed62cdc06bed5170852889" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::connections_accepted</definition>
+        <argsstring></argsstring>
+        <name>connections_accepted</name>
+        <qualifiedname>themis::network::NetworkMetrics::connections_accepted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="113" column="17" bodyfile="include/network/network_observability.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1ae12792892f83451088752c99d1d74b37" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::connections_closed</definition>
+        <argsstring></argsstring>
+        <name>connections_closed</name>
+        <qualifiedname>themis::network::NetworkMetrics::connections_closed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="114" column="17" bodyfile="include/network/network_observability.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1afa6894db6a8e1d1d094645e90dfbe215" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::transport_fallbacks</definition>
+        <argsstring></argsstring>
+        <name>transport_fallbacks</name>
+        <qualifiedname>themis::network::NetworkMetrics::transport_fallbacks</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="115" column="17" bodyfile="include/network/network_observability.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1a523f5d6637069974a3f289736dc8a125" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::circuit_breaker_trips</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_trips</name>
+        <qualifiedname>themis::network::NetworkMetrics::circuit_breaker_trips</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="116" column="17" bodyfile="include/network/network_observability.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1a271d8fdfdac52c0e1ba810d5761431d8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::network::NetworkMetrics::bytes_sent</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="117" column="17" bodyfile="include/network/network_observability.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1a2c6e3e654422a29392d8554e42b285d3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::network::NetworkMetrics::bytes_received</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="118" column="17" bodyfile="include/network/network_observability.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_metrics_1af98add8f4e114b03dbb73bf4b2876ba7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::NetworkMetrics::errors_total</definition>
+        <argsstring></argsstring>
+        <name>errors_total</name>
+        <qualifiedname>themis::network::NetworkMetrics::errors_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="119" column="17" bodyfile="include/network/network_observability.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_network_metrics_1adf04197412b6a623125254d222015221" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkMetrics::NetworkMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>NetworkMetrics</name>
+        <qualifiedname>themis::network::NetworkMetrics::NetworkMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_network_metrics_1afc51cf4efb63a8dcc6d0c131498db23c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkMetrics::NetworkMetrics</definition>
+        <argsstring>(const NetworkMetrics &amp;)=delete</argsstring>
+        <name>NetworkMetrics</name>
+        <qualifiedname>themis::network::NetworkMetrics::NetworkMetrics</qualifiedname>
+        <param>
+          <type>const NetworkMetrics &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="124" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_network_metrics_1a89d029d22846e1c4e6589e752987b0c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_network_metrics_1adf04197412b6a623125254d222015221" kindref="member">NetworkMetrics</ref> &amp;</type>
+        <definition>NetworkMetrics &amp; themis::network::NetworkMetrics::operator=</definition>
+        <argsstring>(const NetworkMetrics &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::NetworkMetrics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_network_metrics_1adf04197412b6a623125254d222015221" kindref="member">NetworkMetrics</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="125" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_network_metrics_1a02876a08cc4bac9866127231aebcc460" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_network_metrics_1_1_snapshot" kindref="compound">Snapshot</ref></type>
+        <definition>Snapshot themis::network::NetworkMetrics::snapshot</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::network::NetworkMetrics::snapshot</qualifiedname>
+        <briefdescription>
+<para>Acquire-load all counters and return a consistent snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="147" column="14" bodyfile="include/network/network_observability.h" bodystart="147" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight per-component network metric aggregator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All counters are atomic and updated with relaxed memory order (suitable for monotonic counters where strict ordering is not required). Call <computeroutput><ref refid="structthemis_1_1network_1_1_network_metrics_1a02876a08cc4bac9866127231aebcc460" kindref="member">snapshot()</ref></computeroutput> to obtain a consistent read (acquires all atomics). </para>
+    </detaileddescription>
+    <location file="include/network/network_observability.h" line="106" column="1" bodyfile="include/network/network_observability.h" bodystart="106" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1ab8cda7cc49a2b6a9a08304db678b654e" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>auth_checks_failed</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a78b77ff7a9fea3f57a3c5700b176436b" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>auth_checks_passed</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a2c6e3e654422a29392d8554e42b285d3" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a271d8fdfdac52c0e1ba810d5761431d8" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a523f5d6637069974a3f289736dc8a125" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>circuit_breaker_trips</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a644a101e21ed62cdc06bed5170852889" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>connections_accepted</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1ae12792892f83451088752c99d1d74b37" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>connections_closed</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1af98add8f4e114b03dbb73bf4b2876ba7" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>errors_total</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1abc3ce73065190a77d1da516b1bd82997" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>frames_dispatched</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a9dcce1920b3ddac199a1d1c9a5f6f25d" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>frames_received</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1adf04197412b6a623125254d222015221" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>NetworkMetrics</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1afc51cf4efb63a8dcc6d0c131498db23c" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>NetworkMetrics</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a89d029d22846e1c4e6589e752987b0c9" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a0095348a092bc4c9c95adac48db56841" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>rate_limit_allows</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a2a3a7d9d29572fbfb33d46baa5456ac3" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>rate_limit_drops</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1a02876a08cc4bac9866127231aebcc460" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>snapshot</name></member>
+      <member refid="structthemis_1_1network_1_1_network_metrics_1afa6894db6a8e1d1d094645e90dfbe215" prot="public" virt="non-virtual"><scope>themis::network::NetworkMetrics</scope><name>transport_fallbacks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

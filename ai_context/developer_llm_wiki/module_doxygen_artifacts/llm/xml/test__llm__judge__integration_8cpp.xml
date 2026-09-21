@@ -1,0 +1,707 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__judge__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_judge_integration.cpp</compoundname>
+    <includes local="yes">rag/llm_judge_integration.h</includes>
+    <includes local="yes">rag/prompt_templates.h</includes>
+    <includes local="yes">rag/rag_judge.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_judge_integration.cpp</label>
+        <link refid="test__llm__judge__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="2">
+        <label>rag/llm_judge_integration.h</label>
+      </node>
+      <node id="3">
+        <label>rag/prompt_templates.h</label>
+      </node>
+      <node id="4">
+        <label>rag/rag_judge.h</label>
+      </node>
+      <node id="8">
+        <label>random</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_l_l_m_judge_integration_availability_test" prot="public">LLMJudgeIntegrationAvailabilityTest</innerclass>
+    <innerclass refid="class_l_l_m_judge_integration_config_test" prot="public">LLMJudgeIntegrationConfigTest</innerclass>
+    <innerclass refid="class_l_l_m_judge_integration_inference_function_test" prot="public">LLMJudgeIntegrationInferenceFunctionTest</innerclass>
+    <innerclass refid="class_l_l_m_judge_integration_dimension_test" prot="public">LLMJudgeIntegrationDimensionTest</innerclass>
+    <innerclass refid="class_l_l_m_judge_integration_engine_injection_test" prot="public">LLMJudgeIntegrationEngineInjectionTest</innerclass>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationAvailabilityTest, DefaultConstructorReturnsUnavailableWithoutBackend)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_availability_test" kindref="compound">LLMJudgeIntegrationAvailabilityTest</ref></type>
+        </param>
+        <param>
+          <type>DefaultConstructorReturnsUnavailableWithoutBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="74" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="74" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a255a8c92a6d9a0aff950609ff85a8f69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationAvailabilityTest, ConfigOnlyConstructorReturnsUnavailableWithoutBackend)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_availability_test" kindref="compound">LLMJudgeIntegrationAvailabilityTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigOnlyConstructorReturnsUnavailableWithoutBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="89" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="89" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1aebef7288e2c8513466753d3a009c63eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationAvailabilityTest, ErrorMessageProvidesBackendGuidance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_availability_test" kindref="compound">LLMJudgeIntegrationAvailabilityTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorMessageProvidesBackendGuidance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="105" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="105" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1aaef939d57cffea2f4a703b2973f003f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationConfigTest, ConfigDefaultValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_config_test" kindref="compound">LLMJudgeIntegrationConfigTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigDefaultValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="120" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a82abcaae86e4d1255c49a3e1703a047e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationConfigTest, ConfigCanBeUpdated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_config_test" kindref="compound">LLMJudgeIntegrationConfigTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigCanBeUpdated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="131" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="131" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1aa98dc0f27268052ec9bd9c74779e8f0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationConfigTest, ConfigCanBeChangedAtRuntime)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_config_test" kindref="compound">LLMJudgeIntegrationConfigTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigCanBeChangedAtRuntime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="145" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="145" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a5bc7a4f6c037093502e288862337dd8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationInferenceFunctionTest, CustomInferenceFunctionCalled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_inference_function_test" kindref="compound">LLMJudgeIntegrationInferenceFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>CustomInferenceFunctionCalled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="165" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="165" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a1885a6e2b01ab189b56504e486a57285" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationInferenceFunctionTest, InferenceFunctionReceivesPrompt)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_inference_function_test" kindref="compound">LLMJudgeIntegrationInferenceFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>InferenceFunctionReceivesPrompt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="185" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="185" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a8e6617d7a29152dbfed037fc340d4540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationInferenceFunctionTest, RetriesOnFailure)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_inference_function_test" kindref="compound">LLMJudgeIntegrationInferenceFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>RetriesOnFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="203" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="203" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1ab76bbb79e4e4239e51da3df650f702a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationInferenceFunctionTest, FailsAfterMaxRetries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_inference_function_test" kindref="compound">LLMJudgeIntegrationInferenceFunctionTest</ref></type>
+        </param>
+        <param>
+          <type>FailsAfterMaxRetries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="227" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="227" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1ad501a513ee6946ba2da2ed1823196a45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationDimensionTest, EvaluateSupportedDimensionsViaInjectedFunction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_dimension_test" kindref="compound">LLMJudgeIntegrationDimensionTest</ref></type>
+        </param>
+        <param>
+          <type>EvaluateSupportedDimensionsViaInjectedFunction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="259" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="259" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a5c1c50753794a0309986819a3da2967f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationEngineInjectionTest, ConstructWithNullEngineThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_engine_injection_test" kindref="compound">LLMJudgeIntegrationEngineInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructWithNullEngineThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="296" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="296" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a9ca897431dff9b1700576669ab90d7be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationEngineInjectionTest, ConstructWithRealEngineProducesExpectedScore)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_engine_injection_test" kindref="compound">LLMJudgeIntegrationEngineInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructWithRealEngineProducesExpectedScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="301" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="301" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a0cef837f7d74834ce62d62ca2332522d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationEngineInjectionTest, RandomEngineProducesScoreVariance)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_engine_injection_test" kindref="compound">LLMJudgeIntegrationEngineInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>RandomEngineProducesScoreVariance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="317" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="317" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__integration_8cpp_1a607d368063068b7aa01fadbf9c23da1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LLMJudgeIntegrationEngineInjectionTest, IsMockModeAlwaysFalseForProductionPaths)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_l_l_m_judge_integration_engine_injection_test" kindref="compound">LLMJudgeIntegrationEngineInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>IsMockModeAlwaysFalseForProductionPaths</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_integration.cpp" line="339" column="1" bodyfile="tests/llm/test_llm_judge_integration.cpp" bodystart="339" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for fail-closed LLMJudgeIntegration production paths. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/llm_judge_integration.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/prompt_templates.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/rag_judge.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::rag::judge;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">PromptTemplateManager<sp/>makeTemplateManager()<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>manager<sp/>=<sp/>PromptTemplateManager::createDefault();</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>manager.setTemplate(EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Question:<sp/>{question}\nAnswer:<sp/>{answer}\nContext:<sp/>{context}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>manager;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">EvaluationInput<sp/>makeSampleInput()<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EvaluationInput<sp/>input;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>input.query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>input.generated_answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>input.documents<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,<sp/>0.95,<sp/>{}}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>input;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">std::string<sp/>makeJudgeResponse(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>confidence,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reasoning)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string{</highlight><highlight class="stringliteral">&quot;{\&quot;score\&quot;:&quot;</highlight><highlight class="normal">}<sp/>+<sp/>std::to_string(score)<sp/>+</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,\&quot;confidence\&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(confidence)<sp/>+</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,\&quot;reasoning\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>+<sp/>reasoning<sp/>+</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\&quot;,\&quot;supporting_claims\&quot;:[],\&quot;unsupported_claims\&quot;:[]}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">FixedScoreEngine<sp/>:<sp/>ILLMInferenceEngine<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>FixedScoreEngine(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score)<sp/>:<sp/>score_(score)<sp/>{}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeJudgeResponse(score_,<sp/>0.9,<sp/></highlight><highlight class="stringliteral">&quot;fixed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score_;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RandomScoreEngine<sp/>:<sp/>ILLMInferenceEngine<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>RandomScoreEngine(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>42)<sp/>:<sp/>rng_(seed),<sp/>dist_(1.0,<sp/>5.0)<sp/>{}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeJudgeResponse(dist_(rng_),<sp/>0.8,<sp/></highlight><highlight class="stringliteral">&quot;random&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng_;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>dist_;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="class_l_l_m_judge_integration_availability_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_l_l_m_judge_integration_availability_test" kindref="compound">LLMJudgeIntegrationAvailabilityTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>PromptTemplateManager<sp/><ref refid="class_l_l_m_judge_integration_availability_test_1ab20c761cfd11544037c76fab08eb285e" kindref="member">template_manager</ref><sp/>=<sp/>makeTemplateManager();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EvaluationInput<sp/><ref refid="class_l_l_m_judge_integration_availability_test_1a6678625b458397ba7d33f938d494b388" kindref="member">sample_input</ref><sp/>=<sp/>makeSampleInput();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_availability_test" kindref="compound">LLMJudgeIntegrationAvailabilityTest</ref>,<sp/>DefaultConstructorReturnsUnavailableWithoutBackend)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(integration.isMockMode());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.reasoning,<sp/></highlight><highlight class="stringliteral">&quot;llm_unavailable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error_message.find(</highlight><highlight class="stringliteral">&quot;llm_unavailable&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_availability_test" kindref="compound">LLMJudgeIntegrationAvailabilityTest</ref>,<sp/>ConfigOnlyConstructorReturnsUnavailableWithoutBackend)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration::Config<sp/>config;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>config.model_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;judge-prod&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_retries<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration(config);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.reasoning,<sp/></highlight><highlight class="stringliteral">&quot;llm_unavailable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_availability_test" kindref="compound">LLMJudgeIntegrationAvailabilityTest</ref>,<sp/>ErrorMessageProvidesBackendGuidance)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error_message.find(</highlight><highlight class="stringliteral">&quot;setInferenceFunction&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_message.find(</highlight><highlight class="stringliteral">&quot;allow_mock&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="class_l_l_m_judge_integration_config_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_l_l_m_judge_integration_config_test" kindref="compound">LLMJudgeIntegrationConfigTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_config_test" kindref="compound">LLMJudgeIntegrationConfigTest</ref>,<sp/>ConfigDefaultValues)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration::Config<sp/>config;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.model_name,<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(config.temperature,<sp/>0.3);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_tokens,<sp/>1024);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_retries,<sp/>3);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.timeout_ms,<sp/>30000);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.use_json_mode);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_config_test" kindref="compound">LLMJudgeIntegrationConfigTest</ref>,<sp/>ConfigCanBeUpdated)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration::Config<sp/>config;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>config.model_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gpt-4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>config.temperature<sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_tokens<sp/>=<sp/>2048;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration(config);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>integration.getConfig();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.model_name,<sp/></highlight><highlight class="stringliteral">&quot;gpt-4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(retrieved.temperature,<sp/>0.7);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.max_tokens,<sp/>2048);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_config_test" kindref="compound">LLMJudgeIntegrationConfigTest</ref>,<sp/>ConfigCanBeChangedAtRuntime)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration::Config<sp/>new_config;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>new_config.model_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;custom-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>new_config.max_retries<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>integration.setConfig(new_config);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>integration.getConfig();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.model_name,<sp/></highlight><highlight class="stringliteral">&quot;custom-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved.max_retries,<sp/>5);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="class_l_l_m_judge_integration_inference_function_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_l_l_m_judge_integration_inference_function_test" kindref="compound">LLMJudgeIntegrationInferenceFunctionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>PromptTemplateManager<sp/><ref refid="class_l_l_m_judge_integration_inference_function_test_1a7079827cd4783ec5b151617d65c3c003" kindref="member">template_manager</ref><sp/>=<sp/>makeTemplateManager();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EvaluationInput<sp/><ref refid="class_l_l_m_judge_integration_inference_function_test_1add79da39059677bac885e9e9829420bb" kindref="member">sample_input</ref><sp/>=<sp/>makeSampleInput();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_inference_function_test" kindref="compound">LLMJudgeIntegrationInferenceFunctionTest</ref>,<sp/>CustomInferenceFunctionCalled)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>integration.setInferenceFunction([&amp;call_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeJudgeResponse(3.5,<sp/>0.75,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>response&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(call_count,<sp/>1);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.score.has_value());</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(*result.score,<sp/>3.5);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_inference_function_test" kindref="compound">LLMJudgeIntegrationInferenceFunctionTest</ref>,<sp/>InferenceFunctionReceivesPrompt)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>received_prompt<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>integration.setInferenceFunction([&amp;received_prompt](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_prompt<sp/>=<sp/>prompt;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeJudgeResponse(4.5,<sp/>0.9,<sp/></highlight><highlight class="stringliteral">&quot;Test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(received_prompt.empty());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(received_prompt.find(</highlight><highlight class="stringliteral">&quot;France&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_inference_function_test" kindref="compound">LLMJudgeIntegrationInferenceFunctionTest</ref>,<sp/>RetriesOnFailure)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration::Config<sp/>config;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_retries<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration(config);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>integration.setInferenceFunction([&amp;attempt_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++attempt_count;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(attempt_count<sp/>&lt;<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Simulated<sp/>failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeJudgeResponse(4.0,<sp/>0.8,<sp/></highlight><highlight class="stringliteral">&quot;Success<sp/>after<sp/>retry&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(attempt_count,<sp/>2);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_inference_function_test" kindref="compound">LLMJudgeIntegrationInferenceFunctionTest</ref>,<sp/>FailsAfterMaxRetries)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration::Config<sp/>config;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_retries<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration(config);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>integration.setInferenceFunction([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Always<sp/>fails&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.error_message.find(</highlight><highlight class="stringliteral">&quot;backend<sp/>did<sp/>not<sp/>return<sp/>a<sp/>response&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="class_l_l_m_judge_integration_dimension_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_l_l_m_judge_integration_dimension_test" kindref="compound">LLMJudgeIntegrationDimensionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>PromptTemplateManager<sp/><ref refid="class_l_l_m_judge_integration_dimension_test_1af396051a67c7501ea6ae4f78727f8a93" kindref="member">template_manager</ref><sp/>=<sp/>makeTemplateManager();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EvaluationInput<sp/><ref refid="class_l_l_m_judge_integration_dimension_test_1ab3e2fbf2356d172562f7da94cfec6ac1" kindref="member">sample_input</ref><sp/>=<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationInput<sp/>input;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input.query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>quantum<sp/>computing?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input.generated_answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Quantum<sp/>computing<sp/>uses<sp/>quantum<sp/>mechanics<sp/>principles.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input.documents<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Quantum<sp/>computing<sp/>leverages<sp/>quantum<sp/>mechanics.&quot;</highlight><highlight class="normal">,<sp/>0.9,<sp/>{}}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>input;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}();</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_dimension_test" kindref="compound">LLMJudgeIntegrationDimensionTest</ref>,<sp/>EvaluateSupportedDimensionsViaInjectedFunction)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EvaluationDimension&gt;<sp/>dimensions<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::RELEVANCE,</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::COMPLETENESS,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::COHERENCE,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dimension<sp/>:<sp/>dimensions)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>integration.setInferenceFunction([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeJudgeResponse(4.1,<sp/>0.82,<sp/></highlight><highlight class="stringliteral">&quot;dimension-ok&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dimension,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="class_l_l_m_judge_integration_engine_injection_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_l_l_m_judge_integration_engine_injection_test" kindref="compound">LLMJudgeIntegrationEngineInjectionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>PromptTemplateManager<sp/><ref refid="class_l_l_m_judge_integration_engine_injection_test_1adaa6b586d6d71b927d75de9d569d4180" kindref="member">template_manager</ref><sp/>=<sp/>makeTemplateManager();</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EvaluationInput<sp/><ref refid="class_l_l_m_judge_integration_engine_injection_test_1aa310c9f7b824be8c3c428332e090da53" kindref="member">sample_input</ref><sp/>=<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationInput<sp/>input;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input.query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>Germany?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input.generated_answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Berlin<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>Germany.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input.documents<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Berlin<sp/>is<sp/>the<sp/>capital<sp/>and<sp/>largest<sp/>city<sp/>of<sp/>Germany.&quot;</highlight><highlight class="normal">,<sp/>0.97,<sp/>{}}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>input;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_engine_injection_test" kindref="compound">LLMJudgeIntegrationEngineInjectionTest</ref>,<sp/>ConstructWithNullEngineThrows)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration::Config<sp/>config;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW((LLMJudgeIntegration(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>config)),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_engine_injection_test" kindref="compound">LLMJudgeIntegrationEngineInjectionTest</ref>,<sp/>ConstructWithRealEngineProducesExpectedScore)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>FixedScoreEngine<sp/>engine(3.7);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration(&amp;engine);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(integration.isMockMode());</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.score.has_value());</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(*result.score,<sp/>3.7,<sp/>0.01);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_engine_injection_test" kindref="compound">LLMJudgeIntegrationEngineInjectionTest</ref>,<sp/>RandomEngineProducesScoreVariance)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>RandomScoreEngine<sp/>engine(12345);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration(&amp;engine);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kSamples<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>scores;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>scores.reserve(kSamples);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kSamples;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample_input,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template_manager);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.score.has_value());</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scores.push_back(*result.score);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>minmax<sp/>=<sp/>std::minmax_element(scores.begin(),<sp/>scores.end());</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(*minmax.second<sp/>-<sp/>*minmax.first,<sp/>0.0);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><ref refid="test__llm__judge__integration_8cpp_1a9a47e1294df3837e033053214ad4ad97" kindref="member">TEST_F</ref>(<ref refid="class_l_l_m_judge_integration_engine_injection_test" kindref="compound">LLMJudgeIntegrationEngineInjectionTest</ref>,<sp/>IsMockModeAlwaysFalseForProductionPaths)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>FixedScoreEngine<sp/>engine(4.0);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration(&amp;engine);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(integration.isMockMode());</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>fn_integration;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>fn_integration.setInferenceFunction([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeJudgeResponse(4.0,<sp/>0.9,<sp/></highlight><highlight class="stringliteral">&quot;fn&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fn_integration.isMockMode());</highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_judge_integration.cpp"/>
+  </compounddef>
+</doxygen>

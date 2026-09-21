@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="arrow__export_8h" kind="file" language="C++">
+    <compoundname>arrow_export.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="analytics__export_8h" local="yes">include/analytics/analytics_export.h</includedby>
+    <includedby refid="arrow__flight_8h" local="yes">include/analytics/arrow_flight.h</includedby>
+    <includedby refid="arrow__export_8cpp" local="yes">src/analytics/arrow_export.cpp</includedby>
+    <includedby refid="test__arrow__export_8cpp" local="yes">tests/analytics/test_arrow_export.cpp</includedby>
+    <includedby refid="test__arrow__flight_8cpp" local="yes">tests/analytics/test_arrow_flight.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/analytics/arrow_export.h</label>
+        <link refid="arrow__export_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>variant</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/analytics/bench_analytics_operability_paths.cpp</label>
+        <link refid="bench__analytics__operability__paths_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/analytics/analytics_export.h</label>
+        <link refid="analytics__export_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/analytics/arrow_export.h</label>
+        <link refid="arrow__export_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/analytics/arrow_flight.h</label>
+        <link refid="arrow__flight_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/analytics/analytics_export.cpp</label>
+        <link refid="analytics__export_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/analytics/arrow_export.cpp</label>
+        <link refid="arrow__export_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/analytics/arrow_flight.cpp</label>
+        <link refid="arrow__flight_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/analytics/test_analytics_bounded_execution_policy.cpp</label>
+        <link refid="test__analytics__bounded__execution__policy_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/analytics/test_analytics_serving_export_integration.cpp</label>
+        <link refid="test__analytics__serving__export__integration_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/analytics/test_analytics_wave_d_operability.cpp</label>
+        <link refid="test__analytics__wave__d__operability_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/analytics/test_arrow_export.cpp</label>
+        <link refid="test__arrow__export_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/analytics/test_arrow_flight.cpp</label>
+        <link refid="test__arrow__flight_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1analytics_1_1_arrow_record_batch" prot="public">themis::analytics::ArrowRecordBatch</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema" prot="public">themis::analytics::ArrowRecordBatch::ColumnSchema</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" prot="public">themis::analytics::ArrowRecordBatch::Column</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata" prot="public">themis::analytics::ArrowRecordBatch::Metadata</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1analytics_1_1_arrow_record_batch" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a53d6a2936dd060f1ddb05b9d1cf91717" kindref="member">ArrowRecordBatch</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663" kindref="member">DataType</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663a4e866b275c85fbb439f6484251cfb31c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663a4e866b275c85fbb439f6484251cfb31c" kindref="member">INT64</ref>,</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663afd3e4ece78a7d422280d5ed379482229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663afd3e4ece78a7d422280d5ed379482229" kindref="member">DOUBLE</ref>,</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663a63b588d5559f64f89a416e656880b949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663a63b588d5559f64f89a416e656880b949" kindref="member">STRING</ref>,</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663ac48d5da12d702e73d6966069f2687376" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663ac48d5da12d702e73d6966069f2687376" kindref="member">BOOLEAN</ref>,</highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663a87fb568bfdc633ffd5dee0f22cb4606c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663a87fb568bfdc633ffd5dee0f22cb4606c" kindref="member">TIMESTAMP</ref></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema" kindref="compound">ColumnSchema</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1ab8e5fd66fd01897449bdec5db0d3d707" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1ab8e5fd66fd01897449bdec5db0d3d707" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1a8340a0fb96c41431d5755e40d992dec2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a51bf35cfefbed15ab37740c157272663" kindref="member">DataType</ref><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1a8340a0fb96c41431d5755e40d992dec2" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1a0a278e8d645ce2945404f668bd19f0bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema_1a0a278e8d645ce2945404f668bd19f0bc" kindref="member">nullable</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" kindref="compound">Column</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1a3370435aa49a33c59d32973f30e1921a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema" kindref="compound">ColumnSchema</ref><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1a3370435aa49a33c59d32973f30e1921a" kindref="member">schema</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::variant&lt;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::nullptr_t,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1a59b375c2dac7976089144b16d2cd6976" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1a59b375c2dac7976089144b16d2cd6976" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1a8428d804e65d083d66800880d9c8d98f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1a8428d804e65d083d66800880d9c8d98f" kindref="member">null_bitmap</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Track<sp/>null<sp/>values<sp/>(true<sp/>=<sp/>null)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Typed<sp/>contiguous<sp/>buffers<sp/>for<sp/>zero-copy<sp/>Arrow<sp/>integration.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populated<sp/>for<sp/>INT64/TIMESTAMP<sp/>and<sp/>DOUBLE<sp/>columns<sp/>respectively.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Null<sp/>rows<sp/>store<sp/>0<sp/>as<sp/>a<sp/>placeholder;<sp/>consult<sp/>null_bitmap<sp/>for<sp/>validity.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1ad8b620ef34d666b7b14f3a691f7e9a7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1ad8b620ef34d666b7b14f3a691f7e9a7a" kindref="member">int64_buffer</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1ad5690a99d2262c67762bb8fa0d2b4419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1ad5690a99d2262c67762bb8fa0d2b4419" kindref="member">double_buffer</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a53d6a2936dd060f1ddb05b9d1cf91717" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a53d6a2936dd060f1ddb05b9d1cf91717" kindref="member">ArrowRecordBatch</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a60a0c4ccf49e0d87a74b89621e160268" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a60a0c4ccf49e0d87a74b89621e160268" kindref="member">~ArrowRecordBatch</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a8666dad19a5207d809537a98fbd3c6f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a8666dad19a5207d809537a98fbd3c6f7" kindref="member">addColumn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_schema" kindref="compound">ColumnSchema</ref>&amp;<sp/>schema)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" kindref="compound">Column</ref><sp/>col;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>col.<ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column_1a3370435aa49a33c59d32973f30e1921a" kindref="member">schema</ref><sp/>=<sp/>schema;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>columns_.push_back(std::move(col));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1aac2e3055de62d252899a0280e8708959" kindref="member">appendRow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::variant&lt;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::nullptr_t,<sp/>int64_t,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/>std::string,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;&gt;&amp;<sp/>row_data);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a9544a24ad5f7fd49631b796d04f027e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a9544a24ad5f7fd49631b796d04f027e2" kindref="member">rowCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>row_count_;<sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a38061d84d2fab8c27a38fef6888a278d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a38061d84d2fab8c27a38fef6888a278d" kindref="member">columnCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>columns_.size();<sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1abfd1ff2df41f6b7f358aefbeaf44bb1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_column" kindref="compound">Column</ref>&amp;<sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1abfd1ff2df41f6b7f358aefbeaf44bb1d" kindref="member">getColumn</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>index)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>columns_.at(index);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1ab5d3c3db58e9f0d4328368d4a284961a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Column&gt;&amp;<sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1ab5d3c3db58e9f0d4328368d4a284961a" kindref="member">getColumns</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>columns_;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1analytics_1_1_arrow_record_batch_1aa0584b35571d2fdbc0aef128079c8a4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1aa0584b35571d2fdbc0aef128079c8a4a" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>columns_.clear();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>row_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int64_t*<sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1af6b4d73a8b5c61d866945c980e749967" kindref="member">getInt64Data</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>col_idx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a2619d792cb423ce37c11df8f985e5eb7" kindref="member">getDoubleData</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>col_idx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1acfe2540ae538870d5b37d7c8e36ec15c" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata" kindref="compound">Metadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata_1a3e7051be081e14380b9d4ac29949a83c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata_1a3e7051be081e14380b9d4ac29949a83c" kindref="member">row_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata_1acc9d6b5b1b5897733ca30bd0485dd25a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata_1acc9d6b5b1b5897733ca30bd0485dd25a" kindref="member">column_count</ref>;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata_1a6aa30ad636b3e0a47eeefdd5537601b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata_1a6aa30ad636b3e0a47eeefdd5537601b2" kindref="member">total_bytes</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata_1a1bad39686991f1559c14d765eb0b1147" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ColumnSchema&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata_1a1bad39686991f1559c14d765eb0b1147" kindref="member">schema</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_arrow_record_batch_1_1_metadata" kindref="compound">Metadata</ref><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch_1a45133f5eb2ffe4b175f1231790bcc1a4" kindref="member">getMetadata</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Column&gt;<sp/>columns_;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>row_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/arrow_export.h"/>
+  </compounddef>
+</doxygen>

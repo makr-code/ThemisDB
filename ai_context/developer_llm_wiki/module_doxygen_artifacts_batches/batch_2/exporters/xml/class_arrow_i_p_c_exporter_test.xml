@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_arrow_i_p_c_exporter_test" kind="class" language="C++" prot="public">
+    <compoundname>ArrowIPCExporterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_arrow_i_p_c_exporter_test_1ab4076be149804c839de4df46431a4d8d" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ArrowIPCExporterTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>ArrowIPCExporterTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_arrow_ipc_exporter.cpp" line="108" column="17" bodyfile="tests/exporters/test_arrow_ipc_exporter.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_arrow_i_p_c_exporter_test_1a460221d07315e42ad37c9ddc379c1e20" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; ArrowIPCExporterTest::test_entities_</definition>
+        <argsstring></argsstring>
+        <name>test_entities_</name>
+        <qualifiedname>ArrowIPCExporterTest::test_entities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_arrow_ipc_exporter.cpp" line="109" column="17" bodyfile="tests/exporters/test_arrow_ipc_exporter.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_arrow_i_p_c_exporter_test_1a470cf4fdc8402362c3343a433ef8bd40" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ArrowIPCExporterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ArrowIPCExporterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_arrow_ipc_exporter.cpp" line="81" column="10" bodyfile="tests/exporters/test_arrow_ipc_exporter.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_arrow_i_p_c_exporter_test_1a2a79a3c27baaa60653c24223886d5f6a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ArrowIPCExporterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ArrowIPCExporterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_arrow_ipc_exporter.cpp" line="89" column="10" bodyfile="tests/exporters/test_arrow_ipc_exporter.cpp" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_arrow_i_p_c_exporter_test_1a7fbaa11c4393cbaadfcf5b89e1320421" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ArrowIPCExporterTest::createTestEntities</definition>
+        <argsstring>(int count=10)</argsstring>
+        <name>createTestEntities</name>
+        <qualifiedname>ArrowIPCExporterTest::createTestEntities</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_arrow_ipc_exporter.cpp" line="95" column="10" bodyfile="tests/exporters/test_arrow_ipc_exporter.cpp" bodystart="95" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ArrowIPCExporterTest</label>
+        <link refid="class_arrow_i_p_c_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ArrowIPCExporterTest</label>
+        <link refid="class_arrow_i_p_c_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_arrow_ipc_exporter.cpp" line="79" column="1" bodyfile="tests/exporters/test_arrow_ipc_exporter.cpp" bodystart="79" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_arrow_i_p_c_exporter_test_1a7fbaa11c4393cbaadfcf5b89e1320421" prot="protected" virt="non-virtual"><scope>ArrowIPCExporterTest</scope><name>createTestEntities</name></member>
+      <member refid="class_arrow_i_p_c_exporter_test_1a470cf4fdc8402362c3343a433ef8bd40" prot="protected" virt="non-virtual"><scope>ArrowIPCExporterTest</scope><name>SetUp</name></member>
+      <member refid="class_arrow_i_p_c_exporter_test_1a2a79a3c27baaa60653c24223886d5f6a" prot="protected" virt="non-virtual"><scope>ArrowIPCExporterTest</scope><name>TearDown</name></member>
+      <member refid="class_arrow_i_p_c_exporter_test_1ab4076be149804c839de4df46431a4d8d" prot="protected" virt="non-virtual"><scope>ArrowIPCExporterTest</scope><name>test_dir_</name></member>
+      <member refid="class_arrow_i_p_c_exporter_test_1a460221d07315e42ad37c9ddc379c1e20" prot="protected" virt="non-virtual"><scope>ArrowIPCExporterTest</scope><name>test_entities_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

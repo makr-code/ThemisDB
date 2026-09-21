@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_similarity_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SimilarityScore</compoundname>
+    <includes refid="entity__matcher_8h" local="no">entity_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_similarity_score_1a213378361d3ae8e40f13957518974645" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SimilarityScore::field_name</definition>
+        <argsstring></argsstring>
+        <name>field_name</name>
+        <qualifiedname>themis::importers::SimilarityScore::field_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="105" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_similarity_score_1af63f3692a7ecda1b57aa92775a5f3fa9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::SimilarityScore::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::importers::SimilarityScore::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0 – 1.0 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="106" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_similarity_score_1af64b956676ba7491302e19940b0d746b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SimilarityScore::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::importers::SimilarityScore::method</qualifiedname>
+        <briefdescription>
+<para>Algorithm used (&quot;jaro_winkler&quot;, &quot;levenshtein&quot;, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="107" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_similarity_score_1a46d21abca404d83000a61e1797914537" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::SimilarityScore::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::importers::SimilarityScore::details</qualifiedname>
+        <briefdescription>
+<para>Optional extra evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="108" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/entity_matcher.h" line="104" column="1" bodyfile="include/importers/entity_matcher.h" bodystart="104" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_similarity_score_1a46d21abca404d83000a61e1797914537" prot="public" virt="non-virtual"><scope>themis::importers::SimilarityScore</scope><name>details</name></member>
+      <member refid="structthemis_1_1importers_1_1_similarity_score_1a213378361d3ae8e40f13957518974645" prot="public" virt="non-virtual"><scope>themis::importers::SimilarityScore</scope><name>field_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_similarity_score_1af64b956676ba7491302e19940b0d746b" prot="public" virt="non-virtual"><scope>themis::importers::SimilarityScore</scope><name>method</name></member>
+      <member refid="structthemis_1_1importers_1_1_similarity_score_1af63f3692a7ecda1b57aa92775a5f3fa9" prot="public" virt="non-virtual"><scope>themis::importers::SimilarityScore</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

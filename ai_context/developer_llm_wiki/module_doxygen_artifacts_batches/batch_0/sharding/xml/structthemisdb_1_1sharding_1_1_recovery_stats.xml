@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_recovery_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RecoveryStats</compoundname>
+    <includes refid="shard__durability_8h" local="no">shard_durability.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_recovery_stats_1a42ca1c7eca094103e2d6190312cf00b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RecoveryStats::recovery_needed</definition>
+        <argsstring></argsstring>
+        <name>recovery_needed</name>
+        <qualifiedname>themisdb::sharding::RecoveryStats::recovery_needed</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="59" column="10" bodyfile="include/sharding/shard_durability.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_recovery_stats_1a5177ebbcffda071e170b83a4e92ec9ec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RecoveryStats::recovery_successful</definition>
+        <argsstring></argsstring>
+        <name>recovery_successful</name>
+        <qualifiedname>themisdb::sharding::RecoveryStats::recovery_successful</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="60" column="10" bodyfile="include/sharding/shard_durability.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_recovery_stats_1adc37b56c6580983169ecc61dd8ad969d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RecoveryStats::records_recovered</definition>
+        <argsstring></argsstring>
+        <name>records_recovered</name>
+        <qualifiedname>themisdb::sharding::RecoveryStats::records_recovered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="61" column="14" bodyfile="include/sharding/shard_durability.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_recovery_stats_1a89e559bdf944da8df60263638995f826" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::RecoveryStats::records_corrupted</definition>
+        <argsstring></argsstring>
+        <name>records_corrupted</name>
+        <qualifiedname>themisdb::sharding::RecoveryStats::records_corrupted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="62" column="14" bodyfile="include/sharding/shard_durability.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_recovery_stats_1a6d42695ef3cbf748a8cc0d8e8cf5914d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::RecoveryStats::recovery_duration</definition>
+        <argsstring></argsstring>
+        <name>recovery_duration</name>
+        <qualifiedname>themisdb::sharding::RecoveryStats::recovery_duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="63" column="31" bodyfile="include/sharding/shard_durability.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_recovery_stats_1ab172cc6ff3458e8e6e189f5c67cdc195" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RecoveryStats::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themisdb::sharding::RecoveryStats::last_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="64" column="17" bodyfile="include/sharding/shard_durability.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Crash recovery statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_durability.h" line="58" column="1" bodyfile="include/sharding/shard_durability.h" bodystart="58" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_recovery_stats_1ab172cc6ff3458e8e6e189f5c67cdc195" prot="public" virt="non-virtual"><scope>themisdb::sharding::RecoveryStats</scope><name>last_error</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a89e559bdf944da8df60263638995f826" prot="public" virt="non-virtual"><scope>themisdb::sharding::RecoveryStats</scope><name>records_corrupted</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_recovery_stats_1adc37b56c6580983169ecc61dd8ad969d" prot="public" virt="non-virtual"><scope>themisdb::sharding::RecoveryStats</scope><name>records_recovered</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a6d42695ef3cbf748a8cc0d8e8cf5914d" prot="public" virt="non-virtual"><scope>themisdb::sharding::RecoveryStats</scope><name>recovery_duration</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a42ca1c7eca094103e2d6190312cf00b8" prot="public" virt="non-virtual"><scope>themisdb::sharding::RecoveryStats</scope><name>recovery_needed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a5177ebbcffda071e170b83a4e92ec9ec" prot="public" virt="non-virtual"><scope>themisdb::sharding::RecoveryStats</scope><name>recovery_successful</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

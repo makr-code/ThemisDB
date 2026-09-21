@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_log_aggregator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::LogAggregatorConfig</compoundname>
+    <includes refid="log__aggregator_8h" local="no">log_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_config_1aa10249d07002d1487faa04b22eec7236" prot="public" static="no" mutable="no">
+        <type>core::concerns::ILogger::Level</type>
+        <definition>core::concerns::ILogger::Level themis::observability::LogAggregatorConfig::min_level</definition>
+        <argsstring></argsstring>
+        <name>min_level</name>
+        <qualifiedname>themis::observability::LogAggregatorConfig::min_level</qualifiedname>
+        <initializer>{core::concerns::ILogger::Level::INFO}</initializer>
+        <briefdescription>
+<para>Minimum severity level; records below this level are silently dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="69" column="36" bodyfile="include/observability/log_aggregator.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_config_1adff94c1bc74568a2a28c6eff4bc81008" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0" kindref="member">LogSinkType</ref></type>
+        <definition>LogSinkType themis::observability::LogAggregatorConfig::sink_type</definition>
+        <argsstring></argsstring>
+        <name>sink_type</name>
+        <qualifiedname>themis::observability::LogAggregatorConfig::sink_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1ae2acb36bdc871c8054e85a0ae8baf3d0a7014705458ee3cf0192f6aa52cfddea5" kindref="member">LogSinkType::MEMORY</ref>}</initializer>
+        <briefdescription>
+<para>Where to write log entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="72" column="17" bodyfile="include/observability/log_aggregator.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_config_1a65777d6836f0780ad1c37755e6eaa6af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::LogAggregatorConfig::file_path</definition>
+        <argsstring></argsstring>
+        <name>file_path</name>
+        <qualifiedname>themis::observability::LogAggregatorConfig::file_path</qualifiedname>
+        <briefdescription>
+<para>Path for file sink (used when sink_type is FILE or BOTH). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="75" column="17" bodyfile="include/observability/log_aggregator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_config_1a6fd12c7c89fb4f4daa9351881b0f588f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::LogAggregatorConfig::max_retained_entries</definition>
+        <argsstring></argsstring>
+        <name>max_retained_entries</name>
+        <qualifiedname>themis::observability::LogAggregatorConfig::max_retained_entries</qualifiedname>
+        <initializer>{4096}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref> objects to retain in the in-process ring buffer. 0 disables in-process retention (file-only mode). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="79" column="12" bodyfile="include/observability/log_aggregator.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_config_1a8b9a0966a297bfb9d39449a8466d9e04" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::LogAggregatorConfig::async_queue_max_size</definition>
+        <argsstring></argsstring>
+        <name>async_queue_max_size</name>
+        <qualifiedname>themis::observability::LogAggregatorConfig::async_queue_max_size</qualifiedname>
+        <initializer>{8192}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of pending async log tasks in the worker queue. When the queue is full, new async tasks are dropped and the overflow counter is incremented. 0 disables async queueing (async calls fall back to synchronous dispatch on the calling thread). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="85" column="12" bodyfile="include/observability/log_aggregator.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_config_1aef6bc7bb5480ce708fb541704b35632c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::LogAggregatorConfig::format_pattern</definition>
+        <argsstring></argsstring>
+        <name>format_pattern</name>
+        <qualifiedname>themis::observability::LogAggregatorConfig::format_pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>spdlog-compatible format pattern used when formatting lines for the file sink. Empty string uses a sensible default. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="89" column="17" bodyfile="include/observability/log_aggregator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_config_1aceabcefdc060b05f5b887258326e82e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::LogAggregatorConfig::publish_metrics</definition>
+        <argsstring></argsstring>
+        <name>publish_metrics</name>
+        <qualifiedname>themis::observability::LogAggregatorConfig::publish_metrics</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, publish log-count gauges to <ref refid="classthemis_1_1observability_1_1_metrics_collector" kindref="compound">MetricsCollector</ref> after each batch of log calls (controlled by publish_interval). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="93" column="10" bodyfile="include/observability/log_aggregator.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_config_1a859df6f174c556adba9af6ff8c0f5d8b" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::observability::LogAggregatorConfig::publish_interval</definition>
+        <argsstring></argsstring>
+        <name>publish_interval</name>
+        <qualifiedname>themis::observability::LogAggregatorConfig::publish_interval</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>How often to flush counters to <ref refid="classthemis_1_1observability_1_1_metrics_collector" kindref="compound">MetricsCollector</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="96" column="26" bodyfile="include/observability/log_aggregator.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1observability_1_1_log_aggregator" kindref="compound">LogAggregator</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/log_aggregator.h" line="67" column="1" bodyfile="include/observability/log_aggregator.h" bodystart="67" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_config_1a8b9a0966a297bfb9d39449a8466d9e04" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorConfig</scope><name>async_queue_max_size</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_config_1a65777d6836f0780ad1c37755e6eaa6af" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorConfig</scope><name>file_path</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_config_1aef6bc7bb5480ce708fb541704b35632c" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorConfig</scope><name>format_pattern</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_config_1a6fd12c7c89fb4f4daa9351881b0f588f" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorConfig</scope><name>max_retained_entries</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_config_1aa10249d07002d1487faa04b22eec7236" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorConfig</scope><name>min_level</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_config_1a859df6f174c556adba9af6ff8c0f5d8b" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorConfig</scope><name>publish_interval</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_config_1aceabcefdc060b05f5b887258326e82e0" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorConfig</scope><name>publish_metrics</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_config_1adff94c1bc74568a2a28c6eff4bc81008" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorConfig</scope><name>sink_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

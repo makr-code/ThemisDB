@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_index_manager" kind="class" language="C++" prot="public">
+    <compoundname>MockIndexManager</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IIndexManager</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_index_manager_1ab03b357e3842b3bbc0726ff6819c9692" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; ISecondaryIndex * &gt;</type>
+        <definition>Result&lt; ISecondaryIndex * &gt; MockIndexManager::createSecondaryIndex</definition>
+        <argsstring>(std::string_view, std::string_view, const std::string &amp;) override</argsstring>
+        <name>createSecondaryIndex</name>
+        <qualifiedname>MockIndexManager::createSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="39" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_index_manager_1a6d450a2f523a226676cb9fd0487578eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IVectorIndex * &gt;</type>
+        <definition>Result&lt; IVectorIndex * &gt; MockIndexManager::createVectorIndex</definition>
+        <argsstring>(std::string_view, uint32_t, const std::string &amp;) override</argsstring>
+        <name>createVectorIndex</name>
+        <qualifiedname>MockIndexManager::createVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>uint32_t</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="43" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="43" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_index_manager_1ad3aa5e7dee0b51e79f53cbc4190dfa4d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IGraphIndex * &gt;</type>
+        <definition>Result&lt; IGraphIndex * &gt; MockIndexManager::createGraphIndex</definition>
+        <argsstring>(std::string_view, const std::string &amp;) override</argsstring>
+        <name>createGraphIndex</name>
+        <qualifiedname>MockIndexManager::createGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="47" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_index_manager_1aefd51a4330e54a4d4c41a6b5cd7c6d2c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; ISecondaryIndex * &gt;</type>
+        <definition>Result&lt; ISecondaryIndex * &gt; MockIndexManager::getSecondaryIndex</definition>
+        <argsstring>(std::string_view) const override</argsstring>
+        <name>getSecondaryIndex</name>
+        <qualifiedname>MockIndexManager::getSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="51" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_index_manager_1a75d1f591d052b57db183264071069dfc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IVectorIndex * &gt;</type>
+        <definition>Result&lt; IVectorIndex * &gt; MockIndexManager::getVectorIndex</definition>
+        <argsstring>(std::string_view) const override</argsstring>
+        <name>getVectorIndex</name>
+        <qualifiedname>MockIndexManager::getVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="54" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_index_manager_1a327227399575d9f15fa72966defdd707" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IGraphIndex * &gt;</type>
+        <definition>Result&lt; IGraphIndex * &gt; MockIndexManager::getGraphIndex</definition>
+        <argsstring>(std::string_view) const override</argsstring>
+        <name>getGraphIndex</name>
+        <qualifiedname>MockIndexManager::getGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="57" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="57" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_index_manager_1a4ba086e96c0d9dfaba6b4740ce44253e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; MockIndexManager::dropIndex</definition>
+        <argsstring>(std::string_view) override</argsstring>
+        <name>dropIndex</name>
+        <qualifiedname>MockIndexManager::dropIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="60" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_index_manager_1ae1a18d6baf0b371f7c251353d86c0448" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MockIndexManager::listIndexes</definition>
+        <argsstring>() const override</argsstring>
+        <name>listIndexes</name>
+        <qualifiedname>MockIndexManager::listIndexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="61" column="17" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_index_manager_1ac7bfbb314a02d5a99e621ea3ef17ae6c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IndexType &gt;</type>
+        <definition>Result&lt; IndexType &gt; MockIndexManager::getIndexType</definition>
+        <argsstring>(std::string_view) const override</argsstring>
+        <name>getIndexType</name>
+        <qualifiedname>MockIndexManager::getIndexType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="62" column="12" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IIndexManager</label>
+      </node>
+      <node id="1">
+        <label>MockIndexManager</label>
+        <link refid="class_mock_index_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IIndexManager</label>
+      </node>
+      <node id="1">
+        <label>MockIndexManager</label>
+        <link refid="class_mock_index_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_engine_di.cpp" line="37" column="1" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="37" bodyend="65"/>
+    <listofallmembers>
+      <member refid="class_mock_index_manager_1ad3aa5e7dee0b51e79f53cbc4190dfa4d" prot="public" virt="non-virtual"><scope>MockIndexManager</scope><name>createGraphIndex</name></member>
+      <member refid="class_mock_index_manager_1ab03b357e3842b3bbc0726ff6819c9692" prot="public" virt="non-virtual"><scope>MockIndexManager</scope><name>createSecondaryIndex</name></member>
+      <member refid="class_mock_index_manager_1a6d450a2f523a226676cb9fd0487578eb" prot="public" virt="non-virtual"><scope>MockIndexManager</scope><name>createVectorIndex</name></member>
+      <member refid="class_mock_index_manager_1a4ba086e96c0d9dfaba6b4740ce44253e" prot="public" virt="non-virtual"><scope>MockIndexManager</scope><name>dropIndex</name></member>
+      <member refid="class_mock_index_manager_1a327227399575d9f15fa72966defdd707" prot="public" virt="non-virtual"><scope>MockIndexManager</scope><name>getGraphIndex</name></member>
+      <member refid="class_mock_index_manager_1ac7bfbb314a02d5a99e621ea3ef17ae6c" prot="public" virt="non-virtual"><scope>MockIndexManager</scope><name>getIndexType</name></member>
+      <member refid="class_mock_index_manager_1aefd51a4330e54a4d4c41a6b5cd7c6d2c" prot="public" virt="non-virtual"><scope>MockIndexManager</scope><name>getSecondaryIndex</name></member>
+      <member refid="class_mock_index_manager_1a75d1f591d052b57db183264071069dfc" prot="public" virt="non-virtual"><scope>MockIndexManager</scope><name>getVectorIndex</name></member>
+      <member refid="class_mock_index_manager_1ae1a18d6baf0b371f7c251353d86c0448" prot="public" virt="non-virtual"><scope>MockIndexManager</scope><name>listIndexes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

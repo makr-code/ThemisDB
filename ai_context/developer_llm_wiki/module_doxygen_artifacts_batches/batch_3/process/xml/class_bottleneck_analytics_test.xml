@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bottleneck_analytics_test" kind="class" language="C++" prot="public">
+    <compoundname>BottleneckAnalyticsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_bottleneck_analytics_test_1aaf9dfe009471af1c8a492328f938ce18" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BottleneckAnalyticsTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>BottleneckAnalyticsTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bottleneck_analytics.cpp" line="63" column="17" bodyfile="tests/process/test_bottleneck_analytics.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bottleneck_analytics_test_1af7f08d5b2e6c5d9959309d4a38670cdf" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; BottleneckAnalyticsTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>BottleneckAnalyticsTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bottleneck_analytics.cpp" line="64" column="35" bodyfile="tests/process/test_bottleneck_analytics.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bottleneck_analytics_test_1aaaf2fae184417ec9898d54deb60253f2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">themis::process::ProcessModelManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessModelManager&gt; BottleneckAnalyticsTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>BottleneckAnalyticsTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bottleneck_analytics.cpp" line="65" column="21" bodyfile="tests/process/test_bottleneck_analytics.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bottleneck_analytics_test_1a3abe671e4115e159aeec9a4dc7c56011" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">themis::process::ProcessLinker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessLinker&gt; BottleneckAnalyticsTest::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>BottleneckAnalyticsTest::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bottleneck_analytics.cpp" line="66" column="27" bodyfile="tests/process/test_bottleneck_analytics.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bottleneck_analytics_test_1a924991ae6479bf27270cc58ce51d9118" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::ProcessGraphManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::ProcessGraphManager&gt; BottleneckAnalyticsTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>BottleneckAnalyticsTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bottleneck_analytics.cpp" line="67" column="21" bodyfile="tests/process/test_bottleneck_analytics.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bottleneck_analytics_test_1ad883f3e25d09e302f00cbd44aeaa6b36" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">themis::process::ProcessGraphRag</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessGraphRag&gt; BottleneckAnalyticsTest::rag_</definition>
+        <argsstring></argsstring>
+        <name>rag_</name>
+        <qualifiedname>BottleneckAnalyticsTest::rag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bottleneck_analytics.cpp" line="68" column="25" bodyfile="tests/process/test_bottleneck_analytics.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_bottleneck_analytics_test_1a270577e2a95c182a533d0bfa4d8537da" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BottleneckAnalyticsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BottleneckAnalyticsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bottleneck_analytics.cpp" line="31" column="10" bodyfile="tests/process/test_bottleneck_analytics.cpp" bodystart="31" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bottleneck_analytics_test_1aed69a7ebc45e098ac20bd43b57eb39bf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BottleneckAnalyticsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>BottleneckAnalyticsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_bottleneck_analytics.cpp" line="54" column="10" bodyfile="tests/process/test_bottleneck_analytics.cpp" bodystart="54" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BottleneckAnalyticsTest</label>
+        <link refid="class_bottleneck_analytics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BottleneckAnalyticsTest</label>
+        <link refid="class_bottleneck_analytics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_bottleneck_analytics.cpp" line="29" column="1" bodyfile="tests/process/test_bottleneck_analytics.cpp" bodystart="29" bodyend="69"/>
+    <listofallmembers>
+      <member refid="class_bottleneck_analytics_test_1af7f08d5b2e6c5d9959309d4a38670cdf" prot="protected" virt="non-virtual"><scope>BottleneckAnalyticsTest</scope><name>db_</name></member>
+      <member refid="class_bottleneck_analytics_test_1aaf9dfe009471af1c8a492328f938ce18" prot="protected" virt="non-virtual"><scope>BottleneckAnalyticsTest</scope><name>db_path_</name></member>
+      <member refid="class_bottleneck_analytics_test_1a924991ae6479bf27270cc58ce51d9118" prot="protected" virt="non-virtual"><scope>BottleneckAnalyticsTest</scope><name>engine_</name></member>
+      <member refid="class_bottleneck_analytics_test_1a3abe671e4115e159aeec9a4dc7c56011" prot="protected" virt="non-virtual"><scope>BottleneckAnalyticsTest</scope><name>linker_</name></member>
+      <member refid="class_bottleneck_analytics_test_1aaaf2fae184417ec9898d54deb60253f2" prot="protected" virt="non-virtual"><scope>BottleneckAnalyticsTest</scope><name>mgr_</name></member>
+      <member refid="class_bottleneck_analytics_test_1ad883f3e25d09e302f00cbd44aeaa6b36" prot="protected" virt="non-virtual"><scope>BottleneckAnalyticsTest</scope><name>rag_</name></member>
+      <member refid="class_bottleneck_analytics_test_1a270577e2a95c182a533d0bfa4d8537da" prot="protected" virt="non-virtual"><scope>BottleneckAnalyticsTest</scope><name>SetUp</name></member>
+      <member refid="class_bottleneck_analytics_test_1aed69a7ebc45e098ac20bd43b57eb39bf" prot="protected" virt="non-virtual"><scope>BottleneckAnalyticsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="themis__help__lora__adapter_8cpp" kind="file" language="C++">
+    <compoundname>themis_help_lora_adapter.cpp</compoundname>
+    <includes local="yes">themis/llm/llm_factory.h</includes>
+    <includes refid="themis__help__lora_8h" local="yes">llm/applications/themis_help_lora.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/applications/themis_help_lora.h</label>
+        <link refid="themis__help__lora_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>llm/feedback_store.h</label>
+        <link refid="feedback__store_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>llm/i_feedback_plugin.h</label>
+        <link refid="i__feedback__plugin_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>gradient_utils.h</label>
+        <link refid="gradient__utils_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/lora_config.h</label>
+        <link refid="lora__config_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>lora_graph.h</label>
+        <link refid="lora__graph_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>lora_layers.h</label>
+        <link refid="lora__layers_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>llm/lora_framework/lora_storage_service.h</label>
+        <link refid="lora__storage__service_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>llm/lora_framework/lora_training_service.h</label>
+        <link refid="lora__training__service_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>lr_scheduler.h</label>
+        <link refid="lr__scheduler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>mixed_precision.h</label>
+        <link refid="mixed__precision_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>llm/lora_training_error_codes.h</label>
+        <link refid="lora__training__error__codes_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/llm/api/themis_help_lora_adapter.cpp</label>
+        <link refid="themis__help__lora__adapter_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>algorithm</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="17">
+        <label>cmath</label>
+      </node>
+      <node id="14">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="23">
+        <label>optional</label>
+      </node>
+      <node id="30">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="21">
+        <label>stdexcept</label>
+      </node>
+      <node id="26">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="28">
+        <label>storage/blob_storage_manager.h</label>
+      </node>
+      <node id="27">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="29">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>themis/llm/llm_factory.h</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl" prot="public">themis::llm::applications::ThemisHelpLoRA::Impl</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1applications">themis::llm::applications</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;themis/llm/llm_factory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="themis__help__lora_8h" kindref="compound">llm/applications/themis_help_lora.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1applications" kindref="compound">applications</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Define<sp/>PImpl<sp/>for<sp/>ThemisHelpLoRA<sp/>to<sp/>match<sp/>header&apos;s<sp/>forward<sp/>declaration.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl" kindref="compound">ThemisHelpLoRA::Impl</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a1b1122257ada648a7970a96789524f14" kindref="member">Impl</ref>()<sp/>{<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a74249adde52144a88308ca6ed3ce4d5f" kindref="member">createThemisHelpLoRA</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IThemisHelpLoRA&gt;<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1ab64b5f440de0e719de0467faeff35e09" kindref="member">isTrained</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref><sp/>?<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref>-&gt;isTrained()<sp/>:<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1afe774c93ffc6904d5bdf4c69459241ee" kindref="member">query</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref><sp/>?<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref>-&gt;query(prompt)<sp/>:<sp/>std::string();<sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics" kindref="compound">PerformanceMetrics</ref><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a903bc2c650023e5310621b6c8eb49ccf" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref><sp/>?<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref>-&gt;getMetrics()<sp/>:<sp/><ref refid="structthemis_1_1llm_1_1applications_1_1_performance_metrics" kindref="compound">PerformanceMetrics</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1applications_1_1_feedback_stats" kindref="compound">FeedbackStats</ref><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1aaf26475d41a09d3dc2d035a325148313" kindref="member">getFeedbackStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref><sp/>?<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref>-&gt;getFeedbackStats()<sp/>:<sp/><ref refid="structthemis_1_1llm_1_1applications_1_1_feedback_stats" kindref="compound">FeedbackStats</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a081457d78b9c04914eaf063c4531e059" kindref="member">getVersion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref><sp/>?<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl_1a493591f06a76081cc62fbfab4d8aa9e4" kindref="member">impl</ref>-&gt;getVersion()<sp/>:<sp/>std::string();<sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1ac8924732c1cc6c4ef30f36f7bf99b5b7" kindref="member">ThemisHelpLoRA::ThemisHelpLoRA</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_config" kindref="compound">ThemisHelpLoRA::Config</ref>&amp;<sp/>cfg)<sp/>:<sp/>impl_(std::make_unique&lt;<ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1_1_impl" kindref="compound">Impl</ref>&gt;())<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)cfg;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1ac8924732c1cc6c4ef30f36f7bf99b5b7" kindref="member">ThemisHelpLoRA::ThemisHelpLoRA</ref>()<sp/>:<sp/>impl_(std::make_unique&lt;Impl&gt;())<sp/>{}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1a1dfa60442286bf365af6d7ca976c97e3" kindref="member">ThemisHelpLoRA::~ThemisHelpLoRA</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1abb6ec60fd9871b6afaa5662151cf5627" kindref="member">ThemisHelpLoRA::isTrained</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;isTrained();<sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1a4af1876686114ca18d863c2ea4173d0f" kindref="member">ThemisHelpLoRA::query</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>question,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/>{<sp/>(void)user_id;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;query(question);<sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">PerformanceMetrics<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1a3725661150f0d5b5679846f5622536d8" kindref="member">ThemisHelpLoRA::getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;getMetrics();<sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">FeedbackStats<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1a6b6435deed906141b4a0a0beef1da379" kindref="member">ThemisHelpLoRA::getFeedbackStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;getFeedbackStats();<sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1llm_1_1applications_1_1_themis_help_lo_r_a_1af81d7fecf94da82a5ba1bd707bddc32d" kindref="member">ThemisHelpLoRA::getVersion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>impl_-&gt;getVersion();<sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>applications</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/llm/api/themis_help_lora_adapter.cpp"/>
+  </compounddef>
+</doxygen>

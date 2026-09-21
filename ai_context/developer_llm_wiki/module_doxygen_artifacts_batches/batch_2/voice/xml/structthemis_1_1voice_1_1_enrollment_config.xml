@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_enrollment_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::EnrollmentConfig</compoundname>
+    <includes refid="voice__auth_8h" local="no">voice_auth.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_enrollment_config_1afe3c0a5d339b5bd536fabe240b8c7e8b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::EnrollmentConfig::min_samples</definition>
+        <argsstring></argsstring>
+        <name>min_samples</name>
+        <qualifiedname>themis::voice::EnrollmentConfig::min_samples</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Minimum number of audio samples required. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="77" column="11" bodyfile="include/voice/voice_auth.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_enrollment_config_1a3846c4070d7365d3d07c4e50ddd72372" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::EnrollmentConfig::sample_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>sample_duration_ms</name>
+        <qualifiedname>themis::voice::EnrollmentConfig::sample_duration_ms</qualifiedname>
+        <initializer>= 3000</initializer>
+        <briefdescription>
+<para>Minimum duration of each sample (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="78" column="11" bodyfile="include/voice/voice_auth.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_enrollment_config_1a1b0a6d67edf69bfa398868229cb21f62" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EnrollmentConfig::quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>quality_threshold</name>
+        <qualifiedname>themis::voice::EnrollmentConfig::quality_threshold</qualifiedname>
+        <initializer>= 0.60f</initializer>
+        <briefdescription>
+<para>Minimum audio quality score [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="79" column="11" bodyfile="include/voice/voice_auth.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_enrollment_config_1a4bacfafa6b1427c26e6cbcc2f0ba687e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::EnrollmentConfig::require_liveness</definition>
+        <argsstring></argsstring>
+        <name>require_liveness</name>
+        <qualifiedname>themis::voice::EnrollmentConfig::require_liveness</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Reject synthetic/replayed audio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="80" column="11" bodyfile="include/voice/voice_auth.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the enrollment process. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_auth.h" line="76" column="1" bodyfile="include/voice/voice_auth.h" bodystart="76" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_enrollment_config_1afe3c0a5d339b5bd536fabe240b8c7e8b" prot="public" virt="non-virtual"><scope>themis::voice::EnrollmentConfig</scope><name>min_samples</name></member>
+      <member refid="structthemis_1_1voice_1_1_enrollment_config_1a1b0a6d67edf69bfa398868229cb21f62" prot="public" virt="non-virtual"><scope>themis::voice::EnrollmentConfig</scope><name>quality_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_enrollment_config_1a4bacfafa6b1427c26e6cbcc2f0ba687e" prot="public" virt="non-virtual"><scope>themis::voice::EnrollmentConfig</scope><name>require_liveness</name></member>
+      <member refid="structthemis_1_1voice_1_1_enrollment_config_1a3846c4070d7365d3d07c4e50ddd72372" prot="public" virt="non-virtual"><scope>themis::voice::EnrollmentConfig</scope><name>sample_duration_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

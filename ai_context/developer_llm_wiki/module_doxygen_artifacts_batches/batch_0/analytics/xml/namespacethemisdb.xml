@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb" kind="namespace" language="C++">
+    <compoundname>themisdb</compoundname>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB Real-Time Anomaly Detection Engine</para>
+<para>Provides offline training + online inference for several anomaly-detection algorithms with no external ML dependencies. Designed to integrate with the CEP engine (event-stream anomaly detection) and the OLAP engine (historical dataset anomaly detection).</para>
+<para>Supported algorithms:<itemizedlist>
+<listitem><para>Z_SCORE – per-feature standardised score (Gaussian assumption)</para>
+</listitem><listitem><para>MODIFIED_Z_SCORE – robust variant using median absolute deviation (MAD)</para>
+</listitem><listitem><para>IQR – inter-quartile range fence method</para>
+</listitem><listitem><para>ISOLATION_FOREST – unsupervised approximate tree-based isolation</para>
+</listitem><listitem><para>LOF – Local Outlier Factor (density-based, k-NN)</para>
+</listitem><listitem><para>ENSEMBLE – weighted combination of the above detectors</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety:<itemizedlist>
+<listitem><para>AnomalyDetector: train() is NOT thread-safe; predict/explain are.</para>
+</listitem><listitem><para>StreamingAnomalyDetector: fully thread-safe. Two independent mutexes: window_mu_ guards the deque/anomaly list; detector_mu_ guards the model. train() runs entirely off both locks; only a brief exclusive swap of the newly-trained model acquires detector_mu_. Concurrent predict() calls share detector_mu_ and never block each other or window updates.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB AutoML Engine</para>
+<para>Automated Machine Learning for analytics tasks. Implements automated model selection, hyperparameter tuning, feature engineering, ensemble generation, and SHAP-based model interpretation.</para>
+<para>Algorithms (pure C++17, no external ML dependencies): Classification:<itemizedlist>
+<listitem><para>LOGISTIC_REGRESSION – L2-regularised logistic regression (SGD)</para>
+</listitem><listitem><para>DECISION_TREE – CART with Gini/entropy split criterion</para>
+</listitem><listitem><para>RANDOM_FOREST – Ensemble of CART trees (bagging)</para>
+</listitem><listitem><para>GRADIENT_BOOSTING – Gradient-boosted decision trees</para>
+</listitem><listitem><para>KNN – k-Nearest Neighbours Regression:</para>
+</listitem><listitem><para>LINEAR_REGRESSION – OLS with optional L2 regularisation</para>
+</listitem><listitem><para>DECISION_TREE – CART with MSE split criterion</para>
+</listitem><listitem><para>RANDOM_FOREST – Ensemble of regression trees</para>
+</listitem><listitem><para>GRADIENT_BOOSTING – Gradient-boosted decision trees</para>
+</listitem><listitem><para>KNN – k-Nearest Neighbours regression</para>
+</listitem></itemizedlist>
+</para>
+<para>Hyperparameter search:<itemizedlist>
+<listitem><para>Random search with configurable budget (max_time_minutes / max_trials)</para>
+</listitem><listitem><para>k-fold cross-validation for evaluation</para>
+</listitem></itemizedlist>
+</para>
+<para>Feature engineering (optional, enabled via AutoMLConfig::feature_engineering):<itemizedlist>
+<listitem><para>Standard scaling (zero-mean, unit-variance)</para>
+</listitem><listitem><para>Polynomial feature expansion (degree 2)</para>
+</listitem><listitem><para>Categorical one-hot encoding</para>
+</listitem></itemizedlist>
+</para>
+<para>Ensembling:<itemizedlist>
+<listitem><para>Soft-voting / mean-regression over best-k models</para>
+</listitem></itemizedlist>
+</para>
+<para>Interpretation:<itemizedlist>
+<listitem><para>Per-sample feature contributions via permutation-based SHAP approximation</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety:<itemizedlist>
+<listitem><para>AutoML::train* methods are NOT thread-safe (training modifies state).</para>
+</listitem><listitem><para>AutoMLModel::predict / explain are thread-safe.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Complex Event Processing (CEP) Engine</para>
+<para>Streaming Analytics engine for real-time event processing with:<itemizedlist>
+<listitem><para>Pattern matching (SEQUENCE, AND, OR, NOT, WITHIN)</para>
+</listitem><listitem><para>Window management (TUMBLING, SLIDING, SESSION, HOPPING)</para>
+</listitem><listitem><para>Aggregations (COUNT, SUM, AVG, MIN, MAX, PERCENTILE)</para>
+</listitem><listitem><para>EPL (Event Processing Language) support</para>
+</listitem><listitem><para>Stateful processing with checkpoints</para>
+</listitem><listitem><para>Integration with ThemisDB CDC</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Columnar Execution Engine with Vectorized Operator Pipeline</para>
+<para>Provides high-performance columnar query execution for analytical workloads, inspired by DuckDB and ClickHouse. Data is processed in fixed-size batches (default: 1024 tuples) with late materialization via SelectionVector to avoid unnecessary data movement.</para>
+<para>Architecture overview: ColumnBatch – a horizontal slice of data stored column-by-column SelectionVector – indices of selected rows (lazy filter result) Column – a typed columnar buffer with optional null bitmap FilterOperator – evaluates predicates; produces SelectionVector ProjectOperator – column subset (zero-copy column sharing) AggregateOperator – vectorized COUNT/SUM/AVG/MIN/MAX/COUNT_DISTINCT SortOperator – in-batch sort by one or more columns VectorizedPipeline – composes operators; materializes lazily ColumnarExecutionEngine – entry-point with stats tracking</para>
+<para>Thread safety: ColumnarExecutionEngine instances are NOT thread-safe. Use one instance per thread or protect with an external mutex.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Distributed Analytics Sharding</para>
+<para>Scatter-gather OLAP execution across cluster nodes.</para>
+<para>Architecture:<itemizedlist>
+<listitem><para>ShardQueryExecutor: pluggable per-shard execution interface</para>
+</listitem><listitem><para>DistributedAnalyticsSharding: coordinator that fans out an <ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref> to all (healthy) shards in parallel, then merges the partial results.</para>
+</listitem></itemizedlist>
+</para>
+<para>Merge semantics per aggregate function: COUNT – sum of per-shard counts SUM – sum of per-shard sums AVG – weighted average (sum / count, tracked internally) MIN – minimum of per-shard minimums MAX – maximum of per-shard maximums STDDEV – approximation via combined variance (Chan&apos;s formula) VARIANCE – approximation via combined variance (Chan&apos;s formula) COUNT_DISTINCT – approximate upper bound (union of per-shard counts) FIRST – value from the first responding shard LAST – value from the last responding shard MEDIAN – approximation (average of per-shard medians) PERCENTILE – approximation (average of per-shard percentiles)</para>
+<para>CUBE / ROLLUP / GROUPING SETS queries are supported: the query is forwarded as-is to each shard and the results are merged by matching dimension values and grouping_id.</para>
+<para>Thread-safety:<itemizedlist>
+<listitem><para>executeDistributed() is thread-safe (reads topology under shared lock, dispatches work via std::async).</para>
+</listitem><listitem><para>addShard() / removeShard() / setExecutor() must not be called concurrently with executeDistributed().</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ExpertSystemEngine — ThemisDB analytics expert system.</para>
+<para>Provides forward chaining (to fixpoint) and backward chaining (DLS) over a KnowledgeBase of Horn clause rules. An optional ML scorer (ModelServingEngine* or injection function) gates rule firing on confidence thresholds.</para>
+<para>Thread-safety: read-only methods (explain, factCount, ruleCount, queryGoal) acquire a std::shared_lock so multiple readers may run concurrently. Write methods (assertFact, retractFact, setMLScorer, forwardChain, …) acquire a std::unique_lock. forwardChain() releases the lock before invoking the optional ML scorer callback to prevent re-entrancy deadlocks (items #41–45).</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Predictive Analytics &amp; Time-Series Forecasting Engine</para>
+<para>Provides pure C++17 time-series forecasting with no external ML dependencies. Designed to integrate with the Analytics module for sales forecasting, demand prediction, capacity planning, and trend analysis.</para>
+<para>Supported algorithms:<itemizedlist>
+<listitem><para>LINEAR_REGRESSION – ordinary least-squares trend extrapolation</para>
+</listitem><listitem><para>EXP_SMOOTHING – simple exponential smoothing (SES / ETS-ANN)</para>
+</listitem><listitem><para>HOLT_WINTERS – triple exponential smoothing with trend and additive or multiplicative seasonality</para>
+</listitem><listitem><para>ARIMA – autoregressive model with optional differencing AR(p) + I(d) + MA(q) (Yule–Walker estimation)</para>
+</listitem><listitem><para>ENSEMBLE – weighted combination of the above models</para>
+</listitem></itemizedlist>
+</para>
+<para>Features:<itemizedlist>
+<listitem><para>Multi-step ahead forecasting</para>
+</listitem><listitem><para>Confidence intervals (empirical / bootstrap)</para>
+</listitem><listitem><para>Seasonal decomposition (additive / multiplicative)</para>
+</listitem><listitem><para>Trend analysis</para>
+</listitem><listitem><para>Forecast accuracy metrics (MAE, RMSE, MAPE)</para>
+</listitem><listitem><para>Model serialisation / deserialisation</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety:<itemizedlist>
+<listitem><para>ForecastModel: fit() is NOT thread-safe; predict/evaluate are.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Incremental Materialized Views</para>
+<para>Delta-based view maintenance engine: applies INSERT / UPDATE / DELETE change records to pre-computed GROUP BY aggregations in O(1) per change per affected group (no full re-scan required).</para>
+<para>Supported aggregations (all incremental): COUNT, SUM, AVG, MIN, MAX, STDDEV, VARIANCE, COUNT_DISTINCT, FIRST, LAST</para>
+<para>Supports:<itemizedlist>
+<listitem><para>Multiple concurrent views</para>
+</listitem><listitem><para>CDC (Change Data Capture) integration via applyChanges()</para>
+</listitem><listitem><para>Staleness tracking per view</para>
+</listitem><listitem><para>Filter push-down (base filters evaluated per change)</para>
+</listitem><listitem><para>Thread-safe reads and writes</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB JIT Aggregation Compiler for Hot Aggregation Paths</para>
+<para>Implements hot-path detection and specialised aggregation dispatch for columnar analytics workloads. The design follows the same warm-up / specialise pattern used by JVM JIT compilers:</para>
+<para>Cold path (calls &lt; hot_threshold): Aggregation is executed via the generic AggregateOperator dispatch table (switch-on-function-enum per row).</para>
+<para>Compilation (calls == hot_threshold): A specialised std::function&lt;ColumnBatch(const ColumnBatch&amp;)&gt; is generated for the exact combination of AggregateSpec::Functions present in this call site, avoiding per-row virtual dispatch. When THEMIS_HAS_LLVM_JIT is defined the compiler may instead emit native machine code via LLVM MCJIT (future extension point).</para>
+<para>Hot path (calls &gt; hot_threshold): The cached specialised function is invoked directly (jit_hits).</para>
+<para>Thread safety: JITAggregationCompiler is NOT thread-safe. Use one instance per thread, or protect concurrent access with an external mutex.</para>
+<para>Compilation guard: THEMIS_HAS_LLVM_JIT – if defined, enables LLVM MCJIT code-generation in addition to the always-available template-specialisation path.</para>
+<para>Copyright (c) 2026 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>KnowledgeBase — ThemisDB Expert System working memory + rule store.</para>
+<para>Stores facts as (subject, predicate, object) triples and Horn clause rules. Supports FIFO eviction when the working memory exceeds kMaxFacts.</para>
+<para>Thread-safety: NOT thread-safe internally — callers (ExpertSystemEngine) are responsible for external synchronisation.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>LoRAPatternClassifier — LoRA-adapter-based pattern classification.</para>
+<para>Classifies CEP event batches, time-series DataPoints, and graph paths using an injected LoRA inference function. Falls back to an adaptive statistical classifier when no inference function is registered.</para>
+<para>Thread-safety: classify(), batchClassify(), and selectAdapter() are thread-safe. Injection methods (setInferenceFn, registerAdapterDomain) must not be called concurrently with classify calls.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Analytics ML Serving Integration</para>
+<para>Provides a unified abstraction for integrating external ML inference engines with the ThemisDB analytics module. Two backends are supported:</para>
+<para>ONNXServingBackend – Runs ONNX models locally via ONNX Runtime. Requires compile-time flag THEMIS_HAS_ONNX=1 and the onnxruntime library (vcpkg: onnxruntime).</para>
+<para>TFServingBackend – Calls a TensorFlow Serving instance over its REST API (POST <computeroutput>/v1/models/\&lt;name\&gt;:predict</computeroutput>). Requires compile-time flag THEMIS_HAS_TF_SERVING=1 and libcurl (THEMIS_HAS_CURL=1).</para>
+<para>When neither backend is available the MLServingClient returns an UNAVAILABLE error so callers can degrade gracefully.</para>
+<para>DataPoint integration: MLServingClient::inferFromDataPoint() converts the numeric fields of a DataPoint (from <ref refid="anomaly__detection_8h" kindref="compound">analytics/anomaly_detection.h</ref>) into a flat float32 tensor and returns the model output as an MLServingResponse. The field names are sorted deterministically (alphabetical) to match training-time conventions.</para>
+<para>Thread-safety:<itemizedlist>
+<listitem><para>MLServingClient is thread-safe after construction.</para>
+</listitem><listitem><para>ONNXServingBackend::infer() is thread-safe (ONNX Runtime sessions are safe for concurrent inference).</para>
+</listitem><listitem><para>TFServingBackend::infer() is thread-safe (libcurl handles are per-call).</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Model Serving and Online Inference Pipeline</para>
+<para>A thread-safe registry for trained AutoML models that provides low-latency online inference, batch inference, health-metric tracking, and round-trip serialization / deserialization.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Named + versioned model registry</para>
+</listitem><listitem><para>Single-record online inference (predictOne)</para>
+</listitem><listitem><para>Batch inference (predictBatch)</para>
+</listitem><listitem><para>Class-probability output (predictProba, classification only)</para>
+</listitem><listitem><para>Per-model health metrics (prediction count, latency percentiles)</para>
+</listitem><listitem><para>Model serialization / deserialization (round-trip via AutoMLModel)</para>
+</listitem><listitem><para>Configurable registry capacity and latency-tracking window</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety:<itemizedlist>
+<listitem><para>registerModel / unregisterModel / loadModel are guarded by an exclusive lock; they are NOT suitable for high-frequency calls.</para>
+</listitem><listitem><para>predict / predictBatch / predictProba acquire the registry shared lock only for a brief pointer capture step, then release it before running inference. Inference therefore does NOT starve concurrent registerModel() / unregisterModel() callers.</para>
+</listitem><listitem><para>The registry stores std::shared_ptr&lt;Entry&gt; so that an Entry object remains alive (reference-counted) after a concurrent unregisterModel() erases its map slot, eliminating use-after-free risk.</para>
+</listitem><listitem><para>listModels / modelInfo / isRegistered are read-only and hold the shared lock for their full (short) duration.</para>
+</listitem><listitem><para>healthMetrics and serializeModel capture a shared_ptr under the registry lock and then perform work (metrics snapshot / serialisation) outside any registry lock.</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Streaming Aggregation Windows</para>
+<para>Standalone, thread-safe streaming window library for real-time aggregations. Provides four window types (TUMBLING, SLIDING, SESSION, HOPPING), all with the same aggregation functions as the OLAP engine (COUNT, SUM, AVG, MIN, MAX, STDDEV, VARIANCE, PERCENTILE).</para>
+<para>Designed to be:<itemizedlist>
+<listitem><para>Self-contained (no dependency on CEPEngine or OLAPEngine)</para>
+</listitem><listitem><para>Complementary to the CEP WindowManager (different, higher-level API)</para>
+</listitem><listitem><para>Usable in streaming pipelines via StreamingWindowPipeline</para>
+</listitem><listitem><para>Compatible with watermarking / late-event handling</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Real-Time Anomaly Detection Engine – Implementation</para>
+<para>Algorithms implemented (pure C++17, no external ML dependencies):</para>
+<para>Z_SCORE – Per-feature (x – mean) / σ; max over features mapped to [0,1] via a logistic squashing function.</para>
+<para>MODIFIED_Z_SCORE – Per-feature 0.6745·|x – median| / MAD; more robust than Z_SCORE for heavy-tailed distributions.</para>
+<para>IQR – Per-feature: score = max(0, distance-beyond-fence) / normalisation_range; aggregated over features.</para>
+<para>ISOLATION_FOREST – n_estimators random trees built on subsampled data. Anomaly score = c(n) normalised average path length (Liu et al. 2008 formula).</para>
+<para>LOF – Local Outlier Factor with k-nearest neighbours; score = max(0, (lof – 1) / (lof_max – 1)) clamped [0,1].</para>
+<para>ENSEMBLE – Weighted mean of individual method scores.</para>
+<para>Adaptive learning: when config.adaptive == true, update() adds the new observation to a capped ring buffer and recomputes per-feature statistics (or rebuilds iForest / LOF index) incrementally.</para>
+<para>Serialisation: JSON-like text format (key=value; arrays comma-delimited).</para>
+<para>ThemisDB Arrow Flight RPC - Implementation</para>
+<para>Provides in-process Arrow Flight server/client with optional native Arrow Flight (gRPC) transport when THEMIS_HAS_ARROW_FLIGHT is defined.</para>
+<para>In-process transport (always available): A process-local registry maps path descriptors to dataset producers and put handlers. The in-process client resolves the server directly from the registry, enabling zero-overhead data transfer within a single process and making unit tests trivially fast.</para>
+<para>Native Arrow Flight transport (THEMIS_HAS_ARROW_FLIGHT): When the Apache Arrow Flight C++ library is detected at build time the server additionally starts a gRPC listener and the client falls back to a real network connection when no in-process server is found at the requested endpoint. Cross-process / cross-host data transfer then uses the standard Arrow Flight gRPC protocol, enabling zero-copy interop with Pandas, DuckDB, Spark, and any other Flight-capable tool.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>AutoML Engine – Implementation</para>
+<para>Algorithms (pure C++17, no external ML dependencies):</para>
+<para>Logistic Regression – Mini-batch SGD with L2 regularisation; one-vs-rest for multi-class problems. Softmax probabilities.</para>
+<para>Linear Regression – Ordinary Least Squares via Normal Equations with optional L2 (ridge) regularisation.</para>
+<para>Decision Tree – CART (binary splits) using Gini impurity (classification) or MSE (regression); max-depth and min-samples-leaf controlled via hyperparameters.</para>
+<para>Random Forest – Bagged ensemble of decision trees with random feature subsets (sqrt for classification, n/3 for regression). Soft majority vote / mean aggregation.</para>
+<para>Gradient Boosting – Stagewise additive model of shallow regression trees; uses log-loss gradient for classification and MSE gradient for regression.</para>
+<para>KNN – Brute-force Euclidean k-NN; weighted voting (1/d²).</para>
+<para>ENSEMBLE – Soft-vote (classification) / mean (regression) over the top-k candidate models from the search.</para>
+<para>Feature engineering:<itemizedlist>
+<listitem><para>Zero-mean, unit-variance scaling computed on training data, applied to train + test to avoid leakage.</para>
+</listitem><listitem><para>Optional polynomial expansion (degree 2, no bias term) to capture non-linear interactions.</para>
+</listitem></itemizedlist>
+</para>
+<para>Hyperparameter search:<itemizedlist>
+<listitem><para>Random search: sample hyperparameters from predefined grids.</para>
+</listitem><listitem><para>Early stopping: abort search when wall-clock budget is exhausted.</para>
+</listitem></itemizedlist>
+</para>
+<para>SHAP approximation:<itemizedlist>
+<listitem><para>Permutation-based: for each feature, shuffle its values across the sample and measure the change in model output. Normalised to sum to 1.</para>
+</listitem></itemizedlist>
+</para>
+<para>Serialisation:<itemizedlist>
+<listitem><para>Simple key=value; text format (mirrors <ref refid="anomaly__detection_8cpp" kindref="compound">anomaly_detection.cpp</ref>).</para>
+</listitem></itemizedlist>
+</para>
+<para>ThemisDB Complex Event Processing (CEP) Engine - Implementation</para>
+<para>Full implementation of the CEP engine declared in <ref refid="cep__engine_8h" kindref="compound">include/analytics/cep_engine.h</ref>. Provides:<itemizedlist>
+<listitem><para>Partitioned ring-buffer EventStream with backpressure and subscriber callbacks</para>
+</listitem><listitem><para>NFA-based PatternMatcher (SEQUENCE, CONJUNCTION, DISJUNCTION, NEGATION, REPETITION, KLEENE_PLUS, KLEENE_STAR, OPTIONAL) with within-time constraints</para>
+</listitem><listitem><para>WindowManager: TUMBLING, SLIDING, SESSION, HOPPING, COUNT, GLOBAL windows</para>
+</listitem><listitem><para>Aggregator: COUNT/SUM/AVG/MIN/MAX/FIRST/LAST/STDDEV/VARIANCE/PERCENTILE/ DISTINCT_COUNT/COLLECT/TOPN with optional GROUP BY</para>
+</listitem><listitem><para>RuleEngine: filter evaluation, aggregation + pattern + window composition, HAVING evaluation, and multi-target action dispatch</para>
+</listitem><listitem><para>CEPEngine singleton: stream registry, rule dispatch, alert queue, worker threads, metrics, and lightweight checkpoint I/O</para>
+</listitem></itemizedlist>
+</para>
+<para>Incremental Materialized Views - Implementation</para>
+<para>Delta-maintenance algorithm for GROUP BY + aggregation views:</para>
+<para>INSERT(row) → for each dimension group: agg.add(row, +1) DELETE(row) → for each dimension group: agg.add(row, -1) UPDATE(r,r&apos;) → DELETE(before) + INSERT(after) (rewrite rule)</para>
+<para>MIN/MAX use std::multiset so removal of the current extremum gives the correct next value in O(log n).</para>
+<para>STDDEV/VARIANCE use Welford&apos;s online algorithm adapted for removals via Chan&apos;s parallel formula when count &gt; 0.</para>
+<para>COUNT_DISTINCT uses a std::set&lt;string&gt; — removals decrement a reference counter per distinct value.</para>
+<para>JIT Aggregation Compiler – Implementation</para>
+<para>Hot-path architecture (no LLVM dependency required):</para>
+<para>Call-site key Each unique combination of (AggregateSpec::Function, input_column, result_name, group_by columns) is encoded into a compact string key via makeSpecKey(). This key is the unit of hot-path tracking.</para>
+<para>Cold path (call_count &lt; hot_threshold) Aggregation is delegated to AggregateOperator – the generic columnar executor that dispatches on function enum per row.</para>
+<para>Compilation (call_count == hot_threshold) compileSpecialisation() analyses the spec-set and builds a std::function&lt;ColumnBatch(const ColumnBatch&amp;)&gt; that: • Hard-codes the aggregation functions (no per-row enum switch). • Hard-codes group-by presence and column names. • Performs the inner aggregation loop directly, enabling the compiler to inline and auto-vectorise the hot loop. This mirrors the specialisation that an LLVM MCJIT backend would generate as native machine code (see THEMIS_HAS_LLVM_JIT below).</para>
+<para>Hot path (call_count &gt; hot_threshold) The cached specialised function is invoked. No dispatch overhead.</para>
+<para>THEMIS_HAS_LLVM_JIT (future extension) When this compile-time flag is set the compilation step may instead emit LLVM IR, run the MCJIT pass pipeline at the requested optimisation level, and store a function pointer to the native code. The rest of the dispatch logic is identical. </para>
+    </detaileddescription>
+    <location file="include/analytics/analytics_engine.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_model_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::ModelCacheStats</compoundname>
+    <includes refid="voice__model__cache_8h" local="no">voice_model_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_stats_1a7e999c93d8f55c6495fc291ecce02c65" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::ModelCacheStats::loaded_models</definition>
+        <argsstring></argsstring>
+        <name>loaded_models</name>
+        <qualifiedname>themis::voice::ModelCacheStats::loaded_models</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="59" column="12" bodyfile="include/voice/voice_model_cache.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_stats_1a71a9e13b4629b6ff78ccb272e78ac1cb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::ModelCacheStats::pinned_models</definition>
+        <argsstring></argsstring>
+        <name>pinned_models</name>
+        <qualifiedname>themis::voice::ModelCacheStats::pinned_models</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="60" column="12" bodyfile="include/voice/voice_model_cache.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_stats_1a62d1347605135b200288c1b89786cb74" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::ModelCacheStats::total_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_memory_bytes</name>
+        <qualifiedname>themis::voice::ModelCacheStats::total_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="61" column="12" bodyfile="include/voice/voice_model_cache.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_stats_1a7729be29e930fe8720c79ea560907ab7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::ModelCacheStats::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::voice::ModelCacheStats::max_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="62" column="12" bodyfile="include/voice/voice_model_cache.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_stats_1a85b503267767280abf4bc299001d2d78" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::ModelCacheStats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::voice::ModelCacheStats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="63" column="14" bodyfile="include/voice/voice_model_cache.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_stats_1afd5032a8dd3c1c6e34d65bc3a01135bc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::ModelCacheStats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::voice::ModelCacheStats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="64" column="14" bodyfile="include/voice/voice_model_cache.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_stats_1a26a9b0b266bcb582420cbbea45b1b83f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::voice::ModelCacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::voice::ModelCacheStats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="65" column="14" bodyfile="include/voice/voice_model_cache.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_model_cache_stats_1a51997da7371066a4954b96269392e194" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::ModelCacheStats::hit_rate</definition>
+        <argsstring></argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::voice::ModelCacheStats::hit_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_model_cache.h" line="66" column="12" bodyfile="include/voice/voice_model_cache.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_model_cache.h" line="58" column="1" bodyfile="include/voice/voice_model_cache.h" bodystart="58" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_model_cache_stats_1a85b503267767280abf4bc299001d2d78" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheStats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_stats_1afd5032a8dd3c1c6e34d65bc3a01135bc" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheStats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_stats_1a26a9b0b266bcb582420cbbea45b1b83f" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_stats_1a51997da7371066a4954b96269392e194" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheStats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_stats_1a7e999c93d8f55c6495fc291ecce02c65" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheStats</scope><name>loaded_models</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_stats_1a7729be29e930fe8720c79ea560907ab7" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheStats</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_stats_1a71a9e13b4629b6ff78ccb272e78ac1cb" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheStats</scope><name>pinned_models</name></member>
+      <member refid="structthemis_1_1voice_1_1_model_cache_stats_1a62d1347605135b200288c1b89786cb74" prot="public" virt="non-virtual"><scope>themis::voice::ModelCacheStats</scope><name>total_memory_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,2394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1network" kind="namespace" language="C++">
+    <compoundname>themis::network</compoundname>
+    <innerclass refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" prot="public">themis::network::AdaptiveCircuitBreaker</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_adaptive_i_o_scaler" prot="public">themis::network::AdaptiveIOScaler</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_adaptive_pooling_strategy" prot="public">themis::network::AdaptivePoolingStrategy</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_audit_event" prot="public">themis::network::AuditEvent</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_batch_stats" prot="public">themis::network::BatchStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_bbr_config" prot="public">themis::network::BbrConfig</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_bbr_congestion_controller" prot="public">themis::network::BbrCongestionController</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_compression_advisor" prot="public">themis::network::CompressionAdvisor</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_congestion_controller" prot="public">themis::network::CongestionController</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_congestion_diagnostics" prot="public">themis::network::CongestionDiagnostics</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_cpu_pinner" prot="public">themis::network::CpuPinner</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_d_p_d_k_server" prot="public">themis::network::DPDKServer</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_geo_topology_router" prot="public">themis::network::GeoTopologyRouter</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_idempotency_cache" prot="public">themis::network::IdempotencyCache</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_i_network_observability_sink" prot="public">themis::network::INetworkObservabilitySink</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_io_uring_batched_sender" prot="public">themis::network::IoUringBatchedSender</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_io_uring_batch_stats" prot="public">themis::network::IoUringBatchStats</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_io_uring_server" prot="public">themis::network::IoUringServer</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_i_pooling_strategy" prot="public">themis::network::IPoolingStrategy</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_leaky_bucket" prot="public">themis::network::LeakyBucket</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_memory_mapped_payload" prot="public">themis::network::MemoryMappedPayload</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_mptcp_config" prot="public">themis::network::MptcpConfig</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_mptcp_connection_stats" prot="public">themis::network::MptcpConnectionStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_mptcp_subflow_info" prot="public">themis::network::MptcpSubflowInfo</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_mptcp_subflow_manager" prot="public">themis::network::MptcpSubflowManager</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_nagle_controller" prot="public">themis::network::NagleController</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_network_audit_log" prot="public">themis::network::NetworkAuditLog</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_network_metrics" prot="public">themis::network::NetworkMetrics</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_network_observability_registry" prot="public">themis::network::NetworkObservabilityRegistry</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_network_span" prot="public">themis::network::NetworkSpan</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_network_span_event" prot="public">themis::network::NetworkSpanEvent</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_numa_allocator" prot="public">themis::network::NumaAllocator</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_packet_builder" prot="public">themis::network::PacketBuilder</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_packet_parser" prot="public">themis::network::PacketParser</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_parse_error" prot="public">themis::network::ParseError</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_payload_buffer_pool" prot="public">themis::network::PayloadBufferPool</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_protobuf_parser" prot="public">themis::network::ProtobufParser</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_protobuf_serializer" prot="public">themis::network::ProtobufSerializer</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_qo_s_manager" prot="public">themis::network::QoSManager</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_raft_load_balancer" prot="public">themis::network::RaftLoadBalancer</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_retry_context" prot="public">themis::network::RetryContext</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_retry_policy" prot="public">themis::network::RetryPolicy</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_socket_timeout_config" prot="public">themis::network::SocketTimeoutConfig</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_socket_timeout_guard" prot="public">themis::network::SocketTimeoutGuard</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_socket_timeout_manager" prot="public">themis::network::SocketTimeoutManager</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_socket_timeout_stats" prot="public">themis::network::SocketTimeoutStats</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_socket_wrapper" prot="public">themis::network::SocketWrapper</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_time_series_bucket" prot="public">themis::network::TimeSeriesBucket</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_time_series_query_request" prot="public">themis::network::TimeSeriesQueryRequest</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_time_series_query_response" prot="public">themis::network::TimeSeriesQueryResponse</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_time_series_stats" prot="public">themis::network::TimeSeriesStats</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_token_bucket" prot="public">themis::network::TokenBucket</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_u_d_p_fast_path" prot="public">themis::network::UDPFastPath</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_udp_packet" prot="public">themis::network::UdpPacket</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_u_d_p_server" prot="public">themis::network::UDPServer</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_packet" prot="public">themis::network::WirePacket</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_wire_protocol_batcher" prot="public">themis::network::WireProtocolBatcher</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_wire_protocol_connection_pool" prot="public">themis::network::WireProtocolConnectionPool</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_wire_protocol_metrics" prot="public">themis::network::WireProtocolMetrics</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_wire_protocol_server" prot="public">themis::network::WireProtocolServer</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_retry_policy" prot="public">themis::network::WireRetryPolicy</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_zero_copy_dma_buffer" prot="public">themis::network::ZeroCopyDmaBuffer</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_zero_copy_frame_builder" prot="public">themis::network::ZeroCopyFrameBuilder</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_zero_copy_stats" prot="public">themis::network::ZeroCopyStats</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_zstd_dictionary_compressor" prot="public">themis::network::ZstdDictionaryCompressor</innerclass>
+    <innernamespace refid="namespacethemis_1_1network_1_1wire__bootstrap">themis::network::wire_bootstrap</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CircuitState</name>
+        <qualifiedname>themis::network::CircuitState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+<para>Normal operation — requests flow through. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+<para>Recovery probe — limited requests allowed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+<para>Circuit tripped — fail fast, requests rejected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Circuit breaker states for the network layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="28" column="1" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="28" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CongestionAlgorithm</name>
+        <qualifiedname>themis::network::CongestionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa07600c7c7de3ffe91d95ad7557bb9593" prot="public">
+          <name>BBRv1</name>
+          <briefdescription>
+<para>BBR v1 (Linux ≥ 4.9, &quot;bbr&quot;). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa9c337a7034fc7bc073b5873dd6f4b7c5" prot="public">
+          <name>BBRv2</name>
+          <briefdescription>
+<para>BBR v2 (Linux ≥ 5.17, &quot;bbr2&quot;). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aaccd681e34e5e40fbce74618c3ccffcff" prot="public">
+          <name>CUBIC</name>
+          <briefdescription>
+<para>CUBIC (default Linux TCP congestion algorithm). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aa6a824f25245565fc6929f1932c241ceb" prot="public">
+          <name>RENO</name>
+          <briefdescription>
+<para>TCP Reno (classic). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4f80d6da351242770cb5a4f1c930708aafa177138f94a7ea01f549b1aa7893d03" prot="public">
+          <name>SYSTEM</name>
+          <briefdescription>
+<para>Use the system/socket default — no override applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>TCP congestion control algorithm selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/bbr_congestion_control.h" line="48" column="1" bodyfile="include/network/bbr_congestion_control.h" bodystart="48" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MptcpSubflowState</name>
+        <qualifiedname>themis::network::MptcpSubflowState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036ca18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+<para>Subflow is established and carrying traffic. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036cabfdf97ae01c73d83a58ec41f78a4291f" prot="public">
+          <name>BACKUP</name>
+          <briefdescription>
+<para>Subflow is established but not currently active (backup path). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036caa71a44c4c886bfc66b1edd511e6a677e" prot="public">
+          <name>CLOSING</name>
+          <briefdescription>
+<para>Subflow teardown in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036cab3461745d64b12346503b2980e436db5" prot="public">
+          <name>REMOVED</name>
+          <briefdescription>
+<para>Subflow has been removed from the connection. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036cab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Subflow experienced a fatal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>MPTCP subflow operational state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/multipath_tcp.h" line="37" column="1" bodyfile="include/network/multipath_tcp.h" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>NetworkErrorCode</name>
+        <qualifiedname>themis::network::NetworkErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ab2f6a2721617683361a296bd02c17003" prot="public">
+          <name>FRAME_INVALID</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+<para>Frame is structurally invalid (bad magic, corrupt header). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aac51997d76ebeb2c5f184ec31c72f52b" prot="public">
+          <name>FRAME_OVERSIZED</name>
+          <initializer>= 11</initializer>
+          <briefdescription>
+<para>Frame payload exceeds kMaxFramePayloadBytes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a9af9df975e7f72da7144d8c2c4927088" prot="public">
+          <name>OPCODE_UNKNOWN</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+<para>Frame opcode is not recognised in the current protocol version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aa6fdc242143d7fa2160a9d1eb1325b39" prot="public">
+          <name>FRAME_CHECKSUM_FAILED</name>
+          <initializer>= 13</initializer>
+          <briefdescription>
+<para>Frame checksum or integrity tag does not match. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7721bb1adc008815561e7b04c3ae986e" prot="public">
+          <name>AUTH_REQUIRED</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+<para>Privileged opcode received without a session token. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75aee7c1374d9480eb0dafeedd8d6f1ee12" prot="public">
+          <name>SESSION_EXPIRED</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+<para>Session token has expired (exp check failed). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a048bd3b5342e4099a9b64eb083b8456a" prot="public">
+          <name>SESSION_REVOKED</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+<para>Session has been explicitly revoked. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a9757e29a382ccff4901d4807adbedc6f" prot="public">
+          <name>SESSION_MALFORMED</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+<para>Session token is malformed or unparseable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a30611ff322b606c366083e8dc7dcf459" prot="public">
+          <name>AUTH_TIMEOUT</name>
+          <initializer>= 104</initializer>
+          <briefdescription>
+<para>Authentication handshake did not complete within kAuthHandshakeTimeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" prot="public">
+          <name>TRANSPORT_CLOSED</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+<para>Connection has been closed; no further writes are permitted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7632e0cc96e7d69bb8e4f9d59113aa95" prot="public">
+          <name>TRANSPORT_FALLBACK_ACTIVE</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+<para>Transport fallback was initiated and the primary transport is unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a06e231de202bc95d06df42f58b5fb187" prot="public">
+          <name>TRANSPORT_UNAVAILABLE</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+<para>Neither primary nor fallback transport is available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75af55bbfda6d0028eaec46a1788ad73e65" prot="public">
+          <name>TRANSPORT_WRITE_ERROR</name>
+          <initializer>= 203</initializer>
+          <briefdescription>
+<para>Write to transport failed; data may not have been delivered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" prot="public">
+          <name>RATE_LIMITED</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+<para>Request rate limit exceeded; caller should back off. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad102264cf4b9f438b284d2c9908486a8" prot="public">
+          <name>BACKPRESSURE_EXCEEDED</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+<para>Server backpressure limit reached; no new requests accepted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a75b498788ed886073765edc4db5419d2" prot="public">
+          <name>CLIENT_BANNED</name>
+          <initializer>= 302</initializer>
+          <briefdescription>
+<para>Client has been temporarily banned due to repeated rate violations. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0dde4c0549c0aa9d75332ace206aec40" prot="public">
+          <name>QUORUM_DEGRADED</name>
+          <initializer>= 400</initializer>
+          <briefdescription>
+<para>Cluster quorum is degraded; operation may not be consistent. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ac6388c623680d7b5b4334ea09b64ab45" prot="public">
+          <name>ROUTING_UNAVAILABLE</name>
+          <initializer>= 401</initializer>
+          <briefdescription>
+<para>Routing table is unavailable; request cannot be forwarded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75acba9e7771ca025f323a6d7c150e82b8f" prot="public">
+          <name>CONNECTION_LIMIT_REACHED</name>
+          <initializer>= 500</initializer>
+          <briefdescription>
+<para>Connection limit kMaxConcurrentConnections has been reached. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad4381a52828e126b02907417a6e7abd4" prot="public">
+          <name>SERVER_DRAINING</name>
+          <initializer>= 501</initializer>
+          <briefdescription>
+<para>Connection was rejected during the drain/shutdown phase. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Operation succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 9999</initializer>
+          <briefdescription>
+<para>Unclassified internal network error; always fail-closed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical error codes for the ThemisDB network module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All network operation failures MUST map to one of these codes before being returned to callers or emitted in metrics/audit events. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="183" column="1" bodyfile="include/network/network_api_contract.h" bodystart="183" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8fa" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AuditEventType</name>
+        <qualifiedname>themis::network::AuditEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8faa7dde4063164c2cd70ad2064a148f4fa5" prot="public">
+          <name>CONNECTION_OPEN</name>
+          <briefdescription>
+<para>New TCP/TLS connection accepted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8faaa4885a3256e87bbf4ad54208e4769d13" prot="public">
+          <name>CONNECTION_CLOSE</name>
+          <briefdescription>
+<para>Connection closed (graceful or error). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8faad740e537c769ee174e1dde0a1d64d64d" prot="public">
+          <name>AUTH_SUCCESS</name>
+          <briefdescription>
+<para>Client authenticated successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8faabf593da74f0f9e405a2119e3f7f4c835" prot="public">
+          <name>AUTH_FAILURE</name>
+          <briefdescription>
+<para>Authentication attempt failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8faa0b481e215c9fdd207e9d14f6a0cc228f" prot="public">
+          <name>RATE_LIMITED</name>
+          <briefdescription>
+<para>Connection rejected or throttled by rate limiter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Types of audit events recorded by <ref refid="classthemis_1_1network_1_1_network_audit_log" kindref="compound">NetworkAuditLog</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="27" column="1" bodyfile="include/network/network_audit_log.h" bodystart="27" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655f" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>NetworkSpanKind</name>
+        <qualifiedname>themis::network::NetworkSpanKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa0a3a540fbc6f796b934c3d551e8aa1b5" prot="public">
+          <name>FRAME_DISPATCH</name>
+          <briefdescription>
+<para>A complete wire-protocol frame was dispatched. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa42667b038cabac82f4e162625830a2eb" prot="public">
+          <name>FRAME_RECEIVE</name>
+          <briefdescription>
+<para>A wire-protocol frame was received and parsed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa022afa1f4831e3e7cf99d54ba3ac38bd" prot="public">
+          <name>AUTH_CHECK</name>
+          <briefdescription>
+<para>Authentication or session guard check. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655faeeb83fd83e7967d44cecfb888e99746b" prot="public">
+          <name>RATE_LIMIT_CHECK</name>
+          <briefdescription>
+<para>Rate-limit guard evaluation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fade1b1ec538bb5d01e827dfeefdf1bb6f" prot="public">
+          <name>CONNECTION_ACCEPT</name>
+          <briefdescription>
+<para>New TCP/QUIC/WS connection accepted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655faa4885a3256e87bbf4ad54208e4769d13" prot="public">
+          <name>CONNECTION_CLOSE</name>
+          <briefdescription>
+<para>Connection gracefully closed or timed out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa322be7de6051a07bc5694912a349b45b" prot="public">
+          <name>TRANSPORT_FALLBACK</name>
+          <briefdescription>
+<para>Transport fallback was triggered (e.g., QUIC → TCP). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa5912f7fdec26a648ba20ce149bd1a76c" prot="public">
+          <name>ROUTING_DECISION</name>
+          <briefdescription>
+<para>A load-balancer or topology routing decision. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa271762434af3a9e56e795b1f2472fea0" prot="public">
+          <name>CIRCUIT_BREAKER</name>
+          <briefdescription>
+<para>Circuit breaker state checked or transitioned. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa124ccc075a5084b5d33d62fd5257415d" prot="public">
+          <name>BATCH_SEND</name>
+          <briefdescription>
+<para>A batch of frames was submitted (io_uring / batch). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fad0b068973fe9e92ef5ed81d9e1702133" prot="public">
+          <name>TLS_HANDSHAKE</name>
+          <briefdescription>
+<para>TLS/QUIC handshake completed or failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa6af0a4809bb9b81732f8ab223ad49515" prot="public">
+          <name>GRPC_CALL</name>
+          <briefdescription>
+<para>A gRPC RPC call started or completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a4231eea11760549a1f964cb85962655fa72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Custom span defined by the emitting component. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classification of the network operation being observed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="59" column="1" bodyfile="include/network/network_observability.h" bodystart="59" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>NetworkResultCode</name>
+        <qualifiedname>themis::network::NetworkResultCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2a3a46847797b42015f376f328434ea0ae" prot="public">
+          <name>ERROR_FRAME_INVALID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2a1c525328751f5194f84e8a8c28de5b71" prot="public">
+          <name>ERROR_AUTH_REQUIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2a8d6f57773488c5ce0f33a286b7b19d5f" prot="public">
+          <name>ERROR_SESSION_EXPIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2aa11e6eadc10e468d30704dde60b767e0" prot="public">
+          <name>ERROR_RATE_LIMITED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2a176dbe6788188e6ade4e023c29f31173" prot="public">
+          <name>ERROR_BACKPRESSURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2ae2eaea6423d6287dd4b10e2ce92295e4" prot="public">
+          <name>ERROR_TRANSPORT_CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2ac163e11f7d6494e709a09e8c68eaf41c" prot="public">
+          <name>ERROR_QUORUM_DEGRADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2aebca3fb8f2ee419d994be9df276a27df" prot="public">
+          <name>ERROR_TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2ac3c95c450ba1cea88ba0bc38d620dbcc" prot="public">
+          <name>ERROR_TLS_FAILURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2ad204e9d84c0733e25f79d0c32d2777f9" prot="public">
+          <name>ERROR_CIRCUIT_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2a1e8b4f99f4c43b364505215efbe334d4" prot="public">
+          <name>ERROR_ROUTING_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2a7b6311615dfbbaccec8279677f19feea" prot="public">
+          <name>ERROR_INTERNAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a82a6c265c978a1d9c7b1e56bc41443c2ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Span still in progress (not yet complete). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Normalised result codes for network operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="78" column="1" bodyfile="include/network/network_observability.h" bodystart="78" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8e" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>Priority</name>
+        <qualifiedname>themis::network::Priority</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8ea99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8ea41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Traffic priority levels for QoS scheduling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>CRITICAL – Interactive / low-latency queries (served first) HIGH – Transactional OLTP operations MEDIUM – Analytical OLAP queries LOW – Batch operations, backups, replication (served last) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="46" column="1" bodyfile="include/network/qos_manager.h" bodystart="46" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1adf7beaa0e1b2b326c031d92e605afe0b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LoadBalancingStrategy</name>
+        <qualifiedname>themis::network::LoadBalancingStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1adf7beaa0e1b2b326c031d92e605afe0ba1ebd8dbf8c34e255f5cbf28f35860b71" prot="public">
+          <name>ROUND_ROBIN</name>
+          <briefdescription>
+<para>Simple, predictable sequential cycling. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1adf7beaa0e1b2b326c031d92e605afe0ba9b5adc9c167d99cbc016b883cf6a8600" prot="public">
+          <name>LEAST_CONNECTIONS</name>
+          <briefdescription>
+<para>Route to the backend with fewest active connections. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1adf7beaa0e1b2b326c031d92e605afe0ba8ac821400fd07a497bc4865ffa4e0d51" prot="public">
+          <name>WEIGHTED_ROUND_ROBIN</name>
+          <briefdescription>
+<para>Distribute based on capacity weights. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1adf7beaa0e1b2b326c031d92e605afe0ba11b6531865266e00568a6cb122532730" prot="public">
+          <name>HEALTH_BASED</name>
+          <briefdescription>
+<para>Exclude unhealthy backends; fall back to round-robin. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1adf7beaa0e1b2b326c031d92e605afe0ba3f264b3a93f2cd24190ddd73ab192e26" prot="public">
+          <name>CONSISTENT_HASH</name>
+          <briefdescription>
+<para>Sticky routing for session/cache affinity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Routing strategy applied by the active load balancer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="36" column="1" bodyfile="include/network/raft_load_balancer.h" bodystart="36" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1ae645ecb2ceb009f3f4b8b80a5abaf513" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RaftRole</name>
+        <qualifiedname>themis::network::RaftRole</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1ae645ecb2ceb009f3f4b8b80a5abaf513a8026987f2531b5fa5178a851c108397c" prot="public">
+          <name>FOLLOWER</name>
+          <briefdescription>
+<para>Accepts reads but defers writes to the leader. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae645ecb2ceb009f3f4b8b80a5abaf513abea4821516973214973a70aea8337c38" prot="public">
+          <name>CANDIDATE</name>
+          <briefdescription>
+<para>Campaigning for leadership (transient). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae645ecb2ceb009f3f4b8b80a5abaf513ab8058aa3ecd39b676ce80d6aaadc5e64" prot="public">
+          <name>LEADER</name>
+          <briefdescription>
+<para>Performs health checks and propagates routing decisions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Role of this load-balancer node in the Raft cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="51" column="1" bodyfile="include/network/raft_load_balancer.h" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SocketHealthState</name>
+        <qualifiedname>themis::network::SocketHealthState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa130389aec25aa182cd466b2a2a7890e0" prot="public">
+          <name>CIRCUIT_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Health state for circuit breaker pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="90" column="1" bodyfile="include/network/socket_timeout_manager.h" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>UdpOpCode</name>
+        <qualifiedname>themis::network::UdpOpCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a7528035a93ee69cedb1dbddb2f0bfcc8" prot="public">
+          <name>GET</name>
+          <initializer>= 0x10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a8e39e3d976c02a5a5e002795e11c076a" prot="public">
+          <name>QUERY_AQL</name>
+          <initializer>= 0x20</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a4939a0c5f946aa98a33244d2f3cfef58" prot="public">
+          <name>VECTOR_SEARCH</name>
+          <initializer>= 0x40</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" prot="public">
+          <name>PING</name>
+          <initializer>= 0xFE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Read-only OpCodes accepted on the UDP fast path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="76" column="1" bodyfile="include/network/udp_fast_path.h" bodystart="76" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>UdpStatus</name>
+        <qualifiedname>themis::network::UdpStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0x00</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770a8c02547a8a3b02382bac3557bcb2280d" prot="public">
+          <name>NOT_FOUND</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770a0b481e215c9fdd207e9d14f6a0cc228f" prot="public">
+          <name>RATE_LIMITED</name>
+          <initializer>= 0x03</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Response status codes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="84" column="1" bodyfile="include/network/udp_fast_path.h" bodystart="84" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1ad8d0a17ab05c59656df2edd920dacc47" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>UdpServerOpCode</name>
+        <qualifiedname>themis::network::UdpServerOpCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1ad8d0a17ab05c59656df2edd920dacc47ad83e9b0c6b9339aaeb08d2a04ae9e34d" prot="public">
+          <name>METRIC</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+<para>Single metric data point. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ad8d0a17ab05c59656df2edd920dacc47a4b5ffcdaf38ce4d463171f5c977c5ab3" prot="public">
+          <name>LOG</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+<para>Log entry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ad8d0a17ab05c59656df2edd920dacc47a030d962d0faa148f02848881a3b4fdb6" prot="public">
+          <name>EVENT</name>
+          <initializer>= 0x03</initializer>
+          <briefdescription>
+<para>Arbitrary event. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ad8d0a17ab05c59656df2edd920dacc47a3dba7f2d2578ffb4bd657af94b1add80" prot="public">
+          <name>BATCH</name>
+          <initializer>= 0x04</initializer>
+          <briefdescription>
+<para>Batch of METRIC/LOG/EVENT records (JSON array). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ad8d0a17ab05c59656df2edd920dacc47ae07ff41a486c27c095a15898dcca34d1" prot="public">
+          <name>PING</name>
+          <initializer>= 0xFE</initializer>
+          <briefdescription>
+<para>Liveness probe; always replied with ACK. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Write-oriented opcodes accepted by the UDP ingestion server. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="102" column="1" bodyfile="include/network/udp_server.h" bodystart="102" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1a321e5ab8a36d19ca1d694fd3dab1e7d6" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>UdpServerStatus</name>
+        <qualifiedname>themis::network::UdpServerStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1a321e5ab8a36d19ca1d694fd3dab1e7d6ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0x00</initializer>
+          <briefdescription>
+<para>Packet accepted and queued. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a321e5ab8a36d19ca1d694fd3dab1e7d6abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+<para>Malformed payload or internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a321e5ab8a36d19ca1d694fd3dab1e7d6a0b481e215c9fdd207e9d14f6a0cc228f" prot="public">
+          <name>RATE_LIMITED</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+<para>Source IP exceeded its rate limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a321e5ab8a36d19ca1d694fd3dab1e7d6a5c57b592f6421079706484abebcab81b" prot="public">
+          <name>DUPLICATE</name>
+          <initializer>= 0x03</initializer>
+          <briefdescription>
+<para>Sequence number already seen; silently dropped. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>ACK status codes sent back to the client. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="111" column="1" bodyfile="include/network/udp_server.h" bodystart="111" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728" prot="public" static="no" strong="yes">
+        <type>std::uint8_t</type>
+        <name>PacketType</name>
+        <qualifiedname>themis::network::PacketType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728abdde89ae69ba4004078c38d2a1fb083b" prot="public">
+          <name>kHandshake</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+<para>Client→Server connection setup. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a048ab922d2bb9497e916ff610af475d0" prot="public">
+          <name>kQuery</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+<para>Client→Server AQL query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728abc15c67da9cfae4b2420ff0f706ec69b" prot="public">
+          <name>kQueryResult</name>
+          <initializer>= 0x03</initializer>
+          <briefdescription>
+<para>Server→Client query result rows. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728acccdc85a08bd17cac22ce181572ee93c" prot="public">
+          <name>kPut</name>
+          <initializer>= 0x04</initializer>
+          <briefdescription>
+<para>Client→Server key/value write. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728aa2598ea1b9c49e158bc197c788e03cc3" prot="public">
+          <name>kGet</name>
+          <initializer>= 0x05</initializer>
+          <briefdescription>
+<para>Client→Server key/value read. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728aa075d0261593f6a884f416df38cb9696" prot="public">
+          <name>kDelete</name>
+          <initializer>= 0x06</initializer>
+          <briefdescription>
+<para>Client→Server delete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728ae3587c730cc1aa530fa4ddc9c4204e97" prot="public">
+          <name>kError</name>
+          <initializer>= 0x10</initializer>
+          <briefdescription>
+<para>Server→Client error response. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728af048a9d591ae5fb2072fe302ece833a8" prot="public">
+          <name>kPing</name>
+          <initializer>= 0x20</initializer>
+          <briefdescription>
+<para>Keep-alive ping. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a7473bf957b8321dc968b9cee891ddfe9" prot="public">
+          <name>kPong</name>
+          <initializer>= 0x21</initializer>
+          <briefdescription>
+<para>Keep-alive pong. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a25c2dc47991b3df171ed5192bcf70390" prot="public">
+          <name>kUnknown</name>
+          <initializer>= 0xFF</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration of all supported protocol packet types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Values are encoded as a single byte in the framing header. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="71" column="1" bodyfile="include/network/wire_protocol.h" bodystart="71" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WireErrorClass</name>
+        <qualifiedname>themis::network::WireErrorClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a17ac956ba1257a6d5a99867ecd5ddac2" prot="public">
+          <name>kTransient</name>
+          <briefdescription>
+<para>Temporary resource contention, network blip — retry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a7856d2103ed1847108138f139e32b956" prot="public">
+          <name>kPermanent</name>
+          <briefdescription>
+<para>Protocol error, auth failure, bad config — abort. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a25c2dc47991b3df171ed5192bcf70390" prot="public">
+          <name>kUnknown</name>
+          <briefdescription>
+<para>Unclassified; treated as transient by default. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a17ac956ba1257a6d5a99867ecd5ddac2" prot="public">
+          <name>kTransient</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a7856d2103ed1847108138f139e32b956" prot="public">
+          <name>kPermanent</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a25c2dc47991b3df171ed5192bcf70390" prot="public">
+          <name>kUnknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Classification of retry-eligible vs. non-retryable failure types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The wire protocol server distinguishes transient failures (worth retrying) from permanent failures (fail fast). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_retry_policy.h" line="42" column="1" bodyfile="include/network/wire_retry_policy.h" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WireErrorClass</name>
+        <qualifiedname>themis::network::WireErrorClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a17ac956ba1257a6d5a99867ecd5ddac2" prot="public">
+          <name>kTransient</name>
+          <briefdescription>
+<para>Temporary resource contention, network blip — retry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a7856d2103ed1847108138f139e32b956" prot="public">
+          <name>kPermanent</name>
+          <briefdescription>
+<para>Protocol error, auth failure, bad config — abort. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a25c2dc47991b3df171ed5192bcf70390" prot="public">
+          <name>kUnknown</name>
+          <briefdescription>
+<para>Unclassified; treated as transient by default. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a17ac956ba1257a6d5a99867ecd5ddac2" prot="public">
+          <name>kTransient</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a7856d2103ed1847108138f139e32b956" prot="public">
+          <name>kPermanent</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95a25c2dc47991b3df171ed5192bcf70390" prot="public">
+          <name>kUnknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_transport_resilience_focused.cpp" line="74" column="1" bodyfile="tests/network/test_network_transport_resilience_focused.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1network_1a8b5471801a985375c3c18dbbc02fbff1" prot="public" static="no">
+        <type>net::ip::udp</type>
+        <definition>using themis::network::udp = net::ip::udp</definition>
+        <argsstring></argsstring>
+        <name>udp</name>
+        <qualifiedname>themis::network::udp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="53" column="1" bodyfile="include/network/udp_fast_path.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1network_1a7c0ea458b8c694bc6d3c7e2c14f67649" prot="public" static="no">
+        <type>net::ip::tcp</type>
+        <definition>using themis::network::tcp = net::ip::tcp</definition>
+        <argsstring></argsstring>
+        <name>tcp</name>
+        <qualifiedname>themis::network::tcp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="35" column="1" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1network_1a3466e75a13ec96551dfa89b2c7743bc6" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json( const std::string &amp;collection, double lat, double lon, double radius_m, int limit)&gt;</type>
+        <definition>using themis::network::GeoQueryFn = std::function&lt;nlohmann::json(
+   const std::string&amp; collection, double lat, double lon,
+   double radius_m, int limit)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GeoQueryFn</name>
+        <qualifiedname>themis::network::GeoQueryFn</qualifiedname>
+        <briefdescription>
+<para>Geospatial query injection bridge for the JSON wire protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set via <ref refid="namespacethemis_1_1network_1a795f17d899b833a5b6628f7157b7c386" kindref="member">setNetworkGeoQueryFn()</ref>, GEO_QUERY &quot;near&quot; messages can be dispatched to this function when no SpatialIndexManager is configured. This closes the previous startup/runtime mismatch where the server accepted a geo bridge during bootstrap but still returned GEO_NOT_INTEGRATED.</para>
+<para>The function receives the collection name, centre coordinates (WGS84 decimal degrees), search radius in metres, and result limit. It must return a nlohmann::json array of matching document objects.</para>
+<para>Thread-safety: the stored function pointer is protected by an internal mutex; callers may register/clear the bridge at any time.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target collection name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latitude of the search centre (WGS84, decimal degrees). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Longitude of the search centre (WGS84, decimal degrees). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius_m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search radius in metres (&gt;0). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results (&lt;=0 means no limit). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON array of matching document objects. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="91" column="1" bodyfile="include/network/wire_protocol_server.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a08a9f3f88d02cc53b1a2d89ff408f87d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::network::kAuthHandshakeTimeout</definition>
+        <argsstring></argsstring>
+        <name>kAuthHandshakeTimeout</name>
+        <qualifiedname>themis::network::kAuthHandshakeTimeout</qualifiedname>
+        <initializer>{15}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum time allowed for the authentication handshake after TCP accept. Connections not authenticated within this window are aborted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="62" column="39" bodyfile="include/network/network_api_contract.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a3f2492bd58e4db728ddd57937dda2eb4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::network::kConnectionIdleTimeout</definition>
+        <argsstring></argsstring>
+        <name>kConnectionIdleTimeout</name>
+        <qualifiedname>themis::network::kConnectionIdleTimeout</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Maximum idle time in SERVING state before the server initiates DRAINING. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="65" column="39" bodyfile="include/network/network_api_contract.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a8e488de12b4c4f48996272855ab8fead" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::network::kDrainGracePeriod</definition>
+        <argsstring></argsstring>
+        <name>kDrainGracePeriod</name>
+        <qualifiedname>themis::network::kDrainGracePeriod</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum time the server waits for in-flight requests to complete during DRAINING before forcibly closing the connection. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="69" column="39" bodyfile="include/network/network_api_contract.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1aadc5e7525c9b85812684750a0d405445" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kMaxConcurrentConnections</definition>
+        <argsstring></argsstring>
+        <name>kMaxConcurrentConnections</name>
+        <qualifiedname>themis::network::kMaxConcurrentConnections</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of concurrent connections per server instance. Connections exceeding this limit receive BACKPRESSURE_EXCEEDED immediately. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="73" column="30" bodyfile="include/network/network_api_contract.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a62a93292d001c72c544919b155574cdb" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint8_t</type>
+        <definition>std::uint8_t themis::network::kFrameMagic0</definition>
+        <argsstring></argsstring>
+        <name>kFrameMagic0</name>
+        <qualifiedname>themis::network::kFrameMagic0</qualifiedname>
+        <initializer>= 0xDB</initializer>
+        <briefdescription>
+<para>Magic bytes that open every valid ThemisDB wire frame. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="92" column="31" bodyfile="include/network/network_api_contract.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a1784d9f0506397be5c1270a669ea71de" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint8_t</type>
+        <definition>std::uint8_t themis::network::kFrameMagic1</definition>
+        <argsstring></argsstring>
+        <name>kFrameMagic1</name>
+        <qualifiedname>themis::network::kFrameMagic1</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="93" column="31" bodyfile="include/network/network_api_contract.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a388923109f56cbe0aa1cd94cd33f4793" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kMaxFramePayloadBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxFramePayloadBytes</name>
+        <qualifiedname>themis::network::kMaxFramePayloadBytes</qualifiedname>
+        <initializer>= 64 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum payload size per frame. Frames exceeding this are FRAME_OVERSIZED. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>64 MiB. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="96" column="30" bodyfile="include/network/network_api_contract.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a64158eecd7a388d67d0247fb49c17b76" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kMinFrameBytes</definition>
+        <argsstring></argsstring>
+        <name>kMinFrameBytes</name>
+        <qualifiedname>themis::network::kMinFrameBytes</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+<para>Minimum valid frame size (magic + type + length field). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="99" column="30" bodyfile="include/network/network_api_contract.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a4e25a51283fe0089f0dfeb4c2c85118e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kMaxSessionTokenBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxSessionTokenBytes</name>
+        <qualifiedname>themis::network::kMaxSessionTokenBytes</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum session token size accepted in frame metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="116" column="30" bodyfile="include/network/network_api_contract.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1aab09ebd11d376b9b0540436cae2a3bd4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::network::kMaxNetworkSessionLifetime</definition>
+        <argsstring></argsstring>
+        <name>kMaxNetworkSessionLifetime</name>
+        <qualifiedname>themis::network::kMaxNetworkSessionLifetime</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+<para>Maximum session lifetime issued by the network layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="119" column="37" bodyfile="include/network/network_api_contract.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a8bd05ca6027e2c25ce7dbb5982541b25" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::network::kSessionClockSkew</definition>
+        <argsstring></argsstring>
+        <name>kSessionClockSkew</name>
+        <qualifiedname>themis::network::kSessionClockSkew</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Clock-skew tolerance applied to session token expiry checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="122" column="39" bodyfile="include/network/network_api_contract.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1ad98c80154f36b4a2b1c7e02a9be679ec" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::network::kTransportFallbackDelay</definition>
+        <argsstring></argsstring>
+        <name>kTransportFallbackDelay</name>
+        <qualifiedname>themis::network::kTransportFallbackDelay</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Delay after which the network layer initiates transport fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="138" column="44" bodyfile="include/network/network_api_contract.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1acb168b8646312e2c8e716e58edaed742" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::kDefaultPerConnRequestsPerSec</definition>
+        <argsstring></argsstring>
+        <name>kDefaultPerConnRequestsPerSec</name>
+        <qualifiedname>themis::network::kDefaultPerConnRequestsPerSec</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Default per-connection request rate limit (requests/second). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="155" column="22" bodyfile="include/network/network_api_contract.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1abcbf28f1d6a702c78965be751ad762b8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::kDefaultPerClientRequestsPerSec</definition>
+        <argsstring></argsstring>
+        <name>kDefaultPerClientRequestsPerSec</name>
+        <qualifiedname>themis::network::kDefaultPerClientRequestsPerSec</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Default per-client (IP) request rate limit (requests/second). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="158" column="22" bodyfile="include/network/network_api_contract.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a7124d8a275d4786265c8d633b4926a93" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::kRateLimitBanThreshold</definition>
+        <argsstring></argsstring>
+        <name>kRateLimitBanThreshold</name>
+        <qualifiedname>themis::network::kRateLimitBanThreshold</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of consecutive RATE_LIMITED events within kRateLimitBanWindow that triggers a temporary connection ban. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="162" column="22" bodyfile="include/network/network_api_contract.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1af7f9746d0b778aa8153b15850c0532f0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::network::kRateLimitBanWindow</definition>
+        <argsstring></argsstring>
+        <name>kRateLimitBanWindow</name>
+        <qualifiedname>themis::network::kRateLimitBanWindow</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Sliding window used for the ban-threshold accumulator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="165" column="39" bodyfile="include/network/network_api_contract.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a2ffbc1d6aaa5102964ebaa53627213fa" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::network::kRateLimitBanDuration</definition>
+        <argsstring></argsstring>
+        <name>kRateLimitBanDuration</name>
+        <qualifiedname>themis::network::kRateLimitBanDuration</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Duration of a temporary ban imposed after kRateLimitBanThreshold violations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="168" column="39" bodyfile="include/network/network_api_contract.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1afff0ebecba609d994089ecff70065d1d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpFastPathReqMagic0</definition>
+        <argsstring></argsstring>
+        <name>kUdpFastPathReqMagic0</name>
+        <qualifiedname>themis::network::kUdpFastPathReqMagic0</qualifiedname>
+        <initializer>= 0x54</initializer>
+        <briefdescription>
+<para>Two-byte magic that begins every UDP fast-path request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="60" column="19" bodyfile="include/network/udp_fast_path.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a0fdc81e994823ced52e1c098430b026d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpFastPathReqMagic1</definition>
+        <argsstring></argsstring>
+        <name>kUdpFastPathReqMagic1</name>
+        <qualifiedname>themis::network::kUdpFastPathReqMagic1</qualifiedname>
+        <initializer>= 0x55</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="61" column="19" bodyfile="include/network/udp_fast_path.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a02a9803f3005cd034c201790e80ef40b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpFastPathRespMagic0</definition>
+        <argsstring></argsstring>
+        <name>kUdpFastPathRespMagic0</name>
+        <qualifiedname>themis::network::kUdpFastPathRespMagic0</qualifiedname>
+        <initializer>= 0x54</initializer>
+        <briefdescription>
+<para>Two-byte magic that begins every UDP fast-path response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="64" column="19" bodyfile="include/network/udp_fast_path.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a2247b7de5ed6d0c44afbed9e6bde77eb" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpFastPathRespMagic1</definition>
+        <argsstring></argsstring>
+        <name>kUdpFastPathRespMagic1</name>
+        <qualifiedname>themis::network::kUdpFastPathRespMagic1</qualifiedname>
+        <initializer>= 0x52</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="65" column="19" bodyfile="include/network/udp_fast_path.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1ac5f17282cf4d05fc59f1f78213155c56" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpFastPathVersion</definition>
+        <argsstring></argsstring>
+        <name>kUdpFastPathVersion</name>
+        <qualifiedname>themis::network::kUdpFastPathVersion</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="67" column="19" bodyfile="include/network/udp_fast_path.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kUdpFastPathHeaderSize</definition>
+        <argsstring></argsstring>
+        <name>kUdpFastPathHeaderSize</name>
+        <qualifiedname>themis::network::kUdpFastPathHeaderSize</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Minimum header size (bytes) for a well-formed request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="70" column="23" bodyfile="include/network/udp_fast_path.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a493b81c8b89cb5cd3f54130a69fefe84" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kUdpFastPathMaxPacketSize</definition>
+        <argsstring></argsstring>
+        <name>kUdpFastPathMaxPacketSize</name>
+        <qualifiedname>themis::network::kUdpFastPathMaxPacketSize</qualifiedname>
+        <initializer>= 65507</initializer>
+        <briefdescription>
+<para>Maximum total datagram size accepted (platform UDP max is ~65 507 bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="73" column="23" bodyfile="include/network/udp_fast_path.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a34138d212fb481091e8ad35471017026" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpServerMagic0</definition>
+        <argsstring></argsstring>
+        <name>kUdpServerMagic0</name>
+        <qualifiedname>themis::network::kUdpServerMagic0</qualifiedname>
+        <initializer>= 0x54</initializer>
+        <briefdescription>
+<para>Two-byte magic that begins every UDP ingestion server request (&quot;TM&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="66" column="19" bodyfile="include/network/udp_server.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1aa677dca0c7a65abb6e5fc63016e407f3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpServerMagic1</definition>
+        <argsstring></argsstring>
+        <name>kUdpServerMagic1</name>
+        <qualifiedname>themis::network::kUdpServerMagic1</qualifiedname>
+        <initializer>= 0x4D</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="67" column="19" bodyfile="include/network/udp_server.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a839412a70e7485e6a65ee3f92516bc80" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpServerAckMagic0</definition>
+        <argsstring></argsstring>
+        <name>kUdpServerAckMagic0</name>
+        <qualifiedname>themis::network::kUdpServerAckMagic0</qualifiedname>
+        <initializer>= 0x54</initializer>
+        <briefdescription>
+<para>Two-byte magic that begins every UDP ACK response (&quot;TA&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="70" column="19" bodyfile="include/network/udp_server.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a4f4674c4398f153a146c8b06cbab5e1b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpServerAckMagic1</definition>
+        <argsstring></argsstring>
+        <name>kUdpServerAckMagic1</name>
+        <qualifiedname>themis::network::kUdpServerAckMagic1</qualifiedname>
+        <initializer>= 0x41</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="71" column="19" bodyfile="include/network/udp_server.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a1e51392ff141c1f9975e2e868084e45f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpServerVersion</definition>
+        <argsstring></argsstring>
+        <name>kUdpServerVersion</name>
+        <qualifiedname>themis::network::kUdpServerVersion</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+<para>Protocol version byte. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="74" column="19" bodyfile="include/network/udp_server.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a80e10f38d8c9bde357eb235208193a3f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kUdpServerHeaderSize</definition>
+        <argsstring></argsstring>
+        <name>kUdpServerHeaderSize</name>
+        <qualifiedname>themis::network::kUdpServerHeaderSize</qualifiedname>
+        <initializer>= 11</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum header size (bytes) for a well-formed request. magic(2) + version(1) + opcode(1) + seqnum(4) + flags(1) + payloadlen(2) = 11 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="78" column="23" bodyfile="include/network/udp_server.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a4d8d53790d13fbdc793d748d0795ac44" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kUdpServerAckSize</definition>
+        <argsstring></argsstring>
+        <name>kUdpServerAckSize</name>
+        <qualifiedname>themis::network::kUdpServerAckSize</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Fixed size of an ACK datagram: magic(2)+version(1)+status(1)+seqnum(4) = 8. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="81" column="23" bodyfile="include/network/udp_server.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1ab1374a4438c5c28e11f4d597e80e6b50" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kUdpServerMaxPacketSize</definition>
+        <argsstring></argsstring>
+        <name>kUdpServerMaxPacketSize</name>
+        <qualifiedname>themis::network::kUdpServerMaxPacketSize</qualifiedname>
+        <initializer>= 65507</initializer>
+        <briefdescription>
+<para>Maximum total datagram size accepted (platform UDP max is ~65507 bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="84" column="23" bodyfile="include/network/udp_server.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1aca5a6e4170c845270b13fbd643c1165d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::network::kUdpServerFlagAckRequested</definition>
+        <argsstring></argsstring>
+        <name>kUdpServerFlagAckRequested</name>
+        <qualifiedname>themis::network::kUdpServerFlagAckRequested</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+<para>Flag bit: client requests an application-level acknowledgement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="87" column="19" bodyfile="include/network/udp_server.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a38c32c0f3f3ff013acdfbb0acc6b76c9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint8_t</type>
+        <definition>std::uint8_t themis::network::kWireProtocolMagic0</definition>
+        <argsstring></argsstring>
+        <name>kWireProtocolMagic0</name>
+        <qualifiedname>themis::network::kWireProtocolMagic0</qualifiedname>
+        <initializer>= 0xDB</initializer>
+        <briefdescription>
+<para>Protocol magic bytes (first two bytes of every packet). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="53" column="31" bodyfile="include/network/wire_protocol.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a7f2f90a054baaedac8da165e5e8da364" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint8_t</type>
+        <definition>std::uint8_t themis::network::kWireProtocolMagic1</definition>
+        <argsstring></argsstring>
+        <name>kWireProtocolMagic1</name>
+        <qualifiedname>themis::network::kWireProtocolMagic1</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="54" column="31" bodyfile="include/network/wire_protocol.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a78617bbee55df3dd646cb23be8b0c8bc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kWireProtocolMinPacketSize</definition>
+        <argsstring></argsstring>
+        <name>kWireProtocolMinPacketSize</name>
+        <qualifiedname>themis::network::kWireProtocolMinPacketSize</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+<para>Minimum packet size (magic + type + length-field). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="57" column="30" bodyfile="include/network/wire_protocol.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1a9bdb4826801cf07211c3b84c8d18abb0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::kWireProtocolMaxPayloadBytes</definition>
+        <argsstring></argsstring>
+        <name>kWireProtocolMaxPayloadBytes</name>
+        <qualifiedname>themis::network::kWireProtocolMaxPayloadBytes</qualifiedname>
+        <initializer>= 64u * 1024u * 1024u</initializer>
+        <briefdescription>
+<para>Maximum allowed payload length (64 MiB) — prevents OOM via malformed packets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol.h" line="60" column="30" bodyfile="include/network/wire_protocol.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1network_1aa6066ed408df94a07a17fb778c70bb28" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::DICT_PREFIX_SIZE</definition>
+        <argsstring></argsstring>
+        <name>DICT_PREFIX_SIZE</name>
+        <qualifiedname>themis::network::DICT_PREFIX_SIZE</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/connection_compression.cpp" line="29" column="25" bodyfile="src/network/connection_compression.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1network_1ad9ddc9e62220b26bb1492733f7082143" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::compressLZ4</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, uint32_t min_size=256)</argsstring>
+        <name>compressLZ4</name>
+        <qualifiedname>themis::network::compressLZ4</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>min_size</declname>
+          <defval>256</defval>
+        </param>
+        <briefdescription>
+<para>Compress <computeroutput>data</computeroutput> with LZ4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the compressed payload (with 4-byte original-size prefix) when compression reduces the size and the input meets the minimum threshold. Returns an empty vector when compression is skipped or fails.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input bytes to compress. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Skip compression when input is smaller than this. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/connection_compression.h" line="43" column="20" bodyfile="include/network/connection_compression.h" bodystart="43" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1a4bad2f55002cac8db0859008f7fea3da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::decompressLZ4</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompressLZ4</name>
+        <qualifiedname>themis::network::decompressLZ4</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress an LZ4-compressed payload (with 4-byte original-size prefix). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the decompressed bytes, or an empty vector on error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/connection_compression.h" line="68" column="20" bodyfile="include/network/connection_compression.h" bodystart="68" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1a14a96ceceec04168a307024ee5b6f446" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::compressZstd</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, uint32_t min_size=256, int level=ZSTD_CLEVEL_DEFAULT)</argsstring>
+        <name>compressZstd</name>
+        <qualifiedname>themis::network::compressZstd</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>min_size</declname>
+          <defval>256</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+          <defval>ZSTD_CLEVEL_DEFAULT</defval>
+        </param>
+        <briefdescription>
+<para>Compress <computeroutput>data</computeroutput> with Zstd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the compressed payload (with 4-byte original-size prefix) when compression reduces the size and the input meets the minimum threshold. Returns an empty vector when compression is skipped or fails.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input bytes to compress. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Skip compression when input is smaller than this. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zstd compression level (1–22, default 3). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/connection_compression.h" line="96" column="20" bodyfile="include/network/connection_compression.h" bodystart="96" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1a48662942a2b4d9d24c4836add60f6649" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::network::decompressZstd</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompressZstd</name>
+        <qualifiedname>themis::network::decompressZstd</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress a Zstd-compressed payload (with 4-byte original-size prefix). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the decompressed bytes, or an empty vector on error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/connection_compression.h" line="122" column="20" bodyfile="include/network/connection_compression.h" bodystart="122" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1a00a96913bcd1d7510435b5c049d7a5f7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::network::createMptcpListenSocket</definition>
+        <argsstring>(const std::string &amp;host, uint16_t port, const MptcpConfig &amp;config={}) noexcept</argsstring>
+        <name>createMptcpListenSocket</name>
+        <qualifiedname>themis::network::createMptcpListenSocket</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_mptcp_config" kindref="compound">MptcpConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a listening TCP (or MPTCP) socket on the given address/port. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Linux ≥ 5.6 with THEMIS_ENABLE_MPTCP defined, the socket is created with IPPROTO_MPTCP. On other platforms (or if MPTCP creation fails and <computeroutput>config.fallback_to_tcp</computeroutput> is true), falls back to IPPROTO_TCP.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>host</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bind address (IPv4 or IPv6). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>TCP port to bind. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MPTCP configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Open listening socket fd (non-blocking, SO_REUSEADDR set), or -1 on fatal error (errno set). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/multipath_tcp.cpp" line="55" column="5" bodyfile="src/network/multipath_tcp.cpp" bodystart="55" bodyend="125" declfile="include/network/multipath_tcp.h" declline="219" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1aef40c96a4ea7d0050c289b2ed703b4ff" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::isMptcpKernelSupported</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>isMptcpKernelSupported</name>
+        <qualifiedname>themis::network::isMptcpKernelSupported</qualifiedname>
+        <briefdescription>
+<para>Probe whether the running kernel supports MPTCP. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if MPTCP is available (Linux ≥ 5.6, kernel compiled with CONFIG_MPTCP, and the MPTCP netlink family is responsive). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/multipath_tcp.cpp" line="37" column="6" bodyfile="src/network/multipath_tcp.cpp" bodystart="37" bodyend="49" declfile="include/network/multipath_tcp.h" declline="229" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::isConnectionClosingError</definition>
+        <argsstring>(NetworkErrorCode code) noexcept</argsstring>
+        <name>isConnectionClosingError</name>
+        <qualifiedname>themis::network::isConnectionClosingError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when <computeroutput>code</computeroutput> mandates immediate connection closure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fail-closed (connection-closing) codes: FRAME_INVALID, FRAME_OVERSIZED, AUTH_TIMEOUT, TRANSPORT_CLOSED, TRANSPORT_UNAVAILABLE, INTERNAL_ERROR. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="253" column="24" bodyfile="include/network/network_api_contract.h" bodystart="253" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::isRateLimitTransient</definition>
+        <argsstring>(NetworkErrorCode code) noexcept</argsstring>
+        <name>isRateLimitTransient</name>
+        <qualifiedname>themis::network::isRateLimitTransient</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when <computeroutput>code</computeroutput> is a transient rate-limit code that the caller MAY retry after a Retry-After interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_api_contract.h" line="271" column="24" bodyfile="include/network/network_api_contract.h" bodystart="271" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1a795f17d899b833a5b6628f7157b7c386" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::setNetworkGeoQueryFn</definition>
+        <argsstring>(GeoQueryFn fn)</argsstring>
+        <name>setNetworkGeoQueryFn</name>
+        <qualifiedname>themis::network::setNetworkGeoQueryFn</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a3466e75a13ec96551dfa89b2c7743bc6" kindref="member">GeoQueryFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register the geospatial query injection bridge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Network Geo Query Fn.</para>
+<para>Thread-safe. Replaces any previously registered function. Pass a null/empty function to clear the bridge and restore the GEO_NOT_INTEGRATED fallback behaviour.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable to handle GEO_QUERY messages, or nullptr to clear.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_server.cpp" line="373" column="6" bodyfile="src/network/wire_protocol_server.cpp" bodystart="373" bodyend="376" declfile="include/network/wire_protocol_server.h" declline="104" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1aef6001dc14da9588281b88ab1dda60e2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95" kindref="member">WireErrorClass</ref></type>
+        <definition>WireErrorClass themis::network::classifyBoostError</definition>
+        <argsstring>(const boost::system::error_code &amp;ec) noexcept</argsstring>
+        <name>classifyBoostError</name>
+        <qualifiedname>themis::network::classifyBoostError</qualifiedname>
+        <param>
+          <type>const boost::system::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Classify a Boost.Asio error_code into a <ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95" kindref="member">WireErrorClass</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by the wire protocol server to decide whether to retry a failed accept or send/receive operation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Boost.Asio error code to classify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1network_1ae173c6fe5161e764c0222cd9dad6de95" kindref="member">WireErrorClass</ref> enum value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_retry_policy.cpp" line="27" column="16" bodyfile="src/network/wire_retry_policy.cpp" bodystart="27" bodyend="99" declfile="include/network/wire_retry_policy.h" declline="234" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1network_1a0d6591c1e247273a59c8e2f64a86edaf" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::retryWithPolicy</definition>
+        <argsstring>(const WireRetryPolicy &amp;policy, std::function&lt; bool()&gt; op, std::function&lt; void(uint32_t, int64_t)&gt; on_fail={}) noexcept</argsstring>
+        <name>retryWithPolicy</name>
+        <qualifiedname>themis::network::retryWithPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_wire_retry_policy" kindref="compound">WireRetryPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool()&gt;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(uint32_t, int64_t)&gt;</type>
+          <declname>on_fail</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute <computeroutput>op</computeroutput> with retry governed by <computeroutput>policy</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>op</computeroutput> must be callable as <computeroutput>bool()</computeroutput>, returning true on success and false on a retryable failure. Exceptions thrown by <computeroutput>op</computeroutput> are caught and treated as transient failures; they do not propagate through the retry loop.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retry parameters. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation to retry; returns true on success. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>on_fail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional callback invoked on each failure with (attempt, delay_ms).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if <computeroutput>op</computeroutput> succeeded within the allowed attempts; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ctx. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/network/wire_retry_policy.cpp" line="105" column="6" bodyfile="src/network/wire_retry_policy.cpp" bodystart="105" bodyend="155" declfile="include/network/wire_retry_policy.h" declline="250" declcolumn="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/adaptive_circuit_breaker.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

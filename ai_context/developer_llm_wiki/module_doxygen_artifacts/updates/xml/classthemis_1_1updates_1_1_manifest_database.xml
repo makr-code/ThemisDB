@@ -1,0 +1,899 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_manifest_database" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::ManifestDatabase</compoundname>
+    <includes refid="manifest__database_8h" local="no">manifest_database.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_manifest_database_1a73685e5c6049e69af83b5b2e5fd13b9a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::updates::ManifestDatabase::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::updates::ManifestDatabase::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="159" column="21" bodyfile="include/updates/manifest_database.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_manifest_database_1ab76d6c68107b9f0f616019dffd2b70ab" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; acceleration::PluginSecurityVerifier &gt;</type>
+        <definition>std::shared_ptr&lt;acceleration::PluginSecurityVerifier&gt; themis::updates::ManifestDatabase::verifier_</definition>
+        <argsstring></argsstring>
+        <name>verifier_</name>
+        <qualifiedname>themis::updates::ManifestDatabase::verifier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="160" column="21" bodyfile="include/updates/manifest_database.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_manifest_database_1a34e2cb72c224dd8b78dffbac66b6c0a0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::ManifestDatabase::cf_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cf_mutex_</name>
+        <qualifiedname>themis::updates::ManifestDatabase::cf_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="163" column="24" bodyfile="include/updates/manifest_database.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_manifest_database_1ad3098c296f931bc01db454b48d94faa0" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::updates::ManifestDatabase::cf_manifests_</definition>
+        <argsstring></argsstring>
+        <name>cf_manifests_</name>
+        <qualifiedname>themis::updates::ManifestDatabase::cf_manifests_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="166" column="33" bodyfile="include/updates/manifest_database.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_manifest_database_1ac25cec5d87dc9706d76daa2411aeb2a2" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::updates::ManifestDatabase::cf_files_</definition>
+        <argsstring></argsstring>
+        <name>cf_files_</name>
+        <qualifiedname>themis::updates::ManifestDatabase::cf_files_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="167" column="33" bodyfile="include/updates/manifest_database.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_manifest_database_1a02572c49112525f58e0dc0e59e456357" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::updates::ManifestDatabase::cf_signatures_</definition>
+        <argsstring></argsstring>
+        <name>cf_signatures_</name>
+        <qualifiedname>themis::updates::ManifestDatabase::cf_signatures_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="168" column="33" bodyfile="include/updates/manifest_database.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_manifest_database_1adcafea9ca0a5eebd5a47d0b3bf0b80bf" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::updates::ManifestDatabase::cf_cache_</definition>
+        <argsstring></argsstring>
+        <name>cf_cache_</name>
+        <qualifiedname>themis::updates::ManifestDatabase::cf_cache_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="169" column="33" bodyfile="include/updates/manifest_database.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1af1aa6fa55a6978830f5609860895717a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::ManifestDatabase::ManifestDatabase</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; acceleration::PluginSecurityVerifier &gt; verifier)</argsstring>
+        <name>ManifestDatabase</name>
+        <qualifiedname>themis::updates::ManifestDatabase::ManifestDatabase</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; acceleration::PluginSecurityVerifier &gt;</type>
+          <declname>verifier</declname>
+        </param>
+        <briefdescription>
+<para>Construct manifest database with storage backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin security verifier for signature verification </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="42" column="5" bodyfile="src/updates/manifest_database.cpp" bodystart="90" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1a1ac88a505d996da948f05b1981e91606" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::ManifestDatabase::~ManifestDatabase</definition>
+        <argsstring>()</argsstring>
+        <name>~ManifestDatabase</name>
+        <qualifiedname>themis::updates::ManifestDatabase::~ManifestDatabase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="47" column="5" bodyfile="src/updates/manifest_database.cpp" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1a4a9740359f2f8105ce0dc0b14229a5c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::ManifestDatabase::storeManifest</definition>
+        <argsstring>(const ReleaseManifest &amp;manifest)</argsstring>
+        <name>storeManifest</name>
+        <qualifiedname>themis::updates::ManifestDatabase::storeManifest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_release_manifest" kindref="compound">ReleaseManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Store manifest in database. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store Manifest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Release manifest to store </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: toJson(), dump(), lock(), getRawDB(), Put(), rocksdb::WriteOptions(), DefaultColumnFamily(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="54" column="10" bodyfile="src/updates/manifest_database.cpp" bodystart="142" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1a4d0f20a2796b099ebd580c66d0abf032" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_release_manifest" kindref="compound">ReleaseManifest</ref> &gt;</type>
+        <definition>std::optional&lt; ReleaseManifest &gt; themis::updates::ManifestDatabase::getManifest</definition>
+        <argsstring>(const std::string &amp;version)</argsstring>
+        <name>getManifest</name>
+        <qualifiedname>themis::updates::ManifestDatabase::getManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve manifest by version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Manifest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version string (e.g., &quot;1.2.3&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Manifest if found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getRawDB(), Get(), rocksdb::ReadOptions(), DefaultColumnFamily(), ok(), IsNotFound(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="61" column="19" bodyfile="src/updates/manifest_database.cpp" bodystart="181" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1acbf060f69999db10e0ce203720746b98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_release_manifest" kindref="compound">ReleaseManifest</ref> &gt;</type>
+        <definition>std::optional&lt; ReleaseManifest &gt; themis::updates::ManifestDatabase::getLatestManifest</definition>
+        <argsstring>()</argsstring>
+        <name>getLatestManifest</name>
+        <qualifiedname>themis::updates::ManifestDatabase::getLatestManifest</qualifiedname>
+        <briefdescription>
+<para>Get latest manifest (by version number). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Latest Manifest.</para>
+<para><simplesect kind="return"><para>Latest manifest if any exist</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1updates_1_1_manifest_database_1a74ac94a9255e64b5db7cdb658976d2fc" kindref="member">listVersions()</ref>, empty(), <ref refid="classthemis_1_1updates_1_1_manifest_database_1a4d0f20a2796b099ebd580c66d0abf032" kindref="member">getManifest()</ref>, back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="67" column="19" bodyfile="src/updates/manifest_database.cpp" bodystart="214" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1a74ac94a9255e64b5db7cdb658976d2fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::updates::ManifestDatabase::listVersions</definition>
+        <argsstring>() const</argsstring>
+        <name>listVersions</name>
+        <qualifiedname>themis::updates::ManifestDatabase::listVersions</qualifiedname>
+        <briefdescription>
+<para>List all available versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of version strings, sorted ascending </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cf_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="73" column="17" bodyfile="src/updates/manifest_database.cpp" bodystart="224" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1a448e2bfd2d65973cbc3bc0ee1d3d9864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::ManifestDatabase::verifyManifest</definition>
+        <argsstring>(const ReleaseManifest &amp;manifest)</argsstring>
+        <name>verifyManifest</name>
+        <qualifiedname>themis::updates::ManifestDatabase::verifyManifest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_release_manifest" kindref="compound">ReleaseManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Verify manifest integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Manifest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Manifest to verify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if manifest is valid and signature checks out</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: calculateHash(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, empty(), <ref refid="classthemis_1_1updates_1_1_manifest_database_1ab9198f7189952ae9bcf3d65284ec88d5" kindref="member">getCachedSignatureVerification()</ref>, std::filesystem::temp_directory_path(), RAND_bytes(), std::setw(), std::setfill(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="80" column="10" bodyfile="src/updates/manifest_database.cpp" bodystart="260" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1aa9d020663abe63ee6738b91248c52168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::ManifestDatabase::verifyFile</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;version)</argsstring>
+        <name>verifyFile</name>
+        <qualifiedname>themis::updates::ManifestDatabase::verifyFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Check if file exists and is valid for a version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if file exists and hash matches</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1updates_1_1_manifest_database_1a6b972539dedd4da09863d2493764ff34" kindref="member">getFile()</ref>, <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, std::filesystem::exists(), empty(), calculateFileHash(), <ref refid="batch5__safety__helpers_8h_1a754b3d074e0af4ad3c7b918dd77ecb2d" kindref="member">LOG_DEBUG()</ref>, <ref refid="classthemis_1_1updates_1_1_manifest_database_1a4d0f20a2796b099ebd580c66d0abf032" kindref="member">getManifest()</ref>, verifySignature(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="88" column="10" bodyfile="src/updates/manifest_database.cpp" bodystart="360" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1a6b972539dedd4da09863d2493764ff34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> &gt;</type>
+        <definition>std::optional&lt; ReleaseFile &gt; themis::updates::ManifestDatabase::getFile</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;version)</argsstring>
+        <name>getFile</name>
+        <qualifiedname>themis::updates::ManifestDatabase::getFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get file from registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> if found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getRawDB(), Get(), rocksdb::ReadOptions(), DefaultColumnFamily(), ok(), json::parse(), <ref refid="structthemis_1_1updates_1_1_release_file_1a5618c727487a08b166c29c9bfd147a7d" kindref="member">ReleaseFile::fromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="96" column="19" bodyfile="src/updates/manifest_database.cpp" bodystart="423" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1a4f520fba86091173b7cb592ef1f012cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::ManifestDatabase::storeFile</definition>
+        <argsstring>(const ReleaseFile &amp;file, const std::string &amp;version)</argsstring>
+        <name>storeFile</name>
+        <qualifiedname>themis::updates::ManifestDatabase::storeFile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Store file in registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> to store </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: toJson(), dump(), lock(), getRawDB(), Put(), rocksdb::WriteOptions(), DefaultColumnFamily(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="107" column="10" bodyfile="src/updates/manifest_database.cpp" bodystart="460" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1ada0ee7d26c41e29c54de3a06c79bfbc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ManifestDatabase::cacheSignatureVerification</definition>
+        <argsstring>(const std::string &amp;hash, bool verified, const std::string &amp;certificate)</argsstring>
+        <name>cacheSignatureVerification</name>
+        <qualifiedname>themis::updates::ManifestDatabase::cacheSignatureVerification</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verified</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>certificate</declname>
+        </param>
+        <briefdescription>
+<para>Cache signature verification result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cache Signature Verification.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SHA-256 hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verified</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Verification result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>certificate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Certificate used for verification</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">verified</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">certificate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), dump(), lock(), getRawDB(), Put(), rocksdb::WriteOptions(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="115" column="10" bodyfile="src/updates/manifest_database.cpp" bodystart="487" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1ab9198f7189952ae9bcf3d65284ec88d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; bool &gt;</type>
+        <definition>std::optional&lt; bool &gt; themis::updates::ManifestDatabase::getCachedSignatureVerification</definition>
+        <argsstring>(const std::string &amp;hash)</argsstring>
+        <name>getCachedSignatureVerification</name>
+        <qualifiedname>themis::updates::ManifestDatabase::getCachedSignatureVerification</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+<para>Check if signature is cached. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Cached Signature Verification.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SHA-256 hash </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result if cached</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getRawDB(), Get(), rocksdb::ReadOptions(), DefaultColumnFamily(), ok(), json::parse(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="126" column="19" bodyfile="src/updates/manifest_database.cpp" bodystart="518" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1abf7e9e845af799cf7c1bcbb4c15b0924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ManifestDatabase::cacheDownload</definition>
+        <argsstring>(const std::string &amp;version, const std::string &amp;filename, const std::string &amp;local_path)</argsstring>
+        <name>cacheDownload</name>
+        <qualifiedname>themis::updates::ManifestDatabase::cacheDownload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_path</declname>
+        </param>
+        <briefdescription>
+<para>Store download cache entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cache Download.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>local_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local file path</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">local_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the local.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getRawDB(), Put(), rocksdb::WriteOptions(), DefaultColumnFamily(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="134" column="10" bodyfile="src/updates/manifest_database.cpp" bodystart="549" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1a27ad3ee9839605913afc7966cb130262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::updates::ManifestDatabase::getCachedDownload</definition>
+        <argsstring>(const std::string &amp;version, const std::string &amp;filename)</argsstring>
+        <name>getCachedDownload</name>
+        <qualifiedname>themis::updates::ManifestDatabase::getCachedDownload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Get cached download path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Cached Download.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Local path if cached</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getRawDB(), Get(), rocksdb::ReadOptions(), DefaultColumnFamily(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="146" column="19" bodyfile="src/updates/manifest_database.cpp" bodystart="576" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1af9840e22f13311609dfb8b088f879c6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::ManifestDatabase::deleteManifest</definition>
+        <argsstring>(const std::string &amp;version)</argsstring>
+        <name>deleteManifest</name>
+        <qualifiedname>themis::updates::ManifestDatabase::deleteManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Delete manifest and associated files. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Manifest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version to delete </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1updates_1_1_manifest_database_1a4d0f20a2796b099ebd580c66d0abf032" kindref="member">getManifest()</ref>, <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, lock(), getRawDB(), DefaultColumnFamily(), Put(), rocksdb::WriteOptions(), Delete(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="156" column="10" bodyfile="src/updates/manifest_database.cpp" bodystart="610" bodyend="697"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_manifest_database_1adb427492ec14105658e922416a47532e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::ManifestDatabase::initializeColumnFamilies</definition>
+        <argsstring>()</argsstring>
+        <name>initializeColumnFamilies</name>
+        <qualifiedname>themis::updates::ManifestDatabase::initializeColumnFamilies</qualifiedname>
+        <briefdescription>
+<para>Initialize column families. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize Column Families.</para>
+<para>Calls: getOrCreateColumnFamily(), lock(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/manifest_database.h" line="174" column="10" bodyfile="src/updates/manifest_database.cpp" bodystart="107" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RocksDB-backed database for release manifests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Column Families:<itemizedlist>
+<listitem><para>release_manifests: version -&gt; <ref refid="structthemis_1_1updates_1_1_release_manifest" kindref="compound">ReleaseManifest</ref> (JSON)</para>
+</listitem><listitem><para>file_registry: path:version -&gt; <ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> (JSON)</para>
+</listitem><listitem><para>signature_cache: hash -&gt; Signature verification result</para>
+</listitem><listitem><para>download_cache: version:file -&gt; local path </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/updates/manifest_database.h" line="35" column="1" bodyfile="include/updates/manifest_database.h" bodystart="35" bodyend="175"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1abf7e9e845af799cf7c1bcbb4c15b0924" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>cacheDownload</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1ada0ee7d26c41e29c54de3a06c79bfbc3" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>cacheSignatureVerification</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1adcafea9ca0a5eebd5a47d0b3bf0b80bf" prot="private" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>cf_cache_</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1ac25cec5d87dc9706d76daa2411aeb2a2" prot="private" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>cf_files_</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1ad3098c296f931bc01db454b48d94faa0" prot="private" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>cf_manifests_</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a34e2cb72c224dd8b78dffbac66b6c0a0" prot="private" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>cf_mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a02572c49112525f58e0dc0e59e456357" prot="private" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>cf_signatures_</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1af9840e22f13311609dfb8b088f879c6b" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>deleteManifest</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a27ad3ee9839605913afc7966cb130262" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>getCachedDownload</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1ab9198f7189952ae9bcf3d65284ec88d5" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>getCachedSignatureVerification</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a6b972539dedd4da09863d2493764ff34" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>getFile</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1acbf060f69999db10e0ce203720746b98" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>getLatestManifest</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a4d0f20a2796b099ebd580c66d0abf032" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>getManifest</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1adb427492ec14105658e922416a47532e" prot="private" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>initializeColumnFamilies</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a74ac94a9255e64b5db7cdb658976d2fc" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>listVersions</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1af1aa6fa55a6978830f5609860895717a" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>ManifestDatabase</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a73685e5c6049e69af83b5b2e5fd13b9a" prot="private" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a4f520fba86091173b7cb592ef1f012cf" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>storeFile</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a4a9740359f2f8105ce0dc0b14229a5c3" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>storeManifest</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1ab76d6c68107b9f0f616019dffd2b70ab" prot="private" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>verifier_</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1aa9d020663abe63ee6738b91248c52168" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>verifyFile</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a448e2bfd2d65973cbc3bc0ee1d3d9864" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>verifyManifest</name></member>
+      <member refid="classthemis_1_1updates_1_1_manifest_database_1a1ac88a505d996da948f05b1981e91606" prot="public" virt="non-virtual"><scope>themis::updates::ManifestDatabase</scope><name>~ManifestDatabase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,854 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_field_diagnostics_collector" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::FieldDiagnosticsCollector</compoundname>
+    <includes refid="field__diagnostics__collector_8h" local="no">field_diagnostics_collector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1af1ea0da1993f96a55a03696b66341d59" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_field_diagnostics_config" kindref="compound">FieldDiagnosticsConfig</ref></type>
+        <definition>FieldDiagnosticsConfig themis::observability::FieldDiagnosticsCollector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="230" column="28" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a474b66c03e4f41b332169427dbf3a1c8" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::FieldDiagnosticsCollector::buffer_mu_</definition>
+        <argsstring></argsstring>
+        <name>buffer_mu_</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::buffer_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="233" column="31" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a4e5be26d41fb80df8b4fa0302abaacd6" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; DiagnosticEvent &gt;</type>
+        <definition>std::deque&lt;DiagnosticEvent&gt; themis::observability::FieldDiagnosticsCollector::event_buffer_</definition>
+        <argsstring></argsstring>
+        <name>event_buffer_</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::event_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="234" column="16" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1afa086e780ff842290fdd164137da530d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::observability::FieldDiagnosticsCollector::total_events_emitted_</definition>
+        <argsstring></argsstring>
+        <name>total_events_emitted_</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::total_events_emitted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="237" column="17" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a58722b78f03599e9fbd4e51770fca905" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::observability::FieldDiagnosticsCollector::events_dropped_</definition>
+        <argsstring></argsstring>
+        <name>events_dropped_</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::events_dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="238" column="17" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="238" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a5246b043c42913ab7ac485e7b9d9145b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::observability::FieldDiagnosticsCollector::pii_sanitizations_</definition>
+        <argsstring></argsstring>
+        <name>pii_sanitizations_</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::pii_sanitizations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="239" column="17" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="239" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a82a25cadcce073bb370bbc36b1b8c18a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::FieldDiagnosticsCollector::callback_mu_</definition>
+        <argsstring></argsstring>
+        <name>callback_mu_</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::callback_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="242" column="24" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a874350e64bc33e1c2ddd51ce93f68adc" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::function&lt; void(const DiagnosticEvent &amp;)&gt; &gt;</type>
+        <definition>std::vector&lt;std::function&lt;void(const DiagnosticEvent&amp;)&gt; &gt; themis::observability::FieldDiagnosticsCollector::emit_callbacks_</definition>
+        <argsstring></argsstring>
+        <name>emit_callbacks_</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::emit_callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="243" column="17" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a071e8d1a12094a1b69f488bd6f0f910a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a614e4ceefb40bbba8b8440fe50ae67c4" kindref="member">FieldDiagnosticsCollector</ref> &amp;</type>
+        <definition>FieldDiagnosticsCollector &amp; themis::observability::FieldDiagnosticsCollector::getInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::getInstance</qualifiedname>
+        <briefdescription>
+<para>Get process-wide singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Instance.</para>
+<para><simplesect kind="return"><para>Reference to global collector instance</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getInstance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="97" column="38" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="23" bodyend="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a614e4ceefb40bbba8b8440fe50ae67c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::FieldDiagnosticsCollector::FieldDiagnosticsCollector</definition>
+        <argsstring>(const FieldDiagnosticsCollector &amp;)=delete</argsstring>
+        <name>FieldDiagnosticsCollector</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::FieldDiagnosticsCollector</qualifiedname>
+        <param>
+          <type>const FieldDiagnosticsCollector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a09fd6d41c754bcd3c1b95c1e00e14633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a614e4ceefb40bbba8b8440fe50ae67c4" kindref="member">FieldDiagnosticsCollector</ref> &amp;</type>
+        <definition>FieldDiagnosticsCollector &amp; themis::observability::FieldDiagnosticsCollector::operator=</definition>
+        <argsstring>(const FieldDiagnosticsCollector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a614e4ceefb40bbba8b8440fe50ae67c4" kindref="member">FieldDiagnosticsCollector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="101" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a689612350b5861b2a302dfc8a0cbf899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::FieldDiagnosticsCollector::FieldDiagnosticsCollector</definition>
+        <argsstring>(FieldDiagnosticsCollector &amp;&amp;)=delete</argsstring>
+        <name>FieldDiagnosticsCollector</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::FieldDiagnosticsCollector</qualifiedname>
+        <param>
+          <type>FieldDiagnosticsCollector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a7c78f83ce98352514c1fc610ee7589e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a614e4ceefb40bbba8b8440fe50ae67c4" kindref="member">FieldDiagnosticsCollector</ref> &amp;</type>
+        <definition>FieldDiagnosticsCollector &amp; themis::observability::FieldDiagnosticsCollector::operator=</definition>
+        <argsstring>(FieldDiagnosticsCollector &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a614e4ceefb40bbba8b8440fe50ae67c4" kindref="member">FieldDiagnosticsCollector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="103" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a091d891d8728331729fca6f025a05e50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::FieldDiagnosticsCollector::configure</definition>
+        <argsstring>(const FieldDiagnosticsConfig &amp;config)</argsstring>
+        <name>configure</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::configure</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_field_diagnostics_config" kindref="compound">FieldDiagnosticsConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure the collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure.</para>
+<para>Should be called early in initialization (before first event emission). Thread-safe but best called before production load begins.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration parameters</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="113" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a7c1a812f5fd90272df0057f56480ac52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::FieldDiagnosticsCollector::emitWithPIIMasking</definition>
+        <argsstring>(const DiagnosticEvent &amp;event)</argsstring>
+        <name>emitWithPIIMasking</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::emitWithPIIMasking</qualifiedname>
+        <param>
+          <type>const DiagnosticEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit a diagnostic event with automatic PII masking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit With PIIMasking.</para>
+<para>This is the primary interface for modules to report diagnostics. The event is automatically sanitized before storage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Diagnostic event to emit </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if event was accepted and buffered, false if disabled or buffer full</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), sanitizePII(), <ref refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1ae82a65b2334988a48f1142ce9e2b36a0" kindref="member">emitDiagnosticEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="124" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="60" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1ae82a65b2334988a48f1142ce9e2b36a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::FieldDiagnosticsCollector::emitDiagnosticEvent</definition>
+        <argsstring>(const DiagnosticEvent &amp;event)</argsstring>
+        <name>emitDiagnosticEvent</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::emitDiagnosticEvent</qualifiedname>
+        <param>
+          <type>const DiagnosticEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit a diagnostic event directly (assumes pre-sanitized). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit Diagnostic Event.</para>
+<para>Use this when you&apos;ve already applied PII masking or confirmed the event contains no sensitive data.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-sanitized diagnostic event </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if event was accepted, false if disabled or buffer full</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), addEventToBuffer(), updateMetricsForEvent(), invokeCallbacks(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="135" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="88" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1ad06552f57984e0300aa01bfac7970ba6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; DiagnosticEvent &gt;</type>
+        <definition>std::vector&lt; DiagnosticEvent &gt; themis::observability::FieldDiagnosticsCollector::getEventsSince</definition>
+        <argsstring>(const std::chrono::system_clock::time_point &amp;since_timestamp) const</argsstring>
+        <name>getEventsSince</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::getEventsSince</qualifiedname>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>since_timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve diagnostic events since a given timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for ad-hoc analysis or exporting to external systems. Returns a snapshot; buffer may be modified concurrently.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>since_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Only include events after this time </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of matching events (copy, not reference) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="146" column="17" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="141" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a6a451792e2dbae30d5bcc256f768ee66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; DiagnosticEvent &gt;</type>
+        <definition>std::vector&lt; DiagnosticEvent &gt; themis::observability::FieldDiagnosticsCollector::getAllEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllEvents</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::getAllEvents</qualifiedname>
+        <briefdescription>
+<para>Get all currently buffered events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of all events in buffer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="154" column="17" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="160" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a98fb836db143079e9e126c95b4e35faa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; DiagnosticFailureCategory, size_t &gt;</type>
+        <definition>std::map&lt; DiagnosticFailureCategory, size_t &gt; themis::observability::FieldDiagnosticsCollector::getEventCountsByCategory</definition>
+        <argsstring>() const</argsstring>
+        <name>getEventCountsByCategory</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::getEventCountsByCategory</qualifiedname>
+        <briefdescription>
+<para>Get count of events by failure category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for summary statistics.</para>
+<para><simplesect kind="return"><para>Map of category -&gt; count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="163" column="14" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="171" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a5eaddb7a68f63865ef706f238e41a264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::FieldDiagnosticsCollector::clearBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>clearBuffer</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::clearBuffer</qualifiedname>
+        <briefdescription>
+<para>Clear all buffered events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Buffer.</para>
+<para>Useful for testing or resetting state. Thread-safe.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="170" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="191" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a109f0dda09ad77c7ece49d3f95ad12a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::FieldDiagnosticsCollector::getBufferSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getBufferSize</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::getBufferSize</qualifiedname>
+        <briefdescription>
+<para>Get current buffer size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of events currently buffered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="177" column="12" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="196" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a44296f35f0b222ffffa2245bd0ad8516" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::FieldDiagnosticsCollector::setEnabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>setEnabled</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::setEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable or disable event collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Enabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true to enable, false to disable</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="184" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="211" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a533200037c4248cad62ade7242d4f194" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::FieldDiagnosticsCollector::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if collection is currently enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if enabled </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="191" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="216" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1abcbaf125c92b6b40cfe8b2930d21582d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::FieldDiagnosticsCollector::registerEmitCallback</definition>
+        <argsstring>(std::function&lt; void(const DiagnosticEvent &amp;)&gt; callback)</argsstring>
+        <name>registerEmitCallback</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::registerEmitCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const DiagnosticEvent &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback to be invoked on event emission. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for integration with external observability systems. Callback is invoked synchronously during emit; keep it fast.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call with each emitted event </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="201" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="226" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1adf447bd0b8cdc9167f131dc5f5478e34" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::observability::FieldDiagnosticsCollector::exportAsJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>exportAsJSON</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::exportAsJSON</qualifiedname>
+        <briefdescription>
+<para>Export all events as JSON array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON array of all buffered events </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="208" column="20" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="253" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1ac08876fc217207798d28207d734d76c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::FieldDiagnosticsCollector::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::flush</qualifiedname>
+        <briefdescription>
+<para>Force flush of any pending batches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para>Useful before shutdown or when synchronous export is needed.</para>
+<para>Implements flush without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="215" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="272" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1abf64eb02e7979f4bcea492e983acff50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::observability::FieldDiagnosticsCollector::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::getStats</qualifiedname>
+        <briefdescription>
+<para>Get collector statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with stats (total emitted, buffered, dropped, etc.) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="222" column="20" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="277" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a56e7aeebd2ad5d8a0c5c8d6e6fb971c9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::FieldDiagnosticsCollector::FieldDiagnosticsCollector</definition>
+        <argsstring>()</argsstring>
+        <name>FieldDiagnosticsCollector</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::FieldDiagnosticsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="226" column="5" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="28" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1aa73404a374f0c330f92846f1b17f87a4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::FieldDiagnosticsCollector::~FieldDiagnosticsCollector</definition>
+        <argsstring>()</argsstring>
+        <name>~FieldDiagnosticsCollector</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::~FieldDiagnosticsCollector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="227" column="5" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1aa644f9712d7a6a97f19ac43869d0c882" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::FieldDiagnosticsCollector::addEventToBuffer</definition>
+        <argsstring>(const DiagnosticEvent &amp;event)</argsstring>
+        <name>addEventToBuffer</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::addEventToBuffer</qualifiedname>
+        <param>
+          <type>const DiagnosticEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Add Event To Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), size(), pop_front(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="246" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="124" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a2f06cdeae5cbe801ec56557496e86130" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::FieldDiagnosticsCollector::invokeCallbacks</definition>
+        <argsstring>(const DiagnosticEvent &amp;event) const</argsstring>
+        <name>invokeCallbacks</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::invokeCallbacks</qualifiedname>
+        <param>
+          <type>const DiagnosticEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="249" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="237" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_field_diagnostics_collector_1a6672f54742f215d7e5eb117e8f121348" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::FieldDiagnosticsCollector::updateMetricsForEvent</definition>
+        <argsstring>(const DiagnosticEvent &amp;event)</argsstring>
+        <name>updateMetricsForEvent</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsCollector::updateMetricsForEvent</qualifiedname>
+        <param>
+          <type>const DiagnosticEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Update Metrics For Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1observability_1_1_metrics_collector_1a29d00492d1f8d32ba4deef797d8e4ea6" kindref="member">MetricsCollector::getInstance()</ref>, addCounter(), failureCategoryToString(), severityToString(), setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="252" column="10" bodyfile="src/observability/field_diagnostics_collector.cpp" bodystart="322" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Central diagnostic event collector for field deployments. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe singleton that collects diagnostic events from all modules and exposes them for analysis and observability integration.</para>
+<para>Key features:<itemizedlist>
+<listitem><para>Thread-safe concurrent event emission from multiple components</para>
+</listitem><listitem><para>Automatic PII masking before storage/emission</para>
+</listitem><listitem><para>Buffering with configurable max size</para>
+</listitem><listitem><para>Integration with Prometheus metrics</para>
+</listitem><listitem><para>Lightweight (&lt;1% overhead) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/observability/field_diagnostics_collector.h" line="90" column="1" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="90" bodyend="253"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1aa644f9712d7a6a97f19ac43869d0c882" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>addEventToBuffer</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a474b66c03e4f41b332169427dbf3a1c8" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>buffer_mu_</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a82a25cadcce073bb370bbc36b1b8c18a" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>callback_mu_</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a5eaddb7a68f63865ef706f238e41a264" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>clearBuffer</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1af1ea0da1993f96a55a03696b66341d59" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a091d891d8728331729fca6f025a05e50" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>configure</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a874350e64bc33e1c2ddd51ce93f68adc" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>emit_callbacks_</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1ae82a65b2334988a48f1142ce9e2b36a0" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>emitDiagnosticEvent</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a7c1a812f5fd90272df0057f56480ac52" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>emitWithPIIMasking</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a4e5be26d41fb80df8b4fa0302abaacd6" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>event_buffer_</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a58722b78f03599e9fbd4e51770fca905" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>events_dropped_</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1adf447bd0b8cdc9167f131dc5f5478e34" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>exportAsJSON</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a614e4ceefb40bbba8b8440fe50ae67c4" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>FieldDiagnosticsCollector</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a689612350b5861b2a302dfc8a0cbf899" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>FieldDiagnosticsCollector</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a56e7aeebd2ad5d8a0c5c8d6e6fb971c9" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>FieldDiagnosticsCollector</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1ac08876fc217207798d28207d734d76c1" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>flush</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a6a451792e2dbae30d5bcc256f768ee66" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>getAllEvents</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a109f0dda09ad77c7ece49d3f95ad12a7" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>getBufferSize</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a98fb836db143079e9e126c95b4e35faa" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>getEventCountsByCategory</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1ad06552f57984e0300aa01bfac7970ba6" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>getEventsSince</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a071e8d1a12094a1b69f488bd6f0f910a" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1abf64eb02e7979f4bcea492e983acff50" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a2f06cdeae5cbe801ec56557496e86130" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>invokeCallbacks</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a533200037c4248cad62ade7242d4f194" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a09fd6d41c754bcd3c1b95c1e00e14633" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a7c78f83ce98352514c1fc610ee7589e5" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a5246b043c42913ab7ac485e7b9d9145b" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>pii_sanitizations_</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1abcbaf125c92b6b40cfe8b2930d21582d" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>registerEmitCallback</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a44296f35f0b222ffffa2245bd0ad8516" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>setEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1afa086e780ff842290fdd164137da530d" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>total_events_emitted_</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1a6672f54742f215d7e5eb117e8f121348" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>updateMetricsForEvent</name></member>
+      <member refid="classthemis_1_1observability_1_1_field_diagnostics_collector_1aa73404a374f0c330f92846f1b17f87a4" prot="private" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsCollector</scope><name>~FieldDiagnosticsCollector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

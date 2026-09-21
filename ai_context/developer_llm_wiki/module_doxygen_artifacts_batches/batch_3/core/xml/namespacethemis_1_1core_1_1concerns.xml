@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1core_1_1concerns" kind="namespace" language="C++">
+    <compoundname>themis::core::concerns</compoundname>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" prot="public">themis::core::concerns::AdapterMetadata</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" prot="public">themis::core::concerns::AdapterRegistry</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" prot="public">themis::core::concerns::AdapterSignature</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator" prot="public">themis::core::concerns::AdapterValidator</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy" prot="public">themis::core::concerns::ARCEvictionStrategy</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_audit_event" prot="public">themis::core::concerns::AuditEvent</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" prot="public">themis::core::concerns::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_cache_metrics" prot="public">themis::core::concerns::CacheMetrics</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_concerns_context" prot="public">themis::core::concerns::ConcernsContext</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_context_propagation" prot="public">themis::core::concerns::ContextPropagation</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_context_scope" prot="public">themis::core::concerns::ContextScope</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_default_circuit_breaker" prot="public">themis::core::concerns::DefaultCircuitBreaker</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_env_secrets_provider" prot="public">themis::core::concerns::EnvSecretsProvider</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_health_status" prot="public">themis::core::concerns::HealthStatus</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_async_cache" prot="public">themis::core::concerns::IAsyncCache</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger" prot="public">themis::core::concerns::IAsyncLogger</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_audit_log" prot="public">themis::core::concerns::IAuditLog</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_cache" prot="public">themis::core::concerns::ICache</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker" prot="public">themis::core::concerns::ICircuitBreaker</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_context" prot="public">themis::core::concerns::IContext</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" prot="public">themis::core::concerns::IEvictionStrategy</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_feature_flags" prot="public">themis::core::concerns::IFeatureFlags</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_logger" prot="public">themis::core::concerns::ILogger</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" prot="public">themis::core::concerns::IMetrics</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_in_memory_audit_log" prot="public">themis::core::concerns::InMemoryAuditLog</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_in_memory_cache_impl" prot="public">themis::core::concerns::InMemoryCacheImpl</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_in_memory_feature_flags" prot="public">themis::core::concerns::InMemoryFeatureFlags</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_in_memory_secrets" prot="public">themis::core::concerns::InMemorySecrets</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_secrets" prot="public">themis::core::concerns::ISecrets</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_i_tracer" prot="public">themis::core::concerns::ITracer</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_jaeger_tracer_adapter" prot="public">themis::core::concerns::JaegerTracerAdapter</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_latency_timer" prot="public">themis::core::concerns::LatencyTimer</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy" prot="public">themis::core::concerns::LFUEvictionStrategy</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics" prot="public">themis::core::concerns::LockFreeMetrics</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy" prot="public">themis::core::concerns::LRUEvictionStrategy</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_metric_labels" prot="public">themis::core::concerns::MetricLabels</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_cache" prot="public">themis::core::concerns::NoOpAsyncCache</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger" prot="public">themis::core::concerns::NoOpAsyncLogger</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_audit_log" prot="public">themis::core::concerns::NoOpAuditLog</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_cache" prot="public">themis::core::concerns::NoOpCache</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker" prot="public">themis::core::concerns::NoOpCircuitBreaker</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_feature_flags" prot="public">themis::core::concerns::NoOpFeatureFlags</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger" prot="public">themis::core::concerns::NoOpLogger</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics" prot="public">themis::core::concerns::NoOpMetrics</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_secrets" prot="public">themis::core::concerns::NoOpSecrets</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_no_op_tracer" prot="public">themis::core::concerns::NoOpTracer</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_open_telemetry_tracer_adapter" prot="public">themis::core::concerns::OpenTelemetryTracerAdapter</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_probe_result" prot="public">themis::core::concerns::ProbeResult</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter" prot="public">themis::core::concerns::PrometheusMetricsAdapter</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_redis_cache" prot="public">themis::core::concerns::RedisCache</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_redis_cache_config" prot="public">themis::core::concerns::RedisCacheConfig</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_scoped_span" prot="public">themis::core::concerns::ScopedSpan</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" prot="public">themis::core::concerns::SignedAdapterValidator</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_simple_context" prot="public">themis::core::concerns::SimpleContext</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter" prot="public">themis::core::concerns::SpdlogLoggerAdapter</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl" prot="public">themis::core::concerns::StrategicCacheImpl</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_trace_context" prot="public">themis::core::concerns::TraceContext</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy" prot="public">themis::core::concerns::TTLEvictionStrategy</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy" prot="public">themis::core::concerns::TwoTierEvictionStrategy</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator" prot="public">themis::core::concerns::W3CTraceContextPropagator</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger" prot="public">themis::core::concerns::ZeroCopyLogger</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter" prot="public">themis::core::concerns::ZipkinTracerAdapter</innerclass>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns_1_1context__keys">themis::core::concerns::context_keys</innernamespace>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns_1_1labels">themis::core::concerns::labels</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>AdapterTrustPolicy</name>
+        <qualifiedname>themis::core::concerns::AdapterTrustPolicy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127a6e488759c508faa8f2c1df9c5403c8be" prot="public">
+          <name>kTrustAll</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Accept all plugins without signature verification. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1core_1_1concerns_1a8e585bd241be609897961ec1dfbe2127a3cdc5b4c26fb83b1d3b70d2219fb2401" prot="public">
+          <name>kRequireSignature</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Reject plugins without a valid SHA-256 signature. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_registry.h" line="35" column="1" bodyfile="include/core/concerns/adapter_registry.h" bodystart="35" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1core_1_1concerns_1a831cdd39cc5d78686339175934e5c26a" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_context" kindref="compound">IContext</ref> &gt;</type>
+        <definition>using themis::core::concerns::IContextPtr = std::shared_ptr&lt;IContext&gt;</definition>
+        <argsstring></argsstring>
+        <name>IContextPtr</name>
+        <qualifiedname>themis::core::concerns::IContextPtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="26" column="1" bodyfile="include/core/concerns/i_context.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1core_1_1concerns_1a10c54eca9bfb670d58d2197bd5493adc" prot="public" static="no">
+        <type>int(*)( <ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref> *registry, const char * requested_adapter_id, uint32_t host_api_version)</type>
+        <definition>using themis::core::concerns::ThemisPluginRegisterFn = int (*)(
+   AdapterRegistry* registry,
+   const char*      requested_adapter_id,
+   uint32_t         host_api_version)</definition>
+        <argsstring></argsstring>
+        <name>ThemisPluginRegisterFn</name>
+        <qualifiedname>themis::core::concerns::ThemisPluginRegisterFn</qualifiedname>
+        <briefdescription>
+<para>Function-pointer type matching the plugin&apos;s required export. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination registry. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>requested_adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter identifier requested by the caller. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>host_api_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Host-side ABI version (== kPluginAbiVersion). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>0 on success; non-zero to signal an error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/plugin_api.h" line="113" column="1" bodyfile="include/core/concerns/plugin_api.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1a60ad05a0d742820697d4cba83aaedb92" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::core::concerns::kCurrentApiVersion</definition>
+        <argsstring></argsstring>
+        <name>kCurrentApiVersion</name>
+        <qualifiedname>themis::core::concerns::kCurrentApiVersion</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_metadata.h" line="23" column="27" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1a6d5cdf335fed3b4c1485e289f5d17840" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::core::concerns::kPluginAbiVersion</definition>
+        <argsstring></argsstring>
+        <name>kPluginAbiVersion</name>
+        <qualifiedname>themis::core::concerns::kPluginAbiVersion</qualifiedname>
+        <initializer>= 1u</initializer>
+        <briefdescription>
+<para>ABI version of the ThemisDB plugin interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Plugins receive this value as <computeroutput>host_api_version</computeroutput> and may reject loads if the version is outside their supported range. The host sets this constant each time the plugin ABI changes in a breaking way. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/plugin_api.h" line="87" column="27" bodyfile="include/core/concerns/plugin_api.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1a27374234a125c7361663f00c20ce229d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::core::concerns::kPluginInitSymbol</definition>
+        <argsstring></argsstring>
+        <name>kPluginInitSymbol</name>
+        <qualifiedname>themis::core::concerns::kPluginInitSymbol</qualifiedname>
+        <initializer>= &quot;themis_plugin_register&quot;</initializer>
+        <briefdescription>
+<para>Name of the C-linkage symbol that plugins must export. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classthemis_1_1core_1_1concerns_1_1_adapter_registry_1a4060819401d401cefd60a02f79f7a630" kindref="member">AdapterRegistry::loadFromPlugin()</ref> looks up exactly this symbol name in the loaded library. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/plugin_api.h" line="99" column="29" bodyfile="include/core/concerns/plugin_api.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1a86e6d93c918dbedd7e7181fd2616f9a5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::core::concerns::kDefaultRedisHost</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRedisHost</name>
+        <qualifiedname>themis::core::concerns::kDefaultRedisHost</qualifiedname>
+        <initializer>= &quot;127.0.0.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/core/concerns/redis_cache.cpp" line="46" column="29" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1core_1_1concerns_1ade585f45cd5f7f37bce612da0f4c5edd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::core::concerns::kDefaultRedisPort</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRedisPort</name>
+        <qualifiedname>themis::core::concerns::kDefaultRedisPort</qualifiedname>
+        <initializer>= 6379</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/core/concerns/redis_cache.cpp" line="47" column="27" bodyfile="src/core/concerns/redis_cache.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/adapter_metadata.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>

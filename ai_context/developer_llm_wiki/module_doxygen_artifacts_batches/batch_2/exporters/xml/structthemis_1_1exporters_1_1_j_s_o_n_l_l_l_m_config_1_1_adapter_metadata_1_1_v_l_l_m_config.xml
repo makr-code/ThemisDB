@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig</compoundname>
+    <includes refid="jsonl__llm__exporter_8h" local="no">jsonl_llm_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1a065f3b85be54d98355d6ab70651e9a6e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="98" column="18" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1ae21f8140413eae52e6cbd49aa706c33d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::adapter_path</definition>
+        <argsstring></argsstring>
+        <name>adapter_path</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::adapter_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="99" column="25" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1a7bfc9df6ba4d96743f2ff2138f54970e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::vllm_version</definition>
+        <argsstring></argsstring>
+        <name>vllm_version</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::vllm_version</qualifiedname>
+        <initializer>= &quot;&gt;=0.4.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="100" column="25" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1aa2acb1b7436d498361e4899902c7cdea" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::max_lora_rank</definition>
+        <argsstring></argsstring>
+        <name>max_lora_rank</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::max_lora_rank</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="101" column="17" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1a3b8de4ae9276a3334c4f6c63fa512f8e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::enable_multi_lora</definition>
+        <argsstring></argsstring>
+        <name>enable_multi_lora</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::enable_multi_lora</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="102" column="18" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1a283d01801c3e393ca1502f585219d0a5" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::serving_config</definition>
+        <argsstring></argsstring>
+        <name>serving_config</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig::serving_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="103" column="22" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/jsonl_llm_exporter.h" line="97" column="9" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="97" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1ae21f8140413eae52e6cbd49aa706c33d" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig</scope><name>adapter_path</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1a3b8de4ae9276a3334c4f6c63fa512f8e" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig</scope><name>enable_multi_lora</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1a065f3b85be54d98355d6ab70651e9a6e" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1aa2acb1b7436d498361e4899902c7cdea" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig</scope><name>max_lora_rank</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1a283d01801c3e393ca1502f585219d0a5" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig</scope><name>serving_config</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_v_l_l_m_config_1a7bfc9df6ba4d96743f2ff2138f54970e" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::VLLMConfig</scope><name>vllm_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

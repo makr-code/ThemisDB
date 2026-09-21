@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_training_incident" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::TrainingIncident</compoundname>
+    <includes refid="training__incident__emitter_8h" local="no">training_incident_emitter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_incident_1a13d2764b795ba7075e69ee5671b99615" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1aa0f731bb4ce8174243dc9202b7263daf" kindref="member">TrainingIncidentClass</ref></type>
+        <definition>TrainingIncidentClass themis::training::TrainingIncident::incident_class</definition>
+        <argsstring></argsstring>
+        <name>incident_class</name>
+        <qualifiedname>themis::training::TrainingIncident::incident_class</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1training_1aa0f731bb4ce8174243dc9202b7263dafa7c95c63fdc6550e5b33eed35360778c3" kindref="member">TrainingIncidentClass::TRAINING</ref></initializer>
+        <briefdescription>
+<para>Which subsystem produced this incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="96" column="27" bodyfile="include/training/training_incident_emitter.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_incident_1a7607c65396ae0a02153bf312206c732d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+        <definition>TrainingErrorCode themis::training::TrainingIncident::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::training::TrainingIncident::error_code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">TrainingErrorCode::SUCCESS</ref></initializer>
+        <briefdescription>
+<para>Structured error code from the training error taxonomy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="99" column="23" bodyfile="include/training/training_incident_emitter.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_incident_1a8eb1993e6d6122a0653ff1cb86fb9505" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingIncident::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::training::TrainingIncident::component</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Component identifier (e.g., &quot;auto_labeler&quot;, &quot;incremental_lora_trainer&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="102" column="17" bodyfile="include/training/training_incident_emitter.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_incident_1aa9994621e279eea4c42ebb318adede5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingIncident::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::training::TrainingIncident::operation</qualifiedname>
+        <briefdescription>
+<para>Operation name within the component (e.g., &quot;label_batch&quot;, &quot;train_step&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="105" column="17" bodyfile="include/training/training_incident_emitter.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_incident_1a9702266c00ea00babe1c55e7698e2d6d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingIncident::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::training::TrainingIncident::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable summary of the incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="108" column="17" bodyfile="include/training/training_incident_emitter.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_incident_1a6550ed90b71a003387bcbeb786700ccf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::TrainingIncident::is_recoverable</definition>
+        <argsstring></argsstring>
+        <name>is_recoverable</name>
+        <qualifiedname>themis::training::TrainingIncident::is_recoverable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the caller believes the fault is recoverable without operator action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="111" column="10" bodyfile="include/training/training_incident_emitter.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_incident_1a5672c77f5228afc510ddb77fc086d1db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingIncident::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::training::TrainingIncident::context</qualifiedname>
+        <briefdescription>
+<para>Additional key=value context string for post-mortem analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="114" column="17" bodyfile="include/training/training_incident_emitter.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_incident_1a45b957761e88ed5b31afebb70d8c9b2f" prot="public" static="no" mutable="no">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::training::TrainingIncident::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::training::TrainingIncident::timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time at emission (UTC seconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="117" column="17" bodyfile="include/training/training_incident_emitter.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single diagnostic incident emitted by a training subsystem. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields are value-type (no pointers); incidents may be captured in listener queues, audit logs, or telemetry pipelines without ownership concerns. </para>
+    </detaileddescription>
+    <location file="include/training/training_incident_emitter.h" line="94" column="1" bodyfile="include/training/training_incident_emitter.h" bodystart="94" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_training_incident_1a8eb1993e6d6122a0653ff1cb86fb9505" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncident</scope><name>component</name></member>
+      <member refid="structthemis_1_1training_1_1_training_incident_1a5672c77f5228afc510ddb77fc086d1db" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncident</scope><name>context</name></member>
+      <member refid="structthemis_1_1training_1_1_training_incident_1a7607c65396ae0a02153bf312206c732d" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncident</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1training_1_1_training_incident_1a13d2764b795ba7075e69ee5671b99615" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncident</scope><name>incident_class</name></member>
+      <member refid="structthemis_1_1training_1_1_training_incident_1a6550ed90b71a003387bcbeb786700ccf" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncident</scope><name>is_recoverable</name></member>
+      <member refid="structthemis_1_1training_1_1_training_incident_1a9702266c00ea00babe1c55e7698e2d6d" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncident</scope><name>message</name></member>
+      <member refid="structthemis_1_1training_1_1_training_incident_1aa9994621e279eea4c42ebb318adede5f" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncident</scope><name>operation</name></member>
+      <member refid="structthemis_1_1training_1_1_training_incident_1a45b957761e88ed5b31afebb70d8c9b2f" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncident</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

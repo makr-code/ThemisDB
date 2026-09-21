@@ -1,0 +1,1146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_constitutional_reasoning_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ConstitutionalReasoningEngine</compoundname>
+    <includes refid="constitutional__reasoning__engine_8h" local="no">constitutional_reasoning_engine.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics" prot="public">themis::llm::ConstitutionalReasoningEngine::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_impl" prot="public">themis::llm::ConstitutionalReasoningEngine::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa2b771648520e95391d2839718dccfab" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>using themis::llm::ConstitutionalReasoningEngine::PromptRunner = std::function&lt;std::string(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PromptRunner</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::PromptRunner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="94" column="5" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ac8ae2c71d6551c2902e06c541e47f388" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::ConstitutionalReasoningEngine::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="244" column="21" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a7c8cfb65fce4e4199a83fb00f8b34570" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ConstitutionalReasoningEngine::ConstitutionalReasoningEngine</definition>
+        <argsstring>(const ConstitutionalReasoningConfig &amp;config={})</argsstring>
+        <name>ConstitutionalReasoningEngine</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::ConstitutionalReasoningEngine</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" kindref="compound">ConstitutionalReasoningConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="96" column="14" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="62" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa38c15d276a2b563ccccbae8c6d98927" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ConstitutionalReasoningEngine::~ConstitutionalReasoningEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~ConstitutionalReasoningEngine</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::~ConstitutionalReasoningEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a18fcb5f4e6486691e0916838a3de8e1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" kindref="compound">ConstitutionalReasoningResult</ref></type>
+        <definition>ConstitutionalReasoningResult themis::llm::ConstitutionalReasoningEngine::reason</definition>
+        <argsstring>(const std::string &amp;response, const std::string &amp;query, void *llm_wrapper)</argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::reason</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>llm_wrapper</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Core functionality ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">llm_wrapper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">llm_wrapper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::steady_clock::now(), <ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ab9d1dfd8b896b34a4e070fa704f90ae7" kindref="member">scoreResponse()</ref>, <ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a4053a5a7496a0b931aa3a793f098e6f4" kindref="member">checkViolations()</ref>, empty(), std::find_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="110" column="35" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="84" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa5c90b4c2a1ad9dbd4a1ac8f817e0327" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalReasoningEngine::generateCritique</definition>
+        <argsstring>(const std::string &amp;response, const std::string &amp;query, const ConstitutionalPrinciple &amp;principle, void *llm_wrapper)</argsstring>
+        <name>generateCritique</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::generateCritique</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_constitutional_principle" kindref="compound">ConstitutionalPrinciple</ref> &amp;</type>
+          <declname>principle</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>llm_wrapper</declname>
+        </param>
+        <briefdescription>
+<para>Generate Critique. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">llm_wrapper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">llm_wrapper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), empty(), buildCritiquePrompt(), <ref refid="namespacethemis_1_1llm_1a7e9bc1ea983ac7b84e3227b5301e1307" kindref="member">invokePromptRunner()</ref>, std::transform(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="124" column="17" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="245" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ad4de5060265cf6215a96c48b9221f6d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalReasoningEngine::generateRevision</definition>
+        <argsstring>(const std::string &amp;response, const std::vector&lt; std::string &gt; &amp;critiques, const std::string &amp;query, void *llm_wrapper)</argsstring>
+        <name>generateRevision</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::generateRevision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>critiques</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>llm_wrapper</declname>
+        </param>
+        <briefdescription>
+<para>Generate Revision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">critiques</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">llm_wrapper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">critiques</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">llm_wrapper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: buildRevisionPrompt(), <ref refid="namespacethemis_1_1llm_1a7e9bc1ea983ac7b84e3227b5301e1307" kindref="member">invokePromptRunner()</ref>, empty(), must_pattern(), std::regex_replace(), should_pattern(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="139" column="17" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="325" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a4053a5a7496a0b931aa3a793f098e6f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::ConstitutionalReasoningEngine::checkViolations</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>checkViolations</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::checkViolations</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Check Violations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkAutonomyRespect(), checkTransparency(), checkNonHarmfulness(), checkFairness(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="151" column="17" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="367" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ab9d1dfd8b896b34a4e070fa704f90ae7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::ConstitutionalReasoningEngine::scoreResponse</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>scoreResponse</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::scoreResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Score Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a4053a5a7496a0b931aa3a793f098e6f4" kindref="member">checkViolations()</ref>, empty(), size(), std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="158" column="11" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="402" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a851590db06cb843bd1de4e6edf1667b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ConstitutionalReasoningEngine::addPrinciple</definition>
+        <argsstring>(const ConstitutionalPrinciple &amp;principle)</argsstring>
+        <name>addPrinciple</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::addPrinciple</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_constitutional_principle" kindref="compound">ConstitutionalPrinciple</ref> &amp;</type>
+          <declname>principle</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Principle management ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="165" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="422" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ac1fc1fbdb9684d7b74e691b20428dcb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ConstitutionalReasoningEngine::removePrinciple</definition>
+        <argsstring>(const std::string &amp;principle_id)</argsstring>
+        <name>removePrinciple</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::removePrinciple</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principle_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Principle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principle_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the principle.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principle_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the principle.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="171" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="432" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ab7ac4c746bc33a09511721e91e6a0243" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_constitutional_principle" kindref="compound">ConstitutionalPrinciple</ref> &gt;</type>
+        <definition>std::vector&lt; ConstitutionalPrinciple &gt; themis::llm::ConstitutionalReasoningEngine::getPrinciples</definition>
+        <argsstring>() const</argsstring>
+        <name>getPrinciples</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::getPrinciples</qualifiedname>
+        <briefdescription>
+<para>Get Principles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="177" column="17" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="445" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a39bd6b9c49cdb0b533152256562fc115" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ConstitutionalReasoningEngine::loadDefaultPrinciples</definition>
+        <argsstring>()</argsstring>
+        <name>loadDefaultPrinciples</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::loadDefaultPrinciples</qualifiedname>
+        <briefdescription>
+<para>Load Default Principles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(), push_back(), add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="182" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="454" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a99c1e3b4ff04a1e64bb35a757d3737ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ConstitutionalReasoningEngine::setConfig</definition>
+        <argsstring>(const ConstitutionalReasoningConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" kindref="compound">ConstitutionalReasoningConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Configuration ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="189" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="654" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa962d829f2cb91c18395d48e4173e989" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_config" kindref="compound">ConstitutionalReasoningConfig</ref></type>
+        <definition>ConstitutionalReasoningConfig themis::llm::ConstitutionalReasoningEngine::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="195" column="35" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="659" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a681a2ce865fe12948e90885ecedff81b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ConstitutionalReasoningEngine::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="200" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="668" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a5364666c9f50eb1342fb6d45a1239561" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>ConstitutionalReasoningEngine::Statistics themis::llm::ConstitutionalReasoningEngine::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="231" column="16" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="677" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a0b84bc0c435e0d91223c1bf2911bb80e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ConstitutionalReasoningEngine::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), Statistics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="236" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="686" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a9246e0e50a7d4a9a078f66037fa75baa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ConstitutionalReasoningEngine::setReasoningCallback</definition>
+        <argsstring>(std::function&lt; void(const ConstitutionalReasoningResult &amp;)&gt; callback)</argsstring>
+        <name>setReasoningCallback</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::setReasoningCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" kindref="compound">ConstitutionalReasoningResult</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="238" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="691" bodyend="696"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a8a6a3c2337912e8c02d53b6510b7f584" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalReasoningEngine::buildCritiquePrompt</definition>
+        <argsstring>(const std::string &amp;response, const std::string &amp;query, const ConstitutionalPrinciple &amp;principle)</argsstring>
+        <name>buildCritiquePrompt</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::buildCritiquePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_constitutional_principle" kindref="compound">ConstitutionalPrinciple</ref> &amp;</type>
+          <declname>principle</declname>
+        </param>
+        <briefdescription>
+<para>Build Critique Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Helper methods ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="254" column="17" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="707" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a26b05126e568b1f702667b3255e389e7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalReasoningEngine::buildRevisionPrompt</definition>
+        <argsstring>(const std::string &amp;response, const std::vector&lt; std::string &gt; &amp;critiques, const std::string &amp;query)</argsstring>
+        <name>buildRevisionPrompt</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::buildRevisionPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>critiques</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Build Revision Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">critiques</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">critiques</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="267" column="17" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="730" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a3a286fd73c6d2fa52ab220dcca62a359" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningEngine::shouldContinueIterating</definition>
+        <argsstring>(const ConstitutionalReasoningResult &amp;result, int iteration)</argsstring>
+        <name>shouldContinueIterating</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::shouldContinueIterating</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" kindref="compound">ConstitutionalReasoningResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>iteration</declname>
+        </param>
+        <briefdescription>
+<para>Should Continue Iterating. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iteration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iteration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="279" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="754" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a4340d151731c3ba2489a33a1c65995be" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ConstitutionalReasoningEngine::updateStatistics</definition>
+        <argsstring>(const ConstitutionalReasoningResult &amp;result)</argsstring>
+        <name>updateStatistics</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::updateStatistics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_result" kindref="compound">ConstitutionalReasoningResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="structthemis_1_1llm_1_1_constitutional_reasoning_engine_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="288" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="781" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aecc07f756f59692c1eabfa442c1aa979" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningEngine::checkAutonomyRespect</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>checkAutonomyRespect</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::checkAutonomyRespect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Check Autonomy Respect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Violation detection helpers ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="296" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="820" bodyend="837"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a10641531be2ff1173cc12790e0679dee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningEngine::checkTransparency</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>checkTransparency</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::checkTransparency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Check Transparency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="302" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="845" bodyend="874"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a1ac386397ff008e4c9f7f61b2b6efcc5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningEngine::checkNonHarmfulness</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>checkNonHarmfulness</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::checkNonHarmfulness</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Check Non Harmfulness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="308" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="882" bodyend="906"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a4890fbeec3076a30980ef73006371bd7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningEngine::checkFairness</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>checkFairness</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningEngine::checkFairness</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Check Fairness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="314" column="10" bodyfile="src/llm/constitutional_reasoning_engine.cpp" bodystart="914" bodyend="931"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/constitutional_reasoning_engine.h" line="92" column="1" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="92" bodyend="315"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a851590db06cb843bd1de4e6edf1667b7" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>addPrinciple</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a8a6a3c2337912e8c02d53b6510b7f584" prot="private" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>buildCritiquePrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a26b05126e568b1f702667b3255e389e7" prot="private" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>buildRevisionPrompt</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aecc07f756f59692c1eabfa442c1aa979" prot="private" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>checkAutonomyRespect</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a4890fbeec3076a30980ef73006371bd7" prot="private" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>checkFairness</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a1ac386397ff008e4c9f7f61b2b6efcc5" prot="private" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>checkNonHarmfulness</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a10641531be2ff1173cc12790e0679dee" prot="private" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>checkTransparency</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a4053a5a7496a0b931aa3a793f098e6f4" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>checkViolations</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a681a2ce865fe12948e90885ecedff81b" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a7c8cfb65fce4e4199a83fb00f8b34570" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>ConstitutionalReasoningEngine</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa5c90b4c2a1ad9dbd4a1ac8f817e0327" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>generateCritique</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ad4de5060265cf6215a96c48b9221f6d3" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>generateRevision</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa962d829f2cb91c18395d48e4173e989" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ab7ac4c746bc33a09511721e91e6a0243" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>getPrinciples</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a5364666c9f50eb1342fb6d45a1239561" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ac8ae2c71d6551c2902e06c541e47f388" prot="private" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a39bd6b9c49cdb0b533152256562fc115" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>loadDefaultPrinciples</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa2b771648520e95391d2839718dccfab" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>PromptRunner</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a18fcb5f4e6486691e0916838a3de8e1b" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>reason</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ac1fc1fbdb9684d7b74e691b20428dcb1" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>removePrinciple</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a0b84bc0c435e0d91223c1bf2911bb80e" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>resetStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1ab9d1dfd8b896b34a4e070fa704f90ae7" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>scoreResponse</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a99c1e3b4ff04a1e64bb35a757d3737ea" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a9246e0e50a7d4a9a078f66037fa75baa" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>setReasoningCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a3a286fd73c6d2fa52ab220dcca62a359" prot="private" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>shouldContinueIterating</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1a4340d151731c3ba2489a33a1c65995be" prot="private" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>updateStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_constitutional_reasoning_engine_1aa38c15d276a2b563ccccbae8c6d98927" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningEngine</scope><name>~ConstitutionalReasoningEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_key_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::KeyContext</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_key_context_1ad380a42960cd27be7b604017947ccfb6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::utils::KeyContext::ikm</definition>
+        <argsstring></argsstring>
+        <name>ikm</name>
+        <qualifiedname>themis::utils::KeyContext::ikm</qualifiedname>
+        <briefdescription>
+<para>Input key material. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="237" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_key_context_1a31ecb28a3f50fe01df7c0dbfb7472144" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::utils::KeyContext::salt</definition>
+        <argsstring></argsstring>
+        <name>salt</name>
+        <qualifiedname>themis::utils::KeyContext::salt</qualifiedname>
+        <briefdescription>
+<para>Optional salt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="238" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_key_context_1af4ca04a06a6e04ca9ff2a0725a53fafe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::KeyContext::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>themis::utils::KeyContext::info</qualifiedname>
+        <briefdescription>
+<para>Context/purpose string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="239" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_key_context_1a72fc30faf1ee92cd1915182e6daef652" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::KeyContext::outputLength</definition>
+        <argsstring></argsstring>
+        <name>outputLength</name>
+        <qualifiedname>themis::utils::KeyContext::outputLength</qualifiedname>
+        <initializer>{32}</initializer>
+        <briefdescription>
+<para>Desired key length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="240" column="12" bodyfile="include/utils/utils_interfaces.h" bodystart="240" bodyend="240"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Context for a single HKDF derivation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Same IKM with a different purpose or identity field yields a distinct key, preventing cross-context key reuse. </para>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="236" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="236" bodyend="241"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_key_context_1ad380a42960cd27be7b604017947ccfb6" prot="public" virt="non-virtual"><scope>themis::utils::KeyContext</scope><name>ikm</name></member>
+      <member refid="structthemis_1_1utils_1_1_key_context_1af4ca04a06a6e04ca9ff2a0725a53fafe" prot="public" virt="non-virtual"><scope>themis::utils::KeyContext</scope><name>info</name></member>
+      <member refid="structthemis_1_1utils_1_1_key_context_1a72fc30faf1ee92cd1915182e6daef652" prot="public" virt="non-virtual"><scope>themis::utils::KeyContext</scope><name>outputLength</name></member>
+      <member refid="structthemis_1_1utils_1_1_key_context_1a31ecb28a3f50fe01df7c0dbfb7472144" prot="public" virt="non-virtual"><scope>themis::utils::KeyContext</scope><name>salt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

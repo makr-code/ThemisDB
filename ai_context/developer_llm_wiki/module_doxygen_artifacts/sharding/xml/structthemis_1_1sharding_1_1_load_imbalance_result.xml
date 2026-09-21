@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_load_imbalance_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LoadImbalanceResult</compoundname>
+    <includes refid="shard__load__detector_8h" local="no">shard_load_detector.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation" prot="public">themis::sharding::LoadImbalanceResult::RebalanceRecommendation</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1a0bc19bbe34feb606a2c5c461f18a4398" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LoadImbalanceResult::is_imbalanced</definition>
+        <argsstring></argsstring>
+        <name>is_imbalanced</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::is_imbalanced</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when at least one heuristic signaled imbalance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="84" column="10" bodyfile="include/sharding/shard_load_detector.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1a430453d4e27fbce699c687509b54d8bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LoadImbalanceResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable concatenation of triggered heuristic reasons. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="86" column="17" bodyfile="include/sharding/shard_load_detector.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1a7fa418df32ebc242b06ae2e6099728eb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::LoadImbalanceResult::hotspot_shards</definition>
+        <argsstring></argsstring>
+        <name>hotspot_shards</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::hotspot_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="89" column="17" bodyfile="include/sharding/shard_load_detector.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1aa30c5c0c26604bd3d8e4427eeb3ed17b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::LoadImbalanceResult::cold_shards</definition>
+        <argsstring></argsstring>
+        <name>cold_shards</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::cold_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="92" column="17" bodyfile="include/sharding/shard_load_detector.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1addd68f457449fb5ba5093c01c25d30aa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_load_imbalance_result_1_1_rebalance_recommendation" kindref="compound">RebalanceRecommendation</ref> &gt;</type>
+        <definition>std::vector&lt;RebalanceRecommendation&gt; themis::sharding::LoadImbalanceResult::recommendations</definition>
+        <argsstring></argsstring>
+        <name>recommendations</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::recommendations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="108" column="17" bodyfile="include/sharding/shard_load_detector.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1a0ac6c1b664d38f10b08cec2cc5106aeb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::LoadImbalanceResult::cluster_load_variance</definition>
+        <argsstring></argsstring>
+        <name>cluster_load_variance</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::cluster_load_variance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="111" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1a70deb21fa77944271eaa1df8f2097554" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::LoadImbalanceResult::cluster_avg_load</definition>
+        <argsstring></argsstring>
+        <name>cluster_avg_load</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::cluster_avg_load</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="112" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1a71f371329db92db98ffcc9f00a3127cf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::LoadImbalanceResult::max_shard_load</definition>
+        <argsstring></argsstring>
+        <name>max_shard_load</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::max_shard_load</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="113" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_load_imbalance_result_1a5b5db9f555a5e9710dd8a23f9e43290f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::LoadImbalanceResult::min_shard_load</definition>
+        <argsstring></argsstring>
+        <name>min_shard_load</name>
+        <qualifiedname>themis::sharding::LoadImbalanceResult::min_shard_load</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="114" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result payload emitted by one imbalance detection pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_load_detector.h" line="82" column="1" bodyfile="include/sharding/shard_load_detector.h" bodystart="82" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a70deb21fa77944271eaa1df8f2097554" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult</scope><name>cluster_avg_load</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a0ac6c1b664d38f10b08cec2cc5106aeb" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult</scope><name>cluster_load_variance</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1aa30c5c0c26604bd3d8e4427eeb3ed17b" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult</scope><name>cold_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a7fa418df32ebc242b06ae2e6099728eb" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult</scope><name>hotspot_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a0bc19bbe34feb606a2c5c461f18a4398" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult</scope><name>is_imbalanced</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a71f371329db92db98ffcc9f00a3127cf" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult</scope><name>max_shard_load</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a5b5db9f555a5e9710dd8a23f9e43290f" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult</scope><name>min_shard_load</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1a430453d4e27fbce699c687509b54d8bc" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1sharding_1_1_load_imbalance_result_1addd68f457449fb5ba5093c01c25d30aa" prot="public" virt="non-virtual"><scope>themis::sharding::LoadImbalanceResult</scope><name>recommendations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

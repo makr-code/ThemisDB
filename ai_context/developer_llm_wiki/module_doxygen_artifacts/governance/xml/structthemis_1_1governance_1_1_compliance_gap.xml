@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_gap" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceGap</compoundname>
+    <includes refid="compliance__reporter_8h" local="no">compliance_reporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_1a37194c41f5e76f8d44c2681c78acc8cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceGap::gap_type</definition>
+        <argsstring></argsstring>
+        <name>gap_type</name>
+        <qualifiedname>themis::governance::ComplianceGap::gap_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="80" column="17" bodyfile="include/governance/compliance_reporter.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_1af6f263b1f97a76c7ec5aebd90d4417f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceGap::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::governance::ComplianceGap::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="81" column="17" bodyfile="include/governance/compliance_reporter.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_1aaf91f43aa313cfcefe0df893bc02409f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceGap::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::ComplianceGap::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="82" column="17" bodyfile="include/governance/compliance_reporter.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_1a47d16ba03f9732a23f769a1c768a5959" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::ComplianceGap::affected_resources</definition>
+        <argsstring></argsstring>
+        <name>affected_resources</name>
+        <qualifiedname>themis::governance::ComplianceGap::affected_resources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="83" column="17" bodyfile="include/governance/compliance_reporter.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_gap_1a8f9af2eac5006cff4b2d50ee7b6bba0e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::ComplianceGap::recommendations</definition>
+        <argsstring></argsstring>
+        <name>recommendations</name>
+        <qualifiedname>themis::governance::ComplianceGap::recommendations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="84" column="17" bodyfile="include/governance/compliance_reporter.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_gap_1ad7ff0b3e54054b9a15f4bbc867de3e26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceGap::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ComplianceGap::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="90" column="20" bodyfile="src/governance/compliance_reporter.cpp" bodystart="350" bodyend="358"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporter.h" line="79" column="1" bodyfile="include/governance/compliance_reporter.h" bodystart="79" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_1a47d16ba03f9732a23f769a1c768a5959" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGap</scope><name>affected_resources</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_1aaf91f43aa313cfcefe0df893bc02409f" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGap</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_1a37194c41f5e76f8d44c2681c78acc8cc" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGap</scope><name>gap_type</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_1a8f9af2eac5006cff4b2d50ee7b6bba0e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGap</scope><name>recommendations</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_1af6f263b1f97a76c7ec5aebd90d4417f6" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGap</scope><name>severity</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_gap_1ad7ff0b3e54054b9a15f4bbc867de3e26" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceGap</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

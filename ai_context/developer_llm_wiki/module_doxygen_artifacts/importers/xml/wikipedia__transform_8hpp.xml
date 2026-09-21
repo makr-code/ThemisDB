@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wikipedia__transform_8hpp" kind="file" language="C++">
+    <compoundname>wikipedia_transform.hpp</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="yes">importers/wikipedia_types.hpp</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="wikipedia__pipeline_8cpp" local="yes">src/importers/wikipedia_pipeline.cpp</includedby>
+    <includedby refid="wikipedia__project__graph_8cpp" local="yes">src/importers/wikipedia_project_graph.cpp</includedby>
+    <includedby refid="wikipedia__project__process_8cpp" local="yes">src/importers/wikipedia_project_process.cpp</includedby>
+    <includedby refid="wikipedia__project__timeseries_8cpp" local="yes">src/importers/wikipedia_project_timeseries.cpp</includedby>
+    <includedby refid="wikipedia__project__vector_8cpp" local="yes">src/importers/wikipedia_project_vector.cpp</includedby>
+    <includedby refid="wikipedia__transform_8cpp" local="yes">src/importers/wikipedia_transform.cpp</includedby>
+    <includedby refid="wikipedia__validator_8cpp" local="yes">src/importers/wikipedia_validator.cpp</includedby>
+    <includedby refid="wikipedia__xml__parser_8cpp" local="yes">src/importers/wikipedia_xml_parser.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/importers/wikipedia_transform.hpp</label>
+        <link refid="wikipedia__transform_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>importers/wikipedia_types.hpp</label>
+        <link refid="wikipedia__types_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/importers/wikipedia_transform.hpp</label>
+        <link refid="wikipedia__transform_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/importers/wikipedia_pipeline.cpp</label>
+        <link refid="wikipedia__pipeline_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/importers/wikipedia_project_graph.cpp</label>
+        <link refid="wikipedia__project__graph_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/importers/wikipedia_project_process.cpp</label>
+        <link refid="wikipedia__project__process_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/importers/wikipedia_project_timeseries.cpp</label>
+        <link refid="wikipedia__project__timeseries_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/importers/wikipedia_project_vector.cpp</label>
+        <link refid="wikipedia__project__vector_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/importers/wikipedia_transform.cpp</label>
+        <link refid="wikipedia__transform_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/importers/wikipedia_validator.cpp</label>
+        <link refid="wikipedia__validator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/importers/wikipedia_xml_parser.cpp</label>
+        <link refid="wikipedia__xml__parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1importers_1_1_wikipedia_transform" prot="public">themis::importers::WikipediaTransform</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+<para>Wikipedia-specific normalization and multi-model transformation helpers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Transformation stage for Wikipedia article records.</para>
+<para>Converts raw WikipediaPage records into ThemisDB document format, performing wikitext stripping, entity extraction, and embedding requests. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wikipedia__types_8hpp" kindref="compound">importers/wikipedia_types.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">themis::importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1importers_1_1_wikipedia_transform" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_wikipedia_transform" kindref="compound">WikipediaTransform</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1af2d53c806c4b29320cc875262a0ec4c4" kindref="member">normalizeTitle</ref>(std::string_view<sp/>title);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1a92be7073762d382158638b7c1109b6a8" kindref="member">decodeXmlEntities</ref>(std::string_view<sp/>text);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1ac2c2c33055e7b9584d74a2b6cef41166" kindref="member">canonicalizeText</ref>(std::string_view<sp/>text);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1a68966cbe7c041f1473939085653fddb9" kindref="member">checksumHex</ref>(std::string_view<sp/>text);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;WikipediaLinkRecord&gt;<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1ab0f23c0e090aad4ad83fa492ff79cb8e" kindref="member">extractLinks</ref>(</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref>&amp;<sp/>page,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref>&amp;<sp/>revision);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;WikipediaCategoryRecord&gt;<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1a076b30a52fb422c33c02de5d81d4ab21" kindref="member">extractCategories</ref>(</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref>&amp;<sp/>page,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref>&amp;<sp/>revision);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;WikipediaRedirectRecord&gt;<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1a99c70be3c189494349f528332b99768c" kindref="member">extractRedirect</ref>(</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref>&amp;<sp/>page,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref>&amp;<sp/>revision);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;WikipediaProcessEvent&gt;<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1a85bf4afd00630ace082e52d1d0b9a9d0" kindref="member">buildProcessEvents</ref>(</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref>&amp;<sp/>page,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;WikipediaRevisionRecord&gt;&amp;<sp/>revisions);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;WikipediaTimeSeriesMetric&gt;<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1aca55e2f95221b0bac5af3f10487ac65c" kindref="member">buildTimeSeriesMetrics</ref>(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref>&amp;<sp/>page,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;WikipediaRevisionRecord&gt;&amp;<sp/>revisions);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;WikipediaVectorRecord&gt;<sp/><ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1a3c230784d1973dbccab9845a4bee57bc" kindref="member">buildVectorRecords</ref>(</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref>&amp;<sp/>page,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref>&amp;<sp/>revision,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>embedding_model,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>embedding_enabled);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::importers</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/wikipedia_transform.hpp"/>
+  </compounddef>
+</doxygen>

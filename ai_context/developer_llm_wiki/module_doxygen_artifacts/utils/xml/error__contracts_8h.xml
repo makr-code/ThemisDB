@@ -1,0 +1,620 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="error__contracts_8h" kind="file" language="C++">
+    <compoundname>error_contracts.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">spdlog/spdlog.h</includes>
+    <includes local="no">fmt/format.h</includes>
+    <includedby refid="audit__logger_8h" local="yes">include/utils/audit_logger.h</includedby>
+    <includedby refid="saga__logger_8h" local="yes">include/utils/saga_logger.h</includedby>
+    <includedby refid="audit__logger_8cpp" local="yes">src/utils/audit_logger.cpp</includedby>
+    <includedby refid="error__contracts_8cpp" local="yes">src/utils/error_contracts.cpp</includedby>
+    <includedby refid="hkdf__cache_8cpp" local="yes">src/utils/hkdf_cache.cpp</includedby>
+    <includedby refid="hkdf__helper_8cpp" local="yes">src/utils/hkdf_helper.cpp</includedby>
+    <includedby refid="lek__manager_8cpp" local="yes">src/utils/lek_manager.cpp</includedby>
+    <includedby refid="logger_8cpp" local="yes">src/utils/logger.cpp</includedby>
+    <includedby refid="lz4__codec_8cpp" local="yes">src/utils/lz4_codec.cpp</includedby>
+    <includedby refid="ner__detection__engine_8cpp" local="yes">src/utils/ner_detection_engine.cpp</includedby>
+    <includedby refid="pii__detector_8cpp" local="yes">src/utils/pii_detector.cpp</includedby>
+    <includedby refid="pii__pseudonymizer_8cpp" local="yes">src/utils/pii_pseudonymizer.cpp</includedby>
+    <includedby refid="pii__stream__scanner_8cpp" local="yes">src/utils/pii_stream_scanner.cpp</includedby>
+    <includedby refid="rate__limiter_8cpp" local="yes">src/utils/rate_limiter.cpp</includedby>
+    <includedby refid="saga__logger_8cpp" local="yes">src/utils/saga_logger.cpp</includedby>
+    <includedby refid="serialization_8cpp" local="yes">src/utils/serialization.cpp</includedby>
+    <includedby refid="thread__pool__manager_8cpp" local="yes">src/utils/thread_pool_manager.cpp</includedby>
+    <includedby refid="tracing_8cpp" local="yes">src/utils/tracing.cpp</includedby>
+    <includedby refid="zstd__codec_8cpp" local="yes">src/utils/zstd_codec.cpp</includedby>
+    <includedby refid="test__utils__audit__logger__hardening_8cpp" local="yes">tests/utils/test_utils_audit_logger_hardening.cpp</includedby>
+    <includedby refid="test__utils__audit__logger__stress__concurrent__writers_8cpp" local="yes">tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp</includedby>
+    <includedby refid="test__utils__compression__hardening_8cpp" local="yes">tests/utils/test_utils_compression_hardening.cpp</includedby>
+    <includedby refid="test__utils__crypto__hardening_8cpp" local="yes">tests/utils/test_utils_crypto_hardening.cpp</includedby>
+    <includedby refid="test__utils__observability__error__contracts_8cpp" local="yes">tests/utils/test_utils_observability_error_contracts.cpp</includedby>
+    <includedby refid="test__utils__privacy__hardening_8cpp" local="yes">tests/utils/test_utils_privacy_hardening.cpp</includedby>
+    <includedby refid="test__utils__runtime__hardening_8cpp" local="yes">tests/utils/test_utils_runtime_hardening.cpp</includedby>
+    <includedby refid="test__utils__stress__concurrency_8cpp" local="yes">tests/utils/test_utils_stress_concurrency.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/error_contracts.h</label>
+        <link refid="error__contracts_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/utils/audit_logger.h</label>
+        <link refid="audit__logger_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/utils/error_contracts.h</label>
+        <link refid="error__contracts_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/utils/pii_pseudonymizer.h</label>
+        <link refid="pii__pseudonymizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/utils/saga_logger.h</label>
+        <link refid="saga__logger_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/utils/utils_adapters.h</label>
+        <link refid="utils__adapters_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/utils/audit_logger.cpp</label>
+        <link refid="audit__logger_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/utils/error_contracts.cpp</label>
+        <link refid="error__contracts_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/utils/hkdf_cache.cpp</label>
+        <link refid="hkdf__cache_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/utils/hkdf_helper.cpp</label>
+        <link refid="hkdf__helper_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/utils/lek_manager.cpp</label>
+        <link refid="lek__manager_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/utils/logger.cpp</label>
+        <link refid="logger_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/utils/lz4_codec.cpp</label>
+        <link refid="lz4__codec_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/utils/ner_detection_engine.cpp</label>
+        <link refid="ner__detection__engine_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/utils/pii_detector.cpp</label>
+        <link refid="pii__detector_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/utils/pii_pseudonymizer.cpp</label>
+        <link refid="pii__pseudonymizer_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/utils/pii_stream_scanner.cpp</label>
+        <link refid="pii__stream__scanner_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/utils/rate_limiter.cpp</label>
+        <link refid="rate__limiter_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/utils/saga_logger.cpp</label>
+        <link refid="saga__logger_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/utils/serialization.cpp</label>
+        <link refid="serialization_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/utils/thread_pool_manager.cpp</label>
+        <link refid="thread__pool__manager_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/utils/tracing.cpp</label>
+        <link refid="tracing_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/utils/utils_adapters.cpp</label>
+        <link refid="utils__adapters_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/utils/zstd_codec.cpp</label>
+        <link refid="zstd__codec_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/utils/test_tsan_stress_concurrent.cpp</label>
+        <link refid="test__tsan__stress__concurrent_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/utils/test_utils_audit_logger_hardening.cpp</label>
+        <link refid="test__utils__audit__logger__hardening_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/utils/test_utils_audit_logger_stress_concurrent_writers.cpp</label>
+        <link refid="test__utils__audit__logger__stress__concurrent__writers_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/utils/test_utils_compression_hardening.cpp</label>
+        <link refid="test__utils__compression__hardening_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/utils/test_utils_crypto_hardening.cpp</label>
+        <link refid="test__utils__crypto__hardening_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/utils/test_utils_interfaces.cpp</label>
+        <link refid="test__utils__interfaces_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/utils/test_utils_observability_error_contracts.cpp</label>
+        <link refid="test__utils__observability__error__contracts_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/utils/test_utils_privacy_audit_hardening.cpp</label>
+        <link refid="test__utils__privacy__audit__hardening_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/utils/test_utils_privacy_hardening.cpp</label>
+        <link refid="test__utils__privacy__hardening_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/utils/test_utils_runtime_hardening.cpp</label>
+        <link refid="test__utils__runtime__hardening_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/utils/test_utils_stress_concurrency.cpp</label>
+        <link refid="test__utils__stress__concurrency_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_error_context" prot="public">themis::utils::ErrorContext</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_error_contract" prot="public">themis::utils::ErrorContract</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Unified error handling framework for utils module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides standardized error contract definitions, categories, and diagnostic information for all utils subsystems (observability, privacy, crypto, compression, concurrency).</para>
+<para>This framework ensures:<itemizedlist>
+<listitem><para>Consistent error semantics across all utils helpers</para>
+</listitem><listitem><para>Explicit error recovery paths</para>
+</listitem><listitem><para>Bounded, predictable diagnostic logging</para>
+</listitem><listitem><para>Operator-visible categorization for quick incident response</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-08 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA (Phase 3 implementation)</para>
+</simplesect>
+<simplesect kind="see"><para>ROADMAP.md - Phase 3: Error Handling and Edge Cases </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;spdlog/spdlog.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fmt/format.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Categories<sp/>(organized<sp/>by<sp/>subsystem)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6" kindref="member">ErrorCategory</ref><sp/>:<sp/>uint16_t<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Observability<sp/>subsystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6affd6a20f9d831c5e36135d53b49a6aa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6affd6a20f9d831c5e36135d53b49a6aa5" kindref="member">AuditLog</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0100,<sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6ab83d2e1d08e428fba20d953095dd68cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6ab83d2e1d08e428fba20d953095dd68cf" kindref="member">StructuredLogging</ref><sp/>=<sp/>0x0101,<sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a148619be153175b8437f4b6a93215128" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a148619be153175b8437f4b6a93215128" kindref="member">Tracing</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0102,<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6adc9c00c2b35f46587f2c719098fe6da9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6adc9c00c2b35f46587f2c719098fe6da9" kindref="member">SagaLogging</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0103,<sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Privacy<sp/>&amp;<sp/>Detection<sp/>subsystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a61d8cfe48e36a016e95853bac265302a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a61d8cfe48e36a016e95853bac265302a" kindref="member">PrivacyDetection</ref><sp/><sp/>=<sp/>0x0200,<sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a4a0d925cb6ff239d36d61069546a9b6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a4a0d925cb6ff239d36d61069546a9b6b" kindref="member">PatternDetection</ref><sp/><sp/>=<sp/>0x0201,<sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a404bdde0b87a225479b2b91bf991acc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a404bdde0b87a225479b2b91bf991acc7" kindref="member">NERDetection</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0202,<sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a307c51b5d1ba24bf3d5bded65079ef10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a307c51b5d1ba24bf3d5bded65079ef10" kindref="member">PrivacyFilter</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0203,<sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cryptography<sp/>&amp;<sp/>Key<sp/>Management<sp/>subsystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a60db18ebc6e0928c98fc0d5d85897b7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a60db18ebc6e0928c98fc0d5d85897b7c" kindref="member">KeyDerivation</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0300,<sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6ae00ee0e6da3e356d72b8c5146fa496c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6ae00ee0e6da3e356d72b8c5146fa496c8" kindref="member">KeyCache</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0301,<sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6acf2b8a3f6c81083546a16e51ca16d730" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6acf2b8a3f6c81083546a16e51ca16d730" kindref="member">PublicKeyInfra</ref><sp/><sp/><sp/><sp/>=<sp/>0x0302,<sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6ac82241f79086458c5567a26425f10e67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6ac82241f79086458c5567a26425f10e67" kindref="member">LocalEncryption</ref><sp/><sp/><sp/>=<sp/>0x0303,<sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>&amp;<sp/>Encoding<sp/>subsystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a84f040bb66882433f22edd3ba93e2ce2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a84f040bb66882433f22edd3ba93e2ce2" kindref="member">ZstdCodec</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0400,<sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a0efc2c47b895afd2c9caf420837a77fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a0efc2c47b895afd2c9caf420837a77fb" kindref="member">LZ4Codec</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0401,<sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a54addaaf981a9c451b741888fb789409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a54addaaf981a9c451b741888fb789409" kindref="member">SerializationErr</ref><sp/><sp/>=<sp/>0x0402,<sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Runtime<sp/>Services<sp/>subsystem</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a22a9e7b1bdb6e93517fffe887f3b8eca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool" kindref="compound">ThreadPool</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0500,<sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a7a518ed8a155c41b547193df77abdaed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a7a518ed8a155c41b547193df77abdaed" kindref="member">RateLimiting</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x0501,<sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a161a1bd37835c81d9491d834c948c031" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a161a1bd37835c81d9491d834c948c031" kindref="member">ConnectionPool</ref><sp/><sp/><sp/><sp/>=<sp/>0x0502,<sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unknown/Uncategorized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a88183b946cc5f0e8c96b2e66e1c74a7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">Unknown</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0xFFFF<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Severity<sp/>Levels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" kindref="member">ErrorSeverity</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a882384ec38ce8d9582b57e70861730e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a882384ec38ce8d9582b57e70861730e4" kindref="member">Fatal</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a902b0d55fddef6f8d651fe1035b7d4bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_error" kindref="compound">Error</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a0eaadb4fcb48a0a0ed7bc9868be9fbaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a0eaadb4fcb48a0a0ed7bc9868be9fbaa" kindref="member">Warning</ref><sp/><sp/><sp/><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161aaa95669cd5732a57e8f6467705f06642" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161aaa95669cd5732a57e8f6467705f06642" kindref="member">Degraded</ref><sp/><sp/><sp/>=<sp/>3,<sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a278d01e5af56273bae1bb99a98b370cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a278d01e5af56273bae1bb99a98b370cd" kindref="member">Critical</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a882384ec38ce8d9582b57e70861730e4" kindref="member">Fatal</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Codes<sp/>(unified<sp/>across<sp/>all<sp/>utils<sp/>subsystems)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref><sp/>:<sp/>uint16_t<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>General<sp/>Utility<sp/>Errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a694cd70cd0afbb9d148246d811e47035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a694cd70cd0afbb9d148246d811e47035" kindref="member">UTILS_INVALID_ARGUMENT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9000,</highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a8411b2bc2410908a133297d97e654894" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a8411b2bc2410908a133297d97e654894" kindref="member">UTILS_ALLOCATION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9001,</highlight></codeline>
+<codeline lineno="134" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a4e993f8553708907d27d75056f92460a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a4e993f8553708907d27d75056f92460a" kindref="member">UTILS_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9002,</highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a62ceb85b9e37517e7433b3220a78322b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a62ceb85b9e37517e7433b3220a78322b" kindref="member">UTILS_NOT_INITIALIZED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9003,</highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a8b54be74bdc68f249a64195954fc2899" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a8b54be74bdc68f249a64195954fc2899" kindref="member">UTILS_ALREADY_INITIALIZED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9004,</highlight></codeline>
+<codeline lineno="137" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab80925a78ba4dc5f7335ae1805c733c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab80925a78ba4dc5f7335ae1805c733c9" kindref="member">UTILS_RESOURCE_EXHAUSTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9005,</highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a678732c60481d26f5cf0385e9dcef4e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a678732c60481d26f5cf0385e9dcef4e5" kindref="member">UTILS_UNSUPPORTED_OPERATION</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>9006,</highlight></codeline>
+<codeline lineno="139" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a2871582e6fb94b5121603d68ab416725" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a2871582e6fb94b5121603d68ab416725" kindref="member">UTILS_INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9007,</highlight></codeline>
+<codeline lineno="140" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ad026820942839ff614d3879eddb29e21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ad026820942839ff614d3879eddb29e21" kindref="member">UTILS_NOT_IMPLEMENTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9008,</highlight></codeline>
+<codeline lineno="141" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a101a138a9fe621a3329f922261f1772b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a101a138a9fe621a3329f922261f1772b" kindref="member">UTILS_INVALID_STATE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9009,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audit<sp/>Logging<sp/>Errors<sp/>(9010-9019)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a93f815895bc3edb93cdf5b983ed5d31b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a93f815895bc3edb93cdf5b983ed5d31b" kindref="member">AUDIT_BUFFER_OVERFLOW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9010,<sp/><sp/></highlight></codeline>
+<codeline lineno="145" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a5afbb059c9e4de66d63236a91b7b4745" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a5afbb059c9e4de66d63236a91b7b4745" kindref="member">AUDIT_WRITE_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9011,<sp/><sp/></highlight></codeline>
+<codeline lineno="146" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a65f086adf23e2fd22c45e32177536062" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a65f086adf23e2fd22c45e32177536062" kindref="member">AUDIT_PERSISTENCE_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9012,<sp/><sp/></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a44001a226aaf72a96f9c391c7c270d96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a44001a226aaf72a96f9c391c7c270d96" kindref="member">AUDIT_ROTATION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9013,<sp/><sp/></highlight></codeline>
+<codeline lineno="148" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a0b6768c5266851929e3d76a8c8be0cf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a0b6768c5266851929e3d76a8c8be0cf3" kindref="member">AUDIT_FORMAT_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9014,<sp/><sp/></highlight></codeline>
+<codeline lineno="149" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a1f3fd6cdaacc988034a4b31a238dc827" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a1f3fd6cdaacc988034a4b31a238dc827" kindref="member">AUDIT_ENCRYPTION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9015,<sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa53b6d2a8fba3651f6a8fbb1f8f4b1d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa53b6d2a8fba3651f6a8fbb1f8f4b1d5" kindref="member">AUDIT_SIGNATURE_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9016,<sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa5b5233dce2708399a32c9381b734197" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa5b5233dce2708399a32c9381b734197" kindref="member">AUDIT_VALIDATION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9017,<sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ae7cc7f3ecb2bfedbe9cab442c18db5cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ae7cc7f3ecb2bfedbe9cab442c18db5cc" kindref="member">AUDIT_QUEUE_FULL</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9018,<sp/><sp/></highlight></codeline>
+<codeline lineno="153" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a23f77209392046ce26127904f943ae9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a23f77209392046ce26127904f943ae9b" kindref="member">AUDIT_FLUSH_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9019,<sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Structured<sp/>Logging<sp/>Errors<sp/>(9020-9029)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ae28a16d9f7aad2199e573bb0b63b4d5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ae28a16d9f7aad2199e573bb0b63b4d5b" kindref="member">LOG_BUFFER_OVERFLOW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9020,<sp/><sp/></highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ad9507d1764f63a8bef1fca78f404d0f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ad9507d1764f63a8bef1fca78f404d0f1" kindref="member">LOG_WRITE_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9021,<sp/><sp/></highlight></codeline>
+<codeline lineno="158" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a600c7dc7e007904207470364e547f268" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a600c7dc7e007904207470364e547f268" kindref="member">LOG_INVALID_FORMAT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9022,<sp/><sp/></highlight></codeline>
+<codeline lineno="159" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a7be5556603bd40a482e7c9978ded58d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a7be5556603bd40a482e7c9978ded58d0" kindref="member">LOG_INITIALIZATION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9023,<sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aabd032a1a80e4297b9a4dc522bf596bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aabd032a1a80e4297b9a4dc522bf596bc" kindref="member">LOG_LEVEL_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9024,<sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a070238d8ac79371d4c80f73af1182822" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a070238d8ac79371d4c80f73af1182822" kindref="member">LOG_SINK_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9025,<sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a6638548026add3479c27511c97fb8116" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a6638548026add3479c27511c97fb8116" kindref="member">LOG_ASYNC_OVERFLOW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9026,<sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7abb7c55de3755af9de39bb4948ad9d726" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7abb7c55de3755af9de39bb4948ad9d726" kindref="member">LOG_PATTERN_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9027,<sp/><sp/></highlight></codeline>
+<codeline lineno="164" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a1b0c8c69e2b0995c95a0448366e8188a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a1b0c8c69e2b0995c95a0448366e8188a" kindref="member">LOG_ARGUMENT_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9028,<sp/><sp/></highlight></codeline>
+<codeline lineno="165" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ac6b0070d33aff2407abfdc704e5b125a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ac6b0070d33aff2407abfdc704e5b125a" kindref="member">LOG_ROTATION_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9029,<sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tracing<sp/>Errors<sp/>(9030-9039)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a4bb4c15059109ed72cae9a1e4202a5d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a4bb4c15059109ed72cae9a1e4202a5d4" kindref="member">TRACE_SPAN_CREATE_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9030,<sp/><sp/></highlight></codeline>
+<codeline lineno="169" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a0be981eff1050e443b30cb3aa7c770db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a0be981eff1050e443b30cb3aa7c770db" kindref="member">TRACE_EXPORT_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9031,<sp/><sp/></highlight></codeline>
+<codeline lineno="170" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a47bff4da060240c1857899f95d3badad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a47bff4da060240c1857899f95d3badad" kindref="member">TRACE_BUFFER_OVERFLOW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9032,<sp/><sp/></highlight></codeline>
+<codeline lineno="171" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a09c0cb31b208e95ab1762f35b45602ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a09c0cb31b208e95ab1762f35b45602ea" kindref="member">TRACE_INVALID_CONTEXT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9033,<sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab7757995d163fce185f42f991e021002" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab7757995d163fce185f42f991e021002" kindref="member">TRACE_SAMPLING_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9034,<sp/><sp/></highlight></codeline>
+<codeline lineno="173" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a12b27af41c74e3217c99cb2c5e5d3a2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a12b27af41c74e3217c99cb2c5e5d3a2b" kindref="member">TRACE_BATCH_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9035,<sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Privacy<sp/>Detection<sp/>Errors<sp/>(9040-9049)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ac21356f3fb882f58e82716fc0a3bbcbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ac21356f3fb882f58e82716fc0a3bbcbe" kindref="member">PRIVACY_INVALID_INPUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9040,<sp/><sp/></highlight></codeline>
+<codeline lineno="177" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7afd332aab15a610a7a614e4e835c2ee41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7afd332aab15a610a7a614e4e835c2ee41" kindref="member">PRIVACY_PATTERN_OVERFLOW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9041,<sp/><sp/></highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a9d8fe2ba4fcd00a718dcfe85b30862c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a9d8fe2ba4fcd00a718dcfe85b30862c9" kindref="member">PRIVACY_DETECTION_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9042,<sp/><sp/></highlight></codeline>
+<codeline lineno="179" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a0eee2cfa07029bfc77a4069046de98ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a0eee2cfa07029bfc77a4069046de98ad" kindref="member">PRIVACY_BUFFER_OVERFLOW</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9043,<sp/><sp/></highlight></codeline>
+<codeline lineno="180" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7afe4d8809f2595a8d080d39acaf98e27b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7afe4d8809f2595a8d080d39acaf98e27b" kindref="member">PRIVACY_ENGINE_LOAD_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9044,<sp/><sp/></highlight></codeline>
+<codeline lineno="181" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a11d939f7e6e5f6d5b8d6dd6aa2b889b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a11d939f7e6e5f6d5b8d6dd6aa2b889b6" kindref="member">PRIVACY_CONFIG_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9045,<sp/><sp/></highlight></codeline>
+<codeline lineno="182" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a010e97be1619c8769c918cf329fca9b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a010e97be1619c8769c918cf329fca9b0" kindref="member">PRIVACY_UNICODE_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9046,<sp/><sp/></highlight></codeline>
+<codeline lineno="183" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab44b2a6a29287c73cb8f6aac7efe6f1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab44b2a6a29287c73cb8f6aac7efe6f1c" kindref="member">PRIVACY_MEMORY_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9047,<sp/><sp/></highlight></codeline>
+<codeline lineno="184" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a2fd131abf38368bf56c13665041a4d75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a2fd131abf38368bf56c13665041a4d75" kindref="member">PRIVACY_NO_ENGINE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9048,<sp/><sp/></highlight></codeline>
+<codeline lineno="185" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a54140207dc5300964180500d4431938c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a54140207dc5300964180500d4431938c" kindref="member">PRIVACY_ENGINE_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9049,<sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cryptography<sp/>Errors<sp/>(9050-9059)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7afc812c4421b655867c3d7e55d08fcaaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7afc812c4421b655867c3d7e55d08fcaaa" kindref="member">CRYPTO_KEY_DERIVATION_FAILED</ref><sp/><sp/><sp/><sp/>=<sp/>9050,<sp/><sp/></highlight></codeline>
+<codeline lineno="189" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a734445e922cdb205a5affb03063848ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a734445e922cdb205a5affb03063848ce" kindref="member">CRYPTO_KEY_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9051,<sp/><sp/></highlight></codeline>
+<codeline lineno="190" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ad187e7d4124548094e9a0f65effc74f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ad187e7d4124548094e9a0f65effc74f1" kindref="member">CRYPTO_KEY_EXPIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9052,<sp/><sp/></highlight></codeline>
+<codeline lineno="191" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a7359497461f8abec84a3faee70abead6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a7359497461f8abec84a3faee70abead6" kindref="member">CRYPTO_KEY_NOT_FOUND</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9053,<sp/><sp/></highlight></codeline>
+<codeline lineno="192" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab3c4b0066f74260a072ef2cc3404c63b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab3c4b0066f74260a072ef2cc3404c63b" kindref="member">CRYPTO_CACHE_MISS</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9054,<sp/><sp/></highlight></codeline>
+<codeline lineno="193" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa56134fe260b3aafe944793f9e2e74c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa56134fe260b3aafe944793f9e2e74c9" kindref="member">CRYPTO_CERT_LOAD_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9055,<sp/><sp/></highlight></codeline>
+<codeline lineno="194" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ae1af8f88ca48625b0fc364838de67566" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ae1af8f88ca48625b0fc364838de67566" kindref="member">CRYPTO_CERT_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9056,<sp/><sp/></highlight></codeline>
+<codeline lineno="195" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ac2ad4408fa171247c17c145d60daba26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ac2ad4408fa171247c17c145d60daba26" kindref="member">CRYPTO_CERT_EXPIRED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9057,<sp/><sp/></highlight></codeline>
+<codeline lineno="196" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7addcd55c8f4d6acb62abc7f2761c99829" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7addcd55c8f4d6acb62abc7f2761c99829" kindref="member">CRYPTO_ENCRYPTION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9058,<sp/><sp/></highlight></codeline>
+<codeline lineno="197" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a3372d407df557d889dbdb1138bf1df38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a3372d407df557d889dbdb1138bf1df38" kindref="member">CRYPTO_DECRYPTION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9059,<sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>Errors<sp/>(9060-9069)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a2b80bd0816ebdf43c510804dcab7183e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a2b80bd0816ebdf43c510804dcab7183e" kindref="member">COMPRESSION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9060,<sp/><sp/></highlight></codeline>
+<codeline lineno="201" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a268cb300303d2d92f4991ed2106938b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a268cb300303d2d92f4991ed2106938b8" kindref="member">DECOMPRESSION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9061,<sp/><sp/></highlight></codeline>
+<codeline lineno="202" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a3d7b6bafc99e5c482c5fd9c255cfa31e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a3d7b6bafc99e5c482c5fd9c255cfa31e" kindref="member">COMPRESSION_BUFFER_SMALL</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9062,<sp/><sp/></highlight></codeline>
+<codeline lineno="203" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aaed9f083caf6c15afbb5ddbda8a84b86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aaed9f083caf6c15afbb5ddbda8a84b86" kindref="member">COMPRESSION_INPUT_INVALID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9063,<sp/><sp/></highlight></codeline>
+<codeline lineno="204" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a66d832678a83e2d1459987458b7a1645" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a66d832678a83e2d1459987458b7a1645" kindref="member">COMPRESSION_BOMB_DETECTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9064,<sp/><sp/></highlight></codeline>
+<codeline lineno="205" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a7677171d9643fc90c43eab6855dcc53c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a7677171d9643fc90c43eab6855dcc53c" kindref="member">COMPRESSION_RATIO_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9065,<sp/><sp/></highlight></codeline>
+<codeline lineno="206" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aed4f09d286f4fe1cc46f8a974940e5cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aed4f09d286f4fe1cc46f8a974940e5cf" kindref="member">CODEC_INITIALIZATION_FAILED</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>9066,<sp/><sp/></highlight></codeline>
+<codeline lineno="207" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a54acba5300976f18423af9d50308f422" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a54acba5300976f18423af9d50308f422" kindref="member">CODEC_NOT_SUPPORTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9067,<sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Concurrency<sp/>Errors<sp/>(9070-9079)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aaed9742596c646c5d7577d45000d3f61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aaed9742596c646c5d7577d45000d3f61" kindref="member">THREADPOOL_QUEUE_FULL</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9070,<sp/><sp/></highlight></codeline>
+<codeline lineno="211" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a387ec15cfa827b8a328dbe111f3da782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a387ec15cfa827b8a328dbe111f3da782" kindref="member">THREADPOOL_SHUTDOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9071,<sp/><sp/></highlight></codeline>
+<codeline lineno="212" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa426bb6f2ad06444d9f87593c998fde5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa426bb6f2ad06444d9f87593c998fde5" kindref="member">THREADPOOL_INVALID_STATE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9072,<sp/><sp/></highlight></codeline>
+<codeline lineno="213" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aad692d68691dc452af3a149fc962eab0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aad692d68691dc452af3a149fc962eab0" kindref="member">RATELIMIT_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9073,<sp/><sp/></highlight></codeline>
+<codeline lineno="214" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa2a97403cd0ea679ed15f241cd1b68e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa2a97403cd0ea679ed15f241cd1b68e7" kindref="member">RATELIMIT_WINDOW_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9074,<sp/><sp/></highlight></codeline>
+<codeline lineno="215" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab930f6f674bfdddaf44c3c5b4657a53a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab930f6f674bfdddaf44c3c5b4657a53a" kindref="member">CONNECTION_POOL_EXHAUSTED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9075,<sp/><sp/></highlight></codeline>
+<codeline lineno="216" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab23af0b7be97704b8112d8bf7382c2b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ab23af0b7be97704b8112d8bf7382c2b3" kindref="member">CONNECTION_POOL_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9076,<sp/><sp/></highlight></codeline>
+<codeline lineno="217" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a813fb8ada3779af582a988aebd5f090c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a813fb8ada3779af582a988aebd5f090c" kindref="member">LOCK_ACQUISITION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9077,<sp/><sp/></highlight></codeline>
+<codeline lineno="218" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ac342f2ab390aa5dde1cd9cd6cf96f301" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ac342f2ab390aa5dde1cd9cd6cf96f301" kindref="member">LOCK_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9078,<sp/><sp/></highlight></codeline>
+<codeline lineno="219" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a454998446963cf54d88bf67914c089c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a454998446963cf54d88bf67914c089c9" kindref="member">CONCURRENT_MODIFICATION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9079,<sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialization<sp/>Errors<sp/>(9080-9089)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a7f79c830a8dfcad8ea49573c7af08c5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a7f79c830a8dfcad8ea49573c7af08c5a" kindref="member">SERIALIZATION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9080,<sp/><sp/></highlight></codeline>
+<codeline lineno="223" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ad9879aa18c4eb0c077ba32c4096c4901" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ad9879aa18c4eb0c077ba32c4096c4901" kindref="member">DESERIALIZATION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9081,<sp/><sp/></highlight></codeline>
+<codeline lineno="224" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa070f1e40e71bfd18ad5716397f216cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aa070f1e40e71bfd18ad5716397f216cf" kindref="member">SERIALIZATION_FORMAT_INVALID</ref><sp/><sp/><sp/><sp/>=<sp/>9082,<sp/><sp/></highlight></codeline>
+<codeline lineno="225" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a493b2f10832597a4787a9f31fe66f6a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a493b2f10832597a4787a9f31fe66f6a9" kindref="member">SERIALIZATION_VERSION_MISMATCH</ref><sp/><sp/>=<sp/>9083,<sp/><sp/></highlight></codeline>
+<codeline lineno="226" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7abcad03090e6eb20c2e5d40252084a06c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7abcad03090e6eb20c2e5d40252084a06c" kindref="member">SERIALIZATION_SIZE_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>9084,<sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SAGA<sp/>Logging<sp/>Errors<sp/>(9090-9098)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a811edb13daad83b9e85d87c04287b2cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a811edb13daad83b9e85d87c04287b2cf" kindref="member">SAGA_EVENT_LOSS</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9090,<sp/><sp/></highlight></codeline>
+<codeline lineno="230" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ae621da6b46b92cb454e1e991adbcdd90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7ae621da6b46b92cb454e1e991adbcdd90" kindref="member">SAGA_SERIALIZATION_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9091,<sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Catchall</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a9a10f345b0f755d461a8673a5e9ef6b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">UNKNOWN_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9099</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Context<sp/>&amp;<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="structthemis_1_1utils_1_1_error_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_error_context_1a78222632b617a83b52c27505d1cfbcfc" kindref="member">ErrorContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>identification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="structthemis_1_1utils_1_1_error_context_1aeb4ef82f1568e94e5f0242f831abfca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1aeb4ef82f1568e94e5f0242f831abfca7" kindref="member">code</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252" refid="structthemis_1_1utils_1_1_error_context_1adceed34fe29bbe8205c411d168cb1f41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6" kindref="member">ErrorCategory</ref><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1adceed34fe29bbe8205c411d168cb1f41" kindref="member">category</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1utils_1_1_error_context_1a5031614cf34d3cb4b53e08cc84223a81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" kindref="member">ErrorSeverity</ref><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a5031614cf34d3cb4b53e08cc84223a81" kindref="member">severity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timing<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="structthemis_1_1utils_1_1_error_context_1a5c2a0bbfef6e6403ff5f20ca3702623f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a5c2a0bbfef6e6403ff5f20ca3702623f" kindref="member">timestamp</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1utils_1_1_error_context_1a7c8d7673b0ca6be262b5a8b6e1c20b87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a7c8d7673b0ca6be262b5a8b6e1c20b87" kindref="member">elapsed_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diagnostic<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="structthemis_1_1utils_1_1_error_context_1a1d455fb0258005cd5306022c68d97122" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a1d455fb0258005cd5306022c68d97122" kindref="member">message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261" refid="structthemis_1_1utils_1_1_error_context_1ad25c6b735ceb01ff414f7aec75522161" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1ad25c6b735ceb01ff414f7aec75522161" kindref="member">component</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262" refid="structthemis_1_1utils_1_1_error_context_1a9f043f38816a59ddee6073a94b3eff3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a9f043f38816a59ddee6073a94b3eff3a" kindref="member">context_info</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recovery<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="structthemis_1_1utils_1_1_error_context_1a35bfebf13ff8ff6c07139a47fd4d9571" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a35bfebf13ff8ff6c07139a47fd4d9571" kindref="member">recovery_hint</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266" refid="structthemis_1_1utils_1_1_error_context_1a1d2a856e54abf015a760780f5207b99b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a1d2a856e54abf015a760780f5207b99b" kindref="member">is_recoverable</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267" refid="structthemis_1_1utils_1_1_error_context_1a36687bc702a287bffeed4993b670f4ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a36687bc702a287bffeed4993b670f4ab" kindref="member">retry_count</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>state<sp/>at<sp/>time<sp/>of<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1utils_1_1_error_context_1ae726aa4ead37d6181c71446d06e3b4de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1ae726aa4ead37d6181c71446d06e3b4de" kindref="member">resource_limit</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271" refid="structthemis_1_1utils_1_1_error_context_1a19ab442149509ac526c6891736d42318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a19ab442149509ac526c6891736d42318" kindref="member">resource_current</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1utils_1_1_error_context_1a78222632b617a83b52c27505d1cfbcfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a78222632b617a83b52c27505d1cfbcfc" kindref="member">ErrorContext</ref>(<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref><sp/>code_,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message_,<sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component_)</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1aeb4ef82f1568e94e5f0242f831abfca7" kindref="member">code</ref>(code_),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a5031614cf34d3cb4b53e08cc84223a81" kindref="member">severity</ref>(<ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" kindref="member">ErrorSeverity</ref>::<ref refid="classthemis_1_1_error" kindref="compound">Error</ref>),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a5c2a0bbfef6e6403ff5f20ca3702623f" kindref="member">timestamp</ref>(std::chrono::system_clock::now()),</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a7c8d7673b0ca6be262b5a8b6e1c20b87" kindref="member">elapsed_ms</ref>(0),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a1d455fb0258005cd5306022c68d97122" kindref="member">message</ref>(message_),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1ad25c6b735ceb01ff414f7aec75522161" kindref="member">component</ref>(component_),<sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a1d2a856e54abf015a760780f5207b99b" kindref="member">is_recoverable</ref>(false),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a36687bc702a287bffeed4993b670f4ab" kindref="member">retry_count</ref>(0),</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1ae726aa4ead37d6181c71446d06e3b4de" kindref="member">resource_limit</ref>(0),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a19ab442149509ac526c6891736d42318" kindref="member">resource_current</ref>(0)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1adceed34fe29bbe8205c411d168cb1f41" kindref="member">category</ref><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">ErrorCategory::Unknown</ref>;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286" refid="structthemis_1_1utils_1_1_error_context_1abfc6840de8dde311affff304e1f82a63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1abfc6840de8dde311affff304e1f82a63" kindref="member">ErrorContext</ref>()<sp/>:<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1aeb4ef82f1568e94e5f0242f831abfca7" kindref="member">code</ref>(<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>::<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">UNKNOWN_ERROR</ref>),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a5031614cf34d3cb4b53e08cc84223a81" kindref="member">severity</ref>(<ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" kindref="member">ErrorSeverity</ref>::<ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a882384ec38ce8d9582b57e70861730e4" kindref="member">Fatal</ref>),</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a5c2a0bbfef6e6403ff5f20ca3702623f" kindref="member">timestamp</ref>(std::chrono::system_clock::now()),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a7c8d7673b0ca6be262b5a8b6e1c20b87" kindref="member">elapsed_ms</ref>(0),</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a1d2a856e54abf015a760780f5207b99b" kindref="member">is_recoverable</ref>(false),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a36687bc702a287bffeed4993b670f4ab" kindref="member">retry_count</ref>(0),</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1ae726aa4ead37d6181c71446d06e3b4de" kindref="member">resource_limit</ref>(0),<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a19ab442149509ac526c6891736d42318" kindref="member">resource_current</ref>(0)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_error_context_1adceed34fe29bbe8205c411d168cb1f41" kindref="member">category</ref><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">ErrorCategory::Unknown</ref>;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a63621aa8fa6f7e5154e6cf1a7e8378e1" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_context_1a417c08b2bf6e570220d34a41c64004ad" kindref="member">toFormattedString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Contract<sp/>Descriptors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322" refid="structthemis_1_1utils_1_1_error_contract" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_error_contract" kindref="compound">ErrorContract</ref><sp/>{</highlight></codeline>
+<codeline lineno="323" refid="structthemis_1_1utils_1_1_error_contract_1a8a4b3375fdeab358f48732363685116d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref><sp/><ref refid="structthemis_1_1utils_1_1_error_contract_1a8a4b3375fdeab358f48732363685116d" kindref="member">code</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="324" refid="structthemis_1_1utils_1_1_error_contract_1ada01fc1bd6073ad209b540c4b5d0ab9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" kindref="member">ErrorSeverity</ref><sp/><ref refid="structthemis_1_1utils_1_1_error_contract_1ada01fc1bd6073ad209b540c4b5d0ab9e" kindref="member">severity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="325" refid="structthemis_1_1utils_1_1_error_contract_1a307be91c61aa150ee90ab966114bfd4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_contract_1a307be91c61aa150ee90ab966114bfd4e" kindref="member">when_occurs</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="326" refid="structthemis_1_1utils_1_1_error_contract_1a6e019161955b954b15ea5d4d25916dea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_contract_1a6e019161955b954b15ea5d4d25916dea" kindref="member">diagnostic_logged</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327" refid="structthemis_1_1utils_1_1_error_contract_1ac69d0f99dd28e9c62bbc9dfe6a7d3274" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_contract_1ac69d0f99dd28e9c62bbc9dfe6a7d3274" kindref="member">recovery_strategy</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328" refid="structthemis_1_1utils_1_1_error_contract_1af3df88f06a37810ed093149282933225" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1utils_1_1_error_contract_1af3df88f06a37810ed093149282933225" kindref="member">downstream_impact</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329" refid="structthemis_1_1utils_1_1_error_contract_1ada8f797cf1d16730e3009f25f82c9a70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ErrorCode&gt;<sp/><ref refid="structthemis_1_1utils_1_1_error_contract_1ada8f797cf1d16730e3009f25f82c9a70" kindref="member">related_codes</ref>;<sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Incident<sp/>Categorization<sp/>for<sp/>Operator<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876ca" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876ca" kindref="member">IncidentCategory</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capacity/Resource<sp/>exhaustion<sp/>incidents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa68ec6e62c5fcbbb68b5ce093bdd60717" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa68ec6e62c5fcbbb68b5ce093bdd60717" kindref="member">BufferOverflow</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="349" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa6303bb5e9c775805e4ce4a722e0834be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa6303bb5e9c775805e4ce4a722e0834be" kindref="member">MemoryExhaustion</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/><sp/></highlight></codeline>
+<codeline lineno="350" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa99b4e005a41149449775db1bf89e5429" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa99b4e005a41149449775db1bf89e5429" kindref="member">ConnectionPoolExhausted</ref><sp/><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="351" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa9270f305e5c26e966ecc327162065abb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa9270f305e5c26e966ecc327162065abb" kindref="member">ThreadPoolOverload</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,<sp/><sp/></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeout<sp/>incidents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caabdb8214411a775c423ef4bb955be6f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caabdb8214411a775c423ef4bb955be6f9f" kindref="member">DetectionTimeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4,<sp/><sp/></highlight></codeline>
+<codeline lineno="355" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa9dd9eb2e644ab86243fa4dc1af89a53a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa9dd9eb2e644ab86243fa4dc1af89a53a" kindref="member">OperationTimeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5,<sp/><sp/></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>incidents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caac380628287aa4fd9b99f4acb444a8423" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caac380628287aa4fd9b99f4acb444a8423" kindref="member">KeyDerivationFailure</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>6,<sp/><sp/></highlight></codeline>
+<codeline lineno="359" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa472c2bf7572902456ef56d71819edde5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa472c2bf7572902456ef56d71819edde5" kindref="member">PrivacyDetectionFailure</ref><sp/><sp/>=<sp/>7,<sp/><sp/></highlight></codeline>
+<codeline lineno="360" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa029197b87e4d65b1cac3754fae3c3a69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa029197b87e4d65b1cac3754fae3c3a69" kindref="member">CompressionFailure</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8,<sp/><sp/></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Degradation<sp/>incidents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caab4763bfd46475f876300abd6873ef264" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caab4763bfd46475f876300abd6873ef264" kindref="member">FallbackActivated</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>9,<sp/><sp/></highlight></codeline>
+<codeline lineno="364" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa37870f43806b0344499f1705c7b986a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa37870f43806b0344499f1705c7b986a9" kindref="member">RateLimitExhausted</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10,<sp/></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data/Configuration<sp/>incidents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caaf237deac1e85c65673a7bba9093bca7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caaf237deac1e85c65673a7bba9093bca7e" kindref="member">InvalidConfiguration</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>11,<sp/></highlight></codeline>
+<codeline lineno="368" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa8773b4194e55dc04205c812b7d946b59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa8773b4194e55dc04205c812b7d946b59" kindref="member">DataCorruption</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>12,<sp/></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>External/Environment<sp/>incidents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caaff60f9a5cb723188913126eb6f5f68a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caaff60f9a5cb723188913126eb6f5f68a5" kindref="member">ExternalServiceUnavailable</ref><sp/>=<sp/>13,<sp/></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unknown</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374" refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa5029ded667bb3da1f50fad8593770ca5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876caa5029ded667bb3da1f50fad8593770ca5" kindref="member">UnclassifiedIncident</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>255<sp/></highlight></codeline>
+<codeline lineno="375"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Diagnostic<sp/>Logging<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a1d7488007dabd100fdd2536f837d44bf" kindref="member">logErrorWithContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ErrorContext&amp;<sp/>ctx,</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;spdlog::logger&gt;<sp/>logger<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal">ErrorContext<sp/><ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">makeErrorContext</ref>(<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref><sp/>code,</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>component,</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" kindref="member">ErrorSeverity</ref><sp/>severity,</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_recoverable);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876ca" kindref="member">IncidentCategory</ref><sp/><ref refid="namespacethemis_1_1utils_1a6a8df69fbca724dba1ef557aae7c3549" kindref="member">categorizeIncident</ref>(<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref><sp/>code);</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1utils_1af9b4f3cfd2887fd5f604ed5642a3256d" kindref="member">errorCodeName</ref>(<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref><sp/>code);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1utils_1a0181862a37ecb874fd2cfceba97eb610" kindref="member">categoryName</ref>(<ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6" kindref="member">ErrorCategory</ref><sp/>category);</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1utils_1a49568cd8477548d806d19e03a36f159f" kindref="member">severityName</ref>(<ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" kindref="member">ErrorSeverity</ref><sp/>severity);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1utils_1a00db1a780d0fd6a6ea35af580210ff4c" kindref="member">incidentName</ref>(<ref refid="namespacethemis_1_1utils_1a016c658f87be59b413635dbd4e2876ca" kindref="member">IncidentCategory</ref><sp/>incident);</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/error_contracts.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaIngestionPipeline</compoundname>
+    <includes refid="wikipedia__pipeline_8hpp" local="no">wikipedia_pipeline.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1af4d510e0ed60d7c62e4866dfbf5d8530" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config" kindref="compound">WikipediaIngestionConfig</ref></type>
+        <definition>WikipediaIngestionConfig themis::importers::WikipediaIngestionPipeline::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="124" column="30" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a53144c462fd46b659392a2a12c3cd356" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot" kindref="compound">WikipediaDatasetSnapshot</ref></type>
+        <definition>WikipediaDatasetSnapshot themis::importers::WikipediaIngestionPipeline::snapshot_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::snapshot_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="125" column="30" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a4014edc65741f8872f7471adc395ecdd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_dump_source" kindref="compound">WikipediaDumpSource</ref></type>
+        <definition>WikipediaDumpSource themis::importers::WikipediaIngestionPipeline::last_source_</definition>
+        <argsstring></argsstring>
+        <name>last_source_</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::last_source_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="126" column="25" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1af310ed586abe164862ccb773deb9fa26" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_manifest" kindref="compound">WikipediaManifest</ref></type>
+        <definition>WikipediaManifest themis::importers::WikipediaIngestionPipeline::last_manifest_</definition>
+        <argsstring></argsstring>
+        <name>last_manifest_</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::last_manifest_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="127" column="23" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a0439dc33bfcd4384b8a455a8e7f8c354" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref></type>
+        <definition>WikipediaCheckpointState themis::importers::WikipediaIngestionPipeline::checkpoint_state_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_state_</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::checkpoint_state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="128" column="30" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a418aeaab7aa93b1cd76aeed2cbdc60a7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_wikipedia_checkpoint_store" kindref="compound">WikipediaCheckpointStore</ref></type>
+        <definition>WikipediaCheckpointStore themis::importers::WikipediaIngestionPipeline::checkpoint_store_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_store_</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::checkpoint_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="129" column="30" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a487420637b42881d918655583704105d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::importers::WikipediaIngestionPipeline::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="130" column="24" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a915b46a798d4afd51e292fe9ab59eb03" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::importers::WikipediaIngestionPipeline::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="131" column="17" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1aedb8c39e1d69c5b4fbdd3c789d6ae308" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::importers::WikipediaIngestionPipeline::cancel_requested_</definition>
+        <argsstring></argsstring>
+        <name>cancel_requested_</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::cancel_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="132" column="17" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a8b39b872a8af07ea811dcbac8d3c145b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::WikipediaIngestionPipeline::WikipediaIngestionPipeline</definition>
+        <argsstring>(WikipediaIngestionConfig config={})</argsstring>
+        <name>WikipediaIngestionPipeline</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::WikipediaIngestionPipeline</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config" kindref="compound">WikipediaIngestionConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="26" column="14" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a4b483fc3ca4876d6f5d4c54a4dd45bdf" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaIngestionPipeline::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="28" column="11" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a473358b003eecdf8c86b0db9d35dbb09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::WikipediaIngestionPipeline::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="32" column="10" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a68b8126d0f51a5271cdc77732f99b722" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaIngestionPipeline::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="33" column="11" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ace4b4a13f0e2afbef93ac52b4e79ce80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::WikipediaIngestionPipeline::setConfig</definition>
+        <argsstring>(const WikipediaIngestionConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config" kindref="compound">WikipediaIngestionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), setPath(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="39" column="10" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="55" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a92a5ccabda02da6d20f4e1bedc64ac01" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config" kindref="compound">WikipediaIngestionConfig</ref> &amp;</type>
+        <definition>const WikipediaIngestionConfig &amp; themis::importers::WikipediaIngestionPipeline::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="40" column="37" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a526484f767d0f698f19fb88eb7a99287" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::WikipediaIngestionPipeline::runFullImport</definition>
+        <argsstring>(const WikipediaDumpSource &amp;source, const ImportOptions &amp;options=ImportOptions{})</argsstring>
+        <name>runFullImport</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::runFullImport</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_dump_source" kindref="compound">WikipediaDumpSource</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval><ref refid="struct_import_options" kindref="compound">ImportOptions</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Run Full Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: executeImport(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="42" column="18" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="72" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ac5b318c741cfe4136e75cd3c24d7a8b5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::WikipediaIngestionPipeline::runIncrementalUpdate</definition>
+        <argsstring>(const WikipediaDumpSource &amp;source, const ImportOptions &amp;options=ImportOptions{})</argsstring>
+        <name>runIncrementalUpdate</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::runIncrementalUpdate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_dump_source" kindref="compound">WikipediaDumpSource</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval><ref refid="struct_import_options" kindref="compound">ImportOptions</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Run Incremental Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: executeImport(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="45" column="18" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ade0407dcf8ef0756af58780979d51f3b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_projection_summary" kindref="compound">WikipediaProjectionSummary</ref></type>
+        <definition>WikipediaProjectionSummary themis::importers::WikipediaIngestionPipeline::rebuildProjection</definition>
+        <argsstring>(WikipediaProjectionModel model)</argsstring>
+        <name>rebuildProjection</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::rebuildProjection</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a25feb04bf9b019cd9d5ff9e7b3773913" kindref="member">WikipediaProjectionModel</ref></type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Rebuild Projection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), relationalRowCount(), projectGraphDirtyPages(), projectVectorDirtyPages(), projectProcessDirtyPages(), projectTimeSeriesDirtyPages(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="48" column="33" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="158" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1adf18699f8bc7f5f573c906a06a44edfa" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_projection_summary" kindref="compound">WikipediaProjectionSummary</ref></type>
+        <definition>WikipediaProjectionSummary themis::importers::WikipediaIngestionPipeline::rebuildAllProjections</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildAllProjections</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::rebuildAllProjections</qualifiedname>
+        <briefdescription>
+<para>Rebuild All Projections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), rebuildAllProjectionsUnlocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="49" column="33" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1aa5dc588ba5797dc68fbe7ef3403f3281" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_validation_report" kindref="compound">WikipediaValidationReport</ref></type>
+        <definition>WikipediaValidationReport themis::importers::WikipediaIngestionPipeline::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::validate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="50" column="32" bodyfile="src/importers/wikipedia_validator.cpp" bodystart="38" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1aebdcd2d89c39bd5a40155c9f88d5e111" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_manifest" kindref="compound">WikipediaManifest</ref></type>
+        <definition>WikipediaManifest themis::importers::WikipediaIngestionPipeline::exportPortable</definition>
+        <argsstring>(const std::string &amp;database_path, const std::string &amp;manifest_path=std::string{})</argsstring>
+        <name>exportPortable</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::exportPortable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>database_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifest_path</declname>
+          <defval>std::string{}</defval>
+        </param>
+        <briefdescription>
+<para>Export Portable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">database_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the database. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the manifest. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::filesystem::path(), parent_path(), empty(), std::filesystem::create_directories(), database_file(), toJson(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="51" column="24" bodyfile="src/importers/wikipedia_validator.cpp" bodystart="96" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a6353f6c6ceb3e75a15950fd27ebbe3d3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaIngestionPipeline::sourceSchema</definition>
+        <argsstring>() const</argsstring>
+        <name>sourceSchema</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::sourceSchema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="54" column="11" bodyfile="src/importers/wikipedia_validator.cpp" bodystart="155" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a89a9b3c43488c3c15831277811f6850a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_dataset_snapshot" kindref="compound">WikipediaDatasetSnapshot</ref> &amp;</type>
+        <definition>const WikipediaDatasetSnapshot &amp; themis::importers::WikipediaIngestionPipeline::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="56" column="37" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a9a0cf02720d94428ed1e6ad31a33d97c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_checkpoint_state" kindref="compound">WikipediaCheckpointState</ref> &amp;</type>
+        <definition>const WikipediaCheckpointState &amp; themis::importers::WikipediaIngestionPipeline::checkpointState</definition>
+        <argsstring>() const</argsstring>
+        <name>checkpointState</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::checkpointState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="57" column="37" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="222" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a87d16a662544c1ef26a825fe03116520" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_manifest" kindref="compound">WikipediaManifest</ref> &amp;</type>
+        <definition>const WikipediaManifest &amp; themis::importers::WikipediaIngestionPipeline::lastManifest</definition>
+        <argsstring>() const</argsstring>
+        <name>lastManifest</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::lastManifest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="58" column="30" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="226" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ad4a3ae82bc8d8ec7a01286b0d2164258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::WikipediaIngestionPipeline::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="63" column="10" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="234" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1abd3d531acbec7e408fc48097b82d26ce" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::WikipediaIngestionPipeline::executeImport</definition>
+        <argsstring>(const WikipediaDumpSource &amp;source, const ImportOptions &amp;options, bool incremental)</argsstring>
+        <name>executeImport</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::executeImport</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_dump_source" kindref="compound">WikipediaDumpSource</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>incremental</declname>
+        </param>
+        <briefdescription>
+<para>Execute Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incremental</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), load(), <ref refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a4b483fc3ca4876d6f5d4c54a4dd45bdf" kindref="member">initialize()</ref>, store(), syncCheckpointStore(), exists(), empty(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="66" column="18" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="99" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a40736b008e3ef04aaa4fad40187340c9" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_projection_summary" kindref="compound">WikipediaProjectionSummary</ref></type>
+        <definition>WikipediaProjectionSummary themis::importers::WikipediaIngestionPipeline::rebuildAllProjectionsUnlocked</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildAllProjectionsUnlocked</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::rebuildAllProjectionsUnlocked</qualifiedname>
+        <briefdescription>
+<para>Rebuild All Projections Unlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: relationalRowCount(), projectGraphDirtyPages(), projectVectorDirtyPages(), projectProcessDirtyPages(), projectTimeSeriesDirtyPages(), size(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="70" column="33" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="192" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1af377f317c7296213536ac231926bb444" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaIngestionPipeline::parseSourceStream</definition>
+        <argsstring>(std::istream &amp;stream, const WikipediaDumpSource &amp;source, ImportStats &amp;stats, const ImportOptions &amp;options, bool incremental)</argsstring>
+        <name>parseSourceStream</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::parseSourceStream</qualifiedname>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_dump_source" kindref="compound">WikipediaDumpSource</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>incremental</declname>
+        </param>
+        <briefdescription>
+<para>Parse Source Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incremental</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::getline(), load(), emplace_back(), find(), clear(), append(), push_back(), parseXmlPageBlock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="71" column="11" bodyfile="src/importers/wikipedia_dump_reader.cpp" bodystart="25" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1af99b86a3e9592a50b48ead3b7aecdda4" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_parsed_page" kindref="compound">WikipediaParsedPage</ref> &gt;</type>
+        <definition>std::optional&lt; WikipediaParsedPage &gt; themis::importers::WikipediaIngestionPipeline::parseXmlPageBlock</definition>
+        <argsstring>(const std::string &amp;page_block, const WikipediaDumpSource &amp;source, std::string &amp;error) const</argsstring>
+        <name>parseXmlPageBlock</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::parseXmlPageBlock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>page_block</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_dump_source" kindref="compound">WikipediaDumpSource</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="77" column="20" bodyfile="src/importers/wikipedia_xml_parser.cpp" bodystart="66" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1acabd87585dd62da4152c1e38c109f919" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::WikipediaIngestionPipeline::applyParsedPage</definition>
+        <argsstring>(const WikipediaParsedPage &amp;parsed_page, ImportStats &amp;stats, const ImportOptions &amp;options, bool incremental)</argsstring>
+        <name>applyParsedPage</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::applyParsedPage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_parsed_page" kindref="compound">WikipediaParsedPage</ref> &amp;</type>
+          <declname>parsed_page</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>incremental</declname>
+        </param>
+        <briefdescription>
+<para>Apply Parsed Page. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">parsed_page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incremental</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parsed_page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">incremental</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), count(), end(), removeExistingPageDerivedRows(), streaming_row_callback(), toJson(), <ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1ab0f23c0e090aad4ad83fa492ff79cb8e" kindref="member">WikipediaTransform::extractLinks()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="88" column="10" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="292" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a11e9ab7a7cef567230c66d034e14b765" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::WikipediaIngestionPipeline::removeExistingPageDerivedRows</definition>
+        <argsstring>(uint64_t page_id)</argsstring>
+        <name>removeExistingPageDerivedRows</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::removeExistingPageDerivedRows</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>page_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Existing Page Derived Rows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">page_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the page.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">page_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the page.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="97" column="10" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="262" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a97dd0df12274fe43e3f6b58051261957" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::WikipediaIngestionPipeline::markDirtyPage</definition>
+        <argsstring>(uint64_t page_id, const std::string &amp;reason)</argsstring>
+        <name>markDirtyPage</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::markDirtyPage</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>page_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Mark Dirty Page. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">page_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the page. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">page_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the page. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements markDirtyPage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="103" column="10" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="285" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ab0109ec43a9ffaebac4e72f5ada78e05" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref> &gt;</type>
+        <definition>std::vector&lt; WikipediaRevisionRecord &gt; themis::importers::WikipediaIngestionPipeline::revisionsForPage</definition>
+        <argsstring>(uint64_t page_id) const</argsstring>
+        <name>revisionsForPage</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::revisionsForPage</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>page_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="104" column="18" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="238" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ac828d743588be29f45f83f63ceb81843" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_projection_summary" kindref="compound">WikipediaProjectionSummary</ref></type>
+        <definition>WikipediaProjectionSummary themis::importers::WikipediaIngestionPipeline::projectGraphDirtyPages</definition>
+        <argsstring>()</argsstring>
+        <name>projectGraphDirtyPages</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::projectGraphDirtyPages</qualifiedname>
+        <briefdescription>
+<para>Project Graph Dirty Pages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: relationalRowCount(), empty(), size(), erase(), std::remove_if(), begin(), end(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="105" column="33" bodyfile="src/importers/wikipedia_project_graph.cpp" bodystart="23" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1afd5cd6bcf7d1fa0e7646030ac2d28ef1" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_projection_summary" kindref="compound">WikipediaProjectionSummary</ref></type>
+        <definition>WikipediaProjectionSummary themis::importers::WikipediaIngestionPipeline::projectVectorDirtyPages</definition>
+        <argsstring>()</argsstring>
+        <name>projectVectorDirtyPages</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::projectVectorDirtyPages</qualifiedname>
+        <briefdescription>
+<para>Project Vector Dirty Pages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: relationalRowCount(), empty(), size(), erase(), std::remove_if(), begin(), end(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="106" column="33" bodyfile="src/importers/wikipedia_project_vector.cpp" bodystart="22" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a0e8e02973b9eb0b0d0cec646266e0f78" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_projection_summary" kindref="compound">WikipediaProjectionSummary</ref></type>
+        <definition>WikipediaProjectionSummary themis::importers::WikipediaIngestionPipeline::projectTimeSeriesDirtyPages</definition>
+        <argsstring>()</argsstring>
+        <name>projectTimeSeriesDirtyPages</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::projectTimeSeriesDirtyPages</qualifiedname>
+        <briefdescription>
+<para>Project Time Series Dirty Pages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: relationalRowCount(), empty(), size(), erase(), std::remove_if(), begin(), end(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="107" column="33" bodyfile="src/importers/wikipedia_project_timeseries.cpp" bodystart="22" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a969263e167cc6b833de44a571da8893a" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_projection_summary" kindref="compound">WikipediaProjectionSummary</ref></type>
+        <definition>WikipediaProjectionSummary themis::importers::WikipediaIngestionPipeline::projectProcessDirtyPages</definition>
+        <argsstring>()</argsstring>
+        <name>projectProcessDirtyPages</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::projectProcessDirtyPages</qualifiedname>
+        <briefdescription>
+<para>Project Process Dirty Pages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: relationalRowCount(), empty(), size(), erase(), std::remove_if(), begin(), end(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="108" column="33" bodyfile="src/importers/wikipedia_project_process.cpp" bodystart="22" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ae6c97a28b808987f6f5792c27ed4389a" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaIngestionPipeline::relationalRowCount</definition>
+        <argsstring>() const</argsstring>
+        <name>relationalRowCount</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::relationalRowCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="109" column="13" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="252" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a76163b95d785b6c780416902bbfeabf8" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_validation_report" kindref="compound">WikipediaValidationReport</ref></type>
+        <definition>WikipediaValidationReport themis::importers::WikipediaIngestionPipeline::validateUnlocked</definition>
+        <argsstring>() const</argsstring>
+        <name>validateUnlocked</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::validateUnlocked</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="110" column="32" bodyfile="src/importers/wikipedia_validator.cpp" bodystart="48" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a3bf04fd1f5f8946ca6a9e2c151609c17" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::WikipediaIngestionPipeline::recordDeadLetter</definition>
+        <argsstring>(const WikipediaDeadLetterRecord &amp;record, const ImportOptions &amp;options)</argsstring>
+        <name>recordDeadLetter</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::recordDeadLetter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_dead_letter_record" kindref="compound">WikipediaDeadLetterRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Record Dead Letter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), empty(), std::filesystem::create_directories(), std::filesystem::path(), parent_path(), sink(), is_open(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="116" column="10" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="295" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a1d8634cc031bb16c998bff4c406f8e72" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaIngestionPipeline::nowIso8601</definition>
+        <argsstring>() const</argsstring>
+        <name>nowIso8601</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::nowIso8601</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="117" column="18" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="311" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ae266514df4bff2358bfe4047cec33d00" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::WikipediaIngestionPipeline::syncCheckpointStore</definition>
+        <argsstring>(const ImportOptions &amp;options)</argsstring>
+        <name>syncCheckpointStore</name>
+        <qualifiedname>themis::importers::WikipediaIngestionPipeline::syncCheckpointStore</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Sync Checkpoint Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), setPath(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_pipeline.hpp" line="122" column="10" bodyfile="src/importers/wikipedia_pipeline.cpp" bodystart="330" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_pipeline.hpp" line="24" column="1" bodyfile="include/importers/wikipedia_pipeline.hpp" bodystart="24" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1acabd87585dd62da4152c1e38c109f919" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>applyParsedPage</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ad4a3ae82bc8d8ec7a01286b0d2164258" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1aedb8c39e1d69c5b4fbdd3c789d6ae308" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>cancel_requested_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a0439dc33bfcd4384b8a455a8e7f8c354" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>checkpoint_state_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a418aeaab7aa93b1cd76aeed2cbdc60a7" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>checkpoint_store_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a9a0cf02720d94428ed1e6ad31a33d97c" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>checkpointState</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a92a5ccabda02da6d20f4e1bedc64ac01" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>config</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1af4d510e0ed60d7c62e4866dfbf5d8530" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>config_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1abd3d531acbec7e408fc48097b82d26ce" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>executeImport</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1aebdcd2d89c39bd5a40155c9f88d5e111" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>exportPortable</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a4b483fc3ca4876d6f5d4c54a4dd45bdf" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a915b46a798d4afd51e292fe9ab59eb03" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a68b8126d0f51a5271cdc77732f99b722" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1af310ed586abe164862ccb773deb9fa26" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>last_manifest_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a4014edc65741f8872f7471adc395ecdd" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>last_source_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a87d16a662544c1ef26a825fe03116520" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>lastManifest</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a97dd0df12274fe43e3f6b58051261957" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>markDirtyPage</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a487420637b42881d918655583704105d" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a1d8634cc031bb16c998bff4c406f8e72" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>nowIso8601</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1af377f317c7296213536ac231926bb444" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>parseSourceStream</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1af99b86a3e9592a50b48ead3b7aecdda4" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>parseXmlPageBlock</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ac828d743588be29f45f83f63ceb81843" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>projectGraphDirtyPages</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a969263e167cc6b833de44a571da8893a" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>projectProcessDirtyPages</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a0e8e02973b9eb0b0d0cec646266e0f78" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>projectTimeSeriesDirtyPages</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1afd5cd6bcf7d1fa0e7646030ac2d28ef1" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>projectVectorDirtyPages</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1adf18699f8bc7f5f573c906a06a44edfa" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>rebuildAllProjections</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a40736b008e3ef04aaa4fad40187340c9" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>rebuildAllProjectionsUnlocked</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ade0407dcf8ef0756af58780979d51f3b" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>rebuildProjection</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a3bf04fd1f5f8946ca6a9e2c151609c17" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>recordDeadLetter</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ae6c97a28b808987f6f5792c27ed4389a" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>relationalRowCount</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a11e9ab7a7cef567230c66d034e14b765" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>removeExistingPageDerivedRows</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ab0109ec43a9ffaebac4e72f5ada78e05" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>revisionsForPage</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a526484f767d0f698f19fb88eb7a99287" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>runFullImport</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ac5b318c741cfe4136e75cd3c24d7a8b5" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>runIncrementalUpdate</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ace4b4a13f0e2afbef93ac52b4e79ce80" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a473358b003eecdf8c86b0db9d35dbb09" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a89a9b3c43488c3c15831277811f6850a" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a53144c462fd46b659392a2a12c3cd356" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>snapshot_</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a6353f6c6ceb3e75a15950fd27ebbe3d3" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>sourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1ae266514df4bff2358bfe4047cec33d00" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>syncCheckpointStore</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1aa5dc588ba5797dc68fbe7ef3403f3281" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>validate</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a76163b95d785b6c780416902bbfeabf8" prot="private" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>validateUnlocked</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_ingestion_pipeline_1a8b39b872a8af07ea811dcbac8d3c145b" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionPipeline</scope><name>WikipediaIngestionPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

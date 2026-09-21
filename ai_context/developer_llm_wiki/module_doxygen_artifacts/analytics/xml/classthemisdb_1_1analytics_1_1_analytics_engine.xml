@@ -1,0 +1,494 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_analytics_engine" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AnalyticsEngine</compoundname>
+    <includes refid="analytics__engine_8h" local="no">analytics_engine.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_analytics_engine_1_1_pool_stats" prot="public">themisdb::analytics::AnalyticsEngine::PoolStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_analytics_engine_1a2bde1d8dedb7523f750f9a484ce08501" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_connection_pool" kindref="compound">ConnectionPool</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConnectionPool&gt; themisdb::analytics::AnalyticsEngine::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::pool_</qualifiedname>
+        <briefdescription>
+<para>Connection pool (never null). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="145" column="21" bodyfile="include/analytics/analytics_engine.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_analytics_engine_1acecff9781a436aa42b9bf15b885ce75e" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::AnalyticsEngine::query_timeout_</definition>
+        <argsstring></argsstring>
+        <name>query_timeout_</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::query_timeout_</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Query timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="146" column="31" bodyfile="include/analytics/analytics_engine.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_analytics_engine_1a05d73222b1affd3a6bee223fbe5631c0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AnalyticsEngine::max_retries_</definition>
+        <argsstring></argsstring>
+        <name>max_retries_</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::max_retries_</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+<para>Max retry attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="147" column="9" bodyfile="include/analytics/analytics_engine.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_analytics_engine_1ae908c28f8fe25a326c318cb28383cc99" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AnalyticsEngine::peak_pool_usage_</definition>
+        <argsstring></argsstring>
+        <name>peak_pool_usage_</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::peak_pool_usage_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Peak connection usage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="148" column="9" bodyfile="include/analytics/analytics_engine.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1ab6222dbfa20cd4a87ed82a5c522ab644" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::AnalyticsEngine::AnalyticsEngine</definition>
+        <argsstring>(std::shared_ptr&lt; ConnectionPool &gt; pool)</argsstring>
+        <name>AnalyticsEngine</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::AnalyticsEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_connection_pool" kindref="compound">ConnectionPool</ref> &gt;</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+<para>Analytics Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="64" column="14" bodyfile="src/analytics/analytics_engine.cpp" bodystart="82" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1ae481c522bad5c5ba6d38f9aacdb75cb3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::AnalyticsEngine::~AnalyticsEngine</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~AnalyticsEngine</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::~AnalyticsEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="66" column="5" bodyfile="src/analytics/analytics_engine.cpp" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1a02937538ea73a2e6d4c99480fef8028c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themisdb::analytics::AnalyticsEngine::ExecuteQuery</definition>
+        <argsstring>(const QueryConfig &amp;config)</argsstring>
+        <name>ExecuteQuery</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::ExecuteQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_query_config" kindref="compound">QueryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>======================================================================== Gap A-2-01, A-2-02, A-2-03: Query execution with exception-safe cleanup ========================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ValidatePoolState(), ExecuteWithRetry(), LogConnectionDiagnostics(), what(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="74" column="17" bodyfile="src/analytics/analytics_engine.cpp" bodystart="100" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1a4b0c6742fb2f8b38c505397c787a6f3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themisdb::analytics::AnalyticsEngine::RunAggregation</definition>
+        <argsstring>(const AggregationBatch &amp;batch)</argsstring>
+        <name>RunAggregation</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::RunAggregation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_aggregation_batch" kindref="compound">AggregationBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Run Aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>======================================================================== Gap A-2-04, A-2-05: Batch aggregation with diagnostics ========================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: LogConnectionDiagnostics(), empty(), acquire(), release(), guard(), spdlog::info(), size(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="81" column="17" bodyfile="src/analytics/analytics_engine.cpp" bodystart="223" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1aa64ca8dc15569d63fe84818279f9c934" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_query_result" kindref="compound">QueryResult</ref> &gt;</type>
+        <definition>std::vector&lt; QueryResult &gt; themisdb::analytics::AnalyticsEngine::ProcessBatch</definition>
+        <argsstring>(const std::vector&lt; QueryConfig &gt; &amp;queries)</argsstring>
+        <name>ProcessBatch</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::ProcessBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_query_config" kindref="compound">QueryConfig</ref> &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <briefdescription>
+<para>Process Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>======================================================================== Gap A-2-06, A-2-07: Batch processing with connection reuse ========================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), <ref refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a02937538ea73a2e6d4c99480fef8028c" kindref="member">ExecuteQuery()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="88" column="17" bodyfile="src/analytics/analytics_engine.cpp" bodystart="281" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1a5fd45a8ae519748d973299983891eb47" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::AnalyticsEngine::SetQueryTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout) noexcept</argsstring>
+        <name>SetQueryTimeout</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::SetQueryTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="94" column="10" bodyfile="include/analytics/analytics_engine.h" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1ae56f794f6d98a858dc15f18264ecbae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::AnalyticsEngine::SetPoolSize</definition>
+        <argsstring>(int size)</argsstring>
+        <name>SetPoolSize</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::SetPoolSize</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Set Pool Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>======================================================================== Gap A-2-08: Timeout configuration ========================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="102" column="10" bodyfile="src/analytics/analytics_engine.cpp" bodystart="301" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1aadb4bcb1d8d49edbaba79478adbd3670" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_analytics_engine_1_1_pool_stats" kindref="compound">PoolStats</ref></type>
+        <definition>AnalyticsEngine::PoolStats themisdb::analytics::AnalyticsEngine::GetPoolStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetPoolStats</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::GetPoolStats</qualifiedname>
+        <briefdescription>
+<para>Get Pool Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="114" column="15" bodyfile="src/analytics/analytics_engine.cpp" bodystart="312" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1a19f3885b3b65b03c72fa8d96ea52cd6f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::AnalyticsEngine::IsPoolExhausted</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>IsPoolExhausted</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::IsPoolExhausted</qualifiedname>
+        <briefdescription>
+<para>Is Pool Exhausted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="121" column="10" bodyfile="src/analytics/analytics_engine.cpp" bodystart="321" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1a6b5d6aed375839c4376f68a27733746f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_connection_pool" kindref="compound">ConnectionPool</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ConnectionPool &gt; themisdb::analytics::AnalyticsEngine::GetPool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetPool</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::GetPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="123" column="21" bodyfile="include/analytics/analytics_engine.h" bodystart="123" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1a2811ff491938487c557a02e915ad6b77" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_query_result" kindref="compound">QueryResult</ref></type>
+        <definition>QueryResult themisdb::analytics::AnalyticsEngine::ExecuteWithRetry</definition>
+        <argsstring>(const QueryConfig &amp;config, int retry_count=0)</argsstring>
+        <name>ExecuteWithRetry</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::ExecuteWithRetry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_query_config" kindref="compound">QueryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>retry_count</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>======================================================================== Gap A-2-06, A-2-07: Retry logic with fresh connection ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">retry_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::error(), std::chrono::high_resolution_clock::now(), acquire(), spdlog::warn(), std::this_thread::sleep_for(), std::chrono::milliseconds(), release(), guard(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="132" column="17" bodyfile="src/analytics/analytics_engine.cpp" bodystart="128" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1a57babf6f69460eb6ba19bf54aa4cfd93" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::AnalyticsEngine::LogConnectionDiagnostics</definition>
+        <argsstring>(const std::string &amp;error, int connection_id=-1) const</argsstring>
+        <name>LogConnectionDiagnostics</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::LogConnectionDiagnostics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="134" column="10" bodyfile="src/analytics/analytics_engine.cpp" bodystart="331" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_analytics_engine_1aebb5eced9fef19edffe14ce8a07d9da8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::AnalyticsEngine::ValidatePoolState</definition>
+        <argsstring>() const</argsstring>
+        <name>ValidatePoolState</name>
+        <qualifiedname>themisdb::analytics::AnalyticsEngine::ValidatePoolState</qualifiedname>
+        <briefdescription>
+<para>Validate Pool State. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="139" column="10" bodyfile="src/analytics/analytics_engine.cpp" bodystart="346" bodyend="350"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/analytics_engine.h" line="57" column="1" bodyfile="include/analytics/analytics_engine.h" bodystart="57" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1ab6222dbfa20cd4a87ed82a5c522ab644" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>AnalyticsEngine</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a02937538ea73a2e6d4c99480fef8028c" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>ExecuteQuery</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a2811ff491938487c557a02e915ad6b77" prot="private" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>ExecuteWithRetry</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a6b5d6aed375839c4376f68a27733746f" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>GetPool</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1aadb4bcb1d8d49edbaba79478adbd3670" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>GetPoolStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a19f3885b3b65b03c72fa8d96ea52cd6f" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>IsPoolExhausted</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a57babf6f69460eb6ba19bf54aa4cfd93" prot="private" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>LogConnectionDiagnostics</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a05d73222b1affd3a6bee223fbe5631c0" prot="private" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>max_retries_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1ae908c28f8fe25a326c318cb28383cc99" prot="private" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>peak_pool_usage_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a2bde1d8dedb7523f750f9a484ce08501" prot="private" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>pool_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1aa64ca8dc15569d63fe84818279f9c934" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>ProcessBatch</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1acecff9781a436aa42b9bf15b885ce75e" prot="private" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>query_timeout_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a4b0c6742fb2f8b38c505397c787a6f3c" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>RunAggregation</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1ae56f794f6d98a858dc15f18264ecbae4" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>SetPoolSize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1a5fd45a8ae519748d973299983891eb47" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>SetQueryTimeout</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1aebb5eced9fef19edffe14ce8a07d9da8" prot="private" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>ValidatePoolState</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_analytics_engine_1ae481c522bad5c5ba6d38f9aacdb75cb3" prot="public" virt="non-virtual"><scope>themisdb::analytics::AnalyticsEngine</scope><name>~AnalyticsEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

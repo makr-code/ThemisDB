@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::MergeEngine::MergeOptions</compoundname>
+    <includes refid="merge__engine_8h" local="no">merge_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1ace7059fd24b786ad652a677a14b21f08" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835" kindref="member">MergeStrategy</ref></type>
+        <definition>MergeStrategy themis::transaction::MergeEngine::MergeOptions::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeOptions::strategy</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835aa60a6a471c0681e5a49c4f5d00f6bc5a" kindref="member">MergeStrategy::MANUAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="84" column="23" bodyfile="include/transaction/merge_engine.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a218525916937109f2a8201551465b0a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::MergeEngine::MergeOptions::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeOptions::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="85" column="14" bodyfile="include/transaction/merge_engine.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a2e1e5694c4d7aa97bbb798303e2c4ee0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::MergeEngine::MergeOptions::fail_on_conflict</definition>
+        <argsstring></argsstring>
+        <name>fail_on_conflict</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeOptions::fail_on_conflict</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="86" column="14" bodyfile="include/transaction/merge_engine.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a2a5d1ed55be0345d1df1241a5273046e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution" kindref="compound">ConflictResolution</ref> &gt;</type>
+        <definition>std::vector&lt;ConflictResolution&gt; themis::transaction::MergeEngine::MergeOptions::manual_resolutions</definition>
+        <argsstring></argsstring>
+        <name>manual_resolutions</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeOptions::manual_resolutions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="87" column="21" bodyfile="include/transaction/merge_engine.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a5308f5099db604eab3c5c804f7d15597" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref></type>
+        <definition>json themis::transaction::MergeEngine::MergeOptions::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeOptions::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="93" column="14" bodyfile="src/transaction/merge_engine.cpp" bodystart="106" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1afe1b9f55233f44a0c3138c09826aaadf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kindref="compound">MergeOptions</ref></type>
+        <definition>MergeEngine::MergeOptions themis::transaction::MergeEngine::MergeOptions::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeOptions::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="99" column="29" bodyfile="src/transaction/merge_engine.cpp" bodystart="129" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/merge_engine.h" line="83" column="5" bodyfile="include/transaction/merge_engine.h" bodystart="83" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a218525916937109f2a8201551465b0a8" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::MergeOptions</scope><name>dry_run</name></member>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a2e1e5694c4d7aa97bbb798303e2c4ee0" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::MergeOptions</scope><name>fail_on_conflict</name></member>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1afe1b9f55233f44a0c3138c09826aaadf" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::MergeOptions</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a2a5d1ed55be0345d1df1241a5273046e" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::MergeOptions</scope><name>manual_resolutions</name></member>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1ace7059fd24b786ad652a677a14b21f08" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::MergeOptions</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options_1a5308f5099db604eab3c5c804f7d15597" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::MergeOptions</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="http__metrics__client_8h" kind="file" language="C++">
+    <compoundname>http_metrics_client.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includedby refid="http__metrics__client_8cpp" local="yes">src/rag/http_metrics_client.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/http_metrics_client.h</label>
+        <link refid="http__metrics__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/http_metrics_client.h</label>
+        <link refid="http__metrics__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/http_metrics_client.cpp</label>
+        <link refid="http__metrics__client_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" prot="public">themis::rag::judge::HTTPResponse</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" prot="public">themis::rag::judge::HTTPMetricsClientConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" prot="public">themis::rag::judge::QualityMetricPayload</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client" prot="public">themis::rag::judge::HTTPMetricsClient</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics" prot="public">themis::rag::judge::HTTPMetricsClient::Statistics</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory" prot="public">themis::rag::judge::HTTPMetricsClientFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092" kindref="member">HTTPMethod</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092a7528035a93ee69cedb1dbddb2f0bfcc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092a7528035a93ee69cedb1dbddb2f0bfcc8" kindref="member">GET</ref>,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092aa02439ec229d8be0e74b0c1602392310" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092aa02439ec229d8be0e74b0c1602392310" kindref="member">POST</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092a3e75383a5992a6d15fb81e872e46e256" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092a3e75383a5992a6d15fb81e872e46e256" kindref="member">PUT</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092a941c42b9719734fbe289f8e65d7a7574" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092a941c42b9719734fbe289f8e65d7a7574" kindref="member">DELETE_</ref></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1a5c74a053d32c7d220173a025ceb18e05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1a5c74a053d32c7d220173a025ceb18e05" kindref="member">status_code</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1a157c8479da889a83cd1dca304e090b50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1a157c8479da889a83cd1dca304e090b50" kindref="member">body</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1a2d6dfc291e11dd9de0e8af1ebd78c719" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1a2d6dfc291e11dd9de0e8af1ebd78c719" kindref="member">headers</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1afe3a18b4292ef9f890e2a696ef489806" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1afe3a18b4292ef9f890e2a696ef489806" kindref="member">success</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1acc6855caba86cf12b99b8deb8416c770" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1acc6855caba86cf12b99b8deb8416c770" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1a2edb5c802c79b75b5d828e3a10fd9a40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response_1a2edb5c802c79b75b5d828e3a10fd9a40" kindref="member">latency</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kindref="compound">HTTPMetricsClientConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a6dafbd3a2206296f1a38dc173cde06cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a6dafbd3a2206296f1a38dc173cde06cf" kindref="member">endpoint_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a5317efc7b5b3f3fd3258ab35e42dd6ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a5317efc7b5b3f3fd3258ab35e42dd6ea" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1adbdb9049afde270e6e700aa624289227" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1adbdb9049afde270e6e700aa624289227" kindref="member">max_retries</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a506055233ca6a4ee3b350ae58c7add4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a506055233ca6a4ee3b350ae58c7add4e" kindref="member">retry_backoff_ms</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1ad9c1eba98b91ac12a560a9c69fd7d407" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1ad9c1eba98b91ac12a560a9c69fd7d407" kindref="member">verify_ssl</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a8ea9aea0d7766e7bdc5b255745c79554" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a8ea9aea0d7766e7bdc5b255745c79554" kindref="member">auth_token</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1ae2ff09386eee3ae2c0847a9ac5da1031" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1ae2ff09386eee3ae2c0847a9ac5da1031" kindref="member">user_agent</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB-QC/1.0&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Advanced<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a4b16eb995c3b52beeaba4a41243b1618" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a4b16eb995c3b52beeaba4a41243b1618" kindref="member">enable_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a23307a8224ebe356f782a5f77448a20b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a23307a8224ebe356f782a5f77448a20b" kindref="member">max_batch_size</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a44e5d525852e3100fc9d86207eea2eb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a44e5d525852e3100fc9d86207eea2eb2" kindref="member">connection_pool_size</ref><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" kindref="compound">QualityMetricPayload</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a667fcf67474e3d6bd85dc55f9fbb6094" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a667fcf67474e3d6bd85dc55f9fbb6094" kindref="member">query</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aeefa63fa8cddfd6190000617add13092" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aeefa63fa8cddfd6190000617add13092" kindref="member">faithfulness_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a6d2a4d44f4dd516bcf6b93fb8b92e26f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a6d2a4d44f4dd516bcf6b93fb8b92e26f" kindref="member">relevance_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1abb988bb153752f0c9f061b348b7ab388" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1abb988bb153752f0c9f061b348b7ab388" kindref="member">completeness_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aa2ac7386badc3500426854b68088f817" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aa2ac7386badc3500426854b68088f817" kindref="member">coherence_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a64d8c829c6cb8333ae8dbf4bf2b7f050" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a64d8c829c6cb8333ae8dbf4bf2b7f050" kindref="member">overall_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a60b0dc46bacc19ac69318cd9c7ab1720" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a60b0dc46bacc19ac69318cd9c7ab1720" kindref="member">decision</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aa084941c4d480a85321777f5bb7b6165" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1aa084941c4d480a85321777f5bb7b6165" kindref="member">latency_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a1e2d128dfc02cb64ed76da6f0b1a3d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1a1e2d128dfc02cb64ed76da6f0b1a3d95" kindref="member">mode</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1ad55ced917332fe2068d7bfcaa2767758" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1ad55ced917332fe2068d7bfcaa2767758" kindref="member">timestamp</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1abef634583988d06e8f7c4cf274b7c00a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload_1abef634583988d06e8f7c4cf274b7c00a" kindref="member">metadata</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a1eaf18d212fc32d5b93b7d8bfff45518" kindref="member">HTTPMetricsClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a1eaf18d212fc32d5b93b7d8bfff45518" kindref="member">HTTPMetricsClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kindref="compound">HTTPMetricsClientConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ab6fae99518206dff5b2192ce4c7f1272" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ab6fae99518206dff5b2192ce4c7f1272" kindref="member">~HTTPMetricsClient</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1afb1debff17c0b44350fd3a615b33cdd1" kindref="member">sendMetric</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" kindref="compound">QualityMetricPayload</ref>&amp;<sp/>metric);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1af687f458ad3b59659d8ea437964c7186" kindref="member">sendMetricsBatch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;QualityMetricPayload&gt;&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1_1metrics" kindref="compound">metrics</ref>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a678667df03187ee4c1c679332d5dda17" kindref="member">sendRawPayload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_payload);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a0c6b7043aa2a0e581fb0d6910ac7a743" kindref="member">request</ref>(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092" kindref="member">HTTPMethod</ref><sp/>method,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ac77d49ea103743bca1f2fae09e948596" kindref="member">isEndpointHealthy</ref>();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1ac5e735991f88c00c167e629fdd96eff7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1ac5e735991f88c00c167e629fdd96eff7" kindref="member">requests_sent</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1ae4301f1dc5d5cf429a87826253430099" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1ae4301f1dc5d5cf429a87826253430099" kindref="member">requests_succeeded</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1aa0e296639c6effc6834629a942dd5ec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1aa0e296639c6effc6834629a942dd5ec8" kindref="member">requests_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1a53361e9ee8c67849ef7e9cf6e975ed08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1a53361e9ee8c67849ef7e9cf6e975ed08" kindref="member">metrics_sent</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1a13da09860d5328e5dfcb9d9ea2acfcb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1a13da09860d5328e5dfcb9d9ea2acfcb5" kindref="member">retries_attempted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1a6dcc28c485f519b3a9045cb5689a5d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1a6dcc28c485f519b3a9045cb5689a5d95" kindref="member">total_latency</ref>{0};</highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1a93c49f84b72543d6afb49949c8052ef7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics_1a93c49f84b72543d6afb49949c8052ef7" kindref="member">avg_latency</ref>{0};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ad5afd382a97c37a9e95dea6b6fb84ec2" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a1e04d87482ed86a713f8dd7e98458b71" kindref="member">resetStatistics</ref>();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a7a2e87480f80b2b853712ba467f2b8ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kindref="compound">HTTPMetricsClientConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a7a2e87480f80b2b853712ba467f2b8ea" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a27cb629c4d3b5b7f4cc6581e2f81cbf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a27cb629c4d3b5b7f4cc6581e2f81cbf2" kindref="member">RequestCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code,<sp/>int64_t<sp/>latency_ms)&gt;;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1ab2bdefc43a0995856b39a0d0fdf3e665" kindref="member">setRequestCallback</ref>(<ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a27cb629c4d3b5b7f4cc6581e2f81cbf2" kindref="member">RequestCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kindref="compound">HTTPMetricsClientConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1_1_statistics" kindref="compound">Statistics</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_1a27cb629c4d3b5b7f4cc6581e2f81cbf2" kindref="member">RequestCallback</ref><sp/>request_callback_;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>callback_mutex_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Protect<sp/>request_callback_<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref><sp/>requestWithRetry(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092" kindref="member">HTTPMethod</ref><sp/>method,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>serializeMetric(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" kindref="compound">QualityMetricPayload</ref>&amp;<sp/>metric);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>serializeMetricsBatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;QualityMetricPayload&gt;&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1_1metrics" kindref="compound">metrics</ref>);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStatistics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref>&amp;<sp/>response,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>metrics_count<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory" kindref="compound">HTTPMetricsClientFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;HTTPMetricsClient&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory_1a28c5d7890aad4bc5810b2ead30a9208a" kindref="member">createLocalClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost:8080/metrics&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;HTTPMetricsClient&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory_1a6e9f4475f51ef4d2cd02e7ff7999be35" kindref="member">createProductionClient</ref>(</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>auth_token</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;HTTPMetricsClient&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory_1a0da22055eddbc3c6958ee7cd69f3da3c" kindref="member">createCustomClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kindref="compound">HTTPMetricsClientConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::judge</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/http_metrics_client.h"/>
+  </compounddef>
+</doxygen>

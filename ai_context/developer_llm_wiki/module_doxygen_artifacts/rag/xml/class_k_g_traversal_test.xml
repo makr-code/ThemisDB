@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_k_g_traversal_test" kind="class" language="C++" prot="public">
+    <compoundname>KGTraversalTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_k_g_traversal_test_1ac0e9400549d84dfddb50800ff498f244" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref></type>
+        <definition>KnowledgeGraph KGTraversalTest::g</definition>
+        <argsstring></argsstring>
+        <name>g</name>
+        <qualifiedname>KGTraversalTest::g</qualifiedname>
+        <initializer>= buildMLGraph()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_knowledge_graph_retriever.cpp" line="200" column="20" bodyfile="tests/rag/test_rag_knowledge_graph_retriever.cpp" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>KGTraversalTest</label>
+        <link refid="class_k_g_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>KGTraversalTest</label>
+        <link refid="class_k_g_traversal_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>g</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::kg::KnowledgeGraph</label>
+        <link refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_knowledge_graph_retriever.cpp" line="198" column="1" bodyfile="tests/rag/test_rag_knowledge_graph_retriever.cpp" bodystart="198" bodyend="201"/>
+    <listofallmembers>
+      <member refid="class_k_g_traversal_test_1ac0e9400549d84dfddb50800ff498f244" prot="protected" virt="non-virtual"><scope>KGTraversalTest</scope><name>g</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

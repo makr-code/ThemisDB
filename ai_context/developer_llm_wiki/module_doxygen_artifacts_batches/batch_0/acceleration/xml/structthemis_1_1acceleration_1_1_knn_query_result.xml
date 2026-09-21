@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_knn_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::KnnQueryResult</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_knn_query_result_1ac47885a3e5081713ca4b493be82dca0c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;uint32_t, float&gt; &gt; themis::acceleration::KnnQueryResult::neighbors</definition>
+        <argsstring></argsstring>
+        <name>neighbors</name>
+        <qualifiedname>themis::acceleration::KnnQueryResult::neighbors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="381" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_knn_query_result_1ac01a1b28f964f33e300ef07ce07ab8b6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+        <definition>AccelerationErrorCode themis::acceleration::KnnQueryResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::acceleration::KnnQueryResult::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0a505a83f220c02df2f85c3810cd9ceb38" kindref="member">AccelerationErrorCode::Success</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="383" column="27" bodyfile="include/acceleration/compute_backend.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_knn_query_result_1a7079fe449d8ca62df364115a73be218c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::KnnQueryResult::errorMessage</definition>
+        <argsstring></argsstring>
+        <name>errorMessage</name>
+        <qualifiedname>themis::acceleration::KnnQueryResult::errorMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="385" column="27" bodyfile="include/acceleration/compute_backend.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="380" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="380" bodyend="386"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_knn_query_result_1a7079fe449d8ca62df364115a73be218c" prot="public" virt="non-virtual"><scope>themis::acceleration::KnnQueryResult</scope><name>errorMessage</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_knn_query_result_1ac47885a3e5081713ca4b493be82dca0c" prot="public" virt="non-virtual"><scope>themis::acceleration::KnnQueryResult</scope><name>neighbors</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_knn_query_result_1ac01a1b28f964f33e300ef07ce07ab8b6" prot="public" virt="non-virtual"><scope>themis::acceleration::KnnQueryResult</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

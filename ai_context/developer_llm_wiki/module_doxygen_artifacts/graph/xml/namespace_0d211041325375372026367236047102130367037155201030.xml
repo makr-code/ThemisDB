@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d211041325375372026367236047102130367037155201030" kind="namespace" language="C++">
+    <compoundname>@211041325375372026367236047102130367037155201030</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_exact_traversal.cpp" line="14" column="1"/>
+  </compounddef>
+</doxygen>

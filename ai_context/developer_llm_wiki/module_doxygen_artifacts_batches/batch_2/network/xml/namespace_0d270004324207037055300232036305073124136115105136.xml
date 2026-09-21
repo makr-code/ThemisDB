@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d270004324207037055300232036305073124136115105136" kind="namespace" language="C++">
+    <compoundname>@270004324207037055300232036305073124136115105136</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d270004324207037055300232036305073124136115105136_1a5ce0adb6322e875af63d3e6b4af34070" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SessionState</name>
+        <qualifiedname>@270004324207037055300232036305073124136115105136::SessionState</qualifiedname>
+        <enumvalue id="namespace_0d270004324207037055300232036305073124136115105136_1a5ce0adb6322e875af63d3e6b4af34070a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270004324207037055300232036305073124136115105136_1a5ce0adb6322e875af63d3e6b4af34070a38afd7ae34bd5e3e6fc170d8b09178a3" prot="public">
+          <name>EXPIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270004324207037055300232036305073124136115105136_1a5ce0adb6322e875af63d3e6b4af34070a727e10d767d9a626c3d8a6a921447323" prot="public">
+          <name>REVOKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270004324207037055300232036305073124136115105136_1a5ce0adb6322e875af63d3e6b4af34070a10d1208b485425756fcc932229386b02" prot="public">
+          <name>MISSING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="93" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_0d270004324207037055300232036305073124136115105136_1a93434d22dde717c8b3efd7e2f4199f3a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConnState</name>
+        <qualifiedname>@270004324207037055300232036305073124136115105136::ConnState</qualifiedname>
+        <enumvalue id="namespace_0d270004324207037055300232036305073124136115105136_1a93434d22dde717c8b3efd7e2f4199f3aa196fbd61a4d3b07274d2999a86e089e7" prot="public">
+          <name>ACCEPTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270004324207037055300232036305073124136115105136_1a93434d22dde717c8b3efd7e2f4199f3aa8a474197adf70a9d0590ef49c22ad728" prot="public">
+          <name>AUTHENTICATING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270004324207037055300232036305073124136115105136_1a93434d22dde717c8b3efd7e2f4199f3aa8f62a15be91745994dc59fb41d396e5a" prot="public">
+          <name>SERVING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270004324207037055300232036305073124136115105136_1a93434d22dde717c8b3efd7e2f4199f3aa6a83fb962e26a218fee9b429eb62dbc6" prot="public">
+          <name>DRAINING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d270004324207037055300232036305073124136115105136_1a93434d22dde717c8b3efd7e2f4199f3aa110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_contract_hardening_focused.cpp" line="152" column="1" bodyfile="tests/network/test_network_contract_hardening_focused.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_network_contract_hardening_focused.cpp" line="70" column="1"/>
+  </compounddef>
+</doxygen>

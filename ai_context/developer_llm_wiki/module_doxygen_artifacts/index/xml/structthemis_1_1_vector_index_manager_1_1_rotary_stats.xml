@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_index_manager_1_1_rotary_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VectorIndexManager::RotaryStats</compoundname>
+    <includes refid="vector__index_8h" local="no">vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_rotary_stats_1a04af091f980fcd68dc9af16e17ade95a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::VectorIndexManager::RotaryStats::total_rotated_entities</definition>
+        <argsstring></argsstring>
+        <name>total_rotated_entities</name>
+        <qualifiedname>themis::VectorIndexManager::RotaryStats::total_rotated_entities</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative positional-rotation adds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="582" column="18" bodyfile="include/index/vector_index.h" bodystart="582" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_rotary_stats_1aab9d323091c31ae60e90699bda7ea4f3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::VectorIndexManager::RotaryStats::relational_rotations</definition>
+        <argsstring></argsstring>
+        <name>relational_rotations</name>
+        <qualifiedname>themis::VectorIndexManager::RotaryStats::relational_rotations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative relational-rotation adds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="583" column="18" bodyfile="include/index/vector_index.h" bodystart="583" bodyend="583"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime counters for rotary embedding operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Incremented atomically by addEntityWithRotation (total_rotated_entities) and addEntityWithRelationalRotation (relational_rotations). </para>
+    </detaileddescription>
+    <location file="include/index/vector_index.h" line="581" column="5" bodyfile="include/index/vector_index.h" bodystart="581" bodyend="584"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_rotary_stats_1aab9d323091c31ae60e90699bda7ea4f3" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::RotaryStats</scope><name>relational_rotations</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_rotary_stats_1a04af091f980fcd68dc9af16e17ade95a" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::RotaryStats</scope><name>total_rotated_entities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

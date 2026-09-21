@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionReport</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_report_1ac5f639baa3933e9a9f4f29052240abf0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, IngestionStats&gt; themis::ingestion::IngestionReport::source_stats</definition>
+        <argsstring></argsstring>
+        <name>source_stats</name>
+        <qualifiedname>themis::ingestion::IngestionReport::source_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="529" column="24" bodyfile="include/ingestion/ingestion_manager.h" bodystart="529" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_report_1a6e5d445d91d455e0265d7fccbba039b8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionReport::total_documents</definition>
+        <argsstring></argsstring>
+        <name>total_documents</name>
+        <qualifiedname>themis::ingestion::IngestionReport::total_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="530" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="530" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_report_1a25b8f43063978d0921687f318962f30f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionReport::total_failures</definition>
+        <argsstring></argsstring>
+        <name>total_failures</name>
+        <qualifiedname>themis::ingestion::IngestionReport::total_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="531" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="531" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_report_1a8275ec677566df3bdd971038f47b1ebc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionReport::total_time_seconds</definition>
+        <argsstring></argsstring>
+        <name>total_time_seconds</name>
+        <qualifiedname>themis::ingestion::IngestionReport::total_time_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="532" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="532" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_report_1afdad4c5b62f77cfac9000e93d88790ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_quarantine_entry" kindref="compound">QuarantineEntry</ref> &gt;</type>
+        <definition>std::vector&lt;QuarantineEntry&gt; themis::ingestion::IngestionReport::quarantine</definition>
+        <argsstring></argsstring>
+        <name>quarantine</name>
+        <qualifiedname>themis::ingestion::IngestionReport::quarantine</qualifiedname>
+        <briefdescription>
+<para>Items quarantined during this run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="533" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="533" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_report_1aa8f4284d40b0826579770e424c77942c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionReport::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>themis::ingestion::IngestionReport::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if run in dry-run mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="534" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="534" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_report_1aa549acc02672f13cdc31d72c09a535ba" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionReport::quarantine_retry_successes</definition>
+        <argsstring></argsstring>
+        <name>quarantine_retry_successes</name>
+        <qualifiedname>themis::ingestion::IngestionReport::quarantine_retry_successes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cumulative successful quarantine retries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="535" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_report_1abc7dce6bca1456be0de8f5b196cf4467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionReport::IngestionReport</definition>
+        <argsstring>()=default</argsstring>
+        <name>IngestionReport</name>
+        <qualifiedname>themis::ingestion::IngestionReport::IngestionReport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="537" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Ingestion report for all sources. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="528" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="528" bodyend="538"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_report_1aa8f4284d40b0826579770e424c77942c" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionReport</scope><name>dry_run</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_report_1abc7dce6bca1456be0de8f5b196cf4467" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionReport</scope><name>IngestionReport</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_report_1afdad4c5b62f77cfac9000e93d88790ca" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionReport</scope><name>quarantine</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_report_1aa549acc02672f13cdc31d72c09a535ba" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionReport</scope><name>quarantine_retry_successes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_report_1ac5f639baa3933e9a9f4f29052240abf0" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionReport</scope><name>source_stats</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_report_1a6e5d445d91d455e0265d7fccbba039b8" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionReport</scope><name>total_documents</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_report_1a25b8f43063978d0921687f318962f30f" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionReport</scope><name>total_failures</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_report_1a8275ec677566df3bdd971038f47b1ebc" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionReport</scope><name>total_time_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

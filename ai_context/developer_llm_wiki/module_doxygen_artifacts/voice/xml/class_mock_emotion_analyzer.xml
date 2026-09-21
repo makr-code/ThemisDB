@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_emotion_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>MockEmotionAnalyzer</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_emotion_analyzer_1a0b0ac8d7706ad8be52c2931f1461350d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double MockEmotionAnalyzer::analyzeEmotion</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio)</argsstring>
+        <name>analyzeEmotion</name>
+        <qualifiedname>MockEmotionAnalyzer::analyzeEmotion</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="104" column="12" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="104" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_audio_preprocessing.cpp" line="101" column="1" bodyfile="benchmarks/voice/bench_voice_audio_preprocessing.cpp" bodystart="101" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_mock_emotion_analyzer_1a0b0ac8d7706ad8be52c2931f1461350d" prot="public" virt="non-virtual"><scope>MockEmotionAnalyzer</scope><name>analyzeEmotion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

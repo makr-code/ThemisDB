@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AQLTranslator::TranslationResult::SpatialJoinQuery</compoundname>
+    <includes refid="aql__translator_8h" local="no">aql_translator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1aaea52f20808b4996c1b988a78bbf17f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::SpatialJoinQuery::outer_collection</definition>
+        <argsstring></argsstring>
+        <name>outer_collection</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SpatialJoinQuery::outer_collection</qualifiedname>
+        <briefdescription>
+<para>Collection name for the outer (left) loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="95" column="25" bodyfile="include/query/aql_translator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1ae4608490a6bbf6992bff55e96f1864b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::SpatialJoinQuery::inner_collection</definition>
+        <argsstring></argsstring>
+        <name>inner_collection</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SpatialJoinQuery::inner_collection</qualifiedname>
+        <briefdescription>
+<para>Collection name for the inner (right) loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="96" column="25" bodyfile="include/query/aql_translator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1ab6135eb098e61b682fda4d90a3c567e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::SpatialJoinQuery::outer_var</definition>
+        <argsstring></argsstring>
+        <name>outer_var</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SpatialJoinQuery::outer_var</qualifiedname>
+        <briefdescription>
+<para>Variable name bound by the outer FOR clause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="97" column="25" bodyfile="include/query/aql_translator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1a2e89e68acd9d027cd0161ab48f15c27a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::SpatialJoinQuery::inner_var</definition>
+        <argsstring></argsstring>
+        <name>inner_var</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SpatialJoinQuery::inner_var</qualifiedname>
+        <briefdescription>
+<para>Variable name bound by the inner FOR clause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="98" column="25" bodyfile="include/query/aql_translator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1a56edbe390c779beeebd18898e1af91a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::SpatialJoinQuery::outer_field</definition>
+        <argsstring></argsstring>
+        <name>outer_field</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SpatialJoinQuery::outer_field</qualifiedname>
+        <briefdescription>
+<para>Geometry field on the outer variable (e.g. &quot;loc&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="99" column="25" bodyfile="include/query/aql_translator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1a4caedc0e42d1b7426e8000c3fc5d01cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AQLTranslator::TranslationResult::SpatialJoinQuery::inner_field</definition>
+        <argsstring></argsstring>
+        <name>inner_field</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SpatialJoinQuery::inner_field</qualifiedname>
+        <briefdescription>
+<para>Geometry field on the inner variable (e.g. &quot;loc&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="100" column="25" bodyfile="include/query/aql_translator.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1ad31e732158428f217936abd6015c0871" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AQLTranslator::TranslationResult::SpatialJoinQuery::threshold_m</definition>
+        <argsstring></argsstring>
+        <name>threshold_m</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SpatialJoinQuery::threshold_m</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Distance threshold in metres. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="101" column="20" bodyfile="include/query/aql_translator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1a875f338caf2705a37a74b17f42ea1a9d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::AQLTranslator::TranslationResult::SpatialJoinQuery::max_pairs</definition>
+        <argsstring></argsstring>
+        <name>max_pairs</name>
+        <qualifiedname>themis::AQLTranslator::TranslationResult::SpatialJoinQuery::max_pairs</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+<para>Maximum result pairs (default 1 M). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="102" column="25" bodyfile="include/query/aql_translator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_translator.h" line="94" column="9" bodyfile="include/query/aql_translator.h" bodystart="94" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1ae4608490a6bbf6992bff55e96f1864b3" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::SpatialJoinQuery</scope><name>inner_collection</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1a4caedc0e42d1b7426e8000c3fc5d01cc" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::SpatialJoinQuery</scope><name>inner_field</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1a2e89e68acd9d027cd0161ab48f15c27a" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::SpatialJoinQuery</scope><name>inner_var</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1a875f338caf2705a37a74b17f42ea1a9d" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::SpatialJoinQuery</scope><name>max_pairs</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1aaea52f20808b4996c1b988a78bbf17f2" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::SpatialJoinQuery</scope><name>outer_collection</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1a56edbe390c779beeebd18898e1af91a3" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::SpatialJoinQuery</scope><name>outer_field</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1ab6135eb098e61b682fda4d90a3c567e4" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::SpatialJoinQuery</scope><name>outer_var</name></member>
+      <member refid="structthemis_1_1_a_q_l_translator_1_1_translation_result_1_1_spatial_join_query_1ad31e732158428f217936abd6015c0871" prot="public" virt="non-virtual"><scope>themis::AQLTranslator::TranslationResult::SpatialJoinQuery</scope><name>threshold_m</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

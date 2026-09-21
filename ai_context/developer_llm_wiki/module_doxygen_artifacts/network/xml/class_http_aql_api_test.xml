@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_aql_api_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpAqlApiTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_aql_api_test_1a2c19f50283dd3dea91967a9525b19a3a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpAqlApiTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpAqlApiTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="147" column="21" bodyfile="tests/network/test_http_aql.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_api_test_1a07427823b6bcf94006173840f8e7c821" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpAqlApiTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpAqlApiTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="148" column="21" bodyfile="tests/network/test_http_aql.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_api_test_1a34ba5ed043107026608fff5fc9ef2c61" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpAqlApiTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpAqlApiTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="149" column="21" bodyfile="tests/network/test_http_aql.cpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_api_test_1a95652da5f486ca53c00f8a95b1f8e26d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpAqlApiTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpAqlApiTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="150" column="21" bodyfile="tests/network/test_http_aql.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_api_test_1afca0aeb24c1481c9d99eaa186a952ff6" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpAqlApiTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpAqlApiTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="151" column="21" bodyfile="tests/network/test_http_aql.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_aql_api_test_1abb9305084dceedba21b6a8cd62dc28bb" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpAqlApiTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpAqlApiTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="152" column="21" bodyfile="tests/network/test_http_aql.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_aql_api_test_1a1362f8c8882ec8ff3b38dcf4357b623a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlApiTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpAqlApiTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="28" column="10" bodyfile="tests/network/test_http_aql.cpp" bodystart="28" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_api_test_1ae576b5cf683d5e789e7b57943c954526" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlApiTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpAqlApiTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="63" column="10" bodyfile="tests/network/test_http_aql.cpp" bodystart="63" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_api_test_1a2b827d609c3ea3615552d27176c35e83" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAqlApiTest::setupTestData</definition>
+        <argsstring>()</argsstring>
+        <name>setupTestData</name>
+        <qualifiedname>HttpAqlApiTest::setupTestData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="70" column="10" bodyfile="tests/network/test_http_aql.cpp" bodystart="70" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_aql_api_test_1add1bb77f1c6271c54da63ca6dc99de08" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; HttpAqlApiTest::post</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>post</name>
+        <qualifiedname>HttpAqlApiTest::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql.cpp" line="121" column="20" bodyfile="tests/network/test_http_aql.cpp" bodystart="121" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpAqlApiTest</label>
+        <link refid="class_http_aql_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpAqlApiTest</label>
+        <link refid="class_http_aql_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_aql.cpp" line="26" column="1" bodyfile="tests/network/test_http_aql.cpp" bodystart="26" bodyend="153"/>
+    <listofallmembers>
+      <member refid="class_http_aql_api_test_1a95652da5f486ca53c00f8a95b1f8e26d" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_aql_api_test_1add1bb77f1c6271c54da63ca6dc99de08" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>post</name></member>
+      <member refid="class_http_aql_api_test_1a34ba5ed043107026608fff5fc9ef2c61" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_aql_api_test_1a2c19f50283dd3dea91967a9525b19a3a" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>server_</name></member>
+      <member refid="class_http_aql_api_test_1a1362f8c8882ec8ff3b38dcf4357b623a" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>SetUp</name></member>
+      <member refid="class_http_aql_api_test_1a2b827d609c3ea3615552d27176c35e83" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>setupTestData</name></member>
+      <member refid="class_http_aql_api_test_1a07427823b6bcf94006173840f8e7c821" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>storage_</name></member>
+      <member refid="class_http_aql_api_test_1ae576b5cf683d5e789e7b57943c954526" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>TearDown</name></member>
+      <member refid="class_http_aql_api_test_1abb9305084dceedba21b6a8cd62dc28bb" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_aql_api_test_1afca0aeb24c1481c9d99eaa186a952ff6" prot="protected" virt="non-virtual"><scope>HttpAqlApiTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

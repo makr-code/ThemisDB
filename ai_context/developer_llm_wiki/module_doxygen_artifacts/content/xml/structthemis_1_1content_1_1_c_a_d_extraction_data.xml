@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_c_a_d_extraction_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::CADExtractionData</compoundname>
+    <includes refid="content__plugin__interface_8h" local="no">content_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_c_a_d_extraction_data_1a953026ba6e36a75b0346889bf1a2f0b3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::CADExtractionData::part_ids</definition>
+        <argsstring></argsstring>
+        <name>part_ids</name>
+        <qualifiedname>themis::content::CADExtractionData::part_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="88" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_c_a_d_extraction_data_1a988b4ce1c762aeba9a3c7fe18b8a0a90" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::CADExtractionData::assembly_tree</definition>
+        <argsstring></argsstring>
+        <name>assembly_tree</name>
+        <qualifiedname>themis::content::CADExtractionData::assembly_tree</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="89" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_c_a_d_extraction_data_1ae0ecfd12f62ff1e675dc3bdb71fbe113" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::CADExtractionData::bill_of_materials</definition>
+        <argsstring></argsstring>
+        <name>bill_of_materials</name>
+        <qualifiedname>themis::content::CADExtractionData::bill_of_materials</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="90" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_c_a_d_extraction_data_1ad5e45f23d4f7162aca8da9b8b398a9c1" prot="public" static="no" mutable="no">
+        <type>std::array&lt; double, 3 &gt;</type>
+        <definition>std::array&lt;double, 3&gt; themis::content::CADExtractionData::bounding_box_min</definition>
+        <argsstring></argsstring>
+        <name>bounding_box_min</name>
+        <qualifiedname>themis::content::CADExtractionData::bounding_box_min</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>AABB minimum corner (CON-024). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="91" column="16" bodyfile="include/content/content_plugin_interface.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_c_a_d_extraction_data_1a432cdd91c67238166adb1db61a725bf6" prot="public" static="no" mutable="no">
+        <type>std::array&lt; double, 3 &gt;</type>
+        <definition>std::array&lt;double, 3&gt; themis::content::CADExtractionData::bounding_box_max</definition>
+        <argsstring></argsstring>
+        <name>bounding_box_max</name>
+        <qualifiedname>themis::content::CADExtractionData::bounding_box_max</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>AABB maximum corner (CON-024). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="92" column="16" bodyfile="include/content/content_plugin_interface.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_c_a_d_extraction_data_1a466d58f16422c9fbe8ed47e0e8a5df82" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::CADExtractionData::volume</definition>
+        <argsstring></argsstring>
+        <name>volume</name>
+        <qualifiedname>themis::content::CADExtractionData::volume</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="93" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_c_a_d_extraction_data_1a23e901b923a3b7d61c3f3dd087a19d9c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::CADExtractionData::surface_area</definition>
+        <argsstring></argsstring>
+        <name>surface_area</name>
+        <qualifiedname>themis::content::CADExtractionData::surface_area</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="94" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_c_a_d_extraction_data_1a1d9b33d38fa781eb645af9709e27ab1d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::CADExtractionData::part_count</definition>
+        <argsstring></argsstring>
+        <name>part_count</name>
+        <qualifiedname>themis::content::CADExtractionData::part_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="95" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_plugin_interface.h" line="87" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="87" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_c_a_d_extraction_data_1a988b4ce1c762aeba9a3c7fe18b8a0a90" prot="public" virt="non-virtual"><scope>themis::content::CADExtractionData</scope><name>assembly_tree</name></member>
+      <member refid="structthemis_1_1content_1_1_c_a_d_extraction_data_1ae0ecfd12f62ff1e675dc3bdb71fbe113" prot="public" virt="non-virtual"><scope>themis::content::CADExtractionData</scope><name>bill_of_materials</name></member>
+      <member refid="structthemis_1_1content_1_1_c_a_d_extraction_data_1a432cdd91c67238166adb1db61a725bf6" prot="public" virt="non-virtual"><scope>themis::content::CADExtractionData</scope><name>bounding_box_max</name></member>
+      <member refid="structthemis_1_1content_1_1_c_a_d_extraction_data_1ad5e45f23d4f7162aca8da9b8b398a9c1" prot="public" virt="non-virtual"><scope>themis::content::CADExtractionData</scope><name>bounding_box_min</name></member>
+      <member refid="structthemis_1_1content_1_1_c_a_d_extraction_data_1a1d9b33d38fa781eb645af9709e27ab1d" prot="public" virt="non-virtual"><scope>themis::content::CADExtractionData</scope><name>part_count</name></member>
+      <member refid="structthemis_1_1content_1_1_c_a_d_extraction_data_1a953026ba6e36a75b0346889bf1a2f0b3" prot="public" virt="non-virtual"><scope>themis::content::CADExtractionData</scope><name>part_ids</name></member>
+      <member refid="structthemis_1_1content_1_1_c_a_d_extraction_data_1a23e901b923a3b7d61c3f3dd087a19d9c" prot="public" virt="non-virtual"><scope>themis::content::CADExtractionData</scope><name>surface_area</name></member>
+      <member refid="structthemis_1_1content_1_1_c_a_d_extraction_data_1a466d58f16422c9fbe8ed47e0e8a5df82" prot="public" virt="non-virtual"><scope>themis::content::CADExtractionData</scope><name>volume</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

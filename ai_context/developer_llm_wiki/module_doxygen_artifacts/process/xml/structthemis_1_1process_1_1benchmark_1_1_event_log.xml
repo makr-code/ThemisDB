@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_event_log" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::EventLog</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_event_log_1ab635002198da7cecda1a6748010519dc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::vector&lt;Event&gt; themis::process::benchmark::EventLog::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>themis::process::benchmark::EventLog::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="37" column="17" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_event_log_1a77ac1c97a2dd41654501f8cdde5c05a8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::EventLog::unique_cases</definition>
+        <argsstring></argsstring>
+        <name>unique_cases</name>
+        <qualifiedname>themis::process::benchmark::EventLog::unique_cases</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="38" column="9" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_event_log_1a16174d925c1cae52cc07eaba5d117a3c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::EventLog::unique_activities</definition>
+        <argsstring></argsstring>
+        <name>unique_activities</name>
+        <qualifiedname>themis::process::benchmark::EventLog::unique_activities</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="39" column="9" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="36" column="1" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="36" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_event_log_1ab635002198da7cecda1a6748010519dc" prot="public" virt="non-virtual"><scope>themis::process::benchmark::EventLog</scope><name>events</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_event_log_1a16174d925c1cae52cc07eaba5d117a3c" prot="public" virt="non-virtual"><scope>themis::process::benchmark::EventLog</scope><name>unique_activities</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_event_log_1a77ac1c97a2dd41654501f8cdde5c05a8" prot="public" virt="non-virtual"><scope>themis::process::benchmark::EventLog</scope><name>unique_cases</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

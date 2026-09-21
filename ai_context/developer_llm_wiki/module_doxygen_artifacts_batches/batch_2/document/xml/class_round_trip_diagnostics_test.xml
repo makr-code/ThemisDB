@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_round_trip_diagnostics_test" kind="class" language="C++" prot="public">
+    <compoundname>RoundTripDiagnosticsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_round_trip_diagnostics_test_1af083cd2a675fb70bd6093696cfa0bc14" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_failing_document_store" kindref="compound">FailingDocumentStore</ref></type>
+        <definition>FailingDocumentStore RoundTripDiagnosticsTest::failing_store_</definition>
+        <argsstring></argsstring>
+        <name>failing_store_</name>
+        <qualifiedname>RoundTripDiagnosticsTest::failing_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="325" column="32" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_round_trip_diagnostics_test_1a84f60831e7c962c15de2e26c3fcfc61f" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" kindref="compound">StoreBackedRoundTripEditor</ref></type>
+        <definition>StoreBackedRoundTripEditor RoundTripDiagnosticsTest::editor_</definition>
+        <argsstring></argsstring>
+        <name>editor_</name>
+        <qualifiedname>RoundTripDiagnosticsTest::editor_</qualifiedname>
+        <initializer>{<ref refid="class_round_trip_diagnostics_test_1af083cd2a675fb70bd6093696cfa0bc14" kindref="member">failing_store_</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="326" column="32" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="326" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for failure-path diagnostics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses a <ref refid="class_failing_document_store" kindref="compound">FailingDocumentStore</ref> to inject ERR_DOC_NOT_FOUND into every storage call, verifying that <ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" kindref="compound">StoreBackedRoundTripEditor</ref> correctly propagates errors rather than swallowing them. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RoundTripDiagnosticsTest</label>
+        <link refid="class_round_trip_diagnostics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>FailingDocumentStore</label>
+        <link refid="class_failing_document_store"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>RoundTripDiagnosticsTest</label>
+        <link refid="class_round_trip_diagnostics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>failing_store_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>editor_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="6">
+        <label>themis::document::IRoundTripEditor</label>
+        <link refid="classthemis_1_1document_1_1_i_round_trip_editor"/>
+      </node>
+      <node id="5">
+        <label>themis::document::StoreBackedRoundTripEditor</label>
+        <link refid="classthemis_1_1document_1_1_store_backed_round_trip_editor"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_round_trip_persistence_focused.cpp" line="323" column="1" bodyfile="tests/document/test_document_round_trip_persistence_focused.cpp" bodystart="323" bodyend="327"/>
+    <listofallmembers>
+      <member refid="class_round_trip_diagnostics_test_1a84f60831e7c962c15de2e26c3fcfc61f" prot="protected" virt="non-virtual"><scope>RoundTripDiagnosticsTest</scope><name>editor_</name></member>
+      <member refid="class_round_trip_diagnostics_test_1af083cd2a675fb70bd6093696cfa0bc14" prot="protected" virt="non-virtual"><scope>RoundTripDiagnosticsTest</scope><name>failing_store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

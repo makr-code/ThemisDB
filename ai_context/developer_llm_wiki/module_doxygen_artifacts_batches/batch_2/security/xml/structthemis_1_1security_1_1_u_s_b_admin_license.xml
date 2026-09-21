@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_u_s_b_admin_license" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::USBAdminLicense</compoundname>
+    <includes refid="usb__admin__authenticator_8h" local="no">usb_admin_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_license_1a0ad0289f1f72f87b342cd9d4509ee903" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminLicense::license_key</definition>
+        <argsstring></argsstring>
+        <name>license_key</name>
+        <qualifiedname>themis::security::USBAdminLicense::license_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="30" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_license_1ac3742ddb14e7ceca4e47b811d7012057" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminLicense::organization</definition>
+        <argsstring></argsstring>
+        <name>organization</name>
+        <qualifiedname>themis::security::USBAdminLicense::organization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="31" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_license_1ab3f731e40ba3bff1c8965456cab3e84c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminLicense::hardware_id</definition>
+        <argsstring></argsstring>
+        <name>hardware_id</name>
+        <qualifiedname>themis::security::USBAdminLicense::hardware_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="32" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_license_1adffec16275883683c49dff85ba231314" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::USBAdminLicense::issued_date</definition>
+        <argsstring></argsstring>
+        <name>issued_date</name>
+        <qualifiedname>themis::security::USBAdminLicense::issued_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="33" column="43" bodyfile="include/security/usb_admin_authenticator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_license_1a28b16b46ce05023499b3a7cc319c303c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::USBAdminLicense::expiry_date</definition>
+        <argsstring></argsstring>
+        <name>expiry_date</name>
+        <qualifiedname>themis::security::USBAdminLicense::expiry_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="34" column="43" bodyfile="include/security/usb_admin_authenticator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_license_1a30ffe0588586824b96dd713608ea8cba" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::USBAdminLicense::admin_scopes</definition>
+        <argsstring></argsstring>
+        <name>admin_scopes</name>
+        <qualifiedname>themis::security::USBAdminLicense::admin_scopes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="35" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_license_1a6dd9433ac6e3346c56ca07e1baddf761" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminLicense::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::security::USBAdminLicense::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="36" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_u_s_b_admin_license_1a8d61304652722aa69e9b3c06688d2dc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::USBAdminLicense::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::security::USBAdminLicense::isValid</qualifiedname>
+        <briefdescription>
+<para>Is Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="42" column="10" bodyfile="src/security/usb_admin_authenticator.cpp" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_u_s_b_admin_license_1aef6a4a474bf598c7ee2b658308169fa0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::USBAdminLicense::isExpired</definition>
+        <argsstring>() const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::security::USBAdminLicense::isExpired</qualifiedname>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="47" column="10" bodyfile="src/security/usb_admin_authenticator.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_u_s_b_admin_license_1addc9b0d8350fe398d09ba97493b1d0f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::USBAdminLicense::matchesHardware</definition>
+        <argsstring>(const std::string &amp;current_hw_id) const</argsstring>
+        <name>matchesHardware</name>
+        <qualifiedname>themis::security::USBAdminLicense::matchesHardware</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_hw_id</declname>
+        </param>
+        <briefdescription>
+<para>Matches Hardware. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_hw_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="53" column="10" bodyfile="src/security/usb_admin_authenticator.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>USB Admin License Structure stored on encrypted USB device. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/usb_admin_authenticator.h" line="29" column="1" bodyfile="include/security/usb_admin_authenticator.h" bodystart="29" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a30ffe0588586824b96dd713608ea8cba" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>admin_scopes</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a28b16b46ce05023499b3a7cc319c303c" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>expiry_date</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1ab3f731e40ba3bff1c8965456cab3e84c" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>hardware_id</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1aef6a4a474bf598c7ee2b658308169fa0" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1adffec16275883683c49dff85ba231314" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>issued_date</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a8d61304652722aa69e9b3c06688d2dc5" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a0ad0289f1f72f87b342cd9d4509ee903" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>license_key</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1addc9b0d8350fe398d09ba97493b1d0f3" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>matchesHardware</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1ac3742ddb14e7ceca4e47b811d7012057" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>organization</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_license_1a6dd9433ac6e3346c56ca07e1baddf761" prot="public" virt="non-virtual"><scope>themis::security::USBAdminLicense</scope><name>signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

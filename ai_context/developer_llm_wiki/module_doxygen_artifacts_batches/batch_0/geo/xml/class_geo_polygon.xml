@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_geo_polygon" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>GeoPolygon</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" prot="public" virt="non-virtual">themis::geo::IGeoJSONGeometry</basecompoundref>
+    <includes refid="geo__json__geometry_8h" local="no">geo_json_geometry.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" prot="public" static="no">
+        <type>std::vector&lt; Coordinate &gt;</type>
+        <definition>using themis::geo::GeoPolygon::Ring = std::vector&lt;Coordinate&gt;</definition>
+        <argsstring></argsstring>
+        <name>Ring</name>
+        <qualifiedname>GeoPolygon::Ring</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="183" column="5" bodyfile="include/geo/geo_json_geometry.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_geo_polygon_1ab0f79f1620529352bf2e3a1c62831a38" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">Ring</ref> &gt;</type>
+        <definition>std::vector&lt;Ring&gt; themis::geo::GeoPolygon::rings_</definition>
+        <argsstring></argsstring>
+        <name>rings_</name>
+        <qualifiedname>GeoPolygon::rings_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="203" column="17" bodyfile="include/geo/geo_json_geometry.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_geo_polygon_1abaa89e7b359c947908b8e09e046c0309" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+        <definition>CrsId themis::geo::GeoPolygon::crs_</definition>
+        <argsstring></argsstring>
+        <name>crs_</name>
+        <qualifiedname>GeoPolygon::crs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="204" column="23" bodyfile="include/geo/geo_json_geometry.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_geo_polygon_1a43b92a7e0ec23d985b0861be82d0a8e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoPolygon::GeoPolygon</definition>
+        <argsstring>(std::vector&lt; Ring &gt; rings, CrsId crs)</argsstring>
+        <name>GeoPolygon</name>
+        <qualifiedname>GeoPolygon::GeoPolygon</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">Ring</ref> &gt;</type>
+          <declname>rings</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+          <declname>crs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="185" column="5" bodyfile="include/geo/geo_json_geometry.h" bodystart="185" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_polygon_1a96951070242f2d664f310589bd7d0b63" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">Ring</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Ring &gt; &amp; themis::geo::GeoPolygon::rings</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rings</name>
+        <qualifiedname>GeoPolygon::rings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="188" column="24" bodyfile="include/geo/geo_json_geometry.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_polygon_1a8a53b0340a38ce740b875274072e5aad" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" kindref="member">Ring</ref> &amp;</type>
+        <definition>const Ring &amp; themis::geo::GeoPolygon::exteriorRing</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>exteriorRing</name>
+        <qualifiedname>GeoPolygon::exteriorRing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="190" column="17" bodyfile="include/geo/geo_json_geometry.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_polygon_1adefec9e07918d1f012ac1ce2428dd22d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoPolygon::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>GeoPolygon::type</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac58fe30f8b9e0bdc47ea9ccc532d990f">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="192" column="18" bodyfile="include/geo/geo_json_geometry.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_polygon_1a36ae17c8c309f82811a2b881da6e1ed3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>BBox</type>
+        <definition>BBox themis::geo::GeoPolygon::bbox</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>bbox</name>
+        <qualifiedname>GeoPolygon::bbox</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a9327bfb81cf7aeabe769de40ab7d1db0">bbox</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="194" column="11" bodyfile="src/geo/geo_json_geometry.cpp" bodystart="222" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_polygon_1aa67c541efff33953dc24dcece44bffba" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+        <definition>CrsId themis::geo::GeoPolygon::crs</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>crs</name>
+        <qualifiedname>GeoPolygon::crs</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1af846d57b98bcd75d7afd1c49a6ca575b">crs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="196" column="12" bodyfile="include/geo/geo_json_geometry.h" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_polygon_1a245ec27affda9cdd8b1294c63af0dfa8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoPolygon::toGeoJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toGeoJSON</name>
+        <qualifiedname>GeoPolygon::toGeoJSON</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a3fef104ac282e441cc3095ba60323111">toGeoJSON</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Coords To Json. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rings_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="198" column="18" bodyfile="src/geo/geo_json_geometry.cpp" bodystart="229" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_polygon_1a353ab121fa955971dd09b690dec88676" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ValidationResult</type>
+        <definition>ValidationResult themis::geo::GeoPolygon::validate</definition>
+        <argsstring>() const override</argsstring>
+        <name>validate</name>
+        <qualifiedname>GeoPolygon::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac5126002fdb01f895145e5c43bc9e94b">validate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="200" column="23" bodyfile="src/geo/geo_json_geometry.cpp" bodystart="249" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GeoPolygon</label>
+        <link refid="class_geo_polygon"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::IGeoJSONGeometry</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GeoPolygon</label>
+        <link refid="class_geo_polygon"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::IGeoJSONGeometry</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/geo/geo_json_geometry.h" line="181" column="1" bodyfile="include/geo/geo_json_geometry.h" bodystart="181" bodyend="205"/>
+    <listofallmembers>
+      <member refid="class_geo_polygon_1a36ae17c8c309f82811a2b881da6e1ed3" prot="public" virt="virtual"><scope>GeoPolygon</scope><name>bbox</name></member>
+      <member refid="class_geo_polygon_1aa67c541efff33953dc24dcece44bffba" prot="public" virt="virtual"><scope>GeoPolygon</scope><name>crs</name></member>
+      <member refid="class_geo_polygon_1abaa89e7b359c947908b8e09e046c0309" prot="private" virt="non-virtual"><scope>GeoPolygon</scope><name>crs_</name></member>
+      <member refid="class_geo_polygon_1a8a53b0340a38ce740b875274072e5aad" prot="public" virt="non-virtual"><scope>GeoPolygon</scope><name>exteriorRing</name></member>
+      <member refid="class_geo_polygon_1a43b92a7e0ec23d985b0861be82d0a8e4" prot="public" virt="non-virtual"><scope>GeoPolygon</scope><name>GeoPolygon</name></member>
+      <member refid="class_geo_polygon_1aa124eb6e1a25c52e06b1b425e6eb7ba5" prot="public" virt="non-virtual"><scope>GeoPolygon</scope><name>Ring</name></member>
+      <member refid="class_geo_polygon_1a96951070242f2d664f310589bd7d0b63" prot="public" virt="non-virtual"><scope>GeoPolygon</scope><name>rings</name></member>
+      <member refid="class_geo_polygon_1ab0f79f1620529352bf2e3a1c62831a38" prot="private" virt="non-virtual"><scope>GeoPolygon</scope><name>rings_</name></member>
+      <member refid="class_geo_polygon_1a245ec27affda9cdd8b1294c63af0dfa8" prot="public" virt="virtual"><scope>GeoPolygon</scope><name>toGeoJSON</name></member>
+      <member refid="class_geo_polygon_1adefec9e07918d1f012ac1ce2428dd22d" prot="public" virt="virtual"><scope>GeoPolygon</scope><name>type</name></member>
+      <member refid="class_geo_polygon_1a353ab121fa955971dd09b690dec88676" prot="public" virt="virtual"><scope>GeoPolygon</scope><name>validate</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ab35bb619771c27d844644c59ca2b64bc" prot="public" virt="virtual"><scope>GeoPolygon</scope><name>~IGeoJSONGeometry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

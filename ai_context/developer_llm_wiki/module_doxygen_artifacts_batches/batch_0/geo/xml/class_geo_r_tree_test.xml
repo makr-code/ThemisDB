@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_geo_r_tree_test" kind="class" language="C++" prot="public">
+    <compoundname>GeoRTreeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_geo_r_tree_test_1a58ce3182f206d6f58df1942e6e5dc520" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_r_tree" kindref="compound">GeoRTree</ref></type>
+        <definition>GeoRTree GeoRTreeTest::tree_</definition>
+        <argsstring></argsstring>
+        <name>tree_</name>
+        <qualifiedname>GeoRTreeTest::tree_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="13" column="14" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_geo_r_tree_test_1a21603fcf30487f9b4ac8d7bfe2831e5a" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo GeoRTreeTest::makePoint</definition>
+        <argsstring>(double x, double y)</argsstring>
+        <name>makePoint</name>
+        <qualifiedname>GeoRTreeTest::makePoint</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="16" column="25" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="16" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_r_tree_test_1a33bc73b34c70c8256a88082e0a608719" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GeometryInfo</type>
+        <definition>static GeometryInfo GeoRTreeTest::makeBox</definition>
+        <argsstring>(double minx, double miny, double maxx, double maxy)</argsstring>
+        <name>makeBox</name>
+        <qualifiedname>GeoRTreeTest::makeBox</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>minx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>miny</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="23" column="25" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="23" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_r_tree_test_1a30db462438a26d515c4a270ec1cf756b" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool GeoRTreeTest::contains_key</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;v, const std::string &amp;key)</argsstring>
+        <name>contains_key</name>
+        <qualifiedname>GeoRTreeTest::contains_key</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_rtree.cpp" line="32" column="17" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GeoRTreeTest</label>
+        <link refid="class_geo_r_tree_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GeoRTreeTest</label>
+        <link refid="class_geo_r_tree_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tree_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::geo::GeoRTree</label>
+        <link refid="classthemis_1_1geo_1_1_geo_r_tree"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_geo_rtree.cpp" line="11" column="1" bodyfile="tests/geo/test_geo_rtree.cpp" bodystart="11" bodyend="35"/>
+    <listofallmembers>
+      <member refid="class_geo_r_tree_test_1a30db462438a26d515c4a270ec1cf756b" prot="protected" virt="non-virtual"><scope>GeoRTreeTest</scope><name>contains_key</name></member>
+      <member refid="class_geo_r_tree_test_1a33bc73b34c70c8256a88082e0a608719" prot="protected" virt="non-virtual"><scope>GeoRTreeTest</scope><name>makeBox</name></member>
+      <member refid="class_geo_r_tree_test_1a21603fcf30487f9b4ac8d7bfe2831e5a" prot="protected" virt="non-virtual"><scope>GeoRTreeTest</scope><name>makePoint</name></member>
+      <member refid="class_geo_r_tree_test_1a58ce3182f206d6f58df1942e6e5dc520" prot="protected" virt="non-virtual"><scope>GeoRTreeTest</scope><name>tree_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

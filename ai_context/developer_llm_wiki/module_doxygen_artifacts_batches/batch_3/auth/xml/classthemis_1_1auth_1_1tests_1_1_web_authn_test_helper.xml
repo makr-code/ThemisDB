@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::WebAuthnTestHelper</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_relying_party" kindref="compound">WebAuthnAuthenticator::RelyingParty</ref></type>
+        <definition>static WebAuthnAuthenticator::RelyingParty themis::auth::tests::WebAuthnTestHelper::getValidRP</definition>
+        <argsstring>()</argsstring>
+        <name>getValidRP</name>
+        <qualifiedname>themis::auth::tests::WebAuthnTestHelper::getValidRP</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_webauthn_authenticator_focused.cpp" line="32" column="48" bodyfile="tests/auth/test_webauthn_authenticator_focused.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_user" kindref="compound">WebAuthnAuthenticator::User</ref></type>
+        <definition>static WebAuthnAuthenticator::User themis::auth::tests::WebAuthnTestHelper::getValidUser</definition>
+        <argsstring>()</argsstring>
+        <name>getValidUser</name>
+        <qualifiedname>themis::auth::tests::WebAuthnTestHelper::getValidUser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_webauthn_authenticator_focused.cpp" line="36" column="40" bodyfile="tests/auth/test_webauthn_authenticator_focused.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Helper to construct valid WebAuthn configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/auth/test_webauthn_authenticator_focused.cpp" line="30" column="1" bodyfile="tests/auth/test_webauthn_authenticator_focused.cpp" bodystart="30" bodyend="39"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1acaaf8b81bf0649f8826a5e92166917eb" prot="public" virt="non-virtual"><scope>themis::auth::tests::WebAuthnTestHelper</scope><name>getValidRP</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_web_authn_test_helper_1a93b4b00374f2bdfd47c92a87c0221043" prot="public" virt="non-virtual"><scope>themis::auth::tests::WebAuthnTestHelper</scope><name>getValidUser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

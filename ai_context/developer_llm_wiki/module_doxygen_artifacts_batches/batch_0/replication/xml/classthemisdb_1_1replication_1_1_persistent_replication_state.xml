@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_persistent_replication_state" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::PersistentReplicationState</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state" prot="public">themisdb::replication::PersistentReplicationState::State</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_persistent_replication_state_1a8a1fce9cd173254bd4381cf4f3089c86" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::PersistentReplicationState::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1284" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_persistent_replication_state_1a93294d90a7fcec804b7122a3ac3d6a5a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::PersistentReplicationState::file_mutex_</definition>
+        <argsstring></argsstring>
+        <name>file_mutex_</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::file_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1285" column="24" bodyfile="include/replication/replication_manager.h" bodystart="1285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_persistent_replication_state_1a557479570f2ed0257ee985ce23737d32" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::PersistentReplicationState::PersistentReplicationState</definition>
+        <argsstring>(const std::string &amp;state_file_path)</argsstring>
+        <name>PersistentReplicationState</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::PersistentReplicationState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state_file_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1269" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="5365" bodyend="5369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_persistent_replication_state_1a286258e9511dac09083007a63c5e65dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::PersistentReplicationState::persist</definition>
+        <argsstring>(const State &amp;state)</argsstring>
+        <name>persist</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::persist</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Persist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), ofs(), is_open(), THEMIS_ERROR(), time_since_epoch(), count(), flush(), good(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1272" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="5377" bodyend="5406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_persistent_replication_state_1ac9aed7e07a2b400fef0d8de4a4d4d08c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_persistent_replication_state_1_1_state" kindref="compound">State</ref></type>
+        <definition>PersistentReplicationState::State themisdb::replication::PersistentReplicationState::load</definition>
+        <argsstring>() const</argsstring>
+        <name>load</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::load</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ifs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1275" column="11" bodyfile="src/replication/replication_manager.cpp" bodystart="5408" bodyend="5463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_persistent_replication_state_1ac2fba27889b31278c4e9755cf22b4bd1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::PersistentReplicationState::exists</definition>
+        <argsstring>() const</argsstring>
+        <name>exists</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::exists</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1278" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="5465" bodyend="5467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_persistent_replication_state_1ada39269e9e92f9fa1b5f170abf023369" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::PersistentReplicationState::remove</definition>
+        <argsstring>()</argsstring>
+        <name>remove</name>
+        <qualifiedname>themisdb::replication::PersistentReplicationState::remove</qualifiedname>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1281" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="5473" bodyend="5476"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_persistent_replication_state" kindref="compound">PersistentReplicationState</ref></para>
+<para>Persists the follower&apos;s last-applied sequence number (and other state) to a local file so that on restart the follower can resume replication from the correct position instead of replaying the entire WAL. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1259" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1259" bodyend="1286"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_persistent_replication_state_1ac2fba27889b31278c4e9755cf22b4bd1" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState</scope><name>exists</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_persistent_replication_state_1a93294d90a7fcec804b7122a3ac3d6a5a" prot="private" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState</scope><name>file_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_persistent_replication_state_1ac9aed7e07a2b400fef0d8de4a4d4d08c" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState</scope><name>load</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_persistent_replication_state_1a8a1fce9cd173254bd4381cf4f3089c86" prot="private" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState</scope><name>path_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_persistent_replication_state_1a286258e9511dac09083007a63c5e65dd" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState</scope><name>persist</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_persistent_replication_state_1a557479570f2ed0257ee985ce23737d32" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState</scope><name>PersistentReplicationState</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_persistent_replication_state_1ada39269e9e92f9fa1b5f170abf023369" prot="public" virt="non-virtual"><scope>themisdb::replication::PersistentReplicationState</scope><name>remove</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

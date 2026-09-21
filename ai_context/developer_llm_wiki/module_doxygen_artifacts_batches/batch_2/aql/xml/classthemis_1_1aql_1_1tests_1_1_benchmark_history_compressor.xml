@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::tests::BenchmarkHistoryCompressor</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IHistoryCompressor</basecompoundref>
+    <innerclass refid="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config" prot="public">themis::aql::tests::BenchmarkHistoryCompressor::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a6d3789b3bf54888b7f35dab57c58a047" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::aql::tests::BenchmarkHistoryCompressor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::aql::tests::BenchmarkHistoryCompressor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="122" column="12" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a3806dc4b5021012b4040894f81842b08" prot="private" static="no" mutable="yes">
+        <type>int64_t</type>
+        <definition>int64_t themis::aql::tests::BenchmarkHistoryCompressor::compression_count_</definition>
+        <argsstring></argsstring>
+        <name>compression_count_</name>
+        <qualifiedname>themis::aql::tests::BenchmarkHistoryCompressor::compression_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="123" column="21" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a1ea4caa0bcd1af88309e5cf7b0456a78" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::tests::BenchmarkHistoryCompressor::BenchmarkHistoryCompressor</definition>
+        <argsstring>(const Config &amp;config=Config())</argsstring>
+        <name>BenchmarkHistoryCompressor</name>
+        <qualifiedname>themis::aql::tests::BenchmarkHistoryCompressor::BenchmarkHistoryCompressor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1_1_config" kindref="compound">Config</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="51" column="14" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="51" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a882bb7886f5af345df1a5a09b8fe907b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::tests::BenchmarkHistoryCompressor::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::aql::tests::BenchmarkHistoryCompressor::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="54" column="10" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a09cde16c7e55772b2020b91ab707ac01" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; CompressionResult &gt;</type>
+        <definition>std::unique_ptr&lt; CompressionResult &gt; themis::aql::tests::BenchmarkHistoryCompressor::compressHistory</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;history, int32_t max_tokens, float min_similarity=0.85f) override</argsstring>
+        <name>compressHistory</name>
+        <qualifiedname>themis::aql::tests::BenchmarkHistoryCompressor::compressHistory</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_similarity</declname>
+          <defval>0.85f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="56" column="21" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="56" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1aae3e4edf3a70ac7d36cc07724b7f4238" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::tests::BenchmarkHistoryCompressor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::aql::tests::BenchmarkHistoryCompressor::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="117" column="17" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock history compressor for deterministic compression benchmarking. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Simulates realistic compression behavior with configurable:<itemizedlist>
+<listitem><para>Compression latency (default 100ms, configurable)</para>
+</listitem><listitem><para>Token reduction ratio (default 60%, configurable)</para>
+</listitem><listitem><para>Semantic similarity score (default 0.92, always ≥0.85 gate) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IHistoryCompressor</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::tests::BenchmarkHistoryCompressor</label>
+        <link refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IHistoryCompressor</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::tests::BenchmarkHistoryCompressor</label>
+        <link refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="43" column="1" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="43" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a1ea4caa0bcd1af88309e5cf7b0456a78" prot="public" virt="non-virtual"><scope>themis::aql::tests::BenchmarkHistoryCompressor</scope><name>BenchmarkHistoryCompressor</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a09cde16c7e55772b2020b91ab707ac01" prot="public" virt="non-virtual"><scope>themis::aql::tests::BenchmarkHistoryCompressor</scope><name>compressHistory</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a3806dc4b5021012b4040894f81842b08" prot="private" virt="non-virtual"><scope>themis::aql::tests::BenchmarkHistoryCompressor</scope><name>compression_count_</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a6d3789b3bf54888b7f35dab57c58a047" prot="private" virt="non-virtual"><scope>themis::aql::tests::BenchmarkHistoryCompressor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1aae3e4edf3a70ac7d36cc07724b7f4238" prot="public" virt="non-virtual"><scope>themis::aql::tests::BenchmarkHistoryCompressor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_benchmark_history_compressor_1a882bb7886f5af345df1a5a09b8fe907b" prot="public" virt="non-virtual"><scope>themis::aql::tests::BenchmarkHistoryCompressor</scope><name>isAvailable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

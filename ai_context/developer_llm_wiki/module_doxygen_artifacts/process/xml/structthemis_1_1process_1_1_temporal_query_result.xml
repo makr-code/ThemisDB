@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_temporal_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::TemporalQueryResult</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_result_1aa3d404fbf0d12833320be52a49dcc177" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::TemporalQueryResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::process::TemporalQueryResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether query succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="303" column="10" bodyfile="include/process/model_history_contract.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_result_1a6223612129b0978c976fe470b3e6c48d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TemporalQueryResult::model_content</definition>
+        <argsstring></argsstring>
+        <name>model_content</name>
+        <qualifiedname>themis::process::TemporalQueryResult::model_content</qualifiedname>
+        <briefdescription>
+<para>Model state at target timestamp (if success=true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="306" column="17" bodyfile="include/process/model_history_contract.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_result_1afa463c49f8ef04c43ac3869d3b60fd84" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::TemporalQueryResult::actual_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>actual_timestamp_ns</name>
+        <qualifiedname>themis::process::TemporalQueryResult::actual_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of the model returned (may differ from target if nearest_before=true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="309" column="13" bodyfile="include/process/model_history_contract.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_result_1aae04ca4431fb339943db669f3bec149d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::TemporalQueryResult::revision</definition>
+        <argsstring></argsstring>
+        <name>revision</name>
+        <qualifiedname>themis::process::TemporalQueryResult::revision</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Revision/version number at this timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="312" column="14" bodyfile="include/process/model_history_contract.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_result_1a0811103b80e62ebbc876701e8030fc60" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::TemporalQueryResult::deltas_replayed</definition>
+        <argsstring></argsstring>
+        <name>deltas_replayed</name>
+        <qualifiedname>themis::process::TemporalQueryResult::deltas_replayed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of deltas replayed from base snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="315" column="14" bodyfile="include/process/model_history_contract.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_result_1a99a6c04d9f101a934a32e7222f3d8b3a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::TemporalQueryResult::reconstruction_time_ms</definition>
+        <argsstring></argsstring>
+        <name>reconstruction_time_ms</name>
+        <qualifiedname>themis::process::TemporalQueryResult::reconstruction_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Time to reconstruct model (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="318" column="14" bodyfile="include/process/model_history_contract.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_result_1ae42696814b5edaec00a4dad2856b1074" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::TemporalQueryResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::process::TemporalQueryResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Reason for failure (if success=false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="321" column="17" bodyfile="include/process/model_history_contract.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_temporal_query_result_1ad8b41e834a7fe7025517595cc00ff8a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::TemporalQueryResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::process::TemporalQueryResult::confidence</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Confidence in result (1.0 = exact match, &lt;1.0 = reconstructed via deltas). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="324" column="12" bodyfile="include/process/model_history_contract.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of temporal query. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains model state at requested timestamp, plus metadata about recovery. </para>
+    </detaileddescription>
+    <location file="include/process/model_history_contract.h" line="301" column="1" bodyfile="include/process/model_history_contract.h" bodystart="301" bodyend="325"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_temporal_query_result_1afa463c49f8ef04c43ac3869d3b60fd84" prot="public" virt="non-virtual"><scope>themis::process::TemporalQueryResult</scope><name>actual_timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_result_1ad8b41e834a7fe7025517595cc00ff8a7" prot="public" virt="non-virtual"><scope>themis::process::TemporalQueryResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_result_1a0811103b80e62ebbc876701e8030fc60" prot="public" virt="non-virtual"><scope>themis::process::TemporalQueryResult</scope><name>deltas_replayed</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_result_1ae42696814b5edaec00a4dad2856b1074" prot="public" virt="non-virtual"><scope>themis::process::TemporalQueryResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_result_1a6223612129b0978c976fe470b3e6c48d" prot="public" virt="non-virtual"><scope>themis::process::TemporalQueryResult</scope><name>model_content</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_result_1a99a6c04d9f101a934a32e7222f3d8b3a" prot="public" virt="non-virtual"><scope>themis::process::TemporalQueryResult</scope><name>reconstruction_time_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_result_1aae04ca4431fb339943db669f3bec149d" prot="public" virt="non-virtual"><scope>themis::process::TemporalQueryResult</scope><name>revision</name></member>
+      <member refid="structthemis_1_1process_1_1_temporal_query_result_1aa3d404fbf0d12833320be52a49dcc177" prot="public" virt="non-virtual"><scope>themis::process::TemporalQueryResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

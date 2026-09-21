@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_migration_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::MigrationResult</compoundname>
+    <includes refid="online__schema__migration_8h" local="no">online_schema_migration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_migration_result_1a118ba57d6ebd00b64b6db3a945cb0205" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::MigrationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::storage::MigrationResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true if all operations succeeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="85" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_migration_result_1ad37c723af7d957ba596c34ddd2d8e7b0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7" kindref="member">OnlineDDLPhase</ref></type>
+        <definition>OnlineDDLPhase themis::storage::MigrationResult::phase</definition>
+        <argsstring></argsstring>
+        <name>phase</name>
+        <qualifiedname>themis::storage::MigrationResult::phase</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1storage_1a13080b99d512294fc7e647ef7e945da7aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">OnlineDDLPhase::IDLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="86" column="20" bodyfile="include/storage/online_schema_migration.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_migration_result_1a20ecb3b5274da62a470026ba6d32bbfa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::MigrationResult::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::storage::MigrationResult::version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Schema version after migration (0 on failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="87" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_migration_result_1ae5d1f76a162dcfcf12810ae0fb3a0d36" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::MigrationResult::ops_applied</definition>
+        <argsstring></argsstring>
+        <name>ops_applied</name>
+        <qualifiedname>themis::storage::MigrationResult::ops_applied</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of operations applied successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="88" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_migration_result_1a6bbecb718dd578ebf2fb79f8733cbfeb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::MigrationResult::ops_total</definition>
+        <argsstring></argsstring>
+        <name>ops_total</name>
+        <qualifiedname>themis::storage::MigrationResult::ops_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total number of staged operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="89" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_migration_result_1a85c7dd7833b8a05ad077ca56c2dca616" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::MigrationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::storage::MigrationResult::error_message</qualifiedname>
+        <briefdescription>
+<para>First error encountered (empty on success). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="90" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_migration_result_1abe375f4c5a1e1cf1af67baea3a60e722" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::storage::MigrationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::storage::MigrationResult::errors</qualifiedname>
+        <briefdescription>
+<para>Per-operation error messages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/online_schema_migration.h" line="91" column="17" bodyfile="include/storage/online_schema_migration.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of <ref refid="classthemis_1_1storage_1_1_schema_migrator_1a4b29d319fa6b96e33c6de1638d55123e" kindref="member">SchemaMigrator::migrate()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/online_schema_migration.h" line="84" column="1" bodyfile="include/storage/online_schema_migration.h" bodystart="84" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_migration_result_1a85c7dd7833b8a05ad077ca56c2dca616" prot="public" virt="non-virtual"><scope>themis::storage::MigrationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1storage_1_1_migration_result_1abe375f4c5a1e1cf1af67baea3a60e722" prot="public" virt="non-virtual"><scope>themis::storage::MigrationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1storage_1_1_migration_result_1ae5d1f76a162dcfcf12810ae0fb3a0d36" prot="public" virt="non-virtual"><scope>themis::storage::MigrationResult</scope><name>ops_applied</name></member>
+      <member refid="structthemis_1_1storage_1_1_migration_result_1a6bbecb718dd578ebf2fb79f8733cbfeb" prot="public" virt="non-virtual"><scope>themis::storage::MigrationResult</scope><name>ops_total</name></member>
+      <member refid="structthemis_1_1storage_1_1_migration_result_1ad37c723af7d957ba596c34ddd2d8e7b0" prot="public" virt="non-virtual"><scope>themis::storage::MigrationResult</scope><name>phase</name></member>
+      <member refid="structthemis_1_1storage_1_1_migration_result_1a118ba57d6ebd00b64b6db3a945cb0205" prot="public" virt="non-virtual"><scope>themis::storage::MigrationResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1storage_1_1_migration_result_1a20ecb3b5274da62a470026ba6d32bbfa" prot="public" virt="non-virtual"><scope>themis::storage::MigrationResult</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

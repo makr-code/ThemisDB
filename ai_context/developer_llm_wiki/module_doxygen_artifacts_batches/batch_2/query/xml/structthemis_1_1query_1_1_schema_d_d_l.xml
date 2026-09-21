@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_schema_d_d_l" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SchemaDDL</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_d_d_l_1a4a3633eb6781610dd44750058537657f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a323806c58ed559b77513ef170f741b5c" kindref="member">SchemaDDLType</ref></type>
+        <definition>SchemaDDLType themis::query::SchemaDDL::ddl_type</definition>
+        <argsstring></argsstring>
+        <name>ddl_type</name>
+        <qualifiedname>themis::query::SchemaDDL::ddl_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1query_1a323806c58ed559b77513ef170f741b5cadd89b551804c950ca3952182a246b396" kindref="member">SchemaDDLType::CREATE_COLLECTION</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="959" column="28" bodyfile="include/query/aql_parser.h" bodystart="959" bodyend="959"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_d_d_l_1aad0745da21e17693b339d4586e4310ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SchemaDDL::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::SchemaDDL::name</qualifiedname>
+        <briefdescription>
+<para>Object name (collection/index/view). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="960" column="28" bodyfile="include/query/aql_parser.h" bodystart="960" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_d_d_l_1a6569d09b25f3587b23ab79581f1ed34f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SchemaDDL::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::query::SchemaDDL::collection</qualifiedname>
+        <briefdescription>
+<para>Relevant collection (for index ops). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="961" column="28" bodyfile="include/query/aql_parser.h" bodystart="961" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_d_d_l_1a4c456b6faedd775e5b79cbf9eb02a4e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::SchemaDDL::if_exists</definition>
+        <argsstring></argsstring>
+        <name>if_exists</name>
+        <qualifiedname>themis::query::SchemaDDL::if_exists</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>IF EXISTS/IF NOT EXISTS modifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="962" column="28" bodyfile="include/query/aql_parser.h" bodystart="962" bodyend="962"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_d_d_l_1a26a8256a0ed681159ee01fc635d385a1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_field_def" kindref="compound">FieldDef</ref> &gt;</type>
+        <definition>std::vector&lt;FieldDef&gt; themis::query::SchemaDDL::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::query::SchemaDDL::fields</qualifiedname>
+        <briefdescription>
+<para>Field list (for CREATE COLLECTION). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="963" column="18" bodyfile="include/query/aql_parser.h" bodystart="963" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_d_d_l_1a22b6e21974b000819175f55699af5172" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_index_def" kindref="compound">IndexDef</ref></type>
+        <definition>IndexDef themis::query::SchemaDDL::index_def</definition>
+        <argsstring></argsstring>
+        <name>index_def</name>
+        <qualifiedname>themis::query::SchemaDDL::index_def</qualifiedname>
+        <briefdescription>
+<para>Index descriptor (for CREATE INDEX). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="964" column="28" bodyfile="include/query/aql_parser.h" bodystart="964" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_d_d_l_1ace17944b396ab16c8fe2b8b0b8976731" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SchemaDDL::view_body</definition>
+        <argsstring></argsstring>
+        <name>view_body</name>
+        <qualifiedname>themis::query::SchemaDDL::view_body</qualifiedname>
+        <briefdescription>
+<para>AQL body (for CREATE VIEW … AS …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="965" column="28" bodyfile="include/query/aql_parser.h" bodystart="965" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_schema_d_d_l_1a8539e88969a9610126ef1ecc7f78cf5a" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::SchemaDDL::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>themis::query::SchemaDDL::options</qualifiedname>
+        <briefdescription>
+<para>Engine-specific options (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="966" column="28" bodyfile="include/query/aql_parser.h" bodystart="966" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_schema_d_d_l_1a04ce4510d2866c37b242fa8aac4823f0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SchemaDDL::typeString</definition>
+        <argsstring>() const</argsstring>
+        <name>typeString</name>
+        <qualifiedname>themis::query::SchemaDDL::typeString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="968" column="18" bodyfile="include/query/aql_parser.h" bodystart="968" bodyend="979"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::IndexDef</label>
+        <link refid="structthemis_1_1query_1_1_index_def"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SchemaDDL</label>
+        <link refid="structthemis_1_1query_1_1_schema_d_d_l"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>index_def</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="958" column="1" bodyfile="include/query/aql_parser.h" bodystart="958" bodyend="980"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_schema_d_d_l_1a6569d09b25f3587b23ab79581f1ed34f" prot="public" virt="non-virtual"><scope>themis::query::SchemaDDL</scope><name>collection</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_d_d_l_1a4a3633eb6781610dd44750058537657f" prot="public" virt="non-virtual"><scope>themis::query::SchemaDDL</scope><name>ddl_type</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_d_d_l_1a26a8256a0ed681159ee01fc635d385a1" prot="public" virt="non-virtual"><scope>themis::query::SchemaDDL</scope><name>fields</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_d_d_l_1a4c456b6faedd775e5b79cbf9eb02a4e0" prot="public" virt="non-virtual"><scope>themis::query::SchemaDDL</scope><name>if_exists</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_d_d_l_1a22b6e21974b000819175f55699af5172" prot="public" virt="non-virtual"><scope>themis::query::SchemaDDL</scope><name>index_def</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_d_d_l_1aad0745da21e17693b339d4586e4310ca" prot="public" virt="non-virtual"><scope>themis::query::SchemaDDL</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_d_d_l_1a8539e88969a9610126ef1ecc7f78cf5a" prot="public" virt="non-virtual"><scope>themis::query::SchemaDDL</scope><name>options</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_d_d_l_1a04ce4510d2866c37b242fa8aac4823f0" prot="public" virt="non-virtual"><scope>themis::query::SchemaDDL</scope><name>typeString</name></member>
+      <member refid="structthemis_1_1query_1_1_schema_d_d_l_1ace17944b396ab16c8fe2b8b0b8976731" prot="public" virt="non-virtual"><scope>themis::query::SchemaDDL</scope><name>view_body</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

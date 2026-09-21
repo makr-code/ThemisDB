@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_error_taxonomy_test" kind="class" language="C++" prot="public">
+    <compoundname>ErrorTaxonomyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <basecompoundref refid="class_g_p_u_foundations_test" prot="public" virt="non-virtual">GPUFoundationsTest</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_error_taxonomy_test_1aa81bec6dbb35b05097a8b6862b1264a1" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUErrorHandler &gt;</type>
+        <definition>std::shared_ptr&lt;GPUErrorHandler&gt; ErrorTaxonomyTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>ErrorTaxonomyTest::handler</qualifiedname>
+        <initializer>= GPUErrorHandler::Create()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling.cpp" line="54" column="19" bodyfile="tests/gpu/test_gpu_error_handling.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ErrorTaxonomyTest</label>
+        <link refid="class_error_taxonomy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ErrorTaxonomyTest</label>
+        <link refid="class_error_taxonomy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_error_handling.cpp" line="52" column="1" bodyfile="tests/gpu/test_gpu_error_handling.cpp" bodystart="52" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_foundations_test_1a0141f3aa002b931bc59b9237445fba24" prot="protected" virt="non-virtual"><scope>ErrorTaxonomyTest</scope><name>GPUFoundationsTest</name></member>
+      <member refid="class_error_taxonomy_test_1aa81bec6dbb35b05097a8b6862b1264a1" prot="protected" virt="non-virtual"><scope>ErrorTaxonomyTest</scope><name>handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

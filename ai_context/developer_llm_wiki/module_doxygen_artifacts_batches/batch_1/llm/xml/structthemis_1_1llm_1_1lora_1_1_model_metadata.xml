@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_model_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ModelMetadata</compoundname>
+    <includes refid="model__compatibility_8h" local="no">model_compatibility.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1acb2d99552625ce8a0a27e3ebbb4f75e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ModelMetadata::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="56" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a0cbc0437826c5b60dae85ce449d2289f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881b" kindref="member">ModelFormat</ref></type>
+        <definition>ModelFormat themis::llm::lora::ModelMetadata::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::format</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881ba696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ModelFormat::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="57" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1adc1e339bebe56e3f918ef4dee3411ab1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eb" kindref="member">ModelArchitecture</ref></type>
+        <definition>ModelArchitecture themis::llm::lora::ModelMetadata::architecture</definition>
+        <argsstring></argsstring>
+        <name>architecture</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::architecture</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eba696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ModelArchitecture::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="58" column="23" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a82fc85d6f4da847d0f21bfa135e33a50" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ModelMetadata::vocab_size</definition>
+        <argsstring></argsstring>
+        <name>vocab_size</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::vocab_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="61" column="12" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a39b98953c0f919abe7e9978a770c4455" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ModelMetadata::hidden_size</definition>
+        <argsstring></argsstring>
+        <name>hidden_size</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::hidden_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="62" column="12" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1af2130a498dcb90c145e0c46d024ee12e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ModelMetadata::num_layers</definition>
+        <argsstring></argsstring>
+        <name>num_layers</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::num_layers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="63" column="12" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a820951d93ac1e185f7a0cd17194def69" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ModelMetadata::num_heads</definition>
+        <argsstring></argsstring>
+        <name>num_heads</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::num_heads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="64" column="12" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a5117c3ae208f6efe9127cd091d46e88c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ModelMetadata::intermediate_size</definition>
+        <argsstring></argsstring>
+        <name>intermediate_size</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::intermediate_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="65" column="12" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a07fb0d06c82730bdfc125f8860488dc3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ModelMetadata::max_seq_length</definition>
+        <argsstring></argsstring>
+        <name>max_seq_length</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::max_seq_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="66" column="12" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a1a23650d375bdcc367216d377478cde7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ModelMetadata::is_quantized</definition>
+        <argsstring></argsstring>
+        <name>is_quantized</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::is_quantized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="69" column="10" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a2d0ba80a4b629ff0a5bdca97f4783e29" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ModelMetadata::quantization_type</definition>
+        <argsstring></argsstring>
+        <name>quantization_type</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::quantization_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="70" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1ae3935d4e4f8704514f43372f3417dbdb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ModelMetadata::model_type</definition>
+        <argsstring></argsstring>
+        <name>model_type</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::model_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="73" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a49f33d3be0cdaacafc7105659b06c907" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ModelMetadata::tokenizer_type</definition>
+        <argsstring></argsstring>
+        <name>tokenizer_type</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::tokenizer_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="74" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1ad01c73411c7094ac674d5b5195c03f1e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::llm::lora::ModelMetadata::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="75" column="14" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1aee20fe595fb4571980355155db0b64c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::ModelMetadata::~ModelMetadata</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ModelMetadata</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::~ModelMetadata</qualifiedname>
+        <briefdescription>
+<para>Model Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="55" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a63fd7eaebefb4fe9d6b6acfadebbd531" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::ModelMetadata::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="77" column="10" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="77" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a5ee3fd3ca0949d63c8b98efc96a074e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ModelMetadata::format_to_string</definition>
+        <argsstring>(ModelFormat fmt)</argsstring>
+        <name>format_to_string</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::format_to_string</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881b" kindref="member">ModelFormat</ref></type>
+          <declname>fmt</declname>
+        </param>
+        <briefdescription>
+<para>Format to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== <ref refid="structthemis_1_1llm_1_1lora_1_1_model_metadata" kindref="compound">ModelMetadata</ref> Helper Functions =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements format_to_string without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="101" column="24" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="31" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1af8cb1f6a91058d7125d0865a01f739e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ModelMetadata::architecture_to_string</definition>
+        <argsstring>(ModelArchitecture arch)</argsstring>
+        <name>architecture_to_string</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::architecture_to_string</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eb" kindref="member">ModelArchitecture</ref></type>
+          <declname>arch</declname>
+        </param>
+        <briefdescription>
+<para>Architecture to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements architecture_to_string without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="107" column="24" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="48" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1aace6da084cb6b4497f198a002aef8c4f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a969633763d3c1db02c452a7edf26881b" kindref="member">ModelFormat</ref></type>
+        <definition>ModelFormat themis::llm::lora::ModelMetadata::string_to_format</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>string_to_format</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::string_to_format</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>String to format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="113" column="24" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="71" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a1f1168464b7eb03995e48019ba5dae3f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a1ce6926f2b2c3a4edab2969114cd13eb" kindref="member">ModelArchitecture</ref></type>
+        <definition>ModelArchitecture themis::llm::lora::ModelMetadata::string_to_architecture</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>string_to_architecture</name>
+        <qualifiedname>themis::llm::lora::ModelMetadata::string_to_architecture</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>String to architecture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="119" column="30" bodyfile="src/llm/lora_framework/model_compatibility.cpp" bodystart="100" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/model_compatibility.h" line="50" column="1" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="50" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1adc1e339bebe56e3f918ef4dee3411ab1" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>architecture</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1af8cb1f6a91058d7125d0865a01f739e5" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>architecture_to_string</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1ad01c73411c7094ac674d5b5195c03f1e" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a0cbc0437826c5b60dae85ce449d2289f" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>format</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a5ee3fd3ca0949d63c8b98efc96a074e4" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>format_to_string</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a39b98953c0f919abe7e9978a770c4455" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>hidden_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a5117c3ae208f6efe9127cd091d46e88c" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>intermediate_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a1a23650d375bdcc367216d377478cde7" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>is_quantized</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a07fb0d06c82730bdfc125f8860488dc3" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>max_seq_length</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1acb2d99552625ce8a0a27e3ebbb4f75e3" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1ae3935d4e4f8704514f43372f3417dbdb" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>model_type</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a820951d93ac1e185f7a0cd17194def69" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>num_heads</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1af2130a498dcb90c145e0c46d024ee12e" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>num_layers</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a2d0ba80a4b629ff0a5bdca97f4783e29" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>quantization_type</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a1f1168464b7eb03995e48019ba5dae3f" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>string_to_architecture</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1aace6da084cb6b4497f198a002aef8c4f" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>string_to_format</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a63fd7eaebefb4fe9d6b6acfadebbd531" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a49f33d3be0cdaacafc7105659b06c907" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>tokenizer_type</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1a82fc85d6f4da847d0f21bfa135e33a50" prot="public" virt="non-virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>vocab_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_model_metadata_1aee20fe595fb4571980355155db0b64c3" prot="public" virt="virtual"><scope>themis::llm::lora::ModelMetadata</scope><name>~ModelMetadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

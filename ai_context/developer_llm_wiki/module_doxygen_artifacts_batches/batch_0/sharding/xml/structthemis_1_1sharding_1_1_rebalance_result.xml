@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_rebalance_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RebalanceResult</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_result_1a0087375499f47df7235b59d9ee02417c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::RebalanceResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::RebalanceResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="121" column="10" bodyfile="include/sharding/sharding_interfaces.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_result_1a9e00d6ffa93ee700b33e26a64e7543da" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1aceef1bf36d28c685930224570034180d" kindref="member">RebalancePlanId</ref></type>
+        <definition>RebalancePlanId themis::sharding::RebalanceResult::plan_id</definition>
+        <argsstring></argsstring>
+        <name>plan_id</name>
+        <qualifiedname>themis::sharding::RebalanceResult::plan_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="122" column="21" bodyfile="include/sharding/sharding_interfaces.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_result_1a61e4a63e63a05eb126c04e1e41a66358" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::RebalanceResult::migrations_completed</definition>
+        <argsstring></argsstring>
+        <name>migrations_completed</name>
+        <qualifiedname>themis::sharding::RebalanceResult::migrations_completed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="123" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_result_1abd2b42fc5a2b30eb5b18c82b16568b55" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::RebalanceResult::migrations_failed</definition>
+        <argsstring></argsstring>
+        <name>migrations_failed</name>
+        <qualifiedname>themis::sharding::RebalanceResult::migrations_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="124" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_result_1aca2bf0c167de92afdd96cd694e80d71c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RebalanceResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::RebalanceResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="125" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Outcome of executing a <ref refid="structthemis_1_1sharding_1_1_rebalance_plan" kindref="compound">RebalancePlan</ref> via <ref refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a193a4a83976ed1ed9933235353632726" kindref="member">IAdaptiveRebalancer::applyPlan()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="120" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="120" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_result_1aca2bf0c167de92afdd96cd694e80d71c" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_result_1a61e4a63e63a05eb126c04e1e41a66358" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceResult</scope><name>migrations_completed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_result_1abd2b42fc5a2b30eb5b18c82b16568b55" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceResult</scope><name>migrations_failed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_result_1a9e00d6ffa93ee700b33e26a64e7543da" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceResult</scope><name>plan_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_result_1a0087375499f47df7235b59d9ee02417c" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

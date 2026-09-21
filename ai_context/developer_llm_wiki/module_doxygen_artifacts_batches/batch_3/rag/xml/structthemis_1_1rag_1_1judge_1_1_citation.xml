@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_citation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::Citation</compoundname>
+    <includes refid="faithfulness__evaluator_8h" local="no">faithfulness_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_citation_1a12dc1992418c3e44a88baa1914115916" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::Citation::claim_text</definition>
+        <argsstring></argsstring>
+        <name>claim_text</name>
+        <qualifiedname>themis::rag::judge::Citation::claim_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="45" column="17" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_citation_1a874195ef53462af4b6b0f5c2c74ebb04" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::Citation::cited_doc_ids</definition>
+        <argsstring></argsstring>
+        <name>cited_doc_ids</name>
+        <qualifiedname>themis::rag::judge::Citation::cited_doc_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="46" column="17" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_citation_1a1747c982cfc76d7657f35797eda684b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::Citation::has_explicit_reference</definition>
+        <argsstring></argsstring>
+        <name>has_explicit_reference</name>
+        <qualifiedname>themis::rag::judge::Citation::has_explicit_reference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="47" column="10" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_citation_1a8141c6d961a8149777cd2d50427f33a1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::Citation::quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_score</name>
+        <qualifiedname>themis::rag::judge::Citation::quality_score</qualifiedname>
+        <briefdescription>
+<para>0-1 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="48" column="12" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1rag_1_1judge_1_1_citation" kindref="compound">Citation</ref> information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/faithfulness_evaluator.h" line="44" column="1" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="44" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_citation_1a874195ef53462af4b6b0f5c2c74ebb04" prot="public" virt="non-virtual"><scope>themis::rag::judge::Citation</scope><name>cited_doc_ids</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_citation_1a12dc1992418c3e44a88baa1914115916" prot="public" virt="non-virtual"><scope>themis::rag::judge::Citation</scope><name>claim_text</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_citation_1a1747c982cfc76d7657f35797eda684b0" prot="public" virt="non-virtual"><scope>themis::rag::judge::Citation</scope><name>has_explicit_reference</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_citation_1a8141c6d961a8149777cd2d50427f33a1" prot="public" virt="non-virtual"><scope>themis::rag::judge::Citation</scope><name>quality_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

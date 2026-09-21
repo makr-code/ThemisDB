@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_extended_process_diagnostics" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ExtendedProcessDiagnostics</compoundname>
+    <includes refid="process__diagnostics__api_8h" local="no">process_diagnostics_api.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_extended_process_diagnostics_1ad74637ff2aa3ad943172c46c9e3389f9" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_extended_diagnostic_record" kindref="compound">ExtendedDiagnosticRecord</ref></type>
+        <definition>ExtendedDiagnosticRecord themis::process::ExtendedProcessDiagnostics::createChurnIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message, int32_t concurrent_ops, std::optional&lt; std::string_view &gt; trace_id=std::nullopt)</argsstring>
+        <name>createChurnIncident</name>
+        <qualifiedname>themis::process::ExtendedProcessDiagnostics::createChurnIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>concurrent_ops</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string_view &gt;</type>
+          <declname>trace_id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Create a churn-detection incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use when high model update rate is detected or causes operation failure.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kValidationFailed) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (model ID, instance ID) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message (recommend backoff, batching, etc.) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>concurrent_ops</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Concurrent operation count at time of incident </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional trace ID for correlation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_extended_diagnostic_record" kindref="compound">ExtendedDiagnosticRecord</ref> with CHURN_DETECTION context</para>
+</simplesect>
+Example: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>diag<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_extended_process_diagnostics_1ad74637ff2aa3ad943172c46c9e3389f9" kindref="member">ExtendedProcessDiagnostics::createChurnIncident</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ad8f434f2bfdc5abac58b9c2b64d69e9b" kindref="member">ProcError::kValidationFailed</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;model_large_v2&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Model<sp/>update<sp/>failed:<sp/>high<sp/>concurrent<sp/>churn<sp/>(625<sp/>ops/sec).<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Retry<sp/>with<sp/>exponential<sp/>backoff<sp/>(2^n<sp/>seconds).&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>concurrent_ops<sp/>=<sp/>625,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>trace_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;trace-2026-08-06-xyz&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="274" column="38" bodyfile="include/process/process_diagnostics_api.h" bodystart="475" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_extended_process_diagnostics_1aec3ee54d1dbdf9d34324b50fd36fce86" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_extended_diagnostic_record" kindref="compound">ExtendedDiagnosticRecord</ref></type>
+        <definition>ExtendedDiagnosticRecord themis::process::ExtendedProcessDiagnostics::createConflictIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message, int32_t conflict_count, int32_t retry_count, std::optional&lt; std::string_view &gt; trace_id=std::nullopt)</argsstring>
+        <name>createConflictIncident</name>
+        <qualifiedname>themis::process::ExtendedProcessDiagnostics::createConflictIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>conflict_count</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>retry_count</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string_view &gt;</type>
+          <declname>trace_id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Create a conflict-detection incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use when write-write conflicts, link staleness, or version mismatches occur.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kValidationFailed or kLinkingFailed) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (model ID, link ID) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message (recommend retry with latest version) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conflict_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of conflicts detected </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>retry_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of retry attempts before failure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional trace ID for correlation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_extended_diagnostic_record" kindref="compound">ExtendedDiagnosticRecord</ref> with CONFLICT_DETECTED context</para>
+</simplesect>
+Example: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>diag<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_extended_process_diagnostics_1aec3ee54d1dbdf9d34324b50fd36fce86" kindref="member">ExtendedProcessDiagnostics::createConflictIncident</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7ad8f434f2bfdc5abac58b9c2b64d69e9b" kindref="member">ProcError::kValidationFailed</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;model_v1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Write-write<sp/>conflict<sp/>detected.<sp/>Fetch<sp/>latest<sp/>version<sp/>and<sp/>retry.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>conflict_count<sp/>=<sp/>3,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>retry_count<sp/>=<sp/>2,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>trace_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;trace-conflict-xyz&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="307" column="38" bodyfile="include/process/process_diagnostics_api.h" bodystart="499" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_extended_process_diagnostics_1a5daca01664ecb5347f974d362af6e8f6" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_extended_diagnostic_record" kindref="compound">ExtendedDiagnosticRecord</ref></type>
+        <definition>ExtendedDiagnosticRecord themis::process::ExtendedProcessDiagnostics::createTracedIncident</definition>
+        <argsstring>(const DiagnosticRecord &amp;base_incident, std::string_view trace_id, std::string_view span_id)</argsstring>
+        <name>createTracedIncident</name>
+        <qualifiedname>themis::process::ExtendedProcessDiagnostics::createTracedIncident</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> &amp;</type>
+          <declname>base_incident</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>trace_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>span_id</declname>
+        </param>
+        <briefdescription>
+<para>Create a traced incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use when an incident occurs within a distributed trace context. Attaches trace_id and span_id for correlation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>base_incident</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base <ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> (from <ref refid="classthemis_1_1process_1_1_process_diagnostics" kindref="compound">ProcessDiagnostics</ref> factory) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Trace identifier (OpenTelemetry format recommended) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>span_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Span identifier within the trace </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_extended_diagnostic_record" kindref="compound">ExtendedDiagnosticRecord</ref> with trace context attached</para>
+</simplesect>
+Example: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>base<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_process_diagnostics_1a8c6a7059b59f58295bcfe8826380f4c4" kindref="member">ProcessDiagnostics::createImportIncident</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7a6811861e69e4abb67fbe059223210c0b" kindref="member">ProcError::kDeserialiserFailed</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;model.bpmn&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>gateway<sp/>type&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>traced<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_extended_process_diagnostics_1a5daca01664ecb5347f974d362af6e8f6" kindref="member">ExtendedProcessDiagnostics::createTracedIncident</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>base,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;4bf92f3577b34da6a3ce929d0e0e4736&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>trace_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;00f067aa0ba902b7&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>span_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="341" column="38" bodyfile="include/process/process_diagnostics_api.h" bodystart="529" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_extended_process_diagnostics_1aaec2770579bcebe8a8a39f56c22bca94" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_extended_diagnostic_record" kindref="compound">ExtendedDiagnosticRecord</ref></type>
+        <definition>ExtendedDiagnosticRecord themis::process::ExtendedProcessDiagnostics::createResourceExhaustionIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message, std::string_view resource_type, std::optional&lt; std::string_view &gt; trace_id=std::nullopt)</argsstring>
+        <name>createResourceExhaustionIncident</name>
+        <qualifiedname>themis::process::ExtendedProcessDiagnostics::createResourceExhaustionIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource_type</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string_view &gt;</type>
+          <declname>trace_id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Create a resource-exhaustion incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use when memory, file handles, or timeout limits are exceeded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kExecutionTimeout, kMaxDepthExceeded, etc.) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (model ID, instance ID) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message describing the limit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of resource that was exhausted (&quot;memory&quot;, &quot;timeout&quot;, &quot;depth&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional trace ID for correlation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_extended_diagnostic_record" kindref="compound">ExtendedDiagnosticRecord</ref> with RESOURCE_EXHAUSTION context </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="359" column="38" bodyfile="include/process/process_diagnostics_api.h" bodystart="548" bodyend="576"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_extended_process_diagnostics_1a448b5931d0b3db8d35dda3e6ee1a1b1b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ExtendedProcessDiagnostics::ExtendedProcessDiagnostics</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ExtendedProcessDiagnostics</name>
+        <qualifiedname>themis::process::ExtendedProcessDiagnostics::ExtendedProcessDiagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics_api.h" line="368" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extended factory for creating diagnostics with high-churn and tracing context. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends <ref refid="classthemis_1_1process_1_1_process_diagnostics" kindref="compound">ProcessDiagnostics</ref> from <ref refid="process__diagnostics_8h" kindref="compound">process_diagnostics.h</ref> with additional factory methods for churn, conflict, and traced incidents. </para>
+    </detaileddescription>
+    <location file="include/process/process_diagnostics_api.h" line="248" column="1" bodyfile="include/process/process_diagnostics_api.h" bodystart="248" bodyend="369"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_extended_process_diagnostics_1ad74637ff2aa3ad943172c46c9e3389f9" prot="public" virt="non-virtual"><scope>themis::process::ExtendedProcessDiagnostics</scope><name>createChurnIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_process_diagnostics_1aec3ee54d1dbdf9d34324b50fd36fce86" prot="public" virt="non-virtual"><scope>themis::process::ExtendedProcessDiagnostics</scope><name>createConflictIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_process_diagnostics_1aaec2770579bcebe8a8a39f56c22bca94" prot="public" virt="non-virtual"><scope>themis::process::ExtendedProcessDiagnostics</scope><name>createResourceExhaustionIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_process_diagnostics_1a5daca01664ecb5347f974d362af6e8f6" prot="public" virt="non-virtual"><scope>themis::process::ExtendedProcessDiagnostics</scope><name>createTracedIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_extended_process_diagnostics_1a448b5931d0b3db8d35dda3e6ee1a1b1b" prot="private" virt="non-virtual"><scope>themis::process::ExtendedProcessDiagnostics</scope><name>ExtendedProcessDiagnostics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

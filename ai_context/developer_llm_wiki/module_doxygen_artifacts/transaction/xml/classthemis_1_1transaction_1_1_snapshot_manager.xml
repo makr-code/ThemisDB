@@ -1,0 +1,867 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_snapshot_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::SnapshotManager</compoundname>
+    <includes refid="snapshot__manager_8h" local="no">snapshot_manager.h</includes>
+    <innerclass refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" prot="public">themis::transaction::SnapshotManager::Snapshot</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_stats" prot="public">themis::transaction::SnapshotManager::SnapshotStats</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy" prot="public">themis::transaction::SnapshotManager::RetentionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_restore_result" prot="public">themis::transaction::SnapshotManager::RestoreResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_snapshot_manager_1a5c30de0654e27ce324ff55187283bae2" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::transaction::SnapshotManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::transaction::SnapshotManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="186" column="20" bodyfile="include/transaction/snapshot_manager.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_snapshot_manager_1aa7e1d21ad34e5eb792765db9eac49229" prot="private" static="no" mutable="no">
+        <type>Changefeed &amp;</type>
+        <definition>Changefeed&amp; themis::transaction::SnapshotManager::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::transaction::SnapshotManager::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="187" column="16" bodyfile="include/transaction/snapshot_manager.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_snapshot_manager_1a9e31104d479947277bf40da9d2fdf53c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::transaction::SnapshotManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::transaction::SnapshotManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="189" column="24" bodyfile="include/transaction/snapshot_manager.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_snapshot_manager_1a44924d4b6fe98fd4f6441c153583ba8c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy" kindref="compound">RetentionPolicy</ref></type>
+        <definition>RetentionPolicy themis::transaction::SnapshotManager::retention_policy_</definition>
+        <argsstring></argsstring>
+        <name>retention_policy_</name>
+        <qualifiedname>themis::transaction::SnapshotManager::retention_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="190" column="21" bodyfile="include/transaction/snapshot_manager.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_snapshot_manager_1af6d7f191271c9f1faa5f701695054731" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::transaction::SnapshotManager::SNAPSHOT_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>SNAPSHOT_PREFIX</name>
+        <qualifiedname>themis::transaction::SnapshotManager::SNAPSHOT_PREFIX</qualifiedname>
+        <initializer>= &quot;snapshot:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="193" column="33" bodyfile="include/transaction/snapshot_manager.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1ad5e7b1e4ff33e24983789489d0822de3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::SnapshotManager::SnapshotManager</definition>
+        <argsstring>(RocksDBWrapper &amp;db, Changefeed &amp;changefeed)</argsstring>
+        <name>SnapshotManager</name>
+        <qualifiedname>themis::transaction::SnapshotManager::SnapshotManager</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>Changefeed &amp;</type>
+          <declname>changefeed</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" kindref="compound">Snapshot</ref> Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="70" column="14" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a5caf79c221597fbdd62257c7e774b8e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::SnapshotManager::~SnapshotManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SnapshotManager</name>
+        <qualifiedname>themis::transaction::SnapshotManager::~SnapshotManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a9341155a1754bffc808ba012fc6ccfb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::SnapshotManager::SnapshotManager</definition>
+        <argsstring>(const SnapshotManager &amp;)=delete</argsstring>
+        <name>SnapshotManager</name>
+        <qualifiedname>themis::transaction::SnapshotManager::SnapshotManager</qualifiedname>
+        <param>
+          <type>const SnapshotManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1ad697d0114026956a183881f520a91cbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_snapshot_manager_1ad5e7b1e4ff33e24983789489d0822de3" kindref="member">SnapshotManager</ref> &amp;</type>
+        <definition>SnapshotManager &amp; themis::transaction::SnapshotManager::operator=</definition>
+        <argsstring>(const SnapshotManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::SnapshotManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_snapshot_manager_1ad5e7b1e4ff33e24983789489d0822de3" kindref="member">SnapshotManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="76" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a779798f2c06fc3628dae523c9823c4ca" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::SnapshotManager::SnapshotManager</definition>
+        <argsstring>(SnapshotManager &amp;&amp;) noexcept=default</argsstring>
+        <name>SnapshotManager</name>
+        <qualifiedname>themis::transaction::SnapshotManager::SnapshotManager</qualifiedname>
+        <param>
+          <type>SnapshotManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1ab8d734bf5be0948301457645852b0db9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_snapshot_manager_1ad5e7b1e4ff33e24983789489d0822de3" kindref="member">SnapshotManager</ref> &amp;</type>
+        <definition>SnapshotManager &amp; themis::transaction::SnapshotManager::operator=</definition>
+        <argsstring>(SnapshotManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::SnapshotManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_snapshot_manager_1ad5e7b1e4ff33e24983789489d0822de3" kindref="member">SnapshotManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="78" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1aedd6526535bbcea14602e3723414fb11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" kindref="compound">Snapshot</ref> &gt;</type>
+        <definition>std::optional&lt; SnapshotManager::Snapshot &gt; themis::transaction::SnapshotManager::createTag</definition>
+        <argsstring>(const std::string &amp;tag_name, const std::string &amp;description, const std::string &amp;created_by=&quot;system&quot;)</argsstring>
+        <name>createTag</name>
+        <qualifiedname>themis::transaction::SnapshotManager::createTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>created_by</declname>
+          <defval>&quot;system&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a new tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">created_by</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1transaction_1_1_snapshot_manager_1ae345f6f160350029a58f33ebfb894487" kindref="member">isValidTagName()</ref>, spdlog::error(), <ref refid="classthemis_1_1transaction_1_1_snapshot_manager_1ab5cedf91c43354fbc23f70111a28317e" kindref="member">tagExists()</ref>, getLatestSequence(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="80" column="19" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="73" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1aebf3226a256cae79e752122ae6e43fc6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" kindref="compound">Snapshot</ref> &gt;</type>
+        <definition>std::optional&lt; SnapshotManager::Snapshot &gt; themis::transaction::SnapshotManager::getTag</definition>
+        <argsstring>(const std::string &amp;tag_name) const</argsstring>
+        <name>getTag</name>
+        <qualifiedname>themis::transaction::SnapshotManager::getTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="91" column="19" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="119" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a6fade0388dc136abb3894a645a6bc86c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" kindref="compound">Snapshot</ref> &gt;</type>
+        <definition>std::vector&lt; SnapshotManager::Snapshot &gt; themis::transaction::SnapshotManager::listTags</definition>
+        <argsstring>(size_t limit=0, const std::string &amp;sort_by=&quot;timestamp&quot;, bool ascending=false) const</argsstring>
+        <name>listTags</name>
+        <qualifiedname>themis::transaction::SnapshotManager::listTags</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sort_by</declname>
+          <defval>&quot;timestamp&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ascending</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="93" column="17" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="138" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a2a56272ebd4e25b15726f25d75e49524" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::SnapshotManager::deleteTag</definition>
+        <argsstring>(const std::string &amp;tag_name)</argsstring>
+        <name>deleteTag</name>
+        <qualifiedname>themis::transaction::SnapshotManager::deleteTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Delete Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1transaction_1_1_snapshot_manager_1ab5cedf91c43354fbc23f70111a28317e" kindref="member">tagExists()</ref>, spdlog::warn(), makeKey(), del(), spdlog::error(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="104" column="10" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="217" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1ab5cedf91c43354fbc23f70111a28317e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::SnapshotManager::tagExists</definition>
+        <argsstring>(const std::string &amp;tag_name) const</argsstring>
+        <name>tagExists</name>
+        <qualifiedname>themis::transaction::SnapshotManager::tagExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Tag Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="111" column="10" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="236" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a36b1701ac53e88b1fa59d229f6a25548" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot_stats" kindref="compound">SnapshotStats</ref></type>
+        <definition>SnapshotManager::SnapshotStats themis::transaction::SnapshotManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::transaction::SnapshotManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="117" column="19" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="243" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a1b2ebf44766807a5e71fb58a35656a07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt; uint64_t &gt; themis::transaction::SnapshotManager::getSequenceForTag</definition>
+        <argsstring>(const std::string &amp;tag_name) const</argsstring>
+        <name>getSequenceForTag</name>
+        <qualifiedname>themis::transaction::SnapshotManager::getSequenceForTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Sequence For Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="124" column="19" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="284" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a7c0d2fd3a88a4f0d1ee1e335b6e9f444" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt; int64_t &gt; themis::transaction::SnapshotManager::getTimestampForTag</definition>
+        <argsstring>(const std::string &amp;tag_name) const</argsstring>
+        <name>getTimestampForTag</name>
+        <qualifiedname>themis::transaction::SnapshotManager::getTimestampForTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Timestamp For Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="131" column="19" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="293" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a70ab61726d3bf7dd8a6f062557a62dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::SnapshotManager::setRetentionPolicy</definition>
+        <argsstring>(const RetentionPolicy &amp;policy)</argsstring>
+        <name>setRetentionPolicy</name>
+        <qualifiedname>themis::transaction::SnapshotManager::setRetentionPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy" kindref="compound">RetentionPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Retention Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>-<mdash/> Phase 7: GC &amp; Retention Policy -<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="152" column="10" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="359" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a8edc68f3114f0ff8736987113fbd2843" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::SnapshotManager::pruneOldSnapshots</definition>
+        <argsstring>()</argsstring>
+        <name>pruneOldSnapshots</name>
+        <qualifiedname>themis::transaction::SnapshotManager::pruneOldSnapshots</qualifiedname>
+        <briefdescription>
+<para>Prune Old Snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), newIterator(), spdlog::warn(), std::move(), value(), Seek(), Valid(), Next(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="158" column="12" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="371" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1ad8b8d227d93bc3ecf2317453d5f4856d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::SnapshotManager::checkConsistency</definition>
+        <argsstring>() const</argsstring>
+        <name>checkConsistency</name>
+        <qualifiedname>themis::transaction::SnapshotManager::checkConsistency</qualifiedname>
+        <briefdescription>
+<para>Check Consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="164" column="12" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="446" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a5eb9a5e2b774a832a4022350add6a457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_restore_result" kindref="compound">RestoreResult</ref></type>
+        <definition>SnapshotManager::RestoreResult themis::transaction::SnapshotManager::restoreToTag</definition>
+        <argsstring>(const std::string &amp;tag_name, const std::string &amp;created_by=&quot;system&quot;)</argsstring>
+        <name>restoreToTag</name>
+        <qualifiedname>themis::transaction::SnapshotManager::restoreToTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>created_by</declname>
+          <defval>&quot;system&quot;</defval>
+        </param>
+        <briefdescription>
+<para>-<mdash/> Phase 7: <ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" kindref="compound">Snapshot</ref> Restore -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">created_by</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="182" column="19" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="489" bodyend="549"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1ae345f6f160350029a58f33ebfb894487" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::SnapshotManager::isValidTagName</definition>
+        <argsstring>(const std::string &amp;tag_name)</argsstring>
+        <name>isValidTagName</name>
+        <qualifiedname>themis::transaction::SnapshotManager::isValidTagName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid Tag Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), length(), pattern(), std::regex_match(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="138" column="17" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="308" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a3f12389105314bd4b7209099dbad48cc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::SnapshotManager::makeKey</definition>
+        <argsstring>(const std::string &amp;tag_name) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::transaction::SnapshotManager::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag_name</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tag_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tag. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="200" column="17" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="320" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1af5af0ec7511a40403f076ebc4aef0294" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::SnapshotManager::extractTagName</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>extractTagName</name>
+        <qualifiedname>themis::transaction::SnapshotManager::extractTagName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Extract Tag Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="207" column="17" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="325" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a7059d4362c77a44a90f032325a006884" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::transaction::SnapshotManager::serialize</definition>
+        <argsstring>(const Snapshot &amp;snapshot) const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::transaction::SnapshotManager::serialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" kindref="compound">Snapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Serialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="214" column="17" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="334" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_snapshot_manager_1a5378658feca4e1e4c5e70bed650497a5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_snapshot" kindref="compound">Snapshot</ref> &gt;</type>
+        <definition>std::optional&lt; SnapshotManager::Snapshot &gt; themis::transaction::SnapshotManager::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data) const</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::transaction::SnapshotManager::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="221" column="19" bodyfile="src/transaction/snapshot_manager.cpp" bodystart="341" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/snapshot_manager.h" line="28" column="1" bodyfile="include/transaction/snapshot_manager.h" bodystart="28" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1aa7e1d21ad34e5eb792765db9eac49229" prot="private" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1ad8b8d227d93bc3ecf2317453d5f4856d" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>checkConsistency</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1aedd6526535bbcea14602e3723414fb11" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>createTag</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a5c30de0654e27ce324ff55187283bae2" prot="private" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a2a56272ebd4e25b15726f25d75e49524" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>deleteTag</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a5378658feca4e1e4c5e70bed650497a5" prot="private" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>deserialize</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1af5af0ec7511a40403f076ebc4aef0294" prot="private" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>extractTagName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a1b2ebf44766807a5e71fb58a35656a07" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>getSequenceForTag</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a36b1701ac53e88b1fa59d229f6a25548" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1aebf3226a256cae79e752122ae6e43fc6" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>getTag</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a7c0d2fd3a88a4f0d1ee1e335b6e9f444" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>getTimestampForTag</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1ae345f6f160350029a58f33ebfb894487" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>isValidTagName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a6fade0388dc136abb3894a645a6bc86c" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>listTags</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a3f12389105314bd4b7209099dbad48cc" prot="private" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a9e31104d479947277bf40da9d2fdf53c" prot="private" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1ad697d0114026956a183881f520a91cbc" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1ab8d734bf5be0948301457645852b0db9" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a8edc68f3114f0ff8736987113fbd2843" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>pruneOldSnapshots</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a5eb9a5e2b774a832a4022350add6a457" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>restoreToTag</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a44924d4b6fe98fd4f6441c153583ba8c" prot="private" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>retention_policy_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a7059d4362c77a44a90f032325a006884" prot="private" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a70ab61726d3bf7dd8a6f062557a62dc5" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>setRetentionPolicy</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1af6d7f191271c9f1faa5f701695054731" prot="private" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>SNAPSHOT_PREFIX</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1ad5e7b1e4ff33e24983789489d0822de3" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>SnapshotManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a9341155a1754bffc808ba012fc6ccfb3" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>SnapshotManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a779798f2c06fc3628dae523c9823c4ca" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>SnapshotManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1ab5cedf91c43354fbc23f70111a28317e" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>tagExists</name></member>
+      <member refid="classthemis_1_1transaction_1_1_snapshot_manager_1a5caf79c221597fbdd62257c7e774b8e8" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager</scope><name>~SnapshotManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

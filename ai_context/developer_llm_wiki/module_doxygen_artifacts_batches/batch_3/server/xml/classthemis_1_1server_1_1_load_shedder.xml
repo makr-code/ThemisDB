@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_load_shedder" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::LoadShedder</compoundname>
+    <includes refid="load__shedder_8h" local="no">load_shedder.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_load_shedder_1_1_config" prot="public">themis::server::LoadShedder::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1server_1_1_load_shedder_1af962563879d5e8604bbd2bc3d443e419" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Priority</name>
+        <qualifiedname>themis::server::LoadShedder::Priority</qualifiedname>
+        <enumvalue id="classthemis_1_1server_1_1_load_shedder_1af962563879d5e8604bbd2bc3d443e419ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1server_1_1_load_shedder_1af962563879d5e8604bbd2bc3d443e419a1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1server_1_1_load_shedder_1af962563879d5e8604bbd2bc3d443e419a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="30" column="5" bodyfile="include/server/load_shedder.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_load_shedder_1a8b6897af11d8da3275a5e63350753f2c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_load_shedder_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::LoadShedder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::LoadShedder::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="61" column="12" bodyfile="include/server/load_shedder.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_load_shedder_1ae2a8a3a2c14a8f1e51e4f135e3f5133f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::server::LoadShedder::cpu_usage_</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage_</name>
+        <qualifiedname>themis::server::LoadShedder::cpu_usage_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="62" column="17" bodyfile="include/server/load_shedder.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_load_shedder_1aa1aa7ef5028eacf6768e842359c035d3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::server::LoadShedder::memory_usage_</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_</name>
+        <qualifiedname>themis::server::LoadShedder::memory_usage_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="63" column="17" bodyfile="include/server/load_shedder.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_load_shedder_1a7ce71d1a072697ee9364bc73b6a7d0e4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::server::LoadShedder::queue_depth_</definition>
+        <argsstring></argsstring>
+        <name>queue_depth_</name>
+        <qualifiedname>themis::server::LoadShedder::queue_depth_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="64" column="17" bodyfile="include/server/load_shedder.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_load_shedder_1a5e59c8cf70934d8f4acaf2e3eba6db39" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::LoadShedder::LoadShedder</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>LoadShedder</name>
+        <qualifiedname>themis::server::LoadShedder::LoadShedder</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_load_shedder_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Load Shedder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="37" column="14" bodyfile="src/server/load_shedder.cpp" bodystart="18" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_load_shedder_1a4b65ca53947ca542efebaa9af03f274b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::LoadShedder::shouldReject</definition>
+        <argsstring>(Priority prio) const</argsstring>
+        <name>shouldReject</name>
+        <qualifiedname>themis::server::LoadShedder::shouldReject</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_load_shedder_1af962563879d5e8604bbd2bc3d443e419" kindref="member">Priority</ref></type>
+          <declname>prio</declname>
+        </param>
+        <briefdescription>
+<para>Should Reject. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="44" column="10" bodyfile="src/server/load_shedder.cpp" bodystart="23" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_load_shedder_1aaf4f1d6203a84ae8e7773bfcc2ed13b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::LoadShedder::updateLoad</definition>
+        <argsstring>(double cpu_usage, double memory_usage, size_t queue_depth)</argsstring>
+        <name>updateLoad</name>
+        <qualifiedname>themis::server::LoadShedder::updateLoad</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>cpu_usage</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>memory_usage</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>queue_depth</declname>
+        </param>
+        <briefdescription>
+<para>Update Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cpu_usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">memory_usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cpu_usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">memory_usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="52" column="10" bodyfile="src/server/load_shedder.cpp" bodystart="55" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_load_shedder_1adbd54c6ddc3eb56754aea2f25b49e7f5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::server::LoadShedder::getCurrentLoad</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentLoad</name>
+        <qualifiedname>themis::server::LoadShedder::getCurrentLoad</qualifiedname>
+        <briefdescription>
+<para>Get Current Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/load_shedder.h" line="58" column="12" bodyfile="src/server/load_shedder.cpp" bodystart="61" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/load_shedder.h" line="21" column="1" bodyfile="include/server/load_shedder.h" bodystart="21" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_load_shedder_1a8b6897af11d8da3275a5e63350753f2c" prot="private" virt="non-virtual"><scope>themis::server::LoadShedder</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_load_shedder_1ae2a8a3a2c14a8f1e51e4f135e3f5133f" prot="private" virt="non-virtual"><scope>themis::server::LoadShedder</scope><name>cpu_usage_</name></member>
+      <member refid="classthemis_1_1server_1_1_load_shedder_1adbd54c6ddc3eb56754aea2f25b49e7f5" prot="public" virt="non-virtual"><scope>themis::server::LoadShedder</scope><name>getCurrentLoad</name></member>
+      <member refid="classthemis_1_1server_1_1_load_shedder_1a5e59c8cf70934d8f4acaf2e3eba6db39" prot="public" virt="non-virtual"><scope>themis::server::LoadShedder</scope><name>LoadShedder</name></member>
+      <member refid="classthemis_1_1server_1_1_load_shedder_1aa1aa7ef5028eacf6768e842359c035d3" prot="private" virt="non-virtual"><scope>themis::server::LoadShedder</scope><name>memory_usage_</name></member>
+      <member refid="classthemis_1_1server_1_1_load_shedder_1af962563879d5e8604bbd2bc3d443e419" prot="public" virt="non-virtual"><scope>themis::server::LoadShedder</scope><name>Priority</name></member>
+      <member refid="classthemis_1_1server_1_1_load_shedder_1a7ce71d1a072697ee9364bc73b6a7d0e4" prot="private" virt="non-virtual"><scope>themis::server::LoadShedder</scope><name>queue_depth_</name></member>
+      <member refid="classthemis_1_1server_1_1_load_shedder_1a4b65ca53947ca542efebaa9af03f274b" prot="public" virt="non-virtual"><scope>themis::server::LoadShedder</scope><name>shouldReject</name></member>
+      <member refid="classthemis_1_1server_1_1_load_shedder_1aaf4f1d6203a84ae8e7773bfcc2ed13b8" prot="public" virt="non-virtual"><scope>themis::server::LoadShedder</scope><name>updateLoad</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

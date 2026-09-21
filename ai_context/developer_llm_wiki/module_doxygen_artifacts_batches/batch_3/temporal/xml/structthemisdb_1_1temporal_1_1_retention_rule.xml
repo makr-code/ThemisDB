@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_retention_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::RetentionRule</compoundname>
+    <includes refid="retention__manager_8h" local="no">retention_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_rule_1ab3451329791dfd784c114c344c83557a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6c" kindref="member">RetentionType</ref></type>
+        <definition>RetentionType themisdb::temporal::RetentionRule::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca7b13ca71d545e3fb822b4c90a876bb83" kindref="member">RetentionType::TIME_BASED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="66" column="31" bodyfile="include/temporal/retention_manager.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_rule_1ac5e805053dbee83671bd0ec9c788a6fb" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::temporal::RetentionRule::period</definition>
+        <argsstring></argsstring>
+        <name>period</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::period</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>TIME_BASED: retention window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="67" column="31" bodyfile="include/temporal/retention_manager.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_rule_1a1289768adf479fcc5788a65d9ec53131" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::RetentionRule::max_versions</definition>
+        <argsstring></argsstring>
+        <name>max_versions</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::max_versions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>VERSION_COUNT_BASED: history depth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="68" column="31" bodyfile="include/temporal/retention_manager.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_rule_1a6ddda1365589e010251cfbd0f49bcd6f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::RetentionRule::max_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_bytes</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::max_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>STORAGE_BASED: max historical bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="69" column="31" bodyfile="include/temporal/retention_manager.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_retention_rule_1a0056e4fe2d38baffb2e242ce3e33cabe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::RetentionRule::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::tag</qualifiedname>
+        <briefdescription>
+<para>Compliance / identifier label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="70" column="31" bodyfile="include/temporal/retention_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_retention_rule_1a55b33087b567f74c6cfbdf9a8af7e192" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref></type>
+        <definition>static RetentionRule themisdb::temporal::RetentionRule::timeBased</definition>
+        <argsstring>(std::chrono::milliseconds p, std::string compliance_tag={}) noexcept</argsstring>
+        <name>timeBased</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::timeBased</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>compliance_tag</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Convenience factory: create a TIME_BASED rule. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="75" column="26" bodyfile="include/temporal/retention_manager.h" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_retention_rule_1a859e847eccf22d604c83395ed7c621e0" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref></type>
+        <definition>static RetentionRule themisdb::temporal::RetentionRule::versionCount</definition>
+        <argsstring>(size_t n, std::string compliance_tag={}) noexcept</argsstring>
+        <name>versionCount</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::versionCount</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>compliance_tag</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Convenience factory: create a VERSION_COUNT_BASED rule. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="83" column="26" bodyfile="include/temporal/retention_manager.h" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_retention_rule_1a0e6ecfd20610727e12f613dd9c819774" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref></type>
+        <definition>static RetentionRule themisdb::temporal::RetentionRule::storageBased</definition>
+        <argsstring>(uint64_t max_b, std::string compliance_tag={}) noexcept</argsstring>
+        <name>storageBased</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::storageBased</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>max_b</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>compliance_tag</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Convenience factory: create a STORAGE_BASED rule. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="92" column="26" bodyfile="include/temporal/retention_manager.h" bodystart="92" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_retention_rule_1adc99447ba314cba06cb51f47a127ccb4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::RetentionRule::operator==</definition>
+        <argsstring>(const RetentionRule &amp;rhs) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="98" column="10" bodyfile="src/temporal/retention_manager.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_retention_rule_1a7c44955b975430070cd9b308266155e4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::RetentionRule::operator&lt;</definition>
+        <argsstring>(const RetentionRule &amp;rhs) const noexcept</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themisdb::temporal::RetentionRule::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="99" column="5" bodyfile="src/temporal/retention_manager.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal, comparable representation of a single retention rule. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_retention_policy" kindref="compound">RetentionPolicy</ref></computeroutput> is the full configuration object. <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_retention_rule" kindref="compound">RetentionRule</ref></computeroutput> distils a policy down to its essential discriminant so that rules can be stored in ordered containers (<computeroutput>std::set</computeroutput>, <computeroutput>std::map</computeroutput>) and compared for equality without dragging in the non-comparable <computeroutput>should_keep</computeroutput> predicate.</para>
+<para>Field semantics per <computeroutput><ref refid="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6c" kindref="member">RetentionType</ref></computeroutput>:<itemizedlist>
+<listitem><para><computeroutput>TIME_BASED</computeroutput>: only <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1ac5e805053dbee83671bd0ec9c788a6fb" kindref="member">period</ref></computeroutput> is relevant.</para>
+</listitem><listitem><para><computeroutput>VERSION_COUNT_BASED</computeroutput>: only <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a1289768adf479fcc5788a65d9ec53131" kindref="member">max_versions</ref></computeroutput> is relevant.</para>
+</listitem><listitem><para><computeroutput>STORAGE_BASED</computeroutput>: only <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a6ddda1365589e010251cfbd0f49bcd6f" kindref="member">max_bytes</ref></computeroutput> is relevant.</para>
+</listitem><listitem><para><computeroutput>CUSTOM</computeroutput>: only <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a0056e4fe2d38baffb2e242ce3e33cabe" kindref="member">tag</ref></computeroutput> is relevant (predicate is not stored).</para>
+</listitem></itemizedlist>
+</para>
+<para>Ordering (for <computeroutput>std::map</computeroutput> / <computeroutput>std::set</computeroutput>): Lexicographic on <computeroutput>(<ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1ab3451329791dfd784c114c344c83557a" kindref="member">type</ref>, period.count(), <ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a1289768adf479fcc5788a65d9ec53131" kindref="member">max_versions</ref>, <ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a6ddda1365589e010251cfbd0f49bcd6f" kindref="member">max_bytes</ref>, <ref refid="structthemisdb_1_1temporal_1_1_retention_rule_1a0056e4fe2d38baffb2e242ce3e33cabe" kindref="member">tag</ref>)</computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/temporal/retention_manager.h" line="65" column="1" bodyfile="include/temporal/retention_manager.h" bodystart="65" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1a6ddda1365589e010251cfbd0f49bcd6f" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>max_bytes</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1a1289768adf479fcc5788a65d9ec53131" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>max_versions</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1a7c44955b975430070cd9b308266155e4" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>operator&lt;</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1adc99447ba314cba06cb51f47a127ccb4" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>operator==</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1ac5e805053dbee83671bd0ec9c788a6fb" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>period</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1a0e6ecfd20610727e12f613dd9c819774" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>storageBased</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1a0056e4fe2d38baffb2e242ce3e33cabe" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>tag</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1a55b33087b567f74c6cfbdf9a8af7e192" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>timeBased</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1ab3451329791dfd784c114c344c83557a" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_retention_rule_1a859e847eccf22d604c83395ed7c621e0" prot="public" virt="non-virtual"><scope>themisdb::temporal::RetentionRule</scope><name>versionCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

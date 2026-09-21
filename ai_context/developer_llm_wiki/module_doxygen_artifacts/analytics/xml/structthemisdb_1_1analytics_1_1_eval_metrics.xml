@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_eval_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::EvalMetrics</compoundname>
+    <includes refid="automl_8h" local="no">automl.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_eval_metrics_1aa8c21ccbd7dc42608f008dd424fba282" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="136" column="12" bodyfile="include/analytics/automl.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_eval_metrics_1ac87dccd985cf8cc6d6e2257ca5eac6b0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::f1</definition>
+        <argsstring></argsstring>
+        <name>f1</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::f1</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="137" column="12" bodyfile="include/analytics/automl.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_eval_metrics_1a1cc3a3f2dae753be97d7351300138945" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::precision</definition>
+        <argsstring></argsstring>
+        <name>precision</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::precision</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="138" column="12" bodyfile="include/analytics/automl.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_eval_metrics_1a55f3067d17797b6653b02f40add8ec90" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::recall</definition>
+        <argsstring></argsstring>
+        <name>recall</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::recall</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="139" column="12" bodyfile="include/analytics/automl.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_eval_metrics_1a0c122edfcb660dc3dfad5bc88962d135" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::auc_roc</definition>
+        <argsstring></argsstring>
+        <name>auc_roc</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::auc_roc</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="140" column="12" bodyfile="include/analytics/automl.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_eval_metrics_1a541f3da58e7d319a7389d61973bcb0c9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::r2</definition>
+        <argsstring></argsstring>
+        <name>r2</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::r2</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="141" column="12" bodyfile="include/analytics/automl.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_eval_metrics_1af88c8396fc69e0e70bd3de12385cdcf0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::rmse</definition>
+        <argsstring></argsstring>
+        <name>rmse</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::rmse</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="142" column="12" bodyfile="include/analytics/automl.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_eval_metrics_1ad715dee4ce35aa6438d0affffee4403d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::mae</definition>
+        <argsstring></argsstring>
+        <name>mae</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::mae</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="143" column="12" bodyfile="include/analytics/automl.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_eval_metrics_1a9902f3d856864588d3642960d07205d8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::mape</definition>
+        <argsstring></argsstring>
+        <name>mape</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::mape</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="144" column="12" bodyfile="include/analytics/automl.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_eval_metrics_1a315649d28e36efdc32c253c2c7f07116" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::analytics::EvalMetrics::primary</definition>
+        <argsstring>(AutoMLMetric m) const noexcept</argsstring>
+        <name>primary</name>
+        <qualifiedname>themisdb::analytics::EvalMetrics::primary</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1aff644bcfec9e03701da009f42fa36cfe" kindref="member">AutoMLMetric</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Primary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="152" column="12" bodyfile="src/analytics/automl.cpp" bodystart="82" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/automl.h" line="135" column="1" bodyfile="include/analytics/automl.h" bodystart="135" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1aa8c21ccbd7dc42608f008dd424fba282" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>accuracy</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a0c122edfcb660dc3dfad5bc88962d135" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>auc_roc</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1ac87dccd985cf8cc6d6e2257ca5eac6b0" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>f1</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1ad715dee4ce35aa6438d0affffee4403d" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>mae</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a9902f3d856864588d3642960d07205d8" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>mape</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a1cc3a3f2dae753be97d7351300138945" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>precision</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a315649d28e36efdc32c253c2c7f07116" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>primary</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a541f3da58e7d319a7389d61973bcb0c9" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>r2</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1a55f3067d17797b6653b02f40add8ec90" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>recall</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_eval_metrics_1af88c8396fc69e0e70bd3de12385cdcf0" prot="public" virt="non-virtual"><scope>themisdb::analytics::EvalMetrics</scope><name>rmse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

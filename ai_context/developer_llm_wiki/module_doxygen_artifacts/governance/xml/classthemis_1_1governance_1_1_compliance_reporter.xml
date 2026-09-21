@@ -1,0 +1,1045 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_compliance_reporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceReporter</compoundname>
+    <includes refid="compliance__reporter_8h" local="no">compliance_reporter.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report" prot="public">themis::governance::ComplianceReporter::PolicySummaryReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report" prot="public">themis::governance::ComplianceReporter::ComplianceStatusReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix" prot="public">themis::governance::ComplianceReporter::AccessControlMatrix</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report" prot="public">themis::governance::ComplianceReporter::RiskAssessmentReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report" prot="public">themis::governance::ComplianceReporter::ChangeHistoryReport</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report" prot="public">themis::governance::ComplianceReporter::CcpaReport</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReportFormat</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ReportFormat</qualifiedname>
+        <enumvalue id="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3acc8d68c551c4a9a6d5313e07de4deafd" prot="public">
+          <name>CSV</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3a4c4ad5fca2e7a3f74dbb1ced00381aa4" prot="public">
+          <name>HTML</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3abcd1b68617759b1dfcff0403a6b5a8d1" prot="public">
+          <name>PDF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="224" column="5" bodyfile="include/governance/compliance_reporting.h" bodystart="224" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ReporterState</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ReporterState</qualifiedname>
+        <enumvalue id="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a521019040a0f4f7773357aa6bc22180b" prot="public">
+          <name>DRAFT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a3379145d5ec7ceddf81819af80835636" prot="public">
+          <name>REPORTING</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a227279d022dc207ab93201dc7688680d" prot="public">
+          <name>FINALIZED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="379" column="5" bodyfile="include/governance/compliance_reporting.h" bodystart="379" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_reporter_1a8c1d703420225c2d37fd6170f01755e0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PolicyManager&gt; themis::governance::ComplianceReporter::policy_manager_</definition>
+        <argsstring></argsstring>
+        <name>policy_manager_</name>
+        <qualifiedname>themis::governance::ComplianceReporter::policy_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="237" column="21" bodyfile="include/governance/compliance_reporter.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_reporter_1a8d84451e291db3da69ddca398f60a62e" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; <ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" kindref="member">ReporterState</ref> &gt;</type>
+        <definition>std::atomic&lt;ReporterState&gt; themis::governance::ComplianceReporter::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::governance::ComplianceReporter::state_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4a521019040a0f4f7773357aa6bc22180b" kindref="member">ReporterState::DRAFT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="454" column="25" bodyfile="include/governance/compliance_reporting.h" bodystart="454" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_compliance_reporter_1a9eab6fcaaf5ef53a3eab51aac715f940" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::ComplianceReporter::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themis::governance::ComplianceReporter::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="455" column="24" bodyfile="include/governance/compliance_reporting.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a79b1d93ddbdf386c59c8bda868bf339d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ComplianceReporter::ComplianceReporter</definition>
+        <argsstring>(std::shared_ptr&lt; PolicyManager &gt; policy_manager)</argsstring>
+        <name>ComplianceReporter</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ComplianceReporter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+          <declname>policy_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="172" column="5" bodyfile="src/governance/compliance_reporter.cpp" bodystart="384" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1abf350d58524317f77bb55b08b559c902" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_coverage_analysis" kindref="compound">CoverageAnalysis</ref></type>
+        <definition>CoverageAnalysis themis::governance::ComplianceReporter::analyzeCoverage</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;resources) const</argsstring>
+        <name>analyzeCoverage</name>
+        <qualifiedname>themis::governance::ComplianceReporter::analyzeCoverage</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>resources</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resources</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="179" column="22" bodyfile="src/governance/compliance_reporter.cpp" bodystart="391" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a09f0cd8c36745b7b65dcf02fa9ccf0b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::governance::ComplianceReporter::detectOverlappingRules</definition>
+        <argsstring>() const</argsstring>
+        <name>detectOverlappingRules</name>
+        <qualifiedname>themis::governance::ComplianceReporter::detectOverlappingRules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="181" column="17" bodyfile="src/governance/compliance_reporter.cpp" bodystart="432" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a158563b99aaae069924430868d740540" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_gap" kindref="compound">ComplianceGap</ref> &gt;</type>
+        <definition>std::vector&lt; ComplianceGap &gt; themis::governance::ComplianceReporter::detectGaps</definition>
+        <argsstring>() const</argsstring>
+        <name>detectGaps</name>
+        <qualifiedname>themis::governance::ComplianceReporter::detectGaps</qualifiedname>
+        <briefdescription>
+<para>Detect Gaps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="187" column="17" bodyfile="src/governance/compliance_reporter.cpp" bodystart="481" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a7c3e40728b08eec01012b1746925a560" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_report" kindref="compound">ComplianceReport</ref></type>
+        <definition>ComplianceReport themis::governance::ComplianceReporter::generateSummaryReport</definition>
+        <argsstring>() const</argsstring>
+        <name>generateSummaryReport</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateSummaryReport</qualifiedname>
+        <briefdescription>
+<para>Generate Summary Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="193" column="22" bodyfile="src/governance/compliance_reporter.cpp" bodystart="549" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a433579bd49959a9e20e2543af8f739e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_report" kindref="compound">ComplianceReport</ref></type>
+        <definition>ComplianceReport themis::governance::ComplianceReporter::generateComplianceReport</definition>
+        <argsstring>(const std::string &amp;framework=&quot;&quot;) const</argsstring>
+        <name>generateComplianceReport</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateComplianceReport</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>framework</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="195" column="22" bodyfile="src/governance/compliance_reporter.cpp" bodystart="572" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1aeda1c18ad1ed6f90d6e36a8400eb8871" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceReporter::generateCcpaReport</definition>
+        <argsstring>(const CcpaRuleSet &amp;rule_set, int64_t window_start_ms=0, int64_t window_end_ms=INT64_MAX) const</argsstring>
+        <name>generateCcpaReport</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateCcpaReport</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_ccpa_rule_set" kindref="compound">CcpaRuleSet</ref> &amp;</type>
+          <declname>rule_set</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>window_start_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>window_end_ms</declname>
+          <defval>INT64_MAX</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="197" column="20" bodyfile="src/governance/compliance_reporter.cpp" bodystart="624" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1acb34c8c64139f6c177998a7dfcd2027f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_bias_audit_report" kindref="compound">BiasAuditReport</ref></type>
+        <definition>BiasAuditReport themis::governance::ComplianceReporter::generateBiasAuditReport</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;dataset_id, const std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, size_t &gt; &gt; &amp;field_stats) const</argsstring>
+        <name>generateBiasAuditReport</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateBiasAuditReport</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dataset_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, size_t &gt; &gt; &amp;</type>
+          <declname>field_stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="203" column="21" bodyfile="src/governance/compliance_reporter.cpp" bodystart="872" bodyend="967"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1aedaf6fe523b886f12278f13d2b269bef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceReporter::generateAccessControlMatrix</definition>
+        <argsstring>() const</argsstring>
+        <name>generateAccessControlMatrix</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateAccessControlMatrix</qualifiedname>
+        <briefdescription>
+<para>Generate Access Control Matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="214" column="20" bodyfile="src/governance/compliance_reporter.cpp" bodystart="730" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a5241bfe1cbc5fe6de7235aaf8bde7aea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_report" kindref="compound">ComplianceReport</ref></type>
+        <definition>ComplianceReport themis::governance::ComplianceReporter::generateRiskAssessmentReport</definition>
+        <argsstring>() const</argsstring>
+        <name>generateRiskAssessmentReport</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateRiskAssessmentReport</qualifiedname>
+        <briefdescription>
+<para>Generate Risk Assessment Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="220" column="22" bodyfile="src/governance/compliance_reporter.cpp" bodystart="771" bodyend="807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1acc4c42c9e67ada0ca464d3f6d0afdae1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_time_window_report" kindref="compound">TimeWindowReport</ref></type>
+        <definition>TimeWindowReport themis::governance::ComplianceReporter::generateTimeWindowReport</definition>
+        <argsstring>(const std::vector&lt; RuleEvaluationEntry &gt; &amp;entries, int64_t window_start_ms=0, int64_t window_end_ms=INT64_MAX, const std::string &amp;framework=&quot;&quot;) const</argsstring>
+        <name>generateTimeWindowReport</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateTimeWindowReport</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry" kindref="compound">RuleEvaluationEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>window_start_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>window_end_ms</declname>
+          <defval>INT64_MAX</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>framework</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="222" column="22" bodyfile="src/governance/compliance_reporter.cpp" bodystart="1064" bodyend="1117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a9c8e4c791212e0754ca66f315ba33b13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::exportReport</definition>
+        <argsstring>(const ComplianceReport &amp;report, const std::string &amp;format) const</argsstring>
+        <name>exportReport</name>
+        <qualifiedname>themis::governance::ComplianceReporter::exportReport</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_report" kindref="compound">ComplianceReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Export Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="234" column="17" bodyfile="src/governance/compliance_reporter.cpp" bodystart="809" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a2559d9070dae936e9fd9862a17cdb966" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::ComplianceReporter::ComplianceReporter</definition>
+        <argsstring>()</argsstring>
+        <name>ComplianceReporter</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ComplianceReporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="386" column="5" bodyfile="src/governance/compliance_reporting.cpp" bodystart="111" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1aba14310144757d4f4438651980c2834a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" kindref="member">ReporterState</ref></type>
+        <definition>ComplianceReporter::ReporterState themis::governance::ComplianceReporter::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::governance::ComplianceReporter::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="388" column="20" bodyfile="src/governance/compliance_reporting.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1aee27f447442c6de761606de66ab690f0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceReporter::isReadyForReporting</definition>
+        <argsstring>() const</argsstring>
+        <name>isReadyForReporting</name>
+        <qualifiedname>themis::governance::ComplianceReporter::isReadyForReporting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="390" column="11" bodyfile="src/governance/compliance_reporting.cpp" bodystart="118" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1af54efc7ca04c3addc2a6d036d9d38777" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_policy_summary_report" kindref="compound">PolicySummaryReport</ref></type>
+        <definition>ComplianceReporter::PolicySummaryReport themis::governance::ComplianceReporter::generatePolicySummary</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>generatePolicySummary</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generatePolicySummary</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Generate Policy Summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="397" column="25" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1100" bodyend="1139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a007c56f82cd5208e9d55e68525afa2e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_reporter_result" kindref="compound">ComplianceReporterResult</ref></type>
+        <definition>ComplianceReporterResult themis::governance::ComplianceReporter::generatePolicySummaryWithResult</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr)</argsstring>
+        <name>generatePolicySummaryWithResult</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generatePolicySummaryWithResult</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Generate Policy Summary With Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1governance_1_1_compliance_reporter_1aee27f447442c6de761606de66ab690f0" kindref="member">isReadyForReporting()</ref>, recordComplianceDiagnostic(), transitionState(), <ref refid="classthemis_1_1governance_1_1_compliance_reporter_1af54efc7ca04c3addc2a6d036d9d38777" kindref="member">generatePolicySummary()</ref>, toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="404" column="30" bodyfile="src/governance/compliance_reporting.cpp" bodystart="219" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1aa9b54d054e20d822073c9c9af1fddb3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_compliance_status_report" kindref="compound">ComplianceStatusReport</ref></type>
+        <definition>ComplianceReporter::ComplianceStatusReport themis::governance::ComplianceReporter::generateComplianceStatus</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const ComplianceGapDetector &amp;detector, const std::string &amp;framework=&quot;&quot;) const</argsstring>
+        <name>generateComplianceStatus</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateComplianceStatus</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_compliance_gap_detector" kindref="compound">ComplianceGapDetector</ref> &amp;</type>
+          <declname>detector</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>framework</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="408" column="28" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1141" bodyend="1182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a540e53e147679f6800834e1d11da9e30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_access_control_matrix" kindref="compound">AccessControlMatrix</ref></type>
+        <definition>ComplianceReporter::AccessControlMatrix themis::governance::ComplianceReporter::generateAccessControlMatrix</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>generateAccessControlMatrix</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateAccessControlMatrix</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Generate Access Control Matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="419" column="25" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1184" bodyend="1227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1aac2b833a7c6833c4614b8100156d4a46" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report" kindref="compound">RiskAssessmentReport</ref></type>
+        <definition>ComplianceReporter::RiskAssessmentReport themis::governance::ComplianceReporter::generateRiskAssessment</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr) const</argsstring>
+        <name>generateRiskAssessment</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateRiskAssessment</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Generate Risk Assessment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="426" column="26" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1229" bodyend="1319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a0a39d11b94ec88ea3bcf5b72d2b4fa64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report" kindref="compound">ChangeHistoryReport</ref></type>
+        <definition>ComplianceReporter::ChangeHistoryReport themis::governance::ComplianceReporter::generateChangeHistory</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, int64_t start_time=0, int64_t end_time=INT64_MAX) const</argsstring>
+        <name>generateChangeHistory</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateChangeHistory</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>start_time</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_time</declname>
+          <defval>INT64_MAX</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="428" column="25" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1321" bodyend="1348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a776a667f9be53265b96f83b655afaf0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_ccpa_report" kindref="compound">CcpaReport</ref></type>
+        <definition>ComplianceReporter::CcpaReport themis::governance::ComplianceReporter::generateCcpaReport</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, int opt_out_count=0, int64_t start_time=0, int64_t end_time=INT64_MAX) const</argsstring>
+        <name>generateCcpaReport</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateCcpaReport</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>opt_out_count</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>start_time</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_time</declname>
+          <defval>INT64_MAX</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="434" column="16" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1816" bodyend="1902"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a58895a7a1199d2af299f5b7fea10f5fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::exportReport</definition>
+        <argsstring>(const nlohmann::json &amp;report, ReportFormat format) const</argsstring>
+        <name>exportReport</name>
+        <qualifiedname>themis::governance::ComplianceReporter::exportReport</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>report</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3" kindref="member">ReportFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Export Report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="447" column="17" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1714" bodyend="1758"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a903132f133983b6cdbb7cd438b4fd6d4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::generateHTMLHeader</definition>
+        <argsstring>(const std::string &amp;title) const</argsstring>
+        <name>generateHTMLHeader</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateHTMLHeader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>title</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="449" column="18" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1760" bodyend="1774"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a41f576e024c0fb47e16c51176e6cfe92" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::generateHTMLFooter</definition>
+        <argsstring>() const</argsstring>
+        <name>generateHTMLFooter</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateHTMLFooter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="451" column="18" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1776" bodyend="1778"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a513719f15a2a9cb3070a6d3d795e79ee" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::governance::ComplianceReporter::calculateComplianceScore</definition>
+        <argsstring>(const std::vector&lt; ComplianceGap &gt; &amp;gaps) const</argsstring>
+        <name>calculateComplianceScore</name>
+        <qualifiedname>themis::governance::ComplianceReporter::calculateComplianceScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1governance_1_1_compliance_gap" kindref="compound">ComplianceGap</ref> &gt; &amp;</type>
+          <declname>gaps</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Compliance Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gaps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="244" column="12" bodyfile="src/governance/compliance_reporter.cpp" bodystart="825" bodyend="845"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a69135c6c13ff97b9e010bf5b7ebacaab" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::reportToCSV</definition>
+        <argsstring>(const ComplianceReport &amp;report) const</argsstring>
+        <name>reportToCSV</name>
+        <qualifiedname>themis::governance::ComplianceReporter::reportToCSV</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_compliance_report" kindref="compound">ComplianceReport</ref> &amp;</type>
+          <declname>report</declname>
+        </param>
+        <briefdescription>
+<para>Report To CSV. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">report</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="251" column="17" bodyfile="src/governance/compliance_reporter.cpp" bodystart="847" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a4fbf97a51d772dd3ae94672b74b34f50" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceReporter::hasRequiredControls</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>hasRequiredControls</name>
+        <qualifiedname>themis::governance::ComplianceReporter::hasRequiredControls</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Has Required Controls. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporter.h" line="258" column="10" bodyfile="src/governance/compliance_reporter.cpp" bodystart="867" bodyend="870"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1ad77649e2f7a321bad3e785d52c45d374" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceReporter::transitionState</definition>
+        <argsstring>(ReporterState expected, ReporterState target) const</argsstring>
+        <name>transitionState</name>
+        <qualifiedname>themis::governance::ComplianceReporter::transitionState</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" kindref="member">ReporterState</ref></type>
+          <declname>expected</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" kindref="member">ReporterState</ref></type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Transition State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="463" column="10" bodyfile="src/governance/compliance_reporting.cpp" bodystart="122" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1a0fab34b93192ee48f12a7e6df6535d5c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::generateHTMLOptimized</definition>
+        <argsstring>(const std::string &amp;title, const std::vector&lt; std::string &gt; &amp;headers, const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;rows) const</argsstring>
+        <name>generateHTMLOptimized</name>
+        <qualifiedname>themis::governance::ComplianceReporter::generateHTMLOptimized</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Generate HTMLOptimized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">title</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="472" column="17" bodyfile="src/governance/compliance_reporting.cpp" bodystart="139" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_compliance_reporter_1adca74b27a7989815b19724c5af8c345c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::ComplianceReporter::recordComplianceDiagnostic</definition>
+        <argsstring>(int32_t code, const std::string &amp;message, const std::string &amp;component=&quot;compliance_reporter&quot;) const</argsstring>
+        <name>recordComplianceDiagnostic</name>
+        <qualifiedname>themis::governance::ComplianceReporter::recordComplianceDiagnostic</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+          <defval>&quot;compliance_reporter&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="478" column="10" bodyfile="src/governance/compliance_reporting.cpp" bodystart="187" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporter.h" line="170" column="1" bodyfile="include/governance/compliance_reporter.h" bodystart="170" bodyend="259"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1abf350d58524317f77bb55b08b559c902" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>analyzeCoverage</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a513719f15a2a9cb3070a6d3d795e79ee" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>calculateComplianceScore</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a79b1d93ddbdf386c59c8bda868bf339d" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>ComplianceReporter</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a2559d9070dae936e9fd9862a17cdb966" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>ComplianceReporter</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a158563b99aaae069924430868d740540" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>detectGaps</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a09f0cd8c36745b7b65dcf02fa9ccf0b4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>detectOverlappingRules</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a9c8e4c791212e0754ca66f315ba33b13" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>exportReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a58895a7a1199d2af299f5b7fea10f5fb" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>exportReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1aedaf6fe523b886f12278f13d2b269bef" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateAccessControlMatrix</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a540e53e147679f6800834e1d11da9e30" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateAccessControlMatrix</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1acb34c8c64139f6c177998a7dfcd2027f" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateBiasAuditReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1aeda1c18ad1ed6f90d6e36a8400eb8871" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateCcpaReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a776a667f9be53265b96f83b655afaf0e" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateCcpaReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a0a39d11b94ec88ea3bcf5b72d2b4fa64" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateChangeHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a433579bd49959a9e20e2543af8f739e6" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateComplianceReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1aa9b54d054e20d822073c9c9af1fddb3c" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateComplianceStatus</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a41f576e024c0fb47e16c51176e6cfe92" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateHTMLFooter</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a903132f133983b6cdbb7cd438b4fd6d4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateHTMLHeader</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a0fab34b93192ee48f12a7e6df6535d5c" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateHTMLOptimized</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1af54efc7ca04c3addc2a6d036d9d38777" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generatePolicySummary</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a007c56f82cd5208e9d55e68525afa2e2" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generatePolicySummaryWithResult</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1aac2b833a7c6833c4614b8100156d4a46" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateRiskAssessment</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a5241bfe1cbc5fe6de7235aaf8bde7aea" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateRiskAssessmentReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a7c3e40728b08eec01012b1746925a560" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateSummaryReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1acc4c42c9e67ada0ca464d3f6d0afdae1" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>generateTimeWindowReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1aba14310144757d4f4438651980c2834a" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>getState</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a4fbf97a51d772dd3ae94672b74b34f50" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>hasRequiredControls</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1aee27f447442c6de761606de66ab690f0" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>isReadyForReporting</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a8c1d703420225c2d37fd6170f01755e0" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>policy_manager_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1adca74b27a7989815b19724c5af8c345c" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>recordComplianceDiagnostic</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a7ed32970f419536eb75324cd7d7cfcd4" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>ReporterState</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a334aea438ce1c237c96fd23b204a8ca3" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>ReportFormat</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a69135c6c13ff97b9e010bf5b7ebacaab" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>reportToCSV</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a8d84451e291db3da69ddca398f60a62e" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>state_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1a9eab6fcaaf5ef53a3eab51aac715f940" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>state_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_compliance_reporter_1ad77649e2f7a321bad3e785d52c45d374" prot="private" virt="non-virtual"><scope>themis::governance::ComplianceReporter</scope><name>transitionState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

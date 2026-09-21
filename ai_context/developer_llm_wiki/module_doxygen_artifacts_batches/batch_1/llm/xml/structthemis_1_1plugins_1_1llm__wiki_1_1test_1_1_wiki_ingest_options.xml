@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::test::WikiIngestOptions</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a9ff7141441a6c34210eca8261ca6475f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::test::WikiIngestOptions::recursive</definition>
+        <argsstring></argsstring>
+        <name>recursive</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiIngestOptions::recursive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="59" column="10" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a229dd402686cda03f306f11e9ae344ab" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::test::WikiIngestOptions::splitter_max_tokens</definition>
+        <argsstring></argsstring>
+        <name>splitter_max_tokens</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiIngestOptions::splitter_max_tokens</qualifiedname>
+        <initializer>= 220</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="60" column="9" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a41adb40fb45a59498600571bab7f30db" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::test::WikiIngestOptions::splitter_overlap_tokens</definition>
+        <argsstring></argsstring>
+        <name>splitter_overlap_tokens</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiIngestOptions::splitter_overlap_tokens</qualifiedname>
+        <initializer>= 40</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="61" column="9" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a2783ab787ab01c9f1b5345a22eb6e83d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::test::WikiIngestOptions::embedding_provider</definition>
+        <argsstring></argsstring>
+        <name>embedding_provider</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiIngestOptions::embedding_provider</qualifiedname>
+        <initializer>= &quot;hash&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="62" column="17" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a4e0c2b25d91e5f11991b5eed5a1c8659" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::test::WikiIngestOptions::skip_existing</definition>
+        <argsstring></argsstring>
+        <name>skip_existing</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiIngestOptions::skip_existing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="63" column="10" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="58" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="58" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a2783ab787ab01c9f1b5345a22eb6e83d" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiIngestOptions</scope><name>embedding_provider</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a9ff7141441a6c34210eca8261ca6475f" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiIngestOptions</scope><name>recursive</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a4e0c2b25d91e5f11991b5eed5a1c8659" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiIngestOptions</scope><name>skip_existing</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a229dd402686cda03f306f11e9ae344ab" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiIngestOptions</scope><name>splitter_max_tokens</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_ingest_options_1a41adb40fb45a59498600571bab7f30db" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiIngestOptions</scope><name>splitter_overlap_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

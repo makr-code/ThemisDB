@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_exemplar_reservoir_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ExemplarReservoirConfig</compoundname>
+    <includes refid="otlp__exemplar_8h" local="no">otlp_exemplar.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exemplar_reservoir_config_1a6984e2a1b326cb6fb9611bb12486adda" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62" kindref="member">ExemplarReservoirStrategy</ref></type>
+        <definition>ExemplarReservoirStrategy themis::observability::ExemplarReservoirConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::observability::ExemplarReservoirConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1observability_1ac886f26d28cc274de0f433b147b45d62a197704602d5631ee3a2b138aaa300468" kindref="member">ExemplarReservoirStrategy::ALIGNED_HISTOGRAM</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="50" column="31" bodyfile="include/observability/otlp_exemplar.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exemplar_reservoir_config_1ae795aeef4df32029dac21b322846f050" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::ExemplarReservoirConfig::reservoir_size</definition>
+        <argsstring></argsstring>
+        <name>reservoir_size</name>
+        <qualifiedname>themis::observability::ExemplarReservoirConfig::reservoir_size</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="51" column="12" bodyfile="include/observability/otlp_exemplar.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exemplar_reservoir_config_1a5cd78a8da7dd90a16c5a7f918bd54a0b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::ExemplarReservoirConfig::filter_sampled_only</definition>
+        <argsstring></argsstring>
+        <name>filter_sampled_only</name>
+        <qualifiedname>themis::observability::ExemplarReservoirConfig::filter_sampled_only</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="52" column="10" bodyfile="include/observability/otlp_exemplar.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/otlp_exemplar.h" line="49" column="1" bodyfile="include/observability/otlp_exemplar.h" bodystart="49" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_exemplar_reservoir_config_1a5cd78a8da7dd90a16c5a7f918bd54a0b" prot="public" virt="non-virtual"><scope>themis::observability::ExemplarReservoirConfig</scope><name>filter_sampled_only</name></member>
+      <member refid="structthemis_1_1observability_1_1_exemplar_reservoir_config_1ae795aeef4df32029dac21b322846f050" prot="public" virt="non-virtual"><scope>themis::observability::ExemplarReservoirConfig</scope><name>reservoir_size</name></member>
+      <member refid="structthemis_1_1observability_1_1_exemplar_reservoir_config_1a6984e2a1b326cb6fb9611bb12486adda" prot="public" virt="non-virtual"><scope>themis::observability::ExemplarReservoirConfig</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

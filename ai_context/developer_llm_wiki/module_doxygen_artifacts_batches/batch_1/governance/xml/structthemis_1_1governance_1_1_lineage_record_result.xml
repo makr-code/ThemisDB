@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_lineage_record_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::LineageRecordResult</compoundname>
+    <includes refid="data__lineage_8h" local="no">data_lineage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_record_result_1ac06af941c0dc64b8902fd45450837468" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffb" kindref="member">LineageError</ref></type>
+        <definition>LineageError themis::governance::LineageRecordResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::governance::LineageRecordResult::error</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1governance_1ae407164fcd838e5961c1f27627ab9ffba8c632159fa131f09d04f94e3cbcd8782" kindref="member">LineageError::kSuccess</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="99" column="18" bodyfile="include/governance/data_lineage.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_record_result_1ab1d8fb6c8d259261235466051b4c9070" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageRecordResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::governance::LineageRecordResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="100" column="17" bodyfile="include/governance/data_lineage.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_record_result_1a1405931b61d2b8963afce006c0692677" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::governance::LineageRecordResult::event_count</definition>
+        <argsstring></argsstring>
+        <name>event_count</name>
+        <qualifiedname>themis::governance::LineageRecordResult::event_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="101" column="13" bodyfile="include/governance/data_lineage.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_lineage_record_result_1a44c8b363a6c02d9ce409005a36a556d2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::LineageRecordResult::generated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>generated_at_ms</name>
+        <qualifiedname>themis::governance::LineageRecordResult::generated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="102" column="13" bodyfile="include/governance/data_lineage.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_lineage_record_result_1ad9f112ba4ae6e266aa30ca31e64dae78" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::LineageRecordResult::isSuccess</definition>
+        <argsstring>() const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::governance::LineageRecordResult::isSuccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="104" column="10" bodyfile="include/governance/data_lineage.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_lineage_record_result_1a79dd129661ab0d1afc0e7d2330b6a325" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::LineageRecordResult::getErrorName</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorName</name>
+        <qualifiedname>themis::governance::LineageRecordResult::getErrorName</qualifiedname>
+        <briefdescription>
+<para>Get Error Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_lineage.h" line="110" column="17" bodyfile="src/governance/data_lineage.cpp" bodystart="223" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/data_lineage.h" line="98" column="1" bodyfile="include/governance/data_lineage.h" bodystart="98" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_lineage_record_result_1ac06af941c0dc64b8902fd45450837468" prot="public" virt="non-virtual"><scope>themis::governance::LineageRecordResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_record_result_1ab1d8fb6c8d259261235466051b4c9070" prot="public" virt="non-virtual"><scope>themis::governance::LineageRecordResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_record_result_1a1405931b61d2b8963afce006c0692677" prot="public" virt="non-virtual"><scope>themis::governance::LineageRecordResult</scope><name>event_count</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_record_result_1a44c8b363a6c02d9ce409005a36a556d2" prot="public" virt="non-virtual"><scope>themis::governance::LineageRecordResult</scope><name>generated_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_record_result_1a79dd129661ab0d1afc0e7d2330b6a325" prot="public" virt="non-virtual"><scope>themis::governance::LineageRecordResult</scope><name>getErrorName</name></member>
+      <member refid="structthemis_1_1governance_1_1_lineage_record_result_1ad9f112ba4ae6e266aa30ca31e64dae78" prot="public" virt="non-virtual"><scope>themis::governance::LineageRecordResult</scope><name>isSuccess</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

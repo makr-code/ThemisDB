@@ -1,0 +1,487 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::ILoRADistributionManager</compoundname>
+    <derivedcompoundref refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager" prot="public" virt="non-virtual">themis::sharding::DefaultLoRADistributionManager</derivedcompoundref>
+    <includes refid="lora__artifact__distribution_8h" local="no">lora_artifact_distribution.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1ab3773bb505aafd78b6fafdcbcb247500" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::ILoRADistributionManager::~ILoRADistributionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILoRADistributionManager</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::~ILoRADistributionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="480" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1ab09f7cb523b9422d015de3285945d2fa" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref></type>
+        <definition>virtual DistributionEventId themis::sharding::ILoRADistributionManager::distributeArtifact</definition>
+        <argsstring>(const LoRAPackageRef &amp;artifact, const DistributionShardId &amp;source_shard_id, const DistributionShardId &amp;target_shard_id, const std::string &amp;batch_merkle_root={})=0</argsstring>
+        <name>distributeArtifact</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::distributeArtifact</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager_1ade3bd1e7c3e0a3ac00753187e2682ca8">distributeArtifact</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref" kindref="compound">LoRAPackageRef</ref> &amp;</type>
+          <declname>artifact</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref> &amp;</type>
+          <declname>source_shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref> &amp;</type>
+          <declname>target_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>batch_merkle_root</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Initiate distribution of an artifact to one target shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates a Pending receipt, schedules the transfer, and returns the event identifier. Callers should poll <ref refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a6b8b27f4813bc69374488e93c09deb5e" kindref="member">getDistributionStatus()</ref> or register a callback via onDistributionComplete().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifact</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to the artifact to distribute. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Originating shard (or &quot;external&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>batch_merkle_root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Merkle root of the batch this event belongs to. Pass an empty string to compute a single-artifact root. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> for tracking this event. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if artifact.isValid() is false. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="497" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a4bcb2a83aae6b50aa480e799b94d6439" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref>, <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &gt;</type>
+        <definition>virtual std::unordered_map&lt; DistributionShardId, DistributionEventId &gt; themis::sharding::ILoRADistributionManager::distributeToAllShards</definition>
+        <argsstring>(const LoRAPackageRef &amp;artifact, const DistributionShardId &amp;source_shard_id, const std::vector&lt; DistributionShardId &gt; &amp;target_shard_ids)=0</argsstring>
+        <name>distributeToAllShards</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::distributeToAllShards</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager_1ab26b3d9fd2e5ed77d2e1a3be718fbeb0">distributeToAllShards</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref" kindref="compound">LoRAPackageRef</ref> &amp;</type>
+          <declname>artifact</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref> &amp;</type>
+          <declname>source_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref> &gt; &amp;</type>
+          <declname>target_shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Distribute an artifact to all registered shards in a single batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A single Merkle tree is computed for all target shards&apos; receipts in this batch, ensuring they share a common batch_merkle_root.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>artifact</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Originating shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-empty list of destination shards. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map of target_shard_id → <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref>. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if target_shard_ids is empty or artifact invalid. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="516" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a5385625bf73994d36e213e44f1100a3b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::ILoRADistributionManager::confirmReceipt</definition>
+        <argsstring>(const DistributionEventId &amp;event_id, const std::string &amp;target_signature={})=0</argsstring>
+        <name>confirmReceipt</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::confirmReceipt</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager_1aadc04d7bff6dae42be3ef5dfd4442b77">confirmReceipt</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &amp;</type>
+          <declname>event_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_signature</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Confirm receipt of a previously distributed artifact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transitions the receipt from InTransit → Confirmed and records the confirmation timestamp and optional target signature.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The distribution event to confirm. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional acknowledgment signature from the target. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the event was found and successfully confirmed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="531" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a474fbb29b9ac0ff6118f309efcede77f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::ILoRADistributionManager::markFailed</definition>
+        <argsstring>(const DistributionEventId &amp;event_id, const std::string &amp;error_message)=0</argsstring>
+        <name>markFailed</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::markFailed</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager_1a8b64a7945b94ee85414774b7ffdbd52a">markFailed</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &amp;</type>
+          <declname>event_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>Mark a distribution event as failed with an error message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The distribution event that failed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable description of the failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the event was found and marked as failed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="542" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1ae4ebc2463de641b62a87d50492bf3168" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &gt;</type>
+        <definition>virtual std::optional&lt; DistributionEventId &gt; themis::sharding::ILoRADistributionManager::recoverDistribution</definition>
+        <argsstring>(const DistributionEventId &amp;failed_event_id)=0</argsstring>
+        <name>recoverDistribution</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::recoverDistribution</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager_1af08f9fdd5f18496cef1c426d6cd1ec15">recoverDistribution</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &amp;</type>
+          <declname>failed_event_id</declname>
+        </param>
+        <briefdescription>
+<para>Recover a previously failed distribution by retrying. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates a new distribution event for the same artifact and target, linked to the original event via the receipt chain.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>failed_event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event to recover from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> for the recovery attempt, or nullopt if the original event is not in Failed state. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="556" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a6b8b27f4813bc69374488e93c09deb5e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_adapter_distribution_receipt" kindref="compound">AdapterDistributionReceipt</ref> &gt;</type>
+        <definition>virtual std::optional&lt; AdapterDistributionReceipt &gt; themis::sharding::ILoRADistributionManager::getDistributionStatus</definition>
+        <argsstring>(const DistributionEventId &amp;event_id) const =0</argsstring>
+        <name>getDistributionStatus</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::getDistributionStatus</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager_1a7e531378d71265bed6664280cef0c071">getDistributionStatus</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &amp;</type>
+          <declname>event_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the current status of a distribution event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target event identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The receipt, or nullopt if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="565" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a749a2a6d3907671b963670c3c6b20b39" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_artifact_merkle_proof" kindref="compound">ArtifactMerkleProof</ref> &gt;</type>
+        <definition>virtual std::optional&lt; ArtifactMerkleProof &gt; themis::sharding::ILoRADistributionManager::generateBatchProof</definition>
+        <argsstring>(const std::string &amp;batch_merkle_root, const std::string &amp;adapter_id, const std::string &amp;version) const =0</argsstring>
+        <name>generateBatchProof</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::generateBatchProof</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager_1afed549e349b3aec3143c1cff2b0e89cf">generateBatchProof</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>batch_merkle_root</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Generate a Merkle proof for an artifact within a named batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The batch is identified by the <computeroutput>batch_merkle_root</computeroutput> stored on each receipt. Only confirmed receipts sharing that root are treated as the batch leaves.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>batch_merkle_root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Merkle root identifying the batch. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter identifier of the artifact to prove. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version of the artifact to prove (together with adapter_id forms the unique leaf key). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Proof struct, or nullopt if the artifact is not in the batch. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="580" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a3f703e2fc2e73ce85505d7657f59a2f8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_distribution_snapshot" kindref="compound">ShardDistributionSnapshot</ref></type>
+        <definition>virtual ShardDistributionSnapshot themis::sharding::ILoRADistributionManager::takeDistributionSnapshot</definition>
+        <argsstring>(const DistributionShardId &amp;shard_id)=0</argsstring>
+        <name>takeDistributionSnapshot</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::takeDistributionSnapshot</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager_1a8b0c88872fca4990ae79c51c39d00a51">takeDistributionSnapshot</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref> &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Capture a point-in-time snapshot of distribution state for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The snapshot records all confirmed receipts at the time of the call, computes their combined Merkle root, and persists the result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The newly created snapshot. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="594" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a852aab131d0476dc3f7d817f079f1007" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &gt;</type>
+        <definition>virtual std::vector&lt; DistributionEventId &gt; themis::sharding::ILoRADistributionManager::getRecoveryOrder</definition>
+        <argsstring>(const DistributionShardId &amp;shard_id) const =0</argsstring>
+        <name>getRecoveryOrder</name>
+        <qualifiedname>themis::sharding::ILoRADistributionManager::getRecoveryOrder</qualifiedname>
+        <reimplementedby refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager_1a088d8018f542c5a5bcba746915e98cf4">getRecoveryOrder</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref> &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Determine which receipts must be replayed to recover a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compares the latest snapshot with the current confirmed receipts and returns the ordered list of event IDs not yet covered by the snapshot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to recover. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered list of DistributionEventIds to replay (oldest first). Empty if no recovery is needed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="607" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orchestrates distribution of LoRA/Adapter artifacts to ThemisDB shards. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Responsibilities:<itemizedlist>
+<listitem><para>Accept push requests for LoRA packages and portable adapter products.</para>
+</listitem><listitem><para>Issue and persist AdapterDistributionReceipts for every distribution event.</para>
+</listitem><listitem><para>Trigger Merkle proof generation for each distribution batch.</para>
+</listitem><listitem><para>Support cross-instance push (external endpoint) for federation scenarios.</para>
+</listitem><listitem><para>Expose snapshot and recovery ordering for disaster-recovery workflows.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety: all methods must be safe to call concurrently.</para>
+<para>Performance contracts: <ref refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1ab09f7cb523b9422d015de3285945d2fa" kindref="member">distributeArtifact()</ref> scheduling latency (before network I/O): ≤ 10 ms. <ref refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a5385625bf73994d36e213e44f1100a3b" kindref="member">confirmReceipt()</ref> ≤ 5 ms. <ref refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a3f703e2fc2e73ce85505d7657f59a2f8" kindref="member">takeDistributionSnapshot()</ref> ≤ 20 ms for up to 10 000 receipts. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::DefaultLoRADistributionManager</label>
+        <link refid="classthemis_1_1sharding_1_1_default_lo_r_a_distribution_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ILoRADistributionManager</label>
+        <link refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/lora_artifact_distribution.h" line="478" column="1" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="478" bodyend="609"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a5385625bf73994d36e213e44f1100a3b" prot="public" virt="pure-virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>confirmReceipt</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1ab09f7cb523b9422d015de3285945d2fa" prot="public" virt="pure-virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>distributeArtifact</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a4bcb2a83aae6b50aa480e799b94d6439" prot="public" virt="pure-virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>distributeToAllShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a749a2a6d3907671b963670c3c6b20b39" prot="public" virt="pure-virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>generateBatchProof</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a6b8b27f4813bc69374488e93c09deb5e" prot="public" virt="pure-virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>getDistributionStatus</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a852aab131d0476dc3f7d817f079f1007" prot="public" virt="pure-virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>getRecoveryOrder</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a474fbb29b9ac0ff6118f309efcede77f" prot="public" virt="pure-virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>markFailed</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1ae4ebc2463de641b62a87d50492bf3168" prot="public" virt="pure-virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>recoverDistribution</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1a3f703e2fc2e73ce85505d7657f59a2f8" prot="public" virt="pure-virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>takeDistributionSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_lo_r_a_distribution_manager_1ab3773bb505aafd78b6fafdcbcb247500" prot="public" virt="virtual"><scope>themis::sharding::ILoRADistributionManager</scope><name>~ILoRADistributionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

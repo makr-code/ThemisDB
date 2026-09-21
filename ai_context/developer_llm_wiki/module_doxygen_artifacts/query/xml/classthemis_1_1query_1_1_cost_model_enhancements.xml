@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_cost_model_enhancements" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::CostModelEnhancements</compoundname>
+    <includes refid="optimizer__cost__model__enhancements_8h" local="no">optimizer_cost_model_enhancements.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cost_model_enhancements_1a5da6331ec12e27e354ce59fb47037b00" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::CostModelEnhancements::estimateSelectivityWithHistogram</definition>
+        <argsstring>(const ColumnHistogram &amp;histogram, const std::string &amp;predicateType, const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>estimateSelectivityWithHistogram</name>
+        <qualifiedname>themis::query::CostModelEnhancements::estimateSelectivityWithHistogram</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_column_histogram" kindref="compound">ColumnHistogram</ref> &amp;</type>
+          <declname>histogram</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Selectivity With Histogram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: estimateSelectivity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="115" column="19" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="217" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cost_model_enhancements_1a8dc4a25666bea9cdc0cd5195dbdbb2e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::CostModelEnhancements::estimateJoinCardinalityWithCorrelation</definition>
+        <argsstring>(size_t leftRows, size_t rightRows, double baseSelectivity, const ColumnCorrelation *correlation=nullptr)</argsstring>
+        <name>estimateJoinCardinalityWithCorrelation</name>
+        <qualifiedname>themis::query::CostModelEnhancements::estimateJoinCardinalityWithCorrelation</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>leftRows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rightRows</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>baseSelectivity</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_column_correlation" kindref="compound">ColumnCorrelation</ref> *</type>
+          <declname>correlation</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Estimate Join Cardinality With Correlation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leftRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rightRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">baseSelectivity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">correlation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isPositive(), isNegative(), std::clamp(), max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="120" column="19" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="233" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cost_model_enhancements_1a0941886cd990b0832d49092c8d2050bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::CostModelEnhancements::estimateMultiColumnSelectivity</definition>
+        <argsstring>(const std::vector&lt; ColumnHistogram &gt; &amp;histograms, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;predicates, const std::vector&lt; ColumnCorrelation &gt; &amp;correlations)</argsstring>
+        <name>estimateMultiColumnSelectivity</name>
+        <qualifiedname>themis::query::CostModelEnhancements::estimateMultiColumnSelectivity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_column_histogram" kindref="compound">ColumnHistogram</ref> &gt; &amp;</type>
+          <declname>histograms</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>predicates</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_column_correlation" kindref="compound">ColumnCorrelation</ref> &gt; &amp;</type>
+          <declname>correlations</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="126" column="19" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="261" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cost_model_enhancements_1a6f97748f33bafed0fad090751df01313" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CostModelEnhancements::recordEstimate</definition>
+        <argsstring>(size_t actual, size_t estimate, const std::string &amp;queryTemplate, const std::string &amp;operationType)</argsstring>
+        <name>recordEstimate</name>
+        <qualifiedname>themis::query::CostModelEnhancements::recordEstimate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>actual</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimate</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>queryTemplate</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operationType</declname>
+        </param>
+        <briefdescription>
+<para>Record Estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">actual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">queryTemplate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operationType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">queryTemplate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operationType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getError(), THEMIS_WARN(), push_back(), std::move(), size(), hasSystematicUnderestimation(), hasSystematicOverestimation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="138" column="17" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="325" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cost_model_enhancements_1a6327f2c47a5c2abc0d3efb5fac9b5dba" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_estimate_validation" kindref="compound">EstimateValidation</ref> &amp;</type>
+        <definition>const EstimateValidation &amp; themis::query::CostModelEnhancements::getEstimateMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getEstimateMetrics</name>
+        <qualifiedname>themis::query::CostModelEnhancements::getEstimateMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Estimate Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getEstimateMetrics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="148" column="37" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="365" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_cost_model_enhancements_1ac6ea78716ab4e8ab4c515dfa644faa1f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::CostModelEnhancements::clearEstimateMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>clearEstimateMetrics</name>
+        <qualifiedname>themis::query::CostModelEnhancements::clearEstimateMetrics</qualifiedname>
+        <briefdescription>
+<para>Clear Estimate Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="153" column="17" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="373" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/optimizer_cost_model_enhancements.h" line="106" column="1" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="106" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_cost_model_enhancements_1ac6ea78716ab4e8ab4c515dfa644faa1f" prot="public" virt="non-virtual"><scope>themis::query::CostModelEnhancements</scope><name>clearEstimateMetrics</name></member>
+      <member refid="classthemis_1_1query_1_1_cost_model_enhancements_1a8dc4a25666bea9cdc0cd5195dbdbb2e1" prot="public" virt="non-virtual"><scope>themis::query::CostModelEnhancements</scope><name>estimateJoinCardinalityWithCorrelation</name></member>
+      <member refid="classthemis_1_1query_1_1_cost_model_enhancements_1a0941886cd990b0832d49092c8d2050bd" prot="public" virt="non-virtual"><scope>themis::query::CostModelEnhancements</scope><name>estimateMultiColumnSelectivity</name></member>
+      <member refid="classthemis_1_1query_1_1_cost_model_enhancements_1a5da6331ec12e27e354ce59fb47037b00" prot="public" virt="non-virtual"><scope>themis::query::CostModelEnhancements</scope><name>estimateSelectivityWithHistogram</name></member>
+      <member refid="classthemis_1_1query_1_1_cost_model_enhancements_1a6327f2c47a5c2abc0d3efb5fac9b5dba" prot="public" virt="non-virtual"><scope>themis::query::CostModelEnhancements</scope><name>getEstimateMetrics</name></member>
+      <member refid="classthemis_1_1query_1_1_cost_model_enhancements_1a6f97748f33bafed0fad090751df01313" prot="public" virt="non-virtual"><scope>themis::query::CostModelEnhancements</scope><name>recordEstimate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

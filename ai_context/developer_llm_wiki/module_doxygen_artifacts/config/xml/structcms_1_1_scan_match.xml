@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structcms_1_1_scan_match" kind="struct" language="C++" prot="public">
+    <compoundname>cms::ScanMatch</compoundname>
+    <includes refid="config__migration__scanner__impl_8h" local="no">config_migration_scanner_impl.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcms_1_1_scan_match_1aa3c6481e91e0961ded325f5c02fc5681" prot="public" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path cms::ScanMatch::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>cms::ScanMatch::file</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_migration_scanner_impl.h" line="48" column="17" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcms_1_1_scan_match_1af9a70e535a29bf6c7426d306478dca51" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int cms::ScanMatch::line_number</definition>
+        <argsstring></argsstring>
+        <name>line_number</name>
+        <qualifiedname>cms::ScanMatch::line_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_migration_scanner_impl.h" line="49" column="17" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcms_1_1_scan_match_1a00560e309638e864f5bc1243235047b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string cms::ScanMatch::legacy_path</definition>
+        <argsstring></argsstring>
+        <name>legacy_path</name>
+        <qualifiedname>cms::ScanMatch::legacy_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_migration_scanner_impl.h" line="50" column="17" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcms_1_1_scan_match_1ab5acb9f99f5c6ed426ce7456a3dba0ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string cms::ScanMatch::new_path</definition>
+        <argsstring></argsstring>
+        <name>new_path</name>
+        <qualifiedname>cms::ScanMatch::new_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_migration_scanner_impl.h" line="51" column="17" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcms_1_1_scan_match_1ade0a937d599aa78661f31ded2368ccf5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string cms::ScanMatch::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>cms::ScanMatch::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_migration_scanner_impl.h" line="52" column="17" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcms_1_1_scan_match_1ae327f6055ce7e56525dfc872cd2edd2b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool cms::ScanMatch::removal_due</definition>
+        <argsstring></argsstring>
+        <name>removal_due</name>
+        <qualifiedname>cms::ScanMatch::removal_due</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_migration_scanner_impl.h" line="53" column="17" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcms_1_1_scan_match_1abc473b569b118c38e2b0ef616701c793" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string cms::ScanMatch::deprecated_date</definition>
+        <argsstring></argsstring>
+        <name>deprecated_date</name>
+        <qualifiedname>cms::ScanMatch::deprecated_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_migration_scanner_impl.h" line="54" column="17" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcms_1_1_scan_match_1a33c8692fd741f1702dae9296c9201822" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string cms::ScanMatch::removal_date</definition>
+        <argsstring></argsstring>
+        <name>removal_date</name>
+        <qualifiedname>cms::ScanMatch::removal_date</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_migration_scanner_impl.h" line="55" column="17" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcms_1_1_scan_match_1ab208aea981d7667587a9f46713a5e54e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string cms::ScanMatch::migration_guide_url</definition>
+        <argsstring></argsstring>
+        <name>migration_guide_url</name>
+        <qualifiedname>cms::ScanMatch::migration_guide_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_migration_scanner_impl.h" line="56" column="17" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/config_migration_scanner_impl.h" line="47" column="1" bodyfile="include/config/config_migration_scanner_impl.h" bodystart="47" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structcms_1_1_scan_match_1ade0a937d599aa78661f31ded2368ccf5" prot="public" virt="non-virtual"><scope>cms::ScanMatch</scope><name>category</name></member>
+      <member refid="structcms_1_1_scan_match_1abc473b569b118c38e2b0ef616701c793" prot="public" virt="non-virtual"><scope>cms::ScanMatch</scope><name>deprecated_date</name></member>
+      <member refid="structcms_1_1_scan_match_1aa3c6481e91e0961ded325f5c02fc5681" prot="public" virt="non-virtual"><scope>cms::ScanMatch</scope><name>file</name></member>
+      <member refid="structcms_1_1_scan_match_1a00560e309638e864f5bc1243235047b6" prot="public" virt="non-virtual"><scope>cms::ScanMatch</scope><name>legacy_path</name></member>
+      <member refid="structcms_1_1_scan_match_1af9a70e535a29bf6c7426d306478dca51" prot="public" virt="non-virtual"><scope>cms::ScanMatch</scope><name>line_number</name></member>
+      <member refid="structcms_1_1_scan_match_1ab208aea981d7667587a9f46713a5e54e" prot="public" virt="non-virtual"><scope>cms::ScanMatch</scope><name>migration_guide_url</name></member>
+      <member refid="structcms_1_1_scan_match_1ab5acb9f99f5c6ed426ce7456a3dba0ce" prot="public" virt="non-virtual"><scope>cms::ScanMatch</scope><name>new_path</name></member>
+      <member refid="structcms_1_1_scan_match_1a33c8692fd741f1702dae9296c9201822" prot="public" virt="non-virtual"><scope>cms::ScanMatch</scope><name>removal_date</name></member>
+      <member refid="structcms_1_1_scan_match_1ae327f6055ce7e56525dfc872cd2edd2b" prot="public" virt="non-virtual"><scope>cms::ScanMatch</scope><name>removal_due</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

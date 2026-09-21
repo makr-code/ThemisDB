@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::SecureMFAValidator::Config</compoundname>
+    <includes refid="totp__replay__cache_8h" local="no">totp_replay_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a2f9d26099d63d3ffba9a432c48242bcb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::SecureMFAValidator::Config::time_step_seconds</definition>
+        <argsstring></argsstring>
+        <name>time_step_seconds</name>
+        <qualifiedname>themis::auth::SecureMFAValidator::Config::time_step_seconds</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="134" column="13" bodyfile="include/auth/totp_replay_cache.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1ad3f03712a72e258b1110410488456285" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::SecureMFAValidator::Config::code_length</definition>
+        <argsstring></argsstring>
+        <name>code_length</name>
+        <qualifiedname>themis::auth::SecureMFAValidator::Config::code_length</qualifiedname>
+        <initializer>= 6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="135" column="13" bodyfile="include/auth/totp_replay_cache.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a435e62b8ff64c063f97b4f87d64ff6f3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::SecureMFAValidator::Config::time_window</definition>
+        <argsstring></argsstring>
+        <name>time_window</name>
+        <qualifiedname>themis::auth::SecureMFAValidator::Config::time_window</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="136" column="13" bodyfile="include/auth/totp_replay_cache.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a1600afe7660ba453b325bcd9c8ee5f29" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SecureMFAValidator::Config::issuer</definition>
+        <argsstring></argsstring>
+        <name>issuer</name>
+        <qualifiedname>themis::auth::SecureMFAValidator::Config::issuer</qualifiedname>
+        <initializer>= &quot;ThemisDB&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="137" column="21" bodyfile="include/auth/totp_replay_cache.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a73e2c638149925120bef589a18690854" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::SecureMFAValidator::Config::enable_replay_protection</definition>
+        <argsstring></argsstring>
+        <name>enable_replay_protection</name>
+        <qualifiedname>themis::auth::SecureMFAValidator::Config::enable_replay_protection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="140" column="14" bodyfile="include/auth/totp_replay_cache.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a63dbc19a53bd58865c5dd7ebd52d9609" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" kindref="compound">TOTPReplayCache::Config</ref></type>
+        <definition>TOTPReplayCache::Config themis::auth::SecureMFAValidator::Config::replay_cache_config</definition>
+        <argsstring></argsstring>
+        <name>replay_cache_config</name>
+        <qualifiedname>themis::auth::SecureMFAValidator::Config::replay_cache_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="141" column="33" bodyfile="include/auth/totp_replay_cache.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1aaf020f80a8a0422f2923e157b50ce2b0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::auth::SecureMFAValidator::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::auth::SecureMFAValidator::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="147" column="23" bodyfile="include/auth/totp_replay_cache.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::auth::SecureMFAValidator::Config</label>
+        <link refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>replay_cache_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::auth::TOTPReplayCache::Config</label>
+        <link refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/totp_replay_cache.h" line="132" column="5" bodyfile="include/auth/totp_replay_cache.h" bodystart="132" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1ad3f03712a72e258b1110410488456285" prot="public" virt="non-virtual"><scope>themis::auth::SecureMFAValidator::Config</scope><name>code_length</name></member>
+      <member refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1aaf020f80a8a0422f2923e157b50ce2b0" prot="public" virt="non-virtual"><scope>themis::auth::SecureMFAValidator::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a73e2c638149925120bef589a18690854" prot="public" virt="non-virtual"><scope>themis::auth::SecureMFAValidator::Config</scope><name>enable_replay_protection</name></member>
+      <member refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a1600afe7660ba453b325bcd9c8ee5f29" prot="public" virt="non-virtual"><scope>themis::auth::SecureMFAValidator::Config</scope><name>issuer</name></member>
+      <member refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a63dbc19a53bd58865c5dd7ebd52d9609" prot="public" virt="non-virtual"><scope>themis::auth::SecureMFAValidator::Config</scope><name>replay_cache_config</name></member>
+      <member refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a2f9d26099d63d3ffba9a432c48242bcb" prot="public" virt="non-virtual"><scope>themis::auth::SecureMFAValidator::Config</scope><name>time_step_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a435e62b8ff64c063f97b4f87d64ff6f3" prot="public" virt="non-virtual"><scope>themis::auth::SecureMFAValidator::Config</scope><name>time_window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_retry_policy" kind="struct" language="C++" prot="public">
+    <compoundname>RetryPolicy</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_retry_policy_1a601244d1deb3214109cbae6a69183f17" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RetryPolicy::maxAttempts</definition>
+        <argsstring></argsstring>
+        <name>maxAttempts</name>
+        <qualifiedname>RetryPolicy::maxAttempts</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="24" column="9" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retry_policy_1ad5ed3668e7fb3f50bc24bebb8e967867" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double RetryPolicy::backoffMultiplier</definition>
+        <argsstring></argsstring>
+        <name>backoffMultiplier</name>
+        <qualifiedname>RetryPolicy::backoffMultiplier</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="25" column="12" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/utils/benchmark_runner.cpp" line="23" column="1" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="23" bodyend="26"/>
+    <listofallmembers>
+      <member refid="struct_retry_policy_1ad5ed3668e7fb3f50bc24bebb8e967867" prot="public" virt="non-virtual"><scope>RetryPolicy</scope><name>backoffMultiplier</name></member>
+      <member refid="struct_retry_policy_1a601244d1deb3214109cbae6a69183f17" prot="public" virt="non-virtual"><scope>RetryPolicy</scope><name>maxAttempts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

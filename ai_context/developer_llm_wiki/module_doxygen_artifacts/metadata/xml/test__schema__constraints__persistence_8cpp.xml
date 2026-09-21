@@ -1,0 +1,411 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__schema__constraints__persistence_8cpp" kind="file" language="C++">
+    <compoundname>test_schema_constraints_persistence.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <includes refid="schema__constraints_8h" local="yes">metadata/schema_constraints.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>metadata/schema_constraints.h</label>
+        <link refid="schema__constraints_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_schema_constraints_persistence.cpp</label>
+        <link refid="test__schema__constraints__persistence_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>variant</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_schema_constraints_persistence_test" prot="public">SchemaConstraintsPersistenceTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__schema__constraints__persistence_8cpp_1a942f7b571908ca77e273c4163f1044e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string makeTempDbPath</definition>
+        <argsstring>(const std::string &amp;prefix)</argsstring>
+        <name>makeTempDbPath</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints_persistence.cpp" line="13" column="20" bodyfile="tests/metadata/test_schema_constraints_persistence.cpp" bodystart="13" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints__persistence_8cpp_1a6f9bc5b08e1d498edc11ccb700686d50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsPersistenceTest, PersistAndReloadAllTables)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>PersistAndReloadAllTables</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints_persistence.cpp" line="43" column="1" bodyfile="tests/metadata/test_schema_constraints_persistence.cpp" bodystart="43" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints__persistence_8cpp_1a5e7b5cca2bfc7288ca7804d5ac33cd74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsPersistenceTest, PersistTableAndReload)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>PersistTableAndReload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints_persistence.cpp" line="66" column="1" bodyfile="tests/metadata/test_schema_constraints_persistence.cpp" bodystart="66" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints__persistence_8cpp_1a5d9af972c73f9fda08b4a7fd196ecb82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsPersistenceTest, LoadTableNotFound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>LoadTableNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints_persistence.cpp" line="82" column="1" bodyfile="tests/metadata/test_schema_constraints_persistence.cpp" bodystart="82" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints__persistence_8cpp_1ac765c6222405513f5fdd9d046d5155a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsPersistenceTest, LoadFromEmptyDb)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>LoadFromEmptyDb</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints_persistence.cpp" line="88" column="1" bodyfile="tests/metadata/test_schema_constraints_persistence.cpp" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints__persistence_8cpp_1af543d057f7363c9a92ef4e284b2cb8bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsPersistenceTest, PersistEmptyConstraints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>PersistEmptyConstraints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints_persistence.cpp" line="94" column="1" bodyfile="tests/metadata/test_schema_constraints_persistence.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints__persistence_8cpp_1a85594290a27486dfdec6e818cf62aee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsPersistenceTest, PersistAndReloadDefaultValue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>PersistAndReloadDefaultValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints_persistence.cpp" line="100" column="1" bodyfile="tests/metadata/test_schema_constraints_persistence.cpp" bodystart="100" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints__persistence_8cpp_1acb1e87cb8d0aacd13413230f136fd135" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsPersistenceTest, PersistAndReloadForeignKey)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>PersistAndReloadForeignKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints_persistence.cpp" line="118" column="1" bodyfile="tests/metadata/test_schema_constraints_persistence.cpp" bodystart="118" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__constraints__persistence_8cpp_1a7b8b7b3c5a4dc2e520f161f6e989567a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaConstraintsPersistenceTest, PersistReloadAndEnforce)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref></type>
+        </param>
+        <param>
+          <type>PersistReloadAndEnforce</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_constraints_persistence.cpp" line="137" column="1" bodyfile="tests/metadata/test_schema_constraints_persistence.cpp" bodystart="137" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__constraints_8h" kindref="compound">metadata/schema_constraints.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeTempDbPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix)<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/<sp/>(prefix<sp/>+<sp/>std::to_string(now))).string();</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_schema_constraints_persistence_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_schema_constraints_persistence_test_1af6d97d848801c7682e11095671353ed5" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>makeTempDbPath(</highlight><highlight class="stringliteral">&quot;test_sc_persist_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_blobdb<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_schema_constraints_persistence_test_1ae5748d954602fdacb8e66d18d8852d7e" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_schema_constraints_persistence_test_1ae5748d954602fdacb8e66d18d8852d7e" kindref="member">db_</ref>-&gt;open())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>test<sp/>database&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_schema_constraints_persistence_test_1a70236e9600c774c2d7f01754426801a0" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_schema_constraints_persistence_test_1ae5748d954602fdacb8e66d18d8852d7e" kindref="member">db_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_schema_constraints_persistence_test_1ae5748d954602fdacb8e66d18d8852d7e" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_schema_constraints_persistence_test_1ae5748d954602fdacb8e66d18d8852d7e" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>persistTo<sp/>/<sp/>loadFrom</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__schema__constraints__persistence_8cpp_1a6f9bc5b08e1d498edc11ccb700686d50" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref>,<sp/>PersistAndReloadAllTables)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" kindref="member">addConstraint</ref>(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_email&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" kindref="member">addConstraint</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_amount&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sc.<ref refid="classthemis_1_1_schema_constraints_1a71e8fc0b325b07eadc177e21f3e369fe" kindref="member">persistTo</ref>(*db_));</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc2;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>sc2.<ref refid="classthemis_1_1_schema_constraints_1a44b8ead26df0494edda6fe18879d0e00" kindref="member">loadFrom</ref>(*db_);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(loaded,<sp/>2u);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>user_cs<sp/>=<sp/>sc2.<ref refid="classthemis_1_1_schema_constraints_1a9e2367f13a7b2e955772b385a21ac139" kindref="member">getColumnConstraints</ref>(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(user_cs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(user_cs[0].kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6aeed1de8e53bda49dda97e42841cfe6c5" kindref="member">ColumnConstraint::Kind::NOT_NULL</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>order_cs<sp/>=<sp/>sc2.<ref refid="classthemis_1_1_schema_constraints_1a9e2367f13a7b2e955772b385a21ac139" kindref="member">getColumnConstraints</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(order_cs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(order_cs[0].kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a8c46d8d9d3402788403e2f6911153089" kindref="member">ColumnConstraint::Kind::CHECK</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(order_cs[0].check_expr.has_value());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*order_cs[0].check_expr,<sp/></highlight><highlight class="stringliteral">&quot;amount<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__schema__constraints__persistence_8cpp_1a6f9bc5b08e1d498edc11ccb700686d50" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref>,<sp/>PersistTableAndReload)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" kindref="member">addConstraint</ref>(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_price&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price<sp/>&gt;<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" kindref="member">addConstraint</ref>(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1ae6f1f73351ffaf9733bead3e3c53c346" kindref="member">ColumnConstraint::makeNotNull</ref>(</highlight><highlight class="stringliteral">&quot;nn_name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sc.<ref refid="classthemis_1_1_schema_constraints_1a4bd1fdc5e445c1d4926f496bfc41e306" kindref="member">persistTableTo</ref>(*db_,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc2;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sc2.<ref refid="classthemis_1_1_schema_constraints_1a1358077be81bb903e6eda38685d968c0" kindref="member">loadTableFrom</ref>(*db_,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sc2.<ref refid="classthemis_1_1_schema_constraints_1a9e2367f13a7b2e955772b385a21ac139" kindref="member">getColumnConstraints</ref>(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sc2.<ref refid="classthemis_1_1_schema_constraints_1a9e2367f13a7b2e955772b385a21ac139" kindref="member">getColumnConstraints</ref>(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__schema__constraints__persistence_8cpp_1a6f9bc5b08e1d498edc11ccb700686d50" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref>,<sp/>LoadTableNotFound)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>sc.<ref refid="classthemis_1_1_schema_constraints_1a1358077be81bb903e6eda38685d968c0" kindref="member">loadTableFrom</ref>(*db_,<sp/></highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(loaded);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__schema__constraints__persistence_8cpp_1a6f9bc5b08e1d498edc11ccb700686d50" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref>,<sp/>LoadFromEmptyDb)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>sc.<ref refid="classthemis_1_1_schema_constraints_1a44b8ead26df0494edda6fe18879d0e00" kindref="member">loadFrom</ref>(*db_);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded,<sp/>0u);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__schema__constraints__persistence_8cpp_1a6f9bc5b08e1d498edc11ccb700686d50" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref>,<sp/>PersistEmptyConstraints)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc;<sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>persistTo<sp/>on<sp/>empty<sp/>should<sp/>succeed<sp/>without<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sc.<ref refid="classthemis_1_1_schema_constraints_1a71e8fc0b325b07eadc177e21f3e369fe" kindref="member">persistTo</ref>(*db_));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__schema__constraints__persistence_8cpp_1a6f9bc5b08e1d498edc11ccb700686d50" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref>,<sp/>PersistAndReloadDefaultValue)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" kindref="member">addConstraint</ref>(</highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1abcd63e4eae1d711bfef5633132b2dd5f" kindref="member">ColumnConstraint::makeDefault</ref>(</highlight><highlight class="stringliteral">&quot;df_status&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ab3785f3d035bc53d13121969c57d2284" kindref="member">ColumnValue</ref>{std::string(</highlight><highlight class="stringliteral">&quot;draft&quot;</highlight><highlight class="normal">)}));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sc.<ref refid="classthemis_1_1_schema_constraints_1a71e8fc0b325b07eadc177e21f3e369fe" kindref="member">persistTo</ref>(*db_));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc2;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>sc2.<ref refid="classthemis_1_1_schema_constraints_1a44b8ead26df0494edda6fe18879d0e00" kindref="member">loadFrom</ref>(*db_);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/>sc2.<ref refid="classthemis_1_1_schema_constraints_1a9e2367f13a7b2e955772b385a21ac139" kindref="member">getColumnConstraints</ref>(</highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs[0].kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6a5b39c8b553c821e7cddc6da64b5bd2ee" kindref="member">ColumnConstraint::Kind::DEFAULT</ref>);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cs[0].default_value.has_value());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;std::string&gt;(*cs[0].default_value),<sp/></highlight><highlight class="stringliteral">&quot;draft&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__schema__constraints__persistence_8cpp_1a6f9bc5b08e1d498edc11ccb700686d50" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref>,<sp/>PersistAndReloadForeignKey)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" kindref="member">addConstraint</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;product_id&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1a08a87196e60424bfa003a804c83ac6dc" kindref="member">ColumnConstraint::makeForeignKey</ref>(</highlight><highlight class="stringliteral">&quot;fk_product&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sc.<ref refid="classthemis_1_1_schema_constraints_1a71e8fc0b325b07eadc177e21f3e369fe" kindref="member">persistTo</ref>(*db_));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc2;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>sc2.<ref refid="classthemis_1_1_schema_constraints_1a44b8ead26df0494edda6fe18879d0e00" kindref="member">loadFrom</ref>(*db_);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cs<sp/>=<sp/>sc2.<ref refid="classthemis_1_1_schema_constraints_1a9e2367f13a7b2e955772b385a21ac139" kindref="member">getColumnConstraints</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;product_id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cs[0].kind,<sp/><ref refid="structthemis_1_1_column_constraint_1a2a790598181ba5aca152185b8d6af2a6ab5ec1c758d5803d83495713c6f3be569" kindref="member">ColumnConstraint::Kind::FOREIGN_KEY</ref>);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cs[0].fk_table.has_value());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*cs[0].fk_table,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cs[0].fk_column.has_value());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*cs[0].fk_column,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__schema__constraints__persistence_8cpp_1a6f9bc5b08e1d498edc11ccb700686d50" kindref="member">TEST_F</ref>(<ref refid="class_schema_constraints_persistence_test" kindref="compound">SchemaConstraintsPersistenceTest</ref>,<sp/>PersistReloadAndEnforce)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="classthemis_1_1_schema_constraints_1ad274f47402ff59be622cd6ad56a76acd" kindref="member">addConstraint</ref>(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_column_constraint_1afd0f40ae1b5dcbe1bd760854e0fc752a" kindref="member">ColumnConstraint::makeCheck</ref>(</highlight><highlight class="stringliteral">&quot;chk_age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age<sp/>&gt;=<sp/>0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sc.<ref refid="classthemis_1_1_schema_constraints_1a71e8fc0b325b07eadc177e21f3e369fe" kindref="member">persistTo</ref>(*db_));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_constraints" kindref="compound">SchemaConstraints</ref><sp/>sc2;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>sc2.<ref refid="classthemis_1_1_schema_constraints_1a44b8ead26df0494edda6fe18879d0e00" kindref="member">loadFrom</ref>(*db_);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>good<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(25)}};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sc2.<ref refid="classthemis_1_1_schema_constraints_1a53d7bc3e777301f03d347036c0962ea1" kindref="member">enforce</ref>(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>good).empty());</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>ColumnValue&gt;<sp/>bad<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/>int64_t(-1)}};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sc2.<ref refid="classthemis_1_1_schema_constraints_1a53d7bc3e777301f03d347036c0962ea1" kindref="member">enforce</ref>(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>bad).size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_schema_constraints_persistence.cpp"/>
+  </compounddef>
+</doxygen>

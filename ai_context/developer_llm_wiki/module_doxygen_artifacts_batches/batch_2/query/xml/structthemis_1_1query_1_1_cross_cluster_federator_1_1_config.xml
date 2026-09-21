@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CrossClusterFederator::Config</compoundname>
+    <includes refid="cross__cluster__federation_8h" local="no">cross_cluster_federation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1a74791383f4f6eb0ecfb86e260f2f5e97" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::CrossClusterFederator::Config::enable_parallel_execution</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel_execution</name>
+        <qualifiedname>themis::query::CrossClusterFederator::Config::enable_parallel_execution</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> clusters in parallel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="56" column="18" bodyfile="include/query/cross_cluster_federation.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1a4d0d8a3f2d8d862a30f4c9bc51c5f134" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::CrossClusterFederator::Config::max_parallel_clusters</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_clusters</name>
+        <qualifiedname>themis::query::CrossClusterFederator::Config::max_parallel_clusters</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Thread-pool cap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="57" column="18" bodyfile="include/query/cross_cluster_federation.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1a3f72d0aab8e4c8cb37650ae50c872598" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::CrossClusterFederator::Config::default_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>default_timeout_ms</name>
+        <qualifiedname>themis::query::CrossClusterFederator::Config::default_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Default per-cluster timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="58" column="18" bodyfile="include/query/cross_cluster_federation.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1aa40aa00b00cb7e0a43e4fe922d26bda5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::CrossClusterFederator::Config::skip_unreachable_clusters</definition>
+        <argsstring></argsstring>
+        <name>skip_unreachable_clusters</name>
+        <qualifiedname>themis::query::CrossClusterFederator::Config::skip_unreachable_clusters</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Continue if some clusters fail. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="59" column="18" bodyfile="include/query/cross_cluster_federation.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1a1c1e993fb98012b5847fc22d4ab25a20" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::CrossClusterFederator::Config::cost_pruning_factor</definition>
+        <argsstring></argsstring>
+        <name>cost_pruning_factor</name>
+        <qualifiedname>themis::query::CrossClusterFederator::Config::cost_pruning_factor</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="60" column="18" bodyfile="include/query/cross_cluster_federation.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cross_cluster_federation.h" line="55" column="5" bodyfile="include/query/cross_cluster_federation.h" bodystart="55" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1a1c1e993fb98012b5847fc22d4ab25a20" prot="public" virt="non-virtual"><scope>themis::query::CrossClusterFederator::Config</scope><name>cost_pruning_factor</name></member>
+      <member refid="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1a3f72d0aab8e4c8cb37650ae50c872598" prot="public" virt="non-virtual"><scope>themis::query::CrossClusterFederator::Config</scope><name>default_timeout_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1a74791383f4f6eb0ecfb86e260f2f5e97" prot="public" virt="non-virtual"><scope>themis::query::CrossClusterFederator::Config</scope><name>enable_parallel_execution</name></member>
+      <member refid="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1a4d0d8a3f2d8d862a30f4c9bc51c5f134" prot="public" virt="non-virtual"><scope>themis::query::CrossClusterFederator::Config</scope><name>max_parallel_clusters</name></member>
+      <member refid="structthemis_1_1query_1_1_cross_cluster_federator_1_1_config_1aa40aa00b00cb7e0a43e4fe922d26bda5" prot="public" virt="non-virtual"><scope>themis::query::CrossClusterFederator::Config</scope><name>skip_unreachable_clusters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

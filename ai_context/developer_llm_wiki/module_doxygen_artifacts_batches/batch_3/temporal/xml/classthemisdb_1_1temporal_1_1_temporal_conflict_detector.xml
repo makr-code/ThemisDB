@@ -1,0 +1,494 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalConflictDetector</compoundname>
+    <includes refid="temporal__conflict__resolver_8h" local="no">temporal_conflict_resolver.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1ad0011f8acb298a41e37d9ef79161c327" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::TemporalConflictDetector::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="411" column="24" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a711c70c86bfb5c155b7bb25111b6ca0f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &gt;</type>
+        <definition>std::map&lt;std::string, Conflict&gt; themisdb::temporal::TemporalConflictDetector::manual_queue_</definition>
+        <argsstring></argsstring>
+        <name>manual_queue_</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::manual_queue_</qualifiedname>
+        <briefdescription>
+<para>Key: &quot;table_name|entity_id|type|local_snapshot_id|remote_snapshot_id&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="413" column="14" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a0368101c9ce3a575ebcdcfad61d28cf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalConflictDetector::TemporalConflictDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>TemporalConflictDetector</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::TemporalConflictDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="358" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1ae90aad6432677881c458f76c5a34387e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &gt;</type>
+        <definition>std::vector&lt; Conflict &gt; themisdb::temporal::TemporalConflictDetector::detectConflicts</definition>
+        <argsstring>(const std::string &amp;table_name, const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote)</argsstring>
+        <name>detectConflicts</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::detectConflicts</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Detect Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect all conflicts between <computeroutput>local</computeroutput> and <computeroutput>remote</computeroutput> for <computeroutput>table_name</computeroutput>.</para>
+<para>Each returned <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> has its <computeroutput>table_name</computeroutput> set to <computeroutput>table_name</computeroutput> and its <computeroutput>entity_id</computeroutput> set to <computeroutput>local.snapshot_id</computeroutput>.</para>
+<para><simplesect kind="return"><para>A (possibly empty) list of detected <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> objects. An empty list means the two snapshots are compatible.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: detectConcurrentUpdate(), push_back(), std::move(), detectOverlappingPeriods(), detectReferentialIntegrity(), detectUniquenessViolation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="369" column="17" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="388" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a6a34db5dc4789e05f2c9d16d40c1260b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; TemporalSnapshot &gt; themisdb::temporal::TemporalConflictDetector::autoResolveConflict</definition>
+        <argsstring>(const Conflict &amp;conflict, ConflictPolicy policy)</argsstring>
+        <name>autoResolveConflict</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::autoResolveConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837a" kindref="member">ConflictPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Auto Resolve <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Automatically resolve <computeroutput>conflict</computeroutput> using <computeroutput>policy</computeroutput>.</para>
+<para><simplesect kind="return"><para>The winning snapshot, or std::nullopt when <computeroutput>policy</computeroutput> is MANUAL (call queueForManualResolution instead).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: resolver(), resolve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="381" column="19" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="438" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a215d6be82cc353963f2e30c7e4253aac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TemporalConflictDetector::queueForManualResolution</definition>
+        <argsstring>(const std::string &amp;table_name, const Conflict &amp;conflict)</argsstring>
+        <name>queueForManualResolution</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::queueForManualResolution</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <briefdescription>
+<para>Queue For Manual Resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Queue <computeroutput>conflict</computeroutput> for manual resolution within <computeroutput>table_name</computeroutput>.</para>
+<para>The stored entry has its <computeroutput>table_name</computeroutput> field overwritten with <computeroutput>table_name</computeroutput> so the queued conflict is always self-consistent. The dedup key is derived from table_name + entity_id + conflict type + both snapshot IDs, so the same logical conflict is never queued twice for the same table.</para>
+<para><simplesect kind="return"><para>true if the conflict was queued; false if an identical conflict entry is already in the queue.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeQueueKey(), lock(), count(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="397" column="10" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="460" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a26d90f70204f38d081e64e4c3c675ed6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &gt;</type>
+        <definition>std::vector&lt; Conflict &gt; themisdb::temporal::TemporalConflictDetector::getQueuedConflicts</definition>
+        <argsstring>() const</argsstring>
+        <name>getQueuedConflicts</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::getQueuedConflicts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a snapshot of all currently queued conflicts. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="403" column="17" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="474" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a27d8603ac643bedc1ddf225f5b5bda3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalConflictDetector::clearQueue</definition>
+        <argsstring>()</argsstring>
+        <name>clearQueue</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::clearQueue</qualifiedname>
+        <briefdescription>
+<para>Clear Queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove all entries from the manual-resolution queue.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="408" column="10" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="494" bodyend="497"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a9ae7691912b0281843edac61ec3287a8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalConflictDetector::makeQueueKey</definition>
+        <argsstring>(const std::string &amp;table_name, const Conflict &amp;conflict)</argsstring>
+        <name>makeQueueKey</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::makeQueueKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <briefdescription>
+<para>Helper: generate a deterministic dedup key for a conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Queue Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeQueueKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="416" column="24" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="510" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a9a6af5b6a15d7477b32232fcbee9cd39" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &gt;</type>
+        <definition>std::optional&lt; Conflict &gt; themisdb::temporal::TemporalConflictDetector::detectConcurrentUpdate</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote)</argsstring>
+        <name>detectConcurrentUpdate</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::detectConcurrentUpdate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Sub-detectors — each returns an optional <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> if detected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Concurrent Update.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), items(), contains(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="420" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="538" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a850ac543a1031d1df26598ea5f46a548" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &gt;</type>
+        <definition>std::optional&lt; Conflict &gt; themisdb::temporal::TemporalConflictDetector::detectOverlappingPeriods</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote)</argsstring>
+        <name>detectOverlappingPeriods</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::detectOverlappingPeriods</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Detect Overlapping Periods. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), contains(), at(), is_number_integer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="425" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="593" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1aaa808da7673868fe58a9bc04b7d14e17" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &gt;</type>
+        <definition>std::optional&lt; Conflict &gt; themisdb::temporal::TemporalConflictDetector::detectReferentialIntegrity</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote)</argsstring>
+        <name>detectReferentialIntegrity</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::detectReferentialIntegrity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Detect Referential Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), contains(), at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="430" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="652" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a97d30330ebb72a4659c4c69e2bce8ec4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> &gt;</type>
+        <definition>std::optional&lt; Conflict &gt; themisdb::temporal::TemporalConflictDetector::detectUniquenessViolation</definition>
+        <argsstring>(const TemporalSnapshot &amp;local, const TemporalSnapshot &amp;remote)</argsstring>
+        <name>detectUniquenessViolation</name>
+        <qualifiedname>themisdb::temporal::TemporalConflictDetector::detectUniquenessViolation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Detect Uniqueness Violation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), items(), contains(), push_back(), empty(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="435" column="26" bodyfile="src/temporal/temporal_conflict_resolver.cpp" bodystart="687" bodyend="734"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector" kindref="compound">TemporalConflictDetector</ref></para>
+<para>Detects conflicts between two temporal snapshots of the same entity.</para>
+<para>Detection logic per <ref refid="namespacethemisdb_1_1temporal_1a32dd1992386c9bd0be79e7be8e0940b6" kindref="member">ConflictType</ref>: CONCURRENT_UPDATE – Neither HLC happened-before the other (concurrent writes) and the snapshot data differs. OVERLAPPING_PERIODS – Both snapshots carry integer &quot;valid_start&quot;/&quot;valid_end&quot; fields (half-open [start, end) intervals) that overlap while the data diverges. Fields with non-integer values are treated as &quot;no period information present&quot;. REFERENTIAL_INTEGRITY – Both snapshots carry a &quot;ref_entity_id&quot; field but the values differ. If either snapshot is missing the field, no conflict is raised. UNIQUENESS_VIOLATION – Snapshots from different source nodes carry different data. affected_columns contains the symmetric difference of diverging keys (keys that differ OR are present in only one snapshot).</para>
+<para>Auto-resolution delegates to a <ref refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver" kindref="compound">TemporalConflictResolver</ref> with the chosen policy. Conflicts queued for manual resolution are held in a thread-safe in-memory queue and can be retrieved via <ref refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a26d90f70204f38d081e64e4c3c675ed6" kindref="member">getQueuedConflicts()</ref>.</para>
+<para>Thread-safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_conflict_resolver.h" line="356" column="1" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="356" bodyend="439"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a6a34db5dc4789e05f2c9d16d40c1260b" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>autoResolveConflict</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a27d8603ac643bedc1ddf225f5b5bda3d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>clearQueue</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a9a6af5b6a15d7477b32232fcbee9cd39" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>detectConcurrentUpdate</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1ae90aad6432677881c458f76c5a34387e" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>detectConflicts</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a850ac543a1031d1df26598ea5f46a548" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>detectOverlappingPeriods</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1aaa808da7673868fe58a9bc04b7d14e17" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>detectReferentialIntegrity</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a97d30330ebb72a4659c4c69e2bce8ec4" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>detectUniquenessViolation</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a26d90f70204f38d081e64e4c3c675ed6" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>getQueuedConflicts</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a9ae7691912b0281843edac61ec3287a8" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>makeQueueKey</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a711c70c86bfb5c155b7bb25111b6ca0f" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>manual_queue_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1ad0011f8acb298a41e37d9ef79161c327" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>queue_mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a215d6be82cc353963f2e30c7e4253aac" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>queueForManualResolution</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector_1a0368101c9ce3a575ebcdcfad61d28cf6" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalConflictDetector</scope><name>TemporalConflictDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

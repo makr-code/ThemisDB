@@ -1,0 +1,1145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_merge_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::MergeEngine</compoundname>
+    <includes refid="merge__engine_8h" local="no">merge_engine.h</includes>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" prot="public">themis::transaction::MergeEngine::Conflict</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution" prot="public">themis::transaction::MergeEngine::ConflictResolution</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" prot="public">themis::transaction::MergeEngine::MergeOptions</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_stats" prot="public">themis::transaction::MergeEngine::MergeStats</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" prot="public">themis::transaction::MergeEngine::MergeResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictType</name>
+        <qualifiedname>themis::transaction::MergeEngine::ConflictType</qualifiedname>
+        <enumvalue id="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344a69edcee901debd287905c35037a89fb2" prot="public">
+          <name>MODIFY_MODIFY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344acf8b15b761bcc79a94ece94a6a647e26" prot="public">
+          <name>DELETE_MODIFY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344a9e6963b63b863b8a75c144fd26a89904" prot="public">
+          <name>MODIFY_DELETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344ab6a4c4fad07f284de37daafbaf4790ba" prot="public">
+          <name>DELETE_DELETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="30" column="5" bodyfile="include/transaction/merge_engine.h" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MergeStrategy</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeStrategy</qualifiedname>
+        <enumvalue id="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835a24d31186123f1c45fcc417d4c09090c0" prot="public">
+          <name>OURS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835a808273ac33c52c101107190cad38e1ce" prot="public">
+          <name>THEIRS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835aa60a6a471c0681e5a49c4f5d00f6bc5a" prot="public">
+          <name>MANUAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835afe48dc1aa055edc05bb3f1db44bf9e3f" prot="public">
+          <name>FAST_FORWARD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="37" column="5" bodyfile="include/transaction/merge_engine.h" bodystart="37" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_merge_engine_1a1a8a912dcedce012f68d321b431114c3" prot="private" static="no" mutable="no">
+        <type>analytics::DiffEngine &amp;</type>
+        <definition>analytics::DiffEngine&amp; themis::transaction::MergeEngine::diff_engine_</definition>
+        <argsstring></argsstring>
+        <name>diff_engine_</name>
+        <qualifiedname>themis::transaction::MergeEngine::diff_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="252" column="27" bodyfile="include/transaction/merge_engine.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_merge_engine_1ae8e96324c49344f11d03ca06ee07e25d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1transaction_1_1_snapshot_manager" kindref="compound">SnapshotManager</ref> &amp;</type>
+        <definition>SnapshotManager&amp; themis::transaction::MergeEngine::snapshot_manager_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_manager_</name>
+        <qualifiedname>themis::transaction::MergeEngine::snapshot_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="253" column="21" bodyfile="include/transaction/merge_engine.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_merge_engine_1a2db39ba350ec4212d754e1150afc4dd1" prot="private" static="no" mutable="no">
+        <type>Changefeed &amp;</type>
+        <definition>Changefeed&amp; themis::transaction::MergeEngine::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::transaction::MergeEngine::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="254" column="16" bodyfile="include/transaction/merge_engine.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_merge_engine_1af9a007652593dc7822dced7b0c2874c5" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::MergeEngine::DEFAULT_HISTORY_LIMIT</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_HISTORY_LIMIT</name>
+        <qualifiedname>themis::transaction::MergeEngine::DEFAULT_HISTORY_LIMIT</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="258" column="29" bodyfile="include/transaction/merge_engine.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::MergeEngine::MergeEngine</definition>
+        <argsstring>(analytics::DiffEngine &amp;diff_engine, SnapshotManager &amp;snapshot_manager, Changefeed &amp;changefeed)</argsstring>
+        <name>MergeEngine</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeEngine</qualifiedname>
+        <param>
+          <type>analytics::DiffEngine &amp;</type>
+          <declname>diff_engine</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_snapshot_manager" kindref="compound">SnapshotManager</ref> &amp;</type>
+          <declname>snapshot_manager</declname>
+        </param>
+        <param>
+          <type>Changefeed &amp;</type>
+          <declname>changefeed</declname>
+        </param>
+        <briefdescription>
+<para>Merge Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">diff_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">snapshot_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="155" column="14" bodyfile="src/transaction/merge_engine.cpp" bodystart="243" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a5fc63f131bb7ee69e19db6befac1e2c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::MergeEngine::~MergeEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MergeEngine</name>
+        <qualifiedname>themis::transaction::MergeEngine::~MergeEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1aed1805f7024e8f896349d3887a763cc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::MergeEngine::MergeEngine</definition>
+        <argsstring>(const MergeEngine &amp;)=delete</argsstring>
+        <name>MergeEngine</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeEngine</qualifiedname>
+        <param>
+          <type>const MergeEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="164" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1aa9f8c39f08e19b8f7c60152e9240a834" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref> &amp;</type>
+        <definition>MergeEngine &amp; themis::transaction::MergeEngine::operator=</definition>
+        <argsstring>(const MergeEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::MergeEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="165" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a4e14007be58b3d9ddc193df30d7edfb7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::MergeEngine::MergeEngine</definition>
+        <argsstring>(MergeEngine &amp;&amp;) noexcept=default</argsstring>
+        <name>MergeEngine</name>
+        <qualifiedname>themis::transaction::MergeEngine::MergeEngine</qualifiedname>
+        <param>
+          <type>MergeEngine &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="166" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1ae69294a62dc0a94ac2d25a0d22d86b03" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref> &amp;</type>
+        <definition>MergeEngine &amp; themis::transaction::MergeEngine::operator=</definition>
+        <argsstring>(MergeEngine &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::MergeEngine::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" kindref="member">MergeEngine</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="167" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1ac7f0923177ad2fb6abb3ea7ba5128d0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeEngine::MergeResult themis::transaction::MergeEngine::merge</definition>
+        <argsstring>(uint64_t base_sequence, uint64_t source_sequence, uint64_t target_sequence)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::transaction::MergeEngine::merge</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>base_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>source_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>target_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Main merge function (no-arg overload).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements merge without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="176" column="17" bodyfile="src/transaction/merge_engine.cpp" bodystart="261" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a196b3f4e5da565c2717ab7c61551359e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeEngine::MergeResult themis::transaction::MergeEngine::merge</definition>
+        <argsstring>(uint64_t base_sequence, uint64_t source_sequence, uint64_t target_sequence, const MergeOptions &amp;options)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::transaction::MergeEngine::merge</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>base_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>source_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>target_sequence</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kindref="compound">MergeOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), computeDiff(), spdlog::debug(), push_back(), size(), applyChanges(), detectConflicts(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="190" column="17" bodyfile="src/transaction/merge_engine.cpp" bodystart="278" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a880035e93b05ca2f3bc806ffe9f37c50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeEngine::MergeResult themis::transaction::MergeEngine::mergeByTag</definition>
+        <argsstring>(const std::string &amp;base_tag, const std::string &amp;source_tag, const std::string &amp;target_tag)</argsstring>
+        <name>mergeByTag</name>
+        <qualifiedname>themis::transaction::MergeEngine::mergeByTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_tag</declname>
+        </param>
+        <briefdescription>
+<para>Merge By Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge by tag (no-arg overload).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mergeByTag without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="204" column="17" bodyfile="src/transaction/merge_engine.cpp" bodystart="432" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1ab380461124d425d14134c25f1fc17124" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeEngine::MergeResult themis::transaction::MergeEngine::mergeByTag</definition>
+        <argsstring>(const std::string &amp;base_tag, const std::string &amp;source_tag, const std::string &amp;target_tag, const MergeOptions &amp;options)</argsstring>
+        <name>mergeByTag</name>
+        <qualifiedname>themis::transaction::MergeEngine::mergeByTag</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_tag</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_tag</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kindref="compound">MergeOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Merge By Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), getTag(), has_value(), fmt::format(), spdlog::error(), getLatestSequence(), <ref refid="classthemis_1_1transaction_1_1_merge_engine_1ac7f0923177ad2fb6abb3ea7ba5128d0a" kindref="member">merge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="218" column="17" bodyfile="src/transaction/merge_engine.cpp" bodystart="449" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a53c6da4627b0e0c74c8d6938848807de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_result" kindref="compound">MergeResult</ref></type>
+        <definition>MergeEngine::MergeResult themis::transaction::MergeEngine::previewMerge</definition>
+        <argsstring>(uint64_t base_sequence, uint64_t source_sequence, uint64_t target_sequence)</argsstring>
+        <name>previewMerge</name>
+        <qualifiedname>themis::transaction::MergeEngine::previewMerge</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>base_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>source_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>target_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Preview Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1transaction_1_1_merge_engine_1ac7f0923177ad2fb6abb3ea7ba5128d0a" kindref="member">merge()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="232" column="17" bodyfile="src/transaction/merge_engine.cpp" bodystart="507" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a3cb0bf3b9f976afb84c59c3c58ae32b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::MergeEngine::canFastForward</definition>
+        <argsstring>(uint64_t base_sequence, uint64_t source_sequence, uint64_t target_sequence)</argsstring>
+        <name>canFastForward</name>
+        <qualifiedname>themis::transaction::MergeEngine::canFastForward</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>base_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>source_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>target_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Can Fast Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="245" column="10" bodyfile="src/transaction/merge_engine.cpp" bodystart="518" bodyend="528"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a670e40ee7ab7e9b8f988e0f2f92eeff6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref> &gt;</type>
+        <definition>std::vector&lt; MergeEngine::Conflict &gt; themis::transaction::MergeEngine::detectConflicts</definition>
+        <argsstring>(const analytics::DiffEngine::DiffResult &amp;source_diff, const analytics::DiffEngine::DiffResult &amp;target_diff, uint64_t base_sequence)</argsstring>
+        <name>detectConflicts</name>
+        <qualifiedname>themis::transaction::MergeEngine::detectConflicts</qualifiedname>
+        <param>
+          <type>const analytics::DiffEngine::DiffResult &amp;</type>
+          <declname>source_diff</declname>
+        </param>
+        <param>
+          <type>const analytics::DiffEngine::DiffResult &amp;</type>
+          <declname>target_diff</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>base_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Detect Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_diff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_diff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_diff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_diff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addToMap(), find(), end(), getValueAtSequence(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="267" column="17" bodyfile="src/transaction/merge_engine.cpp" bodystart="539" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a91bd445b5c95c4b79dbaf9419246d2cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; analytics::DiffEngine::Change &gt;</type>
+        <definition>std::vector&lt; analytics::DiffEngine::Change &gt; themis::transaction::MergeEngine::resolveConflicts</definition>
+        <argsstring>(const std::vector&lt; Conflict &gt; &amp;conflicts, const MergeOptions &amp;options)</argsstring>
+        <name>resolveConflicts</name>
+        <qualifiedname>themis::transaction::MergeEngine::resolveConflicts</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref> &gt; &amp;</type>
+          <declname>conflicts</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_merge_options" kindref="compound">MergeOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflicts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), has_value(), push_back(), isAutoResolvable(), autoResolve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="279" column="17" bodyfile="src/transaction/merge_engine.cpp" bodystart="607" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a8f05f3ee3780d6a4daa3f0ac81d2c157" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::MergeEngine::applyChanges</definition>
+        <argsstring>(const std::vector&lt; analytics::DiffEngine::Change &gt; &amp;changes)</argsstring>
+        <name>applyChanges</name>
+        <qualifiedname>themis::transaction::MergeEngine::applyChanges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; analytics::DiffEngine::Change &gt; &amp;</type>
+          <declname>changes</declname>
+        </param>
+        <briefdescription>
+<para>Apply Changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getLatestSequence(), std::chrono::system_clock::now(), time_since_epoch(), count(), json::object(), recordEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="289" column="14" bodyfile="src/transaction/merge_engine.cpp" bodystart="681" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a6aa24f61eb067b4c27fae8ea98f8696a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::transaction::MergeEngine::getValueAtSequence</definition>
+        <argsstring>(const std::string &amp;key, uint64_t sequence)</argsstring>
+        <name>getValueAtSequence</name>
+        <qualifiedname>themis::transaction::MergeEngine::getValueAtSequence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Get Value At Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get value at sequence.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: listEvents(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="299" column="19" bodyfile="src/transaction/merge_engine.cpp" bodystart="720" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a727ae5dfa1ed709a524f3b708ef948ef" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::MergeEngine::isAutoResolvable</definition>
+        <argsstring>(const Conflict &amp;conflict) const</argsstring>
+        <name>isAutoResolvable</name>
+        <qualifiedname>themis::transaction::MergeEngine::isAutoResolvable</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <briefdescription>
+<para>Is Auto Resolvable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="309" column="10" bodyfile="src/transaction/merge_engine.cpp" bodystart="751" bodyend="763"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_merge_engine_1a87b0687d7018e23f80fd880fe3ad02f7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; analytics::DiffEngine::Change &gt;</type>
+        <definition>std::optional&lt; analytics::DiffEngine::Change &gt; themis::transaction::MergeEngine::autoResolve</definition>
+        <argsstring>(const Conflict &amp;conflict) const</argsstring>
+        <name>autoResolve</name>
+        <qualifiedname>themis::transaction::MergeEngine::autoResolve</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict" kindref="compound">Conflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <briefdescription>
+<para>Auto Resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="316" column="19" bodyfile="src/transaction/merge_engine.cpp" bodystart="766" bodyend="789"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/merge_engine.h" line="28" column="1" bodyfile="include/transaction/merge_engine.h" bodystart="28" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a8f05f3ee3780d6a4daa3f0ac81d2c157" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>applyChanges</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a87b0687d7018e23f80fd880fe3ad02f7" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>autoResolve</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a3cb0bf3b9f976afb84c59c3c58ae32b6" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>canFastForward</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a2db39ba350ec4212d754e1150afc4dd1" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1aab3793b1494f9131e1b8c9c9e26bd344" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>ConflictType</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1af9a007652593dc7822dced7b0c2874c5" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>DEFAULT_HISTORY_LIMIT</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a670e40ee7ab7e9b8f988e0f2f92eeff6" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>detectConflicts</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a1a8a912dcedce012f68d321b431114c3" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>diff_engine_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a6aa24f61eb067b4c27fae8ea98f8696a" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>getValueAtSequence</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a727ae5dfa1ed709a524f3b708ef948ef" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>isAutoResolvable</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1ac7f0923177ad2fb6abb3ea7ba5128d0a" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>merge</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a196b3f4e5da565c2717ab7c61551359e" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>merge</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a880035e93b05ca2f3bc806ffe9f37c50" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>mergeByTag</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1ab380461124d425d14134c25f1fc17124" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>mergeByTag</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a9f2cf208cf6e3864d2b6de36c156eb2c" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>MergeEngine</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1aed1805f7024e8f896349d3887a763cc9" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>MergeEngine</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a4e14007be58b3d9ddc193df30d7edfb7" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>MergeEngine</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a1e00da813a0497418746a723709cb835" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>MergeStrategy</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1aa9f8c39f08e19b8f7c60152e9240a834" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1ae69294a62dc0a94ac2d25a0d22d86b03" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a53c6da4627b0e0c74c8d6938848807de" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>previewMerge</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a91bd445b5c95c4b79dbaf9419246d2cf" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>resolveConflicts</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1ae8e96324c49344f11d03ca06ee07e25d" prot="private" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>snapshot_manager_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_merge_engine_1a5fc63f131bb7ee69e19db6befac1e2c8" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine</scope><name>~MergeEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

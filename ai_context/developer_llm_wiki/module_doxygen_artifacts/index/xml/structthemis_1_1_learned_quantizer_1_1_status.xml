@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_learned_quantizer_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LearnedQuantizer::Status</compoundname>
+    <includes refid="learned__quantizer_8h" local="no">learned_quantizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_learned_quantizer_1_1_status_1aece6ac22528c7922736d41e9ae8ab655" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LearnedQuantizer::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::LearnedQuantizer::Status::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="74" column="14" bodyfile="include/index/learned_quantizer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_learned_quantizer_1_1_status_1af605971242c38b53f87637ceefd93888" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LearnedQuantizer::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::LearnedQuantizer::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="75" column="21" bodyfile="include/index/learned_quantizer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_learned_quantizer_1_1_status_1a0a5a95037756f190e63f37b4d1c00aa3" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_learned_quantizer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::LearnedQuantizer::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::LearnedQuantizer::Status::OK</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="76" column="24" bodyfile="include/index/learned_quantizer.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_learned_quantizer_1_1_status_1a2c814529474919786555a7b2cf35e726" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_learned_quantizer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::LearnedQuantizer::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::LearnedQuantizer::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="77" column="24" bodyfile="include/index/learned_quantizer.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/learned_quantizer.h" line="73" column="5" bodyfile="include/index/learned_quantizer.h" bodystart="73" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_status_1a2c814529474919786555a7b2cf35e726" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_status_1af605971242c38b53f87637ceefd93888" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_status_1a0a5a95037756f190e63f37b4d1c00aa3" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_status_1aece6ac22528c7922736d41e9ae8ab655" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

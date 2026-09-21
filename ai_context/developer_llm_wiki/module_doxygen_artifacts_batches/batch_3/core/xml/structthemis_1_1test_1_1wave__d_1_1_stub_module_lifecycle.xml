@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::StubModuleLifecycle</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a8f47f8e0f516f128b79f07678ebccedd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::StubModuleLifecycle::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="92" column="24" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1acd2f5e7e5a760beb00c002f1fa2f750c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::test::wave_d::StubModuleLifecycle::inited_</definition>
+        <argsstring></argsstring>
+        <name>inited_</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::inited_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="93" column="24" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a958b56f9806d9d920dbbbba23d0504aa" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubModuleLifecycle::inits_</definition>
+        <argsstring></argsstring>
+        <name>inits_</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::inits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="94" column="17" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a533230bb879716e63688f2bee54b8ce0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubModuleLifecycle::teardowns_</definition>
+        <argsstring></argsstring>
+        <name>teardowns_</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::teardowns_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="95" column="17" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a606610bde0a734aee2b962e033fa9ac5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::StubModuleLifecycle::failures_</definition>
+        <argsstring></argsstring>
+        <name>failures_</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="96" column="17" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1aa0be8769ddb345a247de345501d4ceb6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubModuleLifecycle::initialize</definition>
+        <argsstring>(const std::string &amp;module_id)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="73" column="10" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1acc970395905ef3dfb8d9ff21ac520961" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::StubModuleLifecycle::teardown</definition>
+        <argsstring>(const std::string &amp;module_id)</argsstring>
+        <name>teardown</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::teardown</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="80" column="10" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a1aa3ce19fcd78b65fdaf21c8393cbec0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubModuleLifecycle::inits</definition>
+        <argsstring>() const</argsstring>
+        <name>inits</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::inits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="87" column="10" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a9ca476ca93fc47d4351fcd81efd1d7f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubModuleLifecycle::teardowns</definition>
+        <argsstring>() const</argsstring>
+        <name>teardowns</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::teardowns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="88" column="10" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a34b742a86bfc60eff5a2faf1dc9789d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::StubModuleLifecycle::failures</definition>
+        <argsstring>() const</argsstring>
+        <name>failures</name>
+        <qualifiedname>themis::test::wave_d::StubModuleLifecycle::failures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_core_highcardinality_stress.cpp" line="89" column="10" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/core/test_core_highcardinality_stress.cpp" line="72" column="1" bodyfile="tests/core/test_core_highcardinality_stress.cpp" bodystart="72" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a34b742a86bfc60eff5a2faf1dc9789d0" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>failures</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a606610bde0a734aee2b962e033fa9ac5" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>failures_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1acd2f5e7e5a760beb00c002f1fa2f750c" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>inited_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1aa0be8769ddb345a247de345501d4ceb6" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>initialize</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a1aa3ce19fcd78b65fdaf21c8393cbec0" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>inits</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a958b56f9806d9d920dbbbba23d0504aa" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>inits_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a8f47f8e0f516f128b79f07678ebccedd" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1acc970395905ef3dfb8d9ff21ac520961" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>teardown</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a9ca476ca93fc47d4351fcd81efd1d7f5" prot="public" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>teardowns</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_stub_module_lifecycle_1a533230bb879716e63688f2bee54b8ce0" prot="private" virt="non-virtual"><scope>themis::test::wave_d::StubModuleLifecycle</scope><name>teardowns_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

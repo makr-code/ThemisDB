@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::document::IXDOMEAConnector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector" prot="public" virt="non-virtual">themis::document::InMemoryXDOMEAConnector</derivedcompoundref>
+    <includes refid="xdomea__connector_8h" local="no">xdomea_connector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1ab42bf03fe310f94fb69c6c1457088a37" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::document::IXDOMEAConnector::~IXDOMEAConnector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IXDOMEAConnector</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::~IXDOMEAConnector</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector" kindref="compound">IXDOMEAConnector</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="181" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1ac7b9a771a6567cb91295d51c11fc23e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1document_1_1_x_d_o_m_e_a_import_result" kindref="compound">XDOMEAImportResult</ref></type>
+        <definition>virtual XDOMEAImportResult themis::document::IXDOMEAConnector::importFromXML</definition>
+        <argsstring>(std::string_view xml_content, XDOMEAVersion version)=0</argsstring>
+        <name>importFromXML</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::importFromXML</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector_1aebc7edc7975676f99ac12cf5ce9b016b">importFromXML</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>xml_content</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a8345c500cc3c7209425a507d53801369" kindref="member">XDOMEAVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Import From XML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="189" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1aa73ff2075619c3c9fcbc0deebcb31a10" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1document_1_1_x_d_o_m_e_a_export_result" kindref="compound">XDOMEAExportResult</ref></type>
+        <definition>virtual XDOMEAExportResult themis::document::IXDOMEAConnector::exportToXML</definition>
+        <argsstring>(const std::vector&lt; XDOMEADocument &gt; &amp;documents, XDOMEAVersion version, XDOMEAMessageType message_type)=0</argsstring>
+        <name>exportToXML</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::exportToXML</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector_1a6db10db71adec54c576d1d2270726ae3">exportToXML</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document" kindref="compound">XDOMEADocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a8345c500cc3c7209425a507d53801369" kindref="member">XDOMEAVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a8c1a7cd61551f41b1fc04addddb4dbc9" kindref="member">XDOMEAMessageType</ref></type>
+          <declname>message_type</declname>
+        </param>
+        <briefdescription>
+<para>Export To XML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="199" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1ac863af9b229d13c672a6a6a7d87e39d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IXDOMEAConnector::storeDocument</definition>
+        <argsstring>(const XDOMEADocument &amp;doc)=0</argsstring>
+        <name>storeDocument</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::storeDocument</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector_1a82d4e5a4b11493a72810ccf270f0060a">storeDocument</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document" kindref="compound">XDOMEADocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Store Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="208" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1ab5a07c5cfcb24c91525b77ad8f043f20" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document" kindref="compound">XDOMEADocument</ref> &gt;</type>
+        <definition>virtual std::optional&lt; XDOMEADocument &gt; themis::document::IXDOMEAConnector::getDocument</definition>
+        <argsstring>(std::string_view id) const =0</argsstring>
+        <name>getDocument</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::getDocument</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector_1a6fb037eeeb2d07cefe18d5897a28fed1">getDocument</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Get Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="215" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1a8886324a99096b7ef209d880741387a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document" kindref="compound">XDOMEADocument</ref> &gt;</type>
+        <definition>virtual std::vector&lt; XDOMEADocument &gt; themis::document::IXDOMEAConnector::listByType</definition>
+        <argsstring>(XDOMEAObjectType type) const =0</argsstring>
+        <name>listByType</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::listByType</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector_1ac48d4dde98808759b00d668a9b71e5f9">listByType</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a7359fd0931f97175a85c7044956ec1af" kindref="member">XDOMEAObjectType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="218" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1a123e4237ceedf8dbf7bbcaffd8df7f5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document" kindref="compound">XDOMEADocument</ref> &gt;</type>
+        <definition>virtual std::vector&lt; XDOMEADocument &gt; themis::document::IXDOMEAConnector::listByRetention</definition>
+        <argsstring>(XDOMEARetentionCategory retention) const =0</argsstring>
+        <name>listByRetention</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::listByRetention</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector_1a7fb341c911bf5434240c7d9f68d23e1f">listByRetention</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1aa8f4314205d0f230309b84b619d42073" kindref="member">XDOMEARetentionCategory</ref></type>
+          <declname>retention</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="221" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1a98203d8f58911d519f832e0bc0963e97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1document_1_1_x_d_o_m_e_a_document" kindref="compound">XDOMEADocument</ref> &gt;</type>
+        <definition>virtual std::vector&lt; XDOMEADocument &gt; themis::document::IXDOMEAConnector::listChildren</definition>
+        <argsstring>(std::string_view parent_id) const =0</argsstring>
+        <name>listChildren</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::listChildren</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector_1a16771a13d87de905fac05b509ef4bde2">listChildren</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>parent_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="224" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1a8882535354cd365ec78d8572bde2bc1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::document::IXDOMEAConnector::removeDocument</definition>
+        <argsstring>(std::string_view id)=0</argsstring>
+        <name>removeDocument</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::removeDocument</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector_1adf568e13474952e4a6667e4c9dbfdc01">removeDocument</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="230" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1aafee5791ee8d65151e6e172ca8fd1ff9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::document::IXDOMEAConnector::count</definition>
+        <argsstring>() const =0</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::document::IXDOMEAConnector::count</qualifiedname>
+        <reimplementedby refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector_1a426fd2f937715eca3dea9c67210d1ae3">count</reimplementedby>
+        <briefdescription>
+<para>Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/xdomea_connector.h" line="236" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::document::IXDOMEAConnector</label>
+        <link refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector"/>
+      </node>
+      <node id="2">
+        <label>themis::document::InMemoryXDOMEAConnector</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_x_d_o_m_e_a_connector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/document/xdomea_connector.h" line="175" column="1" bodyfile="include/document/xdomea_connector.h" bodystart="175" bodyend="237"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1aafee5791ee8d65151e6e172ca8fd1ff9" prot="public" virt="pure-virtual"><scope>themis::document::IXDOMEAConnector</scope><name>count</name></member>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1aa73ff2075619c3c9fcbc0deebcb31a10" prot="public" virt="pure-virtual"><scope>themis::document::IXDOMEAConnector</scope><name>exportToXML</name></member>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1ab5a07c5cfcb24c91525b77ad8f043f20" prot="public" virt="pure-virtual"><scope>themis::document::IXDOMEAConnector</scope><name>getDocument</name></member>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1ac7b9a771a6567cb91295d51c11fc23e6" prot="public" virt="pure-virtual"><scope>themis::document::IXDOMEAConnector</scope><name>importFromXML</name></member>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1a123e4237ceedf8dbf7bbcaffd8df7f5d" prot="public" virt="pure-virtual"><scope>themis::document::IXDOMEAConnector</scope><name>listByRetention</name></member>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1a8886324a99096b7ef209d880741387a4" prot="public" virt="pure-virtual"><scope>themis::document::IXDOMEAConnector</scope><name>listByType</name></member>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1a98203d8f58911d519f832e0bc0963e97" prot="public" virt="pure-virtual"><scope>themis::document::IXDOMEAConnector</scope><name>listChildren</name></member>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1a8882535354cd365ec78d8572bde2bc1f" prot="public" virt="pure-virtual"><scope>themis::document::IXDOMEAConnector</scope><name>removeDocument</name></member>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1ac863af9b229d13c672a6a6a7d87e39d4" prot="public" virt="pure-virtual"><scope>themis::document::IXDOMEAConnector</scope><name>storeDocument</name></member>
+      <member refid="classthemis_1_1document_1_1_i_x_d_o_m_e_a_connector_1ab42bf03fe310f94fb69c6c1457088a37" prot="public" virt="virtual"><scope>themis::document::IXDOMEAConnector</scope><name>~IXDOMEAConnector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

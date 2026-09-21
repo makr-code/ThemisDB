@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_statistics_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::StatisticsManager</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_statistics_manager_1a18e21ecf933d72946b8da976dc13713d" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">OptimizerCostModel::TableStatistics</ref>(const std::string &amp;)&gt;</type>
+        <definition>using themis::StatisticsManager::TableScanProvider = 
+std::function&lt;OptimizerCostModel::TableStatistics(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TableScanProvider</name>
+        <qualifiedname>themis::StatisticsManager::TableScanProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="376" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_statistics_manager_1a1b6d42232b33b7bf2eafda5bc63ae271" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kindref="compound">OptimizerCostModel::ColumnStatistics</ref>(const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using themis::StatisticsManager::ColumnScanProvider = 
+std::function&lt;OptimizerCostModel::ColumnStatistics(const std::string&amp;, const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ColumnScanProvider</name>
+        <qualifiedname>themis::StatisticsManager::ColumnScanProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="379" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_statistics_manager_1afefc5163ab85d18844517c8841155d4d" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics" kindref="compound">OptimizerCostModel::IndexStatistics</ref>(const std::string &amp;)&gt;</type>
+        <definition>using themis::StatisticsManager::IndexScanProvider = 
+std::function&lt;OptimizerCostModel::IndexStatistics(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>IndexScanProvider</name>
+        <qualifiedname>themis::StatisticsManager::IndexScanProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="382" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_statistics_manager_1aa93dd20fe7cc674465cccb27057b611f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">OptimizerCostModel::TableStatistics</ref> &gt;</type>
+        <definition>std::map&lt;std::string, OptimizerCostModel::TableStatistics&gt; themis::StatisticsManager::tableStats_</definition>
+        <argsstring></argsstring>
+        <name>tableStats_</name>
+        <qualifiedname>themis::StatisticsManager::tableStats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="483" column="14" bodyfile="include/query/optimizer_cost_model.h" bodystart="483" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_manager_1ab0d7cad2f3b43a3eb191e07d44c5af74" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, <ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kindref="compound">OptimizerCostModel::ColumnStatistics</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, OptimizerCostModel::ColumnStatistics&gt; &gt; themis::StatisticsManager::columnStats_</definition>
+        <argsstring></argsstring>
+        <name>columnStats_</name>
+        <qualifiedname>themis::StatisticsManager::columnStats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="484" column="14" bodyfile="include/query/optimizer_cost_model.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_manager_1a44ee15172d2aab864ebffdab84c11c49" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics" kindref="compound">OptimizerCostModel::IndexStatistics</ref> &gt;</type>
+        <definition>std::map&lt;std::string, OptimizerCostModel::IndexStatistics&gt; themis::StatisticsManager::indexStats_</definition>
+        <argsstring></argsstring>
+        <name>indexStats_</name>
+        <qualifiedname>themis::StatisticsManager::indexStats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="485" column="14" bodyfile="include/query/optimizer_cost_model.h" bodystart="485" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_manager_1a2568eeb96ef20abfd429fc9c9f3cea22" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1_statistics_manager_1a18e21ecf933d72946b8da976dc13713d" kindref="member">TableScanProvider</ref> &gt;</type>
+        <definition>std::optional&lt;TableScanProvider&gt; themis::StatisticsManager::table_scan_provider_</definition>
+        <argsstring></argsstring>
+        <name>table_scan_provider_</name>
+        <qualifiedname>themis::StatisticsManager::table_scan_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="487" column="20" bodyfile="include/query/optimizer_cost_model.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_manager_1ac24494c7861f7a096c68264733d54ae1" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1_statistics_manager_1a1b6d42232b33b7bf2eafda5bc63ae271" kindref="member">ColumnScanProvider</ref> &gt;</type>
+        <definition>std::optional&lt;ColumnScanProvider&gt; themis::StatisticsManager::column_scan_provider_</definition>
+        <argsstring></argsstring>
+        <name>column_scan_provider_</name>
+        <qualifiedname>themis::StatisticsManager::column_scan_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="488" column="19" bodyfile="include/query/optimizer_cost_model.h" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_statistics_manager_1ac95b97c3b01f895cc1b13c1966bfbcfb" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1_statistics_manager_1afefc5163ab85d18844517c8841155d4d" kindref="member">IndexScanProvider</ref> &gt;</type>
+        <definition>std::optional&lt;IndexScanProvider&gt; themis::StatisticsManager::index_scan_provider_</definition>
+        <argsstring></argsstring>
+        <name>index_scan_provider_</name>
+        <qualifiedname>themis::StatisticsManager::index_scan_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="489" column="20" bodyfile="include/query/optimizer_cost_model.h" bodystart="489" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1abc83d767c070dadfb54049a03952620c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StatisticsManager::StatisticsManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>StatisticsManager</name>
+        <qualifiedname>themis::StatisticsManager::StatisticsManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="385" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1aff051ba2cd0c69a5ce0d05e9de87900d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::setTableScanProvider</definition>
+        <argsstring>(TableScanProvider fn)</argsstring>
+        <name>setTableScanProvider</name>
+        <qualifiedname>themis::StatisticsManager::setTableScanProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_statistics_manager_1a18e21ecf933d72946b8da976dc13713d" kindref="member">TableScanProvider</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> Scan Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="392" column="10" bodyfile="include/query/optimizer_cost_model.h" bodystart="392" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1aacfd18bed3d0ae3e7f9eb74c03b90219" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::setColumnScanProvider</definition>
+        <argsstring>(ColumnScanProvider fn)</argsstring>
+        <name>setColumnScanProvider</name>
+        <qualifiedname>themis::StatisticsManager::setColumnScanProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_statistics_manager_1a1b6d42232b33b7bf2eafda5bc63ae271" kindref="member">ColumnScanProvider</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Column Scan Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="399" column="10" bodyfile="include/query/optimizer_cost_model.h" bodystart="399" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1a1b49d17e77fdae45e2c895f525af4e50" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::setIndexScanProvider</definition>
+        <argsstring>(IndexScanProvider fn)</argsstring>
+        <name>setIndexScanProvider</name>
+        <qualifiedname>themis::StatisticsManager::setIndexScanProvider</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_statistics_manager_1afefc5163ab85d18844517c8841155d4d" kindref="member">IndexScanProvider</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Index Scan Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="406" column="10" bodyfile="include/query/optimizer_cost_model.h" bodystart="406" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1a85c31f7b0db86b6d8d6c3a3aa1252df2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::collectTableStatistics</definition>
+        <argsstring>(const std::string &amp;tableName)</argsstring>
+        <name>collectTableStatistics</name>
+        <qualifiedname>themis::StatisticsManager::collectTableStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tableName</declname>
+        </param>
+        <briefdescription>
+<para>Collect <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getCurrentTimestamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="413" column="10" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="625" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1ae314954b917beb5fb45286f5d70839fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::collectColumnStatistics</definition>
+        <argsstring>(const std::string &amp;tableName, const std::string &amp;columnName)</argsstring>
+        <name>collectColumnStatistics</name>
+        <qualifiedname>themis::StatisticsManager::collectColumnStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tableName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>columnName</declname>
+        </param>
+        <briefdescription>
+<para>Collect Column Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columnName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columnName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements collectColumnStatistics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="419" column="10" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="663" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1aa4090ac919fbb7b24d1bc5d492285801" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::collectIndexStatistics</definition>
+        <argsstring>(const std::string &amp;indexName)</argsstring>
+        <name>collectIndexStatistics</name>
+        <qualifiedname>themis::StatisticsManager::collectIndexStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>indexName</declname>
+        </param>
+        <briefdescription>
+<para>Collect Index Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">indexName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">indexName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements collectIndexStatistics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="425" column="10" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="696" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1aaeb55b8c62179d023485fe8d27aa25cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::refreshAllStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>refreshAllStatistics</name>
+        <qualifiedname>themis::StatisticsManager::refreshAllStatistics</qualifiedname>
+        <briefdescription>
+<para>Refresh All Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: getCurrentTimestamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="431" column="10" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="725" bodyend="743"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1a4a1d0d126566307afdedf705ada78410" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::refreshStaleStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>refreshStaleStatistics</name>
+        <qualifiedname>themis::StatisticsManager::refreshStaleStatistics</qualifiedname>
+        <briefdescription>
+<para>Refresh Stale Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: getCurrentTimestamp(), <ref refid="classthemis_1_1_statistics_manager_1ab09a624865cf34dfe691925791b28e2b" kindref="member">areStatisticsStale()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="435" column="10" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="749" bodyend="763"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1a344b538e955122cd236f97e75d574a5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">OptimizerCostModel::TableStatistics</ref></type>
+        <definition>OptimizerCostModel::TableStatistics themis::StatisticsManager::getTableStatistics</definition>
+        <argsstring>(const std::string &amp;tableName) const</argsstring>
+        <name>getTableStatistics</name>
+        <qualifiedname>themis::StatisticsManager::getTableStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tableName</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="443" column="41" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="765" bodyend="777"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1a67af8ad6fda66e21470ac9f3520b88af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kindref="compound">OptimizerCostModel::ColumnStatistics</ref></type>
+        <definition>OptimizerCostModel::ColumnStatistics themis::StatisticsManager::getColumnStatistics</definition>
+        <argsstring>(const std::string &amp;tableName, const std::string &amp;columnName) const</argsstring>
+        <name>getColumnStatistics</name>
+        <qualifiedname>themis::StatisticsManager::getColumnStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tableName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>columnName</declname>
+        </param>
+        <briefdescription>
+<para>Get Column Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">columnName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="450" column="42" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="779" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1a44b414ae795dc79b9bc987c92a4a489f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics" kindref="compound">OptimizerCostModel::IndexStatistics</ref></type>
+        <definition>OptimizerCostModel::IndexStatistics themis::StatisticsManager::getIndexStatistics</definition>
+        <argsstring>(const std::string &amp;indexName) const</argsstring>
+        <name>getIndexStatistics</name>
+        <qualifiedname>themis::StatisticsManager::getIndexStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>indexName</declname>
+        </param>
+        <briefdescription>
+<para>Get Index Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">indexName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="457" column="41" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="797" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1abb33d3db4c0a2bad9d371d591f0f95ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::invalidateStatistics</definition>
+        <argsstring>(const std::string &amp;tableName)</argsstring>
+        <name>invalidateStatistics</name>
+        <qualifiedname>themis::StatisticsManager::invalidateStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tableName</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="464" column="10" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="816" bodyend="821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1ab09a624865cf34dfe691925791b28e2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::StatisticsManager::areStatisticsStale</definition>
+        <argsstring>(const std::string &amp;tableName, int64_t threshold) const</argsstring>
+        <name>areStatisticsStale</name>
+        <qualifiedname>themis::StatisticsManager::areStatisticsStale</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tableName</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Are Statistics Stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="471" column="10" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="823" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1a8ecbf69a29b7d04b5381e4ad7b3b05fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StatisticsManager::updateTableStatistics</definition>
+        <argsstring>(const std::string &amp;tableName, const OptimizerCostModel::TableStatistics &amp;stats)</argsstring>
+        <name>updateTableStatistics</name>
+        <qualifiedname>themis::StatisticsManager::updateTableStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tableName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">OptimizerCostModel::TableStatistics</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tableName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateTableStatistics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="479" column="10" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="846" bodyend="851"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_statistics_manager_1a5c7632c9a06c59095da27abecf46baba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::StatisticsManager::getCurrentTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimestamp</name>
+        <qualifiedname>themis::StatisticsManager::getCurrentTimestamp</qualifiedname>
+        <briefdescription>
+<para>Get Current Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="495" column="13" bodyfile="src/query/optimizer_cost_model.cpp" bodystart="614" bodyend="618"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="367" column="1" bodyfile="include/query/optimizer_cost_model.h" bodystart="367" bodyend="496"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_statistics_manager_1ab09a624865cf34dfe691925791b28e2b" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>areStatisticsStale</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1ae314954b917beb5fb45286f5d70839fc" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>collectColumnStatistics</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1aa4090ac919fbb7b24d1bc5d492285801" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>collectIndexStatistics</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a85c31f7b0db86b6d8d6c3a3aa1252df2" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>collectTableStatistics</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1ac24494c7861f7a096c68264733d54ae1" prot="private" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>column_scan_provider_</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a1b6d42232b33b7bf2eafda5bc63ae271" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>ColumnScanProvider</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1ab0d7cad2f3b43a3eb191e07d44c5af74" prot="private" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>columnStats_</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a67af8ad6fda66e21470ac9f3520b88af" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>getColumnStatistics</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a5c7632c9a06c59095da27abecf46baba" prot="private" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>getCurrentTimestamp</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a44b414ae795dc79b9bc987c92a4a489f" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>getIndexStatistics</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a344b538e955122cd236f97e75d574a5b" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>getTableStatistics</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1ac95b97c3b01f895cc1b13c1966bfbcfb" prot="private" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>index_scan_provider_</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1afefc5163ab85d18844517c8841155d4d" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>IndexScanProvider</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a44ee15172d2aab864ebffdab84c11c49" prot="private" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>indexStats_</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1abb33d3db4c0a2bad9d371d591f0f95ce" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>invalidateStatistics</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1aaeb55b8c62179d023485fe8d27aa25cb" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>refreshAllStatistics</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a4a1d0d126566307afdedf705ada78410" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>refreshStaleStatistics</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1aacfd18bed3d0ae3e7f9eb74c03b90219" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>setColumnScanProvider</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a1b49d17e77fdae45e2c895f525af4e50" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>setIndexScanProvider</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1aff051ba2cd0c69a5ce0d05e9de87900d" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>setTableScanProvider</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1abc83d767c070dadfb54049a03952620c" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>StatisticsManager</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a2568eeb96ef20abfd429fc9c9f3cea22" prot="private" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>table_scan_provider_</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a18e21ecf933d72946b8da976dc13713d" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>TableScanProvider</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1aa93dd20fe7cc674465cccb27057b611f" prot="private" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>tableStats_</name></member>
+      <member refid="classthemis_1_1_statistics_manager_1a8ecbf69a29b7d04b5381e4ad7b3b05fd" prot="public" virt="non-virtual"><scope>themis::StatisticsManager</scope><name>updateTableStatistics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

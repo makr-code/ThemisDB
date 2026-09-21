@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::batch_a9::KernelExecutionConfig</compoundname>
+    <includes refid="gpu__batch__a9__safety_8hpp" local="no">gpu_batch_a9_safety.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config_1a3b10f2ae763670d50b91b3183a6bda4b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::gpu::batch_a9::KernelExecutionConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::gpu::batch_a9::KernelExecutionConfig::timeout_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="46" column="31" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config_1a3c77456f98d2eb78747ab3779bcbc4b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::KernelExecutionConfig::enable_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>enable_cpu_fallback</name>
+        <qualifiedname>themis::gpu::batch_a9::KernelExecutionConfig::enable_cpu_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="48" column="10" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config_1ab5e65c14f514e8683e4af956975caaf3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::KernelExecutionConfig::enable_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_logging</name>
+        <qualifiedname>themis::gpu::batch_a9::KernelExecutionConfig::enable_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="50" column="10" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config_1ac6eaecb5de0710ef6b9f924045397efc" prot="public" static="no" mutable="no">
+        <type><ref refid="gpu__batch__a9__safety_8hpp_1a17334a718f9e33ac9e3b937c3212c492" kindref="member">cudaStream_t</ref></type>
+        <definition>cudaStream_t themis::gpu::batch_a9::KernelExecutionConfig::stream</definition>
+        <argsstring></argsstring>
+        <name>stream</name>
+        <qualifiedname>themis::gpu::batch_a9::KernelExecutionConfig::stream</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="52" column="18" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_batch_a9_safety.hpp" line="45" column="1" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="45" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config_1a3c77456f98d2eb78747ab3779bcbc4b4" prot="public" virt="non-virtual"><scope>themis::gpu::batch_a9::KernelExecutionConfig</scope><name>enable_cpu_fallback</name></member>
+      <member refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config_1ab5e65c14f514e8683e4af956975caaf3" prot="public" virt="non-virtual"><scope>themis::gpu::batch_a9::KernelExecutionConfig</scope><name>enable_logging</name></member>
+      <member refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config_1ac6eaecb5de0710ef6b9f924045397efc" prot="public" virt="non-virtual"><scope>themis::gpu::batch_a9::KernelExecutionConfig</scope><name>stream</name></member>
+      <member refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_config_1a3b10f2ae763670d50b91b3183a6bda4b" prot="public" virt="non-virtual"><scope>themis::gpu::batch_a9::KernelExecutionConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

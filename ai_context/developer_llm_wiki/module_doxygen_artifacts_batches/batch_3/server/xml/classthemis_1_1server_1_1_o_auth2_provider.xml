@@ -1,0 +1,1007 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_o_auth2_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::OAuth2Provider</compoundname>
+    <includes refid="oauth2__provider_8h" local="no">oauth2_provider.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_o_auth2_provider_1_1_config" prot="public">themis::server::OAuth2Provider::Config</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_o_auth2_provider_1_1_pending_entry" prot="private">themis::server::OAuth2Provider::PendingEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_o_auth2_provider_1affe46f42c3749d14310cebfb1185e566" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;refresh_token)&gt;</type>
+        <definition>using themis::server::OAuth2Provider::RefreshTokenRevocationFn = std::function&lt;bool(const std::string&amp; refresh_token)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RefreshTokenRevocationFn</name>
+        <qualifiedname>themis::server::OAuth2Provider::RefreshTokenRevocationFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="33" column="5" bodyfile="include/server/oauth2_provider.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_o_auth2_provider_1aab01e9c0efa609f41454fe97711d8462" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_o_auth2_provider_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::OAuth2Provider::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::OAuth2Provider::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="125" column="12" bodyfile="include/server/oauth2_provider.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_o_auth2_provider_1adb6ebd1b437ac0da7bd7d3f120e45e08" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; auth::OIDCProvider &gt;</type>
+        <definition>std::unique_ptr&lt;auth::OIDCProvider&gt; themis::server::OAuth2Provider::oidc_provider_</definition>
+        <argsstring></argsstring>
+        <name>oidc_provider_</name>
+        <qualifiedname>themis::server::OAuth2Provider::oidc_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="126" column="23" bodyfile="include/server/oauth2_provider.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_o_auth2_provider_1a6540dbb42618a35affc04f3d93bf7a17" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; auth::OAuthPKCEFlow &gt;</type>
+        <definition>std::unique_ptr&lt;auth::OAuthPKCEFlow&gt; themis::server::OAuth2Provider::pkce_flow_</definition>
+        <argsstring></argsstring>
+        <name>pkce_flow_</name>
+        <qualifiedname>themis::server::OAuth2Provider::pkce_flow_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="127" column="22" bodyfile="include/server/oauth2_provider.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_o_auth2_provider_1a661f074f7c8fb3cb6150f77fdb457065" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; url, const std::string&amp; body)&gt; themis::server::OAuth2Provider::http_post_fn_</definition>
+        <argsstring></argsstring>
+        <name>http_post_fn_</name>
+        <qualifiedname>themis::server::OAuth2Provider::http_post_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="130" column="9" bodyfile="include/server/oauth2_provider.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_o_auth2_provider_1a087444567020ca00bce8a57d8699523a" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(unsigned char *buf, std::size_t len)&gt;</type>
+        <definition>std::function&lt;void(unsigned char* buf, std::size_t len)&gt; themis::server::OAuth2Provider::rand_bytes_fn_</definition>
+        <argsstring></argsstring>
+        <name>rand_bytes_fn_</name>
+        <qualifiedname>themis::server::OAuth2Provider::rand_bytes_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="133" column="9" bodyfile="include/server/oauth2_provider.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_o_auth2_provider_1a601a0ef58c14a7edc797c3537c38bca3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_o_auth2_provider_1affe46f42c3749d14310cebfb1185e566" kindref="member">RefreshTokenRevocationFn</ref></type>
+        <definition>RefreshTokenRevocationFn themis::server::OAuth2Provider::refresh_token_revocation_fn_</definition>
+        <argsstring></argsstring>
+        <name>refresh_token_revocation_fn_</name>
+        <qualifiedname>themis::server::OAuth2Provider::refresh_token_revocation_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="135" column="30" bodyfile="include/server/oauth2_provider.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_o_auth2_provider_1adbefa7ac621bb16b92c3ef30a91039d1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::OAuth2Provider::pending_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pending_mutex_</name>
+        <qualifiedname>themis::server::OAuth2Provider::pending_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="144" column="24" bodyfile="include/server/oauth2_provider.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_o_auth2_provider_1ac3edb2978b62e95d6e3177487e81bc25" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, PendingEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PendingEntry&gt; themis::server::OAuth2Provider::pending_states_</definition>
+        <argsstring></argsstring>
+        <name>pending_states_</name>
+        <qualifiedname>themis::server::OAuth2Provider::pending_states_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="145" column="24" bodyfile="include/server/oauth2_provider.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a33d7f65b3788c95e26275a0db763870a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::OAuth2Provider::OAuth2Provider</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>OAuth2Provider</name>
+        <qualifiedname>themis::server::OAuth2Provider::OAuth2Provider</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_o_auth2_provider_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>OAuth2 Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="51" column="14" bodyfile="src/server/oauth2_provider.cpp" bodystart="100" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a1c664c68533da010379f7ef0a00ee0c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::OAuth2Provider::~OAuth2Provider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~OAuth2Provider</name>
+        <qualifiedname>themis::server::OAuth2Provider::~OAuth2Provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1aee59409f4b735ca875eed4fbd5405874" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::OAuth2Provider::OAuth2Provider</definition>
+        <argsstring>(const OAuth2Provider &amp;)=delete</argsstring>
+        <name>OAuth2Provider</name>
+        <qualifiedname>themis::server::OAuth2Provider::OAuth2Provider</qualifiedname>
+        <param>
+          <type>const OAuth2Provider &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a6ad93623b7a21f3f51c354d1306bdff1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_o_auth2_provider_1a33d7f65b3788c95e26275a0db763870a" kindref="member">OAuth2Provider</ref> &amp;</type>
+        <definition>OAuth2Provider &amp; themis::server::OAuth2Provider::operator=</definition>
+        <argsstring>(const OAuth2Provider &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::OAuth2Provider::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_o_auth2_provider_1a33d7f65b3788c95e26275a0db763870a" kindref="member">OAuth2Provider</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="57" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a238803aa7773d60cbbc47d774a388ccf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::OAuth2Provider::OAuth2Provider</definition>
+        <argsstring>(OAuth2Provider &amp;&amp;) noexcept=default</argsstring>
+        <name>OAuth2Provider</name>
+        <qualifiedname>themis::server::OAuth2Provider::OAuth2Provider</qualifiedname>
+        <param>
+          <type>OAuth2Provider &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1af3f0bb2d6f576c7abb51ab9e120a8b04" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_o_auth2_provider_1a33d7f65b3788c95e26275a0db763870a" kindref="member">OAuth2Provider</ref> &amp;</type>
+        <definition>OAuth2Provider &amp; themis::server::OAuth2Provider::operator=</definition>
+        <argsstring>(OAuth2Provider &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::OAuth2Provider::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_o_auth2_provider_1a33d7f65b3788c95e26275a0db763870a" kindref="member">OAuth2Provider</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="61" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a5d6b6a2cc84b66636eb7f1dd697077e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::OAuth2Provider::handleAuthorize</definition>
+        <argsstring>(const std::string &amp;state=&quot;&quot;, const std::string &amp;redirect_uri=&quot;&quot;)</argsstring>
+        <name>handleAuthorize</name>
+        <qualifiedname>themis::server::OAuth2Provider::handleAuthorize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>redirect_uri</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> GET /api/v1/auth/oauth2/authorize ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">redirect_uri</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="68" column="20" bodyfile="src/server/oauth2_provider.cpp" bodystart="327" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a4210d2eb65d8f08ccc1cfb4f5ad6baf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::OAuth2Provider::handleCallback</definition>
+        <argsstring>(const std::string &amp;code, const std::string &amp;state)</argsstring>
+        <name>handleCallback</name>
+        <qualifiedname>themis::server::OAuth2Provider::handleCallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Handle Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> GET /api/v1/auth/oauth2/callback ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="77" column="20" bodyfile="src/server/oauth2_provider.cpp" bodystart="367" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1adb0c169254dedfaed6564a98e320acd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::OAuth2Provider::handleTokenExchange</definition>
+        <argsstring>(const std::string &amp;code, const std::string &amp;code_verifier, const std::string &amp;state=&quot;&quot;)</argsstring>
+        <name>handleTokenExchange</name>
+        <qualifiedname>themis::server::OAuth2Provider::handleTokenExchange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code_verifier</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> POST /api/v1/auth/oauth2/token ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code_verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="79" column="20" bodyfile="src/server/oauth2_provider.cpp" bodystart="409" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a3955f2e533af1e0adcae7c181b9421a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::OAuth2Provider::handleRefresh</definition>
+        <argsstring>(const std::string &amp;refresh_token)</argsstring>
+        <name>handleRefresh</name>
+        <qualifiedname>themis::server::OAuth2Provider::handleRefresh</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>refresh_token</declname>
+        </param>
+        <briefdescription>
+<para>Handle Refresh. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> POST /api/v1/auth/oauth2/refresh ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">refresh_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="88" column="20" bodyfile="src/server/oauth2_provider.cpp" bodystart="459" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a7776bb4e3832140e61c4de0a50095fa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::OAuth2Provider::handleIntrospect</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>handleIntrospect</name>
+        <qualifiedname>themis::server::OAuth2Provider::handleIntrospect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Handle Introspect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> POST /api/v1/auth/token/introspect ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="95" column="20" bodyfile="src/server/oauth2_provider.cpp" bodystart="547" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a013893afa263cf7c842f1c7207cfcaee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::OAuth2Provider::handleLogout</definition>
+        <argsstring>(const std::string &amp;refresh_token=&quot;&quot;)</argsstring>
+        <name>handleLogout</name>
+        <qualifiedname>themis::server::OAuth2Provider::handleLogout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>refresh_token</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> POST /api/v1/auth/oauth2/logout ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">refresh_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="97" column="20" bodyfile="src/server/oauth2_provider.cpp" bodystart="609" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1ad46be35e69b9bcf78637580d48ca9f22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::OAuth2Provider::setDiscoveryDocumentForTesting</definition>
+        <argsstring>(const auth::OIDCDiscoveryDocument &amp;doc)</argsstring>
+        <name>setDiscoveryDocumentForTesting</name>
+        <qualifiedname>themis::server::OAuth2Provider::setDiscoveryDocumentForTesting</qualifiedname>
+        <param>
+          <type>const auth::OIDCDiscoveryDocument &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Set Discovery Document For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="107" column="10" bodyfile="src/server/oauth2_provider.cpp" bodystart="643" bodyend="647"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a657ce34edb64188a6056bea70d6aa0e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::OAuth2Provider::setHttpGetForTesting</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;url)&gt; fn)</argsstring>
+        <name>setHttpGetForTesting</name>
+        <qualifiedname>themis::server::OAuth2Provider::setHttpGetForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;url)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="109" column="10" bodyfile="src/server/oauth2_provider.cpp" bodystart="649" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a78d01779de087a2f9fd1534fe9d0c29d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::OAuth2Provider::setHttpPostForTesting</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt; fn)</argsstring>
+        <name>setHttpPostForTesting</name>
+        <qualifiedname>themis::server::OAuth2Provider::setHttpPostForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="112" column="10" bodyfile="src/server/oauth2_provider.cpp" bodystart="655" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a88b913ff66653574e78ab26f5f525f7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::OAuth2Provider::setRandBytesForTesting</definition>
+        <argsstring>(std::function&lt; void(unsigned char *buf, std::size_t len)&gt; fn)</argsstring>
+        <name>setRandBytesForTesting</name>
+        <qualifiedname>themis::server::OAuth2Provider::setRandBytesForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; void(unsigned char *buf, std::size_t len)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="115" column="10" bodyfile="src/server/oauth2_provider.cpp" bodystart="664" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a476e6c230bf4459b8530541a1080b65f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::OAuth2Provider::setRefreshTokenRevocationFn</definition>
+        <argsstring>(RefreshTokenRevocationFn fn)</argsstring>
+        <name>setRefreshTokenRevocationFn</name>
+        <qualifiedname>themis::server::OAuth2Provider::setRefreshTokenRevocationFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_o_auth2_provider_1affe46f42c3749d14310cebfb1185e566" kindref="member">RefreshTokenRevocationFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Refresh Token Revocation Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="122" column="10" bodyfile="src/server/oauth2_provider.cpp" bodystart="677" bodyend="680"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a345f03c80cc191f1def16f0232dc239e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::OAuth2Provider::storePendingState</definition>
+        <argsstring>(const std::string &amp;code_verifier, const std::string &amp;requested_state)</argsstring>
+        <name>storePendingState</name>
+        <qualifiedname>themis::server::OAuth2Provider::storePendingState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code_verifier</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requested_state</declname>
+        </param>
+        <briefdescription>
+<para>Store Pending State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code_verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requested_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="153" column="17" bodyfile="src/server/oauth2_provider.cpp" bodystart="141" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a902a83ca4becb44c3e3c182a80867c20" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::server::OAuth2Provider::consumePendingState</definition>
+        <argsstring>(const std::string &amp;state)</argsstring>
+        <name>consumePendingState</name>
+        <qualifiedname>themis::server::OAuth2Provider::consumePendingState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Consume Pending State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pending_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="161" column="19" bodyfile="src/server/oauth2_provider.cpp" bodystart="165" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1ae3d2a6174e7c2ce78b55d3c35f03354b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::OAuth2Provider::evictExpiredStates</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpiredStates</name>
+        <qualifiedname>themis::server::OAuth2Provider::evictExpiredStates</qualifiedname>
+        <briefdescription>
+<para>Evict Expired States. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="166" column="10" bodyfile="src/server/oauth2_provider.cpp" bodystart="186" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a54585ebe96d505f67e92dce222ff3f11" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>auth::OAuthPKCEFlow::Config</type>
+        <definition>auth::OAuthPKCEFlow::Config themis::server::OAuth2Provider::buildPKCEConfig</definition>
+        <argsstring>(const std::string &amp;redirect_uri_override=&quot;&quot;) const</argsstring>
+        <name>buildPKCEConfig</name>
+        <qualifiedname>themis::server::OAuth2Provider::buildPKCEConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>redirect_uri_override</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="172" column="33" bodyfile="src/server/oauth2_provider.cpp" bodystart="203" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a65c65f5b571884aa3fae4249f41cc5f2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::OAuth2Provider::ensurePKCEFlow</definition>
+        <argsstring>(const std::string &amp;redirect_uri_override=&quot;&quot;)</argsstring>
+        <name>ensurePKCEFlow</name>
+        <qualifiedname>themis::server::OAuth2Provider::ensurePKCEFlow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>redirect_uri_override</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Ensure PKCEFlow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">redirect_uri_override</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="175" column="10" bodyfile="src/server/oauth2_provider.cpp" bodystart="227" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a3e21708adceab532d88cb28113c9dc36" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::OAuth2Provider::doTokenExchange</definition>
+        <argsstring>(const std::string &amp;code, const std::string &amp;code_verifier, const std::string &amp;redirect_uri_override=&quot;&quot;)</argsstring>
+        <name>doTokenExchange</name>
+        <qualifiedname>themis::server::OAuth2Provider::doTokenExchange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code_verifier</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>redirect_uri_override</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Do Token Exchange. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code_verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">redirect_uri_override</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="181" column="20" bodyfile="src/server/oauth2_provider.cpp" bodystart="295" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a60714ec07ba319547e201690b62b1730" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::OAuth2Provider::httpPost</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;body) const</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>themis::server::OAuth2Provider::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Http Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="191" column="17" bodyfile="src/server/oauth2_provider.cpp" bodystart="244" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a8ee6a59492e5834ace6f5ab739f48f4f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::OAuth2Provider::makeError</definition>
+        <argsstring>(int status_code, const std::string &amp;message)</argsstring>
+        <name>makeError</name>
+        <qualifiedname>themis::server::OAuth2Provider::makeError</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Make Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="203" column="27" bodyfile="src/server/oauth2_provider.cpp" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1af10bb42d890d6e458d86a3e36a27fc8a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::OAuth2Provider::urlEncode</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>urlEncode</name>
+        <qualifiedname>themis::server::OAuth2Provider::urlEncode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Url Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="210" column="24" bodyfile="src/server/oauth2_provider.cpp" bodystart="69" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_o_auth2_provider_1a4428369ed77628577e37d2989c70cf15" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::OAuth2Provider::generateState</definition>
+        <argsstring>()</argsstring>
+        <name>generateState</name>
+        <qualifiedname>themis::server::OAuth2Provider::generateState</qualifiedname>
+        <briefdescription>
+<para>Generate State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/oauth2_provider.h" line="216" column="24" bodyfile="src/server/oauth2_provider.cpp" bodystart="84" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/oauth2_provider.h" line="31" column="1" bodyfile="include/server/oauth2_provider.h" bodystart="31" bodyend="217"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a54585ebe96d505f67e92dce222ff3f11" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>buildPKCEConfig</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1aab01e9c0efa609f41454fe97711d8462" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a902a83ca4becb44c3e3c182a80867c20" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>consumePendingState</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a3e21708adceab532d88cb28113c9dc36" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>doTokenExchange</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a65c65f5b571884aa3fae4249f41cc5f2" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>ensurePKCEFlow</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1ae3d2a6174e7c2ce78b55d3c35f03354b" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>evictExpiredStates</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a4428369ed77628577e37d2989c70cf15" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>generateState</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a5d6b6a2cc84b66636eb7f1dd697077e0" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>handleAuthorize</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a4210d2eb65d8f08ccc1cfb4f5ad6baf2" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>handleCallback</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a7776bb4e3832140e61c4de0a50095fa8" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>handleIntrospect</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a013893afa263cf7c842f1c7207cfcaee" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>handleLogout</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a3955f2e533af1e0adcae7c181b9421a6" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>handleRefresh</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1adb0c169254dedfaed6564a98e320acd3" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>handleTokenExchange</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a661f074f7c8fb3cb6150f77fdb457065" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>http_post_fn_</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a60714ec07ba319547e201690b62b1730" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>httpPost</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a8ee6a59492e5834ace6f5ab739f48f4f" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>makeError</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a33d7f65b3788c95e26275a0db763870a" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>OAuth2Provider</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1aee59409f4b735ca875eed4fbd5405874" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>OAuth2Provider</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a238803aa7773d60cbbc47d774a388ccf" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>OAuth2Provider</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1adb6ebd1b437ac0da7bd7d3f120e45e08" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>oidc_provider_</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a6ad93623b7a21f3f51c354d1306bdff1" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1af3f0bb2d6f576c7abb51ab9e120a8b04" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1adbefa7ac621bb16b92c3ef30a91039d1" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>pending_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1ac3edb2978b62e95d6e3177487e81bc25" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>pending_states_</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a6540dbb42618a35affc04f3d93bf7a17" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>pkce_flow_</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a087444567020ca00bce8a57d8699523a" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>rand_bytes_fn_</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a601a0ef58c14a7edc797c3537c38bca3" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>refresh_token_revocation_fn_</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1affe46f42c3749d14310cebfb1185e566" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>RefreshTokenRevocationFn</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1ad46be35e69b9bcf78637580d48ca9f22" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>setDiscoveryDocumentForTesting</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a657ce34edb64188a6056bea70d6aa0e9" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>setHttpGetForTesting</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a78d01779de087a2f9fd1534fe9d0c29d" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>setHttpPostForTesting</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a88b913ff66653574e78ab26f5f525f7e" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>setRandBytesForTesting</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a476e6c230bf4459b8530541a1080b65f" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>setRefreshTokenRevocationFn</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a345f03c80cc191f1def16f0232dc239e" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>storePendingState</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1af10bb42d890d6e458d86a3e36a27fc8a" prot="private" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>urlEncode</name></member>
+      <member refid="classthemis_1_1server_1_1_o_auth2_provider_1a1c664c68533da010379f7ef0a00ee0c0" prot="public" virt="non-virtual"><scope>themis::server::OAuth2Provider</scope><name>~OAuth2Provider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

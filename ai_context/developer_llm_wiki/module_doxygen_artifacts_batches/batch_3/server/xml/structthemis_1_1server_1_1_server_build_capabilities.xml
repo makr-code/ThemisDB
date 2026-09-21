@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_server_build_capabilities" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::ServerBuildCapabilities</compoundname>
+    <includes refid="server__activation__profile_8h" local="no">server_activation_profile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_build_capabilities_1a99923b77288f76ae49f80ae287060816" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerBuildCapabilities::http_server</definition>
+        <argsstring></argsstring>
+        <name>http_server</name>
+        <qualifiedname>themis::server::ServerBuildCapabilities::http_server</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="47" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_build_capabilities_1ac9dcd31671337e7fc49d5bed1e39e913" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerBuildCapabilities::grpc</definition>
+        <argsstring></argsstring>
+        <name>grpc</name>
+        <qualifiedname>themis::server::ServerBuildCapabilities::grpc</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="48" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_build_capabilities_1a888b42b3406df458d935ccf541b9d9fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerBuildCapabilities::prometheus</definition>
+        <argsstring></argsstring>
+        <name>prometheus</name>
+        <qualifiedname>themis::server::ServerBuildCapabilities::prometheus</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="49" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_build_capabilities_1a9b202fe50432194a4212c4e4dcaa549d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerBuildCapabilities::llm</definition>
+        <argsstring></argsstring>
+        <name>llm</name>
+        <qualifiedname>themis::server::ServerBuildCapabilities::llm</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="50" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_build_capabilities_1a38feac5d9b5bb278f496f939752e1634" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerBuildCapabilities::mimalloc</definition>
+        <argsstring></argsstring>
+        <name>mimalloc</name>
+        <qualifiedname>themis::server::ServerBuildCapabilities::mimalloc</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="51" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_server_build_capabilities_1a9ed0ea3c9c54a2f9dec45069af2e447c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::ServerBuildCapabilities::hsm_real</definition>
+        <argsstring></argsstring>
+        <name>hsm_real</name>
+        <qualifiedname>themis::server::ServerBuildCapabilities::hsm_real</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="52" column="10" bodyfile="include/server/server_activation_profile.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_server_build_capabilities_1ab09cf87d91c5de513797cc17b99da924" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::ServerBuildCapabilities::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::server::ServerBuildCapabilities::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="54" column="21" bodyfile="include/server/server_activation_profile.h" bodystart="54" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compile-time capabilities that are relevant for server profile checks. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/server_activation_profile.h" line="46" column="1" bodyfile="include/server/server_activation_profile.h" bodystart="46" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_server_build_capabilities_1ac9dcd31671337e7fc49d5bed1e39e913" prot="public" virt="non-virtual"><scope>themis::server::ServerBuildCapabilities</scope><name>grpc</name></member>
+      <member refid="structthemis_1_1server_1_1_server_build_capabilities_1a9ed0ea3c9c54a2f9dec45069af2e447c" prot="public" virt="non-virtual"><scope>themis::server::ServerBuildCapabilities</scope><name>hsm_real</name></member>
+      <member refid="structthemis_1_1server_1_1_server_build_capabilities_1a99923b77288f76ae49f80ae287060816" prot="public" virt="non-virtual"><scope>themis::server::ServerBuildCapabilities</scope><name>http_server</name></member>
+      <member refid="structthemis_1_1server_1_1_server_build_capabilities_1a9b202fe50432194a4212c4e4dcaa549d" prot="public" virt="non-virtual"><scope>themis::server::ServerBuildCapabilities</scope><name>llm</name></member>
+      <member refid="structthemis_1_1server_1_1_server_build_capabilities_1a38feac5d9b5bb278f496f939752e1634" prot="public" virt="non-virtual"><scope>themis::server::ServerBuildCapabilities</scope><name>mimalloc</name></member>
+      <member refid="structthemis_1_1server_1_1_server_build_capabilities_1a888b42b3406df458d935ccf541b9d9fd" prot="public" virt="non-virtual"><scope>themis::server::ServerBuildCapabilities</scope><name>prometheus</name></member>
+      <member refid="structthemis_1_1server_1_1_server_build_capabilities_1ab09cf87d91c5de513797cc17b99da924" prot="public" virt="non-virtual"><scope>themis::server::ServerBuildCapabilities</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

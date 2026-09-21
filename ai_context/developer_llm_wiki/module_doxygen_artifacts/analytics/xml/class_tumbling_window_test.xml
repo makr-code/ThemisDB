@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_tumbling_window_test" kind="class" language="C++" prot="public">
+    <compoundname>TumblingWindowTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_tumbling_window_test_1a7789adbcb36667e3225483267b605d92" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" kindref="compound">TumblingWindowConfig</ref></type>
+        <definition>TumblingWindowConfig TumblingWindowTest::cfg1min</definition>
+        <argsstring>()</argsstring>
+        <name>cfg1min</name>
+        <qualifiedname>TumblingWindowTest::cfg1min</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_window.cpp" line="106" column="26" bodyfile="tests/analytics/test_streaming_window.cpp" bodystart="106" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TumblingWindowTest</label>
+        <link refid="class_tumbling_window_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TumblingWindowTest</label>
+        <link refid="class_tumbling_window_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_streaming_window.cpp" line="104" column="1" bodyfile="tests/analytics/test_streaming_window.cpp" bodystart="104" bodyend="111"/>
+    <listofallmembers>
+      <member refid="class_tumbling_window_test_1a7789adbcb36667e3225483267b605d92" prot="protected" virt="non-virtual"><scope>TumblingWindowTest</scope><name>cfg1min</name></member>
+      <member refid="classtesting_1_1_test_1a57a4116f39f6636a80710ded7d42e889" prot="protected" virt="non-virtual"><scope>TumblingWindowTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>TumblingWindowTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

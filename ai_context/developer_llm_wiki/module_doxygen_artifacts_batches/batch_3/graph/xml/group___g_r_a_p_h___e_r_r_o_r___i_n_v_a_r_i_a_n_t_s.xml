@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="group___g_r_a_p_h___e_r_r_o_r___i_n_v_a_r_i_a_n_t_s" kind="group">
+    <compoundname>GRAPH_ERROR_INVARIANTS</compoundname>
+    <title>Phase 1 Error Handling Contract</title>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="group___g_r_a_p_h___e_r_r_o_r___i_n_v_a_r_i_a_n_t_s_1ga4b8bb4fcf1e84ee54ef723f3f839b68d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::isValidErrorCode</definition>
+        <argsstring>(GraphErrorCode code) noexcept</argsstring>
+        <name>isValidErrorCode</name>
+        <qualifiedname>themis::graph::isValidErrorCode</qualifiedname>
+        <param>
+          <type>GraphErrorCode</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Validates error code against Phase 1 taxonomy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Code to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if code is a known Phase 1 error code</para>
+</simplesect>
+Use for defensive programming; unknown codes should be treated as GENERIC_ERROR and logged for debugging.</para>
+<para>Thread-safe: pure function. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/graph/graph_error_taxonomy.cpp" line="167" column="1" bodyfile="src/graph/graph_error_taxonomy.cpp" bodystart="167" bodyend="214" declfile="include/graph/graph_error_taxonomy.h" declline="333" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="par"><title>Invariant 1: Error Code Stability</title><para>Once a code is assigned in Phase 1, its numeric value MUST NOT change. This ensures cross-version log compatibility and metrics aggregation.</para>
+</simplesect>
+<simplesect kind="par"><title>Invariant 2: Category Stability</title><para>Error category (DENIAL/FALLBACK/REASONING_CONFLICT) MUST NOT change for existing codes. Adding new codes in a different category requires a new code; reassigning an old code is forbidden.</para>
+</simplesect>
+<simplesect kind="par"><title>Invariant 3: Determinism</title><para>Error classification (getErrorCategory, isRecoverableFallback, etc.) MUST produce identical results on any platform. No runtime variation.</para>
+</simplesect>
+<simplesect kind="par"><title>Invariant 4: Completeness</title><para>Every error code returned by graph module functions MUST be classified in this taxonomy. Unclassified errors MUST be mapped to GENERIC_ERROR.</para>
+</simplesect>
+<simplesect kind="par"><title>Invariant 5: Thread Safety</title><para>All error classification functions are thread-safe and lock-free. Error context construction is thread-safe (value semantics). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

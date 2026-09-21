@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_fault_injector" kind="class" language="C++" prot="public">
+    <compoundname>StubFaultInjector</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_fault_injector_1ad1bd5381cfcb109b79531afb20efa49c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubFaultInjector::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubFaultInjector::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="90" column="37" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_fault_injector_1ae7ab209cef579066dcc7ff1b9a6dbf96" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; StubFaultInjector::active_</definition>
+        <argsstring></argsstring>
+        <name>active_</name>
+        <qualifiedname>StubFaultInjector::active_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="91" column="24" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_fault_injector_1a4bfa9df1287370cee4b8c0788a06563f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubFaultInjector::inject_count_</definition>
+        <argsstring></argsstring>
+        <name>inject_count_</name>
+        <qualifiedname>StubFaultInjector::inject_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="92" column="27" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_fault_injector_1ac6982363fc377d603c21281d9fdbe4bb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubFaultInjector::recover_count_</definition>
+        <argsstring></argsstring>
+        <name>recover_count_</name>
+        <qualifiedname>StubFaultInjector::recover_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="93" column="27" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_fault_injector_1a0740f58d538591c31cb8103ca3fbf32d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubFaultInjector::inject</definition>
+        <argsstring>(const std::string &amp;node_id, double probability=1.0)</argsstring>
+        <name>inject</name>
+        <qualifiedname>StubFaultInjector::inject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>probability</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="60" column="10" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_fault_injector_1a69800886b3645d68944671f9fbabb12d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubFaultInjector::recover</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>recover</name>
+        <qualifiedname>StubFaultInjector::recover</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="68" column="10" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_fault_injector_1ab5332fa4232e3f4cb6152d0ad1d2f661" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubFaultInjector::isActive</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>isActive</name>
+        <qualifiedname>StubFaultInjector::isActive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="76" column="10" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_fault_injector_1acc713db4195a9d17611a6f115ab7e4d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubFaultInjector::activeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>activeCount</name>
+        <qualifiedname>StubFaultInjector::activeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="81" column="17" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="81" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_fault_injector_1a765e0c549809857ab1b8815c2ddec8a4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubFaultInjector::injectCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>injectCount</name>
+        <qualifiedname>StubFaultInjector::injectCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="86" column="14" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_fault_injector_1a1a0c29910b26b4939ad5bfa4d6e30c60" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubFaultInjector::recoverCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>recoverCount</name>
+        <qualifiedname>StubFaultInjector::recoverCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="87" column="14" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="58" column="1" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="58" bodyend="94"/>
+    <listofallmembers>
+      <member refid="class_stub_fault_injector_1ae7ab209cef579066dcc7ff1b9a6dbf96" prot="private" virt="non-virtual"><scope>StubFaultInjector</scope><name>active_</name></member>
+      <member refid="class_stub_fault_injector_1acc713db4195a9d17611a6f115ab7e4d1" prot="public" virt="non-virtual"><scope>StubFaultInjector</scope><name>activeCount</name></member>
+      <member refid="class_stub_fault_injector_1a0740f58d538591c31cb8103ca3fbf32d" prot="public" virt="non-virtual"><scope>StubFaultInjector</scope><name>inject</name></member>
+      <member refid="class_stub_fault_injector_1a4bfa9df1287370cee4b8c0788a06563f" prot="private" virt="non-virtual"><scope>StubFaultInjector</scope><name>inject_count_</name></member>
+      <member refid="class_stub_fault_injector_1a765e0c549809857ab1b8815c2ddec8a4" prot="public" virt="non-virtual"><scope>StubFaultInjector</scope><name>injectCount</name></member>
+      <member refid="class_stub_fault_injector_1ab5332fa4232e3f4cb6152d0ad1d2f661" prot="public" virt="non-virtual"><scope>StubFaultInjector</scope><name>isActive</name></member>
+      <member refid="class_stub_fault_injector_1ad1bd5381cfcb109b79531afb20efa49c" prot="private" virt="non-virtual"><scope>StubFaultInjector</scope><name>mu_</name></member>
+      <member refid="class_stub_fault_injector_1a69800886b3645d68944671f9fbabb12d" prot="public" virt="non-virtual"><scope>StubFaultInjector</scope><name>recover</name></member>
+      <member refid="class_stub_fault_injector_1ac6982363fc377d603c21281d9fdbe4bb" prot="private" virt="non-virtual"><scope>StubFaultInjector</scope><name>recover_count_</name></member>
+      <member refid="class_stub_fault_injector_1a1a0c29910b26b4939ad5bfa4d6e30c60" prot="public" virt="non-virtual"><scope>StubFaultInjector</scope><name>recoverCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_i_c_d_c_pause_control" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cdc::ICDCPauseControl</compoundname>
+    <derivedcompoundref refid="classthemis_1_1cdc_1_1_in_memory_pause_control" prot="public" virt="non-virtual">themis::cdc::InMemoryPauseControl</derivedcompoundref>
+    <includes refid="icdc__pause__control_8h" local="no">icdc_pause_control.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1aafa5204c3b035bfcf1b74ac3d4809f72" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cdc::ICDCPauseControl::~ICDCPauseControl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICDCPauseControl</name>
+        <qualifiedname>themis::cdc::ICDCPauseControl::~ICDCPauseControl</qualifiedname>
+        <briefdescription>
+<para>ICDCPause Control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_pause_control.h" line="56" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a45f6298d79e004854cd971aab185f845" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cdc::ICDCPauseControl::pause</definition>
+        <argsstring>(PauseReason reason=PauseReason::AdminRequest)=0</argsstring>
+        <name>pause</name>
+        <qualifiedname>themis::cdc::ICDCPauseControl::pause</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_pause_control_1a79d99759664db853b41c028f5192ae79">pause</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1ad76461b742a6dba5b0a5ac1946ad6403" kindref="member">PauseReason</ref></type>
+          <declname>reason</declname>
+          <defval><ref refid="namespacethemis_1_1cdc_1ad76461b742a6dba5b0a5ac1946ad6403aadcb90df983aeade964da2256f763c66" kindref="member">PauseReason::AdminRequest</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_pause_control.h" line="58" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a9d57299251ce15079e6b733d494b7dc8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cdc::ICDCPauseControl::resume</definition>
+        <argsstring>()=0</argsstring>
+        <name>resume</name>
+        <qualifiedname>themis::cdc::ICDCPauseControl::resume</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_pause_control_1abd7bcd4e1c4830dc61d5d9a356fcc15e">resume</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_pause_control.h" line="60" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a79aff0899b451eca1f8bcf86ab7f5203" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cdc::ICDCPauseControl::isPaused</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isPaused</name>
+        <qualifiedname>themis::cdc::ICDCPauseControl::isPaused</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_pause_control_1a699c3c8765a6820139d630122ffe671e">isPaused</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_pause_control.h" line="62" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a425a391e319bb6096353bee376737b82" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1ad76461b742a6dba5b0a5ac1946ad6403" kindref="member">PauseReason</ref></type>
+        <definition>virtual PauseReason themis::cdc::ICDCPauseControl::pauseReason</definition>
+        <argsstring>() const =0</argsstring>
+        <name>pauseReason</name>
+        <qualifiedname>themis::cdc::ICDCPauseControl::pauseReason</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_pause_control_1a75b8610b4370729bd19543993722d38c">pauseReason</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_pause_control.h" line="64" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1aefab0e99e74a56d8b193ada1ae20fc65" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::cdc::ICDCPauseControl::bufferedEventCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>bufferedEventCount</name>
+        <qualifiedname>themis::cdc::ICDCPauseControl::bufferedEventCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_pause_control_1a01f44a9d9d0ca15a68c665413f6cfeef">bufferedEventCount</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_pause_control.h" line="66" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cdc::ICDCPauseControl</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control"/>
+      </node>
+      <node id="2">
+        <label>themis::cdc::InMemoryPauseControl</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_pause_control"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/cdc/icdc_pause_control.h" line="50" column="1" bodyfile="include/cdc/icdc_pause_control.h" bodystart="50" bodyend="67"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1aefab0e99e74a56d8b193ada1ae20fc65" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCPauseControl</scope><name>bufferedEventCount</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a79aff0899b451eca1f8bcf86ab7f5203" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCPauseControl</scope><name>isPaused</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a45f6298d79e004854cd971aab185f845" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCPauseControl</scope><name>pause</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a425a391e319bb6096353bee376737b82" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCPauseControl</scope><name>pauseReason</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1a9d57299251ce15079e6b733d494b7dc8" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCPauseControl</scope><name>resume</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_pause_control_1aafa5204c3b035bfcf1b74ac3d4809f72" prot="public" virt="virtual"><scope>themis::cdc::ICDCPauseControl</scope><name>~ICDCPauseControl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

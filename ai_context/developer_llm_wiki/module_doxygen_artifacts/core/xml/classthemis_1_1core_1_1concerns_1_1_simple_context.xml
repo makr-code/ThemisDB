@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_simple_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::SimpleContext</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_context" prot="public" virt="non-virtual">themis::core::concerns::IContext</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; SimpleContext &gt;</basecompoundref>
+    <includes refid="i__context_8h" local="no">i_context.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1a7903781acb4d44e1ec487bb4b333027b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::core::concerns::SimpleContext::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="184" column="24" bodyfile="include/core/concerns/i_context.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1ac666ce24b7d244474340b2d1a027d61c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::core::concerns::SimpleContext::attrs_</definition>
+        <argsstring></argsstring>
+        <name>attrs_</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::attrs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="185" column="24" bodyfile="include/core/concerns/i_context.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1adc50c8cb7b8f713163fe0b7435126899" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SimpleContext &gt;</type>
+        <definition>std::shared_ptr&lt;SimpleContext&gt; themis::core::concerns::SimpleContext::parent_</definition>
+        <argsstring></argsstring>
+        <name>parent_</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::parent_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="186" column="21" bodyfile="include/core/concerns/i_context.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1a446bcbb354131fd99ca856fcd2910eec" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; SimpleContext &gt;</type>
+        <definition>static std::shared_ptr&lt; SimpleContext &gt; themis::core::concerns::SimpleContext::create</definition>
+        <argsstring>()</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::create</qualifiedname>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SimpleContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="95" column="28" bodyfile="include/core/concerns/i_context.h" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1a031f1edd3e7e572995323d69a9d19bce" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; SimpleContext &gt;</type>
+        <definition>static std::shared_ptr&lt; SimpleContext &gt; themis::core::concerns::SimpleContext::create</definition>
+        <argsstring>(std::string_view trace_id, std::string_view request_id)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::create</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>trace_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the trace. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="105" column="28" bodyfile="include/core/concerns/i_context.h" bodystart="105" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1aa4d6cb86a81ed316de2a4b306420ce44" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::SimpleContext::set</definition>
+        <argsstring>(std::string_view key, std::string_view value) override</argsstring>
+        <name>set</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::set</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_context_1a9233cc8aebdc1e871836ed6b16ade2b3">set</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="120" column="10" bodyfile="include/core/concerns/i_context.h" bodystart="120" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1a0e7a37a1fd1d83e88ac0df6532afef76" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::core::concerns::SimpleContext::get</definition>
+        <argsstring>(std::string_view key) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::get</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_context_1a1889643f3307a0c962a3645288af2fb4">get</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="130" column="19" bodyfile="include/core/concerns/i_context.h" bodystart="130" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1ae6b34d164b701223ce31e90eb0405b27" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::SimpleContext::has</definition>
+        <argsstring>(std::string_view key) const override</argsstring>
+        <name>has</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::has</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_context_1a30f1edcdd510c47c28c5e671ceaceed3">has</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="150" column="10" bodyfile="include/core/concerns/i_context.h" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1a9f8bed8823dec1348a97450fd3496c37" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1core_1_1concerns_1a831cdd39cc5d78686339175934e5c26a" kindref="member">IContextPtr</ref></type>
+        <definition>IContextPtr themis::core::concerns::SimpleContext::createChild</definition>
+        <argsstring>() const override</argsstring>
+        <name>createChild</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::createChild</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_context_1a92bb46e10808bbf7d9f8249570f9ae02">createChild</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="154" column="17" bodyfile="include/core/concerns/i_context.h" bodystart="154" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1a19c8d53e64029959a7a28fab19326ae4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context" kindref="compound">TraceContext</ref></type>
+        <definition>TraceContext themis::core::concerns::SimpleContext::toTraceContext</definition>
+        <argsstring>() const override</argsstring>
+        <name>toTraceContext</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::toTraceContext</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_context_1a7b05635a72ea629f6a57fde8bf4d005c">toTraceContext</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="161" column="18" bodyfile="include/core/concerns/i_context.h" bodystart="161" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_simple_context_1ac7bf1c61c9014d8d2e209e3f0b165262" prot="private" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::SimpleContext::SimpleContext</definition>
+        <argsstring>(std::shared_ptr&lt; SimpleContext &gt; parent)</argsstring>
+        <name>SimpleContext</name>
+        <qualifiedname>themis::core::concerns::SimpleContext::SimpleContext</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; SimpleContext &gt;</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+<para>Simple Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">parent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_context.h" line="181" column="14" bodyfile="include/core/concerns/i_context.h" bodystart="181" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; SimpleContext &gt;</label>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::IContext</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_context"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::SimpleContext</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_simple_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; SimpleContext &gt;</label>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::IContext</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_context"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::SimpleContext</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_simple_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/i_context.h" line="85" column="1" bodyfile="include/core/concerns/i_context.h" bodystart="88" bodyend="187"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1ac666ce24b7d244474340b2d1a027d61c" prot="private" virt="non-virtual"><scope>themis::core::concerns::SimpleContext</scope><name>attrs_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1a446bcbb354131fd99ca856fcd2910eec" prot="public" virt="non-virtual"><scope>themis::core::concerns::SimpleContext</scope><name>create</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1a031f1edd3e7e572995323d69a9d19bce" prot="public" virt="non-virtual"><scope>themis::core::concerns::SimpleContext</scope><name>create</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1a9f8bed8823dec1348a97450fd3496c37" prot="public" virt="virtual"><scope>themis::core::concerns::SimpleContext</scope><name>createChild</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1a0e7a37a1fd1d83e88ac0df6532afef76" prot="public" virt="virtual"><scope>themis::core::concerns::SimpleContext</scope><name>get</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1ae6b34d164b701223ce31e90eb0405b27" prot="public" virt="virtual"><scope>themis::core::concerns::SimpleContext</scope><name>has</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1a7903781acb4d44e1ec487bb4b333027b" prot="private" virt="non-virtual"><scope>themis::core::concerns::SimpleContext</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1adc50c8cb7b8f713163fe0b7435126899" prot="private" virt="non-virtual"><scope>themis::core::concerns::SimpleContext</scope><name>parent_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1aa4d6cb86a81ed316de2a4b306420ce44" prot="public" virt="virtual"><scope>themis::core::concerns::SimpleContext</scope><name>set</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1ac7bf1c61c9014d8d2e209e3f0b165262" prot="private" virt="non-virtual"><scope>themis::core::concerns::SimpleContext</scope><name>SimpleContext</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_simple_context_1a19c8d53e64029959a7a28fab19326ae4" prot="public" virt="virtual"><scope>themis::core::concerns::SimpleContext</scope><name>toTraceContext</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_context_1aeeeaf2e988d7481ee9e383cd2b78df4c" prot="public" virt="virtual"><scope>themis::core::concerns::SimpleContext</scope><name>~IContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

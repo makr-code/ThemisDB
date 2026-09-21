@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multimodal__chunker_8h" kind="file" language="C++">
+    <compoundname>multimodal_chunker.h</compoundname>
+    <includes refid="content__chunker_8h" local="yes">content/pipeline/content_chunker.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="multimodal__chunker_8cpp" local="yes">src/content/pipeline/multimodal_chunker.cpp</includedby>
+    <includedby refid="test__content__pipeline_8cpp" local="yes">tests/content/test_content_pipeline.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>content/pipeline/content_chunker.h</label>
+        <link refid="content__chunker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/pipeline/multimodal_chunker.h</label>
+        <link refid="multimodal__chunker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/content/pipeline/multimodal_chunker.h</label>
+        <link refid="multimodal__chunker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/content/pipeline/multimodal_chunker.cpp</label>
+        <link refid="multimodal__chunker_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/content/test_content_pipeline.cpp</label>
+        <link refid="test__content__pipeline_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker" prot="public">themis::content::pipeline::MultiModalChunker</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" prot="public">themis::content::pipeline::MultiModalChunker::MultiModalConfig</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content_1_1pipeline">themis::content::pipeline</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__chunker_8h" kindref="compound">content/pipeline/content_chunker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1pipeline" kindref="compound">themis::content::pipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888" kindref="member">ContentType</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a98ad0e8750ae10ad556ed7a62affb452" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a98ad0e8750ae10ad556ed7a62affb452" kindref="member">BINARY</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generic<sp/>binary<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a61a96ffcb251bb9bf0abf8fec19d0ea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">TEXT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Text<sp/>content<sp/>(UTF-8)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a23a12f67f614b5518c7f1c2465bf95e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a23a12f67f614b5518c7f1c2465bf95e3" kindref="member">IMAGE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Image<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888ae423b8bde9bfbfd7e9409b23b23aed91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888ae423b8bde9bfbfd7e9409b23b23aed91" kindref="member">AUDIO</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audio<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888ae60ae31f67ab883c746bb71c7a145c18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888ae60ae31f67ab883c746bb71c7a145c18" kindref="member">VIDEO</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Video<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a41bc329e07d186e44c968775f1ecf676" kindref="member">MultiModalChunker</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kindref="compound">MultiModalConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a9e78fa51755e5039f91d9c373c7a9c52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888" kindref="member">ContentType</ref><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a9e78fa51755e5039f91d9c373c7a9c52" kindref="member">content_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1content_1_1pipeline_1ac95b28779db7865ee8bac448cd648888a98ad0e8750ae10ad556ed7a62affb452" kindref="member">ContentType::BINARY</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1ab73ae2f3176919fcdff786873dcf503c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1ab73ae2f3176919fcdff786873dcf503c" kindref="member">chunk_size</ref><sp/>=<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>1MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1aa70de25c1b1bf55e630dc66859a50288" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1aa70de25c1b1bf55e630dc66859a50288" kindref="member">overlap</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Text-specific<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1aa4151286e39fe3b31b629639d2804a56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1aa4151286e39fe3b31b629639d2804a56" kindref="member">respect_sentences</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>TEXT:<sp/>respect<sp/>sentence<sp/>boundaries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1ae733b50dab904b686955b214a33c56e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1ae733b50dab904b686955b214a33c56e0" kindref="member">respect_paragraphs</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>TEXT:<sp/>respect<sp/>paragraph<sp/>boundaries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Image-specific<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a0e5f000493d3100bb264ba335744bcf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a0e5f000493d3100bb264ba335744bcf4" kindref="member">tile_based</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>IMAGE:<sp/>tile-based<sp/>chunking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a3cee6175936698a631a8bc2a5e1a4b57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a3cee6175936698a631a8bc2a5e1a4b57" kindref="member">tile_width</ref><sp/>=<sp/>256;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tile<sp/>width<sp/>in<sp/>pixels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a15c176b148bd81152560c40beb7c5035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a15c176b148bd81152560c40beb7c5035" kindref="member">tile_height</ref><sp/>=<sp/>256;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tile<sp/>height<sp/>in<sp/>pixels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audio/Video-specific<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a8075d1195ebda508b278351cc87eb677" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a8075d1195ebda508b278351cc87eb677" kindref="member">time_based</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>AUDIO/VIDEO:<sp/>time-based<sp/>chunking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a3586e1b9e0e1345c5b73ca15bd5eb320" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config_1a3586e1b9e0e1345c5b73ca15bd5eb320" kindref="member">chunk_duration_seconds</ref><sp/>=<sp/>10.0;<sp/></highlight><highlight class="comment">//<sp/>Duration<sp/>per<sp/>chunk<sp/>in<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a41bc329e07d186e44c968775f1ecf676" kindref="member">MultiModalChunker</ref>();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a41bc329e07d186e44c968775f1ecf676" kindref="member">MultiModalChunker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kindref="compound">MultiModalConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a639f8440b81b885e1a152c42f41ef2bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a639f8440b81b885e1a152c42f41ef2bd" kindref="member">~MultiModalChunker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ContentChunker::Chunk&gt;<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1aff4f255e7fe52a66cf06c38dd9f1b081" kindref="member">chunk</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ContentChunker::Chunk&gt;<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a179ad9534d2a3d0d9a186db9cfc858d3" kindref="member">chunk_text</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ContentChunker::Chunk&gt;<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a46c1967e941dc62a12027c034e131baa" kindref="member">chunk_image</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>width,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>height,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes_per_pixel</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kindref="compound">MultiModalConfig</ref>&amp;<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a55ed7016d488569e74901726decee099" kindref="member">get_config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1a6a918eb6c0ef2c968aad93f7cbeecd91" kindref="member">set_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kindref="compound">MultiModalConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_multi_modal_chunker_1_1_multi_modal_config" kindref="compound">MultiModalConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_content_chunker" kindref="compound">ContentChunker</ref><sp/>generic_chunker_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>to<sp/>generic<sp/>chunking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>find_sentence_boundaries(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>find_paragraph_boundaries(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::content::pipeline</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/pipeline/multimodal_chunker.h"/>
+  </compounddef>
+</doxygen>

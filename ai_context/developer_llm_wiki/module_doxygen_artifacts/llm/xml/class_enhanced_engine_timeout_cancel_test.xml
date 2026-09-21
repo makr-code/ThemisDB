@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_enhanced_engine_timeout_cancel_test" kind="class" language="C++" prot="public">
+    <compoundname>EnhancedEngineTimeoutCancelTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_enhanced_engine_timeout_cancel_test_1af5ee44e5e6995bdc3539729c2cef6061" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kindref="compound">InferenceEngineEnhanced::Config</ref></type>
+        <definition>InferenceEngineEnhanced::Config EnhancedEngineTimeoutCancelTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>EnhancedEngineTimeoutCancelTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="309" column="37" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="309" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_enhanced_engine_timeout_cancel_test_1a0687cd2958285ac1296e63f8954289d8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void EnhancedEngineTimeoutCancelTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>EnhancedEngineTimeoutCancelTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="310" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="310" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>EnhancedEngineTimeoutCancelTest</label>
+        <link refid="class_enhanced_engine_timeout_cancel_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>EnhancedEngineTimeoutCancelTest</label>
+        <link refid="class_enhanced_engine_timeout_cancel_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::InferenceEngineEnhanced::Config</label>
+        <link refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="307" column="1" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="307" bodyend="318"/>
+    <listofallmembers>
+      <member refid="class_enhanced_engine_timeout_cancel_test_1af5ee44e5e6995bdc3539729c2cef6061" prot="protected" virt="non-virtual"><scope>EnhancedEngineTimeoutCancelTest</scope><name>config_</name></member>
+      <member refid="class_enhanced_engine_timeout_cancel_test_1a0687cd2958285ac1296e63f8954289d8" prot="protected" virt="non-virtual"><scope>EnhancedEngineTimeoutCancelTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

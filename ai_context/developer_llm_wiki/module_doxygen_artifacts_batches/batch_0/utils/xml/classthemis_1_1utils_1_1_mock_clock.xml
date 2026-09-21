@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_mock_clock" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::MockClock</compoundname>
+    <basecompoundref refid="classthemis_1_1utils_1_1_clock" prot="public" virt="non-virtual">themis::utils::Clock</basecompoundref>
+    <includes refid="mock__clock_8h" local="no">mock_clock.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_mock_clock_1a5b74aad5874c58f71620c1631693eb53" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::MockClock::current_time_</definition>
+        <argsstring></argsstring>
+        <name>current_time_</name>
+        <qualifiedname>themis::utils::MockClock::current_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/mock_clock.h" line="68" column="43" bodyfile="tests/utils/mock_clock.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_mock_clock_1a83e2a94010c7141a0dfc7a8eed11ab97" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::MockClock::MockClock</definition>
+        <argsstring>()</argsstring>
+        <name>MockClock</name>
+        <qualifiedname>themis::utils::MockClock::MockClock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/mock_clock.h" line="23" column="5" bodyfile="tests/utils/mock_clock.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_mock_clock_1af03198900d26b0182ca30c2e21475a4c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::MockClock::MockClock</definition>
+        <argsstring>(std::chrono::system_clock::time_point start_time)</argsstring>
+        <name>MockClock</name>
+        <qualifiedname>themis::utils::MockClock::MockClock</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>start_time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/mock_clock.h" line="25" column="14" bodyfile="tests/utils/mock_clock.h" bodystart="25" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_mock_clock_1a395ad49c85d1936a1bdd7b5e70ee366e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::MockClock::now</definition>
+        <argsstring>() const override</argsstring>
+        <name>now</name>
+        <qualifiedname>themis::utils::MockClock::now</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_clock_1ae49f27527af18805d97b6da9427718ca">now</reimplements>
+        <briefdescription>
+<para>Get current time point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current time as system_clock::time_point </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/mock_clock.h" line="28" column="43" bodyfile="tests/utils/mock_clock.h" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_mock_clock_1ad4883bf51c9acea6dd4fe93da5bb821a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::MockClock::sleep_for</definition>
+        <argsstring>(std::chrono::milliseconds duration) override</argsstring>
+        <name>sleep_for</name>
+        <qualifiedname>themis::utils::MockClock::sleep_for</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_clock_1a0cbab3c279e81ffda7f9259fd4e69829">sleep_for</reimplements>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Sleep for specified duration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Duration to sleep </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/mock_clock.h" line="32" column="10" bodyfile="tests/utils/mock_clock.h" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_mock_clock_1a2c1615fb9fa21c36c71dd5035e39224c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::MockClock::sleep_until</definition>
+        <argsstring>(std::chrono::system_clock::time_point time_point) override</argsstring>
+        <name>sleep_until</name>
+        <qualifiedname>themis::utils::MockClock::sleep_until</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_clock_1af7baf1717b2156231789cea62e722698">sleep_until</reimplements>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>time_point</declname>
+        </param>
+        <briefdescription>
+<para>Sleep until specified time point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time to sleep until </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/mock_clock.h" line="37" column="10" bodyfile="tests/utils/mock_clock.h" bodystart="37" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_mock_clock_1aa896222c49c80b0376e150c2a2ac2d7e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::MockClock::advance</definition>
+        <argsstring>(std::chrono::milliseconds duration)</argsstring>
+        <name>advance</name>
+        <qualifiedname>themis::utils::MockClock::advance</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Manually advance mock time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Duration to advance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/mock_clock.h" line="48" column="10" bodyfile="tests/utils/mock_clock.h" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_mock_clock_1a7c1c7028e70c7f505b6a28128c405d35" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::MockClock::set_time</definition>
+        <argsstring>(std::chrono::system_clock::time_point time_point)</argsstring>
+        <name>set_time</name>
+        <qualifiedname>themis::utils::MockClock::set_time</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>time_point</declname>
+        </param>
+        <briefdescription>
+<para>Set absolute time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>time_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time to set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/mock_clock.h" line="56" column="10" bodyfile="tests/utils/mock_clock.h" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_mock_clock_1a4770f5f7551430d429651de906cf7807" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::MockClock::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::utils::MockClock::reset</qualifiedname>
+        <briefdescription>
+<para>Reset to current system time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/mock_clock.h" line="63" column="10" bodyfile="tests/utils/mock_clock.h" bodystart="63" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock clock for deterministic testing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides controllable time for testing time-dependent behavior:<itemizedlist>
+<listitem><para>Manually advance time with <ref refid="classthemis_1_1utils_1_1_mock_clock_1aa896222c49c80b0376e150c2a2ac2d7e" kindref="member">advance()</ref></para>
+</listitem><listitem><para>Sleep operations immediately advance mock time</para>
+</listitem><listitem><para>No actual sleeping or waiting</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread Safety: This mock is NOT thread-safe. It is designed for single-threaded test scenarios where time control is explicit. Do not share <ref refid="classthemis_1_1utils_1_1_mock_clock" kindref="compound">MockClock</ref> instances across threads without external synchronization. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::utils::Clock</label>
+        <link refid="classthemis_1_1utils_1_1_clock"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::MockClock</label>
+        <link refid="classthemis_1_1utils_1_1_mock_clock"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::Clock</label>
+        <link refid="classthemis_1_1utils_1_1_clock"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::MockClock</label>
+        <link refid="classthemis_1_1utils_1_1_mock_clock"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/mock_clock.h" line="21" column="1" bodyfile="tests/utils/mock_clock.h" bodystart="21" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_mock_clock_1aa896222c49c80b0376e150c2a2ac2d7e" prot="public" virt="non-virtual"><scope>themis::utils::MockClock</scope><name>advance</name></member>
+      <member refid="classthemis_1_1utils_1_1_mock_clock_1a5b74aad5874c58f71620c1631693eb53" prot="private" virt="non-virtual"><scope>themis::utils::MockClock</scope><name>current_time_</name></member>
+      <member refid="classthemis_1_1utils_1_1_mock_clock_1a83e2a94010c7141a0dfc7a8eed11ab97" prot="public" virt="non-virtual"><scope>themis::utils::MockClock</scope><name>MockClock</name></member>
+      <member refid="classthemis_1_1utils_1_1_mock_clock_1af03198900d26b0182ca30c2e21475a4c" prot="public" virt="non-virtual"><scope>themis::utils::MockClock</scope><name>MockClock</name></member>
+      <member refid="classthemis_1_1utils_1_1_mock_clock_1a395ad49c85d1936a1bdd7b5e70ee366e" prot="public" virt="virtual"><scope>themis::utils::MockClock</scope><name>now</name></member>
+      <member refid="classthemis_1_1utils_1_1_mock_clock_1a4770f5f7551430d429651de906cf7807" prot="public" virt="non-virtual"><scope>themis::utils::MockClock</scope><name>reset</name></member>
+      <member refid="classthemis_1_1utils_1_1_mock_clock_1a7c1c7028e70c7f505b6a28128c405d35" prot="public" virt="non-virtual"><scope>themis::utils::MockClock</scope><name>set_time</name></member>
+      <member refid="classthemis_1_1utils_1_1_mock_clock_1ad4883bf51c9acea6dd4fe93da5bb821a" prot="public" virt="virtual"><scope>themis::utils::MockClock</scope><name>sleep_for</name></member>
+      <member refid="classthemis_1_1utils_1_1_mock_clock_1a2c1615fb9fa21c36c71dd5035e39224c" prot="public" virt="virtual"><scope>themis::utils::MockClock</scope><name>sleep_until</name></member>
+      <member refid="classthemis_1_1utils_1_1_clock_1a82a5f50e193ab2ad416eb70fb05b2139" prot="public" virt="virtual"><scope>themis::utils::MockClock</scope><name>~Clock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

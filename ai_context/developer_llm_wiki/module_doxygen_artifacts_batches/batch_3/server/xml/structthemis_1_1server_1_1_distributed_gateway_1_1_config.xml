@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_distributed_gateway_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::DistributedGateway::Config</compoundname>
+    <includes refid="distributed__gateway_8h" local="no">distributed_gateway.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a41415546423170eaecbd108952e91c51" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::DistributedGateway::Config::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::node_id</qualifiedname>
+        <initializer>= &quot;gw-1&quot;</initializer>
+        <briefdescription>
+<para>This node&apos;s ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="155" column="21" bodyfile="include/server/distributed_gateway.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a08106b21ca57b3e9b11fb2d43bf39bce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::DistributedGateway::Config::bind_address</definition>
+        <argsstring></argsstring>
+        <name>bind_address</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::bind_address</qualifiedname>
+        <initializer>= &quot;0.0.0.0&quot;</initializer>
+        <briefdescription>
+<para>Address to bind on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="156" column="21" bodyfile="include/server/distributed_gateway.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1abea0e3a01b17fd261253c289638a3217" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::server::DistributedGateway::Config::bind_port</definition>
+        <argsstring></argsstring>
+        <name>bind_port</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::bind_port</qualifiedname>
+        <initializer>= 8080</initializer>
+        <briefdescription>
+<para>Port to listen on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="157" column="21" bodyfile="include/server/distributed_gateway.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a757509c7472277ef4fa7be664887a5e9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_gateway_node" kindref="compound">GatewayNode</ref> &gt;</type>
+        <definition>std::vector&lt;GatewayNode&gt; themis::server::DistributedGateway::Config::cluster_nodes</definition>
+        <argsstring></argsstring>
+        <name>cluster_nodes</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::cluster_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="160" column="21" bodyfile="include/server/distributed_gateway.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a2abf30d260be42cfb41d08d51106ee64" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::DistributedGateway::Config::election_timeout_min_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_min_ms</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::election_timeout_min_ms</qualifiedname>
+        <initializer>= 150</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="163" column="18" bodyfile="include/server/distributed_gateway.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1afd17799a1bfbadb5e2d5b11773c49d9b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::DistributedGateway::Config::election_timeout_max_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_max_ms</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::election_timeout_max_ms</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="164" column="18" bodyfile="include/server/distributed_gateway.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1af861be1ce013ef1e3451f899597474c1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::DistributedGateway::Config::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="165" column="18" bodyfile="include/server/distributed_gateway.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a2c4d31642d6f48ff4101df6a54a57d18" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::server::DistributedGateway::Config::leader_failover_timeout</definition>
+        <argsstring></argsstring>
+        <name>leader_failover_timeout</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::leader_failover_timeout</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="168" column="35" bodyfile="include/server/distributed_gateway.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a8195fb0a7d78dbccef2445adc7fc4bfd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::DistributedGateway::Config::virtual_nodes_per_peer</definition>
+        <argsstring></argsstring>
+        <name>virtual_nodes_per_peer</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::virtual_nodes_per_peer</qualifiedname>
+        <initializer>= 150</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="171" column="18" bodyfile="include/server/distributed_gateway.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a2dbd87c1fc67a8bc1871fcaf79944d88" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::DistributedGateway::Config::continue_on_quorum_loss</definition>
+        <argsstring></argsstring>
+        <name>continue_on_quorum_loss</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::continue_on_quorum_loss</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Use last-known config when quorum is lost. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="174" column="14" bodyfile="include/server/distributed_gateway.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1ad5aa564c4c3549ebe9d13103bd14d613" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::DistributedGateway::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::max_retries</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="177" column="18" bodyfile="include/server/distributed_gateway.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1ad26727eb4f9e86d46a9c869c2290d9b1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::DistributedGateway::Config::retry_base_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_base_delay_ms</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::retry_base_delay_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="178" column="18" bodyfile="include/server/distributed_gateway.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1aeab61581919c8c6089c1348811c32790" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::DistributedGateway::Config::retry_max_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_max_delay_ms</name>
+        <qualifiedname>themis::server::DistributedGateway::Config::retry_max_delay_ms</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="179" column="18" bodyfile="include/server/distributed_gateway.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/distributed_gateway.h" line="153" column="5" bodyfile="include/server/distributed_gateway.h" bodystart="153" bodyend="180"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a08106b21ca57b3e9b11fb2d43bf39bce" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>bind_address</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1abea0e3a01b17fd261253c289638a3217" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>bind_port</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a757509c7472277ef4fa7be664887a5e9" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>cluster_nodes</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a2dbd87c1fc67a8bc1871fcaf79944d88" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>continue_on_quorum_loss</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1afd17799a1bfbadb5e2d5b11773c49d9b" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>election_timeout_max_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a2abf30d260be42cfb41d08d51106ee64" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>election_timeout_min_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1af861be1ce013ef1e3451f899597474c1" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a2c4d31642d6f48ff4101df6a54a57d18" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>leader_failover_timeout</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1ad5aa564c4c3549ebe9d13103bd14d613" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a41415546423170eaecbd108952e91c51" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1ad26727eb4f9e86d46a9c869c2290d9b1" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>retry_base_delay_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1aeab61581919c8c6089c1348811c32790" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>retry_max_delay_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_distributed_gateway_1_1_config_1a8195fb0a7d78dbccef2445adc7fc4bfd" prot="public" virt="non-virtual"><scope>themis::server::DistributedGateway::Config</scope><name>virtual_nodes_per_peer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

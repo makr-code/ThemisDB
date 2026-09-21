@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_legacy_image_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::LegacyImageProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor" prot="public" virt="non-virtual">themis::content::IContentProcessor</basecompoundref>
+    <includes refid="content__processor_8h" local="no">content_processor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_image_processor_1ac0c689ee3b23f324537a96a64a95fedf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::LegacyImageProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::LegacyImageProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32">extract</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="139" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_image_processor_1a3571eee8fdbc7a033e7087394e2f10c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::content::LegacyImageProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::LegacyImageProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="140" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_image_processor_1a12a1c1c300dc9713f9dbad9c093a4831" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::LegacyImageProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::LegacyImageProcessor::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c">generateEmbedding</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="141" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_image_processor_1ae5086b28806a73f9546d723471b27a95" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::LegacyImageProcessor::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::LegacyImageProcessor::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="142" column="17" bodyfile="include/content/content_processor.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_image_processor_1a2feb158376e51517f0b500ab3f332800" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>std::vector&lt; ContentCategory &gt; themis::content::LegacyImageProcessor::getSupportedCategories</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::LegacyImageProcessor::getSupportedCategories</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0">getSupportedCategories</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="143" column="17" bodyfile="include/content/content_processor.h" bodystart="143" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_image_processor_1a858a520e8cea8096db9ff8487c71aaa2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::LegacyImageProcessor::extractEXIF</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>extractEXIF</name>
+        <qualifiedname>themis::content::LegacyImageProcessor::extractEXIF</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract EXIF. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="153" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_legacy_image_processor_1a031aededed113c410482d9e1a7a409bd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; int, int &gt;</type>
+        <definition>std::pair&lt; int, int &gt; themis::content::LegacyImageProcessor::getImageDimensions</definition>
+        <argsstring>(const std::string &amp;blob)</argsstring>
+        <name>getImageDimensions</name>
+        <qualifiedname>themis::content::LegacyImageProcessor::getImageDimensions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="154" column="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::LegacyImageProcessor</label>
+        <link refid="classthemis_1_1content_1_1_legacy_image_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="1">
+        <label>themis::content::LegacyImageProcessor</label>
+        <link refid="classthemis_1_1content_1_1_legacy_image_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/content_processor.h" line="137" column="1" bodyfile="include/content/content_processor.h" bodystart="137" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_legacy_image_processor_1a3571eee8fdbc7a033e7087394e2f10c0" prot="public" virt="virtual"><scope>themis::content::LegacyImageProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_image_processor_1ac0c689ee3b23f324537a96a64a95fedf" prot="public" virt="virtual"><scope>themis::content::LegacyImageProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_image_processor_1a858a520e8cea8096db9ff8487c71aaa2" prot="private" virt="non-virtual"><scope>themis::content::LegacyImageProcessor</scope><name>extractEXIF</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_image_processor_1a12a1c1c300dc9713f9dbad9c093a4831" prot="public" virt="virtual"><scope>themis::content::LegacyImageProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_image_processor_1a031aededed113c410482d9e1a7a409bd" prot="private" virt="non-virtual"><scope>themis::content::LegacyImageProcessor</scope><name>getImageDimensions</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_image_processor_1ae5086b28806a73f9546d723471b27a95" prot="public" virt="virtual"><scope>themis::content::LegacyImageProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_legacy_image_processor_1a2feb158376e51517f0b500ab3f332800" prot="public" virt="virtual"><scope>themis::content::LegacyImageProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::LegacyImageProcessor</scope><name>~IContentProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

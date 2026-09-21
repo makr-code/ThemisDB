@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::DPRVectorizerConfig</compoundname>
+    <includes refid="dpr__vectorizer_8h" local="no">dpr_vectorizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::DPRVectorizerConfig::query_model_path</definition>
+        <argsstring></argsstring>
+        <name>query_model_path</name>
+        <qualifiedname>themis::rag::DPRVectorizerConfig::query_model_path</qualifiedname>
+        <briefdescription>
+<para>Path to query encoder model (ONNX or native format). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="31" column="17" bodyfile="include/rag/dpr_vectorizer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::DPRVectorizerConfig::passage_model_path</definition>
+        <argsstring></argsstring>
+        <name>passage_model_path</name>
+        <qualifiedname>themis::rag::DPRVectorizerConfig::passage_model_path</qualifiedname>
+        <briefdescription>
+<para>Path to passage encoder model (ONNX or native format). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="34" column="17" bodyfile="include/rag/dpr_vectorizer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a113aa159591e1bac52ea1a40889415e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::DPRVectorizerConfig::device</definition>
+        <argsstring></argsstring>
+        <name>device</name>
+        <qualifiedname>themis::rag::DPRVectorizerConfig::device</qualifiedname>
+        <initializer>= &quot;cpu&quot;</initializer>
+        <briefdescription>
+<para>Device for inference: &quot;cpu&quot; or &quot;cuda&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="37" column="17" bodyfile="include/rag/dpr_vectorizer.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ab3ebeb5546bff6200cc3e9da6f7d7e81" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DPRVectorizerConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::rag::DPRVectorizerConfig::batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>Batch size for passage encoding (GPU optimization). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="40" column="12" bodyfile="include/rag/dpr_vectorizer.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ad37c9c49a826963531abb67c2fe1d060" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DPRVectorizerConfig::embedding_dimension</definition>
+        <argsstring></argsstring>
+        <name>embedding_dimension</name>
+        <qualifiedname>themis::rag::DPRVectorizerConfig::embedding_dimension</qualifiedname>
+        <initializer>= 384</initializer>
+        <briefdescription>
+<para>Embedding dimension (typically 384 or 768; auto-detected if 0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="43" column="12" bodyfile="include/rag/dpr_vectorizer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a2f0c095b46a5200b68ffa2faff5c612a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::DPRVectorizerConfig::max_token_length</definition>
+        <argsstring></argsstring>
+        <name>max_token_length</name>
+        <qualifiedname>themis::rag::DPRVectorizerConfig::max_token_length</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Maximum token length for queries and passages. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="46" column="12" bodyfile="include/rag/dpr_vectorizer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a78a4a8b7fde87a5a88e57f9cced5dfa7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::DPRVectorizerConfig::normalize_embeddings</definition>
+        <argsstring></argsstring>
+        <name>normalize_embeddings</name>
+        <qualifiedname>themis::rag::DPRVectorizerConfig::normalize_embeddings</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Normalize embeddings to unit L2 norm for cosine distance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/dpr_vectorizer.h" line="49" column="10" bodyfile="include/rag/dpr_vectorizer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1_d_p_r_vectorizer" kindref="compound">DPRVectorizer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Specifies paths to query and passage encoder models, as well as device and batch-processing preferences. </para>
+    </detaileddescription>
+    <location file="include/rag/dpr_vectorizer.h" line="29" column="1" bodyfile="include/rag/dpr_vectorizer.h" bodystart="29" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ab3ebeb5546bff6200cc3e9da6f7d7e81" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizerConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a113aa159591e1bac52ea1a40889415e0" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizerConfig</scope><name>device</name></member>
+      <member refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1ad37c9c49a826963531abb67c2fe1d060" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizerConfig</scope><name>embedding_dimension</name></member>
+      <member refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a2f0c095b46a5200b68ffa2faff5c612a" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizerConfig</scope><name>max_token_length</name></member>
+      <member refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a78a4a8b7fde87a5a88e57f9cced5dfa7" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizerConfig</scope><name>normalize_embeddings</name></member>
+      <member refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1a8849e256a4a4a3e41e71223d615ceb8f" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizerConfig</scope><name>passage_model_path</name></member>
+      <member refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config_1af629710266011ca32cdafd71afb9c74f" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizerConfig</scope><name>query_model_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

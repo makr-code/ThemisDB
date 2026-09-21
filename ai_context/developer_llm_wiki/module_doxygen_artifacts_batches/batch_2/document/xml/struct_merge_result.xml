@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_merge_result" kind="struct" language="C++" prot="public">
+    <compoundname>MergeResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_merge_result_1ac349dddc4577744302cf5e5bff923996" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MergeResult::merged</definition>
+        <argsstring></argsstring>
+        <name>merged</name>
+        <qualifiedname>MergeResult::merged</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="107" column="17" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_merge_result_1a6615f106b5f591a0426abd3c1490996b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MergeResult::had_conflict</definition>
+        <argsstring></argsstring>
+        <name>had_conflict</name>
+        <qualifiedname>MergeResult::had_conflict</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_highcardinality_stress.cpp" line="108" column="17" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/document/test_document_highcardinality_stress.cpp" line="106" column="1" bodyfile="tests/document/test_document_highcardinality_stress.cpp" bodystart="106" bodyend="109"/>
+    <listofallmembers>
+      <member refid="struct_merge_result_1a6615f106b5f591a0426abd3c1490996b" prot="public" virt="non-virtual"><scope>MergeResult</scope><name>had_conflict</name></member>
+      <member refid="struct_merge_result_1ac349dddc4577744302cf5e5bff923996" prot="public" virt="non-virtual"><scope>MergeResult</scope><name>merged</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

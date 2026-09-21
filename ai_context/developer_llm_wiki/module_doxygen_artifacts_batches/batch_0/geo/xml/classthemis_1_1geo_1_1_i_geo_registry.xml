@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_i_geo_registry" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::geo::IGeoRegistry</compoundname>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_geo_backend_registry" prot="public" virt="non-virtual">themis::geo::GeoBackendRegistry</derivedcompoundref>
+    <includes refid="spatial__backend_8h" local="no">spatial_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_registry_1ac7807c5081759e8f939587f575fb50f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::geo::IGeoRegistry::~IGeoRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGeoRegistry</name>
+        <qualifiedname>themis::geo::IGeoRegistry::~IGeoRegistry</qualifiedname>
+        <briefdescription>
+<para>IGeo Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_backend.h" line="105" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_geo_registry_1a818dd6758c41eb9a483fbbe7a7aa5c97" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::geo::IGeoRegistry::registerBackend</definition>
+        <argsstring>(std::unique_ptr&lt; ISpatialComputeBackend &gt; backend)=0</argsstring>
+        <name>registerBackend</name>
+        <qualifiedname>themis::geo::IGeoRegistry::registerBackend</qualifiedname>
+        <reimplementedby refid="classthemis_1_1geo_1_1_geo_backend_registry_1a3b84995751a7363bbcc24b065fbb0ba5">registerBackend</reimplementedby>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Register Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_backend.h" line="110" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::geo::GeoBackendRegistry</label>
+        <link refid="classthemis_1_1geo_1_1_geo_backend_registry"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::geo::IGeoRegistry</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_registry"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/geo/spatial_backend.h" line="99" column="1" bodyfile="include/geo/spatial_backend.h" bodystart="99" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_i_geo_registry_1a818dd6758c41eb9a483fbbe7a7aa5c97" prot="public" virt="pure-virtual"><scope>themis::geo::IGeoRegistry</scope><name>registerBackend</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_registry_1ac7807c5081759e8f939587f575fb50f4" prot="public" virt="virtual"><scope>themis::geo::IGeoRegistry</scope><name>~IGeoRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

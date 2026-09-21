@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1arg" kind="namespace" language="C++">
+    <compoundname>themis::bench::arg</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1arg_1aa37df351933fbabc41f2044c85dcff6c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::arg::kAnalyticsCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kAnalyticsCanonicalSeed</name>
+        <qualifiedname>themis::bench::arg::kAnalyticsCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all ARG benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="82" column="27" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1arg_1a9605c2d87e07accc6f6ea5b4816f896d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::arg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::arg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="85" column="22" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1arg_1a3c3ed0c377fc4c805ccf6f2927cefc09" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::arg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::arg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="88" column="22" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1af9518e15fc834bcf10237e22ff66ebee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::int64_t &gt;</type>
+        <definition>static std::vector&lt; std::int64_t &gt; themis::bench::arg::makeRows</definition>
+        <argsstring>(std::size_t n, uint64_t seed)</argsstring>
+        <name>makeRows</name>
+        <qualifiedname>themis::bench::arg::makeRows</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>Build a deterministic row set of int64 values (no overflow). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="95" column="20" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="95" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1ad242754ea3522ac30e5eadce9747054d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">analytics::AnalyticsErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; analytics::AnalyticsErrorCode &gt; themis::bench::arg::sumRows</definition>
+        <argsstring>(const std::vector&lt; std::int64_t &gt; &amp;rows, std::int64_t &amp;out)</argsstring>
+        <name>sumRows</name>
+        <qualifiedname>themis::bench::arg::sumRows</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::int64_t &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>std::int64_t &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Sum without overflow (returns nullopt on success). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="107" column="22" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="107" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1a7464f91a754b9bf443d88ba8b813cd49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::bench::arg::evalTumblingWindow</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;events, std::size_t window_size)</argsstring>
+        <name>evalTumblingWindow</name>
+        <qualifiedname>themis::bench::arg::evalTumblingWindow</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>window_size</declname>
+        </param>
+        <briefdescription>
+<para>Simulates a tumbling window boundary evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="120" column="20" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="120" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1a65a560509a1daf4884f3835bb0099d9f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::uint64_t, double &gt;</type>
+        <definition>static std::unordered_map&lt; std::uint64_t, double &gt; themis::bench::arg::buildPlanCache</definition>
+        <argsstring>(std::size_t n)</argsstring>
+        <name>buildPlanCache</name>
+        <qualifiedname>themis::bench::arg::buildPlanCache</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Plan cache: maps query hash → mock cost. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="129" column="27" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="129" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1a2379962a29b4d15335e9db086bf1d761" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::arg::isAnomaly</definition>
+        <argsstring>(double value, double threshold)</argsstring>
+        <name>isAnomaly</name>
+        <qualifiedname>themis::bench::arg::isAnomaly</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Anomaly threshold check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="139" column="13" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1aec0923d2e842fb9922f69317f9067285" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::arg::cepMatch</definition>
+        <argsstring>(char a, char b, char c)</argsstring>
+        <name>cepMatch</name>
+        <qualifiedname>themis::bench::arg::cepMatch</qualifiedname>
+        <param>
+          <type>char</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>CEP state machine: A→B→C detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="144" column="13" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1a30bb563089f32b3d9230728881afb6c2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::arg::BM_ARG01_AggregationThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ARG01_AggregationThroughput</name>
+        <qualifiedname>themis::bench::arg::BM_ARG01_AggregationThroughput</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ARG-01: SUM over 1k in-memory int64 rows with overflow guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-ARG-01: ≥ 1M rows/s. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="157" column="13" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="157" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1a1bd82c064ed1dc81c251f04767dec3e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::arg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::arg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="172" column="5" declfile="benchmarks/analytics/bench_analytics_release_gates.cpp" declline="172" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1a869b9e74a71f0f06484a793fa3bc1b42" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::arg::BM_ARG02_WindowEvaluation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ARG02_WindowEvaluation</name>
+        <qualifiedname>themis::bench::arg::BM_ARG02_WindowEvaluation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ARG-02: Tumbling window boundary evaluation over 100 events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-ARG-02: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="184" column="13" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="184" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1a083edc03d094107c883fb43f7b8ed5c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::arg::BM_ARG03_OlapPlanLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ARG03_OlapPlanLookup</name>
+        <qualifiedname>themis::bench::arg::BM_ARG03_OlapPlanLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ARG-03: Deterministic plan-cache lookup by query hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-ARG-03: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="209" column="13" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="209" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1ac7c08685a3835bc86ca5b5914b737733" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::arg::BM_ARG04_AnomalyCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ARG04_AnomalyCheck</name>
+        <qualifiedname>themis::bench::arg::BM_ARG04_AnomalyCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ARG-04: Threshold evaluation for a single anomaly event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-ARG-04: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="235" column="13" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="235" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1a16d1f65a355932ce09fdc975470d9acb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::arg::BM_ARG05_CepPatternMatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ARG05_CepPatternMatch</name>
+        <qualifiedname>themis::bench::arg::BM_ARG05_CepPatternMatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ARG-05: A→B→C pattern detection over a 3-slot ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-ARG-05: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="261" column="13" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="261" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1arg_1a0ebb65fd5d98ed1097a5232a5d767485" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::arg::BM_ARG06_ForecastInferenceStub</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ARG06_ForecastInferenceStub</name>
+        <qualifiedname>themis::bench::arg::BM_ARG06_ForecastInferenceStub</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>ARG-06: Forecast input validation + mock inference (no I/O). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the path excluding any model file or network I/O. GATE-ARG-06: p99 ≤ 5 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="287" column="13" bodyfile="benchmarks/analytics/bench_analytics_release_gates.cpp" bodystart="287" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/analytics/bench_analytics_release_gates.cpp" line="75" column="1"/>
+  </compounddef>
+</doxygen>

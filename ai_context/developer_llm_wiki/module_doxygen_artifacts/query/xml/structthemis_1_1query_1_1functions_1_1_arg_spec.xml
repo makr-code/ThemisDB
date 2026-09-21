@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1functions_1_1_arg_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::functions::ArgSpec</compoundname>
+    <includes refid="function__registry_8h" local="no">function_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_arg_spec_1a9badecae211aa1815ca812e75a0d8679" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::ArgSpec::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::functions::ArgSpec::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="73" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_arg_spec_1a10597291052ed20ee0f439b672bbb445" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19" kindref="member">ArgType</ref></type>
+        <definition>ArgType themis::query::functions::ArgSpec::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::functions::ArgSpec::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" kindref="member">ArgType::ANY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="74" column="13" bodyfile="include/query/functions/function_registry.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_arg_spec_1aa92074c4f8d9a866e174938f36a613cc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::ArgSpec::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::query::functions::ArgSpec::required</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="75" column="10" bodyfile="include/query/functions/function_registry.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_arg_spec_1a7783b7b351e28483145fce0d7a444419" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::ArgSpec::default_value</definition>
+        <argsstring></argsstring>
+        <name>default_value</name>
+        <qualifiedname>themis::query::functions::ArgSpec::default_value</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="76" column="20" bodyfile="include/query/functions/function_registry.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1_arg_spec_1a095b4a69afab0789e36594c95bcb913a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::functions::ArgSpec::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::query::functions::ArgSpec::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="77" column="17" bodyfile="include/query/functions/function_registry.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/function_registry.h" line="72" column="1" bodyfile="include/query/functions/function_registry.h" bodystart="72" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a7783b7b351e28483145fce0d7a444419" prot="public" virt="non-virtual"><scope>themis::query::functions::ArgSpec</scope><name>default_value</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a095b4a69afab0789e36594c95bcb913a" prot="public" virt="non-virtual"><scope>themis::query::functions::ArgSpec</scope><name>description</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a9badecae211aa1815ca812e75a0d8679" prot="public" virt="non-virtual"><scope>themis::query::functions::ArgSpec</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1aa92074c4f8d9a866e174938f36a613cc" prot="public" virt="non-virtual"><scope>themis::query::functions::ArgSpec</scope><name>required</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1_arg_spec_1a10597291052ed20ee0f439b672bbb445" prot="public" virt="non-virtual"><scope>themis::query::functions::ArgSpec</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

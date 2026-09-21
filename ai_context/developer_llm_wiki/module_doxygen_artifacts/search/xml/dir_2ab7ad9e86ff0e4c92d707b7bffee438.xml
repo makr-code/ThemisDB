@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2ab7ad9e86ff0e4c92d707b7bffee438" kind="dir">
+    <compoundname>include/search</compoundname>
+    <innerfile refid="autocomplete_8h">autocomplete.h</innerfile>
+    <innerfile refid="conversational__search_8h">conversational_search.h</innerfile>
+    <innerfile refid="cross__lingual__search_8h">cross_lingual_search.h</innerfile>
+    <innerfile refid="distributed__hybrid__search_8h">distributed_hybrid_search.h</innerfile>
+    <innerfile refid="faceted__search_8h">faceted_search.h</innerfile>
+    <innerfile refid="federated__search_8h">federated_search.h</innerfile>
+    <innerfile refid="fuzzy__matcher_8h">fuzzy_matcher.h</innerfile>
+    <innerfile refid="hybrid__search_8h">hybrid_search.h</innerfile>
+    <innerfile refid="layered__retrieval__orchestrator_8h">layered_retrieval_orchestrator.h</innerfile>
+    <innerfile refid="learning__to__rank_8h">learning_to_rank.h</innerfile>
+    <innerfile refid="llm__query__rewriter_8h">llm_query_rewriter.h</innerfile>
+    <innerfile refid="llm__reranker_8h">llm_reranker.h</innerfile>
+    <innerfile refid="multi__field__search_8h">multi_field_search.h</innerfile>
+    <innerfile refid="multi__modal__search_8h">multi_modal_search.h</innerfile>
+    <innerfile refid="negative__keyword__filter_8h">negative_keyword_filter.h</innerfile>
+    <innerfile refid="neural__sparse__retrieval_8h">neural_sparse_retrieval.h</innerfile>
+    <innerfile refid="personalized__ranker_8h">personalized_ranker.h</innerfile>
+    <innerfile refid="query__expander_8h">query_expander.h</innerfile>
+    <innerfile refid="search__analytics_8h">search_analytics.h</innerfile>
+    <innerfile refid="search__error__codes_8h">search_error_codes.h</innerfile>
+    <innerfile refid="search__highlighter_8h">search_highlighter.h</innerfile>
+    <innerfile refid="search__result__stream_8h">search_result_stream.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/"/>
+  </compounddef>
+</doxygen>

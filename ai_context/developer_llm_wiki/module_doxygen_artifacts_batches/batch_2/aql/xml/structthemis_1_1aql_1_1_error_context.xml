@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::ErrorContext</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_error_context_1a735b3a109ba80abd2e056363652cb0f6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::ErrorContext::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::aql::ErrorContext::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="32" column="10" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_error_context_1a795e2bef58b01f78c5984a3b93dbe42d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ErrorContext::error_tag</definition>
+        <argsstring></argsstring>
+        <name>error_tag</name>
+        <qualifiedname>themis::aql::ErrorContext::error_tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="33" column="17" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_error_context_1af307e74b391e14d7943efbf6a0602f00" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::ErrorContext::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::aql::ErrorContext::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="34" column="17" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_error_context_1a555bf39476591e5141df1fa9302d8e1b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::ErrorContext::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::aql::ErrorContext::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="35" column="14" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_error_context_1a31c319ea36ffbffd5caafbf3b8dbb8a1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::aql::ErrorContext::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::aql::ErrorContext::timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="36" column="14" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="31" column="1" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="31" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_error_context_1af307e74b391e14d7943efbf6a0602f00" prot="public" virt="non-virtual"><scope>themis::aql::ErrorContext</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1aql_1_1_error_context_1a795e2bef58b01f78c5984a3b93dbe42d" prot="public" virt="non-virtual"><scope>themis::aql::ErrorContext</scope><name>error_tag</name></member>
+      <member refid="structthemis_1_1aql_1_1_error_context_1a555bf39476591e5141df1fa9302d8e1b" prot="public" virt="non-virtual"><scope>themis::aql::ErrorContext</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1aql_1_1_error_context_1a735b3a109ba80abd2e056363652cb0f6" prot="public" virt="non-virtual"><scope>themis::aql::ErrorContext</scope><name>success</name></member>
+      <member refid="structthemis_1_1aql_1_1_error_context_1a31c319ea36ffbffd5caafbf3b8dbb8a1" prot="public" virt="non-virtual"><scope>themis::aql::ErrorContext</scope><name>timestamp_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

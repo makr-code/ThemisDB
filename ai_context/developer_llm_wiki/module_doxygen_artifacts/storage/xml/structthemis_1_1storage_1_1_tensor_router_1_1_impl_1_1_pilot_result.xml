@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorRouter::Impl::PilotResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result_1a1336278dc5568b468b1b133340ae6725" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorRouter::Impl::PilotResult::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::PilotResult::compression_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="121" column="21" bodyfile="src/storage/tensor_router.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result_1a8f1d75ddc63d2f6462a1fc5bd8506883" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRouter::Impl::PilotResult::pilot_rank</definition>
+        <argsstring></argsstring>
+        <name>pilot_rank</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::PilotResult::pilot_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="122" column="21" bodyfile="src/storage/tensor_router.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result_1a86774f711746b4cf38d5d8c5e741846e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorRouter::Impl::PilotResult::achieved_eps</definition>
+        <argsstring></argsstring>
+        <name>achieved_eps</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::PilotResult::achieved_eps</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="123" column="21" bodyfile="src/storage/tensor_router.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result_1a6e4bf63548bf39ef6267a9aaf7f31263" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorRouter::Impl::PilotResult::kappa</definition>
+        <argsstring></argsstring>
+        <name>kappa</name>
+        <qualifiedname>themis::storage::TensorRouter::Impl::PilotResult::kappa</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Compressibility indicator κ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/tensor_router.cpp" line="124" column="21" bodyfile="src/storage/tensor_router.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/tensor_router.cpp" line="120" column="5" bodyfile="src/storage/tensor_router.cpp" bodystart="120" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result_1a86774f711746b4cf38d5d8c5e741846e" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl::PilotResult</scope><name>achieved_eps</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result_1a1336278dc5568b468b1b133340ae6725" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl::PilotResult</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result_1a6e4bf63548bf39ef6267a9aaf7f31263" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl::PilotResult</scope><name>kappa</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl_1_1_pilot_result_1a8f1d75ddc63d2f6462a1fc5bd8506883" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter::Impl::PilotResult</scope><name>pilot_rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

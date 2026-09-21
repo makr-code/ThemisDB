@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAOrchestrator::Config</compoundname>
+    <includes refid="lora__orchestrator_8h" local="no">lora_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a348959d93d14bdd3e79507a3ad77dc27" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_multi_lo_r_a_manager_1_1_config" kindref="compound">MultiLoRAManager::Config</ref></type>
+        <definition>MultiLoRAManager::Config themis::llm::lora::LoRAOrchestrator::Config::adapter_config</definition>
+        <argsstring></argsstring>
+        <name>adapter_config</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Config::adapter_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="87" column="34" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1afd8333f7e637fc00a6856e8fe6778710" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" kindref="compound">LoRAStorageService::Config</ref></type>
+        <definition>LoRAStorageService::Config themis::llm::lora::LoRAOrchestrator::Config::storage_config</definition>
+        <argsstring></argsstring>
+        <name>storage_config</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Config::storage_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="90" column="36" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a47ad53fb3c734788fb2dd02d1860cfa4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" kindref="compound">LoRATrainingService::Config</ref></type>
+        <definition>LoRATrainingService::Config themis::llm::lora::LoRAOrchestrator::Config::training_config</definition>
+        <argsstring></argsstring>
+        <name>training_config</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Config::training_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="93" column="37" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1acc17818be3c61b91661ae4ae5b1c620b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::LoRAOrchestrator::Config::max_concurrent_jobs</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_jobs</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Config::max_concurrent_jobs</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="96" column="13" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1ad34cd86b6417cdae0a7aad04d9edf52e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::Config::enable_job_queue</definition>
+        <argsstring></argsstring>
+        <name>enable_job_queue</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Config::enable_job_queue</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="97" column="14" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1af268495f78ac9a318c931a0c5e4db1d4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::Config::enable_auto_versioning</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_versioning</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Config::enable_auto_versioning</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="98" column="14" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a4eb3c29b6e8f7009dcc021cb4c956157" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::Config::enable_health_monitoring</definition>
+        <argsstring></argsstring>
+        <name>enable_health_monitoring</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Config::enable_health_monitoring</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="99" column="14" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a812f163b9f842aca9d73d3a956a17e53" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::lora::LoRAOrchestrator::Config::health_check_interval</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Config::health_check_interval</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="100" column="30" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a09f755b3b894198d362a3693cca0746a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::Config::use_multi_lora_manager</definition>
+        <argsstring></argsstring>
+        <name>use_multi_lora_manager</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::Config::use_multi_lora_manager</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="103" column="14" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::llm::LoRAQuantizationConfig</label>
+        <link refid="structthemis_1_1llm_1_1_lo_r_a_quantization_config"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::MultiGPUConfig</label>
+        <link refid="structthemis_1_1llm_1_1_multi_g_p_u_config"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::MultiLoRAManager::Config</label>
+        <link refid="structthemis_1_1llm_1_1_multi_lo_r_a_manager_1_1_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>quantization</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>multi_gpu</edgelabel>
+        </childnode>
+      </node>
+      <node id="12">
+        <label>themis::llm::lora::GradientAccumulationConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config"/>
+      </node>
+      <node id="11">
+        <label>themis::llm::lora::GradientClippingConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config"/>
+      </node>
+      <node id="10">
+        <label>themis::llm::lora::LRSchedulerConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_l_r_scheduler_config"/>
+      </node>
+      <node id="7">
+        <label>themis::llm::lora::LoRAHyperparameters</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::LoRAOrchestrator::Config</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>adapter_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>storage_config</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>training_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::llm::lora::LoRAStorageService::Config</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config"/>
+      </node>
+      <node id="6">
+        <label>themis::llm::lora::LoRATrainingService::Config</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config"/>
+        <childnode refid="7" relation="usage">
+          <edgelabel>default_hyperparameters</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>qlora</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>mixed_precision</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>lr_scheduler</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>gradient_clipping</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>gradient_accumulation</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::llm::lora::MixedPrecisionConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config"/>
+      </node>
+      <node id="8">
+        <label>themis::llm::lora::QLoRAConfig</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_q_lo_r_a_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lora_orchestrator.h" line="85" column="5" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="85" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a348959d93d14bdd3e79507a3ad77dc27" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Config</scope><name>adapter_config</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1af268495f78ac9a318c931a0c5e4db1d4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Config</scope><name>enable_auto_versioning</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a4eb3c29b6e8f7009dcc021cb4c956157" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Config</scope><name>enable_health_monitoring</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1ad34cd86b6417cdae0a7aad04d9edf52e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Config</scope><name>enable_job_queue</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a812f163b9f842aca9d73d3a956a17e53" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Config</scope><name>health_check_interval</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1acc17818be3c61b91661ae4ae5b1c620b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Config</scope><name>max_concurrent_jobs</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1afd8333f7e637fc00a6856e8fe6778710" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Config</scope><name>storage_config</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a47ad53fb3c734788fb2dd02d1860cfa4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Config</scope><name>training_config</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a09f755b3b894198d362a3693cca0746a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::Config</scope><name>use_multi_lora_manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

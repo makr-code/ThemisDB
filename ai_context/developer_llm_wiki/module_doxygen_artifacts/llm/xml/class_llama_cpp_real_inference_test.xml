@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_llama_cpp_real_inference_test" kind="class" language="C++" prot="public">
+    <compoundname>LlamaCppRealInferenceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_llama_cpp_real_inference_test_1ada49d18f4699473a8426380958ca83ee" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LlamaCppRealInferenceTest::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>LlamaCppRealInferenceTest::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_real_inference.cpp" line="140" column="17" bodyfile="tests/llm/test_llama_cpp_real_inference.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_llama_cpp_real_inference_test_1a3fb2f300094f04b2be0dd39a78e05f48" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool LlamaCppRealInferenceTest::model_available_</definition>
+        <argsstring></argsstring>
+        <name>model_available_</name>
+        <qualifiedname>LlamaCppRealInferenceTest::model_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_real_inference.cpp" line="141" column="10" bodyfile="tests/llm/test_llama_cpp_real_inference.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_llama_cpp_real_inference_test_1aea1588f5af226dff9717a807bc800b12" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LlamaCppRealInferenceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LlamaCppRealInferenceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_real_inference.cpp" line="66" column="10" bodyfile="tests/llm/test_llama_cpp_real_inference.cpp" bodystart="66" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_llama_cpp_real_inference_test_1a2ca5d0bc76d944a7b1e2c47ca495109b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LlamaCppRealInferenceTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LlamaCppRealInferenceTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llama_cpp_real_inference.cpp" line="99" column="10" bodyfile="tests/llm/test_llama_cpp_real_inference.cpp" bodystart="99" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LlamaCppRealInferenceTest</label>
+        <link refid="class_llama_cpp_real_inference_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LlamaCppRealInferenceTest</label>
+        <link refid="class_llama_cpp_real_inference_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llama_cpp_real_inference.cpp" line="64" column="1" bodyfile="tests/llm/test_llama_cpp_real_inference.cpp" bodystart="64" bodyend="142"/>
+    <listofallmembers>
+      <member refid="class_llama_cpp_real_inference_test_1a3fb2f300094f04b2be0dd39a78e05f48" prot="protected" virt="non-virtual"><scope>LlamaCppRealInferenceTest</scope><name>model_available_</name></member>
+      <member refid="class_llama_cpp_real_inference_test_1ada49d18f4699473a8426380958ca83ee" prot="protected" virt="non-virtual"><scope>LlamaCppRealInferenceTest</scope><name>model_path_</name></member>
+      <member refid="class_llama_cpp_real_inference_test_1aea1588f5af226dff9717a807bc800b12" prot="protected" virt="non-virtual"><scope>LlamaCppRealInferenceTest</scope><name>SetUp</name></member>
+      <member refid="class_llama_cpp_real_inference_test_1a2ca5d0bc76d944a7b1e2c47ca495109b" prot="protected" virt="non-virtual"><scope>LlamaCppRealInferenceTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

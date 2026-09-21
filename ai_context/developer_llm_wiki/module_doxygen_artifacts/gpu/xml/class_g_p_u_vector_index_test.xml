@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_vector_index_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUVectorIndexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_p_u_vector_index_test_1a6a90dc97367aa492075d56212f751e32" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int GPUVectorIndexTest::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>GPUVectorIndexTest::dimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vector_index.cpp" line="39" column="9" bodyfile="tests/gpu/test_gpu_vector_index.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_vector_index_test_1a86513305c7ae5001be52217a07379daf" prot="protected" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t GPUVectorIndexTest::numVectors</definition>
+        <argsstring></argsstring>
+        <name>numVectors</name>
+        <qualifiedname>GPUVectorIndexTest::numVectors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vector_index.cpp" line="40" column="12" bodyfile="tests/gpu/test_gpu_vector_index.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_vector_index_test_1a23c013efb8a4c247c7cd30262db3dc2e" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; GPUVectorIndexTest::testVectors</definition>
+        <argsstring></argsstring>
+        <name>testVectors</name>
+        <qualifiedname>GPUVectorIndexTest::testVectors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vector_index.cpp" line="41" column="17" bodyfile="tests/gpu/test_gpu_vector_index.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_vector_index_test_1a149e47a0e0ffcebe0b34e2bc983bb65e" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; GPUVectorIndexTest::testIds</definition>
+        <argsstring></argsstring>
+        <name>testIds</name>
+        <qualifiedname>GPUVectorIndexTest::testIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vector_index.cpp" line="42" column="17" bodyfile="tests/gpu/test_gpu_vector_index.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_vector_index_test_1aaae8491506f8548a8c4918a7ba4886ac" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; GPUVectorIndexTest::queryVector</definition>
+        <argsstring></argsstring>
+        <name>queryVector</name>
+        <qualifiedname>GPUVectorIndexTest::queryVector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vector_index.cpp" line="43" column="17" bodyfile="tests/gpu/test_gpu_vector_index.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_vector_index_test_1a3e1b4de34441641fdf262116be9f9a2b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUVectorIndexTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUVectorIndexTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vector_index.cpp" line="15" column="10" bodyfile="tests/gpu/test_gpu_vector_index.cpp" bodystart="15" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUVectorIndexTest</label>
+        <link refid="class_g_p_u_vector_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUVectorIndexTest</label>
+        <link refid="class_g_p_u_vector_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_vector_index.cpp" line="13" column="1" bodyfile="tests/gpu/test_gpu_vector_index.cpp" bodystart="13" bodyend="44"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_vector_index_test_1a6a90dc97367aa492075d56212f751e32" prot="protected" virt="non-virtual"><scope>GPUVectorIndexTest</scope><name>dimension</name></member>
+      <member refid="class_g_p_u_vector_index_test_1a86513305c7ae5001be52217a07379daf" prot="protected" virt="non-virtual"><scope>GPUVectorIndexTest</scope><name>numVectors</name></member>
+      <member refid="class_g_p_u_vector_index_test_1aaae8491506f8548a8c4918a7ba4886ac" prot="protected" virt="non-virtual"><scope>GPUVectorIndexTest</scope><name>queryVector</name></member>
+      <member refid="class_g_p_u_vector_index_test_1a3e1b4de34441641fdf262116be9f9a2b" prot="protected" virt="non-virtual"><scope>GPUVectorIndexTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_vector_index_test_1a149e47a0e0ffcebe0b34e2bc983bb65e" prot="protected" virt="non-virtual"><scope>GPUVectorIndexTest</scope><name>testIds</name></member>
+      <member refid="class_g_p_u_vector_index_test_1a23c013efb8a4c247c7cd30262db3dc2e" prot="protected" virt="non-virtual"><scope>GPUVectorIndexTest</scope><name>testVectors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_connection_pool_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ConnectionPool::Stats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_connection_pool_1_1_stats_1a03f388e175eace524867fda6b910751a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::Stats::available</definition>
+        <argsstring></argsstring>
+        <name>available</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::Stats::available</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="58" column="13" bodyfile="src/analytics/analytics_engine.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_connection_pool_1_1_stats_1aa8fc375e529d2304e6e998976a158676" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::Stats::total</definition>
+        <argsstring></argsstring>
+        <name>total</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::Stats::total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="59" column="13" bodyfile="src/analytics/analytics_engine.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_connection_pool_1_1_stats_1a5286c789be08654f8b446661331a426a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::Stats::peak_used</definition>
+        <argsstring></argsstring>
+        <name>peak_used</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::Stats::peak_used</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="60" column="13" bodyfile="src/analytics/analytics_engine.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/analytics_engine.cpp" line="57" column="5" bodyfile="src/analytics/analytics_engine.cpp" bodystart="57" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_connection_pool_1_1_stats_1a03f388e175eace524867fda6b910751a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool::Stats</scope><name>available</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_connection_pool_1_1_stats_1a5286c789be08654f8b446661331a426a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool::Stats</scope><name>peak_used</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_connection_pool_1_1_stats_1aa8fc375e529d2304e6e998976a158676" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool::Stats</scope><name>total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

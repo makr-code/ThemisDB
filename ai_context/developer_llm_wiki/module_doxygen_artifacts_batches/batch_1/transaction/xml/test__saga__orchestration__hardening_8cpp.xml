@@ -1,0 +1,738 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__saga__orchestration__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_saga_orchestration_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">map</includes>
+    <includes local="no">random</includes>
+    <includes refid="saga__orchestrator_8h" local="yes">transaction/saga_orchestrator.h</includes>
+    <includes refid="distributed__saga_8h" local="yes">transaction/distributed_saga.h</includes>
+    <includes refid="compensation__log_8h" local="yes">transaction/compensation_log.h</includes>
+    <includes local="yes">include/transaction/transaction.h</includes>
+    <incdepgraph>
+      <node id="21">
+        <label>transaction/compensation_log.h</label>
+        <link refid="compensation__log_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>transaction/distributed_saga.h</label>
+        <link refid="distributed__saga_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>transaction/saga_orchestrator.h</label>
+        <link refid="saga__orchestrator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/transaction/test_saga_orchestration_hardening.cpp</label>
+        <link refid="test__saga__orchestration__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="19">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="22">
+        <label>include/transaction/transaction.h</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="14">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>queue</label>
+      </node>
+      <node id="11">
+        <label>random</label>
+      </node>
+      <node id="15">
+        <label>set</label>
+      </node>
+      <node id="16">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test" prot="public">themis::transaction::test::CircuitBreakerTest</innerclass>
+    <innerclass refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" prot="public">themis::transaction::test::CompensationIdempotencyTest</innerclass>
+    <innerclass refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test" prot="public">themis::transaction::test::PartialFailureTest</innerclass>
+    <innerclass refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test" prot="public">themis::transaction::test::RetryStormTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction_1_1test">themis::transaction::test</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>test_saga_orchestration_hardening.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CRITICAL<sp/>MODULE:<sp/>TRANSACTION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Acceptance<sp/>Criteria:<sp/>AC-9<sp/>(SAGA<sp/>Orchestration)<sp/>+<sp/>AC-10<sp/>(Retry<sp/>Storm<sp/>Handling)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PURPOSE:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validates<sp/>SAGA<sp/>orchestration<sp/>robustness<sp/>under<sp/>failure<sp/>scenarios:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Circuit<sp/>breaker<sp/>activation<sp/>after<sp/>5<sp/>consecutive<sp/>remote<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Compensation<sp/>idempotency<sp/>under<sp/>10<sp/>concurrent<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Partial<sp/>failure<sp/>handling<sp/>(some<sp/>steps<sp/>succeed,<sp/>some<sp/>fail)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Retry<sp/>storm<sp/>suppression<sp/>with<sp/>exponential<sp/>backoff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TEST<sp/>CATEGORIES<sp/>(20<sp/>total):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CIRCUIT_BREAKER<sp/>(5):<sp/>Threshold,<sp/>recovery,<sp/>half-open<sp/>state,<sp/>metrics,<sp/>edge<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMPENSATION<sp/>(7):<sp/>Idempotency,<sp/>concurrent<sp/>retries,<sp/>ordering,<sp/>rollback<sp/>chains</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PARTIAL_FAILURE<sp/>(5):<sp/>Mixed<sp/>success/failure,<sp/>cascading,<sp/>selective<sp/>compensation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RETRY_STORM<sp/>(3):<sp/>Backoff<sp/>validation,<sp/>jitter,<sp/>bounded<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ACCEPTANCE<sp/>CRITERIA:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-9.1:<sp/>Circuit<sp/>breaker<sp/>activates<sp/>after<sp/>5<sp/>consecutive<sp/>remote<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-9.2:<sp/>Partial<sp/>failure<sp/>scenarios<sp/>(some<sp/>steps<sp/>OK,<sp/>some<sp/>fail)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-9.3:<sp/>Compensation<sp/>ordering<sp/>is<sp/>deterministic<sp/>(reverse<sp/>sequence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-10.1:<sp/>Compensation<sp/>idempotency<sp/>under<sp/>10<sp/>concurrent<sp/>retries<sp/>(same<sp/>outcome)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-10.2:<sp/>Retry<sp/>storm<sp/>suppression<sp/>with<sp/>exponential<sp/>backoff<sp/>(base<sp/>100ms,<sp/>factor<sp/>2x)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-10.3:<sp/>Error<sp/>codes<sp/>consistent<sp/>across<sp/>retries<sp/>(no<sp/>silent<sp/>transitions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVIDENCE:<sp/>src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GENERATED:<sp/>2026-09-02</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="saga__orchestrator_8h" kindref="compound">transaction/saga_orchestrator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__saga_8h" kindref="compound">transaction/distributed_saga.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="compensation__log_8h" kindref="compound">transaction/compensation_log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;include/transaction/transaction.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test" kindref="compound">themis::transaction::test</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CIRCUIT<sp/>BREAKER<sp/>TESTS<sp/>(5)<sp/>—<sp/>Threshold<sp/>+<sp/>Recovery<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test" kindref="compound">CircuitBreakerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a6120da1b74f50cd2dd414c1936d53e37" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>SAGA<sp/>orchestrator<sp/>with<sp/>default<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a9df1aa7695943bcea0046af7db9a6d9a" kindref="member">saga_orchestrator_</ref><sp/>=<sp/>std::make_unique&lt;SAGAOrchestrator&gt;();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a3378a0426190fc0707189bf46fcda320" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a9df1aa7695943bcea0046af7db9a6d9a" kindref="member">saga_orchestrator_</ref>.reset();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;SAGAOrchestrator&gt;<sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a9df1aa7695943bcea0046af7db9a6d9a" kindref="member">saga_orchestrator_</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test" kindref="compound">CircuitBreakerTest</ref>,<sp/>CircuitBreakerActivatesAtThreshold_5Failures)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>SAGA<sp/>orchestrator<sp/>with<sp/>remote<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>1001;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Simulate<sp/>5<sp/>consecutive<sp/>remote<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/>std::vector&lt;bool&gt;<sp/>failure_sequence<sp/>=<sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>to<sp/>execute<sp/>remote<sp/>step<sp/>(simulate<sp/>failure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;remote_step_1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;{\&quot;action\&quot;:<sp/>\&quot;debit\&quot;}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Step<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>should<sp/>fail&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Circuit<sp/>breaker<sp/>should<sp/>be<sp/>open<sp/>(reject<sp/>subsequent<sp/>calls)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb_state<sp/>=<sp/>saga_orchestrator_-&gt;getCircuitBreakerState(</highlight><highlight class="stringliteral">&quot;remote_step_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>EXPECT_EQ(cb_state,<sp/></highlight><highlight class="stringliteral">&quot;OPEN&quot;</highlight><highlight class="normal">)<sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>breaker<sp/>should<sp/>be<sp/>OPEN<sp/>after<sp/>5<sp/>consecutive<sp/>failures&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(CircuitBreakerTest,<sp/>CircuitBreakerRecovery_HalfOpenAfterTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Circuit<sp/>breaker<sp/>in<sp/>OPEN<sp/>state<sp/>(from<sp/>previous<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>1002;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>5<sp/>failures<sp/>to<sp/>open<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;remote_step_2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>EXPECT_EQ(saga_orchestrator_-&gt;getCircuitBreakerState(</highlight><highlight class="stringliteral">&quot;remote_step_2&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;OPEN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Wait<sp/>for<sp/>recovery<sp/>timeout<sp/>(typically<sp/>30s,<sp/>simulate<sp/>via<sp/>mock)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;simulateCircuitBreakerTimeout(</highlight><highlight class="stringliteral">&quot;remote_step_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Circuit<sp/>breaker<sp/>should<sp/>transition<sp/>to<sp/>HALF_OPEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state_after<sp/>=<sp/>saga_orchestrator_-&gt;getCircuitBreakerState(</highlight><highlight class="stringliteral">&quot;remote_step_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/>EXPECT_EQ(state_after,<sp/></highlight><highlight class="stringliteral">&quot;HALF_OPEN&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>breaker<sp/>should<sp/>be<sp/>HALF_OPEN<sp/>after<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test" kindref="compound">CircuitBreakerTest</ref>,<sp/>CircuitBreakerRecovery_SuccessfulTransition)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Circuit<sp/>breaker<sp/>in<sp/>HALF_OPEN<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>1003;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>failures<sp/>then<sp/>timeout<sp/>to<sp/>reach<sp/>HALF_OPEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;remote_step_3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;simulateCircuitBreakerTimeout(</highlight><highlight class="stringliteral">&quot;remote_step_3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/>EXPECT_EQ(saga_orchestrator_-&gt;getCircuitBreakerState(</highlight><highlight class="stringliteral">&quot;remote_step_3&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;HALF_OPEN&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Execute<sp/>a<sp/>successful<sp/>request<sp/>in<sp/>HALF_OPEN<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;remote_step_3&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;{\&quot;action\&quot;:<sp/>\&quot;debit\&quot;,<sp/>\&quot;amount\&quot;:<sp/>100}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>true<sp/>=<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Circuit<sp/>breaker<sp/>should<sp/>close</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state_closed<sp/>=<sp/>saga_orchestrator_-&gt;getCircuitBreakerState(</highlight><highlight class="stringliteral">&quot;remote_step_3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/>EXPECT_EQ(state_closed,<sp/></highlight><highlight class="stringliteral">&quot;CLOSED&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>breaker<sp/>should<sp/>transition<sp/>to<sp/>CLOSED<sp/>after<sp/>successful<sp/>request&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test" kindref="compound">CircuitBreakerTest</ref>,<sp/>CircuitBreakerMetrics_CountingAndTracking)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>SAGA<sp/>with<sp/>tracked<sp/>circuit<sp/>breaker<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>1004;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Execute<sp/>requests<sp/>and<sp/>track<sp/>state<sp/>transitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;remote_step_4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Metrics<sp/>should<sp/>show<sp/>3<sp/>failures<sp/>recorded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>saga_orchestrator_-&gt;getCircuitBreakerMetrics(</highlight><highlight class="stringliteral">&quot;remote_step_4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/>EXPECT_EQ(metrics.consecutive_failures,<sp/>3)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failure<sp/>counter<sp/>should<sp/>track<sp/>3<sp/>failures&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/>EXPECT_GT(metrics.last_transition_time_ms,<sp/>0)</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Transition<sp/>time<sp/>should<sp/>be<sp/>recorded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test" kindref="compound">CircuitBreakerTest</ref>,<sp/>CircuitBreakerEdgeCase_NoTriggerBeforeThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Circuit<sp/>breaker<sp/>threshold<sp/>is<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>1005;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Execute<sp/>only<sp/>4<sp/>failed<sp/>requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;remote_step_5&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Circuit<sp/>breaker<sp/>should<sp/>still<sp/>be<sp/>CLOSED<sp/>(threshold<sp/>not<sp/>reached)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref><sp/>=<sp/>saga_orchestrator_-&gt;getCircuitBreakerState(</highlight><highlight class="stringliteral">&quot;remote_step_5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/>EXPECT_EQ(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/></highlight><highlight class="stringliteral">&quot;CLOSED&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>breaker<sp/>should<sp/>not<sp/>open<sp/>before<sp/>threshold<sp/>(4<sp/>&lt;<sp/>5)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COMPENSATION<sp/>IDEMPOTENCY<sp/>TESTS<sp/>(7)<sp/>—<sp/>Concurrent<sp/>Retries<sp/>+<sp/>Ordering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" kindref="compound">CompensationIdempotencyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1aee540aceda64dfb0c3cdecd2069c9ced" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1aff9f90d0c46eacdae586eb3fab4d48c6" kindref="member">saga_orchestrator_</ref><sp/>=<sp/>std::make_unique&lt;SAGAOrchestrator&gt;();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1a984aabaf8d3cdec8e6668ed29fce8062" kindref="member">compensation_log_</ref><sp/>=<sp/>std::make_unique&lt;CompensationLog&gt;();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1acc75afc1e00fd6308ec325f2f18b43f0" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1aff9f90d0c46eacdae586eb3fab4d48c6" kindref="member">saga_orchestrator_</ref>.reset();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1a984aabaf8d3cdec8e6668ed29fce8062" kindref="member">compensation_log_</ref>.reset();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;SAGAOrchestrator&gt;<sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1aff9f90d0c46eacdae586eb3fab4d48c6" kindref="member">saga_orchestrator_</ref>;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;CompensationLog&gt;<sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1a984aabaf8d3cdec8e6668ed29fce8062" kindref="member">compensation_log_</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" kindref="compound">CompensationIdempotencyTest</ref>,<sp/>CompensationIdempotency_10ConcurrentRetries)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>A<sp/>SAGA<sp/>transaction<sp/>with<sp/>compensation<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>2001;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n_retries<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>state:<sp/>debit<sp/>account<sp/>by<sp/>100</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/>std::map&lt;std::string,<sp/>int&gt;<sp/>account_state;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/>account_state[</highlight><highlight class="stringliteral">&quot;balance&quot;</highlight><highlight class="normal">]<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Execute<sp/>forward<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;debit&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/>account_state[</highlight><highlight class="stringliteral">&quot;balance&quot;</highlight><highlight class="normal">]<sp/>-=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Now:<sp/>900</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>And:<sp/>Trigger<sp/>compensation<sp/>concurrently<sp/>N<sp/>times<sp/>(simulate<sp/>retries)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/>std::vector&lt;std::map&lt;std::string,<sp/>int&gt;&gt;<sp/>compensation_results;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/>std::mutex<sp/>result_lock<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>run_compensation<sp/>=<sp/>[&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retry_num)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>saga_orchestrator_-&gt;compensateStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;debit&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(result_lock);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>compensation_results.push_back(result);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>compensation_threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n_retries;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>compensation_threads.emplace_back(run_compensation,<sp/>i);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>compensation_threads)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>All<sp/>compensations<sp/>should<sp/>yield<sp/>identical<sp/>result<sp/>(idempotent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/>EXPECT_EQ(compensation_results.size(),<sp/>n_retries);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>compensation_results.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(compensation_results[i],<sp/>compensation_results[0])</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Compensation<sp/>result<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>should<sp/>match<sp/>result<sp/>0<sp/>(idempotent)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/>EXPECT_EQ(compensation_results[0][</highlight><highlight class="stringliteral">&quot;balance&quot;</highlight><highlight class="normal">],<sp/>1000)</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Balance<sp/>should<sp/>be<sp/>restored<sp/>to<sp/>original<sp/>value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" kindref="compound">CompensationIdempotencyTest</ref>,<sp/>CompensationOrdering_ReverseSequence)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Multi-step<sp/>SAGA<sp/>(debit<sp/>→<sp/>credit<sp/>→<sp/>log)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>2002;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/>execution_log;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/>std::mutex<sp/>log_lock;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Execute<sp/>steps<sp/>in<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_1<sp/>=<sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_1_debit&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_2<sp/>=<sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_2_credit&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_3<sp/>=<sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_3_audit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>And:<sp/>Trigger<sp/>abort<sp/>(should<sp/>compensate<sp/>in<sp/>reverse<sp/>order)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/>compensation_order;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;setCompensationLogger([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>step_name)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(log_lock);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>compensation_order.push_back(step_name);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/>});</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;abortTransaction(saga_id);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Compensation<sp/>order<sp/>should<sp/>be<sp/>LIFO<sp/>(3<sp/>→<sp/>2<sp/>→<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/>EXPECT_EQ(compensation_order.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/>EXPECT_EQ(compensation_order[0],<sp/></highlight><highlight class="stringliteral">&quot;step_3_audit&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;First<sp/>compensation<sp/>should<sp/>be<sp/>step_3<sp/>(LIFO)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/>EXPECT_EQ(compensation_order[1],<sp/></highlight><highlight class="stringliteral">&quot;step_2_credit&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Second<sp/>compensation<sp/>should<sp/>be<sp/>step_2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/>EXPECT_EQ(compensation_order[2],<sp/></highlight><highlight class="stringliteral">&quot;step_1_debit&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Third<sp/>compensation<sp/>should<sp/>be<sp/>step_1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" kindref="compound">CompensationIdempotencyTest</ref>,<sp/>RollbackChain_CascadingCompensation)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Complex<sp/>SAGA<sp/>with<sp/>5<sp/>dependent<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>2003;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Execute<sp/>steps<sp/>1-3<sp/>successfully,<sp/>step<sp/>4<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_1&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_2&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_3&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Step<sp/>4<sp/>fails<sp/>→<sp/>should<sp/>trigger<sp/>compensation<sp/>of<sp/>1-3<sp/>in<sp/>reverse</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_4_result<sp/>=<sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_4_fails&quot;</highlight><highlight class="normal">,<sp/>100,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Compensation<sp/>chain<sp/>should<sp/>complete<sp/>without<sp/>cascading<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>compensation_count<sp/>=<sp/>saga_orchestrator_-&gt;getCompensationStepCount(saga_id);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/>EXPECT_EQ(compensation_count,<sp/>3)</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>compensate<sp/>3<sp/>successful<sp/>steps<sp/>(1,<sp/>2,<sp/>3)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>final<sp/>state<sp/>is<sp/>consistent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>final_state<sp/>=<sp/>saga_orchestrator_-&gt;getTransactionState(saga_id);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/>EXPECT_EQ(final_state,<sp/></highlight><highlight class="stringliteral">&quot;ABORTED&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Transaction<sp/>should<sp/>be<sp/>in<sp/>ABORTED<sp/>state&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" kindref="compound">CompensationIdempotencyTest</ref>,<sp/>ConcurrentCompensationCalls_NoRaceConditions)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>SAGA<sp/>with<sp/>single<sp/>compensation<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>2004;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;transfer_funds&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Trigger<sp/>compensation<sp/>from<sp/>multiple<sp/>threads<sp/>simultaneously</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n_threads<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/>std::vector&lt;bool&gt;<sp/>compensation_results(n_threads);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n_threads;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>saga_orchestrator_-&gt;compensateStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;transfer_funds&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>compensation_results[idx]<sp/>=<sp/>result.success;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>i);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>All<sp/>compensations<sp/>should<sp/>succeed<sp/>(no<sp/>race<sp/>condition)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n_threads;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(compensation_results[i])</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Compensation<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>should<sp/>succeed<sp/>(no<sp/>race<sp/>condition)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" kindref="compound">CompensationIdempotencyTest</ref>,<sp/>CompensationTimeout_PartialWithTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Slow<sp/>compensation<sp/>step<sp/>(simulates<sp/>timeout<sp/>scenario)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>2005;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Execute<sp/>step<sp/>then<sp/>trigger<sp/>slow<sp/>compensation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;slow_step&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>saga_orchestrator_-&gt;compensateStepWithTimeout(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;slow_step&quot;</highlight><highlight class="normal">,<sp/>100,<sp/></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(500));</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>start;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Compensation<sp/>should<sp/>timeout<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(result.success)</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Slow<sp/>compensation<sp/>should<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/>EXPECT_LT(std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(elapsed).count(),<sp/>1000)</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Timeout<sp/>should<sp/>be<sp/>enforced<sp/>(≤1s<sp/>for<sp/>500ms<sp/>timeout)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" kindref="compound">CompensationIdempotencyTest</ref>,<sp/>ErrorPropagation_ConsistentAcrossRetries)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Failing<sp/>compensation<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>2006;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Retry<sp/>same<sp/>compensation<sp/>5<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/>error_codes<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>saga_orchestrator_-&gt;compensateStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;failing_step&quot;</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>error_codes.push_back(result.error_code);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>All<sp/>retries<sp/>should<sp/>report<sp/>identical<sp/>error<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>error_codes.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(error_codes[i],<sp/>error_codes[0])</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>should<sp/>match<sp/>error<sp/>code<sp/>0<sp/>(consistent)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PARTIAL<sp/>FAILURE<sp/>TESTS<sp/>(5)<sp/>—<sp/>Mixed<sp/>Success/Failure<sp/>Scenarios</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360" refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test" kindref="compound">PartialFailureTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a5eb10d5351d66c2f5ed04808c89f4144" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a4acc43230bc26c2aec3eb94835cd4c37" kindref="member">saga_orchestrator_</ref><sp/>=<sp/>std::make_unique&lt;SAGAOrchestrator&gt;();</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a3e2833a3048bc7fdd388b688221cfd9d" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a4acc43230bc26c2aec3eb94835cd4c37" kindref="member">saga_orchestrator_</ref>.reset();</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;SAGAOrchestrator&gt;<sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test_1a4acc43230bc26c2aec3eb94835cd4c37" kindref="member">saga_orchestrator_</ref>;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test" kindref="compound">PartialFailureTest</ref>,<sp/>PartialFailure_MixedSuccessAndFailure)<sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>SAGA<sp/>with<sp/>4<sp/>remote<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>3001;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Execute<sp/>steps<sp/>with<sp/>mixed<sp/>outcomes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_1<sp/>=<sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_1_ok&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_2<sp/>=<sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_2_ok&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_3<sp/>=<sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_3_fail&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_4<sp/>=<sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_4_ok&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Transaction<sp/>should<sp/>abort<sp/>with<sp/>partial<sp/>completion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref><sp/>=<sp/>saga_orchestrator_-&gt;getTransactionState(saga_id);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/>EXPECT_EQ(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ABORTING&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Transaction<sp/>should<sp/>be<sp/>aborting<sp/>after<sp/>partial<sp/>failure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>And:<sp/>Compensate<sp/>only<sp/>steps<sp/>1-2<sp/>(reverse<sp/>order<sp/>from<sp/>completion)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>compensated<sp/>=<sp/>saga_orchestrator_-&gt;getCompensationStepCount(saga_id);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/>EXPECT_EQ(compensated,<sp/>2)</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>compensate<sp/>2<sp/>successful<sp/>steps<sp/>(1,<sp/>2)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(PartialFailureTest,<sp/>SelectiveCompensation_SkipFailedSteps)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>SAGA<sp/>where<sp/>step<sp/>2<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>3002;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_2_fails&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Get<sp/>compensation<sp/>steps<sp/>(should<sp/>skip<sp/>step_2_fails)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>compensation_steps<sp/>=<sp/>saga_orchestrator_-&gt;getCompensationSteps(saga_id);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Only<sp/>steps<sp/>1<sp/>and<sp/>3<sp/>should<sp/>be<sp/>compensated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/>EXPECT_EQ(compensation_steps.size(),<sp/>2)</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>compensate<sp/>2<sp/>steps<sp/>(skip<sp/>the<sp/>failed<sp/>step_2)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_failed_compensation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>step<sp/>:<sp/>compensation_steps)<sp/>{</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(step<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;step_2_fails&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>has_failed_compensation<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(has_failed_compensation)</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>step<sp/>should<sp/>not<sp/>be<sp/>compensated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="419"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test" kindref="compound">PartialFailureTest</ref>,<sp/>CascadingPartialFailure_StepBlockage)<sp/>{</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Steps<sp/>where<sp/>success<sp/>of<sp/>step<sp/>2<sp/>is<sp/>required<sp/>for<sp/>step<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>3003;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Step<sp/>1<sp/>succeeds,<sp/>step<sp/>2<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_2<sp/>=<sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_2_fails&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Step<sp/>3<sp/>should<sp/>not<sp/>be<sp/>executed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step_3_executed<sp/>=<sp/>saga_orchestrator_-&gt;isStepExecuted(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(step_3_executed)</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Step<sp/>3<sp/>should<sp/>not<sp/>execute<sp/>if<sp/>step<sp/>2<sp/>failed<sp/>(dependency)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test" kindref="compound">PartialFailureTest</ref>,<sp/>PartialFailureWithTimeout_MixedScenarios)<sp/>{</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>SAGA<sp/>with<sp/>timeout<sp/>and<sp/>failure<sp/>scenarios</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>3004;</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStepWithTimeout(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_2_timeout&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(100),<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Transaction<sp/>should<sp/>handle<sp/>mixed<sp/>failure<sp/>modes<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref><sp/>=<sp/>saga_orchestrator_-&gt;getTransactionState(saga_id);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/>EXPECT_EQ(<ref refid="bench__transaction__phase4_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>,<sp/></highlight><highlight class="stringliteral">&quot;ABORTING&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_partial_failure_test" kindref="compound">PartialFailureTest</ref>,<sp/>PartialFailureRecovery_CheckpointRetry)<sp/>{</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>SAGA<sp/>with<sp/>checkpoint<sp/>after<sp/>step<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>3005;</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;createCheckpoint(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;after_step_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/>saga_orchestrator_-&gt;executeRemoteStep(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;step_3_fails&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Retry<sp/>from<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>checkpoint_state<sp/>=<sp/>saga_orchestrator_-&gt;getCheckpointState(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;after_step_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retry_result<sp/>=<sp/>saga_orchestrator_-&gt;retryFromCheckpoint(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;after_step_2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Should<sp/>resume<sp/>from<sp/>checkpoint<sp/>successfully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(retry_result.success)</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Retry<sp/>from<sp/>checkpoint<sp/>should<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RETRY<sp/>STORM<sp/>SUPPRESSION<sp/>TESTS<sp/>(3)<sp/>—<sp/>Backoff<sp/>+<sp/>Jitter<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight><highlight class="comment">//<sp/>==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"></highlight></codeline>
+<codeline lineno="474" refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test" kindref="compound">RetryStormTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1a32c98dc203aa11c0164b64034c6d21f7" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1ae98830f61afa0ef5860d4a4ff946b3c3" kindref="member">saga_orchestrator_</ref><sp/>=<sp/>std::make_unique&lt;SAGAOrchestrator&gt;();</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1ade51348437e80f4575d617f370b38e67" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1ae98830f61afa0ef5860d4a4ff946b3c3" kindref="member">saga_orchestrator_</ref>.reset();</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;SAGAOrchestrator&gt;<sp/><ref refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1ae98830f61afa0ef5860d4a4ff946b3c3" kindref="member">saga_orchestrator_</ref>;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test" kindref="compound">RetryStormTest</ref>,<sp/>ExponentialBackoff_BaseAndFactor)<sp/>{</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Retry<sp/>mechanism<sp/>with<sp/>exponential<sp/>backoff<sp/>(base=100ms,<sp/>factor=2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Measure<sp/>retry<sp/>delays</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/>std::vector&lt;int&gt;<sp/>retry_delays_ms<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retry<sp/>=<sp/>0;<sp/>retry<sp/>&lt;<sp/>4;<sp/>++retry)<sp/>{</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>delay_ms<sp/>=<sp/>saga_orchestrator_-&gt;calculateRetryBackoffMs(retry,<sp/>100,<sp/>2.0);</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/>retry_delays_ms.push_back(delay_ms);</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Delays<sp/>should<sp/>follow<sp/>exponential<sp/>pattern<sp/>(100ms,<sp/>200ms,<sp/>400ms,<sp/>800ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/>EXPECT_EQ(retry_delays_ms[0],<sp/>100)</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Retry<sp/>0<sp/>should<sp/>have<sp/>base<sp/>delay<sp/>(100ms)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/>EXPECT_EQ(retry_delays_ms[1],<sp/>200)</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Retry<sp/>1<sp/>should<sp/>be<sp/>2x<sp/>base<sp/>(200ms)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/>EXPECT_EQ(retry_delays_ms[2],<sp/>400)</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Retry<sp/>2<sp/>should<sp/>be<sp/>4x<sp/>base<sp/>(400ms)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/>EXPECT_EQ(retry_delays_ms[3],<sp/>800)</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Retry<sp/>3<sp/>should<sp/>be<sp/>8x<sp/>base<sp/>(800ms)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="508"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(RetryStormTest,<sp/>JitterBounds_PlusMinus20Percent)<sp/>{</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Backoff<sp/>with<sp/>jitter<sp/>(±20%)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>base_delay_ms<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>jitter_factor<sp/>=<sp/>0.2;<sp/><sp/></highlight><highlight class="comment">//<sp/>±20%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Apply<sp/>jitter<sp/>to<sp/>delays<sp/>multiple<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/>std::vector&lt;int&gt;<sp/>jittered_delays<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"></highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>delay<sp/>=<sp/>saga_orchestrator_-&gt;applyJitterToBackoff(base_delay_ms,<sp/>jitter_factor);</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/>jittered_delays.push_back(delay);</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"></highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>All<sp/>delays<sp/>should<sp/>be<sp/>within<sp/>±20%<sp/>of<sp/>base</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>delay<sp/>:<sp/>jittered_delays)<sp/>{</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>min_bound<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(base_delay_ms<sp/>*<sp/>(1.0<sp/>-<sp/>jitter_factor));</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_bound<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(base_delay_ms<sp/>*<sp/>(1.0<sp/>+<sp/>jitter_factor));</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(delay,<sp/>min_bound)</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Jittered<sp/>delay<sp/>should<sp/>be<sp/>&gt;=<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>min_bound;</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(delay,<sp/>max_bound)</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Jittered<sp/>delay<sp/>should<sp/>be<sp/>&lt;=<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>max_bound;</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="534"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1_1test_1a984e6365cf403d2c0f37d17ee1949860" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test" kindref="compound">RetryStormTest</ref>,<sp/>BoundedRetries_MaximumThreeRetries)<sp/>{</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Given:<sp/>Retry<sp/>limit<sp/>of<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/>uint64_t<sp/>saga_id<sp/>=<sp/>4001;</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_retries<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>When:<sp/>Attempt<sp/>retries<sp/>beyond<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retry_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt<sp/>=<sp/>0;<sp/>attempt<sp/>&lt;<sp/>10;<sp/>++attempt)<sp/>{</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>saga_orchestrator_-&gt;retryWithBoundedAttempts(saga_id,<sp/></highlight><highlight class="stringliteral">&quot;failing_step&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_retries);</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.success<sp/>||<sp/>!result.can_retry)<sp/>{</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/>retry_count++;</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"></highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Then:<sp/>Retry<sp/>count<sp/>should<sp/>not<sp/>exceed<sp/>maximum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/>EXPECT_LE(retry_count,<sp/>max_retries)</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Retry<sp/>count<sp/>should<sp/>not<sp/>exceed<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>max_retries;</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>And:<sp/>Should<sp/>return<sp/>error<sp/>code<sp/>indicating<sp/>retry<sp/>exhaustion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>final_result<sp/>=<sp/>saga_orchestrator_-&gt;getLastRetryResult(saga_id);</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(final_result.retries_exhausted)</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>indicate<sp/>retries<sp/>exhausted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="561"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::transaction::test</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/transaction/test_saga_orchestration_hardening.cpp"/>
+  </compounddef>
+</doxygen>

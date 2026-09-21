@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_compaction_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CompactionManager::Config</compoundname>
+    <includes refid="compaction__manager_8h" local="no">compaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_compaction_manager_1_1_config_1a0ed16253f2bc24618acb50d9b7273a32" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::CompactionManager::Config::tombstone_gc_threshold</definition>
+        <argsstring></argsstring>
+        <name>tombstone_gc_threshold</name>
+        <qualifiedname>themis::CompactionManager::Config::tombstone_gc_threshold</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum number of tombstone deletions before triggering a GC pass. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="54" column="18" bodyfile="include/storage/compaction_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_compaction_manager_1_1_config_1a9c6a26137166d25007799906e415351b" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::CompactionManager::Config::bg_gc_interval</definition>
+        <argsstring></argsstring>
+        <name>bg_gc_interval</name>
+        <qualifiedname>themis::CompactionManager::Config::bg_gc_interval</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Interval between automatic background GC passes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="57" column="30" bodyfile="include/storage/compaction_manager.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_compaction_manager_1_1_config_1afb285e2302f1f75ffefde93bec1affc2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::CompactionManager::Config::enable_full_compaction</definition>
+        <argsstring></argsstring>
+        <name>enable_full_compaction</name>
+        <qualifiedname>themis::CompactionManager::Config::enable_full_compaction</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, enable full range compaction during background GC. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="60" column="14" bodyfile="include/storage/compaction_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration options. </para>
+    </detaileddescription>
+    <location file="include/storage/compaction_manager.h" line="52" column="5" bodyfile="include/storage/compaction_manager.h" bodystart="52" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_compaction_manager_1_1_config_1a9c6a26137166d25007799906e415351b" prot="public" virt="non-virtual"><scope>themis::CompactionManager::Config</scope><name>bg_gc_interval</name></member>
+      <member refid="structthemis_1_1_compaction_manager_1_1_config_1afb285e2302f1f75ffefde93bec1affc2" prot="public" virt="non-virtual"><scope>themis::CompactionManager::Config</scope><name>enable_full_compaction</name></member>
+      <member refid="structthemis_1_1_compaction_manager_1_1_config_1a0ed16253f2bc24618acb50d9b7273a32" prot="public" virt="non-virtual"><scope>themis::CompactionManager::Config</scope><name>tombstone_gc_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_catalog_exporter_1_1_publish_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CatalogExporter::PublishResult</compoundname>
+    <includes refid="catalog__exporter_8h" local="no">catalog_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_publish_result_1a98a6dca38975f2db89505cc08a279085" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::CatalogExporter::PublishResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::CatalogExporter::PublishResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="92" column="21" bodyfile="include/metadata/catalog_exporter.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_publish_result_1a14d88b479d49630140458f4db1cd81de" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::CatalogExporter::PublishResult::entities_published</definition>
+        <argsstring></argsstring>
+        <name>entities_published</name>
+        <qualifiedname>themis::CatalogExporter::PublishResult::entities_published</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="93" column="21" bodyfile="include/metadata/catalog_exporter.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_catalog_exporter_1_1_publish_result_1a098b221ba8bd6a7badbac7f323796691" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CatalogExporter::PublishResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::CatalogExporter::PublishResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="94" column="21" bodyfile="include/metadata/catalog_exporter.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by publish operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/catalog_exporter.h" line="91" column="5" bodyfile="include/metadata/catalog_exporter.h" bodystart="91" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_publish_result_1a14d88b479d49630140458f4db1cd81de" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::PublishResult</scope><name>entities_published</name></member>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_publish_result_1a098b221ba8bd6a7badbac7f323796691" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::PublishResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1_catalog_exporter_1_1_publish_result_1a98a6dca38975f2db89505cc08a279085" prot="public" virt="non-virtual"><scope>themis::CatalogExporter::PublishResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_recovery_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::distributed_tensor::RecoveryManager</compoundname>
+    <derivedcompoundref refid="classthemis_1_1distributed__tensor_1_1_default_recovery_manager" prot="public" virt="non-virtual">themis::distributed_tensor::DefaultRecoveryManager</derivedcompoundref>
+    <includes refid="recovery__manager_8h" local="no">recovery_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1ab965c1c6f9c627a64f02ea5a5b69b765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::RecoveryManager::RecoveryManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>RecoveryManager</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::RecoveryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="118" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a6ff65a135bb0ae070ee0b7026e365a1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::RecoveryManager::RecoveryManager</definition>
+        <argsstring>(const RecoveryManager &amp;)=delete</argsstring>
+        <name>RecoveryManager</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::RecoveryManager</qualifiedname>
+        <param>
+          <type>const RecoveryManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="120" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a5133ee9cd26ed4bb0a5675b139c4b3cf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::RecoveryManager::RecoveryManager</definition>
+        <argsstring>(RecoveryManager &amp;&amp;) noexcept=default</argsstring>
+        <name>RecoveryManager</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::RecoveryManager</qualifiedname>
+        <param>
+          <type>RecoveryManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="122" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a483d0706c12b3d1ce7e79014f7e0bb07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1ab965c1c6f9c627a64f02ea5a5b69b765" kindref="member">RecoveryManager</ref> &amp;</type>
+        <definition>RecoveryManager &amp; themis::distributed_tensor::RecoveryManager::operator=</definition>
+        <argsstring>(const RecoveryManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1ab965c1c6f9c627a64f02ea5a5b69b765" kindref="member">RecoveryManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="124" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1af35ee42e4595724a574c4e55564af337" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1ab965c1c6f9c627a64f02ea5a5b69b765" kindref="member">RecoveryManager</ref> &amp;</type>
+        <definition>RecoveryManager &amp; themis::distributed_tensor::RecoveryManager::operator=</definition>
+        <argsstring>(RecoveryManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1ab965c1c6f9c627a64f02ea5a5b69b765" kindref="member">RecoveryManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="126" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a6d4284046a6b6ee0d3d6f9e3a5876db4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::RecoveryManager::~RecoveryManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RecoveryManager</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::~RecoveryManager</qualifiedname>
+        <briefdescription>
+<para>Recovery Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="132" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a4fb2dc0260d983f6276d5d98f4403b0b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_recovery_plan" kindref="compound">RecoveryPlan</ref></type>
+        <definition>virtual RecoveryPlan themis::distributed_tensor::RecoveryManager::create_recovery_plan</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, const std::vector&lt; std::string &gt; &amp;failed_shard_ids, std::optional&lt; RecoveryStrategy &gt; preferred_strategy=std::nullopt) const noexcept=0</argsstring>
+        <name>create_recovery_plan</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::create_recovery_plan</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_recovery_manager_1a06eee7905a44ea106514f04f05ab5a4a">create_recovery_plan</reimplementedby>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>failed_shard_ids</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52dd" kindref="member">RecoveryStrategy</ref> &gt;</type>
+          <declname>preferred_strategy</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="134" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a58e82e01ee873ac38d6fb6d626d5a099" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::distributed_tensor::RecoveryManager::submit_recovery_job</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;shard_id, RecoveryStrategy recovery_strategy, uint32_t priority=50) noexcept=0</argsstring>
+        <name>submit_recovery_job</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::submit_recovery_job</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_recovery_manager_1abf5b0edef45fa02ca9e67a91a85eeed0">submit_recovery_job</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52dd" kindref="member">RecoveryStrategy</ref></type>
+          <declname>recovery_strategy</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>priority</declname>
+          <defval>50</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="140" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a88369f4d0096a0caf262d20d143c4e83" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_recovery_job" kindref="compound">RecoveryJob</ref> &gt;</type>
+        <definition>virtual std::optional&lt; RecoveryJob &gt; themis::distributed_tensor::RecoveryManager::get_recovery_job</definition>
+        <argsstring>(const std::string &amp;job_id) const noexcept=0</argsstring>
+        <name>get_recovery_job</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::get_recovery_job</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_recovery_manager_1a1e20831296d1dc0ce380d7b671f9718e">get_recovery_job</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Get recovery job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="152" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a6b46dfc2681e3302b1e157e3c3d95f49" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::distributed_tensor::RecoveryManager::cancel_recovery_job</definition>
+        <argsstring>(const std::string &amp;job_id) noexcept=0</argsstring>
+        <name>cancel_recovery_job</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::cancel_recovery_job</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_recovery_manager_1a78f6f4ec9ca598b21df166deb06a995e">cancel_recovery_job</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel recovery job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="161" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a2af9c36e0a5be0996a83b529653bdcc6" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_recovery_job" kindref="compound">RecoveryJob</ref> &gt;</type>
+        <definition>virtual std::vector&lt; RecoveryJob &gt; themis::distributed_tensor::RecoveryManager::list_active_recovery_jobs</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>list_active_recovery_jobs</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::list_active_recovery_jobs</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_recovery_manager_1ae84976a0c1f46e8cbe056680ace51f79">list_active_recovery_jobs</reimplementedby>
+        <briefdescription>
+<para>List active recovery jobs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="168" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a227bf53722ae65a6ca48f4a4c9e3e7d7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::distributed_tensor::RecoveryManager::retry_recovery_job</definition>
+        <argsstring>(const std::string &amp;job_id) noexcept=0</argsstring>
+        <name>retry_recovery_job</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryManager::retry_recovery_job</qualifiedname>
+        <reimplementedby refid="classthemis_1_1distributed__tensor_1_1_default_recovery_manager_1a23c0017582d46b27dda8fdd0a6b6d584">retry_recovery_job</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Retry recovery job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="177" column="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::distributed_tensor::DefaultRecoveryManager</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_default_recovery_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::RecoveryManager</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_recovery_manager"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/distributed_tensor/recovery_manager.h" line="116" column="1" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="116" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a6b46dfc2681e3302b1e157e3c3d95f49" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>cancel_recovery_job</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a4fb2dc0260d983f6276d5d98f4403b0b" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>create_recovery_plan</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a88369f4d0096a0caf262d20d143c4e83" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>get_recovery_job</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a2af9c36e0a5be0996a83b529653bdcc6" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>list_active_recovery_jobs</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a483d0706c12b3d1ce7e79014f7e0bb07" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1af35ee42e4595724a574c4e55564af337" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1ab965c1c6f9c627a64f02ea5a5b69b765" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>RecoveryManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a6ff65a135bb0ae070ee0b7026e365a1b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>RecoveryManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a5133ee9cd26ed4bb0a5675b139c4b3cf" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>RecoveryManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a227bf53722ae65a6ca48f4a4c9e3e7d7" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>retry_recovery_job</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a58e82e01ee873ac38d6fb6d626d5a099" prot="public" virt="pure-virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>submit_recovery_job</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_recovery_manager_1a6d4284046a6b6ee0d3d6f9e3a5876db4" prot="public" virt="virtual"><scope>themis::distributed_tensor::RecoveryManager</scope><name>~RecoveryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

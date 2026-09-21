@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1errors_1_1_error_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::errors::ErrorRegistry</compoundname>
+    <includes refid="error__registry_8h" local="no">error_registry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1errors_1_1_error_registry_1aa8cd06f9cde9e1551c2f9900a92d31ff" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, <ref refid="structthemis_1_1errors_1_1_error_metadata" kindref="compound">ErrorMetadata</ref> &gt;</type>
+        <definition>std::unordered_map&lt;int, ErrorMetadata&gt; themis::errors::ErrorRegistry::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::errors::ErrorRegistry::errors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="455" column="24" bodyfile="include/utils/error_registry.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1errors_1_1_error_registry_1a570acd33b3d298c15433ae0d0f93fddc" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; int &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;int&gt; &gt; themis::errors::ErrorRegistry::category_index_</definition>
+        <argsstring></argsstring>
+        <name>category_index_</name>
+        <qualifiedname>themis::errors::ErrorRegistry::category_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="456" column="24" bodyfile="include/utils/error_registry.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1errors_1_1_error_registry_1ae7d5afc2640bc9b456a2394366b0ef71" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::errors::ErrorRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::errors::ErrorRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="457" column="31" bodyfile="include/utils/error_registry.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1a91b8b0e1a5fe69210826e9fd10eeb792" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ErrorRegistry &amp;</type>
+        <definition>ErrorRegistry &amp; themis::errors::ErrorRegistry::getInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::errors::ErrorRegistry::getInstance</qualifiedname>
+        <briefdescription>
+<para>Get Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getInstance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="416" column="26" bodyfile="src/utils/error_registry.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1a4d02022a6397ee63f54b46d184b2cdd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::errors::ErrorRegistry::registerError</definition>
+        <argsstring>(const ErrorMetadata &amp;metadata)</argsstring>
+        <name>registerError</name>
+        <qualifiedname>themis::errors::ErrorRegistry::registerError</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1errors_1_1_error_metadata" kindref="compound">ErrorMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Register <ref refid="classthemis_1_1_error" kindref="compound">Error</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="418" column="10" bodyfile="src/utils/error_registry.cpp" bodystart="2472" bodyend="2477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1a9a48093c5c18de4cc0224eba4978c0f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1errors_1_1_error_metadata" kindref="compound">ErrorMetadata</ref></type>
+        <definition>ErrorMetadata themis::errors::ErrorRegistry::getError</definition>
+        <argsstring>(ErrorCode code) const</argsstring>
+        <name>getError</name>
+        <qualifiedname>themis::errors::ErrorRegistry::getError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="419" column="19" bodyfile="src/utils/error_registry.cpp" bodystart="2479" bodyend="2503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1af8a628b5bd831bf1d306df3aa73dd4e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1errors_1_1_error_metadata" kindref="compound">ErrorMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; ErrorMetadata &gt; themis::errors::ErrorRegistry::getErrorsByCategory</definition>
+        <argsstring>(const std::string &amp;category) const</argsstring>
+        <name>getErrorsByCategory</name>
+        <qualifiedname>themis::errors::ErrorRegistry::getErrorsByCategory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="420" column="17" bodyfile="src/utils/error_registry.cpp" bodystart="2505" bodyend="2522"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1ad9eb75068d48a01ee6e61838b839d1be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1errors_1_1_error_metadata" kindref="compound">ErrorMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; ErrorMetadata &gt; themis::errors::ErrorRegistry::searchErrors</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>searchErrors</name>
+        <qualifiedname>themis::errors::ErrorRegistry::searchErrors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="421" column="17" bodyfile="src/utils/error_registry.cpp" bodystart="2524" bodyend="2546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1a11deaf11ccaf8610bf69e488f297ffed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::errors::ErrorRegistry::getAllCategories</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllCategories</name>
+        <qualifiedname>themis::errors::ErrorRegistry::getAllCategories</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="422" column="17" bodyfile="src/utils/error_registry.cpp" bodystart="2548" bodyend="2561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1a0ea3f39a0991300b6375c9bb03b5ff11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::errors::ErrorRegistry::getRecoveryHint</definition>
+        <argsstring>(ErrorCode code) const</argsstring>
+        <name>getRecoveryHint</name>
+        <qualifiedname>themis::errors::ErrorRegistry::getRecoveryHint</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Get the recovery hint (solution) for a given error code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience shorthand for <computeroutput>getError(code).solution</computeroutput>. Returns an empty string for unknown error codes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="430" column="17" bodyfile="src/utils/error_registry.cpp" bodystart="2587" bodyend="2589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1aad5486658685fa011ab9c90e44b73a0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>std::string</type>
+        <definition>std::string themis::errors::ErrorRegistry::formatError</definition>
+        <argsstring>(ErrorCode code, Args &amp;&amp;... args) const</argsstring>
+        <name>formatError</name>
+        <qualifiedname>themis::errors::ErrorRegistry::formatError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Format an error message using its template and the provided args. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe wrapper around fmt::vformat. Falls back to the raw template if formatting fails (e.g., mismatched argument count). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="439" column="17" bodyfile="include/utils/error_registry.h" bodystart="439" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1acec89dec6ce5b676e457e3687d925185" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1errors_1ab9b1f3c9f9656bcfa6440ba87bfddf2f" kindref="member">json</ref></type>
+        <definition>json themis::errors::ErrorRegistry::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::errors::ErrorRegistry::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="449" column="10" bodyfile="src/utils/error_registry.cpp" bodystart="2563" bodyend="2585"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1aa6dabf9349bbc1adcc9745a2733984f4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::errors::ErrorRegistry::ErrorRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>ErrorRegistry</name>
+        <qualifiedname>themis::errors::ErrorRegistry::ErrorRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="452" column="5" bodyfile="src/utils/error_registry.cpp" bodystart="46" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1errors_1_1_error_registry_1ac823043561db5ecb6e135008ddac09e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::errors::ErrorRegistry::registerDefaultErrors</definition>
+        <argsstring>()</argsstring>
+        <name>registerDefaultErrors</name>
+        <qualifiedname>themis::errors::ErrorRegistry::registerDefaultErrors</qualifiedname>
+        <briefdescription>
+<para>Register Default Errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1errors_1_1_error_registry_1a4d02022a6397ee63f54b46d184b2cdd8" kindref="member">registerError()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="453" column="10" bodyfile="src/utils/error_registry.cpp" bodystart="65" bodyend="2465"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref> registry for. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/error_registry.h" line="414" column="1" bodyfile="include/utils/error_registry.h" bodystart="414" bodyend="458"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1a570acd33b3d298c15433ae0d0f93fddc" prot="private" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>category_index_</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1aa6dabf9349bbc1adcc9745a2733984f4" prot="private" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>ErrorRegistry</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1aa8cd06f9cde9e1551c2f9900a92d31ff" prot="private" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1aad5486658685fa011ab9c90e44b73a0b" prot="public" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>formatError</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1a11deaf11ccaf8610bf69e488f297ffed" prot="public" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>getAllCategories</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1a9a48093c5c18de4cc0224eba4978c0f3" prot="public" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>getError</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1af8a628b5bd831bf1d306df3aa73dd4e8" prot="public" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>getErrorsByCategory</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1a91b8b0e1a5fe69210826e9fd10eeb792" prot="public" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1a0ea3f39a0991300b6375c9bb03b5ff11" prot="public" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>getRecoveryHint</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1ae7d5afc2640bc9b456a2394366b0ef71" prot="private" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1ac823043561db5ecb6e135008ddac09e4" prot="private" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>registerDefaultErrors</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1a4d02022a6397ee63f54b46d184b2cdd8" prot="public" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>registerError</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1ad9eb75068d48a01ee6e61838b839d1be" prot="public" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>searchErrors</name></member>
+      <member refid="classthemis_1_1errors_1_1_error_registry_1acec89dec6ce5b676e457e3687d925185" prot="public" virt="non-virtual"><scope>themis::errors::ErrorRegistry</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

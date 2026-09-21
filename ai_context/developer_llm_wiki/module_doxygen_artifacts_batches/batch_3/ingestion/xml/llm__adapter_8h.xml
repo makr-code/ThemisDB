@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__adapter_8h" kind="file" language="C++">
+    <compoundname>llm_adapter.h</compoundname>
+    <includes refid="deontic__extractor_8h" local="yes">ingestion/deontic_extractor.h</includes>
+    <includes refid="inference__backend_8h" local="yes">ingestion/inference_backend.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="bench__ingestion__extraction_8cpp" local="yes">benchmarks/ingestion/bench_ingestion_extraction.cpp</includedby>
+    <includedby refid="ingestion__manager_8cpp" local="yes">src/ingestion/ingestion_manager.cpp</includedby>
+    <includedby refid="llm__adapter_8cpp" local="yes">src/ingestion/llm_adapter.cpp</includedby>
+    <includedby refid="deontic__step_8cpp" local="yes">src/ingestion/steps/deontic_step.cpp</includedby>
+    <includedby refid="test__ingestion__inference__backend_8cpp" local="yes">tests/ingestion/test_ingestion_inference_backend.cpp</includedby>
+    <includedby refid="test__ingestion__llm__adapter_8cpp" local="yes">tests/ingestion/test_ingestion_llm_adapter.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>ingestion/deontic_extractor.h</label>
+        <link refid="deontic__extractor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/ingestion/llm_adapter.h</label>
+        <link refid="llm__adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/ingestion/bench_ingestion_extraction.cpp</label>
+        <link refid="bench__ingestion__extraction_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/ingestion/llm_adapter.h</label>
+        <link refid="llm__adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/ingestion/ingestion_manager.cpp</label>
+        <link refid="ingestion__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/ingestion/llm_adapter.cpp</label>
+        <link refid="llm__adapter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/ingestion/steps/deontic_step.cpp</label>
+        <link refid="deontic__step_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/ingestion/test_ingestion_inference_backend.cpp</label>
+        <link refid="test__ingestion__inference__backend_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/ingestion/test_ingestion_llm_adapter.cpp</label>
+        <link refid="test__ingestion__llm__adapter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1ingestion_1_1_llm_adapter_config" prot="public">themis::ingestion::LlmAdapterConfig</innerclass>
+    <innerclass refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" prot="public">themis::ingestion::LegalLlmAdapter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="deontic__extractor_8h" kindref="compound">ingestion/deontic_extractor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="inference__backend_8h" kindref="compound">ingestion/inference_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLM<sp/>adapter<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1ingestion_1_1_llm_adapter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a919107ad770e1e5c58413a11aafe33ac" kindref="member">LlmAdapterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a486400dd7f33267c0336064f5c02cc59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a486400dd7f33267c0336064f5c02cc59" kindref="member">model_path</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1afc42b16440a16e0d67562b1cdb01c4e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1afc42b16440a16e0d67562b1cdb01c4e9" kindref="member">adapter_path</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a16875ea2b022cee93e975afc94b824d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a16875ea2b022cee93e975afc94b824d9" kindref="member">temperature</ref><sp/>=<sp/>0.1;<sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a1c153a0ae99cd12ecdb5a4d5d8ccd894" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a1c153a0ae99cd12ecdb5a4d5d8ccd894" kindref="member">context_size</ref><sp/>=<sp/>4096;<sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a86eed12449c6465039d49b5affa73298" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a86eed12449c6465039d49b5affa73298" kindref="member">use_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1ae074a91cd18bd55ae0f3c787a7d306d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1ae074a91cd18bd55ae0f3c787a7d306d2" kindref="member">gpu_layers</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a919107ad770e1e5c58413a11aafe33ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a919107ad770e1e5c58413a11aafe33ac" kindref="member">LlmAdapterConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1acf1d2adda3cafb4283f23c2820607fe3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1acf1d2adda3cafb4283f23c2820607fe3" kindref="member">LlmAdapterConfig</ref>(std::string<sp/>model,<sp/>std::string<sp/>adapter<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>temp<sp/>=<sp/>0.1)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a486400dd7f33267c0336064f5c02cc59" kindref="member">model_path</ref>(std::move(model)),<sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1afc42b16440a16e0d67562b1cdb01c4e9" kindref="member">adapter_path</ref>(std::move(adapter)),</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a16875ea2b022cee93e975afc94b824d9" kindref="member">temperature</ref>(temp)<sp/>{}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a2fcc66b0bfc8c57e85b163ea2845f3c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a2fcc66b0bfc8c57e85b163ea2845f3c4" kindref="member">hasModel</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!<ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a486400dd7f33267c0336064f5c02cc59" kindref="member">model_path</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a4eb4d39e40f899a76bf80920eef3c93e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1a4eb4d39e40f899a76bf80920eef3c93e" kindref="member">hasAdapter</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!<ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config_1afc42b16440a16e0d67562b1cdb01c4e9" kindref="member">adapter_path</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LegalLlmAdapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac4d6de00984cbedac29649ee6bea5282" kindref="member">LegalLlmAdapter</ref><sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac4d6de00984cbedac29649ee6bea5282" kindref="member">LegalLlmAdapter</ref>();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac4d6de00984cbedac29649ee6bea5282" kindref="member">LegalLlmAdapter</ref>(std::shared_ptr&lt;ITextGenerationBackend&gt;<sp/>backend);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a4fe15621543691095aecaa4cd1f8137c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a4fe15621543691095aecaa4cd1f8137c" kindref="member">~LegalLlmAdapter</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable<sp/>(owns<sp/>inference<sp/>context)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a369bbfa31146ad99f4c98b91cf597451" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a369bbfa31146ad99f4c98b91cf597451" kindref="member">LegalLlmAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac4d6de00984cbedac29649ee6bea5282" kindref="member">LegalLlmAdapter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a773075bc2b7bfa7346e639eecc912620" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac4d6de00984cbedac29649ee6bea5282" kindref="member">LegalLlmAdapter</ref>&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a773075bc2b7bfa7346e639eecc912620" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac4d6de00984cbedac29649ee6bea5282" kindref="member">LegalLlmAdapter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a39f5a750863b91512f47d41d827f907c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a39f5a750863b91512f47d41d827f907c" kindref="member">LegalLlmAdapter</ref>(<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac4d6de00984cbedac29649ee6bea5282" kindref="member">LegalLlmAdapter</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a922741bc9d3609841c9527dfcb9fe22a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac4d6de00984cbedac29649ee6bea5282" kindref="member">LegalLlmAdapter</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac4d6de00984cbedac29649ee6bea5282" kindref="member">LegalLlmAdapter</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ae6506944d4fd2a30c811c777146577df" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config" kindref="compound">LlmAdapterConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config" kindref="compound">LlmAdapterConfig</ref>&amp;<sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a30d505ef6fb3a038c665c9b2470f9e71" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a809410150778a29ac255e3c5de6886c7" kindref="member">isLlmAvailable</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref>::ExtractorFn<sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac5fc3b43dd68e26994ab93213de37b88" kindref="member">buildExtractorFn</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac22f924bf2fa0daa44ab7539c4ead3e5" kindref="member">buildExtractor</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>confidence_threshold<sp/>=<sp/>0.75)<sp/>const;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_llm_adapter_config" kindref="compound">LlmAdapterConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref>&gt;<sp/>backend_;<sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>buildPrompt(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref><sp/>parseLlmResponse(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>llm_response);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ingestion/llm_adapter.h"/>
+  </compounddef>
+</doxygen>

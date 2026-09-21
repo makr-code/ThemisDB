@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_error_api_http_test" kind="class" language="C++" prot="public">
+    <compoundname>ErrorApiHttpTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_error_api_http_test_1adbcc129f66a4d51533995bb6ba848533" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; ErrorApiHttpTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>ErrorApiHttpTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_error_api.cpp" line="77" column="21" bodyfile="tests/network/test_http_error_api.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_error_api_http_test_1a5f294c5e2c52a74fe9b6b246ec98817e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; ErrorApiHttpTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>ErrorApiHttpTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_error_api.cpp" line="78" column="21" bodyfile="tests/network/test_http_error_api.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_error_api_http_test_1ae835bc48b025f2a4f4f30f5ae9caef12" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; ErrorApiHttpTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>ErrorApiHttpTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_error_api.cpp" line="79" column="21" bodyfile="tests/network/test_http_error_api.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_error_api_http_test_1a833d11e0317d1c571f8492ac427e493e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; ErrorApiHttpTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>ErrorApiHttpTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_error_api.cpp" line="80" column="21" bodyfile="tests/network/test_http_error_api.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_error_api_http_test_1a0e7e8bdf8b8ec0d90b4d3f4cfcb83409" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; ErrorApiHttpTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>ErrorApiHttpTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_error_api.cpp" line="81" column="21" bodyfile="tests/network/test_http_error_api.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_error_api_http_test_1aefd86567ce19c5d2c172296ef1a4d16a" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; ErrorApiHttpTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>ErrorApiHttpTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_error_api.cpp" line="82" column="21" bodyfile="tests/network/test_http_error_api.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_error_api_http_test_1a3e0275a843f6f9e1f3494d7de9182da8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ErrorApiHttpTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ErrorApiHttpTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_error_api.cpp" line="23" column="10" bodyfile="tests/network/test_http_error_api.cpp" bodystart="23" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_error_api_http_test_1a6b19f55ae7dde3107addd111e83067a5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ErrorApiHttpTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ErrorApiHttpTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_error_api.cpp" line="48" column="10" bodyfile="tests/network/test_http_error_api.cpp" bodystart="48" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_error_api_http_test_1a9c62d8827daa2560c354d084b2bb5e5b" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>static http::response&lt; http::string_body &gt; ErrorApiHttpTest::http_get</definition>
+        <argsstring>(const std::string &amp;host, const std::string &amp;port, const std::string &amp;target)</argsstring>
+        <name>http_get</name>
+        <qualifiedname>ErrorApiHttpTest::http_get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_error_api.cpp" line="61" column="27" bodyfile="tests/network/test_http_error_api.cpp" bodystart="61" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ErrorApiHttpTest</label>
+        <link refid="class_error_api_http_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ErrorApiHttpTest</label>
+        <link refid="class_error_api_http_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_error_api.cpp" line="21" column="1" bodyfile="tests/network/test_http_error_api.cpp" bodystart="21" bodyend="83"/>
+    <listofallmembers>
+      <member refid="class_error_api_http_test_1a833d11e0317d1c571f8492ac427e493e" prot="protected" virt="non-virtual"><scope>ErrorApiHttpTest</scope><name>graph_index_</name></member>
+      <member refid="class_error_api_http_test_1a9c62d8827daa2560c354d084b2bb5e5b" prot="protected" virt="non-virtual"><scope>ErrorApiHttpTest</scope><name>http_get</name></member>
+      <member refid="class_error_api_http_test_1ae835bc48b025f2a4f4f30f5ae9caef12" prot="protected" virt="non-virtual"><scope>ErrorApiHttpTest</scope><name>secondary_index_</name></member>
+      <member refid="class_error_api_http_test_1adbcc129f66a4d51533995bb6ba848533" prot="protected" virt="non-virtual"><scope>ErrorApiHttpTest</scope><name>server_</name></member>
+      <member refid="class_error_api_http_test_1a3e0275a843f6f9e1f3494d7de9182da8" prot="protected" virt="non-virtual"><scope>ErrorApiHttpTest</scope><name>SetUp</name></member>
+      <member refid="class_error_api_http_test_1a5f294c5e2c52a74fe9b6b246ec98817e" prot="protected" virt="non-virtual"><scope>ErrorApiHttpTest</scope><name>storage_</name></member>
+      <member refid="class_error_api_http_test_1a6b19f55ae7dde3107addd111e83067a5" prot="protected" virt="non-virtual"><scope>ErrorApiHttpTest</scope><name>TearDown</name></member>
+      <member refid="class_error_api_http_test_1aefd86567ce19c5d2c172296ef1a4d16a" prot="protected" virt="non-virtual"><scope>ErrorApiHttpTest</scope><name>tx_manager_</name></member>
+      <member refid="class_error_api_http_test_1a0e7e8bdf8b8ec0d90b4d3f4cfcb83409" prot="protected" virt="non-virtual"><scope>ErrorApiHttpTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_column_correlation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ColumnCorrelation</compoundname>
+    <includes refid="optimizer__cost__model__enhancements_8h" local="no">optimizer_cost_model_enhancements.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_correlation_1a1b26be22723a7c7e67fda26b7345cd3d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ColumnCorrelation::column1</definition>
+        <argsstring></argsstring>
+        <name>column1</name>
+        <qualifiedname>themis::query::ColumnCorrelation::column1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="53" column="17" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_correlation_1aae6e20f83b2dbb588eae61146d704620" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ColumnCorrelation::column2</definition>
+        <argsstring></argsstring>
+        <name>column2</name>
+        <qualifiedname>themis::query::ColumnCorrelation::column2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="54" column="17" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_correlation_1a473f46f3237f0e2d3db3271082de30d7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ColumnCorrelation::correlationCoefficient</definition>
+        <argsstring></argsstring>
+        <name>correlationCoefficient</name>
+        <qualifiedname>themis::query::ColumnCorrelation::correlationCoefficient</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="55" column="12" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_correlation_1a314d2f4a978049939ebd065dd2933844" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ColumnCorrelation::sampleSize</definition>
+        <argsstring></argsstring>
+        <name>sampleSize</name>
+        <qualifiedname>themis::query::ColumnCorrelation::sampleSize</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="56" column="12" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_column_correlation_1a47ef0785b6266ca2a830d4fe7273ae03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::ColumnCorrelation::isPositive</definition>
+        <argsstring>() const</argsstring>
+        <name>isPositive</name>
+        <qualifiedname>themis::query::ColumnCorrelation::isPositive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="57" column="10" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_column_correlation_1afb35f023f4ad394b17e3983b8bd65c27" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::ColumnCorrelation::isNegative</definition>
+        <argsstring>() const</argsstring>
+        <name>isNegative</name>
+        <qualifiedname>themis::query::ColumnCorrelation::isNegative</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="58" column="10" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_column_correlation_1a66c089c4bf6225a5f19c51142e899ad2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::ColumnCorrelation::isIndependent</definition>
+        <argsstring>() const</argsstring>
+        <name>isIndependent</name>
+        <qualifiedname>themis::query::ColumnCorrelation::isIndependent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="59" column="10" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/optimizer_cost_model_enhancements.h" line="52" column="1" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="52" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_column_correlation_1a1b26be22723a7c7e67fda26b7345cd3d" prot="public" virt="non-virtual"><scope>themis::query::ColumnCorrelation</scope><name>column1</name></member>
+      <member refid="structthemis_1_1query_1_1_column_correlation_1aae6e20f83b2dbb588eae61146d704620" prot="public" virt="non-virtual"><scope>themis::query::ColumnCorrelation</scope><name>column2</name></member>
+      <member refid="structthemis_1_1query_1_1_column_correlation_1a473f46f3237f0e2d3db3271082de30d7" prot="public" virt="non-virtual"><scope>themis::query::ColumnCorrelation</scope><name>correlationCoefficient</name></member>
+      <member refid="structthemis_1_1query_1_1_column_correlation_1a66c089c4bf6225a5f19c51142e899ad2" prot="public" virt="non-virtual"><scope>themis::query::ColumnCorrelation</scope><name>isIndependent</name></member>
+      <member refid="structthemis_1_1query_1_1_column_correlation_1afb35f023f4ad394b17e3983b8bd65c27" prot="public" virt="non-virtual"><scope>themis::query::ColumnCorrelation</scope><name>isNegative</name></member>
+      <member refid="structthemis_1_1query_1_1_column_correlation_1a47ef0785b6266ca2a830d4fe7273ae03" prot="public" virt="non-virtual"><scope>themis::query::ColumnCorrelation</scope><name>isPositive</name></member>
+      <member refid="structthemis_1_1query_1_1_column_correlation_1a314d2f4a978049939ebd065dd2933844" prot="public" virt="non-virtual"><scope>themis::query::ColumnCorrelation</scope><name>sampleSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

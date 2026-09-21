@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_multi_index_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::MultiIndexOptimizer</compoundname>
+    <includes refid="adaptive__optimizer_8h" local="no">adaptive_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate" prot="public">themis::query::MultiIndexOptimizer::IndexCandidate</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan" prot="public">themis::query::MultiIndexOptimizer::IntersectionPlan</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_multi_index_optimizer_1ad96a203543954c7a612019b5f3e9c9a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_intersection_plan" kindref="compound">IntersectionPlan</ref></type>
+        <definition>MultiIndexOptimizer::IntersectionPlan themis::query::MultiIndexOptimizer::optimizeMultiIndexAccess</definition>
+        <argsstring>(const std::vector&lt; IndexCandidate &gt; &amp;available_indexes, size_t table_size) const</argsstring>
+        <name>optimizeMultiIndexAccess</name>
+        <qualifiedname>themis::query::MultiIndexOptimizer::optimizeMultiIndexAccess</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate" kindref="compound">IndexCandidate</ref> &gt; &amp;</type>
+          <declname>available_indexes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>table_size</declname>
+        </param>
+        <briefdescription>
+<para>Optimize Multi Index Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">available_indexes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="233" column="22" bodyfile="src/query/adaptive_optimizer.cpp" bodystart="445" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_multi_index_optimizer_1a0c1a72c2c06c457f4bc87e34d887f339" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MultiIndexOptimizer::shouldUseIndexIntersection</definition>
+        <argsstring>(const std::vector&lt; IndexCandidate &gt; &amp;candidates, size_t table_size) const</argsstring>
+        <name>shouldUseIndexIntersection</name>
+        <qualifiedname>themis::query::MultiIndexOptimizer::shouldUseIndexIntersection</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate" kindref="compound">IndexCandidate</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>table_size</declname>
+        </param>
+        <briefdescription>
+<para>Should Use Index Intersection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="243" column="10" bodyfile="src/query/adaptive_optimizer.cpp" bodystart="500" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_multi_index_optimizer_1a241eb3e7c7ac18ca2c8853a659813aaf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::MultiIndexOptimizer::getBitmapIntersectionThreshold</definition>
+        <argsstring>() const</argsstring>
+        <name>getBitmapIntersectionThreshold</name>
+        <qualifiedname>themis::query::MultiIndexOptimizer::getBitmapIntersectionThreshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="247" column="12" bodyfile="include/query/adaptive_optimizer.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_optimizer.h" line="210" column="1" bodyfile="include/query/adaptive_optimizer.h" bodystart="210" bodyend="248"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_multi_index_optimizer_1a241eb3e7c7ac18ca2c8853a659813aaf" prot="public" virt="non-virtual"><scope>themis::query::MultiIndexOptimizer</scope><name>getBitmapIntersectionThreshold</name></member>
+      <member refid="classthemis_1_1query_1_1_multi_index_optimizer_1ad96a203543954c7a612019b5f3e9c9a1" prot="public" virt="non-virtual"><scope>themis::query::MultiIndexOptimizer</scope><name>optimizeMultiIndexAccess</name></member>
+      <member refid="classthemis_1_1query_1_1_multi_index_optimizer_1a0c1a72c2c06c457f4bc87e34d887f339" prot="public" virt="non-virtual"><scope>themis::query::MultiIndexOptimizer</scope><name>shouldUseIndexIntersection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

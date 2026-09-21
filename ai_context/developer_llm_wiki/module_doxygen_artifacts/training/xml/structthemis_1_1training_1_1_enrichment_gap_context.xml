@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_enrichment_gap_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentGapContext</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_context_1a726fe16680b51aa576810e0db87bf21a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentGapContext::total_items</definition>
+        <argsstring></argsstring>
+        <name>total_items</name>
+        <qualifiedname>themis::training::EnrichmentGapContext::total_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total items in the enrichment batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="268" column="12" bodyfile="include/training/training_failsafe.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_context_1a00f2149d5ed8fa09a7f7bcce3ca56ae1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentGapContext::enriched_items</definition>
+        <argsstring></argsstring>
+        <name>enriched_items</name>
+        <qualifiedname>themis::training::EnrichmentGapContext::enriched_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Items successfully enriched. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="269" column="12" bodyfile="include/training/training_failsafe.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_context_1a323887cd4922435c6a76499e158a1fee" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::EnrichmentGapContext::minimum_coverage_threshold</definition>
+        <argsstring></argsstring>
+        <name>minimum_coverage_threshold</name>
+        <qualifiedname>themis::training::EnrichmentGapContext::minimum_coverage_threshold</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Minimum acceptable coverage ratio (0.0–1.0). Default: 0.5. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="271" column="12" bodyfile="include/training/training_failsafe.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_context_1ac312fa80ee39e8bdaca5bcfd080c1c18" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::EnrichmentGapContext::source_component</definition>
+        <argsstring></argsstring>
+        <name>source_component</name>
+        <qualifiedname>themis::training::EnrichmentGapContext::source_component</qualifiedname>
+        <briefdescription>
+<para>Source component that produced the gap (e.g., &quot;knowledge_graph_enricher&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="273" column="17" bodyfile="include/training/training_failsafe.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_context_1a12807b6944041b36be9dce0da5fdc5a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::EnrichmentGapContext::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::training::EnrichmentGapContext::operation</qualifiedname>
+        <briefdescription>
+<para>Operation name (e.g., &quot;enrich_batch&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="275" column="17" bodyfile="include/training/training_failsafe.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_gap_context_1a9739756f278282a4bfd7a3a03914b32a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::EnrichmentGapContext::context_kv</definition>
+        <argsstring></argsstring>
+        <name>context_kv</name>
+        <qualifiedname>themis::training::EnrichmentGapContext::context_kv</qualifiedname>
+        <briefdescription>
+<para>Additional diagnostic context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="277" column="17" bodyfile="include/training/training_failsafe.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Context for an enrichment gap evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_failsafe.h" line="267" column="1" bodyfile="include/training/training_failsafe.h" bodystart="267" bodyend="278"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_context_1a9739756f278282a4bfd7a3a03914b32a" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapContext</scope><name>context_kv</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_context_1a00f2149d5ed8fa09a7f7bcce3ca56ae1" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapContext</scope><name>enriched_items</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_context_1a323887cd4922435c6a76499e158a1fee" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapContext</scope><name>minimum_coverage_threshold</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_context_1a12807b6944041b36be9dce0da5fdc5a6" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapContext</scope><name>operation</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_context_1ac312fa80ee39e8bdaca5bcfd080c1c18" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapContext</scope><name>source_component</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_gap_context_1a726fe16680b51aa576810e0db87bf21a" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapContext</scope><name>total_items</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

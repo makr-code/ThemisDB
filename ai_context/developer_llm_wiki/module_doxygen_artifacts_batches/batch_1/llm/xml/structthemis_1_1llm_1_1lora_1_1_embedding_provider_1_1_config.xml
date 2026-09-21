@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::EmbeddingProvider::Config</compoundname>
+    <includes refid="embedding__provider_8h" local="no">embedding_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a080a8a860721e5e648e71d03f796c9b2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::EmbeddingProvider::Config::max_cache_entries</definition>
+        <argsstring></argsstring>
+        <name>max_cache_entries</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::Config::max_cache_entries</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="72" column="16" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a283ca80e9e396f9b18e233085d5331f5" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::lora::EmbeddingProvider::Config::cache_ttl</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::Config::cache_ttl</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="73" column="30" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a2020208c4f980ef624c81d875d7a8bb1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::EmbeddingProvider::Config::enable_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_cache</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::Config::enable_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="74" column="14" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a9103e95e354cc3e169f0eb660dc94c85" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::EmbeddingProvider::Config::cache_file</definition>
+        <argsstring></argsstring>
+        <name>cache_file</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::Config::cache_file</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="75" column="21" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a264d19ea6598c7774a3c762d03c633cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::EmbeddingProvider::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::llm::lora::EmbeddingProvider::Config::batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/embedding_provider.h" line="76" column="16" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/embedding_provider.h" line="71" column="5" bodyfile="include/llm/lora_framework/embedding_provider.h" bodystart="71" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a264d19ea6598c7774a3c762d03c633cd" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a9103e95e354cc3e169f0eb660dc94c85" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider::Config</scope><name>cache_file</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a283ca80e9e396f9b18e233085d5331f5" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider::Config</scope><name>cache_ttl</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a2020208c4f980ef624c81d875d7a8bb1" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider::Config</scope><name>enable_cache</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a080a8a860721e5e648e71d03f796c9b2" prot="public" virt="non-virtual"><scope>themis::llm::lora::EmbeddingProvider::Config</scope><name>max_cache_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

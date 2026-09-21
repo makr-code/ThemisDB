@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_n_v_me_i_o_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::NVMeIORequest</compoundname>
+    <includes refid="nvme__manager_8h" local="no">nvme_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a1f474c443f759d35bb60d208aee33f05" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::NVMeIORequest::fd</definition>
+        <argsstring></argsstring>
+        <name>fd</name>
+        <qualifiedname>themis::storage::NVMeIORequest::fd</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>File descriptor of the target file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="118" column="13" bodyfile="include/storage/nvme_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a281fec75781f698f30d2b2e252d8fa3a" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::storage::NVMeIORequest::buf</definition>
+        <argsstring></argsstring>
+        <name>buf</name>
+        <qualifiedname>themis::storage::NVMeIORequest::buf</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>I/O buffer (must be aligned for Direct I/O). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="119" column="12" bodyfile="include/storage/nvme_manager.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a007cee65fb7be37168fe3ae23da297ef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::NVMeIORequest::len</definition>
+        <argsstring></argsstring>
+        <name>len</name>
+        <qualifiedname>themis::storage::NVMeIORequest::len</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Transfer length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="120" column="13" bodyfile="include/storage/nvme_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a060d77f63c884989b8210e7531eb7172" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::NVMeIORequest::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::storage::NVMeIORequest::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>File offset (use int64_t for cross-platform portability). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="121" column="13" bodyfile="include/storage/nvme_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a3a158daf570eb5792c399313f37c984f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeIORequest::is_write</definition>
+        <argsstring></argsstring>
+        <name>is_write</name>
+        <qualifiedname>themis::storage::NVMeIORequest::is_write</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true = write, false = read </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="122" column="13" bodyfile="include/storage/nvme_manager.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a949e28de86619f812d74f4a8e5730bf6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::NVMeIORequest::user_data</definition>
+        <argsstring></argsstring>
+        <name>user_data</name>
+        <qualifiedname>themis::storage::NVMeIORequest::user_data</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Caller-defined tag returned on completion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="123" column="13" bodyfile="include/storage/nvme_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Opaque handle for an in-flight async I/O request. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers submit a request via <ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1a9abbeb06e1208a758cd7ece4421f7718" kindref="member">NVMeManager::submitRead</ref> / submitWrite and poll via <ref refid="classthemis_1_1storage_1_1_n_v_me_manager_1af8fed69e5aa38823c2fd8a73236b0263" kindref="member">NVMeManager::pollCompletions</ref>. </para>
+    </detaileddescription>
+    <location file="include/storage/nvme_manager.h" line="117" column="1" bodyfile="include/storage/nvme_manager.h" bodystart="117" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a281fec75781f698f30d2b2e252d8fa3a" prot="public" virt="non-virtual"><scope>themis::storage::NVMeIORequest</scope><name>buf</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a1f474c443f759d35bb60d208aee33f05" prot="public" virt="non-virtual"><scope>themis::storage::NVMeIORequest</scope><name>fd</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a3a158daf570eb5792c399313f37c984f" prot="public" virt="non-virtual"><scope>themis::storage::NVMeIORequest</scope><name>is_write</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a007cee65fb7be37168fe3ae23da297ef" prot="public" virt="non-virtual"><scope>themis::storage::NVMeIORequest</scope><name>len</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a060d77f63c884989b8210e7531eb7172" prot="public" virt="non-virtual"><scope>themis::storage::NVMeIORequest</scope><name>offset</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_i_o_request_1a949e28de86619f812d74f4a8e5730bf6" prot="public" virt="non-virtual"><scope>themis::storage::NVMeIORequest</scope><name>user_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

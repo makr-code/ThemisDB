@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::InMemoryBackpressureSignal</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal" prot="public" virt="non-virtual">themis::cdc::ICDCBackpressureSignal</basecompoundref>
+    <includes refid="icdc__backpressure__signal_8h" local="no">icdc_backpressure_signal.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref>)&gt;</type>
+        <definition>using themis::cdc::InMemoryBackpressureSignal::LevelCallback = std::function&lt;void(BackpressureLevel )&gt;</definition>
+        <argsstring></argsstring>
+        <name>LevelCallback</name>
+        <qualifiedname>themis::cdc::InMemoryBackpressureSignal::LevelCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="76" column="5" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a4ff7e45f7adfdc9defe515dde4eae5dc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref> &gt;</type>
+        <definition>std::atomic&lt;BackpressureLevel&gt; themis::cdc::InMemoryBackpressureSignal::level_</definition>
+        <argsstring></argsstring>
+        <name>level_</name>
+        <qualifiedname>themis::cdc::InMemoryBackpressureSignal::level_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="118" column="17" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a178903b551c78b6ff4567616ae850c06" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::InMemoryBackpressureSignal::cb_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cb_mutex_</name>
+        <qualifiedname>themis::cdc::InMemoryBackpressureSignal::cb_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="119" column="36" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1affafbc5028f595339d4eb4114600b6fb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" kindref="member">LevelCallback</ref></type>
+        <definition>LevelCallback themis::cdc::InMemoryBackpressureSignal::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themis::cdc::InMemoryBackpressureSignal::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="120" column="36" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1adf62b5f5c36690142076049b6bc8a1b6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::InMemoryBackpressureSignal::InMemoryBackpressureSignal</definition>
+        <argsstring>(LevelCallback cb={})</argsstring>
+        <name>InMemoryBackpressureSignal</name>
+        <qualifiedname>themis::cdc::InMemoryBackpressureSignal::InMemoryBackpressureSignal</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" kindref="member">LevelCallback</ref></type>
+          <declname>cb</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="78" column="14" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="78" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a53ac95d3e871e09264dcadd54b485b51" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryBackpressureSignal::signalBackpressure</definition>
+        <argsstring>(BackpressureLevel level) override</argsstring>
+        <name>signalBackpressure</name>
+        <qualifiedname>themis::cdc::InMemoryBackpressureSignal::signalBackpressure</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1ac78696fb43cdc7a69a242b2f4d157372">signalBackpressure</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Signal Backpressure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="83" column="10" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="83" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1afce7df76237dce9e515946796ed76d2a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryBackpressureSignal::clearBackpressure</definition>
+        <argsstring>() override</argsstring>
+        <name>clearBackpressure</name>
+        <qualifiedname>themis::cdc::InMemoryBackpressureSignal::clearBackpressure</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1a277b9d9961aaeded825c52180072ee80">clearBackpressure</reimplements>
+        <briefdescription>
+<para>Clear Backpressure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="98" column="10" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1affc318574900865c329cee567347000a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1a05367211eca98c5721e4ef93d919af1f" kindref="member">BackpressureLevel</ref></type>
+        <definition>BackpressureLevel themis::cdc::InMemoryBackpressureSignal::currentLevel</definition>
+        <argsstring>() const override</argsstring>
+        <name>currentLevel</name>
+        <qualifiedname>themis::cdc::InMemoryBackpressureSignal::currentLevel</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1a39dc222749b20e5b3145ea8860c6e681">currentLevel</reimplements>
+        <briefdescription>
+<para>Current Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="102" column="23" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1ac4038b8da21286a268c2779533a6a066" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryBackpressureSignal::setCallback</definition>
+        <argsstring>(LevelCallback cb)</argsstring>
+        <name>setCallback</name>
+        <qualifiedname>themis::cdc::InMemoryBackpressureSignal::setCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" kindref="member">LevelCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>── Extra helpers ───────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_backpressure_signal.h" line="112" column="10" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="112" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::ICDCBackpressureSignal</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryBackpressureSignal</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::ICDCBackpressureSignal</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryBackpressureSignal</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_backpressure_signal.h" line="74" column="1" bodyfile="include/cdc/icdc_backpressure_signal.h" bodystart="74" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1affafbc5028f595339d4eb4114600b6fb" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>callback_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a178903b551c78b6ff4567616ae850c06" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>cb_mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1afce7df76237dce9e515946796ed76d2a" prot="public" virt="virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>clearBackpressure</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1affc318574900865c329cee567347000a" prot="public" virt="virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>currentLevel</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1adf62b5f5c36690142076049b6bc8a1b6" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>InMemoryBackpressureSignal</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a4ff7e45f7adfdc9defe515dde4eae5dc" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>level_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a260862a50f7a7e24f9d37ae382fce1fd" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>LevelCallback</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1ac4038b8da21286a268c2779533a6a066" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>setCallback</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_backpressure_signal_1a53ac95d3e871e09264dcadd54b485b51" prot="public" virt="virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>signalBackpressure</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_backpressure_signal_1a30af9215ca9039e0e1c195f4c9112f9e" prot="public" virt="virtual"><scope>themis::cdc::InMemoryBackpressureSignal</scope><name>~ICDCBackpressureSignal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

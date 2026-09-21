@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::AdaptiveQueryCompiler::CompilationConfig</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a2fcfde556684cb9a75daa3c0ce1c43be" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::CompilationConfig::hot_threshold</definition>
+        <argsstring></argsstring>
+        <name>hot_threshold</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationConfig::hot_threshold</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Executions before JIT compilation is triggered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="294" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a1451c70048ac76a732c5fa53ce0a698e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a48d266f214492b2b17867b1dec461c4b" kindref="member">OptLevel</ref></type>
+        <definition>OptLevel themis::performance::AdaptiveQueryCompiler::CompilationConfig::optimization</definition>
+        <argsstring></argsstring>
+        <name>optimization</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationConfig::optimization</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1performance_1_1_adaptive_query_compiler_1a48d266f214492b2b17867b1dec461c4ba9ee25ee8b4d0a573527fcd2f1e73f8c8" kindref="member">OptLevel::O3</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>LLVM optimisation level applied during native code generation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="297" column="18" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a9de87003456308d97793c79cb777e5c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::AdaptiveQueryCompiler::CompilationConfig::enable_vectorization</definition>
+        <argsstring></argsstring>
+        <name>enable_vectorization</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationConfig::enable_vectorization</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit SIMD-vectorised loops for batch predicate evaluation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="300" column="14" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a68ae4000647e1f79bd9133e28646050c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::AdaptiveQueryCompiler::CompilationConfig::enable_prefetch</definition>
+        <argsstring></argsstring>
+        <name>enable_prefetch</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationConfig::enable_prefetch</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit software prefetch instructions ahead of sequential scans. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="303" column="14" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a593f8f4cf8e525570401c1e5bbdc90f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::AdaptiveQueryCompiler::CompilationConfig::enable_inlining</definition>
+        <argsstring></argsstring>
+        <name>enable_inlining</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationConfig::enable_inlining</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Inline helper functions into the compiled query body. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="306" column="14" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a1087c83cb0e3b5124b327c1d4a94e35f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::CompilationConfig::compilation_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>compilation_timeout_ms</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationConfig::compilation_timeout_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum wall-clock time (ms) the compilation step may consume. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="309" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a7715c233c1776a1b8e93f320898258ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdaptiveQueryCompiler::CompilationConfig::recompile_check_interval</definition>
+        <argsstring></argsstring>
+        <name>recompile_check_interval</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationConfig::recompile_check_interval</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>After how many hot executions to re-check cardinality statistics and decide whether recompilation is necessary. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="315" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a029c2be9494b0514d188fd3f0f836e7c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::AdaptiveQueryCompiler::CompilationConfig::recompile_drift_factor</definition>
+        <argsstring></argsstring>
+        <name>recompile_drift_factor</name>
+        <qualifiedname>themis::performance::AdaptiveQueryCompiler::CompilationConfig::recompile_drift_factor</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Ratio of (current_rows / baseline_rows) that triggers recompilation. A value of 10 means a 10× cardinality change will force a recompile. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="321" column="16" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compiler configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields have production-ready defaults matching the roadmap spec. </para>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="292" column="5" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="292" bodyend="322"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a1087c83cb0e3b5124b327c1d4a94e35f" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationConfig</scope><name>compilation_timeout_ms</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a593f8f4cf8e525570401c1e5bbdc90f7" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationConfig</scope><name>enable_inlining</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a68ae4000647e1f79bd9133e28646050c" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationConfig</scope><name>enable_prefetch</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a9de87003456308d97793c79cb777e5c1" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationConfig</scope><name>enable_vectorization</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a2fcfde556684cb9a75daa3c0ce1c43be" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationConfig</scope><name>hot_threshold</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a1451c70048ac76a732c5fa53ce0a698e" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationConfig</scope><name>optimization</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a7715c233c1776a1b8e93f320898258ab" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationConfig</scope><name>recompile_check_interval</name></member>
+      <member refid="structthemis_1_1performance_1_1_adaptive_query_compiler_1_1_compilation_config_1a029c2be9494b0514d188fd3f0f836e7c" prot="public" virt="non-virtual"><scope>themis::performance::AdaptiveQueryCompiler::CompilationConfig</scope><name>recompile_drift_factor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

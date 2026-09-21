@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__proximity__dispatch_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_proximity_dispatch.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="yes">query/aql_runner.h</includes>
+    <includes local="yes">query/query_engine.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/aql/test_aql_proximity_dispatch.cpp</label>
+        <link refid="test__aql__proximity__dispatch_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="5">
+        <label>query/aql_runner.h</label>
+      </node>
+      <node id="6">
+        <label>query/query_engine.h</label>
+      </node>
+      <node id="8">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="7">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_q_l_proximity_dispatch_test" prot="public">AQLProximityDispatchTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__proximity__dispatch_8cpp_1abe47bbdb1bfc411ab4c5e2532387b654" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLProximityDispatchTest, ExecuteProximityHybrid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_proximity_dispatch_test" kindref="compound">AQLProximityDispatchTest</ref></type>
+        </param>
+        <param>
+          <type>ExecuteProximityHybrid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_proximity_dispatch.cpp" line="50" column="1" bodyfile="tests/aql/test_aql_proximity_dispatch.cpp" bodystart="50" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Dispatch<sp/>test<sp/>for<sp/>PROXIMITY<sp/>Content+Geo<sp/>hybrid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_runner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/query_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::query;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_a_q_l_proximity_dispatch_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_q_l_proximity_dispatch_test" kindref="compound">AQLProximityDispatchTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_proximity_dispatch_test_1a17b37c1d26628d4d686d86c290c612a7" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_proximity_dispatch_test_1a9c605e204ffa179db8e0792cd9afe42f" kindref="member">db_path_</ref><sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_aql_proximity_dispatch_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_a_q_l_proximity_dispatch_test_1a9c605e204ffa179db8e0792cd9afe42f" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/><ref refid="class_a_q_l_proximity_dispatch_test_1a9c605e204ffa179db8e0792cd9afe42f" kindref="member">db_path_</ref>;<sp/>cfg.memtable_size_mb<sp/>=<sp/>32;<sp/>cfg.block_cache_size_mb<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_proximity_dispatch_test_1ae46cf8c58c029d3a9768c9e5666c65b0" kindref="member">db</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);<sp/>ASSERT_TRUE(<ref refid="class_a_q_l_proximity_dispatch_test_1ae46cf8c58c029d3a9768c9e5666c65b0" kindref="member">db</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_proximity_dispatch_test_1ae3ac88f5716159ac1a6ca83e6c60a01f" kindref="member">sec</ref><sp/>=<sp/>std::make_unique&lt;SecondaryIndexManager&gt;(*<ref refid="class_a_q_l_proximity_dispatch_test_1ae46cf8c58c029d3a9768c9e5666c65b0" kindref="member">db</ref>);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_proximity_dispatch_test_1a6a539f61d5b5aca654ae8480685418c3" kindref="member">engine</ref><sp/>=<sp/>std::make_unique&lt;QueryEngine&gt;(*<ref refid="class_a_q_l_proximity_dispatch_test_1ae46cf8c58c029d3a9768c9e5666c65b0" kindref="member">db</ref>,<sp/>*<ref refid="class_a_q_l_proximity_dispatch_test_1ae3ac88f5716159ac1a6ca83e6c60a01f" kindref="member">sec</ref>);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>fulltext<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SecondaryIndexManager::FulltextConfig<sp/>config;<sp/>config.language=</highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">;<sp/>config.stemming_enabled=</highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>config.stopwords_enabled=</highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>st<sp/>=<sp/><ref refid="class_a_q_l_proximity_dispatch_test_1ae3ac88f5716159ac1a6ca83e6c60a01f" kindref="member">sec</ref>-&gt;createFulltextIndex(</highlight><highlight class="stringliteral">&quot;places&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">,<sp/>config);<sp/>ASSERT_TRUE(st.ok)<sp/>&lt;&lt;<sp/>st.message;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>sample<sp/>docs<sp/>with<sp/>GeoJSON<sp/>Point<sp/>stored<sp/>as<sp/>string<sp/>(compatible<sp/>with<sp/>parsers)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>loc1<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;type&quot;:&quot;Point&quot;,&quot;coordinates&quot;:[13.45,52.55]})&quot;;</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>loc2<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;type&quot;:&quot;Point&quot;,&quot;coordinates&quot;:[13.46,52.551]})&quot;;</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>a(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a.setField(</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;coffee<sp/>shop<sp/>berlin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a.setField(</highlight><highlight class="stringliteral">&quot;location&quot;</highlight><highlight class="normal">,<sp/>loc1);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_proximity_dispatch_test_1ae3ac88f5716159ac1a6ca83e6c60a01f" kindref="member">sec</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;places&quot;</highlight><highlight class="normal">,<sp/>a);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseEntity<sp/>b(</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b.setField(</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;coffee<sp/>roastery<sp/>berlin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b.setField(</highlight><highlight class="stringliteral">&quot;location&quot;</highlight><highlight class="normal">,<sp/>loc2);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_proximity_dispatch_test_1ae3ac88f5716159ac1a6ca83e6c60a01f" kindref="member">sec</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;places&quot;</highlight><highlight class="normal">,<sp/>b);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_proximity_dispatch_test_1a32538b7977972767829e239c2b12a238" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/><ref refid="class_a_q_l_proximity_dispatch_test_1a6a539f61d5b5aca654ae8480685418c3" kindref="member">engine</ref>.reset();<sp/><ref refid="class_a_q_l_proximity_dispatch_test_1ae3ac88f5716159ac1a6ca83e6c60a01f" kindref="member">sec</ref>.reset();<sp/><ref refid="class_a_q_l_proximity_dispatch_test_1ae46cf8c58c029d3a9768c9e5666c65b0" kindref="member">db</ref>.reset();<sp/>std::filesystem::remove_all(<ref refid="class_a_q_l_proximity_dispatch_test_1a9c605e204ffa179db8e0792cd9afe42f" kindref="member">db_path_</ref>);<sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_q_l_proximity_dispatch_test_1a9c605e204ffa179db8e0792cd9afe42f" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_a_q_l_proximity_dispatch_test_1ae46cf8c58c029d3a9768c9e5666c65b0" kindref="member">db</ref>;<sp/>std::unique_ptr&lt;SecondaryIndexManager&gt;<sp/><ref refid="class_a_q_l_proximity_dispatch_test_1ae3ac88f5716159ac1a6ca83e6c60a01f" kindref="member">sec</ref>;<sp/>std::unique_ptr&lt;QueryEngine&gt;<sp/><ref refid="class_a_q_l_proximity_dispatch_test_1a6a539f61d5b5aca654ae8480685418c3" kindref="member">engine</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__aql__proximity__dispatch_8cpp_1abe47bbdb1bfc411ab4c5e2532387b654" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_proximity_dispatch_test" kindref="compound">AQLProximityDispatchTest</ref>,<sp/>ExecuteProximityHybrid)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>places</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILTER<sp/>FULLTEXT(doc.description,<sp/>&quot;coffee&quot;,<sp/>10)</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILTER<sp/>ST_Within(doc.location,<sp/>[13.4,52.5,13.5,52.6])</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>PROXIMITY(doc.location,<sp/>[13.45,52.55])<sp/>ASC</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIMIT<sp/>5</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>jsonRes<sp/>=<sp/>executeAql(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>,<sp/>*engine);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(jsonRes.has_value())<sp/>&lt;&lt;<sp/>jsonRes.error().message();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ((*jsonRes)[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;content_geo&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(jsonRes-&gt;contains(</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dispatch<sp/>test:<sp/>result<sp/>set<sp/>can<sp/>be<sp/>empty<sp/>on<sp/>constrained/local<sp/>setups,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>but<sp/>payload<sp/>shape<sp/>must<sp/>remain<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GE((*jsonRes)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">].size(),<sp/>0);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!(*jsonRes)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">].empty())<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>first<sp/>=<sp/>(*jsonRes)[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">][0];</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(first.contains(</highlight><highlight class="stringliteral">&quot;geo_distance&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_proximity_dispatch.cpp"/>
+  </compounddef>
+</doxygen>

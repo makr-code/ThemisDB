@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_a_b_module_test_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ABModuleTestResult</compoundname>
+    <includes refid="ab__test__manager_8h" local="no">ab_test_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1adf46978053276c2a2b3b53c76ddccc23" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ABModuleTestResult::test_id</definition>
+        <argsstring></argsstring>
+        <name>test_id</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::test_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="126" column="17" bodyfile="include/themis/base/ab_test_manager.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1a53299b7850b350a7688030fa0d2bf20c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ABModuleTestResult::sample_size_control</definition>
+        <argsstring></argsstring>
+        <name>sample_size_control</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::sample_size_control</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Control group sample size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="127" column="13" bodyfile="include/themis/base/ab_test_manager.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1ad3e9d27610e550edeca8ee2ccb213965" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ABModuleTestResult::sample_size_treatment</definition>
+        <argsstring></argsstring>
+        <name>sample_size_treatment</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::sample_size_treatment</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Treatment group sample size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="128" column="13" bodyfile="include/themis/base/ab_test_manager.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1a64040fa6a446b1a9b809ac0ecb76d9e7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestResult::control_success_rate</definition>
+        <argsstring></argsstring>
+        <name>control_success_rate</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::control_success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Control success proportion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="129" column="13" bodyfile="include/themis/base/ab_test_manager.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1a4c8fd2542eaf7b576e2b393596dafb09" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestResult::treatment_success_rate</definition>
+        <argsstring></argsstring>
+        <name>treatment_success_rate</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::treatment_success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Treatment success proportion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="130" column="13" bodyfile="include/themis/base/ab_test_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1a2b9f9869e3711f6116ba27e9933746dc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestResult::improvement</definition>
+        <argsstring></argsstring>
+        <name>improvement</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::improvement</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>treatment − control success rate </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="131" column="13" bodyfile="include/themis/base/ab_test_manager.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1a7dc2e1139dfaaf3d251aa07144f2e1f4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestResult::p_value</definition>
+        <argsstring></argsstring>
+        <name>p_value</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::p_value</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Two-tailed p-value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="132" column="13" bodyfile="include/themis/base/ab_test_manager.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1a44bf7fc32e5d1648484f6ba992191c29" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ABModuleTestResult::is_significant</definition>
+        <argsstring></argsstring>
+        <name>is_significant</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::is_significant</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>p_value &lt; significance_level </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="133" column="13" bodyfile="include/themis/base/ab_test_manager.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1aa14a905adddf9b537e2185ba32857140" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestResult::control_mean_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>control_mean_latency_ms</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::control_mean_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean latency of control. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="134" column="13" bodyfile="include/themis/base/ab_test_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_module_test_result_1ae405b10fc5272e8e0eff0e20f39e1e4b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABModuleTestResult::treatment_mean_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>treatment_mean_latency_ms</name>
+        <qualifiedname>themis::modules::ABModuleTestResult::treatment_mean_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean latency of treatment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="135" column="13" bodyfile="include/themis/base/ab_test_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistical evaluation snapshot for a test. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/ab_test_manager.h" line="125" column="1" bodyfile="include/themis/base/ab_test_manager.h" bodystart="125" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1aa14a905adddf9b537e2185ba32857140" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>control_mean_latency_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1a64040fa6a446b1a9b809ac0ecb76d9e7" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>control_success_rate</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1a2b9f9869e3711f6116ba27e9933746dc" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>improvement</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1a44bf7fc32e5d1648484f6ba992191c29" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>is_significant</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1a7dc2e1139dfaaf3d251aa07144f2e1f4" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>p_value</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1a53299b7850b350a7688030fa0d2bf20c" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>sample_size_control</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1ad3e9d27610e550edeca8ee2ccb213965" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>sample_size_treatment</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1adf46978053276c2a2b3b53c76ddccc23" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>test_id</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1ae405b10fc5272e8e0eff0e20f39e1e4b" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>treatment_mean_latency_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_module_test_result_1a4c8fd2542eaf7b576e2b393596dafb09" prot="public" virt="non-virtual"><scope>themis::modules::ABModuleTestResult</scope><name>treatment_success_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

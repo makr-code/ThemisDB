@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="spatial__join_8h" kind="file" language="C++">
+    <compoundname>spatial_join.h</compoundname>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="geo__math_8h" local="yes">geo/geo_math.h</includes>
+    <includedby refid="bench__spatial__join_8cpp" local="yes">benchmarks/geo/bench_spatial_join.cpp</includedby>
+    <includedby refid="geo__clustering_8cpp" local="yes">src/geo/geo_clustering.cpp</includedby>
+    <includedby refid="spatial__join_8cpp" local="yes">src/geo/spatial_join.cpp</includedby>
+    <includedby refid="temporal__spatial__query_8cpp" local="yes">src/geo/temporal_spatial_query.cpp</includedby>
+    <includedby refid="test__geo__spatial__join_8cpp" local="yes">tests/geo/test_geo_spatial_join.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>geo/geo_math.h</label>
+        <link refid="geo__math_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/geo/spatial_join.h</label>
+        <link refid="spatial__join_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>array</label>
+      </node>
+      <node id="8">
+        <label>cmath</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/geo/bench_spatial_join.cpp</label>
+        <link refid="bench__spatial__join_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/geo/spatial_join.h</label>
+        <link refid="spatial__join_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/geo/geo_clustering.cpp</label>
+        <link refid="geo__clustering_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/geo/spatial_join.cpp</label>
+        <link refid="spatial__join_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/geo/temporal_spatial_query.cpp</label>
+        <link refid="temporal__spatial__query_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/geo/test_geo_spatial_join.cpp</label>
+        <link refid="test__geo__spatial__join_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1geo_1_1_spatial_join_pair" prot="public">themis::geo::SpatialJoinPair</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_spatial_join_config" prot="public">themis::geo::SpatialJoinConfig</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_spatial_join_iterator" prot="public">themis::geo::SpatialJoinIterator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__math_8h" kindref="compound">geo/geo_math.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1geo_1_1_spatial_join_pair" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_spatial_join_pair" kindref="compound">SpatialJoinPair</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1geo_1_1_spatial_join_pair_1a6792537678f5f9905acf179a0015d48c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1geo_1_1_spatial_join_pair_1a6792537678f5f9905acf179a0015d48c" kindref="member">key_a</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1geo_1_1_spatial_join_pair_1a8931b25115ac82e86c8397f07286d2ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1geo_1_1_spatial_join_pair_1a8931b25115ac82e86c8397f07286d2ea" kindref="member">key_b</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1geo_1_1_spatial_join_pair_1a28cdf1fad5db8a8086aa5edcd0571913" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_spatial_join_pair_1a28cdf1fad5db8a8086aa5edcd0571913" kindref="member">distance_m</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1geo_1_1_spatial_join_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_spatial_join_config" kindref="compound">SpatialJoinConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1geo_1_1_spatial_join_config_1ad5e9095a1d0d20a2e7f6c8e07fd4be7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1geo_1_1_spatial_join_config_1ad5e9095a1d0d20a2e7f6c8e07fd4be7e" kindref="member">max_pairs</ref><sp/>=<sp/>1&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1geo_1_1_spatial_join_iterator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref>(</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeometryInfo&gt;&gt;&amp;<sp/>outer,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeometryInfo&gt;&gt;&amp;<sp/>inner,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold_m,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_spatial_join_config" kindref="compound">SpatialJoinConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1geo_1_1_spatial_join_config" kindref="compound">SpatialJoinConfig</ref>{});</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a867bd74c231cdae3f5477767302a602d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a867bd74c231cdae3f5477767302a602d" kindref="member">~SpatialJoinIterator</ref>();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a812719a1151bf5acd4b9c9c137978d50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a812719a1151bf5acd4b9c9c137978d50" kindref="member">SpatialJoinIterator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a5106c4261555341d5c645763bf500d23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a5106c4261555341d5c645763bf500d23" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1geo_1_1_spatial_join_iterator_1addbfe7870b807516f697803b899ce5f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1addbfe7870b807516f697803b899ce5f4" kindref="member">SpatialJoinIterator</ref>(<ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1geo_1_1_spatial_join_iterator_1af141cdf161deaaa16e89c6626853a002" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1ab718ed6849c03cba53b4c489ae6770e1" kindref="member">SpatialJoinIterator</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a3fba456c51441742e1fa7beb11260fb8" kindref="member">advance</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1geo_1_1_spatial_join_pair" kindref="compound">SpatialJoinPair</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1aeba92704aa46509abe748fe82535a7cf" kindref="member">current</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a731601ec966115bef58be41f968ada3a" kindref="member">done</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>compatibility<sp/>alias.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a63c19084d8ab8de6b9e6ca6074065d4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a63c19084d8ab8de6b9e6ca6074065d4a" kindref="member">exhausted</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_spatial_join_iterator_1a731601ec966115bef58be41f968ada3a" kindref="member">done</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">std::vector&lt;SpatialJoinPair&gt;<sp/><ref refid="namespacethemis_1_1geo_1a9a1f1a69b83f41a332a8319f1d9c2026" kindref="member">spatialJoin</ref>(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeometryInfo&gt;&gt;&amp;<sp/>outer,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeometryInfo&gt;&gt;&amp;<sp/>inner,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold_m,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SpatialJoinConfig&amp;<sp/>config<sp/>=<sp/>SpatialJoinConfig{});</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/spatial_join.h"/>
+  </compounddef>
+</doxygen>

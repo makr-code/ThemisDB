@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3d950e3ae3d55b8722a1d4c364174dbd" kind="dir">
+    <compoundname>include/analytics/detail</compoundname>
+    <innerfile refid="lru__cache_8h">lru_cache.h</innerfile>
+    <innerfile refid="include_2analytics_2detail_2memory__pool_8h">memory_pool.h</innerfile>
+    <innerfile refid="include_2analytics_2detail_2ring__buffer_8h">ring_buffer.h</innerfile>
+    <innerfile refid="stats_8h">stats.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/detail/"/>
+  </compounddef>
+</doxygen>

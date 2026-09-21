@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_model_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessModelResult</compoundname>
+    <includes refid="process__model__manager_8h" local="no">process_model_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_result_1a868d7a76fc83f039d4337562e3e1e906" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessModelResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::process::ProcessModelResult::ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="134" column="17" bodyfile="include/process/process_model_manager.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_result_1a1238c4ba230d27144b02522dca866db5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::process::ProcessModelResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="135" column="17" bodyfile="include/process/process_model_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_model_result_1a8621a425a6fd1461ca5a8525950be46f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessModelResult::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::ProcessModelResult::model_id</qualifiedname>
+        <briefdescription>
+<para>Populated on successful write operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="136" column="17" bodyfile="include/process/process_model_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_model_result_1aa876fa2c50a7c060692770261801567f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelResult::success</definition>
+        <argsstring>(std::string_view id=&quot;&quot;)</argsstring>
+        <name>success</name>
+        <qualifiedname>themis::process::ProcessModelResult::success</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="138" column="31" bodyfile="src/process/process_model_manager.cpp" bodystart="184" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_model_result_1a1c9eba571c3e7f227f152ef1e4738f5e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref></type>
+        <definition>ProcessModelResult themis::process::ProcessModelResult::failure</definition>
+        <argsstring>(std::string_view msg)</argsstring>
+        <name>failure</name>
+        <qualifiedname>themis::process::ProcessModelResult::failure</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_model_manager.h" line="139" column="31" bodyfile="src/process/process_model_manager.cpp" bodystart="198" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result type used by all <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">ProcessModelManager</ref> operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_model_manager.h" line="133" column="1" bodyfile="include/process/process_model_manager.h" bodystart="133" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_model_result_1a1c9eba571c3e7f227f152ef1e4738f5e" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelResult</scope><name>failure</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_result_1a1238c4ba230d27144b02522dca866db5" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_result_1a8621a425a6fd1461ca5a8525950be46f" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelResult</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_result_1a868d7a76fc83f039d4337562e3e1e906" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1process_1_1_process_model_result_1aa876fa2c50a7c060692770261801567f" prot="public" virt="non-virtual"><scope>themis::process::ProcessModelResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

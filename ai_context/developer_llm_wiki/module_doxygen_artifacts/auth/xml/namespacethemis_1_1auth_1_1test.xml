@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1auth_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::auth::test</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1auth_1_1test_1a1d01ea3b87080abaf88ba38d64490512" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::test::TEST</definition>
+        <argsstring>(AuthRedactionTest, RedactDoesNotLeakOriginalValue)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::auth::test::TEST</qualifiedname>
+        <param>
+          <type>AuthRedactionTest</type>
+        </param>
+        <param>
+          <type>RedactDoesNotLeakOriginalValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_sensitive_data_redaction.cpp" line="27" column="1" bodyfile="tests/auth/test_auth_sensitive_data_redaction.cpp" bodystart="27" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1_1test_1afea44fad49d2a25bd58021bc92706279" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::test::TEST</definition>
+        <argsstring>(AuthRedactionTest, RedactContainsLengthInfo)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::auth::test::TEST</qualifiedname>
+        <param>
+          <type>AuthRedactionTest</type>
+        </param>
+        <param>
+          <type>RedactContainsLengthInfo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_sensitive_data_redaction.cpp" line="40" column="1" bodyfile="tests/auth/test_auth_sensitive_data_redaction.cpp" bodystart="40" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1_1test_1af01b0584274d667d8c327e5029992723" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::test::TEST</definition>
+        <argsstring>(AuthRedactionTest, RedactPartialExposesOnlyPrefix)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::auth::test::TEST</qualifiedname>
+        <param>
+          <type>AuthRedactionTest</type>
+        </param>
+        <param>
+          <type>RedactPartialExposesOnlyPrefix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_sensitive_data_redaction.cpp" line="53" column="1" bodyfile="tests/auth/test_auth_sensitive_data_redaction.cpp" bodystart="53" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1_1test_1a002ff05c778fe809bbfdd859cb445c3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::test::TEST</definition>
+        <argsstring>(AuthRedactionTest, RedactIfPresentHandlesEmptyString)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::auth::test::TEST</qualifiedname>
+        <param>
+          <type>AuthRedactionTest</type>
+        </param>
+        <param>
+          <type>RedactIfPresentHandlesEmptyString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_sensitive_data_redaction.cpp" line="68" column="1" bodyfile="tests/auth/test_auth_sensitive_data_redaction.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1auth_1_1test_1aaa4bc34b83766cdf2f17873e03137f32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::test::TEST</definition>
+        <argsstring>(AuthRedactionTest, RedactIsThreadSafe)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::auth::test::TEST</qualifiedname>
+        <param>
+          <type>AuthRedactionTest</type>
+        </param>
+        <param>
+          <type>RedactIsThreadSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_sensitive_data_redaction.cpp" line="78" column="1" bodyfile="tests/auth/test_auth_sensitive_data_redaction.cpp" bodystart="78" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/auth/test_auth_sensitive_data_redaction.cpp" line="21" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::TwoPSet</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1ac2039538f8f194ee626245c942734f2b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set" kindref="compound">GrowOnlySet</ref>&lt; T &gt;</type>
+        <definition>GrowOnlySet&lt;T&gt; themisdb::replication::crdt::TwoPSet&lt; T &gt;::added_</definition>
+        <argsstring></argsstring>
+        <name>added_</name>
+        <qualifiedname>themisdb::replication::crdt::TwoPSet::added_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="309" column="17" bodyfile="include/replication/crdt_types.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1a1fb17dcca124f21bd1db0543a01a7c24" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1crdt_1_1_grow_only_set" kindref="compound">GrowOnlySet</ref>&lt; T &gt;</type>
+        <definition>GrowOnlySet&lt;T&gt; themisdb::replication::crdt::TwoPSet&lt; T &gt;::removed_</definition>
+        <argsstring></argsstring>
+        <name>removed_</name>
+        <qualifiedname>themisdb::replication::crdt::TwoPSet::removed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="310" column="17" bodyfile="include/replication/crdt_types.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1af41a793e48262a5c0bb2ebd7051be396" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::TwoPSet&lt; T &gt;::add</definition>
+        <argsstring>(const T &amp;element)</argsstring>
+        <name>add</name>
+        <qualifiedname>themisdb::replication::crdt::TwoPSet::add</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>element</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="289" column="10" bodyfile="include/replication/crdt_types.h" bodystart="289" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1af7704d769b040c27100ef37f40593b4c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::TwoPSet&lt; T &gt;::remove</definition>
+        <argsstring>(const T &amp;element)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themisdb::replication::crdt::TwoPSet::remove</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>element</declname>
+        </param>
+        <briefdescription>
+<para>Remove <computeroutput>element</computeroutput> (tombstone). Has no effect if the element was never added. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="295" column="10" bodyfile="include/replication/crdt_types.h" bodystart="295" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1a91c412a22b7c20118d4301e01a949068" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::crdt::TwoPSet&lt; T &gt;::contains</definition>
+        <argsstring>(const T &amp;element) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themisdb::replication::crdt::TwoPSet::contains</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>element</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="299" column="10" bodyfile="include/replication/crdt_types.h" bodystart="299" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1a81696ee91f71d2dc1ab5d0de7ad3a313" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::TwoPSet&lt; T &gt;::merge</definition>
+        <argsstring>(const TwoPSet&lt; T &gt; &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::crdt::TwoPSet::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set" kindref="compound">TwoPSet</ref>&lt; T &gt; &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="303" column="10" bodyfile="include/replication/crdt_types.h" bodystart="303" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Two-Phase Set (2P-Set). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses two G-Sets: the &quot;add&quot; set A and the &quot;remove&quot; set R (tombstones). An element is a member if it is in A and NOT in R. Elements in R can never be re-added.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="287" column="1" bodyfile="include/replication/crdt_types.h" bodystart="287" bodyend="311"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1af41a793e48262a5c0bb2ebd7051be396" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::TwoPSet</scope><name>add</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1ac2039538f8f194ee626245c942734f2b" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::TwoPSet</scope><name>added_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1a91c412a22b7c20118d4301e01a949068" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::TwoPSet</scope><name>contains</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1a81696ee91f71d2dc1ab5d0de7ad3a313" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::TwoPSet</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1af7704d769b040c27100ef37f40593b4c" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::TwoPSet</scope><name>remove</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_two_p_set_1a1fb17dcca124f21bd1db0543a01a7c24" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::TwoPSet</scope><name>removed_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

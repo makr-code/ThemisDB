@@ -1,0 +1,1613 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_distributed_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::DistributedCoordinator</compoundname>
+    <includes refid="distributed__coordinator_8h" local="no">distributed_coordinator.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" prot="public">themis::sharding::DistributedCoordinator::CoordinatorTask</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config" prot="public">themis::sharding::DistributedCoordinator::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info" prot="public">themis::sharding::DistributedCoordinator::LeaderInfo</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics" prot="public">themis::sharding::DistributedCoordinator::Statistics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CoordinatorRole</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::CoordinatorRole</qualifiedname>
+        <enumvalue id="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262ba8026987f2531b5fa5178a851c108397c" prot="public">
+          <name>FOLLOWER</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Passive shard without active coordination lease. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262babea4821516973214973a70aea8337c38" prot="public">
+          <name>CANDIDATE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Node currently campaigning for leadership. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262bab8058aa3ecd39b676ce80d6aaadc5e64" prot="public">
+          <name>LEADER</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Node holding active coordinator lease. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Runtime role of this node in distributed coordination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="29" column="5" bodyfile="include/sharding/distributed_coordinator.h" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TaskType</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::TaskType</qualifiedname>
+        <enumvalue id="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768a4de776532ea0cedb1321093084572a80" prot="public">
+          <name>REBALANCE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Data rebalancing between shards. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768ace70d07e3ba9842e96c4e4b961445f60" prot="public">
+          <name>REPAIR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Repair/recovery of degraded shard state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768aa49182544bf417d2e02cae1f35c9c8b8" prot="public">
+          <name>MAINTENANCE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>General maintenance operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768a43c60cd87539b6d655a4ed5a12199e64" prot="public">
+          <name>SCHEMA_MIGRATION</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Metadata/schema evolution operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768abfdf97ae01c73d83a58ec41f78a4291f" prot="public">
+          <name>BACKUP</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Backup task coordination. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768ac95fa04340c629ddfa2d38e285e59245" prot="public">
+          <name>RESTORE</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Restore task coordination. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Categorization of coordinator-managed cluster tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="36" column="5" bodyfile="include/sharding/distributed_coordinator.h" bodystart="36" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a4b1c68b97a215d7a59aede7300f257f6" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref> &amp;)&gt;</type>
+        <definition>using themis::sharding::DistributedCoordinator::TaskExecutor = std::function&lt;bool(const CoordinatorTask&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TaskExecutor</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::TaskExecutor</qualifiedname>
+        <briefdescription>
+<para>Task execution callback for coordinated tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="115" column="5" bodyfile="include/sharding/distributed_coordinator.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a1861e46eae50ce7f2676bf8fea0ccc3c" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;leader_id)&gt;</type>
+        <definition>using themis::sharding::DistributedCoordinator::LeaderElectedCallback = std::function&lt;void(const std::string&amp; leader_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LeaderElectedCallback</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::LeaderElectedCallback</qualifiedname>
+        <briefdescription>
+<para>Callback invoked when a leader is elected or changed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="117" column="5" bodyfile="include/sharding/distributed_coordinator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a16ca23d0f721fdc93871d7e80b14efb9" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedCoordinator::local_shard_id_</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::local_shard_id_</qualifiedname>
+        <briefdescription>
+<para>Local shard identity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="241" column="17" bodyfile="include/sharding/distributed_coordinator.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a5c98e9ff9471129ca46e2ecd7aafa0f3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; themis::sharding::DistributedCoordinator::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::topology_</qualifiedname>
+        <briefdescription>
+<para>Shared topology provider. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="242" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a9bf03d4a6e2a5a50f1bec360cb837498" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_gossip_config_manager" kindref="compound">GossipConfigManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GossipConfigManager&gt; themis::sharding::DistributedCoordinator::gossip_mgr_</definition>
+        <argsstring></argsstring>
+        <name>gossip_mgr_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::gossip_mgr_</qualifiedname>
+        <briefdescription>
+<para>Shared gossip manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="243" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a80d3663308171566cbf502594d0bad66" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::DistributedCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::config_</qualifiedname>
+        <briefdescription>
+<para>Runtime configuration snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="244" column="12" bodyfile="include/sharding/distributed_coordinator.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1accba98f98fcde7124b398dfed4dbde0b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::DistributedCoordinator::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Worker lifecycle flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="246" column="17" bodyfile="include/sharding/distributed_coordinator.h" bodystart="246" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a2601adbab097015880f64a28039534d7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262b" kindref="member">CoordinatorRole</ref> &gt;</type>
+        <definition>std::atomic&lt;CoordinatorRole&gt; themis::sharding::DistributedCoordinator::role_</definition>
+        <argsstring></argsstring>
+        <name>role_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::role_</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262ba8026987f2531b5fa5178a851c108397c" kindref="member">CoordinatorRole::FOLLOWER</ref>}</initializer>
+        <briefdescription>
+<para>Current local role. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="247" column="17" bodyfile="include/sharding/distributed_coordinator.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a818466042b57cd3df13f6e3d8c14ac23" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::sharding::DistributedCoordinator::current_term_</definition>
+        <argsstring></argsstring>
+        <name>current_term_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::current_term_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current coordination term. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="248" column="17" bodyfile="include/sharding/distributed_coordinator.h" bodystart="248" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a6426f59d35a7841f47abf49f4c7c9275" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::sharding::DistributedCoordinator::current_leader_</definition>
+        <argsstring></argsstring>
+        <name>current_leader_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::current_leader_</qualifiedname>
+        <briefdescription>
+<para>LOCK ORDERING (CANONICAL): Tier 1: leader_mutex_ — manages leader role, term, lease state ↓ cannot acquire Tier 2 or Tier 3 while holding this lock Tier 2: tasks_mutex_ — manages pending task queue <linebreak/>
+ ↓ cannot acquire Tier 3 while holding this lock Tier 3: callback_mutex_ — manages registered callbacks ↓ terminal tier; can only release when exiting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>RATIONALE: Prevent cyclic dependencies and ensure fair ordering under contention. All acquisitions must follow this hierarchy to avoid deadlock. Known current leader shard ID. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="262" column="19" bodyfile="include/sharding/distributed_coordinator.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1af6e6063cfb75fe4ea43a8d9cd7294120" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::DistributedCoordinator::leader_lease_expires_</definition>
+        <argsstring></argsstring>
+        <name>leader_lease_expires_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::leader_lease_expires_</qualifiedname>
+        <briefdescription>
+<para>Leader lease expiration timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="263" column="43" bodyfile="include/sharding/distributed_coordinator.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a92ede81ada3e549e57be717314e95bf6" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::DistributedCoordinator::last_leader_heartbeat_</definition>
+        <argsstring></argsstring>
+        <name>last_leader_heartbeat_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::last_leader_heartbeat_</qualifiedname>
+        <briefdescription>
+<para>Last heartbeat timestamp from leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="264" column="43" bodyfile="include/sharding/distributed_coordinator.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ae2f5433ad6d85db8770b8ecefb1327ac" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::sharding::DistributedCoordinator::leader_mutex_</definition>
+        <argsstring></argsstring>
+        <name>leader_mutex_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::leader_mutex_</qualifiedname>
+        <briefdescription>
+<para>[Tier 1] Protects leader state and term. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="265" column="31" bodyfile="include/sharding/distributed_coordinator.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a7aa5219fae25f92ad73e2040381d5803" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref> &gt;</type>
+        <definition>std::vector&lt;CoordinatorTask&gt; themis::sharding::DistributedCoordinator::pending_tasks_</definition>
+        <argsstring></argsstring>
+        <name>pending_tasks_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::pending_tasks_</qualifiedname>
+        <briefdescription>
+<para>Leader-maintained pending tasks queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="268" column="17" bodyfile="include/sharding/distributed_coordinator.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a10262871acd76b350230de6814488103" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::sharding::DistributedCoordinator::tasks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tasks_mutex_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::tasks_mutex_</qualifiedname>
+        <briefdescription>
+<para>[Tier 2] Protects pending tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="269" column="31" bodyfile="include/sharding/distributed_coordinator.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a19b9efd502d7ccf53386bef7911c216b" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::DistributedCoordinator::election_thread_</definition>
+        <argsstring></argsstring>
+        <name>election_thread_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::election_thread_</qualifiedname>
+        <briefdescription>
+<para>Election monitor thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="272" column="17" bodyfile="include/sharding/distributed_coordinator.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a2d0a47776af4e8e82d9be62a3c84674b" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::DistributedCoordinator::heartbeat_thread_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_thread_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::heartbeat_thread_</qualifiedname>
+        <briefdescription>
+<para>Heartbeat emission thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="273" column="17" bodyfile="include/sharding/distributed_coordinator.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a0dc4126762d9275af9e376af33e7fb20" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::DistributedCoordinator::task_executor_thread_</definition>
+        <argsstring></argsstring>
+        <name>task_executor_thread_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::task_executor_thread_</qualifiedname>
+        <briefdescription>
+<para>Task execution thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="274" column="17" bodyfile="include/sharding/distributed_coordinator.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a47d270b2a0da5ded3e5f50b29293c7ea" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4b1c68b97a215d7a59aede7300f257f6" kindref="member">TaskExecutor</ref></type>
+        <definition>TaskExecutor themis::sharding::DistributedCoordinator::task_executor_</definition>
+        <argsstring></argsstring>
+        <name>task_executor_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::task_executor_</qualifiedname>
+        <briefdescription>
+<para>Task execution callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="277" column="18" bodyfile="include/sharding/distributed_coordinator.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a147650a6f1ab1f0aa1d8efe226a352bb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a1861e46eae50ce7f2676bf8fea0ccc3c" kindref="member">LeaderElectedCallback</ref></type>
+        <definition>LeaderElectedCallback themis::sharding::DistributedCoordinator::leader_elected_callback_</definition>
+        <argsstring></argsstring>
+        <name>leader_elected_callback_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::leader_elected_callback_</qualifiedname>
+        <briefdescription>
+<para>Leader election callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="278" column="27" bodyfile="include/sharding/distributed_coordinator.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1abf93aa2fa0a5673e782793237e4281a6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::DistributedCoordinator::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::callback_mutex_</qualifiedname>
+        <briefdescription>
+<para>[Tier 3] Protects callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="279" column="24" bodyfile="include/sharding/distributed_coordinator.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a0a4e3d800a788eb1131198e8ca33604c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::sharding::DistributedCoordinator::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::stats_</qualifiedname>
+        <briefdescription>
+<para>Runtime counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="282" column="16" bodyfile="include/sharding/distributed_coordinator.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a08dee2fc4877c740a3ebb1d083b9bd1f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" kindref="compound">themisdb::sharding::CrossShardTransactionCoordinator</ref> *</type>
+        <definition>themisdb::sharding::CrossShardTransactionCoordinator* themis::sharding::DistributedCoordinator::txn_coordinator_</definition>
+        <argsstring></argsstring>
+        <name>txn_coordinator_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::txn_coordinator_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Optional non-owning tx coordinator bridge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="285" column="58" bodyfile="include/sharding/distributed_coordinator.h" bodystart="285" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a68e5758eb5a56b59a541286b6e09cc55" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::sharding::DistributedCoordinator::txn_coordinator_mutex_</definition>
+        <argsstring></argsstring>
+        <name>txn_coordinator_mutex_</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::txn_coordinator_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="286" column="31" bodyfile="include/sharding/distributed_coordinator.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a76a81c695618145010217e33edeba4a5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DistributedCoordinator::DistributedCoordinator</definition>
+        <argsstring>(const std::string &amp;local_shard_id, std::shared_ptr&lt; ShardTopology &gt; topology, std::shared_ptr&lt; GossipConfigManager &gt; gossip_mgr, const Config &amp;config)</argsstring>
+        <name>DistributedCoordinator</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::DistributedCoordinator</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_shard_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_gossip_config_manager" kindref="compound">GossipConfigManager</ref> &gt;</type>
+          <declname>gossip_mgr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct coordinator with explicit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local shard identity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared shard topology provider. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gossip_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared gossip configuration manager. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Coordinator runtime configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="126" column="14" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="93" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a3d6e672ff9b78a1ecad01e65eedb211c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DistributedCoordinator::DistributedCoordinator</definition>
+        <argsstring>(const std::string &amp;local_shard_id, std::shared_ptr&lt; ShardTopology &gt; topology, std::shared_ptr&lt; GossipConfigManager &gt; gossip_mgr)</argsstring>
+        <name>DistributedCoordinator</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::DistributedCoordinator</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_shard_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_gossip_config_manager" kindref="compound">GossipConfigManager</ref> &gt;</type>
+          <declname>gossip_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Construct coordinator with default configuration values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local shard identity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared shard topology provider. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gossip_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared gossip configuration manager. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="139" column="5" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a387ad20fa9a3d1aa5680923a69a49296" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::DistributedCoordinator::~DistributedCoordinator</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedCoordinator</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::~DistributedCoordinator</qualifiedname>
+        <briefdescription>
+<para>Stop worker threads and release coordinator resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="146" column="5" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ac996dfe1610509ef0e9c18fa702ab87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::start</qualifiedname>
+        <briefdescription>
+<para>Start election, heartbeat, and task-executor worker loops. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: exchange(), THEMIS_WARN(), std::thread(), load(), electionLoop(), sleepWhileRunning(), std::chrono::milliseconds(), <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" kindref="member">isLeader()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="150" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="124" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a25d74845d87d65058e3609b8593c00ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::stop</qualifiedname>
+        <briefdescription>
+<para>Stop all worker loops and join their threads. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: exchange(), THEMIS_INFO(), themis::utils::joinThreadWithin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="152" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="172" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ad0edc46fb6d10a1de9b8582f4cde6943" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedCoordinator::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::isRunning</qualifiedname>
+        <briefdescription>
+<para>Return true when coordinator workers are active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="154" column="10" bodyfile="include/sharding/distributed_coordinator.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1aded0ec195c17f2b58434d17f2f5053d5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262b" kindref="member">CoordinatorRole</ref></type>
+        <definition>CoordinatorRole themis::sharding::DistributedCoordinator::getRole</definition>
+        <argsstring>() const</argsstring>
+        <name>getRole</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::getRole</qualifiedname>
+        <briefdescription>
+<para>Return local coordinator role. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="158" column="21" bodyfile="include/sharding/distributed_coordinator.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedCoordinator::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::isLeader</qualifiedname>
+        <briefdescription>
+<para>Return true when this node is current coordinator leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="160" column="10" bodyfile="include/sharding/distributed_coordinator.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a4a6d29d467860c3661dbe597fe444c74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::sharding::DistributedCoordinator::getCurrentLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentLeader</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::getCurrentLeader</qualifiedname>
+        <briefdescription>
+<para>Return currently known leader shard ID when available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="162" column="19" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="195" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ae47aea16a056d81d1140d3cb53f1ff65" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::sharding::DistributedCoordinator::getLocalShardId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocalShardId</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::getLocalShardId</qualifiedname>
+        <briefdescription>
+<para>Return immutable local shard ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="166" column="23" bodyfile="include/sharding/distributed_coordinator.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a15ca2c1a73f35c2888f1ba486d884729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::startElection</definition>
+        <argsstring>()</argsstring>
+        <name>startElection</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::startElection</qualifiedname>
+        <briefdescription>
+<para>Start a leader election round from local node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Election.</para>
+<para>Calls: lock(), load(), THEMIS_WARN(), store(), THEMIS_INFO(), requestVotes(), what(), sleepWhileRunning(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="170" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="210" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1adab91104b93db2108bda83503bd9dbe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::becomeLeader</definition>
+        <argsstring>()</argsstring>
+        <name>becomeLeader</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::becomeLeader</qualifiedname>
+        <briefdescription>
+<para>Promote local node into leader role and initialize lease. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Become Leader.</para>
+<para>Calls: cb_lock(), lock(), store(), std::chrono::system_clock::now(), std::chrono::seconds(), THEMIS_INFO(), load(), callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="172" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="288" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a3eacff705dd7b375a6d0d14e96d315be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::stepDown</definition>
+        <argsstring>()</argsstring>
+        <name>stepDown</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::stepDown</qualifiedname>
+        <briefdescription>
+<para>Step down from leader/candidate role to follower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Step Down.</para>
+<para>Calls: lock(), load(), THEMIS_INFO(), store(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="174" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="322" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ad4c303b0fd905f5308e379c8c4536c04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::DistributedCoordinator::scheduleTask</definition>
+        <argsstring>(const CoordinatorTask &amp;task)</argsstring>
+        <name>scheduleTask</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::scheduleTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Schedule new coordinated task (leader only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Schedule Task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task descriptor to schedule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Scheduled task identifier.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" kindref="member">isLeader()</ref>, lock(), push_back(), broadcastTask(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="182" column="17" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="342" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a72034bf6b1a87f1914c154859c3c6bc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedCoordinator::cancelTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>cancelTask</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::cancelTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel previously scheduled task (leader only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel Task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when task was found and removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" kindref="member">isLeader()</ref>, THEMIS_WARN(), lock(), std::find_if(), begin(), end(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="188" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="366" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a83408a1a68cae2db864a89f821df53fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref> &gt;</type>
+        <definition>std::vector&lt; DistributedCoordinator::CoordinatorTask &gt; themis::sharding::DistributedCoordinator::getPendingTasks</definition>
+        <argsstring>() const</argsstring>
+        <name>getPendingTasks</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::getPendingTasks</qualifiedname>
+        <briefdescription>
+<para>Return current pending task queue snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tasks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="190" column="17" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="389" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a4dd7cd3e8f6d3cfce8d5c3a8020b0e01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::setTaskExecutor</definition>
+        <argsstring>(TaskExecutor executor)</argsstring>
+        <name>setTaskExecutor</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::setTaskExecutor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4b1c68b97a215d7a59aede7300f257f6" kindref="member">TaskExecutor</ref></type>
+          <declname>executor</declname>
+        </param>
+        <briefdescription>
+<para>Register callback that executes coordinated tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Task Executor.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">executor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="194" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="405" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a0bc619bfa17f87c6f26225c8d5fe72da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_leader_info" kindref="compound">LeaderInfo</ref></type>
+        <definition>DistributedCoordinator::LeaderInfo themis::sharding::DistributedCoordinator::getLeaderInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeaderInfo</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::getLeaderInfo</qualifiedname>
+        <briefdescription>
+<para>Return structured snapshot of current leader information. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="198" column="16" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="411" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a34327b5f12b3c013c1d0a3114f563d5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::setLeaderElectedCallback</definition>
+        <argsstring>(LeaderElectedCallback callback)</argsstring>
+        <name>setLeaderElectedCallback</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::setLeaderElectedCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a1861e46eae50ce7f2676bf8fea0ccc3c" kindref="member">LeaderElectedCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback invoked after leader election events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Leader Elected Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="202" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="437" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ae48f6a6fb3841f0212214ddf3cd6ceb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>DistributedCoordinator::Statistics themis::sharding::DistributedCoordinator::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return copy of current runtime statistics counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="206" column="16" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="443" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a880ede0ad1efdd5b020ee8e17a5f9929" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::DistributedCoordinator::getStatisticsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatisticsJson</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::getStatisticsJson</qualifiedname>
+        <briefdescription>
+<para>Return runtime statistics as JSON payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="208" column="20" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="455" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ade42f0c4d74e79f30ed8ab2335e383c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::setTransactionCoordinator</definition>
+        <argsstring>(themisdb::sharding::CrossShardTransactionCoordinator *txn_coordinator)</argsstring>
+        <name>setTransactionCoordinator</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::setTransactionCoordinator</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_transaction_coordinator" kindref="compound">themisdb::sharding::CrossShardTransactionCoordinator</ref> *</type>
+          <declname>txn_coordinator</declname>
+        </param>
+        <briefdescription>
+<para>Set Transaction Coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register the transaction coordinator whose in-flight transactions this <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref> will expose. The caller must ensure the coordinator outlives this object (or call with nullptr to detach).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn_coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_coordinator_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="218" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="753" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ad8bb00d509f208e2f6083c348b97d31d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">themisdb::sharding::CrossShardTransaction</ref> &gt;</type>
+        <definition>std::vector&lt; themisdb::sharding::CrossShardTransaction &gt; themis::sharding::DistributedCoordinator::listInFlightTransactions</definition>
+        <argsstring>() const</argsstring>
+        <name>listInFlightTransactions</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::listInFlightTransactions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all transactions that are currently active / in-flight according to the registered CrossShardTransactionCoordinator. Returns an empty vector when no coordinator has been registered. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_coordinator_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="227" column="5" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="768" bodyend="785"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ad8816ef4351feac0fca2668479ce0481" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction" kindref="compound">themisdb::sharding::CrossShardTransaction</ref> &gt;</type>
+        <definition>std::optional&lt; themisdb::sharding::CrossShardTransaction &gt; themis::sharding::DistributedCoordinator::getTransaction</definition>
+        <argsstring>(const std::string &amp;txn_id) const</argsstring>
+        <name>getTransaction</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::getTransaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Look up a specific transaction by ID in the registered coordinator. Returns std::nullopt when no coordinator is registered or the transaction does not exist. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_coordinator_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="235" column="5" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="788" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a264c7605b89bd8baf5f7c86062c97467" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedCoordinator::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::isHealthy</qualifiedname>
+        <briefdescription>
+<para>Return whether the coordinator is healthy (leader healthy and running). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="238" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="580" bodyend="582"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a78a5b8d7345b0bc9104200955a750849" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::electionLoop</definition>
+        <argsstring>()</argsstring>
+        <name>electionLoop</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::electionLoop</qualifiedname>
+        <briefdescription>
+<para>Periodic election-monitor loop body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Private methods - Election logic.</para>
+<para>Calls: detectLeaderFailure(), has_value(), THEMIS_INFO(), <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a15ca2c1a73f35c2888f1ba486d884729" kindref="member">startElection()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="290" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="470" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a7b27c9874a08c08b467332a977d6b2e5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::heartbeatLoop</definition>
+        <argsstring>()</argsstring>
+        <name>heartbeatLoop</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::heartbeatLoop</qualifiedname>
+        <briefdescription>
+<para>Heartbeat-loop body (kept for symmetry/extensibility). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Heartbeat Loop.</para>
+<para>Implements heartbeatLoop without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="292" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="485" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a7987c1630288449c96d254d1276bf1db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::taskExecutorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>taskExecutorLoop</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::taskExecutorLoop</qualifiedname>
+        <briefdescription>
+<para>Task-executor loop body for pending coordinated tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Task Executor Loop.</para>
+<para>Calls: lock(), cb_lock(), THEMIS_DEBUG(), executor(), THEMIS_INFO(), <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a72034bf6b1a87f1914c154859c3c6bc7" kindref="member">cancelTask()</ref>, THEMIS_WARN(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="294" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="493" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ad0091dfb987930e8bff3fe307d465172" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::detectLeaderFailure</definition>
+        <argsstring>()</argsstring>
+        <name>detectLeaderFailure</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::detectLeaderFailure</qualifiedname>
+        <briefdescription>
+<para>Detect and mark leader failure based on lease expiration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Leader Failure.</para>
+<para>Calls: lock(), has_value(), std::chrono::system_clock::now(), THEMIS_WARN(), value(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="298" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="542" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a4780a8ea7fd22114f0f6351026d7fea6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedCoordinator::isLeaderHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeaderHealthy</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::isLeaderHealthy</qualifiedname>
+        <briefdescription>
+<para>Return whether current leader heartbeat is still fresh. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="300" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="560" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ace409b4cf79d9d84f5eb3edcdb1e29a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::sendHeartbeat</definition>
+        <argsstring>()</argsstring>
+        <name>sendHeartbeat</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::sendHeartbeat</qualifiedname>
+        <briefdescription>
+<para>Emit leader heartbeat and renew lease metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Heartbeat.</para>
+<para>Calls: <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" kindref="member">isLeader()</ref>, THEMIS_DEBUG(), load(), renewLease(), lock(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="304" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="589" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1aa529d0d7e8eed275b5676723c5466035" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::receiveHeartbeat</definition>
+        <argsstring>(const std::string &amp;leader_id, uint32_t term)</argsstring>
+        <name>receiveHeartbeat</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::receiveHeartbeat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+<para>Process incoming leader heartbeat and update role/term state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive Heartbeat.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the leader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), load(), store(), std::chrono::system_clock::now(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="306" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="614" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a9879c92aa408d5e666df0e6719b39790" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::requestVotes</definition>
+        <argsstring>()</argsstring>
+        <name>requestVotes</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::requestVotes</qualifiedname>
+        <briefdescription>
+<para>Broadcast vote requests for current election term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Request Votes.</para>
+<para>Calls: THEMIS_DEBUG(), load(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="310" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="639" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1af8115f4dba5d0665c4a91f12d8bf4f83" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::receiveVoteRequest</definition>
+        <argsstring>(const std::string &amp;candidate_id, uint32_t term)</argsstring>
+        <name>receiveVoteRequest</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::receiveVoteRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>candidate_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+<para>Process incoming vote request from candidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive Vote Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the candidate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), sendVote(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="312" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="653" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ac9b9d8c6ac743f7899b7a7f2171e01ef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::sendVote</definition>
+        <argsstring>(const std::string &amp;candidate_id, bool granted)</argsstring>
+        <name>sendVote</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::sendVote</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>candidate_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>granted</declname>
+        </param>
+        <briefdescription>
+<para>Emit vote response to election candidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Vote.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the candidate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="314" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="666" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1ab30f16eaf47bfb6fd49997b820ce3acc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::broadcastTask</definition>
+        <argsstring>(const CoordinatorTask &amp;task)</argsstring>
+        <name>broadcastTask</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::broadcastTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Broadcast task announcement through gossip channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Broadcast Task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="318" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="676" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a3507421ce7f5c7da00e644d9cdb8b9ac" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::receiveTask</definition>
+        <argsstring>(const CoordinatorTask &amp;task)</argsstring>
+        <name>receiveTask</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::receiveTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_distributed_coordinator_1_1_coordinator_task" kindref="compound">CoordinatorTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Handle task announcement received from remote leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive Task.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" kindref="member">isLeader()</ref>, lock(), push_back(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="320" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="688" bodyend="698"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a48a22c30d26b40c7af43c082defd8743" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::DistributedCoordinator::hasValidLease</definition>
+        <argsstring>() const</argsstring>
+        <name>hasValidLease</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::hasValidLease</qualifiedname>
+        <briefdescription>
+<para>Return true when local view of leader lease is still valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="324" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="701" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1a467db49904967e2e46ac022c2d086ec5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::renewLease</definition>
+        <argsstring>()</argsstring>
+        <name>renewLease</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::renewLease</qualifiedname>
+        <briefdescription>
+<para>Renew local leader lease expiration timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Renew Lease.</para>
+<para>Calls: lock(), std::chrono::system_clock::now(), std::chrono::seconds(), THEMIS_DEBUG(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="326" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="717" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_distributed_coordinator_1afdce420c02c08add47cb08a1cd70e450" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::DistributedCoordinator::transferLeadership</definition>
+        <argsstring>(const std::string &amp;new_leader)</argsstring>
+        <name>transferLeadership</name>
+        <qualifiedname>themis::sharding::DistributedCoordinator::transferLeadership</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_leader</declname>
+        </param>
+        <briefdescription>
+<para>Transfer leadership intent to another shard and step down. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transfer Leadership.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_leader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" kindref="member">isLeader()</ref>, THEMIS_WARN(), THEMIS_INFO(), <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a3eacff705dd7b375a6d0d14e96d315be" kindref="member">stepDown()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_coordinator.h" line="330" column="10" bodyfile="src/sharding/distributed_coordinator.cpp" bodystart="734" bodyend="745"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distributed coordinator component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_coordinator.h" line="26" column="1" bodyfile="include/sharding/distributed_coordinator.h" bodystart="26" bodyend="331"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1adab91104b93db2108bda83503bd9dbe4" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>becomeLeader</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ab30f16eaf47bfb6fd49997b820ce3acc" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>broadcastTask</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1abf93aa2fa0a5673e782793237e4281a6" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>callback_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a72034bf6b1a87f1914c154859c3c6bc7" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>cancelTask</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a80d3663308171566cbf502594d0bad66" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa5d9ff1b732af4baec5dd7a03d55262b" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>CoordinatorRole</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6426f59d35a7841f47abf49f4c7c9275" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>current_leader_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a818466042b57cd3df13f6e3d8c14ac23" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>current_term_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad0091dfb987930e8bff3fe307d465172" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>detectLeaderFailure</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a76a81c695618145010217e33edeba4a5" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>DistributedCoordinator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a3d6e672ff9b78a1ecad01e65eedb211c" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>DistributedCoordinator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a19b9efd502d7ccf53386bef7911c216b" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>election_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a78a5b8d7345b0bc9104200955a750849" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>electionLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4a6d29d467860c3661dbe597fe444c74" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>getCurrentLeader</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a0bc619bfa17f87c6f26225c8d5fe72da" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>getLeaderInfo</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ae47aea16a056d81d1140d3cb53f1ff65" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>getLocalShardId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a83408a1a68cae2db864a89f821df53fd" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>getPendingTasks</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aded0ec195c17f2b58434d17f2f5053d5" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>getRole</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ae48f6a6fb3841f0212214ddf3cd6ceb2" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a880ede0ad1efdd5b020ee8e17a5f9929" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>getStatisticsJson</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad8816ef4351feac0fca2668479ce0481" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>getTransaction</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a9bf03d4a6e2a5a50f1bec360cb837498" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>gossip_mgr_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a48a22c30d26b40c7af43c082defd8743" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>hasValidLease</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2d0a47776af4e8e82d9be62a3c84674b" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>heartbeat_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a7b27c9874a08c08b467332a977d6b2e5" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>heartbeatLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a264c7605b89bd8baf5f7c86062c97467" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a6d6ad2a9de3431d51750eec8dc3116a6" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>isLeader</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4780a8ea7fd22114f0f6351026d7fea6" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>isLeaderHealthy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad0edc46fb6d10a1de9b8582f4cde6943" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a92ede81ada3e549e57be717314e95bf6" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>last_leader_heartbeat_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a147650a6f1ab1f0aa1d8efe226a352bb" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>leader_elected_callback_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1af6e6063cfb75fe4ea43a8d9cd7294120" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>leader_lease_expires_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ae2f5433ad6d85db8770b8ecefb1327ac" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>leader_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a1861e46eae50ce7f2676bf8fea0ccc3c" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>LeaderElectedCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad8bb00d509f208e2f6083c348b97d31d" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>listInFlightTransactions</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a16ca23d0f721fdc93871d7e80b14efb9" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>local_shard_id_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a7aa5219fae25f92ad73e2040381d5803" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>pending_tasks_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1aa529d0d7e8eed275b5676723c5466035" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>receiveHeartbeat</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a3507421ce7f5c7da00e644d9cdb8b9ac" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>receiveTask</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1af8115f4dba5d0665c4a91f12d8bf4f83" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>receiveVoteRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a467db49904967e2e46ac022c2d086ec5" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>renewLease</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a9879c92aa408d5e666df0e6719b39790" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>requestVotes</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2601adbab097015880f64a28039534d7" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>role_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1accba98f98fcde7124b398dfed4dbde0b" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>running_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ad4c303b0fd905f5308e379c8c4536c04" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>scheduleTask</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ace409b4cf79d9d84f5eb3edcdb1e29a9" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>sendHeartbeat</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ac9b9d8c6ac743f7899b7a7f2171e01ef" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>sendVote</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a34327b5f12b3c013c1d0a3114f563d5d" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>setLeaderElectedCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4dd7cd3e8f6d3cfce8d5c3a8020b0e01" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>setTaskExecutor</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ade42f0c4d74e79f30ed8ab2335e383c9" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>setTransactionCoordinator</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1ac996dfe1610509ef0e9c18fa702ab87e" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>start</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a15ca2c1a73f35c2888f1ba486d884729" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>startElection</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a0a4e3d800a788eb1131198e8ca33604c" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a3eacff705dd7b375a6d0d14e96d315be" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>stepDown</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a25d74845d87d65058e3609b8593c00ad" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>stop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a47d270b2a0da5ded3e5f50b29293c7ea" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>task_executor_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a0dc4126762d9275af9e376af33e7fb20" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>task_executor_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a4b1c68b97a215d7a59aede7300f257f6" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>TaskExecutor</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a7987c1630288449c96d254d1276bf1db" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>taskExecutorLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a10262871acd76b350230de6814488103" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>tasks_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a2b9ef6cb297b3b43527e95073db6c768" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>TaskType</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a5c98e9ff9471129ca46e2ecd7aafa0f3" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1afdce420c02c08add47cb08a1cd70e450" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>transferLeadership</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a08dee2fc4877c740a3ebb1d083b9bd1f" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>txn_coordinator_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a68e5758eb5a56b59a541286b6e09cc55" prot="private" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>txn_coordinator_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_distributed_coordinator_1a387ad20fa9a3d1aa5680923a69a49296" prot="public" virt="non-virtual"><scope>themis::sharding::DistributedCoordinator</scope><name>~DistributedCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

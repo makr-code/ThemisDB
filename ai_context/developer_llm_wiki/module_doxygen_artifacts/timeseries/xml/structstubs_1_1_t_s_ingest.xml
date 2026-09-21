@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_t_s_ingest" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::TSIngest</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_t_s_ingest_1ad8b3396db3fb051f99d6afa6f9e4149b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TSIngest::ingested</definition>
+        <argsstring></argsstring>
+        <name>ingested</name>
+        <qualifiedname>stubs::TSIngest::ingested</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="24" column="17" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_t_s_ingest_1a719ebd10860318c0cc85dc2506ea6da1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TSIngest::ingest</definition>
+        <argsstring>(uint64_t series, double value, int64_t ts_ns)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>stubs::TSIngest::ingest</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>series</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ts_ns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="25" column="10" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" line="23" column="1" bodyfile="benchmarks/timeseries/bench_timeseries_dedicated_gates.cpp" bodystart="23" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_t_s_ingest_1a719ebd10860318c0cc85dc2506ea6da1" prot="public" virt="non-virtual"><scope>stubs::TSIngest</scope><name>ingest</name></member>
+      <member refid="structstubs_1_1_t_s_ingest_1ad8b3396db3fb051f99d6afa6f9e4149b" prot="public" virt="non-virtual"><scope>stubs::TSIngest</scope><name>ingested</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

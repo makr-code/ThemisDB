@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structchimera_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>chimera::Result</compoundname>
+    <includes refid="database__adapter_8hpp" local="no">database_adapter.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structchimera_1_1_result_1a1a96ceed62a40a247fe495dfc9132ca0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt;T&gt; chimera::Result&lt; T &gt;::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>chimera::Result::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="86" column="19" bodyfile="include/chimera/database_adapter.hpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_result_1a43383af1d33d67e9ab9297ccda8607e4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39" kindref="member">ErrorCode</ref></type>
+        <definition>ErrorCode chimera::Result&lt; T &gt;::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>chimera::Result::error_code</qualifiedname>
+        <initializer>= <ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">ErrorCode::SUCCESS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="87" column="15" bodyfile="include/chimera/database_adapter.hpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_result_1a27a12cb3abd72c9512c28e05eca327e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::Result&lt; T &gt;::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>chimera::Result::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="88" column="17" bodyfile="include/chimera/database_adapter.hpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structchimera_1_1_result_1aa487c4740c612cd95fa30936c103a255" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::Result&lt; T &gt;::is_ok</definition>
+        <argsstring>() const</argsstring>
+        <name>is_ok</name>
+        <qualifiedname>chimera::Result::is_ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="90" column="10" bodyfile="include/chimera/database_adapter.hpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="structchimera_1_1_result_1a91ca2082e782477a9c3d60f978d0465d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::Result&lt; T &gt;::is_err</definition>
+        <argsstring>() const</argsstring>
+        <name>is_err</name>
+        <qualifiedname>chimera::Result::is_err</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="91" column="10" bodyfile="include/chimera/database_adapter.hpp" bodystart="91" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structchimera_1_1_result_1aadbff86bf9dae4f2b2c6b80542139387" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; T &gt;</type>
+        <definition>static Result&lt; T &gt; chimera::Result&lt; T &gt;::ok</definition>
+        <argsstring>(T v)</argsstring>
+        <name>ok</name>
+        <qualifiedname>chimera::Result::ok</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Ok. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="99" column="19" bodyfile="include/chimera/database_adapter.hpp" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="structchimera_1_1_result_1abca5163413a761054330a66e4a6616aa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; T &gt;</type>
+        <definition>static Result&lt; T &gt; chimera::Result&lt; T &gt;::err</definition>
+        <argsstring>(ErrorCode c, std::string m)</argsstring>
+        <name>err</name>
+        <qualifiedname>chimera::Result::err</qualifiedname>
+        <param>
+          <type><ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39" kindref="member">ErrorCode</ref></type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Err. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="107" column="19" bodyfile="include/chimera/database_adapter.hpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/database_adapter.hpp" line="85" column="1" bodyfile="include/chimera/database_adapter.hpp" bodystart="85" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structchimera_1_1_result_1abca5163413a761054330a66e4a6616aa" prot="public" virt="non-virtual"><scope>chimera::Result</scope><name>err</name></member>
+      <member refid="structchimera_1_1_result_1a43383af1d33d67e9ab9297ccda8607e4" prot="public" virt="non-virtual"><scope>chimera::Result</scope><name>error_code</name></member>
+      <member refid="structchimera_1_1_result_1a27a12cb3abd72c9512c28e05eca327e7" prot="public" virt="non-virtual"><scope>chimera::Result</scope><name>error_message</name></member>
+      <member refid="structchimera_1_1_result_1a91ca2082e782477a9c3d60f978d0465d" prot="public" virt="non-virtual"><scope>chimera::Result</scope><name>is_err</name></member>
+      <member refid="structchimera_1_1_result_1aa487c4740c612cd95fa30936c103a255" prot="public" virt="non-virtual"><scope>chimera::Result</scope><name>is_ok</name></member>
+      <member refid="structchimera_1_1_result_1aadbff86bf9dae4f2b2c6b80542139387" prot="public" virt="non-virtual"><scope>chimera::Result</scope><name>ok</name></member>
+      <member refid="structchimera_1_1_result_1a1a96ceed62a40a247fe495dfc9132ca0" prot="public" virt="non-virtual"><scope>chimera::Result</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

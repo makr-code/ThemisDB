@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_columnar_format_manager_1_1_compression_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ColumnarFormatManager::CompressionStats</compoundname>
+    <includes refid="columnar__format_8h" local="no">columnar_format.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_columnar_format_manager_1_1_compression_stats_1a40444bc8b78a15533482cfc9504ee6b0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnarFormatManager::CompressionStats::total_uncompressed</definition>
+        <argsstring></argsstring>
+        <name>total_uncompressed</name>
+        <qualifiedname>themis::storage::ColumnarFormatManager::CompressionStats::total_uncompressed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="266" column="16" bodyfile="include/storage/columnar_format.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_columnar_format_manager_1_1_compression_stats_1aeedbb7da78d844d355e3abf868a9a0a7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnarFormatManager::CompressionStats::total_compressed</definition>
+        <argsstring></argsstring>
+        <name>total_compressed</name>
+        <qualifiedname>themis::storage::ColumnarFormatManager::CompressionStats::total_compressed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="267" column="16" bodyfile="include/storage/columnar_format.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_columnar_format_manager_1_1_compression_stats_1ad3e12230c848a1950da9a58a0f2b38ff" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::ColumnarFormatManager::CompressionStats::avg_compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>avg_compression_ratio</name>
+        <qualifiedname>themis::storage::ColumnarFormatManager::CompressionStats::avg_compression_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="268" column="16" bodyfile="include/storage/columnar_format.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_columnar_format_manager_1_1_compression_stats_1af6bd8314c4eae823ddf74d5d3d43814f" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7" kindref="member">CompressionCodec</ref>, size_t &gt;</type>
+        <definition>std::unordered_map&lt;CompressionCodec, size_t&gt; themis::storage::ColumnarFormatManager::CompressionStats::codec_usage</definition>
+        <argsstring></argsstring>
+        <name>codec_usage</name>
+        <qualifiedname>themis::storage::ColumnarFormatManager::CompressionStats::codec_usage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="269" column="28" bodyfile="include/storage/columnar_format.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/columnar_format.h" line="265" column="5" bodyfile="include/storage/columnar_format.h" bodystart="265" bodyend="270"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_columnar_format_manager_1_1_compression_stats_1ad3e12230c848a1950da9a58a0f2b38ff" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarFormatManager::CompressionStats</scope><name>avg_compression_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_columnar_format_manager_1_1_compression_stats_1af6bd8314c4eae823ddf74d5d3d43814f" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarFormatManager::CompressionStats</scope><name>codec_usage</name></member>
+      <member refid="structthemis_1_1storage_1_1_columnar_format_manager_1_1_compression_stats_1aeedbb7da78d844d355e3abf868a9a0a7" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarFormatManager::CompressionStats</scope><name>total_compressed</name></member>
+      <member refid="structthemis_1_1storage_1_1_columnar_format_manager_1_1_compression_stats_1a40444bc8b78a15533482cfc9504ee6b0" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarFormatManager::CompressionStats</scope><name>total_uncompressed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::DPDKServer::Stats</compoundname>
+    <includes refid="kernel__bypass_8h" local="no">kernel_bypass.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1aa15a0de14037edb6bcb3cc3c96947fca" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Stats::rx_packets</definition>
+        <argsstring></argsstring>
+        <name>rx_packets</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::rx_packets</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total packets received. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="282" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a617f38f8b92705090e28c358dae2c359" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Stats::tx_packets</definition>
+        <argsstring></argsstring>
+        <name>tx_packets</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::tx_packets</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total packets transmitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="283" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a000dedde233f58dcd443dd1c6ef5b778" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Stats::rx_bytes</definition>
+        <argsstring></argsstring>
+        <name>rx_bytes</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::rx_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes received. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="284" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a2c20d3d198255d5d492f58eafc5d4b60" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Stats::tx_bytes</definition>
+        <argsstring></argsstring>
+        <name>tx_bytes</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::tx_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes transmitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="285" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1ab3018915ee5a42a71a60cef44867e30b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Stats::rx_dropped</definition>
+        <argsstring></argsstring>
+        <name>rx_dropped</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::rx_dropped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Packets dropped on RX (ring full). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="286" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a11884b3428076dac3a1642b1702852a1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Stats::tx_errors</definition>
+        <argsstring></argsstring>
+        <name>tx_errors</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::tx_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>TX errors (NIC rejected). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="287" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a06863c51bf7eeee4992e16b90aa132c8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Stats::connections</definition>
+        <argsstring></argsstring>
+        <name>connections</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Active connections (user-space TCP). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="288" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a84882533ca3586718a7077ad514ffc09" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Stats::requests</definition>
+        <argsstring></argsstring>
+        <name>requests</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total ThemisDB requests handled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="289" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1afa88f35b2d7588e7cbe6ae0c4328e8d2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::DPDKServer::Stats::poll_iterations</definition>
+        <argsstring></argsstring>
+        <name>poll_iterations</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::poll_iterations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Poll loop iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="290" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1af3c0fecb09e227b43e4c9a2715fc177a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::DPDKServer::Stats::avg_latency_us</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_us</name>
+        <qualifiedname>themis::network::DPDKServer::Stats::avg_latency_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Exponential moving average latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/kernel_bypass.h" line="291" column="18" bodyfile="include/network/kernel_bypass.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/kernel_bypass.h" line="281" column="5" bodyfile="include/network/kernel_bypass.h" bodystart="281" bodyend="292"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1af3c0fecb09e227b43e4c9a2715fc177a" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>avg_latency_us</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a06863c51bf7eeee4992e16b90aa132c8" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>connections</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1afa88f35b2d7588e7cbe6ae0c4328e8d2" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>poll_iterations</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a84882533ca3586718a7077ad514ffc09" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>requests</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a000dedde233f58dcd443dd1c6ef5b778" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>rx_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1ab3018915ee5a42a71a60cef44867e30b" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>rx_dropped</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1aa15a0de14037edb6bcb3cc3c96947fca" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>rx_packets</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a2c20d3d198255d5d492f58eafc5d4b60" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>tx_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a11884b3428076dac3a1642b1702852a1" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>tx_errors</name></member>
+      <member refid="structthemis_1_1network_1_1_d_p_d_k_server_1_1_stats_1a617f38f8b92705090e28c358dae2c359" prot="public" virt="non-virtual"><scope>themis::network::DPDKServer::Stats</scope><name>tx_packets</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

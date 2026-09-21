@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_conflict_detector_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalConflictDetectorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_temporal_conflict_detector_test_1a4646baf02ad3f96f2cab03750dcc2ab5" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector" kindref="compound">TemporalConflictDetector</ref></type>
+        <definition>TemporalConflictDetector TemporalConflictDetectorTest::detector</definition>
+        <argsstring></argsstring>
+        <name>detector</name>
+        <qualifiedname>TemporalConflictDetectorTest::detector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_conflict_resolver.cpp" line="469" column="30" bodyfile="tests/temporal/test_temporal_conflict_resolver.cpp" bodystart="469" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_temporal_conflict_detector_test_1a6644ca9003a80c17215269903c6369b0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot TemporalConflictDetectorTest::makeSnap</definition>
+        <argsstring>(const std::string &amp;id, uint64_t physical, uint32_t logical, const std::string &amp;node_id, nlohmann::json data)</argsstring>
+        <name>makeSnap</name>
+        <qualifiedname>TemporalConflictDetectorTest::makeSnap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>physical</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>logical</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_conflict_resolver.cpp" line="471" column="22" bodyfile="tests/temporal/test_temporal_conflict_resolver.cpp" bodystart="471" bodyend="487"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalConflictDetectorTest</label>
+        <link refid="class_temporal_conflict_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalConflictDetectorTest</label>
+        <link refid="class_temporal_conflict_detector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>detector</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TemporalConflictDetector</label>
+        <link refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_conflict_resolver.cpp" line="467" column="1" bodyfile="tests/temporal/test_temporal_conflict_resolver.cpp" bodystart="467" bodyend="488"/>
+    <listofallmembers>
+      <member refid="class_temporal_conflict_detector_test_1a4646baf02ad3f96f2cab03750dcc2ab5" prot="protected" virt="non-virtual"><scope>TemporalConflictDetectorTest</scope><name>detector</name></member>
+      <member refid="class_temporal_conflict_detector_test_1a6644ca9003a80c17215269903c6369b0" prot="protected" virt="non-virtual"><scope>TemporalConflictDetectorTest</scope><name>makeSnap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

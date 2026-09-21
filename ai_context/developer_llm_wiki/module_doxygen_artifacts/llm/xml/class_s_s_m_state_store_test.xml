@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_s_s_m_state_store_test" kind="class" language="C++" prot="public">
+    <compoundname>SSMStateStoreTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_s_s_m_state_store_test_1a8af3f530b0f84330a0c14c5232f0ddec" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store" kindref="compound">InMemorySSMStateStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;InMemorySSMStateStore&gt; SSMStateStoreTest::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>SSMStateStoreTest::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ssm_plugin_interface.cpp" line="111" column="21" bodyfile="tests/llm/test_ssm_plugin_interface.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_s_s_m_state_store_test_1a9d51a0a25757d14f7e0840136b8fcc6a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SSMStateStoreTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SSMStateStoreTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ssm_plugin_interface.cpp" line="107" column="10" bodyfile="tests/llm/test_ssm_plugin_interface.cpp" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_s_s_m_state_store_test_1a7b35dd2f0ee66393ad940162377e6389" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref></type>
+        <definition>SSMStateSnapshot SSMStateStoreTest::makeSnapshot</definition>
+        <argsstring>(const std::string &amp;fp, uint64_t seq, core::HLCTimestamp ts)</argsstring>
+        <name>makeSnapshot</name>
+        <qualifiedname>SSMStateStoreTest::makeSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fp</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq</declname>
+        </param>
+        <param>
+          <type>core::HLCTimestamp</type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ssm_plugin_interface.cpp" line="113" column="22" bodyfile="tests/llm/test_ssm_plugin_interface.cpp" bodystart="113" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SSMStateStoreTest</label>
+        <link refid="class_s_s_m_state_store_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SSMStateStoreTest</label>
+        <link refid="class_s_s_m_state_store_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_ssm_plugin_interface.cpp" line="105" column="1" bodyfile="tests/llm/test_ssm_plugin_interface.cpp" bodystart="105" bodyend="122"/>
+    <listofallmembers>
+      <member refid="class_s_s_m_state_store_test_1a7b35dd2f0ee66393ad940162377e6389" prot="protected" virt="non-virtual"><scope>SSMStateStoreTest</scope><name>makeSnapshot</name></member>
+      <member refid="class_s_s_m_state_store_test_1a9d51a0a25757d14f7e0840136b8fcc6a" prot="protected" virt="non-virtual"><scope>SSMStateStoreTest</scope><name>SetUp</name></member>
+      <member refid="class_s_s_m_state_store_test_1a8af3f530b0f84330a0c14c5232f0ddec" prot="protected" virt="non-virtual"><scope>SSMStateStoreTest</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

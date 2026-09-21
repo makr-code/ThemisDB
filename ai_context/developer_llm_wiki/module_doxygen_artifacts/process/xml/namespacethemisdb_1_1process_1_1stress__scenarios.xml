@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1process_1_1stress__scenarios" kind="namespace" language="C++">
+    <compoundname>themisdb::process::stress_scenarios</compoundname>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_byzantine_consensus_scenario" prot="public">themisdb::process::stress_scenarios::ByzantineConsensusScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_network_partition_healing_scenario" prot="public">themisdb::process::stress_scenarios::NetworkPartitionHealingScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_callback_under_high_churn_scenario" prot="public">themisdb::process::stress_scenarios::CallbackUnderHighChurnScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_multi_model_conflict_scenario" prot="public">themisdb::process::stress_scenarios::MultiModelConflictScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_audit_trail_high_churn_scenario" prot="public">themisdb::process::stress_scenarios::AuditTrailHighChurnScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_temporal_reconstruction_scenario" prot="public">themisdb::process::stress_scenarios::TemporalReconstructionScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_correlation_id_propagation_scenario" prot="public">themisdb::process::stress_scenarios::CorrelationIdPropagationScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_trace_completeness_partition_scenario" prot="public">themisdb::process::stress_scenarios::TraceCompletenessPartitionScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario" prot="public">themisdb::process::stress_scenarios::PartitionDetectionLatencyScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_split_brain_prevention_scenario" prot="public">themisdb::process::stress_scenarios::SplitBrainPreventionScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_cascading_failures_scenario" prot="public">themisdb::process::stress_scenarios::CascadingFailuresScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_rejoin_log_sync_scenario" prot="public">themisdb::process::stress_scenarios::RejoinLogSyncScenario</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario" prot="public">themisdb::process::stress_scenarios::FederationStressScenario</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemisdb_1_1process_1_1stress__scenarios_1ae62fa9ddc8125983c6eb16cfeaa3ff8c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themisdb::process::stress_scenarios::kFederationTestSeed</definition>
+        <argsstring></argsstring>
+        <name>kFederationTestSeed</name>
+        <qualifiedname>themisdb::process::stress_scenarios::kFederationTestSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical seed for deterministic scenario execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="44" column="25" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1process_1_1stress__scenarios_1a919aa79f601813eb1bf551a0231ff1f6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themisdb::process::stress_scenarios::kBaseReplicaCount</definition>
+        <argsstring></argsstring>
+        <name>kBaseReplicaCount</name>
+        <qualifiedname>themisdb::process::stress_scenarios::kBaseReplicaCount</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of replicas in base test cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="47" column="25" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1process_1_1stress__scenarios_1aec2ff31f8bea71218cdace676a030ee5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themisdb::process::stress_scenarios::kHighChurnOperations</definition>
+        <argsstring></argsstring>
+        <name>kHighChurnOperations</name>
+        <qualifiedname>themisdb::process::stress_scenarios::kHighChurnOperations</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>High-churn operation count per scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="50" column="25" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1process_1_1stress__scenarios_1a83b5b6eb5edd11bda74e66e98152abcd" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themisdb::process::stress_scenarios::kPartitionDetectionTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>kPartitionDetectionTimeoutMs</name>
+        <qualifiedname>themisdb::process::stress_scenarios::kPartitionDetectionTimeoutMs</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Network partition detection timeout (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="53" column="25" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1process_1_1stress__scenarios_1a9b85ec24a9b96ab8d9e2c0b97f588a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_federation_stress_scenario" kindref="compound">FederationStressScenario</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; FederationStressScenario &gt; &gt; themisdb::process::stress_scenarios::GetAllStressScenarios</definition>
+        <argsstring>()</argsstring>
+        <name>GetAllStressScenarios</name>
+        <qualifiedname>themisdb::process::stress_scenarios::GetAllStressScenarios</qualifiedname>
+        <briefdescription>
+<para>Vector of all 12 stress scenarios for Phase 4 test registration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="495" column="13" declfile="include/process/process_federation_stress_scenarios.h" declline="495" declcolumn="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="37" column="1"/>
+  </compounddef>
+</doxygen>

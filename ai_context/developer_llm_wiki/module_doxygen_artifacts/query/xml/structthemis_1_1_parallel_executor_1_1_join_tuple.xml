@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_parallel_executor_1_1_join_tuple" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ParallelExecutor::JoinTuple</compoundname>
+    <includes refid="parallel__executor_8h" local="no">parallel_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_join_tuple_1a29226fe3cbe8e6e27da631f4741c7bfd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref></type>
+        <definition>BaseEntity themis::ParallelExecutor::JoinTuple::left</definition>
+        <argsstring></argsstring>
+        <name>left</name>
+        <qualifiedname>themis::ParallelExecutor::JoinTuple::left</qualifiedname>
+        <briefdescription>
+<para><ref refid="namespacethemis_1_1query_1a1e5822b55f2c69fe4e683b3395dbe3fe" kindref="member">Row</ref> from the left (probe) side. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="57" column="20" bodyfile="include/query/parallel_executor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_parallel_executor_1_1_join_tuple_1af85444c43a20d3fa9416fbae3da78a16" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref></type>
+        <definition>BaseEntity themis::ParallelExecutor::JoinTuple::right</definition>
+        <argsstring></argsstring>
+        <name>right</name>
+        <qualifiedname>themis::ParallelExecutor::JoinTuple::right</qualifiedname>
+        <briefdescription>
+<para><ref refid="namespacethemis_1_1query_1a1e5822b55f2c69fe4e683b3395dbe3fe" kindref="member">Row</ref> from the right (build) side. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/parallel_executor.h" line="58" column="20" bodyfile="include/query/parallel_executor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/parallel_executor.h" line="56" column="5" bodyfile="include/query/parallel_executor.h" bodystart="56" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_parallel_executor_1_1_join_tuple_1a29226fe3cbe8e6e27da631f4741c7bfd" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::JoinTuple</scope><name>left</name></member>
+      <member refid="structthemis_1_1_parallel_executor_1_1_join_tuple_1af85444c43a20d3fa9416fbae3da78a16" prot="public" virt="non-virtual"><scope>themis::ParallelExecutor::JoinTuple</scope><name>right</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

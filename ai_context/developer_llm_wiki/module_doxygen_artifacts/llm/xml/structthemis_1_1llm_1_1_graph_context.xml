@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_graph_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GraphContext</compoundname>
+    <includes refid="multi__model__training__data_8h" local="no">multi_model_training_data.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_graph_context_1af8937d609a1c5e9a67b104802c2076c0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::GraphContext::related_nodes</definition>
+        <argsstring></argsstring>
+        <name>related_nodes</name>
+        <qualifiedname>themis::llm::GraphContext::related_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="37" column="17" bodyfile="include/llm/multi_model_training_data.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_graph_context_1ae7c627d8eb57142f04e5a9f9b5f44b66" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::GraphContext::relationship_types</definition>
+        <argsstring></argsstring>
+        <name>relationship_types</name>
+        <qualifiedname>themis::llm::GraphContext::relationship_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="38" column="17" bodyfile="include/llm/multi_model_training_data.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_graph_context_1acbdf508e1ad8574f4067fa5356ac4533" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::GraphContext::paths</definition>
+        <argsstring></argsstring>
+        <name>paths</name>
+        <qualifiedname>themis::llm::GraphContext::paths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="39" column="17" bodyfile="include/llm/multi_model_training_data.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_graph_context_1a548a47a107a55d5caccf8afb38d0bee6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GraphContext::depth</definition>
+        <argsstring></argsstring>
+        <name>depth</name>
+        <qualifiedname>themis::llm::GraphContext::depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="40" column="9" bodyfile="include/llm/multi_model_training_data.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_graph_context_1a867771dcac83e4643ed4798bcc8d87a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::GraphContext::~GraphContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GraphContext</name>
+        <qualifiedname>themis::llm::GraphContext::~GraphContext</qualifiedname>
+        <briefdescription>
+<para>Graph Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="36" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_graph_context_1ad8c62393ef4b907a8f4c5758b635bc63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::GraphContext::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::llm::GraphContext::toString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="46" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_graph_context_1a71d0c8146dab81e64600d91d3a10b937" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::GraphContext::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::GraphContext::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="51" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_model_training_data.h" line="31" column="1" bodyfile="include/llm/multi_model_training_data.h" bodystart="31" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_graph_context_1a548a47a107a55d5caccf8afb38d0bee6" prot="public" virt="non-virtual"><scope>themis::llm::GraphContext</scope><name>depth</name></member>
+      <member refid="structthemis_1_1llm_1_1_graph_context_1acbdf508e1ad8574f4067fa5356ac4533" prot="public" virt="non-virtual"><scope>themis::llm::GraphContext</scope><name>paths</name></member>
+      <member refid="structthemis_1_1llm_1_1_graph_context_1af8937d609a1c5e9a67b104802c2076c0" prot="public" virt="non-virtual"><scope>themis::llm::GraphContext</scope><name>related_nodes</name></member>
+      <member refid="structthemis_1_1llm_1_1_graph_context_1ae7c627d8eb57142f04e5a9f9b5f44b66" prot="public" virt="non-virtual"><scope>themis::llm::GraphContext</scope><name>relationship_types</name></member>
+      <member refid="structthemis_1_1llm_1_1_graph_context_1a71d0c8146dab81e64600d91d3a10b937" prot="public" virt="non-virtual"><scope>themis::llm::GraphContext</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_graph_context_1ad8c62393ef4b907a8f4c5758b635bc63" prot="public" virt="non-virtual"><scope>themis::llm::GraphContext</scope><name>toString</name></member>
+      <member refid="structthemis_1_1llm_1_1_graph_context_1a867771dcac83e4643ed4798bcc8d87a6" prot="public" virt="virtual"><scope>themis::llm::GraphContext</scope><name>~GraphContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

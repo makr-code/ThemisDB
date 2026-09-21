@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsEvaluator::Config</compoundname>
+    <includes refid="ethics__evaluator_8h" local="no">ethics_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1a2982834c8203775fc08161a909aa8c2b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::Config::weight_decision_quality</definition>
+        <argsstring></argsstring>
+        <name>weight_decision_quality</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::Config::weight_decision_quality</qualifiedname>
+        <initializer>= 0.25</initializer>
+        <briefdescription>
+<para>Decision Quality dimension weight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="29" column="16" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1ac77e796636d7fd479115143873c25f41" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::Config::weight_consistency</definition>
+        <argsstring></argsstring>
+        <name>weight_consistency</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::Config::weight_consistency</qualifiedname>
+        <initializer>= 0.20</initializer>
+        <briefdescription>
+<para>Consistency dimension weight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="30" column="16" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1a46682b23612317bfd66b07e0cf783053" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::Config::weight_fairness</definition>
+        <argsstring></argsstring>
+        <name>weight_fairness</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::Config::weight_fairness</qualifiedname>
+        <initializer>= 0.20</initializer>
+        <briefdescription>
+<para>Fairness dimension weight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="31" column="16" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1ac0a1bf841816f353ab923d98ceee6e36" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::Config::weight_alignment</definition>
+        <argsstring></argsstring>
+        <name>weight_alignment</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::Config::weight_alignment</qualifiedname>
+        <initializer>= 0.20</initializer>
+        <briefdescription>
+<para>Alignment dimension weight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="32" column="16" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1a5845cf02b505e27faf6f5250d632fa7c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::EthicsEvaluator::Config::weight_transparency</definition>
+        <argsstring></argsstring>
+        <name>weight_transparency</name>
+        <qualifiedname>themis::plugins::ethics::EthicsEvaluator::Config::weight_transparency</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+<para>Transparency dimension weight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_evaluator.h" line="33" column="16" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ethics_ai/ethics_evaluator.h" line="28" column="5" bodyfile="src/ethics_ai/ethics_evaluator.h" bodystart="28" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1ac0a1bf841816f353ab923d98ceee6e36" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator::Config</scope><name>weight_alignment</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1ac77e796636d7fd479115143873c25f41" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator::Config</scope><name>weight_consistency</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1a2982834c8203775fc08161a909aa8c2b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator::Config</scope><name>weight_decision_quality</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1a46682b23612317bfd66b07e0cf783053" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator::Config</scope><name>weight_fairness</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1a5845cf02b505e27faf6f5250d632fa7c" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsEvaluator::Config</scope><name>weight_transparency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

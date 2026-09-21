@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_j_w_t_scope_enforcement_test" kind="class" language="C++" prot="public">
+    <compoundname>JWTScopeEnforcementTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_j_w_t_scope_enforcement_test_1a19062d4a954de400f1e1f6160f1995cf" prot="protected" static="no" mutable="no">
+        <type>JwtTestECKey</type>
+        <definition>JwtTestECKey JWTScopeEnforcementTest::key_</definition>
+        <argsstring></argsstring>
+        <name>key_</name>
+        <qualifiedname>JWTScopeEnforcementTest::key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_middleware.cpp" line="973" column="18" bodyfile="tests/auth/test_auth_middleware.cpp" bodystart="973" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_j_w_t_scope_enforcement_test_1a76a9eb9693864a43aac47a9d395a9c1a" prot="protected" static="no" mutable="no">
+        <type>AuthMiddleware</type>
+        <definition>AuthMiddleware JWTScopeEnforcementTest::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>JWTScopeEnforcementTest::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_middleware.cpp" line="974" column="20" bodyfile="tests/auth/test_auth_middleware.cpp" bodystart="974" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_j_w_t_scope_enforcement_test_1af7257224b7375202cabf1680f10fd02f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void JWTScopeEnforcementTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>JWTScopeEnforcementTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_middleware.cpp" line="964" column="10" bodyfile="tests/auth/test_auth_middleware.cpp" bodystart="964" bodyend="971"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>JWTScopeEnforcementTest</label>
+        <link refid="class_j_w_t_scope_enforcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>JWTScopeEnforcementTest</label>
+        <link refid="class_j_w_t_scope_enforcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>key_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:key_</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_middleware.cpp" line="962" column="1" bodyfile="tests/auth/test_auth_middleware.cpp" bodystart="962" bodyend="975"/>
+    <listofallmembers>
+      <member refid="class_j_w_t_scope_enforcement_test_1a76a9eb9693864a43aac47a9d395a9c1a" prot="protected" virt="non-virtual"><scope>JWTScopeEnforcementTest</scope><name>auth_</name></member>
+      <member refid="class_j_w_t_scope_enforcement_test_1a19062d4a954de400f1e1f6160f1995cf" prot="protected" virt="non-virtual"><scope>JWTScopeEnforcementTest</scope><name>key_</name></member>
+      <member refid="class_j_w_t_scope_enforcement_test_1af7257224b7375202cabf1680f10fd02f" prot="protected" virt="non-virtual"><scope>JWTScopeEnforcementTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

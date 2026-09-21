@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__safety__validator_8h" kind="file" language="C++">
+    <compoundname>aql_safety_validator.h</compoundname>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="aql__safety__validator_8cpp" local="yes">src/query/aql_safety_validator.cpp</includedby>
+    <includedby refid="test__query__parser__edge__cases_8cpp" local="yes">tests/query/test_query_parser_edge_cases.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/aql_safety_validator.h</label>
+        <link refid="aql__safety__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/aql_safety_validator.h</label>
+        <link refid="aql__safety__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/aql_safety_validator.cpp</label>
+        <link refid="aql__safety__validator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/query/test_query_parser_edge_cases.cpp</label>
+        <link refid="test__query__parser__edge__cases_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1_aql_safety_validator" prot="public">themis::query::AqlSafetyValidator</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation" prot="public">themis::query::AqlSafetyValidator::Violation</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 82/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AI<sp/>Safety<sp/>Layer<sp/>—<sp/>Schicht<sp/>3:<sp/>AQL<sp/>Read-Only<sp/>Enforcer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AqlSafetyValidator<sp/>scans<sp/>a<sp/>raw<sp/>AQL<sp/>query<sp/>string<sp/>for<sp/>mutation<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BEFORE<sp/>the<sp/>query<sp/>is<sp/>handed<sp/>to<sp/>the<sp/>query<sp/>engine.<sp/>It<sp/>is<sp/>a<sp/>fast,<sp/>deterministic,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>token-based<sp/>filter<sp/>with<sp/>no<sp/>external<sp/>dependencies<sp/>and<sp/>p99<sp/>&lt;<sp/>0.1<sp/>ms<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>queries<sp/>up<sp/>to<sp/>64<sp/>KB.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Activated<sp/>when<sp/>a<sp/>tool<sp/>spec<sp/>carries<sp/>`enforce_read_only:<sp/>true`<sp/>(e.g.<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>`aql_execute`<sp/>MCP<sp/>tool<sp/>when<sp/>called<sp/>from<sp/>the<sp/>`agentic`<sp/>LLM<sp/>mode).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Full<sp/>documentation:<sp/>docs/de/security/ai_safety/AI_SAFETY_AQL_VALIDATOR.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Roadmap:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>src/security/ROADMAP.md<sp/>§<sp/>Phase<sp/>5<sp/>(ASL-3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1query_1_1_aql_safety_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" kindref="member">AqlSafetyValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078" kindref="member">ValidationMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078a131fb182a881796e7606ed6da27f1197" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078a131fb182a881796e7606ed6da27f1197" kindref="member">ReadOnly</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078aa54262cb737dfb58cc817ff3dce39150" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078aa54262cb737dfb58cc817ff3dce39150" kindref="member">AllowMutations</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation" kindref="compound">Violation</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1ae51835a156e8e0a5871b8e5f02e5ed98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1ae51835a156e8e0a5871b8e5f02e5ed98" kindref="member">keyword</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1a4e90e6b4bb887eb42f9e8d29b61f1541" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1a4e90e6b4bb887eb42f9e8d29b61f1541" kindref="member">position</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1a64c7e9d73748a44ec93486a1ff4127a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation_1a64c7e9d73748a44ec93486a1ff4127a2" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" kindref="member">AqlSafetyValidator</ref>(<ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078" kindref="member">ValidationMode</ref><sp/>mode<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078a131fb182a881796e7606ed6da27f1197" kindref="member">ValidationMode::ReadOnly</ref>)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>mode_(mode)<sp/>{}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1query_1_1_aql_safety_validator_1aa863ef37369526124cb9068b1bfdbba7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aa863ef37369526124cb9068b1bfdbba7" kindref="member">~AqlSafetyValidator</ref>()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1query_1_1_aql_safety_validator_1a1f521fa0982fa8923e26071506021ec0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a1f521fa0982fa8923e26071506021ec0" kindref="member">AqlSafetyValidator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" kindref="member">AqlSafetyValidator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1query_1_1_aql_safety_validator_1a24538e2ea491312af8cbfc8cac1e1e87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" kindref="member">AqlSafetyValidator</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a24538e2ea491312af8cbfc8cac1e1e87" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" kindref="member">AqlSafetyValidator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;Violation&gt;<sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1ad8104d88ee488ad9b3a545e7dc03c74c" kindref="member">validate</ref>(std::string_view<sp/>aql_query)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;Violation&gt;<sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a9224d4678779f00caa930dd827e1b188" kindref="member">validateMutationSafety</ref>(</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>aql_query)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1query_1_1_aql_safety_validator_1ac820e0cee65de11f0b6bb6df1e49e928" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1ac820e0cee65de11f0b6bb6df1e49e928" kindref="member">isSafe</ref>(std::string_view<sp/>aql_query)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!<ref refid="classthemis_1_1query_1_1_aql_safety_validator_1ad8104d88ee488ad9b3a545e7dc03c74c" kindref="member">validate</ref>(aql_query).has_value();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078" kindref="member">ValidationMode</ref><sp/>mode_<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078a131fb182a881796e7606ed6da27f1197" kindref="member">ValidationMode::ReadOnly</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>toUpper(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::size_t<sp/>findKeyword(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>haystack,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/>needle);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/aql_safety_validator.h"/>
+  </compounddef>
+</doxygen>

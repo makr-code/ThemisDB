@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_concurrent_write_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ConcurrentWriteStats</compoundname>
+    <includes refid="concurrent__write__controller_8h" local="no">concurrent_write_controller.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_stats_1a75e04425147e43dac53027f07b430cda" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteStats::active_writes</definition>
+        <argsstring></argsstring>
+        <name>active_writes</name>
+        <qualifiedname>themis::storage::ConcurrentWriteStats::active_writes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current in-flight write slots in use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="63" column="14" bodyfile="include/storage/concurrent_write_controller.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_stats_1ae248642b326bbed25762932b0c91f8e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteStats::queue_depth</definition>
+        <argsstring></argsstring>
+        <name>queue_depth</name>
+        <qualifiedname>themis::storage::ConcurrentWriteStats::queue_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current number of waiters in the FIFO queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="64" column="14" bodyfile="include/storage/concurrent_write_controller.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_stats_1aa26b515a3f0b4bc1b5bf58ca9aad402a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteStats::total_acquired</definition>
+        <argsstring></argsstring>
+        <name>total_acquired</name>
+        <qualifiedname>themis::storage::ConcurrentWriteStats::total_acquired</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime acquire successes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="65" column="14" bodyfile="include/storage/concurrent_write_controller.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_stats_1aba5e2bb7680cde72206955778ba43475" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteStats::total_rejected</definition>
+        <argsstring></argsstring>
+        <name>total_rejected</name>
+        <qualifiedname>themis::storage::ConcurrentWriteStats::total_rejected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime acquire failures (queue full or timeout). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="66" column="14" bodyfile="include/storage/concurrent_write_controller.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_stats_1a42b113154b96c7df1f7a80b113a93904" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ConcurrentWriteStats::avg_wait_us</definition>
+        <argsstring></argsstring>
+        <name>avg_wait_us</name>
+        <qualifiedname>themis::storage::ConcurrentWriteStats::avg_wait_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Exponentially-weighted moving average wait (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="67" column="14" bodyfile="include/storage/concurrent_write_controller.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_stats_1a12a562421d4e5322a2f2be1969726f80" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ConcurrentWriteStats::p99_wait_us</definition>
+        <argsstring></argsstring>
+        <name>p99_wait_us</name>
+        <qualifiedname>themis::storage::ConcurrentWriteStats::p99_wait_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Approximate P99 wait (µs) from sliding window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="68" column="14" bodyfile="include/storage/concurrent_write_controller.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_stats_1aa2b4a4a6cae2f6c9b0c2933dbbc38ccb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ConcurrentWriteStats::max_wait_us</definition>
+        <argsstring></argsstring>
+        <name>max_wait_us</name>
+        <qualifiedname>themis::storage::ConcurrentWriteStats::max_wait_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lifetime maximum observed wait (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="69" column="14" bodyfile="include/storage/concurrent_write_controller.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/concurrent_write_controller.h" line="62" column="1" bodyfile="include/storage/concurrent_write_controller.h" bodystart="62" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_stats_1a75e04425147e43dac53027f07b430cda" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteStats</scope><name>active_writes</name></member>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_stats_1a42b113154b96c7df1f7a80b113a93904" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteStats</scope><name>avg_wait_us</name></member>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_stats_1aa2b4a4a6cae2f6c9b0c2933dbbc38ccb" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteStats</scope><name>max_wait_us</name></member>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_stats_1a12a562421d4e5322a2f2be1969726f80" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteStats</scope><name>p99_wait_us</name></member>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_stats_1ae248642b326bbed25762932b0c91f8e1" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteStats</scope><name>queue_depth</name></member>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_stats_1aa26b515a3f0b4bc1b5bf58ca9aad402a" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteStats</scope><name>total_acquired</name></member>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_stats_1aba5e2bb7680cde72206955778ba43475" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteStats</scope><name>total_rejected</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

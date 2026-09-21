@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_purge_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::PurgeResult</compoundname>
+    <includes refid="cdc__admin_8h" local="no">cdc_admin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_purge_result_1abc308e50e9ab301f3115a257c9d1d47d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::PurgeResult::events_deleted</definition>
+        <argsstring></argsstring>
+        <name>events_deleted</name>
+        <qualifiedname>themis::cdc::PurgeResult::events_deleted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="32" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_purge_result_1aa240264527002d156df6d9594848673a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::PurgeResult::elapsed_time_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_time_ms</name>
+        <qualifiedname>themis::cdc::PurgeResult::elapsed_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="33" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_purge_result_1acac87742148acb87b1013bb62f927351" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::PurgeResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::PurgeResult::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="35" column="20" bodyfile="include/cdc/cdc_admin.h" bodystart="35" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_admin.h" line="31" column="1" bodyfile="include/cdc/cdc_admin.h" bodystart="31" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_purge_result_1aa240264527002d156df6d9594848673a" prot="public" virt="non-virtual"><scope>themis::cdc::PurgeResult</scope><name>elapsed_time_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_purge_result_1abc308e50e9ab301f3115a257c9d1d47d" prot="public" virt="non-virtual"><scope>themis::cdc::PurgeResult</scope><name>events_deleted</name></member>
+      <member refid="structthemis_1_1cdc_1_1_purge_result_1acac87742148acb87b1013bb62f927351" prot="public" virt="non-virtual"><scope>themis::cdc::PurgeResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

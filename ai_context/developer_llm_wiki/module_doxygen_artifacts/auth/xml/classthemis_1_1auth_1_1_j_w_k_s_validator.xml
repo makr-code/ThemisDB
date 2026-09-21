@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_j_w_k_s_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::JWKSValidator</compoundname>
+    <includes refid="jwks__validator_8h" local="no">jwks_validator.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_validation_result" prot="public">themis::auth::JWKSValidator::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config" prot="public">themis::auth::JWKSValidator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1ac0bf64871cf8ca594a564e4d7222a71f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::JWKSValidator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::JWKSValidator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="91" column="12" bodyfile="include/auth/jwks_validator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1a033173ffc2b2a6b2d25dae9a2e7d7d68" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWKSValidator::JWKSValidator</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>JWKSValidator</name>
+        <qualifiedname>themis::auth::JWKSValidator::JWKSValidator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_config_1a2e96530f9b4f31f56b77334dd93c254f" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="75" column="14" bodyfile="src/auth/jwks_validator.cpp" bodystart="20" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1a14220e9e5476650755df7b761fee7f0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>JWKSValidator::ValidationResult themis::auth::JWKSValidator::validate</definition>
+        <argsstring>(const nlohmann::json &amp;jwks) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::auth::JWKSValidator::validate</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwks</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="82" column="22" bodyfile="src/auth/jwks_validator.cpp" bodystart="29" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1aa0f6ae0c757add5f1ecd097b16272fb4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWKSValidator::validateOrThrow</definition>
+        <argsstring>(const nlohmann::json &amp;jwks) const</argsstring>
+        <name>validateOrThrow</name>
+        <qualifiedname>themis::auth::JWKSValidator::validateOrThrow</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwks</declname>
+        </param>
+        <briefdescription>
+<para>Validate Or Throw. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="88" column="10" bodyfile="src/auth/jwks_validator.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1ae9292d0497e06e311220c6d7a3b25678" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSValidator::validateStructure</definition>
+        <argsstring>(const nlohmann::json &amp;jwks, ValidationResult &amp;result) const</argsstring>
+        <name>validateStructure</name>
+        <qualifiedname>themis::auth::JWKSValidator::validateStructure</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwks</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Validate Structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="100" column="10" bodyfile="src/auth/jwks_validator.cpp" bodystart="78" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1a9285df6252aa1303ca9bc6517a7b4179" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSValidator::validateKey</definition>
+        <argsstring>(const nlohmann::json &amp;jwk, size_t index, ValidationResult &amp;result) const</argsstring>
+        <name>validateKey</name>
+        <qualifiedname>themis::auth::JWKSValidator::validateKey</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwk</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Validate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="110" column="10" bodyfile="src/auth/jwks_validator.cpp" bodystart="114" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1a9078e1ad9dd46a203e944836b5d6d8ff" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSValidator::validateRSAKey</definition>
+        <argsstring>(const nlohmann::json &amp;jwk, size_t index, ValidationResult &amp;result) const</argsstring>
+        <name>validateRSAKey</name>
+        <qualifiedname>themis::auth::JWKSValidator::validateRSAKey</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwk</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Validate RSAKey. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="120" column="10" bodyfile="src/auth/jwks_validator.cpp" bodystart="186" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1a960389220dc193014fe771903a3dd667" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSValidator::validateECKey</definition>
+        <argsstring>(const nlohmann::json &amp;jwk, size_t index, ValidationResult &amp;result) const</argsstring>
+        <name>validateECKey</name>
+        <qualifiedname>themis::auth::JWKSValidator::validateECKey</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwk</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Validate ECKey. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="130" column="10" bodyfile="src/auth/jwks_validator.cpp" bodystart="225" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1a0b981b33e0f18cdc5508f24699f63b21" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSValidator::validateSymmetricKey</definition>
+        <argsstring>(const nlohmann::json &amp;jwk, size_t index, ValidationResult &amp;result) const</argsstring>
+        <name>validateSymmetricKey</name>
+        <qualifiedname>themis::auth::JWKSValidator::validateSymmetricKey</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwk</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Validate Symmetric Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="140" column="10" bodyfile="src/auth/jwks_validator.cpp" bodystart="263" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_validator_1ad766bdd0ba5a889d26a7cd948483f4f7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSValidator::checkDuplicateKids</definition>
+        <argsstring>(const nlohmann::json &amp;jwks, ValidationResult &amp;result) const</argsstring>
+        <name>checkDuplicateKids</name>
+        <qualifiedname>themis::auth::JWKSValidator::checkDuplicateKids</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwks</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_validator_1_1_validation_result" kindref="compound">ValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check for duplicate kids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_validator.h" line="148" column="10" bodyfile="src/auth/jwks_validator.cpp" bodystart="279" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwks_validator.h" line="21" column="1" bodyfile="include/auth/jwks_validator.h" bodystart="21" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1ad766bdd0ba5a889d26a7cd948483f4f7" prot="private" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>checkDuplicateKids</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1ac0bf64871cf8ca594a564e4d7222a71f" prot="private" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1a033173ffc2b2a6b2d25dae9a2e7d7d68" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>JWKSValidator</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1a14220e9e5476650755df7b761fee7f0a" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1a960389220dc193014fe771903a3dd667" prot="private" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>validateECKey</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1a9285df6252aa1303ca9bc6517a7b4179" prot="private" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>validateKey</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1aa0f6ae0c757add5f1ecd097b16272fb4" prot="public" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>validateOrThrow</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1a9078e1ad9dd46a203e944836b5d6d8ff" prot="private" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>validateRSAKey</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1ae9292d0497e06e311220c6d7a3b25678" prot="private" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>validateStructure</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_validator_1a0b981b33e0f18cdc5508f24699f63b21" prot="private" virt="non-virtual"><scope>themis::auth::JWKSValidator</scope><name>validateSymmetricKey</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

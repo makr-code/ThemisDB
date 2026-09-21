@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_distributed_query_cost_model" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::DistributedQueryCostModel</compoundname>
+    <includes refid="adaptive__optimizer_8h" local="no">adaptive_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" prot="public">themis::query::DistributedQueryCostModel::ShardInfo</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost" prot="public">themis::query::DistributedQueryCostModel::CrossShardJoinCost</innerclass>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_distributed_query_cost_model_1a29cc1170e5a33d440cbbc075cdbc87e6" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::DistributedQueryCostModel::NETWORK_TRANSFER_COST_PER_ROW</definition>
+        <argsstring></argsstring>
+        <name>NETWORK_TRANSFER_COST_PER_ROW</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::NETWORK_TRANSFER_COST_PER_ROW</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="205" column="29" bodyfile="include/query/adaptive_optimizer.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_distributed_query_cost_model_1a85d5d6485b4f5dabf67431562a85eb37" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::DistributedQueryCostModel::CROSS_SHARD_JOIN_OVERHEAD</definition>
+        <argsstring></argsstring>
+        <name>CROSS_SHARD_JOIN_OVERHEAD</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::CROSS_SHARD_JOIN_OVERHEAD</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="206" column="29" bodyfile="include/query/adaptive_optimizer.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_distributed_query_cost_model_1a38e1efd29796193c3699ff93935d8ed7" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::DistributedQueryCostModel::LOCAL_ROW_PROCESSING_COST</definition>
+        <argsstring></argsstring>
+        <name>LOCAL_ROW_PROCESSING_COST</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::LOCAL_ROW_PROCESSING_COST</qualifiedname>
+        <initializer>= 0.001</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="207" column="29" bodyfile="include/query/adaptive_optimizer.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_distributed_query_cost_model_1a281b83774910bb1a0e9f23f80c01f0dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::DistributedQueryCostModel::estimateDistributedQueryCost</definition>
+        <argsstring>(const std::vector&lt; ShardInfo &gt; &amp;involved_shards, size_t estimated_result_rows) const</argsstring>
+        <name>estimateDistributedQueryCost</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::estimateDistributedQueryCost</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt; &amp;</type>
+          <declname>involved_shards</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>estimated_result_rows</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Distributed <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">involved_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_result_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="163" column="12" bodyfile="src/query/adaptive_optimizer.cpp" bodystart="336" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_distributed_query_cost_model_1ad8698c90e66b0edb2205b86c3ce397ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_cross_shard_join_cost" kindref="compound">CrossShardJoinCost</ref></type>
+        <definition>DistributedQueryCostModel::CrossShardJoinCost themis::query::DistributedQueryCostModel::estimateCrossShardJoinCost</definition>
+        <argsstring>(const ShardInfo &amp;left_shard, const ShardInfo &amp;right_shard, size_t left_rows, size_t right_rows) const</argsstring>
+        <name>estimateCrossShardJoinCost</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::estimateCrossShardJoinCost</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>left_shard</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>right_shard</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>left_rows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>right_rows</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Cross Shard Join Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left_shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right_shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="175" column="24" bodyfile="src/query/adaptive_optimizer.cpp" bodystart="361" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_distributed_query_cost_model_1a069acac498fdfcd60c4618d7022376c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::DistributedQueryCostModel::shouldPrunePartition</definition>
+        <argsstring>(const ShardInfo &amp;shard, size_t total_shards, double selectivity) const</argsstring>
+        <name>shouldPrunePartition</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::shouldPrunePartition</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kindref="compound">ShardInfo</ref> &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_shards</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>selectivity</declname>
+        </param>
+        <briefdescription>
+<para>Should Prune Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">selectivity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="188" column="10" bodyfile="src/query/adaptive_optimizer.cpp" bodystart="401" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_distributed_query_cost_model_1a4d3d7a414a5cf483d27163a508d2d177" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::DistributedQueryCostModel::getOptimalParallelism</definition>
+        <argsstring>(const std::vector&lt; ShardInfo &gt; &amp;shards, size_t available_threads) const</argsstring>
+        <name>getOptimalParallelism</name>
+        <qualifiedname>themis::query::DistributedQueryCostModel::getOptimalParallelism</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_distributed_query_cost_model_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt; &amp;</type>
+          <declname>shards</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>available_threads</declname>
+        </param>
+        <briefdescription>
+<para>Get Optimal Parallelism. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">available_threads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="199" column="12" bodyfile="src/query/adaptive_optimizer.cpp" bodystart="422" bodyend="439"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_optimizer.h" line="141" column="1" bodyfile="include/query/adaptive_optimizer.h" bodystart="141" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_distributed_query_cost_model_1a85d5d6485b4f5dabf67431562a85eb37" prot="private" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel</scope><name>CROSS_SHARD_JOIN_OVERHEAD</name></member>
+      <member refid="classthemis_1_1query_1_1_distributed_query_cost_model_1ad8698c90e66b0edb2205b86c3ce397ac" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel</scope><name>estimateCrossShardJoinCost</name></member>
+      <member refid="classthemis_1_1query_1_1_distributed_query_cost_model_1a281b83774910bb1a0e9f23f80c01f0dd" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel</scope><name>estimateDistributedQueryCost</name></member>
+      <member refid="classthemis_1_1query_1_1_distributed_query_cost_model_1a4d3d7a414a5cf483d27163a508d2d177" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel</scope><name>getOptimalParallelism</name></member>
+      <member refid="classthemis_1_1query_1_1_distributed_query_cost_model_1a38e1efd29796193c3699ff93935d8ed7" prot="private" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel</scope><name>LOCAL_ROW_PROCESSING_COST</name></member>
+      <member refid="classthemis_1_1query_1_1_distributed_query_cost_model_1a29cc1170e5a33d440cbbc075cdbc87e6" prot="private" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel</scope><name>NETWORK_TRANSFER_COST_PER_ROW</name></member>
+      <member refid="classthemis_1_1query_1_1_distributed_query_cost_model_1a069acac498fdfcd60c4618d7022376c3" prot="public" virt="non-virtual"><scope>themis::query::DistributedQueryCostModel</scope><name>shouldPrunePartition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

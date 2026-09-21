@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KGRetrievalResult</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1a25c3f3f8f1cb4a906a7587f8a25a876e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document" kindref="compound">KGAugmentedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;KGAugmentedDocument&gt; themis::rag::kg::KGRetrievalResult::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::kg::KGRetrievalResult::documents</qualifiedname>
+        <briefdescription>
+<para>Augmented and re-scored candidate documents, sorted by final_score DESC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="120" column="17" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1acad87f0f87b77e030bebfc2e47bd0fdc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match" kindref="compound">EntityLinkingMatch</ref> &gt;</type>
+        <definition>std::vector&lt;EntityLinkingMatch&gt; themis::rag::kg::KGRetrievalResult::query_entity_links</definition>
+        <argsstring></argsstring>
+        <name>query_entity_links</name>
+        <qualifiedname>themis::rag::kg::KGRetrievalResult::query_entity_links</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1rag_1_1kg_1_1_entity" kindref="compound">Entity</ref> links found in the query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="123" column="17" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1ad1dd01b0f6700a7494cf95952233913e" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::rag::kg::KGRetrievalResult::visited_nodes</definition>
+        <argsstring></argsstring>
+        <name>visited_nodes</name>
+        <qualifiedname>themis::rag::kg::KGRetrievalResult::visited_nodes</qualifiedname>
+        <briefdescription>
+<para>KG node IDs visited during graph traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="126" column="24" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1ae6bd95d0ef4e29fbc416d86717303bb9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::KGRetrievalResult::entity_linking_coverage</definition>
+        <argsstring></argsstring>
+        <name>entity_linking_coverage</name>
+        <qualifiedname>themis::rag::kg::KGRetrievalResult::entity_linking_coverage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of query entities successfully linked to KG nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="129" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1afedb7a57fb405cc7b752e50aa67f9e16" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::KGRetrievalResult::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::rag::kg::KGRetrievalResult::elapsed_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock time for the entire augmentation pass (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="132" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1adb28f561ab955699ec3479a062fd07a3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; graph::InferenceChain &gt;</type>
+        <definition>std::vector&lt;graph::InferenceChain&gt; themis::rag::kg::KGRetrievalResult::inference_chains</definition>
+        <argsstring></argsstring>
+        <name>inference_chains</name>
+        <qualifiedname>themis::rag::kg::KGRetrievalResult::inference_chains</qualifiedname>
+        <briefdescription>
+<para>Inference chains derived during this retrieval pass (one per linked query entity). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="137" column="17" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1af09b9dcfea575a02e27ee5a0c75d3a85" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::kg::KGRetrievalResult::has_reasoning</definition>
+        <argsstring></argsstring>
+        <name>has_reasoning</name>
+        <qualifiedname>themis::rag::kg::KGRetrievalResult::has_reasoning</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when at least one inference chain produced derived triples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="140" column="10" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1a70e77eaf135ed5825d07f2126bce9e6a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::kg::KGRetrievalResult::reasoning_elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>reasoning_elapsed_ms</name>
+        <qualifiedname>themis::rag::kg::KGRetrievalResult::reasoning_elapsed_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Time spent on KnowledgeGraphReasoner::infer() calls (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="143" column="12" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete result of one KG-augmented retrieval pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_graph_retriever.h" line="118" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="118" bodyend="144"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1a25c3f3f8f1cb4a906a7587f8a25a876e" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrievalResult</scope><name>documents</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1afedb7a57fb405cc7b752e50aa67f9e16" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrievalResult</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1ae6bd95d0ef4e29fbc416d86717303bb9" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrievalResult</scope><name>entity_linking_coverage</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1af09b9dcfea575a02e27ee5a0c75d3a85" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrievalResult</scope><name>has_reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1adb28f561ab955699ec3479a062fd07a3" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrievalResult</scope><name>inference_chains</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1acad87f0f87b77e030bebfc2e47bd0fdc" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrievalResult</scope><name>query_entity_links</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1a70e77eaf135ed5825d07f2126bce9e6a" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrievalResult</scope><name>reasoning_elapsed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result_1ad1dd01b0f6700a7494cf95952233913e" prot="public" virt="non-virtual"><scope>themis::rag::kg::KGRetrievalResult</scope><name>visited_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

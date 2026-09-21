@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f50f2e584dae177c655d046b34769525" kind="dir">
+    <compoundname>benchmarks/user_storage_encrypted</compoundname>
+    <innerfile refid="bench__encrypted__storage__dedicated__gates_8cpp">bench_encrypted_storage_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__user__storage__encrypted__lifecycle__gates_8cpp">bench_user_storage_encrypted_lifecycle_gates.cpp</innerfile>
+    <innerfile refid="bench__user__storage__encrypted__release__gates_8cpp">bench_user_storage_encrypted_release_gates.cpp</innerfile>
+    <innerfile refid="bench__user__storage__mount__latency_8cpp">bench_user_storage_mount_latency.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/user_storage_encrypted/"/>
+  </compounddef>
+</doxygen>

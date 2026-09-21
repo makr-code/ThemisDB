@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lora__orchestrator__interface_8h" kind="file" language="C++">
+    <compoundname>lora_orchestrator_interface.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="llm__factory_8h" local="yes">include/themis/llm/llm_factory.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/llm/lora_orchestrator_interface.h</label>
+        <link refid="lora__orchestrator__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/llm/llm_factory.h</label>
+        <link refid="llm__factory_8h"/>
+      </node>
+      <node id="1">
+        <label>include/themis/llm/lora_orchestrator_interface.h</label>
+        <link refid="lora__orchestrator__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info" prot="public">themis::llm::lora::LoRAJobInfo</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator" prot="public">themis::llm::lora::ILoRAOrchestrator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="11" refid="namespacethemis_1_1llm_1_1lora" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TrainingData;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">LoRAHyperparameters;</highlight></codeline>
+<codeline lineno="15" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info" kindref="compound">LoRAJobInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="16" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info_1a18f3e354121b3b04978fda84fb0557be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info_1a18f3e354121b3b04978fda84fb0557be" kindref="member">job_id</ref>;</highlight></codeline>
+<codeline lineno="17" refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info_1a1bc558c2cc2b30165b5ef87cec6c8b6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info_1a1bc558c2cc2b30165b5ef87cec6c8b6c" kindref="member">started_at</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator" kindref="compound">ILoRAOrchestrator</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a50b996362baf9fedd31bae754c587859" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a50b996362baf9fedd31bae754c587859" kindref="member">~ILoRAOrchestrator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae8fd765ceb838c6ec5d3bf1989a9d5bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae8fd765ceb838c6ec5d3bf1989a9d5bf" kindref="member">createAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TrainingData&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LoRAHyperparameters&amp;<sp/>params,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>async)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a83afc0bf432e975f031eb215a08339c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;LoRAJobInfo&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a83afc0bf432e975f031eb215a08339c9" kindref="member">getJob</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ade183065f68c7bfc178577a677a5a44c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ade183065f68c7bfc178577a677a5a44c" kindref="member">isLoaded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae781fe70228f31cad3c6fabe470b2db8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae781fe70228f31cad3c6fabe470b2db8" kindref="member">loadAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>async)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a4504adc6e503f20eb07fb9c82e8ee98a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a4504adc6e503f20eb07fb9c82e8ee98a" kindref="member">verifyAuditChain</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lightweight<sp/>JSON-based<sp/>accessors<sp/>to<sp/>avoid<sp/>heavy<sp/>type<sp/>deps<sp/>in<sp/>callers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a068bd40cfd542e910a16803696b6d99b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;nlohmann::json&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a068bd40cfd542e910a16803696b6d99b" kindref="member">getAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a53f38ed3418ff8fbaf9c1aaf45f3693f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a53f38ed3418ff8fbaf9c1aaf45f3693f" kindref="member">searchAdapters</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>criteria)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1aec7030d2a694557e4056e79825f97c3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1aec7030d2a694557e4056e79825f97c3e" kindref="member">getVersions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a311383188dabfea87cd39a668e6ba084" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;nlohmann::json&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a311383188dabfea87cd39a668e6ba084" kindref="member">getProvenanceRecord</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae53c0e888c038c706d6cebc33f070f2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae53c0e888c038c706d6cebc33f070f2b" kindref="member">getInferenceAuditLog</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a020b10a00f74ae4a79725df3777c2e79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a020b10a00f74ae4a79725df3777c2e79" kindref="member">listAdapterSnapshots</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/llm/lora_orchestrator_interface.h"/>
+  </compounddef>
+</doxygen>

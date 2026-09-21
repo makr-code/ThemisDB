@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_emotion_analysis" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::EmotionAnalysis</compoundname>
+    <includes refid="emotion__analyzer_8h" local="no">emotion_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_analysis_1a0d38d6bc43ba97d3e8c958822451741c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" kindref="member">Emotion</ref>, float &gt;</type>
+        <definition>std::map&lt;Emotion, float&gt; themis::voice::EmotionAnalysis::emotion_probabilities</definition>
+        <argsstring></argsstring>
+        <name>emotion_probabilities</name>
+        <qualifiedname>themis::voice::EmotionAnalysis::emotion_probabilities</qualifiedname>
+        <briefdescription>
+<para>Score for every emotion [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="81" column="14" bodyfile="include/voice/emotion_analyzer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_analysis_1adee054252e40dd3150dd158308ff4ffc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1" kindref="member">Emotion</ref></type>
+        <definition>Emotion themis::voice::EmotionAnalysis::primary_emotion</definition>
+        <argsstring></argsstring>
+        <name>primary_emotion</name>
+        <qualifiedname>themis::voice::EmotionAnalysis::primary_emotion</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1ac47f66f9c85c13d4b9cb9b8318cb6db1a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Emotion::NEUTRAL</ref></initializer>
+        <briefdescription>
+<para>Highest-scoring emotion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="82" column="13" bodyfile="include/voice/emotion_analyzer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_analysis_1a22e2b38075fb617e7d1554aa0601cb65" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionAnalysis::emotion_confidence</definition>
+        <argsstring></argsstring>
+        <name>emotion_confidence</name>
+        <qualifiedname>themis::voice::EmotionAnalysis::emotion_confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Confidence in primary emotion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="83" column="13" bodyfile="include/voice/emotion_analyzer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_analysis_1a2967bd08264bce794e6ab0dc515ea772" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418" kindref="member">Sentiment</ref></type>
+        <definition>Sentiment themis::voice::EmotionAnalysis::sentiment</definition>
+        <argsstring></argsstring>
+        <name>sentiment</name>
+        <qualifiedname>themis::voice::EmotionAnalysis::sentiment</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1a8146c992eef8787ca5152190072ba418a31ba17aa58cdb681423f07ca21a6efc7" kindref="member">Sentiment::NEUTRAL</ref></initializer>
+        <briefdescription>
+<para>Overall polarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="85" column="15" bodyfile="include/voice/emotion_analyzer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_analysis_1aa7db8995fd6ff43b1270bbcb9ca251bd" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionAnalysis::sentiment_score</definition>
+        <argsstring></argsstring>
+        <name>sentiment_score</name>
+        <qualifiedname>themis::voice::EmotionAnalysis::sentiment_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Continuous score [-1, +1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="86" column="15" bodyfile="include/voice/emotion_analyzer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_analysis_1a5d622aba59a1a32340a48988426243a5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionAnalysis::stress_level</definition>
+        <argsstring></argsstring>
+        <name>stress_level</name>
+        <qualifiedname>themis::voice::EmotionAnalysis::stress_level</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Stress indicator [0 = calm, 1 = stressed]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="88" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_analysis_1aca95bc37cd3b679fd23d1a8a37cd111e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::EmotionAnalysis::engagement_score</definition>
+        <argsstring></argsstring>
+        <name>engagement_score</name>
+        <qualifiedname>themis::voice::EmotionAnalysis::engagement_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Engagement level [0 = disengaged, 1 = engaged]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="89" column="11" bodyfile="include/voice/emotion_analyzer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_emotion_analysis_1a1b5b4883a856a49ff18fef313bfba294" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_quality" kindref="compound">VoiceQuality</ref></type>
+        <definition>VoiceQuality themis::voice::EmotionAnalysis::quality</definition>
+        <argsstring></argsstring>
+        <name>quality</name>
+        <qualifiedname>themis::voice::EmotionAnalysis::quality</qualifiedname>
+        <briefdescription>
+<para>Underlying acoustic features. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/emotion_analyzer.h" line="91" column="18" bodyfile="include/voice/emotion_analyzer.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full emotion analysis result for a single audio buffer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::voice::EmotionAnalysis</label>
+        <link refid="structthemis_1_1voice_1_1_emotion_analysis"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>quality</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::voice::VoiceQuality</label>
+        <link refid="structthemis_1_1voice_1_1_voice_quality"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/emotion_analyzer.h" line="80" column="1" bodyfile="include/voice/emotion_analyzer.h" bodystart="80" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_emotion_analysis_1a22e2b38075fb617e7d1554aa0601cb65" prot="public" virt="non-virtual"><scope>themis::voice::EmotionAnalysis</scope><name>emotion_confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_analysis_1a0d38d6bc43ba97d3e8c958822451741c" prot="public" virt="non-virtual"><scope>themis::voice::EmotionAnalysis</scope><name>emotion_probabilities</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_analysis_1aca95bc37cd3b679fd23d1a8a37cd111e" prot="public" virt="non-virtual"><scope>themis::voice::EmotionAnalysis</scope><name>engagement_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_analysis_1adee054252e40dd3150dd158308ff4ffc" prot="public" virt="non-virtual"><scope>themis::voice::EmotionAnalysis</scope><name>primary_emotion</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_analysis_1a1b5b4883a856a49ff18fef313bfba294" prot="public" virt="non-virtual"><scope>themis::voice::EmotionAnalysis</scope><name>quality</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_analysis_1a2967bd08264bce794e6ab0dc515ea772" prot="public" virt="non-virtual"><scope>themis::voice::EmotionAnalysis</scope><name>sentiment</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_analysis_1aa7db8995fd6ff43b1270bbcb9ca251bd" prot="public" virt="non-virtual"><scope>themis::voice::EmotionAnalysis</scope><name>sentiment_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_emotion_analysis_1a5d622aba59a1a32340a48988426243a5" prot="public" virt="non-virtual"><scope>themis::voice::EmotionAnalysis</scope><name>stress_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

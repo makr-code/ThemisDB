@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_data_masker" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::DataMasker</compoundname>
+    <includes refid="data__masker_8h" local="no">data_masker.h</includes>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1governance_1_1_data_masker_1afad04cfa874d617946c0623d69600391" prot="private" static="no">
+        <type>std::unordered_map&lt; std::string, const <ref refid="structthemis_1_1governance_1_1_field_masking_rule" kindref="compound">FieldMaskingRule</ref> * &gt;</type>
+        <definition>using themis::governance::DataMasker::RuleIndex = std::unordered_map&lt;std::string, const FieldMaskingRule *&gt;</definition>
+        <argsstring></argsstring>
+        <name>RuleIndex</name>
+        <qualifiedname>themis::governance::DataMasker::RuleIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="75" column="5" bodyfile="include/governance/data_masker.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_data_masker_1a4b4c0c1462baf32460b9cbc4a01b13a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::DataMasker::DataMasker</definition>
+        <argsstring>()=default</argsstring>
+        <name>DataMasker</name>
+        <qualifiedname>themis::governance::DataMasker::DataMasker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_data_masker_1acf8201f73f259672665af8199aa96def" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::DataMasker::maskFields</definition>
+        <argsstring>(const nlohmann::json &amp;doc, const FieldMaskingPolicy &amp;policy) const</argsstring>
+        <name>maskFields</name>
+        <qualifiedname>themis::governance::DataMasker::maskFields</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_field_masking_policy" kindref="compound">FieldMaskingPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Mask Fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="55" column="20" bodyfile="src/governance/data_masker.cpp" bodystart="184" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_data_masker_1a9db2e5d38605c61a768c104dfda10248" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::DataMasker::maskFieldsArray</definition>
+        <argsstring>(const nlohmann::json &amp;docs, const FieldMaskingPolicy &amp;policy) const</argsstring>
+        <name>maskFieldsArray</name>
+        <qualifiedname>themis::governance::DataMasker::maskFieldsArray</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_field_masking_policy" kindref="compound">FieldMaskingPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Mask Fields Array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="63" column="20" bodyfile="src/governance/data_masker.cpp" bodystart="206" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_data_masker_1ab45a5826ca0a8ef4450fc63fe8e2085c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::DataMasker::applyStrategy</definition>
+        <argsstring>(const std::string &amp;value, const FieldMaskingRule &amp;rule)</argsstring>
+        <name>applyStrategy</name>
+        <qualifiedname>themis::governance::DataMasker::applyStrategy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_field_masking_rule" kindref="compound">FieldMaskingRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Apply Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1governance_1_1_data_masker_1ab45a5826ca0a8ef4450fc63fe8e2085c" kindref="member">DataMasker::applyStrategy</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hmacSha256Hex(), size(), substr(), dataMaskerSha256Hex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="72" column="24" bodyfile="src/governance/data_masker.cpp" bodystart="111" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_data_masker_1ac856347aeeb5bb34baf1ad21d40b8104" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::DataMasker::maskNode</definition>
+        <argsstring>(const nlohmann::json &amp;node, const std::string &amp;key, const RuleIndex &amp;rule_index) const</argsstring>
+        <name>maskNode</name>
+        <qualifiedname>themis::governance::DataMasker::maskNode</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const RuleIndex &amp;</type>
+          <declname>rule_index</declname>
+        </param>
+        <briefdescription>
+<para>Mask Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/data_masker.h" line="84" column="20" bodyfile="src/governance/data_masker.cpp" bodystart="141" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/data_masker.h" line="45" column="1" bodyfile="include/governance/data_masker.h" bodystart="45" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_data_masker_1ab45a5826ca0a8ef4450fc63fe8e2085c" prot="public" virt="non-virtual"><scope>themis::governance::DataMasker</scope><name>applyStrategy</name></member>
+      <member refid="classthemis_1_1governance_1_1_data_masker_1a4b4c0c1462baf32460b9cbc4a01b13a8" prot="public" virt="non-virtual"><scope>themis::governance::DataMasker</scope><name>DataMasker</name></member>
+      <member refid="classthemis_1_1governance_1_1_data_masker_1acf8201f73f259672665af8199aa96def" prot="public" virt="non-virtual"><scope>themis::governance::DataMasker</scope><name>maskFields</name></member>
+      <member refid="classthemis_1_1governance_1_1_data_masker_1a9db2e5d38605c61a768c104dfda10248" prot="public" virt="non-virtual"><scope>themis::governance::DataMasker</scope><name>maskFieldsArray</name></member>
+      <member refid="classthemis_1_1governance_1_1_data_masker_1ac856347aeeb5bb34baf1ad21d40b8104" prot="private" virt="non-virtual"><scope>themis::governance::DataMasker</scope><name>maskNode</name></member>
+      <member refid="classthemis_1_1governance_1_1_data_masker_1afad04cfa874d617946c0623d69600391" prot="private" virt="non-virtual"><scope>themis::governance::DataMasker</scope><name>RuleIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

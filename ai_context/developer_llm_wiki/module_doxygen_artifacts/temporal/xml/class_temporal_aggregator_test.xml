@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_aggregator_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalAggregatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_temporal_aggregator_test_1aa9f81b968b6e128e130ee50dca98c79f" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_aggregator" kindref="compound">TemporalAggregator</ref></type>
+        <definition>TemporalAggregator TemporalAggregatorTest::agg</definition>
+        <argsstring></argsstring>
+        <name>agg</name>
+        <qualifiedname>TemporalAggregatorTest::agg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_aggregator.cpp" line="34" column="24" bodyfile="tests/temporal/test_temporal_aggregator.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalAggregatorTest</label>
+        <link refid="class_temporal_aggregator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalAggregatorTest</label>
+        <link refid="class_temporal_aggregator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>agg</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TemporalAggregator</label>
+        <link refid="classthemisdb_1_1temporal_1_1_temporal_aggregator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_aggregator.cpp" line="32" column="1" bodyfile="tests/temporal/test_temporal_aggregator.cpp" bodystart="32" bodyend="35"/>
+    <listofallmembers>
+      <member refid="class_temporal_aggregator_test_1aa9f81b968b6e128e130ee50dca98c79f" prot="protected" virt="non-virtual"><scope>TemporalAggregatorTest</scope><name>agg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

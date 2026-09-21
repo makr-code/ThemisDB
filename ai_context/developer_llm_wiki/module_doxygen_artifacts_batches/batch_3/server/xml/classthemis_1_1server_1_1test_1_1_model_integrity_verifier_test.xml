@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::test::ModelIntegrityVerifierTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test_1a18a927ba6aaa001e645287c60f0a72d3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::test::ModelIntegrityVerifierTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::server::test::ModelIntegrityVerifierTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="38" column="10" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test_1ae5ae4f3983dfada79f253e5ea83b95df" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::test::ModelIntegrityVerifierTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::server::test::ModelIntegrityVerifierTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_model_integrity_wave2.cpp" line="42" column="10" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::test::ModelIntegrityVerifierTest</label>
+        <link refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::test::ModelIntegrityVerifierTest</label>
+        <link refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_model_integrity_wave2.cpp" line="36" column="1" bodyfile="tests/server/test_model_integrity_wave2.cpp" bodystart="36" bodyend="45"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test_1a18a927ba6aaa001e645287c60f0a72d3" prot="protected" virt="non-virtual"><scope>themis::server::test::ModelIntegrityVerifierTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1server_1_1test_1_1_model_integrity_verifier_test_1ae5ae4f3983dfada79f253e5ea83b95df" prot="protected" virt="non-virtual"><scope>themis::server::test::ModelIntegrityVerifierTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

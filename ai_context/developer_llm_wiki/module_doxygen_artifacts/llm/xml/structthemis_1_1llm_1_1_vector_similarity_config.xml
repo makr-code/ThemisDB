@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vector_similarity_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VectorSimilarityConfig</compoundname>
+    <includes refid="aql__train__parser_8h" local="no">aql_train_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vector_similarity_config_1a31c9209a704ef824106d57406774d15b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VectorSimilarityConfig::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::llm::VectorSimilarityConfig::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="84" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vector_similarity_config_1a1114e37afb1020219b0d4510557e4c39" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::VectorSimilarityConfig::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::llm::VectorSimilarityConfig::threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="85" column="12" bodyfile="include/llm/aql_train_parser.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vector_similarity_config_1ac5c6f2cefa7ed09ba4e017402a470ab7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::VectorSimilarityConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::llm::VectorSimilarityConfig::top_k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="86" column="9" bodyfile="include/llm/aql_train_parser.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vector_similarity_config_1af1f443fd650568dd320b7050603e197a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VectorSimilarityConfig::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::llm::VectorSimilarityConfig::metric</qualifiedname>
+        <initializer>= &quot;cosine&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="87" column="17" bodyfile="include/llm/aql_train_parser.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vector_similarity_config_1a5f47b5f1d2204c4e79242fc64b08d457" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::VectorSimilarityConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::VectorSimilarityConfig::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="93" column="20" bodyfile="src/llm/aql_train_parser.cpp" bodystart="319" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vector_similarity_config_1a5df6563976a856843aff4f985a45da04" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_vector_similarity_config" kindref="compound">VectorSimilarityConfig</ref></type>
+        <definition>VectorSimilarityConfig themis::llm::VectorSimilarityConfig::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::VectorSimilarityConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/aql_train_parser.h" line="99" column="35" bodyfile="src/llm/aql_train_parser.cpp" bodystart="335" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/aql_train_parser.h" line="83" column="1" bodyfile="include/llm/aql_train_parser.h" bodystart="83" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_config_1a31c9209a704ef824106d57406774d15b" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarityConfig</scope><name>field</name></member>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_config_1a5df6563976a856843aff4f985a45da04" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarityConfig</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_config_1af1f443fd650568dd320b7050603e197a" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarityConfig</scope><name>metric</name></member>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_config_1a1114e37afb1020219b0d4510557e4c39" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarityConfig</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_config_1a5f47b5f1d2204c4e79242fc64b08d457" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarityConfig</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_vector_similarity_config_1ac5c6f2cefa7ed09ba4e017402a470ab7" prot="public" virt="non-virtual"><scope>themis::llm::VectorSimilarityConfig</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_plugin_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::PluginGuard</compoundname>
+    <includes refid="inference__guard_8h" local="no">inference_guard.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_plugin_guard_1a99fa60027951a7e7660d5f7a32b7a971" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::PluginGuard::factory_name_</definition>
+        <argsstring></argsstring>
+        <name>factory_name_</name>
+        <qualifiedname>themis::llm::PluginGuard::factory_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="170" column="17" bodyfile="include/llm/inference_guard.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_plugin_guard_1aaf8c36112a60889a43ab235bb3c8ab64" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PluginGuard::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::PluginGuard::initialized_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="171" column="10" bodyfile="include/llm/inference_guard.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_plugin_guard_1a0fd0626213d3a44d5fdb907b33f5377d" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::PluginGuard::plugin_handle_</definition>
+        <argsstring></argsstring>
+        <name>plugin_handle_</name>
+        <qualifiedname>themis::llm::PluginGuard::plugin_handle_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="172" column="10" bodyfile="include/llm/inference_guard.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PluginGuard::PluginGuard</definition>
+        <argsstring>(const std::string &amp;factory_name, const std::string &amp;config=&quot;&quot;)</argsstring>
+        <name>PluginGuard</name>
+        <qualifiedname>themis::llm::PluginGuard::PluginGuard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>factory_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="143" column="14" bodyfile="src/llm/inference_guard.cpp" bodystart="218" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_plugin_guard_1a4c0721457d77a598d70f5135f09e8a3e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PluginGuard::~PluginGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~PluginGuard</name>
+        <qualifiedname>themis::llm::PluginGuard::~PluginGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="148" column="5" bodyfile="src/llm/inference_guard.cpp" bodystart="243" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_plugin_guard_1a47fbcbee004fc3a9e18980620781c899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PluginGuard::PluginGuard</definition>
+        <argsstring>(const PluginGuard &amp;)=delete</argsstring>
+        <name>PluginGuard</name>
+        <qualifiedname>themis::llm::PluginGuard::PluginGuard</qualifiedname>
+        <param>
+          <type>const PluginGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="151" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_plugin_guard_1aa4a690e43590ff7600303a1548078fb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref> &amp;</type>
+        <definition>PluginGuard &amp; themis::llm::PluginGuard::operator=</definition>
+        <argsstring>(const PluginGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::PluginGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="152" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_plugin_guard_1a5c56619882afb59ace2580c8cb97a04b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PluginGuard::PluginGuard</definition>
+        <argsstring>(PluginGuard &amp;&amp;) noexcept</argsstring>
+        <name>PluginGuard</name>
+        <qualifiedname>themis::llm::PluginGuard::PluginGuard</qualifiedname>
+        <param>
+          <type>PluginGuard &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="155" column="5" bodyfile="src/llm/inference_guard.cpp" bodystart="257" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_plugin_guard_1a9c8ec2601270547e653091fe2ce68a82" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref> &amp;</type>
+        <definition>PluginGuard &amp; themis::llm::PluginGuard::operator=</definition>
+        <argsstring>(PluginGuard &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::PluginGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" kindref="member">PluginGuard</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="156" column="17" bodyfile="src/llm/inference_guard.cpp" bodystart="265" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_plugin_guard_1a0b7eac52a49f3e70242ae4586850acbd" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PluginGuard::IsHealthy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>IsHealthy</name>
+        <qualifiedname>themis::llm::PluginGuard::IsHealthy</qualifiedname>
+        <briefdescription>
+<para>Is Healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="163" column="10" bodyfile="src/llm/inference_guard.cpp" bodystart="286" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_plugin_guard_1ae40668b386ab0b365ba4be6e2ddbd010" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::PluginGuard::GetName</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>GetName</name>
+        <qualifiedname>themis::llm::PluginGuard::GetName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="165" column="23" bodyfile="include/llm/inference_guard.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_plugin_guard_1a11360420679474866346849e0179d142" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PluginGuard::IsInitialized</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>IsInitialized</name>
+        <qualifiedname>themis::llm::PluginGuard::IsInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="167" column="10" bodyfile="include/llm/inference_guard.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inference_guard.h" line="141" column="1" bodyfile="include/llm/inference_guard.h" bodystart="141" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1a99fa60027951a7e7660d5f7a32b7a971" prot="private" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>factory_name_</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1ae40668b386ab0b365ba4be6e2ddbd010" prot="public" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>GetName</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1aaf8c36112a60889a43ab235bb3c8ab64" prot="private" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1a0b7eac52a49f3e70242ae4586850acbd" prot="public" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>IsHealthy</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1a11360420679474866346849e0179d142" prot="public" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>IsInitialized</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1aa4a690e43590ff7600303a1548078fb3" prot="public" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1a9c8ec2601270547e653091fe2ce68a82" prot="public" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1a0fd0626213d3a44d5fdb907b33f5377d" prot="private" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>plugin_handle_</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1a63ba8117a41ba3b989eecee810c6eae3" prot="public" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>PluginGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1a47fbcbee004fc3a9e18980620781c899" prot="public" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>PluginGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1a5c56619882afb59ace2580c8cb97a04b" prot="public" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>PluginGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_plugin_guard_1a4c0721457d77a598d70f5135f09e8a3e" prot="public" virt="non-virtual"><scope>themis::llm::PluginGuard</scope><name>~PluginGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

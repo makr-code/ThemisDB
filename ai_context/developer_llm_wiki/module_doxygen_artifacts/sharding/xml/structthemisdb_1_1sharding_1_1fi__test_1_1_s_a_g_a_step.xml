@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::SAGAStep</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step_1a503611dc2098d1834fa6cd556be53c22" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::fi_test::SAGAStep::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGAStep::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="775" column="27" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="775" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step_1a504853af036ace4970cd1e5dd2d95bef" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>std::function&lt;bool()&gt; themisdb::sharding::fi_test::SAGAStep::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGAStep::action</qualifiedname>
+        <briefdescription>
+<para>Returns true on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="776" column="19" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="776" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step_1a48e61fd5be288c3509d1def5b5af519f" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>std::function&lt;void()&gt; themisdb::sharding::fi_test::SAGAStep::compensate</definition>
+        <argsstring></argsstring>
+        <name>compensate</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGAStep::compensate</qualifiedname>
+        <briefdescription>
+<para>Idempotent compensation action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="777" column="19" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="777" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="774" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="774" bodyend="778"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step_1a504853af036ace4970cd1e5dd2d95bef" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGAStep</scope><name>action</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step_1a48e61fd5be288c3509d1def5b5af519f" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGAStep</scope><name>compensate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_step_1a503611dc2098d1834fa6cd556be53c22" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGAStep</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

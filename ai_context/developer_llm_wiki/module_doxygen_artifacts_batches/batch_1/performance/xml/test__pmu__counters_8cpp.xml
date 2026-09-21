@@ -1,0 +1,832 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__pmu__counters_8cpp" kind="file" language="C++">
+    <compoundname>test_pmu_counters.cpp</compoundname>
+    <includes refid="pmu__counters_8h" local="yes">performance/phase4/pmu_counters.h</includes>
+    <includes refid="phase4_2feature__flags_8h" local="yes">performance/phase4/feature_flags.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">numeric</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>performance/phase4/feature_flags.h</label>
+        <link refid="phase4_2feature__flags_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>performance/phase4/pmu_counters.h</label>
+        <link refid="pmu__counters_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/phase4/test_pmu_counters.cpp</label>
+        <link refid="test__pmu__counters_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>numeric</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PmuCounterTest, DefaultConstructedIsNotOpen)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PmuCounterTest</type>
+        </param>
+        <param>
+          <type>DefaultConstructedIsNotOpen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="20" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="20" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a8c5c80bcdd3208b83c2f0b8b5d782380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PmuCounterTest, CloseOnUnopenedCounterIsSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PmuCounterTest</type>
+        </param>
+        <param>
+          <type>CloseOnUnopenedCounterIsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="26" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a0f0acb8e57207b0fabe3a4ba0891d7ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PmuCounterTest, MoveSemantics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PmuCounterTest</type>
+        </param>
+        <param>
+          <type>MoveSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="32" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="32" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a41f2799dfca4e012e5d71baed760453e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PmuCounterTest, OpenLLCMissCounterOrSkip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PmuCounterTest</type>
+        </param>
+        <param>
+          <type>OpenLLCMissCounterOrSkip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="39" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="39" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1aac67e1b2c3cd7a8fa82561d165d471f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheMissAnalyzerTest, PmuAccessibleReportsBool)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheMissAnalyzerTest</type>
+        </param>
+        <param>
+          <type>PmuAccessibleReportsBool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="68" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a6717ca19a8ed93001e748f2902605ab8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheMissAnalyzerTest, UnavailableAnalyzerReturnsSafeDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheMissAnalyzerTest</type>
+        </param>
+        <param>
+          <type>UnavailableAnalyzerReturnsSafeDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="74" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="74" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a0c1f4537adb992ce580bd325976430c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheMissAnalyzerTest, StartStopCycleIsSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheMissAnalyzerTest</type>
+        </param>
+        <param>
+          <type>StartStopCycleIsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="89" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="89" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a6691ae303871ac3adc0faefcb45b2382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheMissAnalyzerTest, MultipleStartStopCycles)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheMissAnalyzerTest</type>
+        </param>
+        <param>
+          <type>MultipleStartStopCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="110" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="110" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1ae5455485e361d9e9370f1a7883f90273" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ScopedCacheMissTimerTest, WritesMetricsOnDestruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ScopedCacheMissTimerTest</type>
+        </param>
+        <param>
+          <type>WritesMetricsOnDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="131" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="131" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a085d1f0b8dfdbf502f79434b80b55bb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ScopedCacheMissTimerTest, NullOutputPointerIsSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ScopedCacheMissTimerTest</type>
+        </param>
+        <param>
+          <type>NullOutputPointerIsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="150" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="150" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a782b6a90ed6d47ea3aec09930733c6ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase4FeatureFlagsTest, PmuEnabledDefaultFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase4FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>PmuEnabledDefaultFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="164" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="164" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1aea2eaa582449d8500aa130ba2b387f52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase4FeatureFlagsTest, PmuEnabledToggle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase4FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>PmuEnabledToggle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="172" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="172" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1af63966a3f683c0f323f53a5bdaa4c906" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase4FeatureFlagsTest, PmemFlagUnaffectedByPmuToggle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase4FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>PmemFlagUnaffectedByPmuToggle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="180" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="180" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a98ba90806a18b85b4da4cd1d761d04d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PmuCounterStubBridgeTest, BridgeCallbacksProvideSyntheticMetrics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PmuCounterStubBridgeTest</type>
+        </param>
+        <param>
+          <type>BridgeCallbacksProvideSyntheticMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="189" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="189" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a5259d807139c1f5bc215069da34aea66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PmuCounterTest, NonLinuxOpenAlwaysSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PmuCounterTest</type>
+        </param>
+        <param>
+          <type>NonLinuxOpenAlwaysSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="232" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="232" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a594fc394b2cebff682c1a3e890176399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PmuCounterTest, NonLinuxCycleCountIsPositiveAfterWork)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PmuCounterTest</type>
+        </param>
+        <param>
+          <type>NonLinuxCycleCountIsPositiveAfterWork</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="241" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="241" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a6c703d19eff44275f8d9a0c40234d18b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PmuCounterTest, NonLinuxReadBeforeEnableReturnsZeroOrSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PmuCounterTest</type>
+        </param>
+        <param>
+          <type>NonLinuxReadBeforeEnableReturnsZeroOrSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="256" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="256" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a040e691cd6de3c849797d5ef300e3249" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PmuCounterTest, NonLinuxMultipleOpenReusesSafeSlots)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PmuCounterTest</type>
+        </param>
+        <param>
+          <type>NonLinuxMultipleOpenReusesSafeSlots</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="264" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="264" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1adc94b4b5bf30656f17d4cf234b35251d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheMissAnalyzerTest, NonLinuxFallbackIsAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheMissAnalyzerTest</type>
+        </param>
+        <param>
+          <type>NonLinuxFallbackIsAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="274" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="274" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1ae713cb1419abebd672ce8517e2ba8a9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheMissAnalyzerTest, NonLinuxPmuAccessibleReturnsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheMissAnalyzerTest</type>
+        </param>
+        <param>
+          <type>NonLinuxPmuAccessibleReturnsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="292" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="292" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pmu__counters_8cpp_1a5878b3f18e0b3014b5262faa80820904" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheMissAnalyzerTest, NonLinuxStopMetricsFieldsAreDefined)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheMissAnalyzerTest</type>
+        </param>
+        <param>
+          <type>NonLinuxStopMetricsFieldsAreDefined</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmu_counters.cpp" line="297" column="1" bodyfile="tests/performance/phase4/test_pmu_counters.cpp" bodystart="297" bodyend="311"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Tests<sp/>for<sp/>Phase<sp/>4<sp/>Hardware<sp/>PMU<sp/>counter<sp/>integration<sp/>(cache<sp/>miss<sp/>analysis).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>are<sp/>designed<sp/>to<sp/>be<sp/>safe<sp/>in<sp/>CI<sp/>environments<sp/>where<sp/>PMU<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>may<sp/>be<sp/>restricted<sp/>(kernel.perf_event_paranoid<sp/>&gt;<sp/>2).<sp/><sp/>Every<sp/>test<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>relies<sp/>on<sp/>actual<sp/>hardware<sp/>counters<sp/>first<sp/>checks<sp/>is_available()<sp/>/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>pmu_accessible()<sp/>and<sp/>skips<sp/>gracefully<sp/>if<sp/>PMU<sp/>access<sp/>is<sp/>denied.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="pmu__counters_8h" kindref="compound">performance/phase4/pmu_counters.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="phase4_2feature__flags_8h" kindref="compound">performance/phase4/feature_flags.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase4" kindref="compound">themis::performance::phase4</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PmuCounter<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(PmuCounterTest,<sp/>DefaultConstructedIsNotOpen)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>counter;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" kindref="member">is_open</ref>());</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1aea088bb1b404a5bab30f7b048f66eb20" kindref="member">read</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(PmuCounterTest,<sp/>CloseOnUnopenedCounterIsSafe)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>counter;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a57f3fecfc64750eaa6cbceb60b7295db" kindref="member">close</ref>());</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" kindref="member">is_open</ref>());</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(PmuCounterTest,<sp/>MoveSemantics)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>a;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>b<sp/>=<sp/>std::move(a);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(a.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" kindref="member">is_open</ref>());<sp/></highlight><highlight class="comment">//<sp/>NOLINT(bugprone-use-after-move)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(b.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" kindref="member">is_open</ref>());</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(PmuCounterTest,<sp/>OpenLLCMissCounterOrSkip)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PERF_TYPE_HARDWARE<sp/>=<sp/>0,<sp/>PERF_COUNT_HW_CACHE_MISSES<sp/>=<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>PERF_TYPE_HARDWARE<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>PERF_COUNT_HW_CACHE_MISSES<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>counter;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>opened<sp/>=<sp/>counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a671c412a7e81afe42947e340ff9d8b0d" kindref="member">open</ref>(PERF_TYPE_HARDWARE,<sp/>PERF_COUNT_HW_CACHE_MISSES);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!opened)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;PMU<sp/>not<sp/>accessible<sp/>(perf_event_paranoid<sp/>too<sp/>high<sp/>or<sp/>non-Linux)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" kindref="member">is_open</ref>());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a5f4b1906bfc705522a7c3f7390b3b6b1" kindref="member">enable</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Touch<sp/>some<sp/>memory<sp/>to<sp/>generate<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>i;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1ae009e49371981381b9f7a30872d22130" kindref="member">disable</ref>();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>val<sp/>=<sp/>counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1aea088bb1b404a5bab30f7b048f66eb20" kindref="member">read</ref>();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Value<sp/>must<sp/>be<sp/>readable<sp/>(≥0)<sp/>when<sp/>PMU<sp/>is<sp/>open</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(val,<sp/>0u);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CacheMissAnalyzer<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(CacheMissAnalyzerTest,<sp/>PmuAccessibleReportsBool)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>accessible<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1aa2135f76d9b10d734556748ca8e8c646" kindref="member">CacheMissAnalyzer::pmu_accessible</ref>();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Just<sp/>verifying<sp/>it<sp/>returns<sp/>a<sp/>valid<sp/>bool<sp/>without<sp/>crashing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;PMU<sp/>accessible:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(accessible<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;yes&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;no&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(CacheMissAnalyzerTest,<sp/>UnavailableAnalyzerReturnsSafeDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>if<sp/>hardware<sp/>is<sp/>unavailable,<sp/>stop()<sp/>must<sp/>return<sp/>a<sp/>valid<sp/>struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" kindref="member">start</ref>();<sp/></highlight><highlight class="comment">//<sp/>safe<sp/>even<sp/>if<sp/>unavailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/>m<sp/>=<sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1aac4742bde8f28e5197df1c3cd777ac98" kindref="member">l1d_read_misses</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a07a3fd1c71cdc79f742c6e1b6fbc2203" kindref="member">llc_misses</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a6ab8a2521e01ea742ab7fc3efbdb8e34" kindref="member">branch_mispredictions</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>available,<sp/>no<sp/>assertions<sp/>about<sp/>values<sp/>(hardware-dependent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(CacheMissAnalyzerTest,<sp/>StartStopCycleIsSafe)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;PMU<sp/>not<sp/>accessible&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>some<sp/>cache<sp/>activity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>v(4096,<sp/>1);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>std::accumulate(v.begin(),<sp/>v.end(),<sp/>0L);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)s;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/>m<sp/>=<sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Counters<sp/>must<sp/>be<sp/>non-negative<sp/>(they<sp/>are<sp/>unsigned,<sp/>so<sp/>always<sp/>true,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>but<sp/>the<sp/>read<sp/>must<sp/>succeed<sp/>without<sp/>returning<sp/>garbage)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LLC<sp/>misses=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a07a3fd1c71cdc79f742c6e1b6fbc2203" kindref="member">llc_misses</ref></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>L1d<sp/>misses=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1aac4742bde8f28e5197df1c3cd777ac98" kindref="member">l1d_read_misses</ref></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>branch<sp/>mispredict=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a6ab8a2521e01ea742ab7fc3efbdb8e34" kindref="member">branch_mispredictions</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(CacheMissAnalyzerTest,<sp/>MultipleStartStopCycles)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;PMU<sp/>not<sp/>accessible&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iter<sp/>=<sp/>0;<sp/>iter<sp/>&lt;<sp/>3;<sp/>++iter)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>+=<sp/>i;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/>m<sp/>=<sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ScopedCacheMissTimer<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(ScopedCacheMissTimerTest,<sp/>WritesMetricsOnDestruction)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/><sp/>metrics{};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer" kindref="compound">ScopedCacheMissTimer</ref><sp/>timer(analyzer,<sp/>&amp;metrics);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>500;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>+=<sp/>i;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(metrics.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(metrics.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(ScopedCacheMissTimerTest,<sp/>NullOutputPointerIsSafe)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Passing<sp/>nullptr<sp/>must<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer" kindref="compound">ScopedCacheMissTimer</ref><sp/>timer(analyzer,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x<sp/>=<sp/>1<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)x;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase4FeatureFlags<sp/>PMU<sp/>flag<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(Phase4FeatureFlagsTest,<sp/>PmuEnabledDefaultFalse)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>state<sp/>must<sp/>be<sp/>disabled<sp/>(safe<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>to<sp/>known<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_pmu_enabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flags.pmu_enabled());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(Phase4FeatureFlagsTest,<sp/>PmuEnabledToggle)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_pmu_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.pmu_enabled());</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_pmu_enabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flags.pmu_enabled());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(Phase4FeatureFlagsTest,<sp/>PmemFlagUnaffectedByPmuToggle)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_phase4_feature_flags_1a0c7fb6df1cccf60edd596200ddb1bebd" kindref="member">Phase4FeatureFlags::instance</ref>();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_pmem_enabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_pmu_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flags.pmem_enabled());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_pmu_enabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_ENABLE_PMU_COUNTERS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(PmuCounterStubBridgeTest,<sp/>BridgeCallbacksProvideSyntheticMetrics)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1affc6d68341663aea49a75f1f4c6e8315" kindref="member">PmuCounter::setOpenFn</ref>([](uint32_t<sp/>type,<sp/>uint64_t<sp/>config)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>type<sp/>==<sp/>1<sp/>&amp;&amp;<sp/>config<sp/>==<sp/>2;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a580b8c03f976d05e07aafb7eeec8e631" kindref="member">PmuCounter::setReadFn</ref>([]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1234u;<sp/>});</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a78c1402bde6cc3552a991fa5621eee46" kindref="member">CacheMissAnalyzer::setProbeFn</ref>([]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a30da8eaaabf7f59b063c454c1b8de35f" kindref="member">CacheMissAnalyzer::setStopFn</ref>([]<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1aac4742bde8f28e5197df1c3cd777ac98" kindref="member">l1d_read_misses</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a07a3fd1c71cdc79f742c6e1b6fbc2203" kindref="member">llc_misses</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a6ab8a2521e01ea742ab7fc3efbdb8e34" kindref="member">branch_mispredictions</ref><sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>counter;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(counter.open(1,<sp/>2));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(counter.is_open());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.read(),<sp/>1234u);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(metrics.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1aac4742bde8f28e5197df1c3cd777ac98" kindref="member">l1d_read_misses</ref>,<sp/>10u);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a07a3fd1c71cdc79f742c6e1b6fbc2203" kindref="member">llc_misses</ref>,<sp/>20u);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a6ab8a2521e01ea742ab7fc3efbdb8e34" kindref="member">branch_mispredictions</ref>,<sp/>30u);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1aa2135f76d9b10d734556748ca8e8c646" kindref="member">CacheMissAnalyzer::pmu_accessible</ref>());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1affc6d68341663aea49a75f1f4c6e8315" kindref="member">PmuCounter::setOpenFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a580b8c03f976d05e07aafb7eeec8e631" kindref="member">PmuCounter::setReadFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a78c1402bde6cc3552a991fa5621eee46" kindref="member">CacheMissAnalyzer::setProbeFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a30da8eaaabf7f59b063c454c1b8de35f" kindref="member">CacheMissAnalyzer::setStopFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Non-Linux<sp/>platform<sp/>backend<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>RDTSC<sp/>/<sp/>cycle-count<sp/>fallback<sp/>that<sp/>is<sp/>active<sp/>on<sp/>macOS,<sp/>Windows,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>all<sp/>other<sp/>non-Linux<sp/>platforms.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__linux__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(PmuCounterTest,<sp/>NonLinuxOpenAlwaysSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>non-Linux<sp/>platforms,<sp/>open()<sp/>unconditionally<sp/>returns<sp/>true<sp/>because</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RDTSC<sp/>/<sp/>QueryThreadCycleTime<sp/>/<sp/>mach_absolute_time<sp/>is<sp/>always<sp/>available.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>counter;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a671c412a7e81afe42947e340ff9d8b0d" kindref="member">open</ref>(0,<sp/>0);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a1373c32fad33741967df43f8a5c7945b" kindref="member">is_open</ref>());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(PmuCounterTest,<sp/>NonLinuxCycleCountIsPositiveAfterWork)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>enable()<sp/>+<sp/>some<sp/>work,<sp/>read()<sp/>must<sp/>return<sp/>a<sp/>non-zero<sp/>elapsed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cycle<sp/>(or<sp/>time)<sp/>delta<sp/>from<sp/>the<sp/>RDTSC<sp/>/<sp/>platform<sp/>fallback.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>counter;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a671c412a7e81afe42947e340ff9d8b0d" kindref="member">open</ref>(0,<sp/>0));</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a5f4b1906bfc705522a7c3f7390b3b6b1" kindref="member">enable</ref>();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint64_t<sp/>sum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100&apos;000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)sum;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>cycles<sp/>=<sp/>counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1aea088bb1b404a5bab30f7b048f66eb20" kindref="member">read</ref>();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cycles,<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cycle<sp/>counter<sp/>must<sp/>advance<sp/>after<sp/>real<sp/>work&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(PmuCounterTest,<sp/>NonLinuxReadBeforeEnableReturnsZeroOrSafe)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>read()<sp/>before<sp/>enable()<sp/>should<sp/>return<sp/>0<sp/>(start<sp/>was<sp/>recorded<sp/>as<sp/>0<sp/>in<sp/>open())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter" kindref="compound">PmuCounter</ref><sp/>counter;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1a671c412a7e81afe42947e340ff9d8b0d" kindref="member">open</ref>(0,<sp/>0));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Don&apos;t<sp/>call<sp/>enable()<sp/>—<sp/>read()<sp/>should<sp/>not<sp/>crash<sp/>and<sp/>return<sp/>a<sp/>defined<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(counter.<ref refid="classthemis_1_1performance_1_1phase4_1_1_pmu_counter_1aea088bb1b404a5bab30f7b048f66eb20" kindref="member">read</ref>());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(PmuCounterTest,<sp/>NonLinuxMultipleOpenReusesSafeSlots)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Opening<sp/>many<sp/>counters<sp/>must<sp/>not<sp/>overflow<sp/>the<sp/>fixed-size<sp/>slot<sp/>pool<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kMaxFallbackSlots<sp/>(128<sp/>slots)<sp/>by<sp/>wrapping<sp/>around<sp/>safely.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PmuCounter&gt;<sp/>counters(64);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>counters)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.open(0,<sp/>0));</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.is_open());</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(CacheMissAnalyzerTest,<sp/>NonLinuxFallbackIsAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>non-Linux,<sp/>CacheMissAnalyzer<sp/>should<sp/>always<sp/>report<sp/>available=true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>because<sp/>the<sp/>RDTSC<sp/>/<sp/>cycle-count<sp/>fallback<sp/>always<sp/>succeeds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>());</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10&apos;000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>^=<sp/>i;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)x;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/>m<sp/>=<sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>)</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Non-Linux<sp/>fallback<sp/>must<sp/>set<sp/>CacheMissMetrics::available<sp/>=<sp/>true&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(CacheMissAnalyzerTest,<sp/>NonLinuxPmuAccessibleReturnsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RDTSC<sp/>/<sp/>mach_absolute_time<sp/>/<sp/>QueryThreadCycleTime<sp/>is<sp/>always<sp/>accessible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1aa2135f76d9b10d734556748ca8e8c646" kindref="member">CacheMissAnalyzer::pmu_accessible</ref>());</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(CacheMissAnalyzerTest,<sp/>NonLinuxStopMetricsFieldsAreDefined)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>non-Linux<sp/>without<sp/>true<sp/>PMU<sp/>access,<sp/>cache-miss<sp/>fields<sp/>are<sp/>0<sp/>but</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>available<sp/>is<sp/>true.<sp/><sp/>Verify<sp/>the<sp/>struct<sp/>has<sp/>defined<sp/>(not<sp/>garbage)<sp/>values.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>());</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dummy<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)dummy;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/>m<sp/>=<sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache-miss<sp/>event<sp/>counts<sp/>are<sp/>0<sp/>on<sp/>cycle-count<sp/>fallback<sp/>(no<sp/>hardware<sp/>PMU).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1aac4742bde8f28e5197df1c3cd777ac98" kindref="member">l1d_read_misses</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a07a3fd1c71cdc79f742c6e1b6fbc2203" kindref="member">llc_misses</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a6ab8a2521e01ea742ab7fc3efbdb8e34" kindref="member">branch_mispredictions</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__APPLE__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(CacheMissAnalyzerTest,<sp/>MacOsKpcOrFallbackIsCoherent)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>macOS,<sp/>either<sp/>kpc<sp/>counters<sp/>or<sp/>the<sp/>RDTSC/CNTVCT_EL0<sp/>fallback<sp/>is<sp/>used.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>way,<sp/>multiple<sp/>start/stop<sp/>cycles<sp/>must<sp/>remain<sp/>coherent<sp/>and<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>());</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iter<sp/>=<sp/>0;<sp/>iter<sp/>&lt;<sp/>5;<sp/>++iter)<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint64_t<sp/>s<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>i);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)s;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/>m<sp/>=<sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;macOS<sp/>analyzer<sp/>must<sp/>stay<sp/>available<sp/>across<sp/>iterations&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>__APPLE__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__pmu__counters_8cpp_1a4359c76906318ae9244880daba666764" kindref="member">TEST</ref>(CacheMissAnalyzerTest,<sp/>WindowsCycleCountBackendIsCoherent)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>Windows,<sp/>__rdtsc()<sp/>(x86/x86_64)<sp/>or<sp/>QueryThreadCycleTime<sp/>(ARM64)<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>used.<sp/><sp/>Verify<sp/>that<sp/>multiple<sp/>cycles<sp/>remain<sp/>coherent<sp/>and<sp/>available=true.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a349ff9f088a2861469c817bb7d20d641" kindref="member">is_available</ref>());</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iter<sp/>=<sp/>0;<sp/>iter<sp/>&lt;<sp/>5;<sp/>++iter)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1a13139fba878e06a350f8bec205fd8c31" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint64_t<sp/>s<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>+=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>i);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)s;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref><sp/>m<sp/>=<sp/>analyzer.<ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer_1ad5d9459d6b31b631e1f7dfc194e1badd" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics_1a4ef145067c6384ec938f2594c441034c" kindref="member">available</ref>)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Windows<sp/>analyzer<sp/>must<sp/>stay<sp/>available<sp/>across<sp/>iterations&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>!__linux__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main<sp/>removed<sp/>-<sp/>using<sp/>GTest&apos;s<sp/>main<sp/>from<sp/>themis_tests.exe</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/phase4/test_pmu_counters.cpp"/>
+  </compounddef>
+</doxygen>

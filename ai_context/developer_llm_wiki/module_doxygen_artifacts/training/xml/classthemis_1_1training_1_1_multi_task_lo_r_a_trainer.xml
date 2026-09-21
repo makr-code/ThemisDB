@@ -1,0 +1,477 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::MultiTaskLoRATrainer</compoundname>
+    <includes refid="multi__task__lora_8h" local="no">multi_task_lora.h</includes>
+    <innerclass refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1_1_impl" prot="public">themis::training::MultiTaskLoRATrainer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1acf81d4a05ffe5906bcaaa684833aa58d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::training::MultiTaskLoRATrainer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="287" column="21" bodyfile="include/training/multi_task_lora.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1aa7edc85243aa7348c0b25be2648cb6e7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config" kindref="compound">MultiTaskLoRAConfig</ref></type>
+        <definition>MultiTaskLoRAConfig themis::training::MultiTaskLoRATrainer::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="288" column="27" bodyfile="include/training/multi_task_lora.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1af57443a65f829e1f2263e01600da1feb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::MultiTaskLoRATrainer::MultiTaskLoRATrainer</definition>
+        <argsstring>(MultiTaskLoRAConfig cfg={})</argsstring>
+        <name>MultiTaskLoRATrainer</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::MultiTaskLoRATrainer</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config" kindref="compound">MultiTaskLoRAConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="150" column="14" bodyfile="src/training/multi_task_lora.cpp" bodystart="611" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a8325ab68ddd08fe74ba2ca5363547560" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::MultiTaskLoRATrainer::~MultiTaskLoRATrainer</definition>
+        <argsstring>()</argsstring>
+        <name>~MultiTaskLoRATrainer</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::~MultiTaskLoRATrainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="151" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1ad548ca816fb57c6e5c2579ea5eefec27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::MultiTaskLoRATrainer::addTask</definition>
+        <argsstring>(const TaskConfig &amp;task)</argsstring>
+        <name>addTask</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::addTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_task_config" kindref="compound">TaskConfig</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Register a task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Task.</para>
+<para>Must be called before <computeroutput><ref refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a073de3de960fafdbdc5a8ad69343ea16" kindref="member">train()</ref></computeroutput>. Duplicate task ids are silently ignored (first registration wins).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if any configuration guard fails (QW-41):<itemizedlist>
+<listitem><para>if task.id is empty</para>
+</listitem><listitem><para>if task.task_rank is 0 (must be &gt;= 1)</para>
+</listitem><listitem><para>if task.learning_rate &lt;= 0 (must be &gt; 0)</para>
+</listitem><listitem><para>if task.loss_weight &lt; 0 (must be &gt;= 0) </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Fail-closed: On guard failure, exception is thrown and task is not added. Calling code must handle the exception; task registration fails atomically.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements addTask without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="172" column="10" bodyfile="src/training/multi_task_lora.cpp" bodystart="621" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1ada925abf52802faccd00e9ec32462197" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::MultiTaskLoRATrainer::taskCount</definition>
+        <argsstring>() const</argsstring>
+        <name>taskCount</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::taskCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of registered tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="175" column="12" bodyfile="src/training/multi_task_lora.cpp" bodystart="625" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a073de3de960fafdbdc5a8ad69343ea16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_m_t_l_train_result" kindref="compound">MTLTrainResult</ref></type>
+        <definition>MTLTrainResult themis::training::MultiTaskLoRATrainer::train</definition>
+        <argsstring>(const std::vector&lt; MTLSample &gt; &amp;samples)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1training_1_1_m_t_l_sample" kindref="compound">MTLSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Run multi-task LoRA training on the supplied samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Train.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Training samples (from one or more tasks). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Training result with per-task metrics. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if no tasks registered or no samples supplied.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements train without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="188" column="20" bodyfile="src/training/multi_task_lora.cpp" bodystart="635" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a37c71a6b823843a689a077bc4a7aa065" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_domain_gating_result" kindref="compound">DomainGatingResult</ref></type>
+        <definition>DomainGatingResult themis::training::MultiTaskLoRATrainer::inferTask</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;input) const</argsstring>
+        <name>inferTask</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::inferTask</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Run domain-gating to predict which task an input belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses a learned (or heuristic) gate trained during <computeroutput><ref refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a073de3de960fafdbdc5a8ad69343ea16" kindref="member">train()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input feature vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Gating result with predicted task and confidence. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if model has not been trained. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="203" column="24" bodyfile="src/training/multi_task_lora.cpp" bodystart="639" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a10510450bf01740b9def40c5539a6dda" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::training::MultiTaskLoRATrainer::forward</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;input) const</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::forward</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Run the shared base + predicted task head on an input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input feature vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Output from the gated task head. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="211" column="17" bodyfile="src/training/multi_task_lora.cpp" bodystart="643" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a64932edd646542751bcd6efd1a50ad7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::training::MultiTaskLoRATrainer::exportSharedWeights</definition>
+        <argsstring>() const</argsstring>
+        <name>exportSharedWeights</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::exportSharedWeights</qualifiedname>
+        <briefdescription>
+<para>Export the shared LoRA base weight matrix (B × A product). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Flat row-major weight matrix of size (input_dim × shared_rank). Returns empty vector if not trained. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="223" column="17" bodyfile="src/training/multi_task_lora.cpp" bodystart="647" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a1436d31b445ab0535a29b8f61d146c24" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::training::MultiTaskLoRATrainer::exportTaskWeights</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>exportTaskWeights</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::exportTaskWeights</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Export the task-specific head weights for a given task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Flat row-major weight matrix of size (shared_rank × output_dim). Returns empty vector if not trained or unknown task. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="232" column="17" bodyfile="src/training/multi_task_lora.cpp" bodystart="651" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1ab284e2b9ba9da6153ba78abc1e4eccc9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_acceptance_gate_metrics" kindref="compound">AcceptanceGateMetrics</ref></type>
+        <definition>AcceptanceGateMetrics themis::training::MultiTaskLoRATrainer::validateAcceptanceGates</definition>
+        <argsstring>() const</argsstring>
+        <name>validateAcceptanceGates</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::validateAcceptanceGates</qualifiedname>
+        <briefdescription>
+<para>Validate acceptance gates for Wave B deployment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs acceptance gate validation:<itemizedlist>
+<listitem><para>Average task performance gain ≥ +8% vs single-task baseline</para>
+</listitem><listitem><para>Training-time increase ≤ 15% across benchmarked task sets</para>
+</listitem><listitem><para>Task routing latency ≤ 10ms</para>
+</listitem><listitem><para>Convergence stability across configured task-weight schedules</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1training_1_1_acceptance_gate_metrics" kindref="compound">AcceptanceGateMetrics</ref> with measured values and validation status. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if model has not been trained. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="250" column="27" bodyfile="src/training/multi_task_lora.cpp" bodystart="655" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a18398a791cf850b0f9618245751be953" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_m_t_l_train_result" kindref="compound">MTLTrainResult</ref></type>
+        <definition>MTLTrainResult themis::training::MultiTaskLoRATrainer::benchmarkThreeTaskTransfer</definition>
+        <argsstring>(size_t num_samples=100)</argsstring>
+        <name>benchmarkThreeTaskTransfer</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::benchmarkThreeTaskTransfer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Run a three-task transfer evaluation benchmark for Wave B. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Benchmark Three Task Transfer.</para>
+<para>Implements the Wave B benchmark harness:<itemizedlist>
+<listitem><para>Create three synthetic tasks (semantic similarity task, sentiment, QA)</para>
+</listitem><listitem><para>Measure baseline single-task performance</para>
+</listitem><listitem><para>Measure multi-task performance with shared base</para>
+</listitem><listitem><para>Calculate task interference and gating effectiveness</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of samples per task for evaluation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1training_1_1_m_t_l_train_result" kindref="compound">MTLTrainResult</ref> with comprehensive metrics and gates.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements benchmarkThreeTaskTransfer without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="264" column="20" bodyfile="src/training/multi_task_lora.cpp" bodystart="665" bodyend="667"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1aa2be6ee5bf06c59f550cd7b07df555b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1training_1_1_m_t_l_train_result" kindref="compound">MTLTrainResult</ref>, <ref refid="structthemis_1_1training_1_1_m_t_l_train_result" kindref="compound">MTLTrainResult</ref> &gt;</type>
+        <definition>std::pair&lt; MTLTrainResult, MTLTrainResult &gt; themis::training::MultiTaskLoRATrainer::runAblationStudy</definition>
+        <argsstring>(const std::vector&lt; MTLSample &gt; &amp;samples)</argsstring>
+        <name>runAblationStudy</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::runAblationStudy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1training_1_1_m_t_l_sample" kindref="compound">MTLSample</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <briefdescription>
+<para>Run ablation study comparing shared multi-task training vs per-task single-task baselines. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compares two training configurations:<itemizedlist>
+<listitem><para>Shared base with per-task heads (current implementation)</para>
+</listitem><listitem><para>One independently trained single-task model per task, aggregated as the baseline</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Training samples for evaluation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of (shared_result, baseline_result) for comparison. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="276" column="15" bodyfile="src/training/multi_task_lora.cpp" bodystart="669" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1ae110d57fb6b2ac22292c3c2344093301" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config" kindref="compound">MultiTaskLoRAConfig</ref> &amp;</type>
+        <definition>const MultiTaskLoRAConfig &amp; themis::training::MultiTaskLoRATrainer::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::training::MultiTaskLoRATrainer::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="283" column="31" bodyfile="include/training/multi_task_lora.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Trains a shared LoRA base with task-specific projection heads. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safety: <computeroutput><ref refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer" kindref="compound">MultiTaskLoRATrainer</ref></computeroutput> instances are <bold>not</bold> thread-safe. Each training thread should own its own instance. </para>
+    </detaileddescription>
+    <location file="include/training/multi_task_lora.h" line="148" column="1" bodyfile="include/training/multi_task_lora.h" bodystart="148" bodyend="289"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1ad548ca816fb57c6e5c2579ea5eefec27" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>addTask</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a18398a791cf850b0f9618245751be953" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>benchmarkThreeTaskTransfer</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1aa7edc85243aa7348c0b25be2648cb6e7" prot="private" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1ae110d57fb6b2ac22292c3c2344093301" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>config</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a64932edd646542751bcd6efd1a50ad7a" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>exportSharedWeights</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a1436d31b445ab0535a29b8f61d146c24" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>exportTaskWeights</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a10510450bf01740b9def40c5539a6dda" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>forward</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1acf81d4a05ffe5906bcaaa684833aa58d" prot="private" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a37c71a6b823843a689a077bc4a7aa065" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>inferTask</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1af57443a65f829e1f2263e01600da1feb" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>MultiTaskLoRATrainer</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1aa2be6ee5bf06c59f550cd7b07df555b1" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>runAblationStudy</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1ada925abf52802faccd00e9ec32462197" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>taskCount</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a073de3de960fafdbdc5a8ad69343ea16" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>train</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1ab284e2b9ba9da6153ba78abc1e4eccc9" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>validateAcceptanceGates</name></member>
+      <member refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer_1a8325ab68ddd08fe74ba2ca5363547560" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRATrainer</scope><name>~MultiTaskLoRATrainer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

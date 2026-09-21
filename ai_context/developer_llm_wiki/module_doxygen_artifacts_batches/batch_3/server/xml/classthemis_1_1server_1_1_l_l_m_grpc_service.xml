@@ -1,0 +1,1333 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_l_l_m_grpc_service" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::server::LLMGrpcService</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">llm::LLMService::Service</basecompoundref>
+    <includes refid="llm__grpc__service_8h" local="no">llm_grpc_service.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1ab1d275dddf60a60bae86f70842558b0d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::LLMPluginManager &gt;</type>
+        <definition>std::shared_ptr&lt;llm::LLMPluginManager&gt; themis::server::LLMGrpcService::plugin_manager_</definition>
+        <argsstring></argsstring>
+        <name>plugin_manager_</name>
+        <qualifiedname>themis::server::LLMGrpcService::plugin_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="131" column="21" bodyfile="include/server/llm_grpc_service.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1ae164915420df2d79b174fc20acdb6fe9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; auth::JWTValidator &gt;</type>
+        <definition>std::shared_ptr&lt;auth::JWTValidator&gt; themis::server::LLMGrpcService::jwt_validator_</definition>
+        <argsstring></argsstring>
+        <name>jwt_validator_</name>
+        <qualifiedname>themis::server::LLMGrpcService::jwt_validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="132" column="21" bodyfile="include/server/llm_grpc_service.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a9c2736e4008c6b7666de7c205f7adb4f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::LLMGrpcService::LLMGrpcService</definition>
+        <argsstring>(std::shared_ptr&lt; llm::LLMPluginManager &gt; plugin_manager)</argsstring>
+        <name>LLMGrpcService</name>
+        <qualifiedname>themis::server::LLMGrpcService::LLMGrpcService</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; llm::LLMPluginManager &gt;</type>
+          <declname>plugin_manager</declname>
+        </param>
+        <briefdescription>
+<para>LLMGrpc Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="32" column="14" bodyfile="src/server/llm_grpc_service.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a8625f4bf32972fb7ce8840c2e9d8f753" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::LLMGrpcService::~LLMGrpcService</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~LLMGrpcService</name>
+        <qualifiedname>themis::server::LLMGrpcService::~LLMGrpcService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1aaf1706b211159670a9a181d4a43534a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::Inference</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::InferenceRequest *request, llm::InferenceResponse *response) override</argsstring>
+        <name>Inference</name>
+        <qualifiedname>themis::server::LLMGrpcService::Inference</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::InferenceRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::InferenceResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), convertToInternalRequest(), llm::LLMPluginManager::instance(), generate(), convertToProtoResponse(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="36" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="173" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1ab1294e8baaf54a14778e1c9dd7edcbab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::RAGInference</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::RAGRequest *request, llm::InferenceResponse *response) override</argsstring>
+        <name>RAGInference</name>
+        <qualifiedname>themis::server::LLMGrpcService::RAGInference</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::RAGRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::InferenceResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>RAGInference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), documents(), id(), <ref refid="namespacethemis_1_1content" kindref="compound">content()</ref>, relevance_score(), push_back(), <ref refid="namespacethemis_1_1query" kindref="compound">query()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="41" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="205" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1af92c6c6bb1b3158c7e4ae221d40493bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::GenerateEmbedding</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::EmbeddingRequest *request, llm::EmbeddingResponse *response) override</argsstring>
+        <name>GenerateEmbedding</name>
+        <qualifiedname>themis::server::LLMGrpcService::GenerateEmbedding</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::EmbeddingRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::EmbeddingResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), generateEmbedding(), text(), model_id(), empty(), add_embedding(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="46" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="252" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a9c398b19f29df7b8d4af8a433cab216d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::StreamInference</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::InferenceRequest *request, grpc::ServerWriter&lt; llm::TokenResponse &gt; *writer) override</argsstring>
+        <name>StreamInference</name>
+        <qualifiedname>themis::server::LLMGrpcService::StreamInference</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::InferenceRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>grpc::ServerWriter&lt; llm::TokenResponse &gt; *</type>
+          <declname>writer</declname>
+        </param>
+        <briefdescription>
+<para>Stream Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), convertToInternalRequest(), llm::LLMPluginManager::instance(), generateStream(), set_token(), set_index(), set_done(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="51" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="288" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1affc0d67d2184350bfa9c94823f57310e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::ListModels</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::ListModelsRequest *request, llm::ModelListResponse *response) override</argsstring>
+        <name>ListModels</name>
+        <qualifiedname>themis::server::LLMGrpcService::ListModels</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::ListModelsRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::ModelListResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>List Models. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), listModels(), add_models(), set_model_id(), set_path(), set_loaded(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="57" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="334" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a6c241a74ca38cc1f73f37f2dfaffa0fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::LoadModel</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::ModelLoadRequest *request, llm::ModelOperationResponse *response) override</argsstring>
+        <name>LoadModel</name>
+        <qualifiedname>themis::server::LLMGrpcService::LoadModel</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::ModelLoadRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::ModelOperationResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Load Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), loadModel(), model_id(), path(), set_success(), set_message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="62" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="368" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a9f07d6c5cba0a9d2e51ec1759d54df45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::UnloadModel</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::ModelUnloadRequest *request, llm::ModelOperationResponse *response) override</argsstring>
+        <name>UnloadModel</name>
+        <qualifiedname>themis::server::LLMGrpcService::UnloadModel</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::ModelUnloadRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::ModelOperationResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), unloadModel(), model_id(), set_success(), set_message(), set_model_id(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="67" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="401" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a9f1d501567e67bd10bd48127f1cdac4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::GetModelInfo</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::ModelInfoRequest *request, llm::ModelInfo *response) override</argsstring>
+        <name>GetModelInfo</name>
+        <qualifiedname>themis::server::LLMGrpcService::GetModelInfo</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::ModelInfoRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::ModelInfo *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Get Model Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), getModelInfo(), model_id(), set_model_id(), set_path(), set_loaded(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="72" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="434" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1ab46990b0629965b8e6fa59bb3b052bb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::IngestModel</definition>
+        <argsstring>(grpc::ServerContext *context, grpc::ServerReader&lt; llm::ModelChunk &gt; *reader, llm::ModelOperationResponse *response) override</argsstring>
+        <name>IngestModel</name>
+        <qualifiedname>themis::server::LLMGrpcService::IngestModel</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>grpc::ServerReader&lt; llm::ModelChunk &gt; *</type>
+          <declname>reader</declname>
+        </param>
+        <param>
+          <type>llm::ModelOperationResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Ingest Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">reader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), Read(), model_id(), std::filesystem::temp_directory_path(), gen(), rd(), dis(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="77" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="465" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a91ec62654a01ad1d739dfc7f7ed4874e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::ListLoRAs</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::ListLoRAsRequest *request, llm::LoRAListResponse *response) override</argsstring>
+        <name>ListLoRAs</name>
+        <qualifiedname>themis::server::LLMGrpcService::ListLoRAs</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::ListLoRAsRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::LoRAListResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>List Lo RAs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), listLoRAs(), model_id(), add_loras(), set_lora_id(), set_path(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="83" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="542" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1ad9390e121a4192b9f953a430f9e84c29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::LoadLoRA</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::LoRALoadRequest *request, llm::LoRAOperationResponse *response) override</argsstring>
+        <name>LoadLoRA</name>
+        <qualifiedname>themis::server::LLMGrpcService::LoadLoRA</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::LoRALoadRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::LoRAOperationResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Load Lo RA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), loadLoRA(), lora_id(), path(), model_id(), set_success(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="88" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="577" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a764b085dc734898232885df6738091cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::UnloadLoRA</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::LoRAUnloadRequest *request, llm::LoRAOperationResponse *response) override</argsstring>
+        <name>UnloadLoRA</name>
+        <qualifiedname>themis::server::LLMGrpcService::UnloadLoRA</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::LoRAUnloadRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::LoRAOperationResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Unload Lo RA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), unloadLoRA(), lora_id(), set_success(), set_message(), set_lora_id(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="93" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="610" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a35ac98d153471862dcde873b614a72e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::GetStatistics</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::StatisticsRequest *request, llm::StatisticsResponse *response) override</argsstring>
+        <name>GetStatistics</name>
+        <qualifiedname>themis::server::LLMGrpcService::GetStatistics</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::StatisticsRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::StatisticsResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Get Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), getStatistics(), mutable_inference_stats(), set_total_requests(), set_successful_requests(), set_avg_latency_ms(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="99" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="643" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a23913ef24aef7b030aff5563f8a97830" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::GetCacheStatistics</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::CacheStatisticsRequest *request, llm::CacheStatisticsResponse *response) override</argsstring>
+        <name>GetCacheStatistics</name>
+        <qualifiedname>themis::server::LLMGrpcService::GetCacheStatistics</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::CacheStatisticsRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::CacheStatisticsResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Get Cache Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), getCacheStatistics(), mutable_cache_stats(), set_response_cache_hits(), set_response_cache_misses(), set_cache_hit_rate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="104" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="676" bodyend="698"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a5686f5277a6176576436ce43ddb713b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::ClearCache</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::ClearCacheRequest *request, llm::ClearCacheResponse *response) override</argsstring>
+        <name>ClearCache</name>
+        <qualifiedname>themis::server::LLMGrpcService::ClearCache</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::ClearCacheRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::ClearCacheResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), clearAllCaches(), set_success(), set_message(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="109" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="708" bodyend="730"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a942c296c96d6c4edb625f3d2a25e544d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::HealthCheck</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::HealthCheckRequest *request, llm::HealthCheckResponse *response) override</argsstring>
+        <name>HealthCheck</name>
+        <qualifiedname>themis::server::LLMGrpcService::HealthCheck</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::HealthCheckRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>llm::HealthCheckResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Health Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), getHealthStatus(), set_status(), set_message(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="114" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="740" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a6615c6b102a31cfb6506f9dedca94ace" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::ExportLoRA</definition>
+        <argsstring>(grpc::ServerContext *context, const llm::LoRAExportRequest *request, grpc::ServerWriter&lt; llm::LoRAChunk &gt; *writer) override</argsstring>
+        <name>ExportLoRA</name>
+        <qualifiedname>themis::server::LLMGrpcService::ExportLoRA</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const llm::LoRAExportRequest *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>grpc::ServerWriter&lt; llm::LoRAChunk &gt; *</type>
+          <declname>writer</declname>
+        </param>
+        <briefdescription>
+<para>Export Lo RA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">writer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), exportLoRA(), lora_id(), size(), set_lora_id(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="120" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="774" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a0ed39b6d9862c19d84a26caf1bd946a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>grpc::Status</type>
+        <definition>grpc::Status themis::server::LLMGrpcService::ImportLoRA</definition>
+        <argsstring>(grpc::ServerContext *context, grpc::ServerReader&lt; llm::LoRAChunk &gt; *reader, llm::LoRAOperationResponse *response) override</argsstring>
+        <name>ImportLoRA</name>
+        <qualifiedname>themis::server::LLMGrpcService::ImportLoRA</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>grpc::ServerReader&lt; llm::LoRAChunk &gt; *</type>
+          <declname>reader</declname>
+        </param>
+        <param>
+          <type>llm::LoRAOperationResponse *</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Import Lo RA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">reader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validateBearerToken(), grpc::Status(), Read(), empty(), lora_id(), insert(), end(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="125" column="18" bodyfile="src/server/llm_grpc_service.cpp" bodystart="819" bodyend="858"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1afb074465c49254fe9a51db514baff139" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::LLMGrpcService::setJwtValidator</definition>
+        <argsstring>(std::shared_ptr&lt; auth::JWTValidator &gt; validator)</argsstring>
+        <name>setJwtValidator</name>
+        <qualifiedname>themis::server::LLMGrpcService::setJwtValidator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; auth::JWTValidator &gt;</type>
+          <declname>validator</declname>
+        </param>
+        <briefdescription>
+<para>Set Jwt Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">validator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="153" column="10" bodyfile="src/server/llm_grpc_service.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1aceff14dc97769cb3b068e0319193a462" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::LLMGrpcService::validateBearerToken</definition>
+        <argsstring>(grpc::ServerContext *context)</argsstring>
+        <name>validateBearerToken</name>
+        <qualifiedname>themis::server::LLMGrpcService::validateBearerToken</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Validate Bearer Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: extractBearerToken(), empty(), parseAndValidate(), spdlog::warn(), what(), size(), buf(), EVP_DecodeBlock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="140" column="10" bodyfile="src/server/llm_grpc_service.cpp" bodystart="42" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1ad3a7ec670424b4dac8f51d03a19fb08f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::LLMGrpcService::extractBearerToken</definition>
+        <argsstring>(grpc::ServerContext *context)</argsstring>
+        <name>extractBearerToken</name>
+        <qualifiedname>themis::server::LLMGrpcService::extractBearerToken</qualifiedname>
+        <param>
+          <type>grpc::ServerContext *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Extract Bearer Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: client_metadata(), find(), end(), auth_value(), data(), size(), bearer_regex(), std::regex_match(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="146" column="17" bodyfile="src/server/llm_grpc_service.cpp" bodystart="119" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a67d7ae7a2bb9bd1252876d0f092175da" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::LLMGrpcService::convertToInternalRequest</definition>
+        <argsstring>(const llm::InferenceRequest &amp;pb_req, ::themis::llm::InferenceRequest &amp;internal_req)</argsstring>
+        <name>convertToInternalRequest</name>
+        <qualifiedname>themis::server::LLMGrpcService::convertToInternalRequest</qualifiedname>
+        <param>
+          <type>const llm::InferenceRequest &amp;</type>
+          <declname>pb_req</declname>
+        </param>
+        <param>
+          <type>::themis::llm::InferenceRequest &amp;</type>
+          <declname>internal_req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="157" column="10" bodyfile="src/server/llm_grpc_service.cpp" bodystart="137" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_l_l_m_grpc_service_1a7764ce72220bdd9d7c9fad728e3d69b2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::LLMGrpcService::convertToProtoResponse</definition>
+        <argsstring>(const ::themis::llm::InferenceResponse &amp;internal_resp, llm::InferenceResponse &amp;pb_resp)</argsstring>
+        <name>convertToProtoResponse</name>
+        <qualifiedname>themis::server::LLMGrpcService::convertToProtoResponse</qualifiedname>
+        <param>
+          <type>const ::themis::llm::InferenceResponse &amp;</type>
+          <declname>internal_resp</declname>
+        </param>
+        <param>
+          <type>llm::InferenceResponse &amp;</type>
+          <declname>pb_resp</declname>
+        </param>
+        <briefdescription>
+<para>Convert To Proto <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">internal_resp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pb_resp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">internal_resp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pb_resp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: set_text(), set_model_id(), set_tokens_generated(), set_inference_time_ms(), set_cache_hit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/llm_grpc_service.h" line="166" column="10" bodyfile="src/server/llm_grpc_service.cpp" bodystart="154" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>llm::LLMService::Service</label>
+      </node>
+      <node id="1">
+        <label>themis::server::LLMGrpcService</label>
+        <link refid="classthemis_1_1server_1_1_l_l_m_grpc_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>llm::LLMService::Service</label>
+      </node>
+      <node id="1">
+        <label>themis::server::LLMGrpcService</label>
+        <link refid="classthemis_1_1server_1_1_l_l_m_grpc_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/llm_grpc_service.h" line="25" column="1" bodyfile="include/server/llm_grpc_service.h" bodystart="25" bodyend="169"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a5686f5277a6176576436ce43ddb713b8" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>ClearCache</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a67d7ae7a2bb9bd1252876d0f092175da" prot="private" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>convertToInternalRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a7764ce72220bdd9d7c9fad728e3d69b2" prot="private" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>convertToProtoResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a6615c6b102a31cfb6506f9dedca94ace" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>ExportLoRA</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1ad3a7ec670424b4dac8f51d03a19fb08f" prot="private" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>extractBearerToken</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1af92c6c6bb1b3158c7e4ae221d40493bc" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>GenerateEmbedding</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a23913ef24aef7b030aff5563f8a97830" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>GetCacheStatistics</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a9f1d501567e67bd10bd48127f1cdac4b" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>GetModelInfo</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a35ac98d153471862dcde873b614a72e0" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>GetStatistics</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a942c296c96d6c4edb625f3d2a25e544d" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>HealthCheck</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a0ed39b6d9862c19d84a26caf1bd946a7" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>ImportLoRA</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1aaf1706b211159670a9a181d4a43534a8" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>Inference</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1ab46990b0629965b8e6fa59bb3b052bb4" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>IngestModel</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1ae164915420df2d79b174fc20acdb6fe9" prot="private" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>jwt_validator_</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a91ec62654a01ad1d739dfc7f7ed4874e" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>ListLoRAs</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1affc0d67d2184350bfa9c94823f57310e" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>ListModels</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a9c2736e4008c6b7666de7c205f7adb4f" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>LLMGrpcService</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1ad9390e121a4192b9f953a430f9e84c29" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>LoadLoRA</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a6c241a74ca38cc1f73f37f2dfaffa0fb" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>LoadModel</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1ab1d275dddf60a60bae86f70842558b0d" prot="private" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>plugin_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1ab1294e8baaf54a14778e1c9dd7edcbab" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>RAGInference</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1afb074465c49254fe9a51db514baff139" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>setJwtValidator</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a9c398b19f29df7b8d4af8a433cab216d" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>StreamInference</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a764b085dc734898232885df6738091cf" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>UnloadLoRA</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a9f07d6c5cba0a9d2e51ec1759d54df45" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>UnloadModel</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1aceff14dc97769cb3b068e0319193a462" prot="private" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>validateBearerToken</name></member>
+      <member refid="classthemis_1_1server_1_1_l_l_m_grpc_service_1a8625f4bf32972fb7ce8840c2e9d8f753" prot="public" virt="non-virtual"><scope>themis::server::LLMGrpcService</scope><name>~LLMGrpcService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

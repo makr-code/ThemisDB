@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_ingestion_toolbox_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>IngestionToolbox::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1a1feb59f8d7369ff82991b30ab9658613" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::WorkflowEngine &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::WorkflowEngine&gt; themis::toolbox::IngestionToolbox::Impl::workflow_engine_</definition>
+        <argsstring></argsstring>
+        <name>workflow_engine_</name>
+        <qualifiedname>IngestionToolbox::Impl::workflow_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="46" column="29" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1aae341fd2037b377277ade5ed55707704" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ingestion::ITextGenerationBackend &gt;</type>
+        <definition>std::shared_ptr&lt;ingestion::ITextGenerationBackend&gt; themis::toolbox::IngestionToolbox::Impl::text_backend_</definition>
+        <argsstring></argsstring>
+        <name>text_backend_</name>
+        <qualifiedname>IngestionToolbox::Impl::text_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="47" column="21" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1a53a830eef44bed0c8c4a8e225b060e3d" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::toolbox::IngestionToolbox::Impl::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>IngestionToolbox::Impl::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="48" column="56" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1ae7647e4a79de11c3e9dbcabf8bc4f86d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_calls_total_</definition>
+        <argsstring></argsstring>
+        <name>extract_calls_total_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_calls_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="51" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1aa65962e8aeadf0e6512db4f3ad94f32d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_errors_total_</definition>
+        <argsstring></argsstring>
+        <name>extract_errors_total_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_errors_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="52" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1a25ca0873c12ce3484f9aa58195201643" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_entities_total_</definition>
+        <argsstring></argsstring>
+        <name>extract_entities_total_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_entities_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="53" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1a08a80d7590413eb024edb83cf037b49d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_latency_ms_total_</definition>
+        <argsstring></argsstring>
+        <name>extract_latency_ms_total_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_latency_ms_total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="54" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1ae2906e98c9667c362ece3607acdb1b5e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_empty_results_</definition>
+        <argsstring></argsstring>
+        <name>extract_empty_results_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_empty_results_</qualifiedname>
+        <briefdescription>
+<para>Tracks calls with no entities extracted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="55" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1aefd02848a071ee9cc4c00918e7243ce4" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_failures_total_</definition>
+        <argsstring></argsstring>
+        <name>extract_failures_total_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_failures_total_</qualifiedname>
+        <briefdescription>
+<para>Total extraction failures (counter). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="58" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1a38199c9e2e8f92eb26a2342edb571f8a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_latency_us_bucket_0_100_</definition>
+        <argsstring></argsstring>
+        <name>extract_latency_us_bucket_0_100_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_latency_us_bucket_0_100_</qualifiedname>
+        <briefdescription>
+<para>Histogram bucket: 0-100 us. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="59" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1a6f05751a11fbb95c038d9c2b373c81c2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_latency_us_bucket_100_1000_</definition>
+        <argsstring></argsstring>
+        <name>extract_latency_us_bucket_100_1000_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_latency_us_bucket_100_1000_</qualifiedname>
+        <briefdescription>
+<para>Histogram bucket: 100-1000 us. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="60" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1af7c939644480558a5aa96c9239315cd1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_latency_us_bucket_1000_10000_</definition>
+        <argsstring></argsstring>
+        <name>extract_latency_us_bucket_1000_10000_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_latency_us_bucket_1000_10000_</qualifiedname>
+        <briefdescription>
+<para>Histogram bucket: 1-10 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="61" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ingestion_toolbox_1_1_impl_1a71eab063ce8920780511bee9080a07dd" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::toolbox::IngestionToolbox::Impl::extract_latency_us_bucket_10000_plus_</definition>
+        <argsstring></argsstring>
+        <name>extract_latency_us_bucket_10000_plus_</name>
+        <qualifiedname>IngestionToolbox::Impl::extract_latency_us_bucket_10000_plus_</qualifiedname>
+        <briefdescription>
+<para>Histogram bucket: 10+ ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="62" column="17" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_ingestion_toolbox_1_1_impl_1a824c39a218fc647b0da620175e444b60" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::IngestionToolbox::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>IngestionToolbox::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/toolbox/ingestion_toolbox.cpp" line="31" column="5" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="31" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/toolbox/ingestion_toolbox.cpp" line="29" column="1" bodyfile="src/toolbox/ingestion_toolbox.cpp" bodystart="29" bodyend="63"/>
+    <listofallmembers>
+      <member refid="class_ingestion_toolbox_1_1_impl_1ae7647e4a79de11c3e9dbcabf8bc4f86d" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_calls_total_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1ae2906e98c9667c362ece3607acdb1b5e" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_empty_results_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1a25ca0873c12ce3484f9aa58195201643" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_entities_total_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1aa65962e8aeadf0e6512db4f3ad94f32d" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_errors_total_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1aefd02848a071ee9cc4c00918e7243ce4" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_failures_total_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1a08a80d7590413eb024edb83cf037b49d" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_latency_ms_total_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1a38199c9e2e8f92eb26a2342edb571f8a" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_latency_us_bucket_0_100_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1a71eab063ce8920780511bee9080a07dd" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_latency_us_bucket_10000_plus_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1af7c939644480558a5aa96c9239315cd1" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_latency_us_bucket_1000_10000_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1a6f05751a11fbb95c038d9c2b373c81c2" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>extract_latency_us_bucket_100_1000_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1a824c39a218fc647b0da620175e444b60" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>Impl</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1a53a830eef44bed0c8c4a8e225b060e3d" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>mutex_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1aae341fd2037b377277ade5ed55707704" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>text_backend_</name></member>
+      <member refid="class_ingestion_toolbox_1_1_impl_1a1feb59f8d7369ff82991b30ab9658613" prot="public" virt="non-virtual"><scope>IngestionToolbox::Impl</scope><name>workflow_engine_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

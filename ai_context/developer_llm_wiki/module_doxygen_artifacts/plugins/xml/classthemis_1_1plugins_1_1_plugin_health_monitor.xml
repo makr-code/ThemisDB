@@ -1,0 +1,1177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_plugin_health_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginHealthMonitor</compoundname>
+    <includes refid="plugin__health__monitor_8h" local="no">plugin_health_monitor.h</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats" prot="public">themis::plugins::PluginHealthMonitor::GlobalStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1ae71f71632b27b8374d627b7fb738830f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MonitoredPlugin&gt; themis::plugins::PluginHealthMonitor::monitored_plugins_</definition>
+        <argsstring></argsstring>
+        <name>monitored_plugins_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::monitored_plugins_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="129" column="24" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a4ef383dcee3c6b530b326ececa1bbfb2" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::plugins::PluginHealthMonitor::monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>monitor_thread_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="130" column="17" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a37c21016150474a1cbe4482d2f83a215" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::plugins::PluginHealthMonitor::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="131" column="17" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1aa5b1151f7c83e18314323db057a0310a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::PluginHealthMonitor::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="132" column="24" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a63b42e4187c23859abcb1377d0245141" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref></type>
+        <definition>HealthMonitorConfig themis::plugins::PluginHealthMonitor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="134" column="25" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a36574fd734db21aba501ff32eb6767e7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1plugins_1a9398bc6ef55878f4d1182169be93c382" kindref="member">MonitoringEventCallback</ref> &gt;</type>
+        <definition>std::vector&lt;MonitoringEventCallback&gt; themis::plugins::PluginHealthMonitor::event_callbacks_</definition>
+        <argsstring></argsstring>
+        <name>event_callbacks_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::event_callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="135" column="17" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a1fb65fd03a328638af42d8d4f7b53b21" prot="private" static="no" mutable="no">
+        <type>themis::core::concerns::IMetrics *</type>
+        <definition>themis::core::concerns::IMetrics* themis::plugins::PluginHealthMonitor::metrics_sink_</definition>
+        <argsstring></argsstring>
+        <name>metrics_sink_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::metrics_sink_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="138" column="38" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a15b9e94ab8b93a5cd525f113d8f1f8cc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::plugins::PluginHealthMonitor::total_health_checks_</definition>
+        <argsstring></argsstring>
+        <name>total_health_checks_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::total_health_checks_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="141" column="17" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a9084a091efd9d844ece6a742c526cda8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::plugins::PluginHealthMonitor::total_recovery_attempts_</definition>
+        <argsstring></argsstring>
+        <name>total_recovery_attempts_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::total_recovery_attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="142" column="17" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1ac25754ad257e4444bc8fface8c1e1fd4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::plugins::PluginHealthMonitor::total_successful_recoveries_</definition>
+        <argsstring></argsstring>
+        <name>total_successful_recoveries_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::total_successful_recoveries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="143" column="17" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1aab99266f6ede76d1a012a30ab4b0d6bc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::plugins::PluginHealthMonitor::total_failed_recoveries_</definition>
+        <argsstring></argsstring>
+        <name>total_failed_recoveries_</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::total_failed_recoveries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="144" column="17" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginHealthMonitor::PluginHealthMonitor</definition>
+        <argsstring>(const HealthMonitorConfig &amp;config=HealthMonitorConfig())</argsstring>
+        <name>PluginHealthMonitor</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::PluginHealthMonitor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Construct health monitor with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="150" column="14" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="26" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a9f1e2906b1f13f85a57af23f35abf276" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginHealthMonitor::~PluginHealthMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>~PluginHealthMonitor</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::~PluginHealthMonitor</qualifiedname>
+        <briefdescription>
+<para>Destructor - stops monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="155" column="5" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a59c63164dfcfcb98b64f08f47858f96a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::PluginHealthMonitor::PluginHealthMonitor</definition>
+        <argsstring>(const PluginHealthMonitor &amp;)=delete</argsstring>
+        <name>PluginHealthMonitor</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::PluginHealthMonitor</qualifiedname>
+        <param>
+          <type>const PluginHealthMonitor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="158" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1ad6cad55886d1eab04965fd80d50109ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" kindref="member">PluginHealthMonitor</ref> &amp;</type>
+        <definition>PluginHealthMonitor &amp; themis::plugins::PluginHealthMonitor::operator=</definition>
+        <argsstring>(const PluginHealthMonitor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" kindref="member">PluginHealthMonitor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="159" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a535c966ac2d1368a6b906734a3e9f93f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginHealthMonitor::startMonitoring</definition>
+        <argsstring>()</argsstring>
+        <name>startMonitoring</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::startMonitoring</qualifiedname>
+        <briefdescription>
+<para>Start health monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Monitoring.</para>
+<para><simplesect kind="return"><para>true if monitoring started successfully</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_WARN(), std::thread(), monitoringLoop(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="165" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="44" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a57838e1587ec73f17671865bfdfd6547" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::stopMonitoring</definition>
+        <argsstring>()</argsstring>
+        <name>stopMonitoring</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::stopMonitoring</qualifiedname>
+        <briefdescription>
+<para>Stop health monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Monitoring.</para>
+<para>Calls: joinable(), std::chrono::steady_clock::now(), std::chrono::seconds(), std::this_thread::sleep_for(), std::chrono::milliseconds(), THEMIS_WARN(), detach(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="170" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="62" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1aa2ed4ea6eae7929d4abdb46d750ada79" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginHealthMonitor::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::isRunning</qualifiedname>
+        <briefdescription>
+<para>Check if monitoring is running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="175" column="10" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a28e9029cb5dc7fdde6d09cf4836b6bed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginHealthMonitor::registerPlugin</definition>
+        <argsstring>(const std::string &amp;name, ISelfHealingPlugin *plugin)</argsstring>
+        <name>registerPlugin</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::registerPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" kindref="compound">ISelfHealingPlugin</ref> *</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Register plugin for health monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Plugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name (must be unique) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to self-healing plugin </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if registration successful </para>
+</simplesect>
+<simplesect kind="note"><para>The plugin must remain valid for the lifetime of monitoring</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_WARN(), lock(), count(), std::chrono::system_clock::now(), std::move(), emitEvent(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="185" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="98" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1acb457938dd13146bb1a01722ec167e42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginHealthMonitor::unregisterPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unregisterPlugin</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::unregisterPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister plugin from monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Plugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if plugin was found and unregistered</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(), emitEvent(), std::chrono::system_clock::now(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="193" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="135" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1afd20d80c78fb094e2ed729392e931b49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref> &gt;</type>
+        <definition>Result&lt; PluginDiagnostics &gt; themis::plugins::PluginHealthMonitor::checkPluginHealth</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>checkPluginHealth</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::checkPluginHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Perform immediate health check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Plugin Health.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Diagnostic result or error if plugin not found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), performHealthCheck(), std::chrono::system_clock::now(), Ok(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="201" column="12" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="166" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a74a77f4275161e77f71e9f88956ae1d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1plugins_1_1_recovery_result" kindref="compound">RecoveryResult</ref> &gt;</type>
+        <definition>Result&lt; RecoveryResult &gt; themis::plugins::PluginHealthMonitor::triggerRecovery</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>triggerRecovery</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::triggerRecovery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Trigger immediate recovery for a plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger Recovery.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recovery result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), attemptRecoveryWithBackoff(), Ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="209" column="12" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="202" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a38c34aff2fcd42c76027a91d69cbb147" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref> &gt;</type>
+        <definition>Result&lt; MonitoredPlugin &gt; themis::plugins::PluginHealthMonitor::getPluginStats</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getPluginStats</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::getPluginStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get monitoring statistics for a plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Monitored plugin information </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="217" column="12" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="220" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1ad9602f426046b648be104601383e3a74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref> &gt;</type>
+        <definition>std::unordered_map&lt; std::string, MonitoredPlugin &gt; themis::plugins::PluginHealthMonitor::getAllPluginStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllPluginStats</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::getAllPluginStats</qualifiedname>
+        <briefdescription>
+<para>Get all monitored plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of plugin name to monitoring info </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="224" column="24" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="237" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a9e695bfaadf96123bc696ad5bc1036c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_health_monitor_1_1_global_stats" kindref="compound">GlobalStats</ref></type>
+        <definition>PluginHealthMonitor::GlobalStats themis::plugins::PluginHealthMonitor::getGlobalStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getGlobalStats</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::getGlobalStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="240" column="17" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="247" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a88fdf405730ec4dad749e3c95471a928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::registerEventCallback</definition>
+        <argsstring>(MonitoringEventCallback callback)</argsstring>
+        <name>registerEventCallback</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::registerEventCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1a9398bc6ef55878f4d1182169be93c382" kindref="member">MonitoringEventCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register event callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Event Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to be called on monitoring events</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="247" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="289" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a16a6d6ea20abd23609639528a43e7a07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::clearEventCallbacks</definition>
+        <argsstring>()</argsstring>
+        <name>clearEventCallbacks</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::clearEventCallbacks</qualifiedname>
+        <briefdescription>
+<para>Clear all event callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Event Callbacks.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="252" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="298" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1ab4823311e80269e62d877bc58f34c022" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::updateConfig</definition>
+        <argsstring>(const HealthMonitorConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update monitoring configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Changes take effect on next monitoring cycle</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="260" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="308" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a2231b23e5c3144d825bc0a675ce2d4ad" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1plugins_1_1_health_monitor_config" kindref="compound">HealthMonitorConfig</ref> &amp;</type>
+        <definition>const HealthMonitorConfig &amp; themis::plugins::PluginHealthMonitor::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="265" column="31" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="265" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1ac2fe7275a8037d0e44461d9d1eaf1d62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::PluginHealthMonitor::setPluginMonitoringEnabled</definition>
+        <argsstring>(const std::string &amp;name, bool enabled)</argsstring>
+        <name>setPluginMonitoringEnabled</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::setPluginMonitoringEnabled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable/disable monitoring for specific plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Plugin Monitoring Enabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true to enable, false to disable </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if plugin found and updated</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="274" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="320" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a0b89e4ce542b8e6cf8ed884ff796cbee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::attachMetrics</definition>
+        <argsstring>(themis::core::concerns::IMetrics *sink)</argsstring>
+        <name>attachMetrics</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::attachMetrics</qualifiedname>
+        <param>
+          <type>themis::core::concerns::IMetrics *</type>
+          <declname>sink</declname>
+        </param>
+        <briefdescription>
+<para>Attach a metrics sink for publishing per-plugin health scores. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach Metrics.</para>
+<para>When set, the monitor emits a <computeroutput>plugin_health_score</computeroutput> gauge (0.0–1.0) to <computeroutput>sink</computeroutput> after every health check cycle. Pass nullptr to detach. The caller must ensure the sink outlives the monitor.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IMetrics backend; e.g. a PrometheusMetricsAdapter instance.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">sink</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="285" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="339" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a369a75a09048019a88462daaf3d5fdfd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" kindref="member">PluginHealthMonitor</ref> &amp;</type>
+        <definition>PluginHealthMonitor &amp; themis::plugins::PluginHealthMonitor::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::instance</qualifiedname>
+        <briefdescription>
+<para>Get singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Instance.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="290" column="32" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="355" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a7df4c29ff21fa2d91bf7cd90fcc93bfc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::monitoringLoop</definition>
+        <argsstring>()</argsstring>
+        <name>monitoringLoop</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::monitoringLoop</qualifiedname>
+        <briefdescription>
+<para>Main monitoring loop (runs in separate thread). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Private: monitoring loop ============================================================================</para>
+<para>Calls: std::chrono::steady_clock::now(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), reserve(), size(), push_back(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="296" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="366" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a6d15c721a6c68f3b9f2093b5f8ca07a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::checkPlugin</definition>
+        <argsstring>(MonitoredPlugin &amp;plugin)</argsstring>
+        <name>checkPlugin</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::checkPlugin</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref> &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Check health of a single plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Private: check a single plugin ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: emitEvent(), std::chrono::system_clock::now(), performHealthCheck(), publishHealthScore(), handleUnhealthyPlugin(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="301" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="415" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a11d8cbfe415fa19a28d5487d23be8c99" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::handleUnhealthyPlugin</definition>
+        <argsstring>(MonitoredPlugin &amp;plugin)</argsstring>
+        <name>handleUnhealthyPlugin</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::handleUnhealthyPlugin</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref> &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Handle unhealthy plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Private: handle unhealthy plugin ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_WARN(), emitEvent(), std::chrono::system_clock::now(), disablePlugin(), THEMIS_ERROR(), notifyAdministrators(), attemptRecoveryWithBackoff(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="306" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="476" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1ab132eb7c661dd88aed03ad7cf8e218fc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_recovery_result" kindref="compound">RecoveryResult</ref></type>
+        <definition>RecoveryResult themis::plugins::PluginHealthMonitor::attemptRecoveryWithBackoff</definition>
+        <argsstring>(MonitoredPlugin &amp;plugin)</argsstring>
+        <name>attemptRecoveryWithBackoff</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::attemptRecoveryWithBackoff</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref> &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Attempt recovery with backoff. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Private: recovery with backoff ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: calculateBackoff(), std::chrono::system_clock::now(), std::to_string(), count(), emitEvent(), std::chrono::steady_clock::now(), getRecoveryStrategies(), std::find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="311" column="20" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="532" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a4dd8b575e701472754501d4b8fbd30e8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::plugins::PluginHealthMonitor::calculateBackoff</definition>
+        <argsstring>(uint32_t attempt_count) const</argsstring>
+        <name>calculateBackoff</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::calculateBackoff</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>attempt_count</declname>
+        </param>
+        <briefdescription>
+<para>Calculate backoff duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="316" column="26" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="663" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1aa95837f0089be3b38f343e81b96fb1e0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::notifyAdministrators</definition>
+        <argsstring>(const std::string &amp;plugin_name, const PluginDiagnostics &amp;diagnostics, const std::string &amp;message)</argsstring>
+        <name>notifyAdministrators</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::notifyAdministrators</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref> &amp;</type>
+          <declname>diagnostics</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Notify administrators. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify Administrators.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">diagnostics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_ERROR(), emitEvent(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="321" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="692" bodyend="708"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1ab63ad90d8e920a79dbd4feb08dc507c3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::emitEvent</definition>
+        <argsstring>(const MonitoringEventData &amp;event)</argsstring>
+        <name>emitEvent</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::emitEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_monitoring_event_data" kindref="compound">MonitoringEventData</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit monitoring event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emit Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: cb(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="330" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="715" bodyend="727"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a64c6ddf138685eb2eb9f090ff42d950c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::disablePlugin</definition>
+        <argsstring>(MonitoredPlugin &amp;plugin, const std::string &amp;reason)</argsstring>
+        <name>disablePlugin</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::disablePlugin</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref> &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Disable plugin after max failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable Plugin.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_ERROR(), emitEvent(), std::chrono::system_clock::now(), notifyAdministrators(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="335" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="735" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1a1ed0a833a07e7e189463b4ac1290a789" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginHealthMonitor::publishHealthScore</definition>
+        <argsstring>(const MonitoredPlugin &amp;plugin) noexcept</argsstring>
+        <name>publishHealthScore</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::publishHealthScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_monitored_plugin" kindref="compound">MonitoredPlugin</ref> &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Publish plugin_health_score gauge to metrics_sink_ (if attached). Must be called with mutex_ held. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="352" column="10" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="775" bodyend="786"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_plugin_health_monitor_1aca4698e767135f4f7e7cb51c431da447" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::plugins::PluginHealthMonitor::computeHealthScore</definition>
+        <argsstring>(const PluginDiagnostics &amp;diag) noexcept</argsstring>
+        <name>computeHealthScore</name>
+        <qualifiedname>themis::plugins::PluginHealthMonitor::computeHealthScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref> &amp;</type>
+          <declname>diag</declname>
+        </param>
+        <briefdescription>
+<para>Compute health score in [0.0, 1.0] from diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Formula: HEALTHY → 1.0 − (error_rate × 0.2) DEGRADED → 0.7 − (error_rate × 0.2) UNHEALTHY → 0.3 − (error_rate × 0.2) CRITICAL / RECOVERING → max(0.0, 0.1 − error_rate × 0.1) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_health_monitor.h" line="346" column="19" bodyfile="src/plugins/plugin_health_monitor.cpp" bodystart="757" bodyend="773"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin Health Monitor Service. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This service continuously monitors all registered self-healing plugins:<itemizedlist>
+<listitem><para>Performs periodic health checks</para>
+</listitem><listitem><para>Detects unhealthy plugins</para>
+</listitem><listitem><para>Triggers automatic recovery</para>
+</listitem><listitem><para>Notifies administrators on critical failures</para>
+</listitem><listitem><para>Maintains health history</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-Safety: All methods are thread-safe </para>
+    </detaileddescription>
+    <location file="include/plugins/plugin_health_monitor.h" line="127" column="1" bodyfile="include/plugins/plugin_health_monitor.h" bodystart="127" bodyend="353"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a0b89e4ce542b8e6cf8ed884ff796cbee" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>attachMetrics</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ab132eb7c661dd88aed03ad7cf8e218fc" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>attemptRecoveryWithBackoff</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a4dd8b575e701472754501d4b8fbd30e8" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>calculateBackoff</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a6d15c721a6c68f3b9f2093b5f8ca07a5" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>checkPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1afd20d80c78fb094e2ed729392e931b49" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>checkPluginHealth</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a16a6d6ea20abd23609639528a43e7a07" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>clearEventCallbacks</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1aca4698e767135f4f7e7cb51c431da447" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>computeHealthScore</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a63b42e4187c23859abcb1377d0245141" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a64c6ddf138685eb2eb9f090ff42d950c" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>disablePlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ab63ad90d8e920a79dbd4feb08dc507c3" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>emitEvent</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a36574fd734db21aba501ff32eb6767e7" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>event_callbacks_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ad9602f426046b648be104601383e3a74" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>getAllPluginStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a2231b23e5c3144d825bc0a675ce2d4ad" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a9e695bfaadf96123bc696ad5bc1036c9" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>getGlobalStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a38c34aff2fcd42c76027a91d69cbb147" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>getPluginStats</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a11d8cbfe415fa19a28d5487d23be8c99" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>handleUnhealthyPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a369a75a09048019a88462daaf3d5fdfd" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>instance</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1aa2ed4ea6eae7929d4abdb46d750ada79" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a1fb65fd03a328638af42d8d4f7b53b21" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>metrics_sink_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a4ef383dcee3c6b530b326ececa1bbfb2" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>monitor_thread_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ae71f71632b27b8374d627b7fb738830f" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>monitored_plugins_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a7df4c29ff21fa2d91bf7cd90fcc93bfc" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>monitoringLoop</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1aa5b1151f7c83e18314323db057a0310a" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1aa95837f0089be3b38f343e81b96fb1e0" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>notifyAdministrators</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ad6cad55886d1eab04965fd80d50109ca" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a19131964dc27a0439a78873407e513ba" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>PluginHealthMonitor</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a59c63164dfcfcb98b64f08f47858f96a" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>PluginHealthMonitor</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a1ed0a833a07e7e189463b4ac1290a789" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>publishHealthScore</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a88fdf405730ec4dad749e3c95471a928" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>registerEventCallback</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a28e9029cb5dc7fdde6d09cf4836b6bed" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>registerPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a37c21016150474a1cbe4482d2f83a215" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>running_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ac2fe7275a8037d0e44461d9d1eaf1d62" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>setPluginMonitoringEnabled</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a535c966ac2d1368a6b906734a3e9f93f" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>startMonitoring</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a57838e1587ec73f17671865bfdfd6547" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>stopMonitoring</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1aab99266f6ede76d1a012a30ab4b0d6bc" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>total_failed_recoveries_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a15b9e94ab8b93a5cd525f113d8f1f8cc" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>total_health_checks_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a9084a091efd9d844ece6a742c526cda8" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>total_recovery_attempts_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ac25754ad257e4444bc8fface8c1e1fd4" prot="private" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>total_successful_recoveries_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a74a77f4275161e77f71e9f88956ae1d1" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>triggerRecovery</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1acb457938dd13146bb1a01722ec167e42" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>unregisterPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1ab4823311e80269e62d877bc58f34c022" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1plugins_1_1_plugin_health_monitor_1a9f1e2906b1f13f85a57af23f35abf276" prot="public" virt="non-virtual"><scope>themis::plugins::PluginHealthMonitor</scope><name>~PluginHealthMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

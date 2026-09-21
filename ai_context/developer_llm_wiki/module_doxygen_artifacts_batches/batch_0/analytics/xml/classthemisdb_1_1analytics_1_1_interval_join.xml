@@ -1,0 +1,515 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_interval_join" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::IntervalJoin</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_i_streaming_join" prot="public" virt="non-virtual">themisdb::analytics::IStreamingJoin</basecompoundref>
+    <includes refid="streaming__join_8h" local="no">streaming_join.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" prot="public">themisdb::analytics::IntervalJoin::Config</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_build_row" prot="private">themisdb::analytics::IntervalJoin::BuildRow</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_interval_join_1a57e63599c2c6086112452d1f430bd678" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::analytics::IntervalJoin::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="241" column="12" bodyfile="include/analytics/streaming_join.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_interval_join_1a24e06b108c8d753de5cca72c3446c2cf" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; BuildRow &gt;</type>
+        <definition>std::vector&lt;BuildRow&gt; themisdb::analytics::IntervalJoin::build_buffer_</definition>
+        <argsstring></argsstring>
+        <name>build_buffer_</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::build_buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="248" column="24" bodyfile="include/analytics/streaming_join.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_interval_join_1a38ce7e491276b7d403461abfe1859908" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::IntervalJoin::build_col_names_</definition>
+        <argsstring></argsstring>
+        <name>build_col_names_</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::build_col_names_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="249" column="21" bodyfile="include/analytics/streaming_join.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_interval_join_1a48f77588ce04e2735f13a4c532c6ac35" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::IntervalJoin::build_sorted_</definition>
+        <argsstring></argsstring>
+        <name>build_sorted_</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::build_sorted_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="250" column="34" bodyfile="include/analytics/streaming_join.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1aac805d406b4a0c6787666e0c276f4fa3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::IntervalJoin::IntervalJoin</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>IntervalJoin</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::IntervalJoin</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_interval_join_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Interval Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="216" column="14" bodyfile="src/analytics/streaming_join.cpp" bodystart="368" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1a50fb0441844af3c894e96d89919b025d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::IntervalJoin::~IntervalJoin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~IntervalJoin</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::~IntervalJoin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="217" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1a9fec0c450643fae7b776f87f99e0829c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::IntervalJoin::IntervalJoin</definition>
+        <argsstring>(const IntervalJoin &amp;)=delete</argsstring>
+        <name>IntervalJoin</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::IntervalJoin</qualifiedname>
+        <param>
+          <type>const IntervalJoin &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="219" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1a600e807b1c32ccf6a9689b24a815de2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_interval_join_1aac805d406b4a0c6787666e0c276f4fa3" kindref="member">IntervalJoin</ref> &amp;</type>
+        <definition>IntervalJoin &amp; themisdb::analytics::IntervalJoin::operator=</definition>
+        <argsstring>(const IntervalJoin &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_interval_join_1aac805d406b4a0c6787666e0c276f4fa3" kindref="member">IntervalJoin</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="220" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1a4211d570e6a95f5279f5949aadae0135" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::IntervalJoin::addBuildBatch</definition>
+        <argsstring>(const ColumnBatch &amp;batch)</argsstring>
+        <name>addBuildBatch</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::addBuildBatch</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Add Build Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: rowCount(), empty(), columnCount(), push_back(), getColumnAt(), name(), findColumnIndex(), int64Data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="230" column="10" bodyfile="src/analytics/streaming_join.cpp" bodystart="380" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1ae78f365163cbbed49fbb8f2fbfa6fcb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::IntervalJoin::probe</definition>
+        <argsstring>(const ColumnBatch &amp;probe) override</argsstring>
+        <name>probe</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::probe</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a7788293ea806dda788027829103f9239">probe</reimplements>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>probe</declname>
+          <defname>probe_batch</defname>
+        </param>
+        <briefdescription>
+<para>Probe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">probe_batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: rowCount(), sortBuildBuffer(), findColumnIndex(), empty(), columnCount(), push_back(), getColumnAt(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="236" column="17" bodyfile="src/analytics/streaming_join.cpp" bodystart="456" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1a81ca75f21c64cfaea2e257cc93fadb2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::IntervalJoin::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::reset</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a4310131a97526a5be28d4dfada49d479">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="237" column="17" bodyfile="src/analytics/streaming_join.cpp" bodystart="720" bodyend="724"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1a13029d3070dd144f9627f50194cb57e7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::IntervalJoin::buildSideSize</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>buildSideSize</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::buildSideSize</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a099385e10e55dd17bfb6e8ff33a386a7">buildSideSize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="238" column="17" bodyfile="src/analytics/streaming_join.cpp" bodystart="420" bodyend="422"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1a483ba8fa801d3cd4b069852bd08c8a13" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::IntervalJoin::sortBuildBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>sortBuildBuffer</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::sortBuildBuffer</qualifiedname>
+        <briefdescription>
+<para>Sort Build Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="256" column="10" bodyfile="src/analytics/streaming_join.cpp" bodystart="428" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1ae00b9cc6fe04efe4578701611bb4c3a4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::IntervalJoin::pruneBuildBuffer</definition>
+        <argsstring>(int64_t min_keep_ms)</argsstring>
+        <name>pruneBuildBuffer</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::pruneBuildBuffer</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>min_keep_ms</declname>
+        </param>
+        <briefdescription>
+<para>Prune Build Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_keep_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_keep_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::lower_bound(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="261" column="10" bodyfile="src/analytics/streaming_join.cpp" bodystart="441" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1aa539a1bc22787227bd72665d705db4b9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aaa15bf7e4a64d0f6c1aba654aaf33aea" kindref="member">ColumnValue</ref></type>
+        <definition>ColumnValue themisdb::analytics::IntervalJoin::getVal</definition>
+        <argsstring>(const Column &amp;col, size_t row) const</argsstring>
+        <name>getVal</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::getVal</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &amp;</type>
+          <declname>col</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Get Val. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">col</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="269" column="17" bodyfile="src/analytics/streaming_join.cpp" bodystart="726" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1aca5ec6943e34c30379675251bf78c76e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::IntervalJoin::makeKey</definition>
+        <argsstring>(const BuildRow &amp;row, const std::vector&lt; size_t &gt; &amp;key_col_indices) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::makeKey</qualifiedname>
+        <param>
+          <type>const BuildRow &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>key_col_indices</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_col_indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="276" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_interval_join_1abd2d300fcc984006549229f63419f409" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::IntervalJoin::makeProbeKey</definition>
+        <argsstring>(const std::vector&lt; std::shared_ptr&lt; Column &gt; &gt; &amp;probe_cols, const std::vector&lt; size_t &gt; &amp;key_col_indices, size_t row) const</argsstring>
+        <name>makeProbeKey</name>
+        <qualifiedname>themisdb::analytics::IntervalJoin::makeProbeKey</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_column" kindref="compound">Column</ref> &gt; &gt; &amp;</type>
+          <declname>probe_cols</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>key_col_indices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Make Probe Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">probe_cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_col_indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="285" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::analytics::IStreamingJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_i_streaming_join"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::IntervalJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_interval_join"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::IStreamingJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_i_streaming_join"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::IntervalJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_interval_join"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/streaming_join.h" line="183" column="1" bodyfile="include/analytics/streaming_join.h" bodystart="183" bodyend="288"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a4211d570e6a95f5279f5949aadae0135" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>addBuildBatch</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a24e06b108c8d753de5cca72c3446c2cf" prot="private" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>build_buffer_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a38ce7e491276b7d403461abfe1859908" prot="private" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>build_col_names_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a48f77588ce04e2735f13a4c532c6ac35" prot="private" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>build_sorted_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a13029d3070dd144f9627f50194cb57e7" prot="public" virt="virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>buildSideSize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a57e63599c2c6086112452d1f430bd678" prot="private" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>cfg_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1aa539a1bc22787227bd72665d705db4b9" prot="private" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>getVal</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1aac805d406b4a0c6787666e0c276f4fa3" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>IntervalJoin</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a9fec0c450643fae7b776f87f99e0829c" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>IntervalJoin</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1aca5ec6943e34c30379675251bf78c76e" prot="private" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>makeKey</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1abd2d300fcc984006549229f63419f409" prot="private" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>makeProbeKey</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a600e807b1c32ccf6a9689b24a815de2a" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1ae78f365163cbbed49fbb8f2fbfa6fcb1" prot="public" virt="virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>probe</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1ae00b9cc6fe04efe4578701611bb4c3a4" prot="private" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>pruneBuildBuffer</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a81ca75f21c64cfaea2e257cc93fadb2a" prot="public" virt="virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a483ba8fa801d3cd4b069852bd08c8a13" prot="private" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>sortBuildBuffer</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_interval_join_1a50fb0441844af3c894e96d89919b025d" prot="public" virt="non-virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>~IntervalJoin</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a33e65340163dccf42838ed5287106a0d" prot="public" virt="virtual"><scope>themisdb::analytics::IntervalJoin</scope><name>~IStreamingJoin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

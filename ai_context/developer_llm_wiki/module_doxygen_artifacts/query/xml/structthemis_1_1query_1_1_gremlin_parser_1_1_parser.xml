@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::GremlinParser::Parser</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ac931f9fbaf220f44f4c863135dde70e7" prot="public" static="no" mutable="no">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_token" kindref="compound">Token</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt;Token&gt;&amp; themis::query::GremlinParser::Parser::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="204" column="23" bodyfile="src/query/gremlin_parser.cpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a52be3846cbc7c980695f76adc420c4a3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::GremlinParser::Parser::pos</definition>
+        <argsstring></argsstring>
+        <name>pos</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::pos</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="205" column="12" bodyfile="src/query/gremlin_parser.cpp" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a96b1afa50ed1ad64960ed7d0452fe54c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::GremlinParser::Parser::Parser</definition>
+        <argsstring>(const std::vector&lt; Token &gt; &amp;toks)</argsstring>
+        <name>Parser</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::Parser</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_token" kindref="compound">Token</ref> &gt; &amp;</type>
+          <declname>toks</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="207" column="14" bodyfile="src/query/gremlin_parser.cpp" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ae240ea275b0b7c4112957f3f826b1735" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_token" kindref="compound">Token</ref> &amp;</type>
+        <definition>const Token &amp; themis::query::GremlinParser::Parser::peek</definition>
+        <argsstring>(size_t offset=0) const</argsstring>
+        <name>peek</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::peek</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="209" column="17" bodyfile="src/query/gremlin_parser.cpp" bodystart="209" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a99c235c8517f8b89a106016cdd8b0b33" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_token" kindref="compound">Token</ref> &amp;</type>
+        <definition>const Token &amp; themis::query::GremlinParser::Parser::consume</definition>
+        <argsstring>()</argsstring>
+        <name>consume</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::consume</qualifiedname>
+        <briefdescription>
+<para>Consume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="222" column="17" bodyfile="src/query/gremlin_parser.cpp" bodystart="222" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a740ea94ed13faf7f636fd28f43b2ea90" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::GremlinParser::Parser::check</definition>
+        <argsstring>(GremlinTokenType t, size_t offset=0) const</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::check</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a555d990411c42b1ca492ab00e4c5e838" kindref="member">GremlinTokenType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="230" column="10" bodyfile="src/query/gremlin_parser.cpp" bodystart="230" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1acf02b7e0748099bcd28987b4f18f5967" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::GremlinParser::Parser::matchIdent</definition>
+        <argsstring>(const std::string &amp;s, size_t offset=0) const</argsstring>
+        <name>matchIdent</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::matchIdent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="234" column="10" bodyfile="src/query/gremlin_parser.cpp" bodystart="234" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a259d39a3fd6012a8c14b26fa6b941ecd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::GremlinParser::Parser::expect</definition>
+        <argsstring>(GremlinTokenType t, const std::string &amp;ctx)</argsstring>
+        <name>expect</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::expect</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a555d990411c42b1ca492ab00e4c5e838" kindref="member">GremlinTokenType</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Expect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a740ea94ed13faf7f636fd28f43b2ea90" kindref="member">check()</ref>, std::to_string(), <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ae240ea275b0b7c4112957f3f826b1735" kindref="member">peek()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a99c235c8517f8b89a106016cdd8b0b33" kindref="member">consume()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="245" column="10" bodyfile="src/query/gremlin_parser.cpp" bodystart="245" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a5af818f31161058e7df437c391aa5fa0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1a2d5d4167ca04545899c6c8b57ece117c" kindref="member">GremlinValue</ref></type>
+        <definition>GremlinValue themis::query::GremlinParser::Parser::parseValue</definition>
+        <argsstring>()</argsstring>
+        <name>parseValue</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::parseValue</qualifiedname>
+        <briefdescription>
+<para>Parse Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ae240ea275b0b7c4112957f3f826b1735" kindref="member">peek()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a99c235c8517f8b89a106016cdd8b0b33" kindref="member">consume()</ref>, <ref refid="namespacethemis_1_1query_1a2d5d4167ca04545899c6c8b57ece117c" kindref="member">GremlinValue()</ref>, std::stoll(), THEMIS_WARN(), std::to_string(), std::stod(), <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1acf02b7e0748099bcd28987b4f18f5967" kindref="member">matchIdent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="258" column="18" bodyfile="src/query/gremlin_parser.cpp" bodystart="258" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a37361960bbf8884f25bf3cc072fea0e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_gremlin_predicate" kindref="compound">GremlinPredicate</ref></type>
+        <definition>GremlinPredicate themis::query::GremlinParser::Parser::parsePredicate</definition>
+        <argsstring>()</argsstring>
+        <name>parsePredicate</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::parsePredicate</qualifiedname>
+        <briefdescription>
+<para>Parse Predicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1acf02b7e0748099bcd28987b4f18f5967" kindref="member">matchIdent()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a740ea94ed13faf7f636fd28f43b2ea90" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a99c235c8517f8b89a106016cdd8b0b33" kindref="member">consume()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ae240ea275b0b7c4112957f3f826b1735" kindref="member">peek()</ref>, find(), end(), <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a259d39a3fd6012a8c14b26fa6b941ecd" kindref="member">expect()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="309" column="22" bodyfile="src/query/gremlin_parser.cpp" bodystart="309" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a70bd521e5f22fc1817b082f106247f85" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::GremlinParser::Parser::tryParsePredicateOrValue</definition>
+        <argsstring>(GremlinStep &amp;step)</argsstring>
+        <name>tryParsePredicateOrValue</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::tryParsePredicateOrValue</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_gremlin_step" kindref="compound">GremlinStep</ref> &amp;</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>Try Parse Predicate Or Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1acf02b7e0748099bcd28987b4f18f5967" kindref="member">matchIdent()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a740ea94ed13faf7f636fd28f43b2ea90" kindref="member">check()</ref>, count(), <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ae240ea275b0b7c4112957f3f826b1735" kindref="member">peek()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a37361960bbf8884f25bf3cc072fea0e3" kindref="member">parsePredicate()</ref>, push_back(), <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a5af818f31161058e7df437c391aa5fa0" kindref="member">parseValue()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="380" column="10" bodyfile="src/query/gremlin_parser.cpp" bodystart="380" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a9b59f8560975c08abcf012ae7d1bf94b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_gremlin_step" kindref="compound">GremlinStep</ref></type>
+        <definition>GremlinStep themis::query::GremlinParser::Parser::parseStep</definition>
+        <argsstring>(const std::string &amp;name, size_t stepPos)</argsstring>
+        <name>parseStep</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::parseStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>stepPos</declname>
+        </param>
+        <briefdescription>
+<para>Parse Step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stepPos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), std::to_string(), <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a259d39a3fd6012a8c14b26fa6b941ecd" kindref="member">expect()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a740ea94ed13faf7f636fd28f43b2ea90" kindref="member">check()</ref>, push_back(), <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ae240ea275b0b7c4112957f3f826b1735" kindref="member">peek()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a99c235c8517f8b89a106016cdd8b0b33" kindref="member">consume()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="405" column="17" bodyfile="src/query/gremlin_parser.cpp" bodystart="405" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1aa0d644cc2ac696d84d630367ae29ab19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_gremlin_a_s_t_node" kindref="compound">GremlinASTNode</ref></type>
+        <definition>GremlinASTNode themis::query::GremlinParser::Parser::parse</definition>
+        <argsstring>()</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::query::GremlinParser::Parser::parse</qualifiedname>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1acf02b7e0748099bcd28987b4f18f5967" kindref="member">matchIdent()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a99c235c8517f8b89a106016cdd8b0b33" kindref="member">consume()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a740ea94ed13faf7f636fd28f43b2ea90" kindref="member">check()</ref>, <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ae240ea275b0b7c4112957f3f826b1735" kindref="member">peek()</ref>, std::to_string(), <ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a259d39a3fd6012a8c14b26fa6b941ecd" kindref="member">expect()</ref>, emplace_back(), std::stoll(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/gremlin_parser.cpp" line="598" column="20" bodyfile="src/query/gremlin_parser.cpp" bodystart="598" bodyend="663"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/gremlin_parser.cpp" line="203" column="1" bodyfile="src/query/gremlin_parser.cpp" bodystart="203" bodyend="664"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a740ea94ed13faf7f636fd28f43b2ea90" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>check</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a99c235c8517f8b89a106016cdd8b0b33" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>consume</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a259d39a3fd6012a8c14b26fa6b941ecd" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>expect</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1acf02b7e0748099bcd28987b4f18f5967" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>matchIdent</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1aa0d644cc2ac696d84d630367ae29ab19" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>parse</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a37361960bbf8884f25bf3cc072fea0e3" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>parsePredicate</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a96b1afa50ed1ad64960ed7d0452fe54c" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>Parser</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a9b59f8560975c08abcf012ae7d1bf94b" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>parseStep</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a5af818f31161058e7df437c391aa5fa0" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>parseValue</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ae240ea275b0b7c4112957f3f826b1735" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>peek</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a52be3846cbc7c980695f76adc420c4a3" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>pos</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1ac931f9fbaf220f44f4c863135dde70e7" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>tokens</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser_1a70bd521e5f22fc1817b082f106247f85" prot="public" virt="non-virtual"><scope>themis::query::GremlinParser::Parser</scope><name>tryParsePredicateOrValue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

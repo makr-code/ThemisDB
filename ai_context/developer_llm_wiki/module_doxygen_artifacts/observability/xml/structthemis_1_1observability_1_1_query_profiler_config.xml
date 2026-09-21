@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_query_profiler_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::QueryProfilerConfig</compoundname>
+    <includes refid="query__profiler_8h" local="no">query_profiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_query_profiler_config_1a2452b654111b671fed2c25cef87b5595" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::QueryProfilerConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::observability::QueryProfilerConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="112" column="10" bodyfile="include/observability/query_profiler.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_query_profiler_config_1a07a916749dc3d7ef7ae421acf98d97be" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::QueryProfilerConfig::profile_all_queries</definition>
+        <argsstring></argsstring>
+        <name>profile_all_queries</name>
+        <qualifiedname>themis::observability::QueryProfilerConfig::profile_all_queries</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="113" column="10" bodyfile="include/observability/query_profiler.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_query_profiler_config_1a76e8cb027d18281a1f2cfd9cd542d9c3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::QueryProfilerConfig::collect_operator_stats</definition>
+        <argsstring></argsstring>
+        <name>collect_operator_stats</name>
+        <qualifiedname>themis::observability::QueryProfilerConfig::collect_operator_stats</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="114" column="10" bodyfile="include/observability/query_profiler.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_query_profiler_config_1a2c9079203a420223fed9140e84a869fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::QueryProfilerConfig::collect_memory_stats</definition>
+        <argsstring></argsstring>
+        <name>collect_memory_stats</name>
+        <qualifiedname>themis::observability::QueryProfilerConfig::collect_memory_stats</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="115" column="10" bodyfile="include/observability/query_profiler.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_query_profiler_config_1a07fc735a9878ded353d6372cf0bdaaa4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::QueryProfilerConfig::collect_io_stats</definition>
+        <argsstring></argsstring>
+        <name>collect_io_stats</name>
+        <qualifiedname>themis::observability::QueryProfilerConfig::collect_io_stats</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="116" column="10" bodyfile="include/observability/query_profiler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_query_profiler_config_1a1729f1d5fda66bef92a19c1602184850" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::QueryProfilerConfig::max_profiles_retained</definition>
+        <argsstring></argsstring>
+        <name>max_profiles_retained</name>
+        <qualifiedname>themis::observability::QueryProfilerConfig::max_profiles_retained</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="117" column="12" bodyfile="include/observability/query_profiler.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_query_profiler_config_1a6118ab4d1ad4abc6010124eb360b7443" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::observability::QueryProfilerConfig::retention_duration</definition>
+        <argsstring></argsstring>
+        <name>retention_duration</name>
+        <qualifiedname>themis::observability::QueryProfilerConfig::retention_duration</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="118" column="26" bodyfile="include/observability/query_profiler.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_query_profiler_config_1a6ac9ee44be1c3493a1e1a191c744e490" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::QueryProfilerConfig::log_slow_queries</definition>
+        <argsstring></argsstring>
+        <name>log_slow_queries</name>
+        <qualifiedname>themis::observability::QueryProfilerConfig::log_slow_queries</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="119" column="10" bodyfile="include/observability/query_profiler.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_query_profiler_config_1aaccbc5f58944d119a419a12e718aaa71" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::observability::QueryProfilerConfig::slow_query_threshold</definition>
+        <argsstring></argsstring>
+        <name>slow_query_threshold</name>
+        <qualifiedname>themis::observability::QueryProfilerConfig::slow_query_threshold</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="120" column="31" bodyfile="include/observability/query_profiler.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query profiler configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/query_profiler.h" line="111" column="1" bodyfile="include/observability/query_profiler.h" bodystart="111" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_query_profiler_config_1a07fc735a9878ded353d6372cf0bdaaa4" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfilerConfig</scope><name>collect_io_stats</name></member>
+      <member refid="structthemis_1_1observability_1_1_query_profiler_config_1a2c9079203a420223fed9140e84a869fd" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfilerConfig</scope><name>collect_memory_stats</name></member>
+      <member refid="structthemis_1_1observability_1_1_query_profiler_config_1a76e8cb027d18281a1f2cfd9cd542d9c3" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfilerConfig</scope><name>collect_operator_stats</name></member>
+      <member refid="structthemis_1_1observability_1_1_query_profiler_config_1a2452b654111b671fed2c25cef87b5595" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfilerConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1observability_1_1_query_profiler_config_1a6ac9ee44be1c3493a1e1a191c744e490" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfilerConfig</scope><name>log_slow_queries</name></member>
+      <member refid="structthemis_1_1observability_1_1_query_profiler_config_1a1729f1d5fda66bef92a19c1602184850" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfilerConfig</scope><name>max_profiles_retained</name></member>
+      <member refid="structthemis_1_1observability_1_1_query_profiler_config_1a07a916749dc3d7ef7ae421acf98d97be" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfilerConfig</scope><name>profile_all_queries</name></member>
+      <member refid="structthemis_1_1observability_1_1_query_profiler_config_1a6118ab4d1ad4abc6010124eb360b7443" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfilerConfig</scope><name>retention_duration</name></member>
+      <member refid="structthemis_1_1observability_1_1_query_profiler_config_1aaccbc5f58944d119a419a12e718aaa71" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfilerConfig</scope><name>slow_query_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

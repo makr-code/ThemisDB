@@ -1,0 +1,664 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1scheduler" kind="namespace" language="C++">
+    <compoundname>themis::scheduler</compoundname>
+    <innerclass refid="structthemis_1_1scheduler_1_1_airflow_dag_config" prot="public">themis::scheduler::AirflowDagConfig</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" prot="public">themis::scheduler::AnomalyDetectorConfig</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_anomaly_metrics" prot="public">themis::scheduler::AnomalyMetrics</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_audit_query_params" prot="public">themis::scheduler::AuditQueryParams</innerclass>
+    <innerclass refid="classthemis_1_1scheduler_1_1_external_scheduler_adapter" prot="public">themis::scheduler::ExternalSchedulerAdapter</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_kubernetes_cron_job_config" prot="public">themis::scheduler::KubernetesCronJobConfig</innerclass>
+    <innerclass refid="classthemis_1_1scheduler_1_1_task_anomaly_detector" prot="public">themis::scheduler::TaskAnomalyDetector</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_task_audit_config" prot="public">themis::scheduler::TaskAuditConfig</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_task_audit_event" prot="public">themis::scheduler::TaskAuditEvent</innerclass>
+    <innerclass refid="classthemis_1_1scheduler_1_1_task_audit_manager" prot="public">themis::scheduler::TaskAuditManager</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_task_execution_result" prot="public">themis::scheduler::TaskExecutionResult</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_task_resource_usage" prot="public">themis::scheduler::TaskResourceUsage</innerclass>
+    <innerclass refid="classthemis_1_1scheduler_1_1_task_result_store" prot="public">themis::scheduler::TaskResultStore</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_task_security_event" prot="public">themis::scheduler::TaskSecurityEvent</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_task_statistics" prot="public">themis::scheduler::TaskStatistics</innerclass>
+    <innernamespace refid="namespacethemis_1_1scheduler_1_1test">themis::scheduler::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ExternalSchedulerType</name>
+        <qualifiedname>themis::scheduler::ExternalSchedulerType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246fa5cbe606f96514dc91a9fcfe3c884c47a" prot="public">
+          <name>KUBERNETES_CRONJOB</name>
+          <briefdescription>
+<para>Kubernetes CronJob (batch/v1). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1adad64463c80c3c05bbd6faed6a0a246fab9deaa30a735787526665d99195eb027" prot="public">
+          <name>AIRFLOW</name>
+          <briefdescription>
+<para>Apache Airflow DAG (HttpOperator). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Identifies the external scheduler platform. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/external_scheduler_adapter.h" line="30" column="1" bodyfile="include/scheduler/external_scheduler_adapter.h" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>SchedulerError</name>
+        <qualifiedname>themis::scheduler::SchedulerError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a8c632159fa131f09d04f94e3cbcd8782" prot="public">
+          <name>kSuccess</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a2d09c29ff280c50c3328c44d6dda88c1" prot="public">
+          <name>kTaskNotFound</name>
+          <initializer>= 8400</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1aa6f59390976acefdb5b21e7922c2dd47" prot="public">
+          <name>kTaskAlreadyExists</name>
+          <initializer>= 8401</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1ae27aa1baec6232e57cbfad551c6b90b0" prot="public">
+          <name>kExecutionFailed</name>
+          <initializer>= 8402</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1a9d5b55c0775961298a75c0c1fc66412a" prot="public">
+          <name>kCoordinationError</name>
+          <initializer>= 8403</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1ae4f20412061c5797d85c33a2bc9eb179" prot="public">
+          <name>kRetentionLimitExceeded</name>
+          <initializer>= 8404</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1ad98623da4fba73369ac8f8d8917cc593" prot="public">
+          <name>kTriggerInvalid</name>
+          <initializer>= 8405</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1acd5c471ea69f65457215173da83c5906" prot="public">
+          <name>kAnomalyDetected</name>
+          <initializer>= 8406</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1afcd417a134c251034b0d61b07c826394" prot="public">
+          <name>kInternalError</name>
+          <initializer>= 8407</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/scheduler_api_contract.h" line="72" column="1" bodyfile="include/scheduler/scheduler_api_contract.h" bodystart="72" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TaskEventType</name>
+        <qualifiedname>themis::scheduler::TaskEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1a50a7e139cf75c45222343c7459482277" prot="public">
+          <name>TASK_REGISTERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1ac18786b52110e65fe7484ca211b6e26f" prot="public">
+          <name>TASK_REGISTRATION_REJECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1a8ba9ae2504d8aab1c099b8dc4456ff16" prot="public">
+          <name>TASK_UNREGISTERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1aa5d73138da832f75c536b6e3b002c355" prot="public">
+          <name>TASK_ENABLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1ad09fd1d3e118f7fe55216dd0ab3ff514" prot="public">
+          <name>TASK_DISABLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1a10321378bba5035adbdff055ea56231a" prot="public">
+          <name>TASK_UPDATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1a4b69a7cab331ac0f69074ecba44116c7" prot="public">
+          <name>TASK_STARTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1a3bf541921886b2b9aee8e44a12a6e40c" prot="public">
+          <name>TASK_COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1af7b0dce3a7e6aebc29660cec93abed7a" prot="public">
+          <name>TASK_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1aa194f366388ed98c23f0e62f18960929" prot="public">
+          <name>TASK_TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1abbe399454ee80526b955f6d32fcdaba6" prot="public">
+          <name>TASK_RETRY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1ab90f2e202c581dfbc49c9c794cb7018e" prot="public">
+          <name>TASK_QUEUED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1a9abcbea6d018b7d7f1f5ca0aabceb40f" prot="public">
+          <name>TASK_DEQUEUED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1af90838c99bc58ae78642f644a25b0417" prot="public">
+          <name>MANUAL_EXECUTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1aa7997ac1fecce334a240c26bc51a12ea" prot="public">
+          <name>CRON_TRIGGERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1a6e53226ccf5e75cd898c097dcbf26287" prot="public">
+          <name>CDC_TRIGGERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1ae73bdd30227413b0fe36a34921a2dce7" prot="public">
+          <name>INTERVAL_TRIGGERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1a6bb0d3e44f44a7b6a2957b3956889bd2" prot="public">
+          <name>WEBHOOK_TRIGGERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of audit event for task execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="24" column="1" bodyfile="include/scheduler/task_audit_event.h" bodystart="24" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TaskSecurityEventType</name>
+        <qualifiedname>themis::scheduler::TaskSecurityEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4cad5396b5bf47321267f6db180394b4582" prot="public">
+          <name>RATE_LIMIT_EXCEEDED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4ca6f8dba25f874ab5896972a4c1cd970bb" prot="public">
+          <name>RESOURCE_LIMIT_EXCEEDED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4ca07d5d3912726f7104988435b8005bf65" prot="public">
+          <name>CRON_INJECTION_DETECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4cac59cec56817969ff45f4d6ae1e2b323e" prot="public">
+          <name>AQL_INJECTION_DETECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4caf12568884983e93c6cba64b30a9146a1" prot="public">
+          <name>UNAUTHORIZED_ACCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4ca8c0d68af13898dae2b6cbbafd8fbac93" prot="public">
+          <name>INVALID_CONFIGURATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4cad92483d0b1b7a1e332baf3ad6ad39baa" prot="public">
+          <name>EXCESSIVE_FAILURES</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4ca5733624677ab8affe203c9ee3ace4f2d" prot="public">
+          <name>ANOMALY_DETECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4ca744ca0bbe6b604bc462165f01338faeb" prot="public">
+          <name>PRIVILEGE_ESCALATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4ca4a2bc4809a62091dffcf5a7a3b8c3ae9" prot="public">
+          <name>SUSPICIOUS_PATTERN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of security violation event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_event.h" line="48" column="1" bodyfile="include/scheduler/task_audit_event.h" bodystart="48" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ExportFormat</name>
+        <qualifiedname>themis::scheduler::ExportFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3ad63dd5a11b7bfad43a474d4ca471dc9f" prot="public">
+          <name>JSONL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3a078710aec914075619cd9d893b1cb38c" prot="public">
+          <name>CEF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1scheduler_1a7cd06f37614e76348a73ffb35f6c58a3acc8d68c551c4a9a6d5313e07de4deafd" prot="public">
+          <name>CSV</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Export format options. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_audit_manager.h" line="100" column="1" bodyfile="include/scheduler/task_audit_manager.h" bodystart="100" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1scheduler_1a1d4d16744effb1011e7679f48a1b1afa" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::scheduler::kMaxTaskIdBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxTaskIdBytes</name>
+        <qualifiedname>themis::scheduler::kMaxTaskIdBytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/scheduler_api_contract.h" line="85" column="30" bodyfile="include/scheduler/scheduler_api_contract.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1scheduler_1aa5387a582f4a1ce25cbb60ca1acc0b95" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::scheduler::kDefaultRetentionLimit</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRetentionLimit</name>
+        <qualifiedname>themis::scheduler::kDefaultRetentionLimit</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/scheduler_api_contract.h" line="86" column="30" bodyfile="include/scheduler/scheduler_api_contract.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1scheduler_1a49b7a447e43d54db16ed96b7438af169" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::scheduler::kDefaultTaskExecutionTimeout</definition>
+        <argsstring></argsstring>
+        <name>kDefaultTaskExecutionTimeout</name>
+        <qualifiedname>themis::scheduler::kDefaultTaskExecutionTimeout</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/scheduler_api_contract.h" line="87" column="39" bodyfile="include/scheduler/scheduler_api_contract.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1ae3ea9cc06e8c59ffbfc5e86d5b10417a" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scheduler::isSchedulerFailClosed</definition>
+        <argsstring>(SchedulerError e) noexcept</argsstring>
+        <name>isSchedulerFailClosed</name>
+        <qualifiedname>themis::scheduler::isSchedulerFailClosed</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/scheduler_api_contract.h" line="89" column="24" bodyfile="include/scheduler/scheduler_api_contract.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1af6f41d978d5fb95aa6141663d10679d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::generateUUID</definition>
+        <argsstring>()</argsstring>
+        <name>generateUUID</name>
+        <qualifiedname>themis::scheduler::generateUUID</qualifiedname>
+        <briefdescription>
+<para>Generate UUID v4 for event identification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate UUID.</para>
+<para><simplesect kind="return"><para>UUID string in standard format (xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx)</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rd(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_audit_event.cpp" line="27" column="13" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="27" bodyend="49" declfile="include/scheduler/task_audit_event.h" declline="242" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1ae74052508857304bd2bae63f6f5561c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::maskSensitiveData</definition>
+        <argsstring>(const std::string &amp;data, const std::string &amp;mask_type=&quot;partial&quot;)</argsstring>
+        <name>maskSensitiveData</name>
+        <qualifiedname>themis::scheduler::maskSensitiveData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mask_type</declname>
+          <defval>&quot;partial&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Mask sensitive data for GDPR compliance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Data masking for GDPR compliance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mask_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of masking (&quot;full&quot;, &quot;partial&quot;, &quot;hash&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Masked data</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mask_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), SHA256(), c_str(), length(), std::setw(), std::setfill(), str(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_audit_event.cpp" line="58" column="13" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="58" bodyend="82" declfile="include/scheduler/task_audit_event.h" declline="250" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1aa3b37b9ac9bb415ee58bdff4cbd267e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::taskEventTypeToString</definition>
+        <argsstring>(TaskEventType type)</argsstring>
+        <name>taskEventTypeToString</name>
+        <qualifiedname>themis::scheduler::taskEventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1" kindref="member">TaskEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Convert event type to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Task Event Type To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements taskEventTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_audit_event.cpp" line="91" column="13" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="91" bodyend="112" declfile="include/scheduler/task_audit_event.h" declline="255" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1a7b2a45f5fb3ec4e00630756d25236fac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::taskSecurityEventTypeToString</definition>
+        <argsstring>(TaskSecurityEventType type)</argsstring>
+        <name>taskSecurityEventTypeToString</name>
+        <qualifiedname>themis::scheduler::taskSecurityEventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1scheduler_1abccca4c3a242f177816bbbeebd8d2c4c" kindref="member">TaskSecurityEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Convert security event type to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Task Security Event Type To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements taskSecurityEventTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_audit_event.cpp" line="120" column="13" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="120" bodyend="134" declfile="include/scheduler/task_audit_event.h" declline="260" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1scheduler_1a3ec45a6bf383389975dd2c1d71cd8fbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1" kindref="member">TaskEventType</ref></type>
+        <definition>TaskEventType themis::scheduler::taskEventTypeFromString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>taskEventTypeFromString</name>
+        <qualifiedname>themis::scheduler::taskEventTypeFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Parse event type from string (reverse of taskEventTypeToString). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Task Event Type From String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String representation of the event type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Corresponding <ref refid="namespacethemis_1_1scheduler_1a2612abe244f4a441761aa6b6799601f1" kindref="member">TaskEventType</ref>, or TASK_COMPLETED as default for unknown values</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements taskEventTypeFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheduler/task_audit_event.cpp" line="142" column="15" bodyfile="src/scheduler/task_audit_event.cpp" bodystart="142" bodyend="195" declfile="include/scheduler/task_audit_event.h" declline="267" declcolumn="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/external_scheduler_adapter.h" line="25" column="1"/>
+  </compounddef>
+</doxygen>

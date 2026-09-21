@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPULoRATrainer</compoundname>
+    <includes refid="gpu__lora__layers_8h" local="no">gpu_lora_layers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a285edd24c66a229459a4c55b47a2aff8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" kindref="compound">GPULoRALayer</ref> *</type>
+        <definition>GPULoRALayer* themis::llm::lora::GPULoRATrainer::layer_</definition>
+        <argsstring></argsstring>
+        <name>layer_</name>
+        <qualifiedname>themis::llm::lora::GPULoRATrainer::layer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="251" column="18" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1aa8224215adb6f42d050dd78b6991b375" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer" kindref="compound">GPUSGDOptimizer</ref> *</type>
+        <definition>GPUSGDOptimizer* themis::llm::lora::GPULoRATrainer::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>themis::llm::lora::GPULoRATrainer::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="252" column="21" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a21d71cd13d43b2501a4465e4c69e1967" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPULoRATrainer::GPULoRATrainer</definition>
+        <argsstring>(GPULoRALayer *layer, GPUSGDOptimizer *optimizer)</argsstring>
+        <name>GPULoRATrainer</name>
+        <qualifiedname>themis::llm::lora::GPULoRATrainer::GPULoRATrainer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" kindref="compound">GPULoRALayer</ref> *</type>
+          <declname>layer</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_s_g_d_optimizer" kindref="compound">GPUSGDOptimizer</ref> *</type>
+          <declname>optimizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="232" column="5" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="741" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a8cb86667892d6cd2a985fc91e5c30e8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPULoRATrainer::train_step</definition>
+        <argsstring>(const GPUTensor &amp;input, const GPUTensor &amp;target)</argsstring>
+        <name>train_step</name>
+        <qualifiedname>themis::llm::lora::GPULoRATrainer::train_step</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Train step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: zero_grad(), forward(), compute_mse_loss(), compute_mse_grad(), backward(), step(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="240" column="11" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="757" bodyend="777"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a1c132b1c82be882e8eb043f06a18371f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPULoRATrainer::eval_step</definition>
+        <argsstring>(const GPUTensor &amp;input, const GPUTensor &amp;target)</argsstring>
+        <name>eval_step</name>
+        <qualifiedname>themis::llm::lora::GPULoRATrainer::eval_step</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Eval step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: forward(), compute_mse_loss(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="248" column="11" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="786" bodyend="794"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a10940f57bc10edf59179137506856d43" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::GPULoRATrainer::compute_mse_loss</definition>
+        <argsstring>(const GPUTensor &amp;output, const GPUTensor &amp;target)</argsstring>
+        <name>compute_mse_loss</name>
+        <qualifiedname>themis::llm::lora::GPULoRATrainer::compute_mse_loss</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>MSE loss computation (GPU-accelerated). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute mse loss.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: mul(), cpu_data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="260" column="11" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="803" bodyend="816"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1afbfba2b5b81b9bac7732d62a121de41e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref></type>
+        <definition>GPUTensor themis::llm::lora::GPULoRATrainer::compute_mse_grad</definition>
+        <argsstring>(const GPUTensor &amp;output, const GPUTensor &amp;target)</argsstring>
+        <name>compute_mse_grad</name>
+        <qualifiedname>themis::llm::lora::GPULoRATrainer::compute_mse_grad</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Compute mse grad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_lora_layers.h" line="267" column="15" bodyfile="src/llm/lora_framework/gpu_lora_layers.cpp" bodystart="825" bodyend="830"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_lora_layers.h" line="230" column="1" bodyfile="include/llm/lora_framework/gpu_lora_layers.h" bodystart="230" bodyend="268"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1afbfba2b5b81b9bac7732d62a121de41e" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRATrainer</scope><name>compute_mse_grad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a10940f57bc10edf59179137506856d43" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRATrainer</scope><name>compute_mse_loss</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a1c132b1c82be882e8eb043f06a18371f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRATrainer</scope><name>eval_step</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a21d71cd13d43b2501a4465e4c69e1967" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRATrainer</scope><name>GPULoRATrainer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a285edd24c66a229459a4c55b47a2aff8" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRATrainer</scope><name>layer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1aa8224215adb6f42d050dd78b6991b375" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPULoRATrainer</scope><name>optimizer_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_trainer_1a8cb86667892d6cd2a985fc91e5c30e8a" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPULoRATrainer</scope><name>train_step</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

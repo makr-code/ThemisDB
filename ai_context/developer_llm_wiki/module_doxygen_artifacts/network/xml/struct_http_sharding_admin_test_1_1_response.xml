@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_http_sharding_admin_test_1_1_response" kind="struct" language="C++" prot="protected">
+    <compoundname>HttpShardingAdminTest::Response</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_http_sharding_admin_test_1_1_response_1ae7ba2aba3cd5610a4fab41688d7d4beb" prot="public" static="no" mutable="no">
+        <type>http::status</type>
+        <definition>http::status HttpShardingAdminTest::Response::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>HttpShardingAdminTest::Response::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="104" column="22" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_http_sharding_admin_test_1_1_response_1af16b4d5d8798564114fb66a7243cee64" prot="public" static="no" mutable="no">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpShardingAdminTest::Response::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>HttpShardingAdminTest::Response::body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_sharding_admin.cpp" line="105" column="22" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/network/test_http_sharding_admin.cpp" line="103" column="5" bodyfile="tests/network/test_http_sharding_admin.cpp" bodystart="103" bodyend="106"/>
+    <listofallmembers>
+      <member refid="struct_http_sharding_admin_test_1_1_response_1af16b4d5d8798564114fb66a7243cee64" prot="public" virt="non-virtual"><scope>HttpShardingAdminTest::Response</scope><name>body</name></member>
+      <member refid="struct_http_sharding_admin_test_1_1_response_1ae7ba2aba3cd5610a4fab41688d7d4beb" prot="public" virt="non-virtual"><scope>HttpShardingAdminTest::Response</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

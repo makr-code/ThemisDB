@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_token_lifecycle_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::TokenLifecycleTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_token_lifecycle_test_1a1eb476375c75e9e2c6298fbbe8f3afa3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SessionManager&gt; themis::auth::tests::TokenLifecycleTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::auth::tests::TokenLifecycleTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_token_lifecycle.cpp" line="61" column="21" bodyfile="tests/auth/test_auth_wavec_token_lifecycle.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_token_lifecycle_test_1ab84504dffce9569dec8a7e38e66b0b9f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::tests::TokenLifecycleTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::auth::tests::TokenLifecycleTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_token_lifecycle.cpp" line="56" column="10" bodyfile="tests/auth/test_auth_wavec_token_lifecycle.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::TokenLifecycleTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_token_lifecycle_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::TokenLifecycleTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_token_lifecycle_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_wavec_token_lifecycle.cpp" line="54" column="1" bodyfile="tests/auth/test_auth_wavec_token_lifecycle.cpp" bodystart="54" bodyend="62"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_token_lifecycle_test_1a1eb476375c75e9e2c6298fbbe8f3afa3" prot="protected" virt="non-virtual"><scope>themis::auth::tests::TokenLifecycleTest</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_token_lifecycle_test_1ab84504dffce9569dec8a7e38e66b0b9f" prot="protected" virt="non-virtual"><scope>themis::auth::tests::TokenLifecycleTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_auth_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::AuthContext</compoundname>
+    <includes refid="vector__api__handler_8h" local="no">vector_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_context_1a8b2526ba921728316834810475507808" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuthContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::server::AuthContext::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="35" column="17" bodyfile="include/server/vector_api_handler.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_context_1a1f7fbe96f5b2ef00eebb7e108f9cd460" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AuthContext::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::server::AuthContext::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="36" column="17" bodyfile="include/server/vector_api_handler.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_context_1accca4ae2b81105b83cad7bd30ad0759e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::AuthContext::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::server::AuthContext::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="37" column="17" bodyfile="include/server/vector_api_handler.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_context_1ab9508411af56006d743fc9ce148dc544" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::server::AuthContext::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::server::AuthContext::attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/vector_api_handler.h" line="38" column="14" bodyfile="include/server/vector_api_handler.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/vector_api_handler.h" line="34" column="1" bodyfile="include/server/vector_api_handler.h" bodystart="34" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_auth_context_1ab9508411af56006d743fc9ce148dc544" prot="public" virt="non-virtual"><scope>themis::server::AuthContext</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_context_1accca4ae2b81105b83cad7bd30ad0759e" prot="public" virt="non-virtual"><scope>themis::server::AuthContext</scope><name>roles</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_context_1a1f7fbe96f5b2ef00eebb7e108f9cd460" prot="public" virt="non-virtual"><scope>themis::server::AuthContext</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_context_1a8b2526ba921728316834810475507808" prot="public" virt="non-virtual"><scope>themis::server::AuthContext</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

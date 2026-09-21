@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_bench_stub_process_manager" kind="class" language="C++" prot="public">
+    <compoundname>BenchStubProcessManager</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_bench_stub_process_manager_1a42cde64138ca35672d6d1260a14f141c" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex BenchStubProcessManager::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>BenchStubProcessManager::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="72" column="16" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bench_stub_process_manager_1a62a9ee9c2d89e6215de3b4f5b5a46593" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, bool &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, bool&gt; BenchStubProcessManager::table_</definition>
+        <argsstring></argsstring>
+        <name>table_</name>
+        <qualifiedname>BenchStubProcessManager::table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="73" column="24" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bench_stub_process_manager_1afdb04754caadaeca81bf56c9efe4525c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t BenchStubProcessManager::next_pid_</definition>
+        <argsstring></argsstring>
+        <name>next_pid_</name>
+        <qualifiedname>BenchStubProcessManager::next_pid_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="74" column="14" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_bench_stub_process_manager_1a297d3ed56238bde60e1476da1fdcb3aa" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; BenchStubProcessManager::active_</definition>
+        <argsstring></argsstring>
+        <name>active_</name>
+        <qualifiedname>BenchStubProcessManager::active_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="75" column="17" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_bench_stub_process_manager_1a67f1a2cf790b0f4702c45e5a9a2ace1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BenchStubProcessManager::BenchStubProcessManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>BenchStubProcessManager</name>
+        <qualifiedname>BenchStubProcessManager::BenchStubProcessManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="43" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bench_stub_process_manager_1ab3cc192d265fd29b0df7d74b63699f2a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t BenchStubProcessManager::spawn</definition>
+        <argsstring>()</argsstring>
+        <name>spawn</name>
+        <qualifiedname>BenchStubProcessManager::spawn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="45" column="14" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bench_stub_process_manager_1a6a1e844bbb3550abbfb1e6d515bf21c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BenchStubProcessManager::terminate</definition>
+        <argsstring>(uint64_t pid)</argsstring>
+        <name>terminate</name>
+        <qualifiedname>BenchStubProcessManager::terminate</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>pid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="53" column="10" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="53" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bench_stub_process_manager_1ab4d7ae0a7a2ae282a7257595cb9fc3bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BenchStubProcessManager::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>BenchStubProcessManager::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="62" column="10" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="62" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_bench_stub_process_manager_1ab8245b3332d702058b45f00ffcff3e61" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t BenchStubProcessManager::active</definition>
+        <argsstring>() const</argsstring>
+        <name>active</name>
+        <qualifiedname>BenchStubProcessManager::active</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="69" column="13" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_dedicated_gates.cpp" line="41" column="1" bodyfile="benchmarks/process/bench_process_dedicated_gates.cpp" bodystart="41" bodyend="76"/>
+    <listofallmembers>
+      <member refid="class_bench_stub_process_manager_1ab8245b3332d702058b45f00ffcff3e61" prot="public" virt="non-virtual"><scope>BenchStubProcessManager</scope><name>active</name></member>
+      <member refid="class_bench_stub_process_manager_1a297d3ed56238bde60e1476da1fdcb3aa" prot="private" virt="non-virtual"><scope>BenchStubProcessManager</scope><name>active_</name></member>
+      <member refid="class_bench_stub_process_manager_1a67f1a2cf790b0f4702c45e5a9a2ace1a" prot="public" virt="non-virtual"><scope>BenchStubProcessManager</scope><name>BenchStubProcessManager</name></member>
+      <member refid="class_bench_stub_process_manager_1a42cde64138ca35672d6d1260a14f141c" prot="private" virt="non-virtual"><scope>BenchStubProcessManager</scope><name>mu_</name></member>
+      <member refid="class_bench_stub_process_manager_1afdb04754caadaeca81bf56c9efe4525c" prot="private" virt="non-virtual"><scope>BenchStubProcessManager</scope><name>next_pid_</name></member>
+      <member refid="class_bench_stub_process_manager_1ab4d7ae0a7a2ae282a7257595cb9fc3bd" prot="public" virt="non-virtual"><scope>BenchStubProcessManager</scope><name>reset</name></member>
+      <member refid="class_bench_stub_process_manager_1ab3cc192d265fd29b0df7d74b63699f2a" prot="public" virt="non-virtual"><scope>BenchStubProcessManager</scope><name>spawn</name></member>
+      <member refid="class_bench_stub_process_manager_1a62a9ee9c2d89e6215de3b4f5b5a46593" prot="private" virt="non-virtual"><scope>BenchStubProcessManager</scope><name>table_</name></member>
+      <member refid="class_bench_stub_process_manager_1a6a1e844bbb3550abbfb1e6d515bf21c9" prot="public" virt="non-virtual"><scope>BenchStubProcessManager</scope><name>terminate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

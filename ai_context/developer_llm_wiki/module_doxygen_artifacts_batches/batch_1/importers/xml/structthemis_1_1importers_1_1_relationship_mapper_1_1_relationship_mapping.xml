@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::RelationshipMapper::RelationshipMapping</compoundname>
+    <includes refid="relationship__mapper_8h" local="no">relationship_mapper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1ad11cf617fafdbc8572a03fb278bdd811" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RelationshipMapper::RelationshipMapping::edge_type</definition>
+        <argsstring></argsstring>
+        <name>edge_type</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::edge_type</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;orders_references_users&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="29" column="21" bodyfile="include/importers/relationship_mapper.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a7ea4ba08c6f4f2b930265725dfd403eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RelationshipMapper::RelationshipMapping::source_table</definition>
+        <argsstring></argsstring>
+        <name>source_table</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::source_table</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="30" column="21" bodyfile="include/importers/relationship_mapper.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1acd7305e407eedb576cf3e397483f262f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RelationshipMapper::RelationshipMapping::source_column</definition>
+        <argsstring></argsstring>
+        <name>source_column</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::source_column</qualifiedname>
+        <briefdescription>
+<para>comma-joined for composite FKs </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="31" column="21" bodyfile="include/importers/relationship_mapper.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1ae22802fe2ad71707c21d352f06221caa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RelationshipMapper::RelationshipMapping::target_table</definition>
+        <argsstring></argsstring>
+        <name>target_table</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::target_table</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="32" column="21" bodyfile="include/importers/relationship_mapper.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1afbc1d52e55629ea0d68ba0c8c93c0cc7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RelationshipMapper::RelationshipMapping::target_column</definition>
+        <argsstring></argsstring>
+        <name>target_column</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::target_column</qualifiedname>
+        <briefdescription>
+<para>comma-joined for composite FKs </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="33" column="21" bodyfile="include/importers/relationship_mapper.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a948ea92af15fbf4b7b65e354fb7cc1f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RelationshipMapper::RelationshipMapping::cardinality</definition>
+        <argsstring></argsstring>
+        <name>cardinality</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::cardinality</qualifiedname>
+        <briefdescription>
+<para>ONE_TO_ONE | MANY_TO_ONE | MANY_TO_MANY. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="34" column="21" bodyfile="include/importers/relationship_mapper.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a5d62c4b7cc8683ab8b660b9f1e5b9ad1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RelationshipMapper::RelationshipMapping::on_delete_action</definition>
+        <argsstring></argsstring>
+        <name>on_delete_action</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::on_delete_action</qualifiedname>
+        <briefdescription>
+<para>CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="35" column="21" bodyfile="include/importers/relationship_mapper.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1aa208151c5b0c66c768886912f55add03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::RelationshipMapper::RelationshipMapping::on_update_action</definition>
+        <argsstring></argsstring>
+        <name>on_update_action</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::on_update_action</qualifiedname>
+        <briefdescription>
+<para>CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="36" column="21" bodyfile="include/importers/relationship_mapper.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1aa61c58b11ad7594b6cd3d74d4f98e38a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::RelationshipMapper::RelationshipMapping::is_self_referential</definition>
+        <argsstring></argsstring>
+        <name>is_self_referential</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::is_self_referential</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>source_table == target_table </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="37" column="14" bodyfile="include/importers/relationship_mapper.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a92e9220dd82839b2a0b0e776ceabecad" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::RelationshipMapper::RelationshipMapping::toThemisEdge</definition>
+        <argsstring>() const</argsstring>
+        <name>toThemisEdge</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::toThemisEdge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="39" column="14" bodyfile="include/importers/relationship_mapper.h" bodystart="39" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a1f239a6c9c42ea09baecec3a42e1638b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::RelationshipMapper::RelationshipMapping::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::RelationshipMapper::RelationshipMapping::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/relationship_mapper.h" line="53" column="14" bodyfile="include/importers/relationship_mapper.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/relationship_mapper.h" line="28" column="5" bodyfile="include/importers/relationship_mapper.h" bodystart="28" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a948ea92af15fbf4b7b65e354fb7cc1f1" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>cardinality</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1ad11cf617fafdbc8572a03fb278bdd811" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>edge_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1aa61c58b11ad7594b6cd3d74d4f98e38a" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>is_self_referential</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a5d62c4b7cc8683ab8b660b9f1e5b9ad1" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>on_delete_action</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1aa208151c5b0c66c768886912f55add03" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>on_update_action</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1acd7305e407eedb576cf3e397483f262f" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>source_column</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a7ea4ba08c6f4f2b930265725dfd403eb" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>source_table</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1afbc1d52e55629ea0d68ba0c8c93c0cc7" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>target_column</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1ae22802fe2ad71707c21d352f06221caa" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>target_table</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a1f239a6c9c42ea09baecec3a42e1638b" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_relationship_mapper_1_1_relationship_mapping_1a92e9220dd82839b2a0b0e776ceabecad" prot="public" virt="non-virtual"><scope>themis::importers::RelationshipMapper::RelationshipMapping</scope><name>toThemisEdge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

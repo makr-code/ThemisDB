@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_channel_binding_generator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::ChannelBindingGenerator</compoundname>
+    <includes refid="kerberos__security_8h" local="no">kerberos_security.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_channel_binding_generator_1ad5b5b440522f057bf1fa5536bd9e3235" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::ChannelBindingGenerator::generateFromTLSCertificate</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;server_cert)</argsstring>
+        <name>generateFromTLSCertificate</name>
+        <qualifiedname>themis::auth::ChannelBindingGenerator::generateFromTLSCertificate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>server_cert</declname>
+        </param>
+        <briefdescription>
+<para>Generate From TLSCertificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">server_cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">server_cert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hash(), SHA256(), data(), size(), utils::Logger::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="200" column="24" bodyfile="src/auth/kerberos_security.cpp" bodystart="830" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_channel_binding_generator_1aefdf20723a50e143c1bf12412f67ab19" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::ChannelBindingGenerator::generateFromTLSFinished</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;finished_message)</argsstring>
+        <name>generateFromTLSFinished</name>
+        <qualifiedname>themis::auth::ChannelBindingGenerator::generateFromTLSFinished</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>finished_message</declname>
+        </param>
+        <briefdescription>
+<para>Generate From TLSFinished. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">finished_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">finished_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::Logger::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="209" column="24" bodyfile="src/auth/kerberos_security.cpp" bodystart="846" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_channel_binding_generator_1af84d2ae7defa0e92a5fd60d62fa2407c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::ChannelBindingGenerator::generateFromTLSExporter</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;exporter_value)</argsstring>
+        <name>generateFromTLSExporter</name>
+        <qualifiedname>themis::auth::ChannelBindingGenerator::generateFromTLSExporter</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>exporter_value</declname>
+        </param>
+        <briefdescription>
+<para>Generate From TLSExporter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">exporter_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">exporter_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::Logger::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="218" column="24" bodyfile="src/auth/kerberos_security.cpp" bodystart="858" bodyend="862"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_channel_binding_generator_1aad8d49112242fafc5791faac48614cd6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::ChannelBindingGenerator::formatChannelBinding</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;initiator_address, const std::vector&lt; uint8_t &gt; &amp;acceptor_address, const std::vector&lt; uint8_t &gt; &amp;application_data)</argsstring>
+        <name>formatChannelBinding</name>
+        <qualifiedname>themis::auth::ChannelBindingGenerator::formatChannelBinding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>initiator_address</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>acceptor_address</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>application_data</declname>
+        </param>
+        <briefdescription>
+<para>Format Channel Binding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">initiator_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">acceptor_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">application_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">initiator_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">acceptor_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">application_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), end(), size(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="229" column="24" bodyfile="src/auth/kerberos_security.cpp" bodystart="872" bodyend="924"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/kerberos_security.h" line="193" column="1" bodyfile="include/auth/kerberos_security.h" bodystart="193" bodyend="234"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_channel_binding_generator_1aad8d49112242fafc5791faac48614cd6" prot="public" virt="non-virtual"><scope>themis::auth::ChannelBindingGenerator</scope><name>formatChannelBinding</name></member>
+      <member refid="classthemis_1_1auth_1_1_channel_binding_generator_1ad5b5b440522f057bf1fa5536bd9e3235" prot="public" virt="non-virtual"><scope>themis::auth::ChannelBindingGenerator</scope><name>generateFromTLSCertificate</name></member>
+      <member refid="classthemis_1_1auth_1_1_channel_binding_generator_1af84d2ae7defa0e92a5fd60d62fa2407c" prot="public" virt="non-virtual"><scope>themis::auth::ChannelBindingGenerator</scope><name>generateFromTLSExporter</name></member>
+      <member refid="classthemis_1_1auth_1_1_channel_binding_generator_1aefdf20723a50e143c1bf12412f67ab19" prot="public" virt="non-virtual"><scope>themis::auth::ChannelBindingGenerator</scope><name>generateFromTLSFinished</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

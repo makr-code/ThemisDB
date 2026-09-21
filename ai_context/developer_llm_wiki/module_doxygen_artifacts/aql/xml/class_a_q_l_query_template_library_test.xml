@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_query_template_library_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLQueryTemplateLibraryTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_query_template_library_test_1aa2976959242fb618bdad7552d86618e1" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_query_template_library" kindref="compound">AQLQueryTemplateLibrary</ref></type>
+        <definition>AQLQueryTemplateLibrary AQLQueryTemplateLibraryTest::lib</definition>
+        <argsstring></argsstring>
+        <name>lib</name>
+        <qualifiedname>AQLQueryTemplateLibraryTest::lib</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_query_template_library.cpp" line="17" column="29" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLQueryTemplateLibraryTest</label>
+        <link refid="class_a_q_l_query_template_library_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLQueryTemplateLibraryTest</label>
+        <link refid="class_a_q_l_query_template_library_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>lib</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::aql::AQLQueryTemplateLibrary</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_query_template_library"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_query_template_library.cpp" line="15" column="1" bodyfile="tests/aql/test_aql_query_template_library.cpp" bodystart="15" bodyend="18"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_query_template_library_test_1aa2976959242fb618bdad7552d86618e1" prot="protected" virt="non-virtual"><scope>AQLQueryTemplateLibraryTest</scope><name>lib</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

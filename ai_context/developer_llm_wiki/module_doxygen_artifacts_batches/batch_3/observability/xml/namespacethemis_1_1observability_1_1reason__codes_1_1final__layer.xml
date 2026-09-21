@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer" kind="namespace" language="C++">
+    <compoundname>themis::observability::reason_codes::final_layer</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1a8c13683bd24213f5872bfc1653599873" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kPackageNotFound</definition>
+        <argsstring></argsstring>
+        <name>kPackageNotFound</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kPackageNotFound</qualifiedname>
+        <initializer>= &quot;FINAL_LAYER_PACKAGE_NOT_FOUND&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="62" column="35" bodyfile="include/observability/reason_codes.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1ad212cd07d0787575c5f9ad97d0bf2658" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kRoutedByModelRule</definition>
+        <argsstring></argsstring>
+        <name>kRoutedByModelRule</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kRoutedByModelRule</qualifiedname>
+        <initializer>= &quot;FINAL_LAYER_ROUTED_BY_MODEL_RULE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="63" column="35" bodyfile="include/observability/reason_codes.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1ac9bca3b9f74d68ffb301601f1966f138" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kSinglePackageSelected</definition>
+        <argsstring></argsstring>
+        <name>kSinglePackageSelected</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kSinglePackageSelected</qualifiedname>
+        <initializer>= &quot;FINAL_LAYER_SINGLE_PACKAGE_SELECTED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="64" column="35" bodyfile="include/observability/reason_codes.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1a9e53ff5b5933a210d22d127432be0b69" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kPackageUnresolved</definition>
+        <argsstring></argsstring>
+        <name>kPackageUnresolved</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kPackageUnresolved</qualifiedname>
+        <initializer>= &quot;FINAL_LAYER_PACKAGE_UNRESOLVED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="65" column="35" bodyfile="include/observability/reason_codes.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1ac9b8e6f3bc5281ce25e919a99e9be8cc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kPackageNotActive</definition>
+        <argsstring></argsstring>
+        <name>kPackageNotActive</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kPackageNotActive</qualifiedname>
+        <initializer>= &quot;FINAL_LAYER_PACKAGE_NOT_ACTIVE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="66" column="35" bodyfile="include/observability/reason_codes.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1afae2c1f854d6b78bbd04c2d5356da3f6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kPackageNotDeployable</definition>
+        <argsstring></argsstring>
+        <name>kPackageNotDeployable</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kPackageNotDeployable</qualifiedname>
+        <initializer>= &quot;FINAL_LAYER_PACKAGE_NOT_DEPLOYABLE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="67" column="35" bodyfile="include/observability/reason_codes.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1a0e0e7430ecc34f1e4ded4e2a115b62c8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kCompatibilityRejected</definition>
+        <argsstring></argsstring>
+        <name>kCompatibilityRejected</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kCompatibilityRejected</qualifiedname>
+        <initializer>= &quot;FINAL_LAYER_COMPATIBILITY_REJECTED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="68" column="35" bodyfile="include/observability/reason_codes.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1a5ba5b7f48d286e1ddaa5b21e2cf5ca9b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kSelectedDirect</definition>
+        <argsstring></argsstring>
+        <name>kSelectedDirect</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kSelectedDirect</qualifiedname>
+        <initializer>= &quot;FINAL_LAYER_SELECTED_DIRECT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="69" column="35" bodyfile="include/observability/reason_codes.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1ac7d424fc4ab13359e7995f9bbe2e48c6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kFallbackPackageNotFound</definition>
+        <argsstring></argsstring>
+        <name>kFallbackPackageNotFound</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kFallbackPackageNotFound</qualifiedname>
+        <initializer>= &quot;PACKAGE_NOT_FOUND&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="71" column="35" bodyfile="include/observability/reason_codes.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1a5a5060b97cf9606b3b33a63354480770" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kFallbackPackageSelectionFailed</definition>
+        <argsstring></argsstring>
+        <name>kFallbackPackageSelectionFailed</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kFallbackPackageSelectionFailed</qualifiedname>
+        <initializer>= &quot;PACKAGE_SELECTION_FAILED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="72" column="35" bodyfile="include/observability/reason_codes.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1af64230e80c34f76d0cc7e6da824bdaff" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kFallbackPackageNotActive</definition>
+        <argsstring></argsstring>
+        <name>kFallbackPackageNotActive</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kFallbackPackageNotActive</qualifiedname>
+        <initializer>= &quot;PACKAGE_NOT_ACTIVE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="73" column="35" bodyfile="include/observability/reason_codes.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1a3049d8b3ce37469103fe3504832dbaff" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kFallbackPackageNotDeployable</definition>
+        <argsstring></argsstring>
+        <name>kFallbackPackageNotDeployable</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kFallbackPackageNotDeployable</qualifiedname>
+        <initializer>= &quot;PACKAGE_NOT_DEPLOYABLE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="74" column="35" bodyfile="include/observability/reason_codes.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1final__layer_1af4bbf1b6b8a168942ed99d9467bc5b57" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::final_layer::kFallbackCompatibilityRejected</definition>
+        <argsstring></argsstring>
+        <name>kFallbackCompatibilityRejected</name>
+        <qualifiedname>themis::observability::reason_codes::final_layer::kFallbackCompatibilityRejected</qualifiedname>
+        <initializer>= &quot;COMPATIBILITY_REJECTED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="75" column="35" bodyfile="include/observability/reason_codes.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/reason_codes.h" line="61" column="1"/>
+  </compounddef>
+</doxygen>

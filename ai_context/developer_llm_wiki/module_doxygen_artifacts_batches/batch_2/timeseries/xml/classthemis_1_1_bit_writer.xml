@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_bit_writer" kind="class" language="C++" prot="public">
+    <compoundname>themis::BitWriter</compoundname>
+    <includes refid="gorilla_8h" local="no">gorilla.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_bit_writer_1a669910ad6a068b2d17b91f3042ada255" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::BitWriter::buf_</definition>
+        <argsstring></argsstring>
+        <name>buf_</name>
+        <qualifiedname>themis::BitWriter::buf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="83" column="17" bodyfile="include/timeseries/gorilla.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_bit_writer_1a089fc862dc19ee1ecc4164f775fc2e88" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::BitWriter::cur_</definition>
+        <argsstring></argsstring>
+        <name>cur_</name>
+        <qualifiedname>themis::BitWriter::cur_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="84" column="13" bodyfile="include/timeseries/gorilla.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_bit_writer_1abf3aafbae0e3e3427d993a0c1eae4b1b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::BitWriter::bitpos_</definition>
+        <argsstring></argsstring>
+        <name>bitpos_</name>
+        <qualifiedname>themis::BitWriter::bitpos_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="85" column="9" bodyfile="include/timeseries/gorilla.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_bit_writer_1aa007b6fff53f5d9945ca9d2b7cc93a4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BitWriter::writeBit</definition>
+        <argsstring>(bool bit)</argsstring>
+        <name>writeBit</name>
+        <qualifiedname>themis::BitWriter::writeBit</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>bit</declname>
+        </param>
+        <briefdescription>
+<para>Write Bit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>----<mdash/> <ref refid="classthemis_1_1_bit_writer" kindref="compound">BitWriter</ref> ----<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="55" column="10" bodyfile="src/timeseries/gorilla.cpp" bodystart="88" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_writer_1a79c25400ee2affcaafa97a3bb3235721" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BitWriter::writeBits</definition>
+        <argsstring>(uint64_t value, int bits)</argsstring>
+        <name>writeBits</name>
+        <qualifiedname>themis::BitWriter::writeBits</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>bits</declname>
+        </param>
+        <briefdescription>
+<para>Write Bits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_bit_writer_1aa007b6fff53f5d9945ca9d2b7cc93a4b" kindref="member">writeBit()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="61" column="10" bodyfile="src/timeseries/gorilla.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_writer_1ac0ddd7f826ca70d7dc4877ac8d8642b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BitWriter::writeVarUInt</definition>
+        <argsstring>(uint64_t value)</argsstring>
+        <name>writeVarUInt</name>
+        <qualifiedname>themis::BitWriter::writeVarUInt</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+          <defname>v</defname>
+        </param>
+        <briefdescription>
+<para>Write Var UInt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="66" column="10" bodyfile="src/timeseries/gorilla.cpp" bodystart="115" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_writer_1afc36a331043433f3da0f3dd9e481d87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BitWriter::writeZigZag64</definition>
+        <argsstring>(int64_t value)</argsstring>
+        <name>writeZigZag64</name>
+        <qualifiedname>themis::BitWriter::writeZigZag64</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Write Zig Zag64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_bit_writer_1ac0ddd7f826ca70d7dc4877ac8d8642b6" kindref="member">writeVarUInt()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="71" column="10" bodyfile="src/timeseries/gorilla.cpp" bodystart="129" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_writer_1a28d231e2cf5960b09f338b1afd10ced3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::BitWriter::alignToByte</definition>
+        <argsstring>()</argsstring>
+        <name>alignToByte</name>
+        <qualifiedname>themis::BitWriter::alignToByte</qualifiedname>
+        <briefdescription>
+<para>Align To Byte. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="75" column="10" bodyfile="src/timeseries/gorilla.cpp" bodystart="138" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_bit_writer_1a1df854dcce57c87c1bcee59b642167a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::BitWriter::finish</definition>
+        <argsstring>()</argsstring>
+        <name>finish</name>
+        <qualifiedname>themis::BitWriter::finish</qualifiedname>
+        <briefdescription>
+<para>Finish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gorilla.h" line="80" column="17" bodyfile="src/timeseries/gorilla.cpp" bodystart="151" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bit writer component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/gorilla.h" line="49" column="1" bodyfile="include/timeseries/gorilla.h" bodystart="49" bodyend="86"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_bit_writer_1a28d231e2cf5960b09f338b1afd10ced3" prot="public" virt="non-virtual"><scope>themis::BitWriter</scope><name>alignToByte</name></member>
+      <member refid="classthemis_1_1_bit_writer_1abf3aafbae0e3e3427d993a0c1eae4b1b" prot="private" virt="non-virtual"><scope>themis::BitWriter</scope><name>bitpos_</name></member>
+      <member refid="classthemis_1_1_bit_writer_1a669910ad6a068b2d17b91f3042ada255" prot="private" virt="non-virtual"><scope>themis::BitWriter</scope><name>buf_</name></member>
+      <member refid="classthemis_1_1_bit_writer_1a089fc862dc19ee1ecc4164f775fc2e88" prot="private" virt="non-virtual"><scope>themis::BitWriter</scope><name>cur_</name></member>
+      <member refid="classthemis_1_1_bit_writer_1a1df854dcce57c87c1bcee59b642167a3" prot="public" virt="non-virtual"><scope>themis::BitWriter</scope><name>finish</name></member>
+      <member refid="classthemis_1_1_bit_writer_1aa007b6fff53f5d9945ca9d2b7cc93a4b" prot="public" virt="non-virtual"><scope>themis::BitWriter</scope><name>writeBit</name></member>
+      <member refid="classthemis_1_1_bit_writer_1a79c25400ee2affcaafa97a3bb3235721" prot="public" virt="non-virtual"><scope>themis::BitWriter</scope><name>writeBits</name></member>
+      <member refid="classthemis_1_1_bit_writer_1ac0ddd7f826ca70d7dc4877ac8d8642b6" prot="public" virt="non-virtual"><scope>themis::BitWriter</scope><name>writeVarUInt</name></member>
+      <member refid="classthemis_1_1_bit_writer_1afc36a331043433f3da0f3dd9e481d87e" prot="public" virt="non-virtual"><scope>themis::BitWriter</scope><name>writeZigZag64</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

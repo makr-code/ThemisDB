@@ -1,0 +1,679 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_query_expander" kind="class" language="C++" prot="public">
+    <compoundname>themis::QueryExpander</compoundname>
+    <includes refid="query__expander_8h" local="no">query_expander.h</includes>
+    <innerclass refid="structthemis_1_1_query_expander_1_1_config" prot="public">themis::QueryExpander::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_query_expander_1a7ea483d40671148e6e88a3e861a57a09" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_query_expander_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::QueryExpander::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::QueryExpander::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="218" column="12" bodyfile="include/search/query_expander.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_query_expander_1aae5b1794dbac5d5efc84eb4431c66eee" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::QueryExpander::synonyms_</definition>
+        <argsstring></argsstring>
+        <name>synonyms_</name>
+        <qualifiedname>themis::QueryExpander::synonyms_</qualifiedname>
+        <briefdescription>
+<para>term → list of synonym terms/phrases (keys are lowercase) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="221" column="24" bodyfile="include/search/query_expander.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_query_expander_1abdce328f6fd957bb2a29bf02d6120d97" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::QueryExpander::vocabulary_</definition>
+        <argsstring></argsstring>
+        <name>vocabulary_</name>
+        <qualifiedname>themis::QueryExpander::vocabulary_</qualifiedname>
+        <briefdescription>
+<para>vocabulary for spelling correction (lowercase) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="224" column="24" bodyfile="include/search/query_expander.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_query_expander_1aba271b8e31576e7140bd69a237924486" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::QueryExpander::word_frequencies_</definition>
+        <argsstring></argsstring>
+        <name>word_frequencies_</name>
+        <qualifiedname>themis::QueryExpander::word_frequencies_</qualifiedname>
+        <briefdescription>
+<para>optional word frequency counts for frequency-weighted suggestion ranking (lowercase keys) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="227" column="24" bodyfile="include/search/query_expander.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a8ebfd6c676351bf9beb6b5ecf9b4e6d2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::QueryExpander::QueryExpander</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>QueryExpander</name>
+        <qualifiedname>themis::QueryExpander::QueryExpander</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_query_expander_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_query_expander_1_1_config_1ad8849114bb559d01b767dd6558b33968" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_query_expander" kindref="compound">QueryExpander</ref> with the given config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if max_edit_distance &lt; 0 or max_expansions == 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="89" column="14" bodyfile="src/search/query_expander.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a9062c7c26daf59c10803f8ed136315c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::QueryExpander::QueryExpander</definition>
+        <argsstring>(const QueryExpander &amp;)=delete</argsstring>
+        <name>QueryExpander</name>
+        <qualifiedname>themis::QueryExpander::QueryExpander</qualifiedname>
+        <param>
+          <type>const QueryExpander &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a3b3f7395f9d26d3d020036188fb984df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_query_expander_1a8ebfd6c676351bf9beb6b5ecf9b4e6d2" kindref="member">QueryExpander</ref> &amp;</type>
+        <definition>QueryExpander &amp; themis::QueryExpander::operator=</definition>
+        <argsstring>(const QueryExpander &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::QueryExpander::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_query_expander_1a8ebfd6c676351bf9beb6b5ecf9b4e6d2" kindref="member">QueryExpander</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="93" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a0a5b039cd1764f1445d5a17a34b42919" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::QueryExpander::QueryExpander</definition>
+        <argsstring>(QueryExpander &amp;&amp;) noexcept=default</argsstring>
+        <name>QueryExpander</name>
+        <qualifiedname>themis::QueryExpander::QueryExpander</qualifiedname>
+        <param>
+          <type>QueryExpander &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a2fa310c9ccfcb190b5edfdfeaae1870e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_query_expander_1a8ebfd6c676351bf9beb6b5ecf9b4e6d2" kindref="member">QueryExpander</ref> &amp;</type>
+        <definition>QueryExpander &amp; themis::QueryExpander::operator=</definition>
+        <argsstring>(QueryExpander &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::QueryExpander::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_query_expander_1a8ebfd6c676351bf9beb6b5ecf9b4e6d2" kindref="member">QueryExpander</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="95" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1af410992ef60b6ca13d51247c3e7f51de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::QueryExpander::addSynonyms</definition>
+        <argsstring>(const std::string &amp;term, const std::vector&lt; std::string &gt; &amp;synonyms)</argsstring>
+        <name>addSynonyms</name>
+        <qualifiedname>themis::QueryExpander::addSynonyms</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>synonyms</declname>
+        </param>
+        <briefdescription>
+<para>Register synonyms for a term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Synonyms.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The canonical term (will be lowercased). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>synonyms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Equivalent terms/phrases for <computeroutput>term</computeroutput>.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">synonyms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: toLower(), std::find(), begin(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="107" column="10" bodyfile="src/search/query_expander.cpp" bodystart="47" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a19d3c2a73fae00d0f767b925c2090d7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::QueryExpander::addVocabulary</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;words)</argsstring>
+        <name>addVocabulary</name>
+        <qualifiedname>themis::QueryExpander::addVocabulary</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>words</declname>
+        </param>
+        <briefdescription>
+<para>Add words to the vocabulary used for spelling correction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Vocabulary.</para>
+<para>Words already in the vocabulary are ignored (idempotent).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">words</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(), toLower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="114" column="10" bodyfile="src/search/query_expander.cpp" bodystart="65" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1ae02689a5e8210804590979e55e895a31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::QueryExpander::addVocabularyWithFrequencies</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, size_t &gt; &gt; &amp;words_with_frequencies)</argsstring>
+        <name>addVocabularyWithFrequencies</name>
+        <qualifiedname>themis::QueryExpander::addVocabularyWithFrequencies</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, size_t &gt; &gt; &amp;</type>
+          <declname>words_with_frequencies</declname>
+        </param>
+        <briefdescription>
+<para>Add words with associated frequency counts to the vocabulary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Registers each word in the spelling-correction vocabulary and records its corpus frequency. When multiple candidates share the same edit distance, higher-frequency words are ranked first and receive a higher confidence score. Calling this function multiple times for the same word accumulates the frequency counts.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>words_with_frequencies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pairs of (word, frequency_count). Frequency counts must be &gt; 0; zero values are ignored. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="128" column="10" bodyfile="src/search/query_expander.cpp" bodystart="71" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a717d88766fbfbdfffa8fc816f96cfdd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_expanded_query" kindref="compound">ExpandedQuery</ref></type>
+        <definition>ExpandedQuery themis::QueryExpander::expand</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>expand</name>
+        <qualifiedname>themis::QueryExpander::expand</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Expand a user query: tokenize, correct spelling, add synonyms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw user input. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1_expanded_query" kindref="compound">ExpandedQuery</ref>. Never throws. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="141" column="19" bodyfile="src/search/query_expander.cpp" bodystart="87" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a46bf2193b6af57cab0a43f461b084225" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::QueryExpander::correctSpelling</definition>
+        <argsstring>(const std::string &amp;word) const</argsstring>
+        <name>correctSpelling</name>
+        <qualifiedname>themis::QueryExpander::correctSpelling</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Return the best spelling correction for a single word. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Searches the registered vocabulary for the closest word within <ref refid="structthemis_1_1_query_expander_1_1_config_1ae22cbd9d6a1f8b5b7a5ef63ce53b9cd3" kindref="member">Config::max_edit_distance</ref>. Returns the original word if no close match is found.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Single word to correct (must not contain spaces). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Corrected word, or <computeroutput>word</computeroutput> unchanged if no correction found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="153" column="17" bodyfile="src/search/query_expander.cpp" bodystart="164" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1ad2b2a0d7477782f353405d5253064e01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_spelling_correction" kindref="compound">SpellingCorrection</ref> &gt;</type>
+        <definition>std::vector&lt; SpellingCorrection &gt; themis::QueryExpander::suggestSpellingCorrections</definition>
+        <argsstring>(const std::string &amp;word, size_t max_suggestions=5) const</argsstring>
+        <name>suggestSpellingCorrections</name>
+        <qualifiedname>themis::QueryExpander::suggestSpellingCorrections</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>word</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_suggestions</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Return ranked spelling correction candidates for a single word. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns up to <computeroutput>max_suggestions</computeroutput> candidates from the registered vocabulary, sorted by ascending edit distance then alphabetically for stability. Each candidate carries a normalized confidence score: the word with edit distance 1 has higher confidence than one with edit distance 2, etc.</para>
+<para>An empty list is returned when the word is already in the vocabulary, spelling correction is disabled, or the vocabulary is empty.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Single word to find corrections for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_suggestions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of candidates to return (default 5). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked list of <ref refid="structthemis_1_1_spelling_correction" kindref="compound">SpellingCorrection</ref> candidates; may be empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="170" column="17" bodyfile="src/search/query_expander.cpp" bodystart="194" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1aec390513127222e79f524728348f645d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_spelling_correction" kindref="compound">SpellingCorrection</ref> &gt;</type>
+        <definition>std::vector&lt; SpellingCorrection &gt; themis::QueryExpander::suggestQueryCorrections</definition>
+        <argsstring>(const std::string &amp;query, size_t max_suggestions=5) const</argsstring>
+        <name>suggestQueryCorrections</name>
+        <qualifiedname>themis::QueryExpander::suggestQueryCorrections</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_suggestions</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Return ranked full-query spelling correction suggestions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tokenizes the query, independently gathers up to <computeroutput>max_suggestions</computeroutput> corrections per token, and returns full-query strings formed by substituting one token at a time with its best correction. Results are sorted by total edit distance (ascending).</para>
+<para>An empty list is returned when no token needs correction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw user query (may contain multiple tokens). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_suggestions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of full-query suggestions (default 5). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ranked list of <ref refid="structthemis_1_1_spelling_correction" kindref="compound">SpellingCorrection</ref> structs where <computeroutput>suggestion</computeroutput> is a full query string; may be empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="189" column="17" bodyfile="src/search/query_expander.cpp" bodystart="276" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1ade5d61eb244d130c7e82d36fd88783ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::QueryExpander::suggestAlternatives</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>suggestAlternatives</name>
+        <qualifiedname>themis::QueryExpander::suggestAlternatives</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Suggest alternative phrasings for the whole query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns up to <ref refid="structthemis_1_1_query_expander_1_1_config_1ade2872217578417c65db6bf869e83fd2" kindref="member">Config::max_expansions</ref> alternative queries formed by replacing one token at a time with its synonyms.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of alternative query strings (may be empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="202" column="17" bodyfile="src/search/query_expander.cpp" bodystart="379" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1ad0b33f626b55cebf66e5a573c5993a68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::QueryExpander::relaxQuery</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>relaxQuery</name>
+        <qualifiedname>themis::QueryExpander::relaxQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Build a relaxed (OR-logic) query for zero-result fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drops the least-discriminative token from the query, returning a shorter query that is more likely to match.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Relaxed query with one token fewer, or empty string for single-token input. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="213" column="17" bodyfile="src/search/query_expander.cpp" bodystart="418" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a15d882b663422ccb47168535eb9193f7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_query_expander_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::QueryExpander::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::QueryExpander::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="215" column="18" bodyfile="include/search/query_expander.h" bodystart="215" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a1413932a20ebf54d2cfede75f7bb91d4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::QueryExpander::tokenize</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::QueryExpander::tokenize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: iss(), std::isalnum(), std::tolower(), empty(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="230" column="24" bodyfile="src/search/query_expander.cpp" bodystart="444" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1aca924563a72c3b0886ea5dc15f35de57" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::QueryExpander::toLower</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>toLower</name>
+        <qualifiedname>themis::QueryExpander::toLower</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>To Lower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="231" column="24" bodyfile="src/search/query_expander.cpp" bodystart="469" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_query_expander_1a286f402d7ccc32c18278e377675180e1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::QueryExpander::editDistance</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b)</argsstring>
+        <name>editDistance</name>
+        <qualifiedname>themis::QueryExpander::editDistance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Edit Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::abs(), prev(), curr(), std::min(), std::swap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="232" column="16" bodyfile="src/search/query_expander.cpp" bodystart="484" bodyend="510"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query expansion, rewriting, spelling correction, and zero-result fallback. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_query_expander" kindref="compound">QueryExpander</ref> enriches a raw user query before it is handed to BM25 / hybrid search. It operates entirely in-memory using a configurable synonym dictionary and a simple edit-distance spell-corrector against a word vocabulary.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">QueryExpander::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.use_synonyms<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.correct_spelling<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_expansions<sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_query_expander_1a8ebfd6c676351bf9beb6b5ecf9b4e6d2" kindref="member">QueryExpander</ref><sp/>expander(cfg);</highlight></codeline>
+<codeline><highlight class="normal">expander.addSynonyms(</highlight><highlight class="stringliteral">&quot;ml&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;machine<sp/>learning&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;artificial<sp/>intelligence&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">expander.addVocabulary({</highlight><highlight class="stringliteral">&quot;machine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;learning&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;algorithm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;database&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>expanded<sp/>=<sp/>expander.expand(</highlight><highlight class="stringliteral">&quot;mashine<sp/>lerning&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>expanded.corrected<sp/>==<sp/>&quot;machine<sp/>learning&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>expanded.synonyms<sp/>contains<sp/>&quot;artificial<sp/>intelligence&quot;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: A single <ref refid="classthemis_1_1_query_expander" kindref="compound">QueryExpander</ref> instance is NOT thread-safe. Callers sharing an instance across threads must synchronize externally. Building one instance per thread is the recommended pattern.</para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: The constructor and all methods are noexcept-safe; no exceptions are thrown for bad input — methods return empty results instead. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/query_expander.h" line="72" column="1" bodyfile="include/search/query_expander.h" bodystart="72" bodyend="233"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_query_expander_1af410992ef60b6ca13d51247c3e7f51de" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>addSynonyms</name></member>
+      <member refid="classthemis_1_1_query_expander_1a19d3c2a73fae00d0f767b925c2090d7f" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>addVocabulary</name></member>
+      <member refid="classthemis_1_1_query_expander_1ae02689a5e8210804590979e55e895a31" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>addVocabularyWithFrequencies</name></member>
+      <member refid="classthemis_1_1_query_expander_1a7ea483d40671148e6e88a3e861a57a09" prot="private" virt="non-virtual"><scope>themis::QueryExpander</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_query_expander_1a46bf2193b6af57cab0a43f461b084225" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>correctSpelling</name></member>
+      <member refid="classthemis_1_1_query_expander_1a286f402d7ccc32c18278e377675180e1" prot="private" virt="non-virtual"><scope>themis::QueryExpander</scope><name>editDistance</name></member>
+      <member refid="classthemis_1_1_query_expander_1a717d88766fbfbdfffa8fc816f96cfdd8" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>expand</name></member>
+      <member refid="classthemis_1_1_query_expander_1a15d882b663422ccb47168535eb9193f7" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_query_expander_1a3b3f7395f9d26d3d020036188fb984df" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_query_expander_1a2fa310c9ccfcb190b5edfdfeaae1870e" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_query_expander_1a8ebfd6c676351bf9beb6b5ecf9b4e6d2" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>QueryExpander</name></member>
+      <member refid="classthemis_1_1_query_expander_1a9062c7c26daf59c10803f8ed136315c8" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>QueryExpander</name></member>
+      <member refid="classthemis_1_1_query_expander_1a0a5b039cd1764f1445d5a17a34b42919" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>QueryExpander</name></member>
+      <member refid="classthemis_1_1_query_expander_1ad0b33f626b55cebf66e5a573c5993a68" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>relaxQuery</name></member>
+      <member refid="classthemis_1_1_query_expander_1ade5d61eb244d130c7e82d36fd88783ce" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>suggestAlternatives</name></member>
+      <member refid="classthemis_1_1_query_expander_1aec390513127222e79f524728348f645d" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>suggestQueryCorrections</name></member>
+      <member refid="classthemis_1_1_query_expander_1ad2b2a0d7477782f353405d5253064e01" prot="public" virt="non-virtual"><scope>themis::QueryExpander</scope><name>suggestSpellingCorrections</name></member>
+      <member refid="classthemis_1_1_query_expander_1aae5b1794dbac5d5efc84eb4431c66eee" prot="private" virt="non-virtual"><scope>themis::QueryExpander</scope><name>synonyms_</name></member>
+      <member refid="classthemis_1_1_query_expander_1a1413932a20ebf54d2cfede75f7bb91d4" prot="private" virt="non-virtual"><scope>themis::QueryExpander</scope><name>tokenize</name></member>
+      <member refid="classthemis_1_1_query_expander_1aca924563a72c3b0886ea5dc15f35de57" prot="private" virt="non-virtual"><scope>themis::QueryExpander</scope><name>toLower</name></member>
+      <member refid="classthemis_1_1_query_expander_1abdce328f6fd957bb2a29bf02d6120d97" prot="private" virt="non-virtual"><scope>themis::QueryExpander</scope><name>vocabulary_</name></member>
+      <member refid="classthemis_1_1_query_expander_1aba271b8e31576e7140bd69a237924486" prot="private" virt="non-virtual"><scope>themis::QueryExpander</scope><name>word_frequencies_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

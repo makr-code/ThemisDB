@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dostoevsky_8h" kind="file" language="C++">
+    <compoundname>dostoevsky.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="dostoevsky_8cpp" local="yes">src/performance/dostoevsky.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/dostoevsky.h</label>
+        <link refid="dostoevsky_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/dostoevsky.h</label>
+        <link refid="dostoevsky_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/dostoevsky.cpp</label>
+        <link refid="dostoevsky_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1performance_1_1_workload_stats" prot="public">themis::performance::WorkloadStats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m" prot="public">themis::performance::DostoevskeyLSM</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost" prot="public">themis::performance::DostoevskeyLSM::MergeCost</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_workload_monitor" prot="public">themis::performance::WorkloadMonitor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Dostoevsky:<sp/>Better<sp/>Space-Time<sp/>Trade-offs<sp/>for<sp/>LSM<sp/>Trees</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Paper:<sp/>&quot;Dostoevsky:<sp/>Better<sp/>Space-Time<sp/>Trade-Offs<sp/>for<sp/>LSM-Trees<sp/>via<sp/>Adaptive<sp/>Removal<sp/>of<sp/>Superfluous<sp/>Merging&quot;<sp/>(SIGMOD&apos;18)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Niv<sp/>Dayan,<sp/>Stratos<sp/>Idreos<sp/>(Harvard)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>idea:<sp/>Adaptive<sp/>lazy<sp/>leveling<sp/>for<sp/>optimal<sp/>write/read<sp/>trade-offs<sp/>based<sp/>on<sp/>workload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+25-35%<sp/>for<sp/>mixed<sp/>workloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reference:<sp/>https://dl.acm.org/doi/10.1145/3183713.3196927</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" kindref="member">MergePolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879a256b68b36c17e1c85641d281b39500bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879a256b68b36c17e1c85641d281b39500bb" kindref="member">LEVELING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Best<sp/>for<sp/>read-heavy<sp/>workloads<sp/>(minimize<sp/>#<sp/>of<sp/>runs)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879a2a2a5060965ea83c0f91a767923549ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879a2a2a5060965ea83c0f91a767923549ec" kindref="member">TIERING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Best<sp/>for<sp/>write-heavy<sp/>workloads<sp/>(minimize<sp/>writes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879ae8c99bad2c2cc7ece76d6a758391ea49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879ae8c99bad2c2cc7ece76d6a758391ea49" kindref="member">LAZY_LEVELING</ref><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hybrid<sp/>approach<sp/>(Dostoevsky)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1performance_1_1_workload_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_workload_stats" kindref="compound">WorkloadStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1performance_1_1_workload_stats_1a6191a6d645f3cb174fce4b5a74e1194f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_stats_1a6191a6d645f3cb174fce4b5a74e1194f" kindref="member">record_read</ref>()<sp/>{<sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reads_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1performance_1_1_workload_stats_1a4245b124311d657529f9168ea7f74d04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_stats_1a4245b124311d657529f9168ea7f74d04" kindref="member">record_write</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>writes_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>read<sp/>ratio<sp/>(0.0<sp/>=<sp/>all<sp/>writes,<sp/>1.0<sp/>=<sp/>all<sp/>reads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1performance_1_1_workload_stats_1a1e0c564d772ef8478eb0464f96644c86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_stats_1a1e0c564d772ef8478eb0464f96644c86" kindref="member">get_read_ratio</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>r<sp/>=<sp/>reads_.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>w<sp/>=<sp/>writes_.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r<sp/>+<sp/>w<sp/>==<sp/>0)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.5;<sp/></highlight><highlight class="comment">//<sp/>Default<sp/>to<sp/>balanced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(r)<sp/>/<sp/>(r<sp/>+<sp/>w);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>statistics<sp/>(for<sp/>sliding<sp/>window)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1performance_1_1_workload_stats_1ae5c8554d4efa1c0decc513a9036a62a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_stats_1ae5c8554d4efa1c0decc513a9036a62a6" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reads_.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>writes_.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1performance_1_1_workload_stats_1abcd575a26274a3f6ce86643deabb0c92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1performance_1_1_workload_stats_1abcd575a26274a3f6ce86643deabb0c92" kindref="member">get_reads</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>reads_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1performance_1_1_workload_stats_1a4191bedde2cf2dda331cb5a24aaa5f23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1performance_1_1_workload_stats_1a4191bedde2cf2dda331cb5a24aaa5f23" kindref="member">get_writes</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>writes_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>reads_{0};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>writes_{0};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a792bb3e536c475ffba436220ef2dd4a1" kindref="member">DostoevskeyLSM</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thresholds<sp/>for<sp/>workload<sp/>classification<sp/>(from<sp/>paper)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ae082155cbda2552acf4fcbff85837944" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ae082155cbda2552acf4fcbff85837944" kindref="member">READ_HEAVY_THRESHOLD</ref><sp/>=<sp/>0.7;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&gt;70%<sp/>reads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a2b343d68c9391e313efd00d59921cc60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a2b343d68c9391e313efd00d59921cc60" kindref="member">WRITE_HEAVY_THRESHOLD</ref><sp/>=<sp/>0.3;<sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;30%<sp/>reads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a792bb3e536c475ffba436220ef2dd4a1" kindref="member">DostoevskeyLSM</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_levels);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>optimal<sp/>merge<sp/>policy<sp/>for<sp/>a<sp/>level<sp/>based<sp/>on<sp/>workload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" kindref="member">MergePolicy</ref><sp/><ref refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1aed63e013d1ee54411ef41c64f18b11a4" kindref="member">compute_optimal_policy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_stats" kindref="compound">WorkloadStats</ref>&amp;<sp/>stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>current<sp/>policy<sp/>for<sp/>level</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" kindref="member">MergePolicy</ref><sp/><ref refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1a968174abce4a3c998809ff462cca13dd" kindref="member">get_policy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>policy<sp/>for<sp/>level<sp/>(adaptive)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ac827070a33d4186d72cce00c2f8d11ea" kindref="member">update_policy</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_stats" kindref="compound">WorkloadStats</ref>&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>merge<sp/>cost<sp/>estimation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost" kindref="compound">MergeCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1aa69a844dcf23c8ad9fa3e773cf4589e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1aa69a844dcf23c8ad9fa3e773cf4589e9" kindref="member">read_amplification</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1a4efb1e9137d2911e4e4943f6f9e21d4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1a4efb1e9137d2911e4e4943f6f9e21d4a" kindref="member">write_amplification</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1a7bcc94633a06e9e65c6d74e6913cf0d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1a7bcc94633a06e9e65c6d74e6913cf0d6" kindref="member">space_amplification</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost" kindref="compound">MergeCost</ref><sp/><ref refid="classthemis_1_1performance_1_1_dostoevskey_l_s_m_1ae4994fb11b328c483be9f8463bd7a96b" kindref="member">estimate_cost</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level,<sp/><ref refid="namespacethemis_1_1performance_1a1f7c9d2329bb05caef4d9bcfb9000879" kindref="member">MergePolicy</ref><sp/>policy)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_levels_;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MergePolicy&gt;<sp/>level_policies_;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1performance_1_1_workload_monitor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1performance_1_1_workload_monitor_1aac71407050ef1c669728d63547df5756" kindref="member">WorkloadMonitor</ref><sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_monitor_1aac71407050ef1c669728d63547df5756" kindref="member">WorkloadMonitor</ref>(std::chrono::seconds<sp/>window_duration<sp/>=<sp/>std::chrono::seconds(60));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1performance_1_1_workload_monitor_1aca6e3b9e89afc148db0b62dfbb9e5fe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_monitor_1aca6e3b9e89afc148db0b62dfbb9e5fe5" kindref="member">record_read</ref>()<sp/>{<sp/>current_stats_.record_read();<sp/>}</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1performance_1_1_workload_monitor_1aef646d6c43d056f0e9a0d8397cc2bc80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_monitor_1aef646d6c43d056f0e9a0d8397cc2bc80" kindref="member">record_write</ref>()<sp/>{<sp/>current_stats_.record_write();<sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>current<sp/>workload<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1performance_1_1_workload_monitor_1a7f120b7bf104adebe5794db13abe7a1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_stats" kindref="compound">WorkloadStats</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1_workload_monitor_1a7f120b7bf104adebe5794db13abe7a1f" kindref="member">get_stats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_stats_;<sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>it&apos;s<sp/>time<sp/>to<sp/>update<sp/>policies<sp/>(sliding<sp/>window<sp/>expired)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_monitor_1a103de3849692bc10a1693ba3c6b54537" kindref="member">should_update_policies</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_workload_monitor_1a0b571a0d1cd9aebfae74b33d11a6e48f" kindref="member">reset_window</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_workload_stats" kindref="compound">WorkloadStats</ref><sp/>current_stats_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>window_start_;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>window_duration_;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/dostoevsky.h"/>
+  </compounddef>
+</doxygen>

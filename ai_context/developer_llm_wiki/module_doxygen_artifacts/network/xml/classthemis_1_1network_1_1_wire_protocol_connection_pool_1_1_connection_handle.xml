@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolConnectionPool::ConnectionHandle</compoundname>
+    <includes refid="wire__protocol__connection__pool_8h" local="no">wire_protocol_connection_pool.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a7f3ecadd3866f6d9c2f240fbe8050def" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_socket_wrapper" kindref="compound">SocketWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SocketWrapper&gt; themis::network::WireProtocolConnectionPool::ConnectionHandle::socket_</definition>
+        <argsstring></argsstring>
+        <name>socket_</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::socket_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="254" column="25" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a0fe9774e328d0b47ce30e80f24d915aa" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref> *</type>
+        <definition>WireProtocolConnectionPool* themis::network::WireProtocolConnectionPool::ConnectionHandle::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="255" column="36" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a300f3a8095b8f8506c2687c12db565f2" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::WireProtocolConnectionPool::ConnectionHandle::target_</definition>
+        <argsstring></argsstring>
+        <name>target_</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::target_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="256" column="21" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::WireProtocolConnectionPool::ConnectionHandle::ConnectionHandle</definition>
+        <argsstring>(std::shared_ptr&lt; SocketWrapper &gt; socket, WireProtocolConnectionPool *pool, const std::string &amp;target)</argsstring>
+        <name>ConnectionHandle</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::ConnectionHandle</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_socket_wrapper" kindref="compound">SocketWrapper</ref> &gt;</type>
+          <declname>socket</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1ae9e4156a31f3598afb6db9d78cb2a439" kindref="member">WireProtocolConnectionPool</ref> *</type>
+          <declname>pool</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="226" column="9" bodyfile="src/network/wire_protocol_connection_pool.cpp" bodystart="934" bodyend="941"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a53b4b8fc43ceaf48e790412af36e0010" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::WireProtocolConnectionPool::ConnectionHandle::~ConnectionHandle</definition>
+        <argsstring>()</argsstring>
+        <name>~ConnectionHandle</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::~ConnectionHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="231" column="9" bodyfile="src/network/wire_protocol_connection_pool.cpp" bodystart="943" bodyend="947"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a987d8bd7d7503f56ea4153a6d6d8b377" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::WireProtocolConnectionPool::ConnectionHandle::ConnectionHandle</definition>
+        <argsstring>(const ConnectionHandle &amp;)=delete</argsstring>
+        <name>ConnectionHandle</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::ConnectionHandle</qualifiedname>
+        <param>
+          <type>const ConnectionHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="234" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1aab5d55e807c4e5a4f27fc3064cd8d1e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref> &amp;</type>
+        <definition>ConnectionHandle &amp; themis::network::WireProtocolConnectionPool::ConnectionHandle::operator=</definition>
+        <argsstring>(const ConnectionHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="235" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a1628630227e2dc4678aaa478c670158c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::WireProtocolConnectionPool::ConnectionHandle::ConnectionHandle</definition>
+        <argsstring>(ConnectionHandle &amp;&amp;other) noexcept</argsstring>
+        <name>ConnectionHandle</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::ConnectionHandle</qualifiedname>
+        <param>
+          <type>ConnectionHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="236" column="9" bodyfile="src/network/wire_protocol_connection_pool.cpp" bodystart="949" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1ab7ef70f2816fb22835a02c0d9302d47d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref> &amp;</type>
+        <definition>WireProtocolConnectionPool::ConnectionHandle &amp; themis::network::WireProtocolConnectionPool::ConnectionHandle::operator=</definition>
+        <argsstring>(ConnectionHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" kindref="member">ConnectionHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="237" column="26" bodyfile="src/network/wire_protocol_connection_pool.cpp" bodystart="958" bodyend="973"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a67c8c3c05d3760964002e13509f29746" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>tcp::socket &amp;</type>
+        <definition>tcp::socket &amp; themis::network::WireProtocolConnectionPool::ConnectionHandle::socket</definition>
+        <argsstring>()</argsstring>
+        <name>socket</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::socket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="241" column="21" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="241" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a51fe636ebf08b6cdd70346e25555fb3f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_socket_wrapper" kindref="compound">SocketWrapper</ref> &amp;</type>
+        <definition>SocketWrapper &amp; themis::network::WireProtocolConnectionPool::ConnectionHandle::socketWrapper</definition>
+        <argsstring>()</argsstring>
+        <name>socketWrapper</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::socketWrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="249" column="23" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a8b2a8b938c571fe57251ad85711e36b2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::network::WireProtocolConnectionPool::ConnectionHandle::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::ConnectionHandle::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="251" column="14" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pooled connection handle (RAII). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically returns connection to pool when destroyed. </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_connection_pool.h" line="224" column="5" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="224" bodyend="257"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a56f4d797f113f141fd63e8c8babf62e9" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>ConnectionHandle</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a987d8bd7d7503f56ea4153a6d6d8b377" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>ConnectionHandle</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a1628630227e2dc4678aaa478c670158c" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>ConnectionHandle</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a8b2a8b938c571fe57251ad85711e36b2" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1aab5d55e807c4e5a4f27fc3064cd8d1e3" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1ab7ef70f2816fb22835a02c0d9302d47d" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a0fe9774e328d0b47ce30e80f24d915aa" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a67c8c3c05d3760964002e13509f29746" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>socket</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a7f3ecadd3866f6d9c2f240fbe8050def" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>socket_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a51fe636ebf08b6cdd70346e25555fb3f" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>socketWrapper</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a300f3a8095b8f8506c2687c12db565f2" prot="private" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>target_</name></member>
+      <member refid="classthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_connection_handle_1a53b4b8fc43ceaf48e790412af36e0010" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::ConnectionHandle</scope><name>~ConnectionHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

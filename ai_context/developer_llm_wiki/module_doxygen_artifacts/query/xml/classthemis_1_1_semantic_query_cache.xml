@@ -1,0 +1,935 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_semantic_query_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::SemanticQueryCache</compoundname>
+    <includes refid="semantic__cache_8h" local="no">semantic_cache.h</includes>
+    <innerclass refid="structthemis_1_1_semantic_query_cache_1_1_config" prot="public">themis::SemanticQueryCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1_semantic_query_cache_1_1_cache_entry" prot="public">themis::SemanticQueryCache::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1_semantic_query_cache_1_1_lookup_result" prot="public">themis::SemanticQueryCache::LookupResult</innerclass>
+    <innerclass refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats" prot="public">themis::SemanticQueryCache::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1_semantic_query_cache_1_1_status" prot="public">themis::SemanticQueryCache::Status</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_semantic_query_cache_1a0a1f0b78570d6febf46e86034206d2ba" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1ab02ef3ee235ca169ad1967ca78042d8a" kindref="member">RocksDBWrapper</ref> &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::SemanticQueryCache::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::SemanticQueryCache::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="262" column="20" bodyfile="include/query/semantic_cache.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_query_cache_1a5a7646ce4e8c973ae3db0cb1279a491e" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a20348436ec4a389d178ce454117cf157" kindref="member">VectorIndexManager</ref> &amp;</type>
+        <definition>VectorIndexManager&amp; themis::SemanticQueryCache::vim_</definition>
+        <argsstring></argsstring>
+        <name>vim_</name>
+        <qualifiedname>themis::SemanticQueryCache::vim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="263" column="24" bodyfile="include/query/semantic_cache.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_query_cache_1a051285dcb03b8d3c7d05bfeabfcde56f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::SemanticQueryCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::SemanticQueryCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="264" column="12" bodyfile="include/query/semantic_cache.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_query_cache_1a80da2082bd3ea0c7803e3a1be8c3d6c0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::SemanticQueryCache::lru_mutex_</definition>
+        <argsstring></argsstring>
+        <name>lru_mutex_</name>
+        <qualifiedname>themis::SemanticQueryCache::lru_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="267" column="24" bodyfile="include/query/semantic_cache.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_query_cache_1aaaa28820fe0d865ec463f0fe670156f2" prot="private" static="no" mutable="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::SemanticQueryCache::lru_list_</definition>
+        <argsstring></argsstring>
+        <name>lru_list_</name>
+        <qualifiedname>themis::SemanticQueryCache::lru_list_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="268" column="15" bodyfile="include/query/semantic_cache.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_query_cache_1a7afa62820bc66928ce49d048e35502eb" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::list&lt; std::string &gt;::iterator &gt;</type>
+        <definition>std::map&lt;std::string, std::list&lt;std::string&gt;::iterator&gt; themis::SemanticQueryCache::lru_map_</definition>
+        <argsstring></argsstring>
+        <name>lru_map_</name>
+        <qualifiedname>themis::SemanticQueryCache::lru_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="269" column="15" bodyfile="include/query/semantic_cache.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_query_cache_1adbf77a9ab0663ed6797d7133c128369c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::SemanticQueryCache::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::SemanticQueryCache::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="272" column="24" bodyfile="include/query/semantic_cache.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_semantic_query_cache_1a9679de3fa1d292185264bc658115a709" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats themis::SemanticQueryCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::SemanticQueryCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="273" column="24" bodyfile="include/query/semantic_cache.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a87b0b3115b30451df8b10fc8fd4ae0c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticQueryCache::SemanticQueryCache</definition>
+        <argsstring>(RocksDBWrapper &amp;db, VectorIndexManager &amp;vim)</argsstring>
+        <name>SemanticQueryCache</name>
+        <qualifiedname>themis::SemanticQueryCache::SemanticQueryCache</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1ab02ef3ee235ca169ad1967ca78042d8a" kindref="member">RocksDBWrapper</ref> &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a20348436ec4a389d178ce454117cf157" kindref="member">VectorIndexManager</ref> &amp;</type>
+          <declname>vim</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="136" column="5" bodyfile="src/query/semantic_cache.cpp" bodystart="34" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1ab8c2f1f7acaa903055deef06a3744d20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticQueryCache::SemanticQueryCache</definition>
+        <argsstring>(RocksDBWrapper &amp;db, VectorIndexManager &amp;vim, const Config &amp;config)</argsstring>
+        <name>SemanticQueryCache</name>
+        <qualifiedname>themis::SemanticQueryCache::SemanticQueryCache</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1ab02ef3ee235ca169ad1967ca78042d8a" kindref="member">RocksDBWrapper</ref> &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a20348436ec4a389d178ce454117cf157" kindref="member">VectorIndexManager</ref> &amp;</type>
+          <declname>vim</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_semantic_query_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="137" column="5" bodyfile="src/query/semantic_cache.cpp" bodystart="24" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1afb3850f5718394c09772a89fc63d3352" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticQueryCache::~SemanticQueryCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SemanticQueryCache</name>
+        <qualifiedname>themis::SemanticQueryCache::~SemanticQueryCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a40cafa054dd66ab95ffcbf2f4aa654f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticQueryCache::SemanticQueryCache</definition>
+        <argsstring>(const SemanticQueryCache &amp;)=delete</argsstring>
+        <name>SemanticQueryCache</name>
+        <qualifiedname>themis::SemanticQueryCache::SemanticQueryCache</qualifiedname>
+        <param>
+          <type>const SemanticQueryCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a7a63bf4023c208237acbcd9c76cecd1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_semantic_query_cache_1a87b0b3115b30451df8b10fc8fd4ae0c8" kindref="member">SemanticQueryCache</ref> &amp;</type>
+        <definition>SemanticQueryCache &amp; themis::SemanticQueryCache::operator=</definition>
+        <argsstring>(const SemanticQueryCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::SemanticQueryCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_semantic_query_cache_1a87b0b3115b30451df8b10fc8fd4ae0c8" kindref="member">SemanticQueryCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="142" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a97a709d4a8dacfd980e37c9d4b053fb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticQueryCache::SemanticQueryCache</definition>
+        <argsstring>(SemanticQueryCache &amp;&amp;)=delete</argsstring>
+        <name>SemanticQueryCache</name>
+        <qualifiedname>themis::SemanticQueryCache::SemanticQueryCache</qualifiedname>
+        <param>
+          <type>SemanticQueryCache &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="143" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1ac60678a812920c600c2a15696ee45b51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_semantic_query_cache_1a87b0b3115b30451df8b10fc8fd4ae0c8" kindref="member">SemanticQueryCache</ref> &amp;</type>
+        <definition>SemanticQueryCache &amp; themis::SemanticQueryCache::operator=</definition>
+        <argsstring>(SemanticQueryCache &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::SemanticQueryCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_semantic_query_cache_1a87b0b3115b30451df8b10fc8fd4ae0c8" kindref="member">SemanticQueryCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="144" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a2c5baa7b40783b4692a171ca71c217b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SemanticQueryCache::Status themis::SemanticQueryCache::put</definition>
+        <argsstring>(std::string_view query, std::string_view result_json)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::SemanticQueryCache::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>result_json</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_semantic_query_cache_1_1_status_1a60808af2e1049ea934d9b7d50246b450" kindref="member">Status::Error()</ref>, lock(), evictOne_(), computeQueryEmbedding_(), std::string(), std::chrono::system_clock::now(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="154" column="12" bodyfile="src/query/semantic_cache.cpp" bodystart="45" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a5a0a232b11ee4b6c93cb6a28709f8efb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_lookup_result" kindref="compound">LookupResult</ref></type>
+        <definition>SemanticQueryCache::LookupResult themis::SemanticQueryCache::get</definition>
+        <argsstring>(std::string_view query)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::SemanticQueryCache::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), loadCacheEntry_(), has_value(), isExpired(), std::string(), std::chrono::system_clock::now(), saveCacheEntry_(), updateLRU_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="160" column="18" bodyfile="src/query/semantic_cache.cpp" bodystart="110" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a813ebb576c8cf7e2fba73272843c9f3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SemanticQueryCache::Status themis::SemanticQueryCache::remove</definition>
+        <argsstring>(std::string_view query)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::SemanticQueryCache::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), removeInternal_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="166" column="12" bodyfile="src/query/semantic_cache.cpp" bodystart="191" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1ab9d613a45e8c1f295e3da5c15a34bf10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SemanticQueryCache::Status themis::SemanticQueryCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::SemanticQueryCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), lruLock(), scanPrefix(), del(), std::string(), <ref refid="structthemis_1_1_semantic_query_cache_1_1_status_1ac4b471d4266b306b1c8c43ca53c9fb3b" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="171" column="12" bodyfile="src/query/semantic_cache.cpp" bodystart="248" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a9f4bc1de3669ae7da95ef235a68cc5b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>SemanticQueryCache::CacheStats themis::SemanticQueryCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::SemanticQueryCache::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="178" column="16" bodyfile="src/query/semantic_cache.cpp" bodystart="273" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a22d6e0198f967972be115f8c208b52c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SemanticQueryCache::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::SemanticQueryCache::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="182" column="10" bodyfile="src/query/semantic_cache.cpp" bodystart="287" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1acfec53cd03ad4877afde24db52d08bcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SemanticQueryCache::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::SemanticQueryCache::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_semantic_query_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="structthemis_1_1_semantic_query_cache_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="189" column="10" bodyfile="src/query/semantic_cache.cpp" bodystart="303" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a8a61e44f2b67d9a9f43bb42b6ed73a0c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>SemanticQueryCache::Config themis::SemanticQueryCache::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::SemanticQueryCache::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_semantic_query_cache_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="194" column="12" bodyfile="src/query/semantic_cache.cpp" bodystart="307" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a287ae4eadfa46c142b697ae0b74c23ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SemanticQueryCache::Status themis::SemanticQueryCache::evictExpired</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpired</name>
+        <qualifiedname>themis::SemanticQueryCache::evictExpired</qualifiedname>
+        <briefdescription>
+<para>Evict Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), scanPrefix(), BaseEntity::deserialize(), std::string(), begin(), end(), getFieldAsInt(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="201" column="12" bodyfile="src/query/semantic_cache.cpp" bodystart="317" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a2d2bd576e0b0ebc0d1e1d3767ad35dc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SemanticQueryCache::Status themis::SemanticQueryCache::evictLRU</definition>
+        <argsstring>(size_t count=1)</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::SemanticQueryCache::evictLRU</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Evict LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), evictOne_(), <ref refid="structthemis_1_1_semantic_query_cache_1_1_status_1ac4b471d4266b306b1c8c43ca53c9fb3b" kindref="member">Status::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="202" column="12" bodyfile="src/query/semantic_cache.cpp" bodystart="363" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1ad836784916aecfde08cead7826b887d1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::SemanticQueryCache::computeQueryEmbedding_</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>computeQueryEmbedding_</name>
+        <qualifiedname>themis::SemanticQueryCache::computeQueryEmbedding_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Compute <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="211" column="17" bodyfile="src/query/semantic_cache.cpp" bodystart="378" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a84fa2ae9167a9fcf44dd9ec563385f1c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SemanticQueryCache::makeExactMatchKey_</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>makeExactMatchKey_</name>
+        <qualifiedname>themis::SemanticQueryCache::makeExactMatchKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Make Exact Match Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="217" column="17" bodyfile="src/query/semantic_cache.cpp" bodystart="425" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a8f049c617908a76a33f3a474fdb32033" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SemanticQueryCache::makeCacheEntryKey_</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>makeCacheEntryKey_</name>
+        <qualifiedname>themis::SemanticQueryCache::makeCacheEntryKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Make Cache Entry Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="223" column="17" bodyfile="src/query/semantic_cache.cpp" bodystart="431" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a1f1211f5c4eb49a3abbed51941a5e8dd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_semantic_query_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; SemanticQueryCache::CacheEntry &gt; themis::SemanticQueryCache::loadCacheEntry_</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>loadCacheEntry_</name>
+        <qualifiedname>themis::SemanticQueryCache::loadCacheEntry_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Load Cache Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="229" column="19" bodyfile="src/query/semantic_cache.cpp" bodystart="438" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a7ed62a80f9022a6846344434837ee0a3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SemanticQueryCache::Status themis::SemanticQueryCache::saveCacheEntry_</definition>
+        <argsstring>(const CacheEntry &amp;entry)</argsstring>
+        <name>saveCacheEntry_</name>
+        <qualifiedname>themis::SemanticQueryCache::saveCacheEntry_</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_semantic_query_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Save Cache Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeCacheEntryKey_(), entity(), setField(), time_since_epoch(), count(), <ref refid="classthemis_1_1_semantic_query_cache_1a2c5baa7b40783b4692a171ca71c217b8" kindref="member">put()</ref>, serialize(), makeExactMatchKey_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="235" column="12" bodyfile="src/query/semantic_cache.cpp" bodystart="496" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1ab4084bf8230bccef873313194ae8132d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SemanticQueryCache::Status themis::SemanticQueryCache::removeInternal_</definition>
+        <argsstring>(std::string_view query)</argsstring>
+        <name>removeInternal_</name>
+        <qualifiedname>themis::SemanticQueryCache::removeInternal_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Remove Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: loadCacheEntry_(), has_value(), <ref refid="structthemis_1_1_semantic_query_cache_1_1_status_1a60808af2e1049ea934d9b7d50246b450" kindref="member">Status::Error()</ref>, makeCacheEntryKey_(), del(), makeExactMatchKey_(), lruLock(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="241" column="12" bodyfile="src/query/semantic_cache.cpp" bodystart="202" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1ab0102f03b57eaa138b451938a62a65b8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SemanticQueryCache::updateLRU_</definition>
+        <argsstring>(std::string_view query)</argsstring>
+        <name>updateLRU_</name>
+        <qualifiedname>themis::SemanticQueryCache::updateLRU_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Update LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), queryStr(), find(), end(), erase(), push_front(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="246" column="10" bodyfile="src/query/semantic_cache.cpp" bodystart="526" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a57116b75fe26c4f8dfa485a5f9b85d86" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_semantic_query_cache_1_1_status" kindref="compound">Status</ref></type>
+        <definition>SemanticQueryCache::Status themis::SemanticQueryCache::evictOne_</definition>
+        <argsstring>()</argsstring>
+        <name>evictOne_</name>
+        <qualifiedname>themis::SemanticQueryCache::evictOne_</qualifiedname>
+        <briefdescription>
+<para>Evict One. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lruLock(), empty(), <ref refid="structthemis_1_1_semantic_query_cache_1_1_status_1a60808af2e1049ea934d9b7d50246b450" kindref="member">Status::Error()</ref>, back(), removeInternal_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="251" column="12" bodyfile="src/query/semantic_cache.cpp" bodystart="547" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1a4fff02d9dd604d64d8dc0fae2fa490b9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::SemanticQueryCache::tokenizeQuery_</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>tokenizeQuery_</name>
+        <qualifiedname>themis::SemanticQueryCache::tokenizeQuery_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Feature extraction for query embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="258" column="17" bodyfile="src/query/semantic_cache.cpp" bodystart="575" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_semantic_query_cache_1afceec27a9ddf162d9cf827e8559816c2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, float &gt;</type>
+        <definition>std::map&lt; std::string, float &gt; themis::SemanticQueryCache::extractQueryFeatures_</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>extractQueryFeatures_</name>
+        <qualifiedname>themis::SemanticQueryCache::extractQueryFeatures_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="259" column="14" bodyfile="src/query/semantic_cache.cpp" bodystart="595" bodyend="639"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/semantic_cache.h" line="43" column="1" bodyfile="include/query/semantic_cache.h" bodystart="43" bodyend="274"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_semantic_query_cache_1ab9d613a45e8c1f295e3da5c15a34bf10" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1ad836784916aecfde08cead7826b887d1" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>computeQueryEmbedding_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a051285dcb03b8d3c7d05bfeabfcde56f" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a0a1f0b78570d6febf46e86034206d2ba" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a287ae4eadfa46c142b697ae0b74c23ad" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>evictExpired</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a2d2bd576e0b0ebc0d1e1d3767ad35dc3" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>evictLRU</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a57116b75fe26c4f8dfa485a5f9b85d86" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>evictOne_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1afceec27a9ddf162d9cf827e8559816c2" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>extractQueryFeatures_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a5a0a232b11ee4b6c93cb6a28709f8efb" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a8a61e44f2b67d9a9f43bb42b6ed73a0c" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a9f4bc1de3669ae7da95ef235a68cc5b3" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a1f1211f5c4eb49a3abbed51941a5e8dd" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>loadCacheEntry_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1aaaa28820fe0d865ec463f0fe670156f2" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>lru_list_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a7afa62820bc66928ce49d048e35502eb" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>lru_map_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a80da2082bd3ea0c7803e3a1be8c3d6c0" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>lru_mutex_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a8f049c617908a76a33f3a474fdb32033" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>makeCacheEntryKey_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a84fa2ae9167a9fcf44dd9ec563385f1c" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>makeExactMatchKey_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a7a63bf4023c208237acbcd9c76cecd1b" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1ac60678a812920c600c2a15696ee45b51" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a2c5baa7b40783b4692a171ca71c217b8" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a813ebb576c8cf7e2fba73272843c9f3a" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>remove</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1ab4084bf8230bccef873313194ae8132d" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>removeInternal_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a22d6e0198f967972be115f8c208b52c5" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a7ed62a80f9022a6846344434837ee0a3" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>saveCacheEntry_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a87b0b3115b30451df8b10fc8fd4ae0c8" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>SemanticQueryCache</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1ab8c2f1f7acaa903055deef06a3744d20" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>SemanticQueryCache</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a40cafa054dd66ab95ffcbf2f4aa654f9" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>SemanticQueryCache</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a97a709d4a8dacfd980e37c9d4b053fb3" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>SemanticQueryCache</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1acfec53cd03ad4877afde24db52d08bcb" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a9679de3fa1d292185264bc658115a709" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1adbf77a9ab0663ed6797d7133c128369c" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a4fff02d9dd604d64d8dc0fae2fa490b9" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>tokenizeQuery_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1ab0102f03b57eaa138b451938a62a65b8" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>updateLRU_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1a5a7646ce4e8c973ae3db0cb1279a491e" prot="private" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>vim_</name></member>
+      <member refid="classthemis_1_1_semantic_query_cache_1afb3850f5718394c09772a89fc63d3352" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache</scope><name>~SemanticQueryCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

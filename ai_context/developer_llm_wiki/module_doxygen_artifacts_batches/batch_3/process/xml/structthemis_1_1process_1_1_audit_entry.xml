@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::AuditEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_entry_1a495dfda1ea8b9ffa28a8f3e782525673" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::AuditEntry::entry_id</definition>
+        <argsstring></argsstring>
+        <name>entry_id</name>
+        <qualifiedname>themis::process::AuditEntry::entry_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="115" column="12" bodyfile="src/process/process_audit_logger.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_entry_1a2a4009c4c519a6520db55c642c9849bd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditEntry::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::AuditEntry::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="116" column="15" bodyfile="src/process/process_audit_logger.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_entry_1aef15738fd0753fb12acf4f6dcde811bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditEntry::operation_type</definition>
+        <argsstring></argsstring>
+        <name>operation_type</name>
+        <qualifiedname>themis::process::AuditEntry::operation_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="117" column="15" bodyfile="src/process/process_audit_logger.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_entry_1a2c13065d4f44c8bc6a287470c8af8c19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditEntry::delta_patch</definition>
+        <argsstring></argsstring>
+        <name>delta_patch</name>
+        <qualifiedname>themis::process::AuditEntry::delta_patch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="118" column="15" bodyfile="src/process/process_audit_logger.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_entry_1ad5ee9aa4487bfb48e8486c0f61f09138" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditEntry::before_hash</definition>
+        <argsstring></argsstring>
+        <name>before_hash</name>
+        <qualifiedname>themis::process::AuditEntry::before_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="119" column="15" bodyfile="src/process/process_audit_logger.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_entry_1a1f1d7879216956120d7d0b441ad4e923" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditEntry::after_hash</definition>
+        <argsstring></argsstring>
+        <name>after_hash</name>
+        <qualifiedname>themis::process::AuditEntry::after_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="120" column="15" bodyfile="src/process/process_audit_logger.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_entry_1a919888a11f75c4cc10bf2ae2432539c5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::AuditEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::process::AuditEntry::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="121" column="12" bodyfile="src/process/process_audit_logger.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_entry_1a4db58d74b448215a68e7650667cb2c10" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::AuditEntry::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::process::AuditEntry::checksum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="122" column="12" bodyfile="src/process/process_audit_logger.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_entry_1ab55a3f8e90fe3442237477b943ce1443" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::AuditEntry::is_persisted</definition>
+        <argsstring></argsstring>
+        <name>is_persisted</name>
+        <qualifiedname>themis::process::AuditEntry::is_persisted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_audit_logger.cpp" line="123" column="8" bodyfile="src/process/process_audit_logger.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/process/process_audit_logger.cpp" line="114" column="1" bodyfile="src/process/process_audit_logger.cpp" bodystart="114" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_audit_entry_1a1f1d7879216956120d7d0b441ad4e923" prot="public" virt="non-virtual"><scope>themis::process::AuditEntry</scope><name>after_hash</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_entry_1ad5ee9aa4487bfb48e8486c0f61f09138" prot="public" virt="non-virtual"><scope>themis::process::AuditEntry</scope><name>before_hash</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_entry_1a4db58d74b448215a68e7650667cb2c10" prot="public" virt="non-virtual"><scope>themis::process::AuditEntry</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_entry_1a2c13065d4f44c8bc6a287470c8af8c19" prot="public" virt="non-virtual"><scope>themis::process::AuditEntry</scope><name>delta_patch</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_entry_1a495dfda1ea8b9ffa28a8f3e782525673" prot="public" virt="non-virtual"><scope>themis::process::AuditEntry</scope><name>entry_id</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_entry_1ab55a3f8e90fe3442237477b943ce1443" prot="public" virt="non-virtual"><scope>themis::process::AuditEntry</scope><name>is_persisted</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_entry_1a2a4009c4c519a6520db55c642c9849bd" prot="public" virt="non-virtual"><scope>themis::process::AuditEntry</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_entry_1aef15738fd0753fb12acf4f6dcde811bc" prot="public" virt="non-virtual"><scope>themis::process::AuditEntry</scope><name>operation_type</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_entry_1a919888a11f75c4cc10bf2ae2432539c5" prot="public" virt="non-virtual"><scope>themis::process::AuditEntry</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::ScopedCacheMissTimer</compoundname>
+    <includes refid="pmu__counters_8h" local="no">pmu_counters.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a63faef027117b7cb321941363a53f0fb" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref> &amp;</type>
+        <definition>CacheMissAnalyzer&amp; themis::performance::phase4::ScopedCacheMissTimer::analyzer_</definition>
+        <argsstring></argsstring>
+        <name>analyzer_</name>
+        <qualifiedname>themis::performance::phase4::ScopedCacheMissTimer::analyzer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="173" column="23" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1ad05f1505db04bd68d823d46c9641ad43" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref> *</type>
+        <definition>CacheMissMetrics* themis::performance::phase4::ScopedCacheMissTimer::output_</definition>
+        <argsstring></argsstring>
+        <name>output_</name>
+        <qualifiedname>themis::performance::phase4::ScopedCacheMissTimer::output_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="174" column="23" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ScopedCacheMissTimer::ScopedCacheMissTimer</definition>
+        <argsstring>(CacheMissAnalyzer &amp;analyzer, CacheMissMetrics *output) noexcept</argsstring>
+        <name>ScopedCacheMissTimer</name>
+        <qualifiedname>themis::performance::phase4::ScopedCacheMissTimer::ScopedCacheMissTimer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">CacheMissAnalyzer</ref> &amp;</type>
+          <declname>analyzer</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">CacheMissMetrics</ref> *</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="156" column="14" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="156" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a70e4ee8fe6b566000de8e6821c548958" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ScopedCacheMissTimer::~ScopedCacheMissTimer</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedCacheMissTimer</name>
+        <qualifiedname>themis::performance::phase4::ScopedCacheMissTimer::~ScopedCacheMissTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="163" column="5" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="163" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a882d064f55982ec00553d3592844b08d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase4::ScopedCacheMissTimer::ScopedCacheMissTimer</definition>
+        <argsstring>(const ScopedCacheMissTimer &amp;)=delete</argsstring>
+        <name>ScopedCacheMissTimer</name>
+        <qualifiedname>themis::performance::phase4::ScopedCacheMissTimer::ScopedCacheMissTimer</qualifiedname>
+        <param>
+          <type>const ScopedCacheMissTimer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="169" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a42f12f8f101d244c9cc9114bb686532c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" kindref="member">ScopedCacheMissTimer</ref> &amp;</type>
+        <definition>ScopedCacheMissTimer &amp; themis::performance::phase4::ScopedCacheMissTimer::operator=</definition>
+        <argsstring>(const ScopedCacheMissTimer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase4::ScopedCacheMissTimer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" kindref="member">ScopedCacheMissTimer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmu_counters.h" line="170" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>RAII timer: calls analyzer.start() on construction, analyzer.stop() on destruction and writes the result to *output. </para>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmu_counters.h" line="154" column="1" bodyfile="include/performance/phase4/pmu_counters.h" bodystart="154" bodyend="175"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a63faef027117b7cb321941363a53f0fb" prot="private" virt="non-virtual"><scope>themis::performance::phase4::ScopedCacheMissTimer</scope><name>analyzer_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a42f12f8f101d244c9cc9114bb686532c" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ScopedCacheMissTimer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1ad05f1505db04bd68d823d46c9641ad43" prot="private" virt="non-virtual"><scope>themis::performance::phase4::ScopedCacheMissTimer</scope><name>output_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a53188d1a0854d449fd4868b704c7aaf7" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ScopedCacheMissTimer</scope><name>ScopedCacheMissTimer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a882d064f55982ec00553d3592844b08d" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ScopedCacheMissTimer</scope><name>ScopedCacheMissTimer</name></member>
+      <member refid="classthemis_1_1performance_1_1phase4_1_1_scoped_cache_miss_timer_1a70e4ee8fe6b566000de8e6821c548958" prot="public" virt="non-virtual"><scope>themis::performance::phase4::ScopedCacheMissTimer</scope><name>~ScopedCacheMissTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

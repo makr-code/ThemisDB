@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_gpu_compression_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::GpuCompressionConfig</compoundname>
+    <includes refid="gpu__compression_8h" local="no">gpu_compression.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_config_1ad1f19037c8c2ffac403ac377172bb8bf" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58" kindref="member">GpuAccelerationType</ref></type>
+        <definition>GpuAccelerationType themis::storage::GpuCompressionConfig::accel_type</definition>
+        <argsstring></argsstring>
+        <name>accel_type</name>
+        <qualifiedname>themis::storage::GpuCompressionConfig::accel_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">GpuAccelerationType::AUTO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="117" column="25" bodyfile="include/storage/gpu_compression.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_config_1a9955b3d8ca84f6bba633badf833bca8a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::GpuCompressionConfig::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::storage::GpuCompressionConfig::device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CUDA/HIP device index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="119" column="10" bodyfile="include/storage/gpu_compression.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_config_1a92b55f9692cb6e87d8d35d99c683b5ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::GpuCompressionConfig::fallback_cpu</definition>
+        <argsstring></argsstring>
+        <name>fallback_cpu</name>
+        <qualifiedname>themis::storage::GpuCompressionConfig::fallback_cpu</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true (default), a GPU failure transparently falls back to the CPU implementation. When false, GPU failures surface as a failed <ref refid="structthemis_1_1storage_1_1_gpu_compression_result" kindref="compound">GpuCompressionResult</ref> / empty decompression result instead of silently routing to CPU. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="125" column="10" bodyfile="include/storage/gpu_compression.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_config_1a36ce0915ab569040c593784e2a559414" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::GpuCompressionConfig::async_compute</definition>
+        <argsstring></argsstring>
+        <name>async_compute</name>
+        <qualifiedname>themis::storage::GpuCompressionConfig::async_compute</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved for future implementation: use non-blocking GPU streams and expose a wait/poll interface. Currently all GPU calls are synchronous. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="129" column="10" bodyfile="include/storage/gpu_compression.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_config_1ae008deb4a0ca13cbade73755af5481df" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::GpuCompressionConfig::min_size_for_gpu</definition>
+        <argsstring></argsstring>
+        <name>min_size_for_gpu</name>
+        <qualifiedname>themis::storage::GpuCompressionConfig::min_size_for_gpu</qualifiedname>
+        <initializer>= 256 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum uncompressed bytes before GPU path is attempted. Below this threshold the CPU path is always used to avoid PCIe / HBM transfer overhead dominating latency. Must be &gt; 0; a value of 0 is treated as if the threshold were 1. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="135" column="12" bodyfile="include/storage/gpu_compression.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_config_1a9f0a70a2f267abb38491977d19bcaf67" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::GpuCompressionConfig::chunk_size</definition>
+        <argsstring></argsstring>
+        <name>chunk_size</name>
+        <qualifiedname>themis::storage::GpuCompressionConfig::chunk_size</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>nvCOMP / ROCm chunk size for per-buffer compression (bytes). Must be &gt; 0. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="139" column="12" bodyfile="include/storage/gpu_compression.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_config_1ac5f9c3e5a9a9d9a1a3c0d20a5e851a29" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::GpuCompressionConfig::zstd_level</definition>
+        <argsstring></argsstring>
+        <name>zstd_level</name>
+        <qualifiedname>themis::storage::GpuCompressionConfig::zstd_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Zstd compression level (1-22). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="141" column="9" bodyfile="include/storage/gpu_compression.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_config_1ab9f36e26c3b2570def3b59583d8c0b74" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::GpuCompressionConfig::max_gpu_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_memory_mb</name>
+        <qualifiedname>themis::storage::GpuCompressionConfig::max_gpu_memory_mb</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reserved for future implementation: cap GPU memory usage. Currently has no effect; 0 means unlimited. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="145" column="12" bodyfile="include/storage/gpu_compression.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1storage_1_1_gpu_compression_manager" kindref="compound">GpuCompressionManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/gpu_compression.h" line="116" column="1" bodyfile="include/storage/gpu_compression.h" bodystart="116" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_config_1ad1f19037c8c2ffac403ac377172bb8bf" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionConfig</scope><name>accel_type</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_config_1a36ce0915ab569040c593784e2a559414" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionConfig</scope><name>async_compute</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_config_1a9f0a70a2f267abb38491977d19bcaf67" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionConfig</scope><name>chunk_size</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_config_1a9955b3d8ca84f6bba633badf833bca8a" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionConfig</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_config_1a92b55f9692cb6e87d8d35d99c683b5ba" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionConfig</scope><name>fallback_cpu</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_config_1ab9f36e26c3b2570def3b59583d8c0b74" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionConfig</scope><name>max_gpu_memory_mb</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_config_1ae008deb4a0ca13cbade73755af5481df" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionConfig</scope><name>min_size_for_gpu</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_config_1ac5f9c3e5a9a9d9a1a3c0d20a5e851a29" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionConfig</scope><name>zstd_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

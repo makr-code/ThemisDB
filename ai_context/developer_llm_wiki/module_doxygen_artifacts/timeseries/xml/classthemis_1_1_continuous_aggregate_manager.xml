@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_continuous_aggregate_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::ContinuousAggregateManager</compoundname>
+    <includes refid="continuous__agg_8h" local="no">continuous_agg.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_continuous_aggregate_manager_1a1cd903dd389f3443ebe4cf1969c44499" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+        <definition>TSStore* themis::ContinuousAggregateManager::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::ContinuousAggregateManager::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="254" column="13" bodyfile="include/timeseries/continuous_agg.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_continuous_aggregate_manager_1a0667632974444f6003636b7398db9dab" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ContinuousAggregateManager::ContinuousAggregateManager</definition>
+        <argsstring>(TSStore *store)</argsstring>
+        <name>ContinuousAggregateManager</name>
+        <qualifiedname>themis::ContinuousAggregateManager::ContinuousAggregateManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="201" column="14" bodyfile="include/timeseries/continuous_agg.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_aggregate_manager_1a541101ed31ea13bc529dc193384d004f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ContinuousAggregateManager::refresh</definition>
+        <argsstring>(const AggConfig &amp;cfg, int64_t from_ms, int64_t to_ms)</argsstring>
+        <name>refresh</name>
+        <qualifiedname>themis::ContinuousAggregateManager::refresh</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_agg_config" kindref="compound">AggConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>from_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <briefdescription>
+<para>Compute aggregates for [from,to] and store as derived metric Derived metric name: metric + &quot;__agg_&quot; + window_ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(), <ref refid="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" kindref="member">derivedMetricName()</ref>, has_value(), std::min(), query(), value(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="209" column="10" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="221" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_aggregate_manager_1ab3c941323ac372785d6ec3c74bb6f5c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ContinuousAggregateManager::refreshIncremental</definition>
+        <argsstring>(const AggConfig &amp;cfg, const std::string &amp;agg_id, int64_t to_ms, ContinuousAggWatermarkStore &amp;wm_store)</argsstring>
+        <name>refreshIncremental</name>
+        <qualifiedname>themis::ContinuousAggregateManager::refreshIncremental</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_agg_config" kindref="compound">AggConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_continuous_agg_watermark_store" kindref="compound">ContinuousAggWatermarkStore</ref> &amp;</type>
+          <declname>wm_store</declname>
+        </param>
+        <briefdescription>
+<para>Incremental refresh using watermark pushdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh Incremental.</para>
+<para>Reads the current watermark for <computeroutput>agg_id</computeroutput> from <computeroutput>wm_store</computeroutput>, scans only the range [watermark, to_ms) in <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> (skipping already-processed data), writes the aggregate points, and advances the watermark atomically to <computeroutput>to_ms</computeroutput> after a successful write.</para>
+<para>If no watermark exists yet the full range [0, to_ms) is processed, which provides a correct initial catch-up.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aggregate configuration (metric, entity, window). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique aggregate identifier used as the watermark key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound of the refresh window (ms since epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wm_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Watermark store for reading/writing the per-aggregate watermark. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of aggregate windows written.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the agg. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">wm_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getWatermark(), query(), value(), empty(), setWatermark(), count(), <ref refid="classthemis_1_1_continuous_aggregate_manager_1a541101ed31ea13bc529dc193384d004f" kindref="member">refresh()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="229" column="12" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="290" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_continuous_aggregate_manager_1af3aaba2307b477cb995dd3c770eccf92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ContinuousAggregateManager::refreshHierarchy</definition>
+        <argsstring>(const RollupHierarchy &amp;hierarchy, int64_t from_ms, int64_t to_ms)</argsstring>
+        <name>refreshHierarchy</name>
+        <qualifiedname>themis::ContinuousAggregateManager::refreshHierarchy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_rollup_hierarchy" kindref="compound">RollupHierarchy</ref> &amp;</type>
+          <declname>hierarchy</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>from_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <briefdescription>
+<para>Refresh Hierarchy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refresh all levels of a rollup hierarchy. Processes levels from smallest window to largest. Each level reads from the previous level&apos;s output (or raw data for the first level). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hierarchy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rollup level definitions </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of refresh window (milliseconds) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of refresh window (milliseconds)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hierarchy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), <ref refid="classthemis_1_1_continuous_aggregate_manager_1a541101ed31ea13bc529dc193384d004f" kindref="member">refresh()</ref>, <ref refid="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" kindref="member">derivedMetricName()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="243" column="10" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="374" bodyend="392"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ContinuousAggregateManager::derivedMetricName</definition>
+        <argsstring>(const std::string &amp;base, std::chrono::milliseconds win)</argsstring>
+        <name>derivedMetricName</name>
+        <qualifiedname>themis::ContinuousAggregateManager::derivedMetricName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>win</declname>
+        </param>
+        <briefdescription>
+<para>Derived Metric Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">win</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">win</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: count(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="251" column="24" bodyfile="src/timeseries/continuous_agg.cpp" bodystart="208" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Continuous aggregate manager component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/continuous_agg.h" line="199" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="199" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_continuous_aggregate_manager_1a0667632974444f6003636b7398db9dab" prot="public" virt="non-virtual"><scope>themis::ContinuousAggregateManager</scope><name>ContinuousAggregateManager</name></member>
+      <member refid="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" prot="public" virt="non-virtual"><scope>themis::ContinuousAggregateManager</scope><name>derivedMetricName</name></member>
+      <member refid="classthemis_1_1_continuous_aggregate_manager_1a541101ed31ea13bc529dc193384d004f" prot="public" virt="non-virtual"><scope>themis::ContinuousAggregateManager</scope><name>refresh</name></member>
+      <member refid="classthemis_1_1_continuous_aggregate_manager_1af3aaba2307b477cb995dd3c770eccf92" prot="public" virt="non-virtual"><scope>themis::ContinuousAggregateManager</scope><name>refreshHierarchy</name></member>
+      <member refid="classthemis_1_1_continuous_aggregate_manager_1ab3c941323ac372785d6ec3c74bb6f5c3" prot="public" virt="non-virtual"><scope>themis::ContinuousAggregateManager</scope><name>refreshIncremental</name></member>
+      <member refid="classthemis_1_1_continuous_aggregate_manager_1a1cd903dd389f3443ebe4cf1969c44499" prot="private" virt="non-virtual"><scope>themis::ContinuousAggregateManager</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

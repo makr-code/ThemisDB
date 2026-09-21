@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_production_gpu_backend" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::ProductionGpuBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" prot="public" virt="non-virtual">themis::geo::ISpatialComputeBackend</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_production_gpu_backend_1aeed472065ff6d37ee09141703eba09b4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1geo_1_1_cpu_parallel_backend" kindref="compound">CpuParallelBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CpuParallelBackend&gt; themis::geo::ProductionGpuBackend::cpu_backend_</definition>
+        <argsstring></argsstring>
+        <name>cpu_backend_</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::cpu_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1026" column="21" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1026" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_production_gpu_backend_1a1bb63a8b66d9b3f44b2a8bfeef5bd2b3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> *</type>
+        <definition>ISpatialComputeBackend* themis::geo::ProductionGpuBackend::active_backend_</definition>
+        <argsstring></argsstring>
+        <name>active_backend_</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::active_backend_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1027" column="28" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1027" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_backend_1a26af74333d9756b38e62a8db70d63bbd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::ProductionGpuBackend::ProductionGpuBackend</definition>
+        <argsstring>()</argsstring>
+        <name>ProductionGpuBackend</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::ProductionGpuBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="948" column="5" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="948" bodyend="972"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_backend_1a552a451da86d2192e5e1f91ba664f7d3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::geo::ProductionGpuBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1c4449a6016a5eb97a9103d5db3d3e48">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="974" column="16" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="974" bodyend="976"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_backend_1a4cd6d1b8af7cf7bee2712c26bca86d58" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::ProductionGpuBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a9425c0b8acfa7591052b641da875de6b">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="978" column="10" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="978" bodyend="980"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_backend_1ae9089f767573a0e3652cd52cad80f38c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_spatial_batch_results" kindref="compound">SpatialBatchResults</ref></type>
+        <definition>SpatialBatchResults themis::geo::ProductionGpuBackend::batchIntersects</definition>
+        <argsstring>(const SpatialBatchInputs &amp;in) override</argsstring>
+        <name>batchIntersects</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::batchIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1af47ef704007f683b97adc804495d41ca">batchIntersects</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref> &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="982" column="25" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="982" bodyend="990"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_backend_1abc4709eb0947c8c532305acc8b5931fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::ProductionGpuBackend::exactIntersects</definition>
+        <argsstring>(const GeometryInfo &amp;geom1, const GeometryInfo &amp;geom2) override</argsstring>
+        <name>exactIntersects</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::exactIntersects</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8">exactIntersects</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="992" column="10" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="992" bodyend="999"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_backend_1afaf82c2d265312807a05cbc893bcd535" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::ProductionGpuBackend::stBuffer</definition>
+        <argsstring>(const GeometryInfo &amp;geom, double distance_m, int arc_points=36) override</argsstring>
+        <name>stBuffer</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::stBuffer</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6cee7527b53f693b1f8eeb255488d19e">stBuffer</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>distance_m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>arc_points</declname>
+          <defval>36</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1001" column="18" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1001" bodyend="1003"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_backend_1a1e19d5f9c7359635e919c19d68f9606e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::ProductionGpuBackend::stUnion</definition>
+        <argsstring>(const GeometryInfo &amp;g1, const GeometryInfo &amp;g2) override</argsstring>
+        <name>stUnion</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::stUnion</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a75a0a61492e8bf2755c3307e901206d7">stUnion</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1005" column="18" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1005" bodyend="1007"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_backend_1ab9bf16bde4d2c581f0a5624fca270d17" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>GeometryInfo</type>
+        <definition>GeometryInfo themis::geo::ProductionGpuBackend::stDifference</definition>
+        <argsstring>(const GeometryInfo &amp;g1, const GeometryInfo &amp;g2) override</argsstring>
+        <name>stDifference</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::stDifference</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1e4ba225af0b839f94b1f4877b9af33b">stDifference</reimplements>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g1</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>g2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1009" column="18" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1009" bodyend="1011"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_production_gpu_backend_1affb39652252e0bd4283ae2bafce9ebf6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double themis::geo::ProductionGpuBackend::geodesicDistance</definition>
+        <argsstring>(double lat1, double lon1, double lat2, double lon2) const override</argsstring>
+        <name>geodesicDistance</name>
+        <qualifiedname>themis::geo::ProductionGpuBackend::geodesicDistance</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6f7d1da128cc4b93dd3d1345f56b329e">geodesicDistance</reimplements>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/gpu_backend_production.cpp" line="1013" column="12" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="1013" bodyend="1015"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::ProductionGpuBackend</label>
+        <link refid="classthemis_1_1geo_1_1_production_gpu_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::ProductionGpuBackend</label>
+        <link refid="classthemis_1_1geo_1_1_production_gpu_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/geo/gpu_backend_production.cpp" line="946" column="1" bodyfile="src/geo/gpu_backend_production.cpp" bodystart="946" bodyend="1028"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1a1bb63a8b66d9b3f44b2a8bfeef5bd2b3" prot="private" virt="non-virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>active_backend_</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1ae9089f767573a0e3652cd52cad80f38c" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>batchIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1aeed472065ff6d37ee09141703eba09b4" prot="private" virt="non-virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>cpu_backend_</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1abc4709eb0947c8c532305acc8b5931fc" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>exactIntersects</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1affb39652252e0bd4283ae2bafce9ebf6" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>geodesicDistance</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1a4cd6d1b8af7cf7bee2712c26bca86d58" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1a552a451da86d2192e5e1f91ba664f7d3" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1a26af74333d9756b38e62a8db70d63bbd" prot="public" virt="non-virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>ProductionGpuBackend</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1afaf82c2d265312807a05cbc893bcd535" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>stBuffer</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1ab9bf16bde4d2c581f0a5624fca270d17" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>stDifference</name></member>
+      <member refid="classthemis_1_1geo_1_1_production_gpu_backend_1a1e19d5f9c7359635e919c19d68f9606e" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>stUnion</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1ac73e2531ea40978af133460e88a1a242" prot="public" virt="virtual"><scope>themis::geo::ProductionGpuBackend</scope><name>~ISpatialComputeBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

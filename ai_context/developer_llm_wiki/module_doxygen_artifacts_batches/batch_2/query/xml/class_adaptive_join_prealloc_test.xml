@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_adaptive_join_prealloc_test" kind="class" language="C++" prot="public">
+    <compoundname>AdaptiveJoinPreallocTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_adaptive_join_prealloc_test_1aaddfdae1ec8db66206ae6697ff48d20d" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_adaptive_join_executor" kindref="compound">themis::AdaptiveJoinExecutor</ref></type>
+        <definition>themis::AdaptiveJoinExecutor AdaptiveJoinPreallocTest::exec_</definition>
+        <argsstring></argsstring>
+        <name>exec_</name>
+        <qualifiedname>AdaptiveJoinPreallocTest::exec_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_phase4_query_hardening.cpp" line="73" column="34" bodyfile="tests/query/test_phase4_query_hardening.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_join_prealloc_test_1ab765a8023262767eeb4cfccfdf62f3fe" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_join_spec" kindref="compound">themis::JoinSpec</ref></type>
+        <definition>themis::JoinSpec AdaptiveJoinPreallocTest::spec_</definition>
+        <argsstring></argsstring>
+        <name>spec_</name>
+        <qualifiedname>AdaptiveJoinPreallocTest::spec_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_phase4_query_hardening.cpp" line="74" column="35" bodyfile="tests/query/test_phase4_query_hardening.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_adaptive_join_prealloc_test_1ad08d70df1610cf48ad2444cf67526acf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AdaptiveJoinPreallocTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AdaptiveJoinPreallocTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_phase4_query_hardening.cpp" line="76" column="10" bodyfile="tests/query/test_phase4_query_hardening.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdaptiveJoinPreallocTest</label>
+        <link refid="class_adaptive_join_prealloc_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdaptiveJoinPreallocTest</label>
+        <link refid="class_adaptive_join_prealloc_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>exec_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>spec_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::AdaptiveJoinExecutor</label>
+        <link refid="classthemis_1_1_adaptive_join_executor"/>
+      </node>
+      <node id="4">
+        <label>themis::JoinSpec</label>
+        <link refid="structthemis_1_1_join_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_phase4_query_hardening.cpp" line="71" column="1" bodyfile="tests/query/test_phase4_query_hardening.cpp" bodystart="71" bodyend="80"/>
+    <listofallmembers>
+      <member refid="class_adaptive_join_prealloc_test_1aaddfdae1ec8db66206ae6697ff48d20d" prot="protected" virt="non-virtual"><scope>AdaptiveJoinPreallocTest</scope><name>exec_</name></member>
+      <member refid="class_adaptive_join_prealloc_test_1ad08d70df1610cf48ad2444cf67526acf" prot="protected" virt="non-virtual"><scope>AdaptiveJoinPreallocTest</scope><name>SetUp</name></member>
+      <member refid="class_adaptive_join_prealloc_test_1ab765a8023262767eeb4cfccfdf62f3fe" prot="protected" virt="non-virtual"><scope>AdaptiveJoinPreallocTest</scope><name>spec_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

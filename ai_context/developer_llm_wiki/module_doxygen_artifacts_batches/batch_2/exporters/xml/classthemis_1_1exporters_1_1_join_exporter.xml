@@ -1,0 +1,417 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_join_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::JoinExporter</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_i_exporter" prot="public" virt="non-virtual">themis::exporters::IExporter</basecompoundref>
+    <includes refid="join__exporter_8h" local="no">join_exporter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_join_exporter_1afa4bb458dbe65f0a9068894d84f3b5d8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_join_export_config" kindref="compound">JoinExportConfig</ref></type>
+        <definition>JoinExportConfig themis::exporters::JoinExporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::exporters::JoinExporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="84" column="22" bodyfile="include/exporters/join_exporter.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_join_exporter_1ae270297f149ae6c7ada543991aa41caf" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ExporterMetrics&gt; themis::exporters::JoinExporter::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::exporters::JoinExporter::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="85" column="21" bodyfile="include/exporters/join_exporter.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_join_exporter_1a444dcfcb1911c4ddaf6d395ed54a79c5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, BaseEntity &gt;</type>
+        <definition>std::unordered_map&lt;std::string, BaseEntity&gt; themis::exporters::JoinExporter::right_table_</definition>
+        <argsstring></argsstring>
+        <name>right_table_</name>
+        <qualifiedname>themis::exporters::JoinExporter::right_table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="88" column="24" bodyfile="include/exporters/join_exporter.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_join_exporter_1a03e04b293923a04a6a4fb834d603fd89" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::JoinExporter::right_table_bytes_</definition>
+        <argsstring></argsstring>
+        <name>right_table_bytes_</name>
+        <qualifiedname>themis::exporters::JoinExporter::right_table_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="89" column="12" bodyfile="include/exporters/join_exporter.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_join_exporter_1a77542e47654a2a3d5bc9076059d96dcf" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::JoinExporter::right_collection_loaded_</definition>
+        <argsstring></argsstring>
+        <name>right_collection_loaded_</name>
+        <qualifiedname>themis::exporters::JoinExporter::right_collection_loaded_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="90" column="10" bodyfile="include/exporters/join_exporter.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1a692f9e184b35cd2c4c114a8e0f360f1b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::JoinExporter::JoinExporter</definition>
+        <argsstring>(const JoinExportConfig &amp;config={})</argsstring>
+        <name>JoinExporter</name>
+        <qualifiedname>themis::exporters::JoinExporter::JoinExporter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_join_export_config" kindref="compound">JoinExportConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="61" column="14" bodyfile="src/exporters/join_exporter.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1afba5224441e8aa6626fabc3990d3711d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::JoinExporter::setRightCollection</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;right_entities)</argsstring>
+        <name>setRightCollection</name>
+        <qualifiedname>themis::exporters::JoinExporter::setRightCollection</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>right_entities</declname>
+        </param>
+        <briefdescription>
+<para>Set Right Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── setRightCollection ────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">right_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right_entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ExporterException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), clear(), getFieldString(), estimateEntityBytes(), std::to_string(), emplace(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="67" column="10" bodyfile="src/exporters/join_exporter.cpp" bodystart="39" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1af9e17be6ff813fd97decdcf901bc8fb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref></type>
+        <definition>ExportStats themis::exporters::JoinExporter::exportEntities</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;entities, const ExportOptions &amp;options) override</argsstring>
+        <name>exportEntities</name>
+        <qualifiedname>themis::exporters::JoinExporter::exportEntities</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a8bb28742250134dd32801cba9ba2acff">exportEntities</reimplements>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>entities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>── exportEntities ──────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ExporterException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="namespacethemis_1_1exporters_1a4317f0c21d3baab4b276c88957dc072e" kindref="member">enforceExportPolicy()</ref>, empty(), std::chrono::steady_clock::now(), std::string(), what(), buildPIIDetector(), writer(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="69" column="17" bodyfile="src/exporters/join_exporter.cpp" bodystart="88" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1ab30662fd4942a7d977583662f0fa81e6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::exporters::JoinExporter::getSupportedFormats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedFormats</name>
+        <qualifiedname>themis::exporters::JoinExporter::getSupportedFormats</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a747594ff4d4052ad41e9046bc63c6287">getSupportedFormats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="74" column="17" bodyfile="include/exporters/join_exporter.h" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1ae8428409cbe2e8c8feca938343b0b2e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JoinExporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::exporters::JoinExporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a1a950d7bc59a0667a314b5a1c44e41e9">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="78" column="17" bodyfile="include/exporters/join_exporter.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1aecf3d934910f900af27bcd06c5f0fec1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JoinExporter::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::exporters::JoinExporter::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1exporters_1_1_i_exporter_1a9729d229cd3934db0e6d3c948b526908">getVersion</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="79" column="17" bodyfile="include/exporters/join_exporter.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1ac204d736c5b76a7e38aa435752e01747" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ExporterMetrics &gt; themis::exporters::JoinExporter::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::exporters::JoinExporter::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="81" column="21" bodyfile="include/exporters/join_exporter.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1a8ef3385b2c9ab0d611af3a3968b7fb6a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity themis::exporters::JoinExporter::mergeEntities</definition>
+        <argsstring>(const BaseEntity &amp;left, const BaseEntity &amp;right) const</argsstring>
+        <name>mergeEntities</name>
+        <qualifiedname>themis::exporters::JoinExporter::mergeEntities</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Merge Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="99" column="16" bodyfile="src/exporters/join_exporter.cpp" bodystart="296" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1aee07e50cf2ec860eddf895d951d4d473" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_p_i_i_detector" kindref="compound">PIIDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; PIIDetector &gt; themis::exporters::JoinExporter::buildPIIDetector</definition>
+        <argsstring>() const</argsstring>
+        <name>buildPIIDetector</name>
+        <qualifiedname>themis::exporters::JoinExporter::buildPIIDetector</qualifiedname>
+        <briefdescription>
+<para>Build <ref refid="classthemis_1_1exporters_1_1_p_i_i_detector" kindref="compound">PIIDetector</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="105" column="21" bodyfile="src/exporters/join_exporter.cpp" bodystart="445" bodyend="467"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_join_exporter_1a4b4b1cd6bbefa5990956cc9c0daf2923" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::JoinExporter::estimateEntityBytes</definition>
+        <argsstring>(const BaseEntity &amp;entity)</argsstring>
+        <name>estimateEntityBytes</name>
+        <qualifiedname>themis::exporters::JoinExporter::estimateEntityBytes</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Entity Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── estimateEntityBytes ───────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toJson(), size(), getPrimaryKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/join_exporter.h" line="112" column="19" bodyfile="src/exporters/join_exporter.cpp" bodystart="476" bodyend="481"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::JoinExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_join_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::exporters::IExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_i_exporter"/>
+      </node>
+      <node id="1">
+        <label>themis::exporters::JoinExporter</label>
+        <link refid="classthemis_1_1exporters_1_1_join_exporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/join_exporter.h" line="59" column="1" bodyfile="include/exporters/join_exporter.h" bodystart="59" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1aee07e50cf2ec860eddf895d951d4d473" prot="private" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>buildPIIDetector</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1afa4bb458dbe65f0a9068894d84f3b5d8" prot="private" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1a4b4b1cd6bbefa5990956cc9c0daf2923" prot="private" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>estimateEntityBytes</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1af9e17be6ff813fd97decdcf901bc8fb3" prot="public" virt="virtual"><scope>themis::exporters::JoinExporter</scope><name>exportEntities</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1ac204d736c5b76a7e38aa435752e01747" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1ae8428409cbe2e8c8feca938343b0b2e2" prot="public" virt="virtual"><scope>themis::exporters::JoinExporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1ab30662fd4942a7d977583662f0fa81e6" prot="public" virt="virtual"><scope>themis::exporters::JoinExporter</scope><name>getSupportedFormats</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1aecf3d934910f900af27bcd06c5f0fec1" prot="public" virt="virtual"><scope>themis::exporters::JoinExporter</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1a692f9e184b35cd2c4c114a8e0f360f1b" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>JoinExporter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1a8ef3385b2c9ab0d611af3a3968b7fb6a" prot="private" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>mergeEntities</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1ae270297f149ae6c7ada543991aa41caf" prot="private" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1a77542e47654a2a3d5bc9076059d96dcf" prot="private" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>right_collection_loaded_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1a444dcfcb1911c4ddaf6d395ed54a79c5" prot="private" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>right_table_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1a03e04b293923a04a6a4fb834d603fd89" prot="private" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>right_table_bytes_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_join_exporter_1afba5224441e8aa6626fabc3990d3711d" prot="public" virt="non-virtual"><scope>themis::exporters::JoinExporter</scope><name>setRightCollection</name></member>
+      <member refid="classthemis_1_1exporters_1_1_i_exporter_1ad03adade7179148b1494ef958b64f267" prot="public" virt="virtual"><scope>themis::exporters::JoinExporter</scope><name>~IExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

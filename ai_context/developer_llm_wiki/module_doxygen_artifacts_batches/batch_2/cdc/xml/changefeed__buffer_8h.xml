@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="changefeed__buffer_8h" kind="file" language="C++">
+    <compoundname>changefeed_buffer.h</compoundname>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <includes refid="cdc__metrics_8h" local="yes">cdc/cdc_metrics.h</includes>
+    <includes refid="dead__letter__queue_8h" local="yes">cdc/dead_letter_queue.h</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="tenant__buffer__manager_8h" local="yes">include/cdc/tenant_buffer_manager.h</includedby>
+    <includedby refid="changefeed__buffer_8cpp" local="yes">src/cdc/changefeed_buffer.cpp</includedby>
+    <includedby refid="test__cdc__changefeed__buffer_8cpp" local="yes">tests/cdc/test_cdc_changefeed_buffer.cpp</includedby>
+    <includedby refid="test__cdc__dead__letter__queue_8cpp" local="yes">tests/cdc/test_cdc_dead_letter_queue.cpp</includedby>
+    <includedby refid="test__cdc__production__fixes_8cpp" local="yes">tests/cdc/test_cdc_production_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="17">
+        <label>cdc/cdc_metrics.h</label>
+        <link refid="cdc__metrics_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/cdc/changefeed_buffer.h</label>
+        <link refid="changefeed__buffer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>cdc/dead_letter_queue.h</label>
+        <link refid="dead__letter__queue_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>condition_variable</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="20">
+        <label>deque</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="21">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>set</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cdc/changefeed_buffer.h</label>
+        <link refid="changefeed__buffer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/cdc/tenant_buffer_manager.h</label>
+        <link refid="tenant__buffer__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/cdc/cdc_admin.cpp</label>
+        <link refid="cdc__admin_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/cdc/changefeed_buffer.cpp</label>
+        <link refid="changefeed__buffer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/cdc/tenant_buffer_manager.cpp</label>
+        <link refid="tenant__buffer__manager_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/cdc/test_cdc_changefeed_buffer.cpp</label>
+        <link refid="test__cdc__changefeed__buffer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/cdc/test_cdc_dead_letter_queue.cpp</label>
+        <link refid="test__cdc__dead__letter__queue_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/cdc/test_cdc_production_fixes.cpp</label>
+        <link refid="test__cdc__production__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_changefeed_buffer_config" prot="public">themis::ChangefeedBufferConfig</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_buffer_stats" prot="public">themis::ChangefeedBufferStats</innerclass>
+    <innerclass refid="classthemis_1_1_changefeed_buffer" prot="public">themis::ChangefeedBuffer</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_buffer_1_1_buffered_event" prot="private">themis::ChangefeedBuffer::BufferedEvent</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_buffer_1_1_event_type_buffer" prot="private">themis::ChangefeedBuffer::EventTypeBuffer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__metrics_8h" kindref="compound">cdc/cdc_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="dead__letter__queue_8h" kindref="compound">cdc/dead_letter_queue.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::cdc;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_changefeed_buffer_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buffer<sp/>size<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_changefeed_buffer_config_1ae0902dfe61d5620f510ac8df525f0ece" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1ae0902dfe61d5620f510ac8df525f0ece" kindref="member">max_events_per_buffer</ref><sp/>=<sp/>500;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>events<sp/>per<sp/>buffer<sp/>before<sp/>flush</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_changefeed_buffer_config_1aecd2d8d3aff76f467ec4437a8c43b207" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1aecd2d8d3aff76f467ec4437a8c43b207" kindref="member">max_total_events</ref><sp/>=<sp/>5000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>total<sp/>buffered<sp/>events<sp/>across<sp/>all<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Time-based<sp/>flush</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_changefeed_buffer_config_1a8baae523b8e207ffb8b005bcdf6b47a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1a8baae523b8e207ffb8b005bcdf6b47a0" kindref="member">flush_interval</ref>{1000};<sp/><sp/></highlight><highlight class="comment">//<sp/>Auto-flush<sp/>every<sp/>1<sp/>second<sp/>(low<sp/>latency<sp/>for<sp/>CDC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1_changefeed_buffer_config_1ae99f1a578a3c711c0ca3ba86f531c3ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1ae99f1a578a3c711c0ca3ba86f531c3ad" kindref="member">max_memory_bytes</ref><sp/>=<sp/>50<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>MB<sp/>max<sp/>buffer<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>tuning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1_changefeed_buffer_config_1af91d2957bf31603cf2420ee83daa73f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1af91d2957bf31603cf2420ee83daa73f4" kindref="member">async_flush</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flush<sp/>in<sp/>background<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1_changefeed_buffer_config_1a35158324631b4402f89962d08b865e1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1a35158324631b4402f89962d08b865e1a" kindref="member">flush_batch_size</ref><sp/>=<sp/>250;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Events<sp/>per<sp/>flush<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>for<sp/>event<sp/>payloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_changefeed_buffer_config_1ad9c6ddd750a0f0e64eee97ed79adaa34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1ad9c6ddd750a0f0e64eee97ed79adaa34" kindref="member">compress_payloads</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zstd<sp/>compression<sp/>for<sp/>large<sp/>payloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1_changefeed_buffer_config_1a7c3dfa3f15101d9ee752b1606af16abf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1a7c3dfa3f15101d9ee752b1606af16abf" kindref="member">compression_threshold_bytes</ref><sp/>=<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>Compress<sp/>payloads<sp/>&gt;<sp/>1KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>and<sp/>error<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1_changefeed_buffer_config_1aedadbeea1e5486d48ff343581b5cdeb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1aedadbeea1e5486d48ff343581b5cdeb4" kindref="member">max_retry_attempts</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>retries<sp/>for<sp/>failed<sp/>flushes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1_changefeed_buffer_config_1a0b346f0d41c51bf320d787958f988505" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1a0b346f0d41c51bf320d787958f988505" kindref="member">retry_backoff_ms</ref>{100};<sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>backoff<sp/>for<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1_changefeed_buffer_config_1a58ea768ccc8536abdc35d32a831b2156" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1a58ea768ccc8536abdc35d32a831b2156" kindref="member">exponential_backoff</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>exponential<sp/>backoff<sp/>for<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_changefeed_buffer_config_1ae13d9b229ef8d8cc7b86d6a5cb6d3d7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1ae13d9b229ef8d8cc7b86d6a5cb6d3d7a" kindref="member">enable_rate_limiting</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_changefeed_buffer_config_1aa97965b754e8afe1ddc7e91b472ad06f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1aa97965b754e8afe1ddc7e91b472ad06f" kindref="member">max_events_per_second</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>events<sp/>per<sp/>second<sp/>(0<sp/>=<sp/>unlimited)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1_changefeed_buffer_config_1af2e427d683bc259f2f463e757f3537bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1_changefeed_buffer_config_1af2e427d683bc259f2f463e757f3537bf" kindref="member">rate_limit_window</ref>{1000};<sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limit<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1_changefeed_buffer_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1_changefeed_buffer_stats_1a9c626c41df88258b8ca8d6a43391559e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a9c626c41df88258b8ca8d6a43391559e" kindref="member">events_buffered</ref>{0};</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_changefeed_buffer_stats_1add44941f98ce6c1945a8e32035a83c7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1add44941f98ce6c1945a8e32035a83c7a" kindref="member">events_flushed</ref>{0};</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1_changefeed_buffer_stats_1acdb4fc0ce7554ac4218e8057a93bfd07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1acdb4fc0ce7554ac4218e8057a93bfd07" kindref="member">flush_count</ref>{0};</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_changefeed_buffer_stats_1a779c8c600965da5281018ffbdcb5698a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a779c8c600965da5281018ffbdcb5698a" kindref="member">auto_flush_count</ref>{0};</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_changefeed_buffer_stats_1a57d30c6087a2693e5b7490f75beec4b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a57d30c6087a2693e5b7490f75beec4b3" kindref="member">manual_flush_count</ref>{0};</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_changefeed_buffer_stats_1a526c29eb6b9563a77cd68ba83454fba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a526c29eb6b9563a77cd68ba83454fba2" kindref="member">size_triggered_flush</ref>{0};</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_changefeed_buffer_stats_1a2427fa984751ffc88bf8de225b250320" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a2427fa984751ffc88bf8de225b250320" kindref="member">time_triggered_flush</ref>{0};</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_changefeed_buffer_stats_1a525c180d7d6a8333264b0bf25edbea1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a525c180d7d6a8333264b0bf25edbea1f" kindref="member">buffer_overflow_count</ref>{0};</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_changefeed_buffer_stats_1aef91891cd1603c51af6d8b558d25080e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1aef91891cd1603c51af6d8b558d25080e" kindref="member">compressed_payloads</ref>{0};</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_changefeed_buffer_stats_1a9aceb30c5551ddcc1fad7f39cddb397e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a9aceb30c5551ddcc1fad7f39cddb397e" kindref="member">retry_attempts</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>retry<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_changefeed_buffer_stats_1afe99caadfde66be4b29b32d00ab2f69b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1afe99caadfde66be4b29b32d00ab2f69b" kindref="member">retry_successes</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Successful<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1_changefeed_buffer_stats_1af3660290e6a94f6cf600b4aadf304313" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1af3660290e6a94f6cf600b4aadf304313" kindref="member">retry_failures</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failed<sp/>retries<sp/>(exhausted)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_changefeed_buffer_stats_1a3009cf32ee584dc0a1056d8fc0dcf8ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a3009cf32ee584dc0a1056d8fc0dcf8ce" kindref="member">flush_errors</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>flush<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_changefeed_buffer_stats_1af5427d5f6a80b96c0697f6383227cadd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1af5427d5f6a80b96c0697f6383227cadd" kindref="member">rate_limited_events</ref>{0};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Events<sp/>delayed<sp/>by<sp/>rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_changefeed_buffer_stats_1ae1e973914726a8d1a98d151d020556cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1ae1e973914726a8d1a98d151d020556cb" kindref="member">current_buffer_size</ref>{0};</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_changefeed_buffer_stats_1a932a5e8cdb55c9f4f4f6d7661231aa50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a932a5e8cdb55c9f4f4f6d7661231aa50" kindref="member">current_buffer_memory</ref>{0};</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_changefeed_buffer_stats_1a2d8893be6721505f08adec5c5d035656" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a2d8893be6721505f08adec5c5d035656" kindref="member">avg_compression_ratio</ref>{1.0};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_changefeed_buffer_stats_1a66da28fd4525c827e4ca92c95a02ef65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a66da28fd4525c827e4ca92c95a02ef65" kindref="member">last_flush_time</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>copy<sp/>and<sp/>move<sp/>operations<sp/>due<sp/>to<sp/>atomic<sp/>members.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1_changefeed_buffer_stats_1a99d3d65e2a5fc417fb4f5cc7c54c5894" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref>&amp;<sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a99d3d65e2a5fc417fb4f5cc7c54c5894" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1_changefeed_buffer_stats_1a952a6df7194fd211d71d99fd8f3550ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1a952a6df7194fd211d71d99fd8f3550ab" kindref="member">ChangefeedBufferStats</ref>(<ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1_changefeed_buffer_stats_1afafb953a88faf4abb2c68a409f85f285" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref>&amp;<sp/>operator=(<ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1_changefeed_buffer_stats_1a8e2226412907bad4433f7ba527eaee77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1_changefeed_buffer" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1_changefeed_buffer_1ac8537f2b87ee67830d19cad72c668f63" kindref="member">ChangefeedBuffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1ac8537f2b87ee67830d19cad72c668f63" kindref="member">ChangefeedBuffer</ref>(<ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref>*<sp/>changefeed,<sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref><sp/>config<sp/>=<sp/><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref>{});</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_buffer_1ac8537f2b87ee67830d19cad72c668f63" kindref="member">~ChangefeedBuffer</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>(contains<sp/>threads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1_changefeed_buffer_1a5caedc19da00dd52748f0c54ecdc81f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_buffer_1a5caedc19da00dd52748f0c54ecdc81f2" kindref="member">ChangefeedBuffer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1ac8537f2b87ee67830d19cad72c668f63" kindref="member">ChangefeedBuffer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1_changefeed_buffer_1abe3aa3f9beb2cd434377326c7617c886" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_buffer_1ac8537f2b87ee67830d19cad72c668f63" kindref="member">ChangefeedBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1_changefeed_buffer_1abe3aa3f9beb2cd434377326c7617c886" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1ac8537f2b87ee67830d19cad72c668f63" kindref="member">ChangefeedBuffer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1_changefeed_buffer_1a62f9e8b1de103c8799bf034f42ab1938" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_buffer_1a62f9e8b1de103c8799bf034f42ab1938" kindref="member">ChangefeedBuffer</ref>(<ref refid="classthemis_1_1_changefeed_buffer_1ac8537f2b87ee67830d19cad72c668f63" kindref="member">ChangefeedBuffer</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1_changefeed_buffer_1aec2a61ec7b7e68ef0f29ce14fba20a18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_buffer_1ac8537f2b87ee67830d19cad72c668f63" kindref="member">ChangefeedBuffer</ref>&amp;<sp/><ref refid="classthemis_1_1_changefeed_buffer_1aec2a61ec7b7e68ef0f29ce14fba20a18" kindref="member">operator=</ref>(<ref refid="classthemis_1_1_changefeed_buffer_1ac8537f2b87ee67830d19cad72c668f63" kindref="member">ChangefeedBuffer</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1a13f566f6b27a7abe17caeea8b58148d0" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1aebaadca3453f6503bc64fed4af44cd97" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/><ref refid="classthemis_1_1_changefeed_buffer_1a11d750092ad4f168838e37cd65591405" kindref="member">recordEvent</ref>(<ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>event);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1a76ac0bbe4cfb34397ccb7c6869cffa49" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1a7ebccfa7e6e715eeb16d6e055829c7ae" kindref="member">flushFor</ref>(<ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref><sp/>event_type);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats" kindref="compound">ChangefeedBufferStats</ref>&amp;<sp/><ref refid="classthemis_1_1_changefeed_buffer_1abfd627e77e935cc016dd42f77804a324" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1_changefeed_buffer_1ae1cd0b8e05fe628d0d6cc8c345b9ccf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref>&amp;<sp/><ref refid="classthemis_1_1_changefeed_buffer_1ae1cd0b8e05fe628d0d6cc8c345b9ccf8" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1_changefeed_buffer_1acc899ffd9e77d1391ccd5279ec0da627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1acc899ffd9e77d1391ccd5279ec0da627" kindref="member">resetMetrics</ref>()<sp/>{<sp/>metrics_.reset();<sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1_changefeed_buffer_1abd8448621450753e6a510ebbb05cb01a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref>&amp;<sp/><ref refid="classthemis_1_1_changefeed_buffer_1abd8448621450753e6a510ebbb05cb01a" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1_changefeed_buffer_1af614a8e470c051ae4a37638d94a3c126" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1af614a8e470c051ae4a37638d94a3c126" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_.load();<sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1_changefeed_buffer_1a7f690bba4fa8ec137c2350e8edebb206" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_buffer_1a7f690bba4fa8ec137c2350e8edebb206" kindref="member">setDeadLetterQueue</ref>(<ref refid="classthemis_1_1cdc_1_1_dead_letter_queue" kindref="compound">cdc::DeadLetterQueue</ref>*<sp/>dlq)<sp/>{<sp/>dlq_<sp/>=<sp/>dlq;<sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1_changefeed_buffer_1a06998700a215ee0b2b63691f9a968dc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_dead_letter_queue" kindref="compound">cdc::DeadLetterQueue</ref>*<sp/><ref refid="classthemis_1_1_changefeed_buffer_1a06998700a215ee0b2b63691f9a968dc0" kindref="member">getDeadLetterQueue</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dlq_;<sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dead-letter<sp/>queue<sp/>(optional,<sp/>not<sp/>owned)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_dead_letter_queue" kindref="compound">cdc::DeadLetterQueue</ref>*<sp/>dlq_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buffered<sp/>event<sp/>wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">BufferedEvent<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>event;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>timestamp;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>memory_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>compressed<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BufferedEvent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref>&amp;<sp/>e)<sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>event(e),<sp/>timestamp(std::chrono::steady_clock::now())<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rough<sp/>memory<sp/>estimate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memory_bytes<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref>)<sp/>+<sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref>.size()<sp/>+<sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref>.has_value()<sp/>?<sp/>event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref>-&gt;size()<sp/>:<sp/>0);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-event-type<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">EventTypeBuffer<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::deque&lt;BufferedEvent&gt;<sp/>events;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>first_event_time;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>memory_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>add(BufferedEvent&amp;&amp;<sp/>event)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(events.empty())<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first_event_time<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memory_bytes<sp/>+=<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.memory_bytes;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events.push_back(std::move(event));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>clear()<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events.clear();</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memory_bytes<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>Changefeed*<sp/>changefeed_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>ChangefeedBufferConfig<sp/>config_;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buffer<sp/>storage:<sp/>map[event_type<sp/>-&gt;<sp/>buffer]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;Changefeed::ChangeEventType,<sp/>EventTypeBuffer&gt;<sp/>buffers_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>buffers_mutex_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>flush<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>flush_thread_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>flush_cv_;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>flush_mutex_;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_stats_1ac27659450df0091d2c2fbf9c7e428830" kindref="member">ChangefeedBufferStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enhanced<sp/>metrics<sp/>(P1<sp/>feature)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>CDCMetrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeBufferKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Changefeed::ChangeEvent&amp;<sp/>event)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>flushThread();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>flushInternal(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>lock_held<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>flushBuffer(<ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref><sp/>event_type,<sp/>EventTypeBuffer&amp;<sp/>buffer);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldFlushBuffer(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EventTypeBuffer&amp;<sp/>buffer)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldFlushGlobal()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkRateLimit();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>compressPayload(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>decompressPayload(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>compressed);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>rate_limit_window_start_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>events_in_current_window_{0};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>rate_limit_mutex_;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cdc/changefeed_buffer.h"/>
+  </compounddef>
+</doxygen>

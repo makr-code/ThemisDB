@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_delta_engine_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>DeltaEngineBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaEngineBenchFixture::work_dir_</definition>
+        <argsstring></argsstring>
+        <name>work_dir_</name>
+        <qualifiedname>DeltaEngineBenchFixture::work_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="165" column="42" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_bench_fixture_1a428f3e2004d1d29db2417c57323ffebd" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaEngineBenchFixture::base_path_</definition>
+        <argsstring></argsstring>
+        <name>base_path_</name>
+        <qualifiedname>DeltaEngineBenchFixture::base_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="166" column="42" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_bench_fixture_1a2d52027dc8e6489fdc989534910df783" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaEngineBenchFixture::patch_path_</definition>
+        <argsstring></argsstring>
+        <name>patch_path_</name>
+        <qualifiedname>DeltaEngineBenchFixture::patch_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="167" column="42" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_bench_fixture_1a848d029f06eb6bc3b9f290c1140766a3" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaEngineBenchFixture::target_path_</definition>
+        <argsstring></argsstring>
+        <name>target_path_</name>
+        <qualifiedname>DeltaEngineBenchFixture::target_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="168" column="42" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_bench_fixture_1af02caa40e4f42eef06b098292cb5f5f9" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DeltaEngineBenchFixture::new_path_</definition>
+        <argsstring></argsstring>
+        <name>new_path_</name>
+        <qualifiedname>DeltaEngineBenchFixture::new_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="169" column="42" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_delta_engine_bench_fixture_1abcd14352f1aa831412c918500f80c7b1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; DeltaUpdateEngine &gt;</type>
+        <definition>std::unique_ptr&lt;DeltaUpdateEngine&gt; DeltaEngineBenchFixture::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>DeltaEngineBenchFixture::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="170" column="23" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_delta_engine_bench_fixture_1a481dbd5237a00701f4dfec1df81a886c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeltaEngineBenchFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DeltaEngineBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="133" column="10" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="133" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="class_delta_engine_bench_fixture_1abbbcb239de3a710d7cc2903519cb54c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeltaEngineBenchFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DeltaEngineBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="157" column="10" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="157" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DeltaEngineBenchFixture</label>
+        <link refid="class_delta_engine_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DeltaEngineBenchFixture</label>
+        <link refid="class_delta_engine_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/maintenance/bench_update_pipeline.cpp" line="131" column="1" bodyfile="benchmarks/maintenance/bench_update_pipeline.cpp" bodystart="131" bodyend="171"/>
+    <listofallmembers>
+      <member refid="class_delta_engine_bench_fixture_1a428f3e2004d1d29db2417c57323ffebd" prot="protected" virt="non-virtual"><scope>DeltaEngineBenchFixture</scope><name>base_path_</name></member>
+      <member refid="class_delta_engine_bench_fixture_1abcd14352f1aa831412c918500f80c7b1" prot="protected" virt="non-virtual"><scope>DeltaEngineBenchFixture</scope><name>engine_</name></member>
+      <member refid="class_delta_engine_bench_fixture_1af02caa40e4f42eef06b098292cb5f5f9" prot="protected" virt="non-virtual"><scope>DeltaEngineBenchFixture</scope><name>new_path_</name></member>
+      <member refid="class_delta_engine_bench_fixture_1a2d52027dc8e6489fdc989534910df783" prot="protected" virt="non-virtual"><scope>DeltaEngineBenchFixture</scope><name>patch_path_</name></member>
+      <member refid="class_delta_engine_bench_fixture_1a481dbd5237a00701f4dfec1df81a886c" prot="public" virt="non-virtual"><scope>DeltaEngineBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_delta_engine_bench_fixture_1a848d029f06eb6bc3b9f290c1140766a3" prot="protected" virt="non-virtual"><scope>DeltaEngineBenchFixture</scope><name>target_path_</name></member>
+      <member refid="class_delta_engine_bench_fixture_1abbbcb239de3a710d7cc2903519cb54c2" prot="public" virt="non-virtual"><scope>DeltaEngineBenchFixture</scope><name>TearDown</name></member>
+      <member refid="class_delta_engine_bench_fixture_1aed0214e5219bc07fd87253d74bd95fdc" prot="protected" virt="non-virtual"><scope>DeltaEngineBenchFixture</scope><name>work_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

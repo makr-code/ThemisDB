@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ErrorContext</compoundname>
+    <includes refid="error__context_8h" local="no">error_context.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_error_context_1a0ec23b404aa5b5dc33946467d66c6725" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+        <definition>AccelerationErrorCode themis::acceleration::ErrorContext::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::acceleration::ErrorContext::code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="23" column="27" bodyfile="include/acceleration/error_context.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_error_context_1a61f3fe0a8c9a658d136974e057eb656c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ErrorContext::backendName</definition>
+        <argsstring></argsstring>
+        <name>backendName</name>
+        <qualifiedname>themis::acceleration::ErrorContext::backendName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="25" column="17" bodyfile="include/acceleration/error_context.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_error_context_1a834219516b4d4fa5d87f075678a1ccbb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ErrorContext::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::acceleration::ErrorContext::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="27" column="17" bodyfile="include/acceleration/error_context.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_error_context_1a5db69c4bec51788a03b3eabd5b3a2c3c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ErrorContext::troubleshootingHint</definition>
+        <argsstring></argsstring>
+        <name>troubleshootingHint</name>
+        <qualifiedname>themis::acceleration::ErrorContext::troubleshootingHint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="29" column="17" bodyfile="include/acceleration/error_context.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_error_context_1ae172a2f533dd1920dbf55c4d086cc0a8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::acceleration::ErrorContext::systemInfo</definition>
+        <argsstring></argsstring>
+        <name>systemInfo</name>
+        <qualifiedname>themis::acceleration::ErrorContext::systemInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="31" column="19" bodyfile="include/acceleration/error_context.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_error_context_1a6c2bce11fdc6e7994f56ed7c8073f14e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::acceleration::ErrorContext::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::acceleration::ErrorContext::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="33" column="43" bodyfile="include/acceleration/error_context.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_error_context_1a6901187f532c7173898e5352c5983553" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::ErrorContext::ErrorContext</definition>
+        <argsstring>()</argsstring>
+        <name>ErrorContext</name>
+        <qualifiedname>themis::acceleration::ErrorContext::ErrorContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="35" column="5" bodyfile="include/acceleration/error_context.h" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_error_context_1a6634a602e0d1c8ee9f67a318527147c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::ErrorContext::ErrorContext</definition>
+        <argsstring>(AccelerationErrorCode errorCode, std::string backend, std::string msg)</argsstring>
+        <name>ErrorContext</name>
+        <qualifiedname>themis::acceleration::ErrorContext::ErrorContext</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>errorCode</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="39" column="5" bodyfile="include/acceleration/error_context.h" bodystart="39" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_error_context_1a374512490d8627c6d5df9493ccc9079d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::ErrorContext::ErrorContext</definition>
+        <argsstring>(AccelerationErrorCode errorCode, std::string backend, std::string msg, std::string hint)</argsstring>
+        <name>ErrorContext</name>
+        <qualifiedname>themis::acceleration::ErrorContext::ErrorContext</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>errorCode</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="47" column="5" bodyfile="include/acceleration/error_context.h" bodystart="47" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_error_context_1a2d8c3dd138110b22d3f7f286d87559a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::ErrorContext::ErrorContext</definition>
+        <argsstring>(AccelerationErrorCode errorCode, std::string backend, std::string msg, std::string hint, std::string sysInfo)</argsstring>
+        <name>ErrorContext</name>
+        <qualifiedname>themis::acceleration::ErrorContext::ErrorContext</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a62b54058a70b071ca3a6785f74ae95b0" kindref="member">AccelerationErrorCode</ref></type>
+          <declname>errorCode</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>hint</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>sysInfo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="57" column="5" bodyfile="include/acceleration/error_context.h" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_error_context_1a9140e1f0374a953970fa90bac96dbcd6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ErrorContext::format</definition>
+        <argsstring>() const</argsstring>
+        <name>format</name>
+        <qualifiedname>themis::acceleration::ErrorContext::format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="69" column="17" bodyfile="include/acceleration/error_context.h" bodystart="69" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_error_context_1aea7013cafaea92ad687adb7cfe47c520" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::ErrorContext::isSuccess</definition>
+        <argsstring>() const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::acceleration::ErrorContext::isSuccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="90" column="10" bodyfile="include/acceleration/error_context.h" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_error_context_1adf9b756d6c70337067109f88b3713f9e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::ErrorContext::getCategory</definition>
+        <argsstring>() const</argsstring>
+        <name>getCategory</name>
+        <qualifiedname>themis::acceleration::ErrorContext::getCategory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/error_context.h" line="94" column="17" bodyfile="include/acceleration/error_context.h" bodystart="94" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/error_context.h" line="22" column="1" bodyfile="include/acceleration/error_context.h" bodystart="22" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a61f3fe0a8c9a658d136974e057eb656c" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>backendName</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a0ec23b404aa5b5dc33946467d66c6725" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>code</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a6901187f532c7173898e5352c5983553" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>ErrorContext</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a6634a602e0d1c8ee9f67a318527147c5" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>ErrorContext</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a374512490d8627c6d5df9493ccc9079d" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>ErrorContext</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a2d8c3dd138110b22d3f7f286d87559a6" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>ErrorContext</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a9140e1f0374a953970fa90bac96dbcd6" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>format</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1adf9b756d6c70337067109f88b3713f9e" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>getCategory</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1aea7013cafaea92ad687adb7cfe47c520" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>isSuccess</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a834219516b4d4fa5d87f075678a1ccbb" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>message</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1ae172a2f533dd1920dbf55c4d086cc0a8" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>systemInfo</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a6c2bce11fdc6e7994f56ed7c8073f14e" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_error_context_1a5db69c4bec51788a03b3eabd5b3a2c3c" prot="public" virt="non-virtual"><scope>themis::acceleration::ErrorContext</scope><name>troubleshootingHint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

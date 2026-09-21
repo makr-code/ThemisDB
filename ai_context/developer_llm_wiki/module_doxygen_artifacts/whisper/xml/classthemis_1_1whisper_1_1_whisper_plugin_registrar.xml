@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1whisper_1_1_whisper_plugin_registrar" kind="class" language="C++" prot="public">
+    <compoundname>themis::whisper::WhisperPluginRegistrar</compoundname>
+    <includes refid="whisper__plugin__registrar_8h" local="no">whisper_plugin_registrar.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a3127ef78038be3d24684aa2e89bc60ee" prot="public" static="no">
+        <type>std::function&lt; bool(<ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> &amp;plugin, const <ref refid="namespacethemis_1_1whisper_1ab119c863c14e07d61bec7f07db01c336" kindref="member">json</ref> &amp;config)&gt;</type>
+        <definition>using themis::whisper::WhisperPluginRegistrar::ReloadCallback = 
+std::function&lt;bool(WhisperPlugin&amp; plugin, const json&amp; config)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReloadCallback</name>
+        <qualifiedname>themis::whisper::WhisperPluginRegistrar::ReloadCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type invoked when the plugin is hot-reloaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Freshly created replacement plugin (not yet loaded). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration originally passed to the registrar. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if reload should proceed; false aborts it. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="165" column="5" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a00b637d7c615d3269609bdd91cfb476d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; WhisperPlugin &gt; themis::whisper::WhisperPluginRegistrar::createPlugin</definition>
+        <argsstring>(const json &amp;config={})</argsstring>
+        <name>createPlugin</name>
+        <qualifiedname>themis::whisper::WhisperPluginRegistrar::createPlugin</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1whisper_1ab119c863c14e07d61bec7f07db01c336" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a standalone <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar" kindref="compound">WhisperPluginRegistrar</ref> — factory methods ──────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional JSON configuration. Key: &quot;model_path&quot; (string) — if present, calls WhisperPlugin::initialize(model_path, config). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Heap-allocated <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref>; caller owns.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), empty(), initialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="142" column="28" bodyfile="src/whisper/whisper_plugin_registrar.cpp" bodystart="82" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1ae5b4c56752f77f935a140247d1134fb4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter" kindref="compound">WhisperPluginAdapter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; WhisperPluginAdapter &gt; themis::whisper::WhisperPluginRegistrar::createAdapter</definition>
+        <argsstring>(const json &amp;config={})</argsstring>
+        <name>createAdapter</name>
+        <qualifiedname>themis::whisper::WhisperPluginRegistrar::createAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1whisper_1ab119c863c14e07d61bec7f07db01c336" kindref="member">json</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter" kindref="compound">WhisperPluginAdapter</ref> wrapping a new <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Adapter.</para>
+<para>The adapter implements IThemisPlugin and can be handed directly to plugins::PluginManager.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional JSON configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Heap-allocated <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter" kindref="compound">WhisperPluginAdapter</ref>; caller owns.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a00b637d7c615d3269609bdd91cfb476d" kindref="member">createPlugin()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="153" column="28" bodyfile="src/whisper/whisper_plugin_registrar.cpp" bodystart="100" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a633e86c298a84946ecfb2347e3512207" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a3127ef78038be3d24684aa2e89bc60ee" kindref="member">ReloadCallback</ref></type>
+        <definition>WhisperPluginRegistrar::ReloadCallback themis::whisper::WhisperPluginRegistrar::defaultReloadCallback</definition>
+        <argsstring>()</argsstring>
+        <name>defaultReloadCallback</name>
+        <qualifiedname>themis::whisper::WhisperPluginRegistrar::defaultReloadCallback</qualifiedname>
+        <briefdescription>
+<para>Default hot-plug reload callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls WhisperPlugin::initialize(model_path, config) when &quot;model_path&quot; is present; otherwise returns false. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="174" column="27" bodyfile="src/whisper/whisper_plugin_registrar.cpp" bodystart="109" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a38e58471ed4f47a2bdf232748407e13a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::WhisperPluginRegistrar::enableHotPlug</definition>
+        <argsstring>(plugins::PluginManager &amp;manager, const std::string &amp;directory)</argsstring>
+        <name>enableHotPlug</name>
+        <qualifiedname>themis::whisper::WhisperPluginRegistrar::enableHotPlug</qualifiedname>
+        <param>
+          <type>plugins::PluginManager &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+<para>Enable PluginManager hot-plug monitoring for a directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable Hot Plug.</para>
+<para>Calls manager.enableHotPlug(directory, config) with default options (auto_load=true, auto_reload=true, auto_unload=true).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PluginManager instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory to watch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements enableHotPlug without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="186" column="17" bodyfile="src/whisper/whisper_plugin_registrar.cpp" bodystart="128" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1ab347ce3b11c5b60c42b79eda95c6ebc2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::whisper::WhisperPluginRegistrar::disableHotPlug</definition>
+        <argsstring>(plugins::PluginManager &amp;manager)</argsstring>
+        <name>disableHotPlug</name>
+        <qualifiedname>themis::whisper::WhisperPluginRegistrar::disableHotPlug</qualifiedname>
+        <param>
+          <type>plugins::PluginManager &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <briefdescription>
+<para>Disable PluginManager hot-plug monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable Hot Plug.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PluginManager instance.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements disableHotPlug without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="195" column="17" bodyfile="src/whisper/whisper_plugin_registrar.cpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a1fedf734e61a732a728f46777f5383e5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::whisper::WhisperPluginRegistrar::WhisperPluginRegistrar</definition>
+        <argsstring>()=delete</argsstring>
+        <name>WhisperPluginRegistrar</name>
+        <qualifiedname>themis::whisper::WhisperPluginRegistrar::WhisperPluginRegistrar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin_registrar.h" line="198" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory and registration helper for <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides static utilities to:<itemizedlist>
+<listitem><para>Create a raw <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> (createPlugin)</para>
+</listitem><listitem><para>Wrap it in a <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_adapter" kindref="compound">WhisperPluginAdapter</ref> for use with plugins::PluginManager (createAdapter)</para>
+</listitem><listitem><para>Enable PluginManager hot-plug monitoring for the plugin directory (enableHotPlug / disableHotPlug)</para>
+</listitem></itemizedlist>
+</para>
+<para>Hot-plug lifecycle: When the PluginManager detects that a model file or plugin shared-library has been replaced on disk, registerReloadCallback() is called so that a consumer can reinitialise <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> with the new model.</para>
+<para>Usage: <programlisting><codeline><highlight class="comment">//<sp/>Simple:<sp/>create<sp/>and<sp/>use<sp/>directly</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugin<sp/>=<sp/><ref refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a00b637d7c615d3269609bdd91cfb476d" kindref="member">WhisperPluginRegistrar::createPlugin</ref>({});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Advanced:<sp/>wire<sp/>into<sp/>PluginManager<sp/>hot-plug</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/><ref refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1ae5b4c56752f77f935a140247d1134fb4" kindref="member">WhisperPluginRegistrar::createAdapter</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;model_path&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ggml-base.bin&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/whisper/whisper_plugin_registrar.h" line="130" column="1" bodyfile="include/whisper/whisper_plugin_registrar.h" bodystart="130" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1ae5b4c56752f77f935a140247d1134fb4" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginRegistrar</scope><name>createAdapter</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a00b637d7c615d3269609bdd91cfb476d" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginRegistrar</scope><name>createPlugin</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a633e86c298a84946ecfb2347e3512207" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginRegistrar</scope><name>defaultReloadCallback</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1ab347ce3b11c5b60c42b79eda95c6ebc2" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginRegistrar</scope><name>disableHotPlug</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a38e58471ed4f47a2bdf232748407e13a" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginRegistrar</scope><name>enableHotPlug</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a3127ef78038be3d24684aa2e89bc60ee" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPluginRegistrar</scope><name>ReloadCallback</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_registrar_1a1fedf734e61a732a728f46777f5383e5" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPluginRegistrar</scope><name>WhisperPluginRegistrar</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

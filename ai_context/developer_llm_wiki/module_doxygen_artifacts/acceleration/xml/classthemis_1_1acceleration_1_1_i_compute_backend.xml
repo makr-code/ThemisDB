@@ -1,0 +1,574 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_i_compute_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::acceleration::IComputeBackend</compoundname>
+    <derivedcompoundref refid="classthemis_1_1acceleration_1_1_i_geo_backend" prot="public" virt="non-virtual">themis::acceleration::IGeoBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1acceleration_1_1_i_graph_backend" prot="public" virt="non-virtual">themis::acceleration::IGraphBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1acceleration_1_1_i_matrix_backend" prot="public" virt="non-virtual">themis::acceleration::IMatrixBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1acceleration_1_1_i_quantized_backend" prot="public" virt="non-virtual">themis::acceleration::IQuantizedBackend</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1acceleration_1_1_i_vector_backend" prot="public" virt="non-virtual">themis::acceleration::IVectorBackend</derivedcompoundref>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::acceleration::IComputeBackend::lastError_</definition>
+        <argsstring></argsstring>
+        <name>lastError_</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::lastError_</qualifiedname>
+        <briefdescription>
+<para>Last error context (stored for programmatic access). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="377" column="18" bodyfile="include/acceleration/compute_backend.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::acceleration::IComputeBackend::~IComputeBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IComputeBackend</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::~IComputeBackend</qualifiedname>
+        <briefdescription>
+<para>ICompute Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="257" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::acceleration::IComputeBackend::name</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0dac011d0501d5b03b4580d57ca64be0">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_m_t_1a2e667e5371f1ba7ef16553faa173fe62">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_t_b_b_1ae391ee31db0850ddddbafa1632656527">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa73d870df6e710e0105a1146269580b9">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a43983d8c5a429613235a7736bcf4d2e2">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1ae75660b0e189166644b06e762a538975">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t_1aa7812913b852822f690d564a237b602e">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_t_b_b_1a9b5df544ccb6703cde388c1d19044f80">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a92020b7fe2ce6972080f7ee65d2b09d5">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a3860fbfaba398d98bbc7ba4e25b196bc">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a2b64fc56732aa152bd417d9fd727f231">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_vector_backend_1a33280b035822d8847756f98226a0729e">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a41988641d4f68e6fa5053cc971bd1c87">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_geo_acceleration_bridge_1a4e2cbfef7df05bee186d7492468ad500">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a704a20b9bc47752c408efc9e8d3df5c2">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a3c06ee50e0b282aa2d0b6e06cd4b6576">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a843d48d78d1f38ca8482ac253b6bc1be">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1aa874438687aa232e352bea4c4b4fc864">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_c_l_vector_backend_1a36ef2df30e4d6c8596d65074381806a1">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_geo_backend_1a4b79fd8e4e25a4e6860e5ed14157cb30">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a0ff560ad866d0995e7e0568c5f103ff9">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a358c33271d7701e3208b7bffbb0cf190">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a3f2a17931123e125f9d566cc2289c5b7">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a2d4b836ca228004b9d98b784a53d5310">name</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="260" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>virtual BackendType themis::acceleration::IComputeBackend::type</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::type</qualifiedname>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1ae0b5369d7f4752f4f07b13233ccc48de">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a438cf7937a816166f494212c06f9b200">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a7008527da0d8ac8c37d04ecd2174a219">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a8ec29925fceba3dd63b05cba75c4d0fb">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a77177700f7295bfbabd2ec036741ba25">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a537194e6f6c5b33b72af6cbdebb30918">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a6b805ba27343c9bc145b9e9b9da57b63">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_vector_backend_1a5dd95097826853f9197d1fdc3d6cca0c">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a74495be61b2d995272ceef9c2ceda2df">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_geo_acceleration_bridge_1ababbdb3a58153ad89307e685cc7d9f56">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a167c3f8f012f6252d8787487106d0419">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a22feeb8ea7d7f7d0e03b8c21579fd719">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1acb56d47bf4d15f858e387e73d789307c">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1ac040a41f653a2aed343e6e38eeedcd87">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_c_l_vector_backend_1addf33ff18264531badec2b2f2efbcdf2">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_geo_backend_1a882b73c6f71f8dfc88f8c23ed4106acc">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1ae1c3be2ee745567f8625fbe177736c2b">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a5df93f998373996471530d52245aee60">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a175a6d7b1c4ace8b7a762ddc65d9d03d">type</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a6c2dc2c983fc67f0749eda48a0a012fc">type</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="262" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::acceleration::IComputeBackend::isAvailable</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::isAvailable</qualifiedname>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa2c62d12cf22743554624e75ed292d13">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1ab95a9541ebeb12268efd4030dab8203a">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a755684ffff1d623c71051216e6f36553">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a0fd3b8ecf4b5f00884ea28a0d8370fc1">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1ac5ae42aed506392b44cdc645d994dad2">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a6fc48c4023286a497937c09bbabf8120">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a5a44b6e689fe3f6921be2dbc769c58b7">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_vector_backend_1a96cf918475f269960cba86fbddebdf01">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1abadaa9210e9316ddc331fcf6a64e26d0">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_geo_acceleration_bridge_1a2a42e3035c369dbced0199d081f58a0e">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a97e13573b0db9417e97689c9f98a34af">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1aaa11139df0c5c72d7d1e3b4fb09511a6">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1ae285af1bc32ee288d5271f51cf8de637">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a479c99b6705bffb44504213bd6adb76f">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_c_l_vector_backend_1a451a10cd1c90064def2c827bb2525007">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_geo_backend_1a8c73932278c1c9c41b71d588e9e10547">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a3afeb9f54122da81055e749fb6b04428">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a719a4aa04033c5521e7a7d0ceb2238ef">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1af3c1a5674d2b9ab42543dc0c29a8e211">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1ad9f6773ddde308fea019f3f030b457f5">isAvailable</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="264" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>virtual BackendCapabilities themis::acceleration::IComputeBackend::getCapabilities</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::getCapabilities</qualifiedname>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a28292cfa34ff59c862ce32af9a40eabd">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1a3382725f1da1a756fbf3fe429a3bc350">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a53f7ae4ec3d0bd431938f64244f806f5">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a11d738ca2327528ee7da00441b9a0f9d">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a0cd6aea7a8e8bdd9d490b2d11bed89b3">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a8f9a9335ac1a0b836d35c2484e6c4481">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a5acdf81d28bc7f768720448806d2d7a7">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_vector_backend_1aa46c8a55c98847fcba7ec05798f7ed85">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a3dd6e9b62bb70dcf57b0615006344372">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_geo_acceleration_bridge_1ae08c5d73dbbef7f5484e2a754e721be2">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a18d8c6f204c2892220c6663d9c6b9ab8">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a8ffee19a30f398b35bb3678e46f43a74">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a53d5a97977715c1907cffc38e597e217">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1aaf0d47ac290317cc100c9ec10062b7a8">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_c_l_vector_backend_1a4c72cd7bfb507c3e638b471dceebd9f9">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_geo_backend_1afaf8c7886b789fffcfe6dc08e475831a">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a49a3bcf10b685361ad5b6a7fe06f8f8e">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1a8008fa7cc1af38c1cce8728b2566717d">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1adaecd99b75f8d12d38a8c391d35c2d9e">getCapabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a4e5789b66c349a07607e61cc83280c3c">getCapabilities</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="267" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::acceleration::IComputeBackend::initialize</definition>
+        <argsstring>()=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::initialize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a5536eac2738632fe189ef2ef5ed61fc0">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aa06644e10f24d2d3980d93a041f9a1ca">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1acde38868fe5c067a9e1f8c96fc5c9408">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1ac44da42c0d24c3916756548a4dfe00ee">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a04d9a69f3a5a9ea3941d97a2e6c6d106">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1a41ff1fd7edfa2bcb526f9e30b4b149f8">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1af724ea836253709dca98a13dd8d86a45">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_vector_backend_1aeb93c60acac300c4db9917099c4009a7">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1ae18adddade4f81fe69f06136f932aaf9">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_geo_acceleration_bridge_1af72e3bf86850fa1777d9a11a1a063886">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a4c6d89d9312bc6ae1d7f18aa0eb646b4">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1a73adb308d2103d7f9baefcf848e74e22">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a12f991b1ec325ff861378daca358430d">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1abed9a8d16403d4d95fae258fce29b48b">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_c_l_vector_backend_1ac9cc482f73eb8b84efa974ae678bc2c1">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_geo_backend_1aefad1ab69b3e823daf837b5f33df15ab">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1afed8bfa6e1cdb9fe4c0c24d709c07444">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1acf183e692bb5ba03fceec06b7249fff5">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1a45d3d9f278d329f9f709995032ce8dbf">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a6415e36dcb119b856f9071c5f5ffa788">initialize</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="270" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::acceleration::IComputeBackend::shutdown</definition>
+        <argsstring>()=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0300243229ab2435ebb0a613cce56302">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend_1aafbf2bc0dde217628ced84aa76845269">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend_1a6eaa97bab6995e2d81ec6c4fd346e560">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_1a6bd5654464a8cd1b50ae1a5e5de7b48a">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a947848488d99ffb21b98a980796a672d">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend_1aebcde46ff364533b3edffa352bf8ec04">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1ac958371d5692f366eadc983d0c4a283e">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_u_d_a_vector_backend_1ac00c07377cf71d4ad1397fa7aa2ad1bb">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1a693452921437c3d4d0977153841a3449">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_geo_acceleration_bridge_1a1ec569ecb83a4e65003440b9fcae37dd">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a986491ee8077838a72337bae16cd0362">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend_1adcc0c64cfe85f15a2c30eafe69c333e4">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend_1a1dba5d88afc85d138d626eeebc93ef65">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1abef2524f873ac6d1ce3826ab8f7a037c">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_c_l_vector_backend_1a41cbb68889d82ab9c67e325ba8d08a58">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_geo_backend_1aa5648632ac97a1a7130cc9db655861a9">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend_1a7872c031d50c341957b1072f83748510">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend_1adeee0fcd641f049fe54dbea5c1e38936">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend_1aca237d8024f09b9fd55c06e0ae573110">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a4e413ab405fa82e8ce36eefc3d7942f7">shutdown</reimplementedby>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="275" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>virtual ErrorContext themis::acceleration::IComputeBackend::getLastError</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::getLastError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="278" column="26" bodyfile="include/acceleration/compute_backend.h" bodystart="278" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_health_status" kindref="compound">BackendHealthStatus</ref></type>
+        <definition>virtual BackendHealthStatus themis::acceleration::IComputeBackend::getHealthStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::getHealthStatus</qualifiedname>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend_1a176e54ce3d5c0a564253d333ded78f84">getHealthStatus</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="283" column="33" bodyfile="include/acceleration/compute_backend.h" bodystart="283" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_compute_future" kindref="compound">ComputeFuture</ref>&lt; <ref refid="structthemis_1_1acceleration_1_1_similarity_kernel_result" kindref="compound">SimilarityKernelResult</ref> &gt;</type>
+        <definition>virtual ComputeFuture&lt; SimilarityKernelResult &gt; themis::acceleration::IComputeBackend::submitSimilarityKernel</definition>
+        <argsstring>(const BatchDescriptor &amp;batch, const KernelConfig &amp;config, CancellationToken token={})</argsstring>
+        <name>submitSimilarityKernel</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::submitSimilarityKernel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_batch_descriptor" kindref="compound">BatchDescriptor</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_kernel_config" kindref="compound">KernelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_cancellation_token" kindref="compound">CancellationToken</ref></type>
+          <declname>token</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="299" column="5" bodyfile="include/acceleration/compute_backend.h" bodystart="299" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::IComputeBackend::setError</definition>
+        <argsstring>(ErrorContext error)</argsstring>
+        <name>setError</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::setError</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Set Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="360" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="360" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::IComputeBackend::clearError</definition>
+        <argsstring>()</argsstring>
+        <name>clearError</name>
+        <qualifiedname>themis::acceleration::IComputeBackend::clearError</qualifiedname>
+        <briefdescription>
+<para>Clear Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: ErrorContext(), <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab" kindref="member">name()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="368" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="368" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::acceleration::CPUGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::CPUGeoBackendMT</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_m_t"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::acceleration::CPUGeoBackendTBB</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_t_b_b"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>themis::acceleration::CPUGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_graph_backend"/>
+        <childnode refid="11" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>themis::acceleration::CPUMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_matrix_backend"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>themis::acceleration::CPUVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>themis::acceleration::CPUVectorBackendMT</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_m_t"/>
+        <childnode refid="20" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>themis::acceleration::CPUVectorBackendTBB</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend_t_b_b"/>
+        <childnode refid="20" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::acceleration::CUDAGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>themis::acceleration::CUDAGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_graph_backend"/>
+        <childnode refid="11" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>themis::acceleration::CUDAMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>themis::acceleration::CUDAVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_vector_backend"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>themis::acceleration::DirectXVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_direct_x_vector_backend"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::acceleration::GeoAccelerationBridge</label>
+        <link refid="classthemis_1_1acceleration_1_1_geo_acceleration_bridge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::acceleration::HIPGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>themis::acceleration::HIPVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_h_i_p_vector_backend"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>themis::acceleration::IGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_graph_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>themis::acceleration::IMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_matrix_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>themis::acceleration::IQuantizedBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_quantized_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>themis::acceleration::MultiGPUVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_multi_g_p_u_vector_backend"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>themis::acceleration::OneAPIVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>themis::acceleration::OpenCLVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_open_c_l_vector_backend"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::acceleration::OpenGLGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_open_g_l_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>themis::acceleration::OpenGLGraphBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_open_g_l_graph_backend"/>
+        <childnode refid="11" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>themis::acceleration::OpenGLVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_open_g_l_vector_backend"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::acceleration::VulkanGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_vulkan_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>themis::acceleration::VulkanVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_vulkan_vector_backend"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/compute_backend.h" line="251" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="251" bodyend="378"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::IComputeBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6" prot="public" virt="pure-virtual"><scope>themis::acceleration::IComputeBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::IComputeBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::IComputeBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa" prot="public" virt="pure-virtual"><scope>themis::acceleration::IComputeBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f" prot="public" virt="pure-virtual"><scope>themis::acceleration::IComputeBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::IComputeBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab" prot="public" virt="pure-virtual"><scope>themis::acceleration::IComputeBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::IComputeBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00" prot="public" virt="pure-virtual"><scope>themis::acceleration::IComputeBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::IComputeBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22" prot="public" virt="pure-virtual"><scope>themis::acceleration::IComputeBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::IComputeBackend</scope><name>~IComputeBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,556 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ContextWindowBudgetManager</compoundname>
+    <includes refid="context__window__manager_8h" local="no">context_window_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a7502782483b24f1ef1f438eaea57342e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_model_token_budget" kindref="compound">ModelTokenBudget</ref></type>
+        <definition>ModelTokenBudget themis::prompt_engineering::ContextWindowBudgetManager::budget_</definition>
+        <argsstring></argsstring>
+        <name>budget_</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::budget_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="374" column="36" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1ac825647afb462680ce974b2d54df681d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_token_counter" kindref="compound">ITokenCounter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ITokenCounter&gt; themis::prompt_engineering::ContextWindowBudgetManager::counter_</definition>
+        <argsstring></argsstring>
+        <name>counter_</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::counter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="375" column="21" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1aa88ec7dec88ce7bed77745eb904a900f" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(double)&gt;</type>
+        <definition>std::function&lt;void(double)&gt; themis::prompt_engineering::ContextWindowBudgetManager::utilization_cb_</definition>
+        <argsstring></argsstring>
+        <name>utilization_cb_</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::utilization_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="376" column="22" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a8842e49a1e71e84b90c48578b015ca2c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::ContextWindowBudgetManager::ContextWindowBudgetManager</definition>
+        <argsstring>(const ModelTokenBudget &amp;budget=ModelTokenBudget{}, std::shared_ptr&lt; ITokenCounter &gt; counter=nullptr)</argsstring>
+        <name>ContextWindowBudgetManager</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::ContextWindowBudgetManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_model_token_budget" kindref="compound">ModelTokenBudget</ref> &amp;</type>
+          <declname>budget</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_model_token_budget" kindref="compound">ModelTokenBudget</ref>{}</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_token_counter" kindref="compound">ITokenCounter</ref> &gt;</type>
+          <declname>counter</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct with the given model budget and optional custom counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>budget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token-budget descriptor for the target model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>counter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom token counter; defaults to <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_char_division_counter" kindref="compound">CharDivisionCounter</ref></computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="216" column="14" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a661ef457f2041fb05db50a7369f39c8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ContextWindowBudgetManager::setModel</definition>
+        <argsstring>(const ModelTokenBudget &amp;budget)</argsstring>
+        <name>setModel</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::setModel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_model_token_budget" kindref="compound">ModelTokenBudget</ref> &amp;</type>
+          <declname>budget</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current model budget descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Model.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">budget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setModel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="225" column="10" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a39b9bcf6b12de8369dcdc3b7c445b506" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_model_token_budget" kindref="compound">ModelTokenBudget</ref> &amp;</type>
+        <definition>const ModelTokenBudget &amp; themis::prompt_engineering::ContextWindowBudgetManager::getModel</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getModel</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::getModel</qualifiedname>
+        <briefdescription>
+<para>Return the current model budget descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="228" column="28" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1aa59edd5163db20dcd065e2075568a4d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ContextWindowBudgetManager::setTokenCounter</definition>
+        <argsstring>(std::shared_ptr&lt; ITokenCounter &gt; counter)</argsstring>
+        <name>setTokenCounter</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::setTokenCounter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_token_counter" kindref="compound">ITokenCounter</ref> &gt;</type>
+          <declname>counter</declname>
+        </param>
+        <briefdescription>
+<para>Inject a custom token counter (replaces the default <ref refid="classthemis_1_1prompt__engineering_1_1_char_division_counter" kindref="compound">CharDivisionCounter</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Token Counter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>counter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-null counter implementation.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">counter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="234" column="10" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1ad12a272c3d646ed5b367e70243c890a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ContextWindowBudgetManager::countTokens</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Return the estimated token count for <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delegates to the currently active <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_token_counter" kindref="compound">ITokenCounter</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="245" column="12" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a4ce4598becb68a79b4bc7f5369e2c5b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedChunk &gt; themis::prompt_engineering::ContextWindowBudgetManager::fitChunksInBudget</definition>
+        <argsstring>(const std::vector&lt; RetrievedChunk &gt; &amp;chunks, size_t available_tokens) const</argsstring>
+        <name>fitChunksInBudget</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::fitChunksInBudget</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>available_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Select the subset of <computeroutput>chunks</computeroutput> that fits within <computeroutput>available_tokens</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Chunks are iterated in their supplied order (callers should pre-sort by relevance descending for best results). Each chunk&apos;s token count is computed and greedily added until the budget would be exceeded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate chunks (in priority order). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>available_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum total tokens for the context section. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The greedy-selected subset of chunks. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="262" column="17" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="84" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1ae90f92427728f51203a8d84551b9ab23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievedChunk &gt; themis::prompt_engineering::ContextWindowBudgetManager::fitChunksInBudget</definition>
+        <argsstring>(const std::vector&lt; RetrievedChunk &gt; &amp;chunks, const std::string &amp;system_prompt, const std::string &amp;query) const</argsstring>
+        <name>fitChunksInBudget</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::fitChunksInBudget</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>system_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Select chunks fitting within the context portion of the model budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Computes the context budget as: promptBudget - countTokens(system_prompt) - countTokens(query) then delegates to the two-argument overload.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate chunks (in priority order). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>system_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>System instruction (consumed first from budget). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query (consumed second from budget). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The greedy-selected subset of chunks. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="278" column="17" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="103" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a23c1d3ff64d81cf57c8201f508f7b660" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_budget_allocation" kindref="compound">BudgetAllocation</ref></type>
+        <definition>BudgetAllocation themis::prompt_engineering::ContextWindowBudgetManager::computeBudget</definition>
+        <argsstring>(const std::string &amp;system_prompt, const std::string &amp;query, const std::vector&lt; RetrievedChunk &gt; &amp;chunks) const</argsstring>
+        <name>computeBudget</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::computeBudget</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>system_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Compute the token-budget allocation for a composed prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does NOT throw; callers inspect <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_budget_allocation_1a5dde63ec4b2fef662aaa50f96538c3f7" kindref="member">BudgetAllocation::fits()</ref></computeroutput> to decide whether to proceed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>system_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>System instruction string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved context chunks already selected. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Per-section token breakdown and utilisation ratio. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="298" column="22" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="123" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a15304e3ba7bb893752fea2bf998e61b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_budget_allocation" kindref="compound">BudgetAllocation</ref></type>
+        <definition>BudgetAllocation themis::prompt_engineering::ContextWindowBudgetManager::computeAndCheck</definition>
+        <argsstring>(const std::string &amp;system_prompt, const std::string &amp;query, const std::vector&lt; RetrievedChunk &gt; &amp;chunks) const</argsstring>
+        <name>computeAndCheck</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::computeAndCheck</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>system_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Compute the token-budget allocation and throw if over the limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Equivalent to <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a23c1d3ff64d81cf57c8201f508f7b660" kindref="member">computeBudget()</ref></computeroutput> followed by a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_budget_exceeded_error" kindref="compound">PromptBudgetExceededError</ref></computeroutput> if <computeroutput>!allocation.fits()</computeroutput>.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>PromptBudgetExceededError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When total &gt; model budget. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_budget_allocation" kindref="compound">BudgetAllocation</ref></computeroutput> (always fits when returned without throwing). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="312" column="22" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="146" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a50a91ab7dc245df3378819904ef63133" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ContextWindowBudgetManager::setUtilizationCallback</definition>
+        <argsstring>(std::function&lt; void(double)&gt; cb)</argsstring>
+        <name>setUtilizationCallback</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::setUtilizationCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(double)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked with the utilisation ratio after each successful <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a23c1d3ff64d81cf57c8201f508f7b660" kindref="member">computeBudget()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a15304e3ba7bb893752fea2bf998e61b0" kindref="member">computeAndCheck()</ref></computeroutput> call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pass in a lambda that delegates to <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" kindref="compound">PromptEngineeringMetrics</ref></computeroutput> or any other observability sink. The callback receives a value in [0, ∞) where 1.0 means the budget is exactly full.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable accepting a <computeroutput>double</computeroutput> utilisation ratio. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="331" column="10" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="165" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1afa86640edabcc93978cfce5be0ea864c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_thesis_injection" kindref="compound">ThesisInjection</ref> &gt;</type>
+        <definition>std::vector&lt; ThesisInjection &gt; themis::prompt_engineering::ContextWindowBudgetManager::selectThesesForRound</definition>
+        <argsstring>(const ::themis::plugins::ethics::PhilosophyProfile &amp;profile, int round_number, const std::string &amp;round_role, int available_tokens) const</argsstring>
+        <name>selectThesesForRound</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::selectThesesForRound</qualifiedname>
+        <param>
+          <type>const ::themis::plugins::ethics::PhilosophyProfile &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>round_number</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>round_role</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>available_tokens</declname>
+        </param>
+        <briefdescription>
+<para>Select and budget theses from <computeroutput>profile</computeroutput> for a single discourse round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements the §9.1 algorithm:<orderedlist>
+<listitem><para>Filter <computeroutput>profile.typed_theses</computeroutput> to those whose <computeroutput>activation_rounds</computeroutput> list contains <computeroutput>round_number</computeroutput> (or have an empty list → all rounds active).</para>
+</listitem><listitem><para>Sort survivors by <computeroutput>round_role_weights[round_role]</computeroutput> descending (unweighted theses receive weight 0.5 as neutral priority).</para>
+</listitem><listitem><para>Greedily select theses in that order until <computeroutput>available_tokens</computeroutput> is exhausted, respecting each thesis&apos;s individual <computeroutput>token_budget</computeroutput> cap.</para>
+</listitem><listitem><para>Non-selected theses (not in their activation round or budget exceeded) contribute a headline token: <computeroutput>"[{thesis_id}: {name}]"</computeroutput>.</para>
+</listitem></orderedlist>
+</para>
+<para>Theses that have no <computeroutput>token_budget</computeroutput> (value -1) are treated as if they require <computeroutput>countTokens(description)</computeroutput> tokens — they never get an artificial cap but still consume budget.</para>
+<para>When <computeroutput>profile</computeroutput> has no <computeroutput>typed_theses</computeroutput> the method returns an empty vector without error (backward compatible — caller falls back to plain string theses).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Philosophy profile whose theses to select. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>round_number</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current discourse round (1–5). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>round_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1prompt__engineering_1a2a4ac5e3cb74c8e141901185142cc45d" kindref="member">Role</ref> label for the round (e.g. &quot;PRO&quot;, &quot;REBUTTAL&quot;, &quot;SYNTHESIS&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>available_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total token budget available for thesis injection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_thesis_injection" kindref="compound">ThesisInjection</ref></computeroutput> entries (full + headline combined).</para>
+</simplesect>
+<simplesect kind="note"><para>Performance: ≤ 0.5 ms for ≤ 20 theses per profile. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="367" column="17" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="174" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a96e2d53f4de2198ea365cc0278a58296" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ContextWindowBudgetManager::countChunkTokens</definition>
+        <argsstring>(const std::vector&lt; RetrievedChunk &gt; &amp;chunks) const</argsstring>
+        <name>countChunkTokens</name>
+        <qualifiedname>themis::prompt_engineering::ContextWindowBudgetManager::countChunkTokens</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_retrieved_chunk" kindref="compound">RetrievedChunk</ref> &gt; &amp;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Compute the total context-section token count for a set of chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/context_window_manager.h" line="379" column="12" bodyfile="src/prompt_engineering/context_window_manager.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Enforces per-model context-window token limits for LLM prompt assembly. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a8842e49a1e71e84b90c48578b015ca2c" kindref="member">ContextWindowBudgetManager</ref><sp/>mgr;</highlight></codeline>
+<codeline><highlight class="normal">mgr.setModel({</highlight><highlight class="stringliteral">&quot;gpt-4&quot;</highlight><highlight class="normal">,<sp/>8192,<sp/>512});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Select<sp/>as<sp/>many<sp/>chunks<sp/>as<sp/>fit<sp/>in<sp/>the<sp/>remaining<sp/>budget.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kept<sp/>=<sp/>mgr.fitChunksInBudget(all_chunks,<sp/>system_prompt,<sp/>user_query);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Full<sp/>allocation<sp/>breakdown<sp/>(throws<sp/>PromptBudgetExceededError<sp/>if<sp/>over<sp/>limit).</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>alloc<sp/>=<sp/>mgr.computeAndCheck(system_prompt,<sp/>user_query,<sp/>kept);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/context_window_manager.h" line="209" column="1" bodyfile="include/prompt_engineering/context_window_manager.h" bodystart="209" bodyend="380"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a7502782483b24f1ef1f438eaea57342e" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>budget_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a15304e3ba7bb893752fea2bf998e61b0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>computeAndCheck</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a23c1d3ff64d81cf57c8201f508f7b660" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>computeBudget</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a8842e49a1e71e84b90c48578b015ca2c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>ContextWindowBudgetManager</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a96e2d53f4de2198ea365cc0278a58296" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>countChunkTokens</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1ac825647afb462680ce974b2d54df681d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>counter_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1ad12a272c3d646ed5b367e70243c890a5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a4ce4598becb68a79b4bc7f5369e2c5b4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>fitChunksInBudget</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1ae90f92427728f51203a8d84551b9ab23" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>fitChunksInBudget</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a39b9bcf6b12de8369dcdc3b7c445b506" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>getModel</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1afa86640edabcc93978cfce5be0ea864c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>selectThesesForRound</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a661ef457f2041fb05db50a7369f39c8a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>setModel</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1aa59edd5163db20dcd065e2075568a4d2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>setTokenCounter</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1a50a91ab7dc245df3378819904ef63133" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>setUtilizationCallback</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_context_window_budget_manager_1aa88ec7dec88ce7bed77745eb904a900f" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ContextWindowBudgetManager</scope><name>utilization_cb_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

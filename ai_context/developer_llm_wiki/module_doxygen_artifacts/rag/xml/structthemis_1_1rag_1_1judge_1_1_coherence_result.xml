@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_coherence_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CoherenceResult</compoundname>
+    <includes refid="coherence__evaluator_8h" local="no">coherence_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_result_1af58ced04efeb4ce1674a6e5f70b0230d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceResult::coherence_score</definition>
+        <argsstring></argsstring>
+        <name>coherence_score</name>
+        <qualifiedname>themis::rag::judge::CoherenceResult::coherence_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Overall score 0-1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="23" column="12" bodyfile="include/rag/coherence_evaluator.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_result_1ad05bc8acbd307a262499dd64abec31d3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceResult::logical_flow_score</definition>
+        <argsstring></argsstring>
+        <name>logical_flow_score</name>
+        <qualifiedname>themis::rag::judge::CoherenceResult::logical_flow_score</qualifiedname>
+        <briefdescription>
+<para>Argument structure and transitions (30%). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="24" column="12" bodyfile="include/rag/coherence_evaluator.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_result_1aabb589f8de32e5061eca8838fab7df57" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceResult::structural_score</definition>
+        <argsstring></argsstring>
+        <name>structural_score</name>
+        <qualifiedname>themis::rag::judge::CoherenceResult::structural_score</qualifiedname>
+        <briefdescription>
+<para>Organization and structure (20%). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="25" column="12" bodyfile="include/rag/coherence_evaluator.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_result_1a73716f91233f9760e4081f9b8cf60222" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceResult::linguistic_score</definition>
+        <argsstring></argsstring>
+        <name>linguistic_score</name>
+        <qualifiedname>themis::rag::judge::CoherenceResult::linguistic_score</qualifiedname>
+        <briefdescription>
+<para>Grammar, clarity, readability (20%). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="26" column="12" bodyfile="include/rag/coherence_evaluator.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_result_1ae63e8a52bb851c9176d500bb8fd831fa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceResult::consistency_score</definition>
+        <argsstring></argsstring>
+        <name>consistency_score</name>
+        <qualifiedname>themis::rag::judge::CoherenceResult::consistency_score</qualifiedname>
+        <briefdescription>
+<para>Internal consistency (30%). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="27" column="12" bodyfile="include/rag/coherence_evaluator.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_result_1aebafcd14b748961c147c73abc675ae2b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CoherenceResult::has_contradictions</definition>
+        <argsstring></argsstring>
+        <name>has_contradictions</name>
+        <qualifiedname>themis::rag::judge::CoherenceResult::has_contradictions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="28" column="10" bodyfile="include/rag/coherence_evaluator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_result_1a97c40e45e7a870b29afe923953708a44" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::CoherenceResult::contradictions</definition>
+        <argsstring></argsstring>
+        <name>contradictions</name>
+        <qualifiedname>themis::rag::judge::CoherenceResult::contradictions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="29" column="17" bodyfile="include/rag/coherence_evaluator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_result_1a14c136c2bda04600cb41777f1d7ae916" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::CoherenceResult::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::rag::judge::CoherenceResult::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="30" column="17" bodyfile="include/rag/coherence_evaluator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Coherence evaluation result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/coherence_evaluator.h" line="22" column="1" bodyfile="include/rag/coherence_evaluator.h" bodystart="22" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_result_1af58ced04efeb4ce1674a6e5f70b0230d" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceResult</scope><name>coherence_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_result_1ae63e8a52bb851c9176d500bb8fd831fa" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceResult</scope><name>consistency_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_result_1a97c40e45e7a870b29afe923953708a44" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceResult</scope><name>contradictions</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_result_1a14c136c2bda04600cb41777f1d7ae916" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceResult</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_result_1aebafcd14b748961c147c73abc675ae2b" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceResult</scope><name>has_contradictions</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_result_1a73716f91233f9760e4081f9b8cf60222" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceResult</scope><name>linguistic_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_result_1ad05bc8acbd307a262499dd64abec31d3" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceResult</scope><name>logical_flow_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_result_1aabb589f8de32e5061eca8838fab7df57" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceResult</scope><name>structural_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

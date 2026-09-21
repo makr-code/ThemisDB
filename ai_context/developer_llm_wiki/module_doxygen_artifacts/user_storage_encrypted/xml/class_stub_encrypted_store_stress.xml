@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_encrypted_store_stress" kind="class" language="C++" prot="public">
+    <compoundname>StubEncryptedStoreStress</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_encrypted_store_stress_1a66033af1e08322d69242c16e2747e2a4" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubEncryptedStoreStress::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubEncryptedStoreStress::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="74" column="16" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_encrypted_store_stress_1a22fc5300a907f6491f402019f76fcc15" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; StubEncryptedStoreStress::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>StubEncryptedStoreStress::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="75" column="24" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_encrypted_store_stress_1a6e355a770e97204a46d788bbae9dbe4e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubEncryptedStoreStress::write_count_</definition>
+        <argsstring></argsstring>
+        <name>write_count_</name>
+        <qualifiedname>StubEncryptedStoreStress::write_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="76" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_encrypted_store_stress_1a97c43945c6f5ddfa9e5ce73d42bc06b3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubEncryptedStoreStress::rotation_count_</definition>
+        <argsstring></argsstring>
+        <name>rotation_count_</name>
+        <qualifiedname>StubEncryptedStoreStress::rotation_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="77" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_encrypted_store_stress_1a3b818df1752c54aa2c7334d3d149e221" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubEncryptedStoreStress::enc_count_</definition>
+        <argsstring></argsstring>
+        <name>enc_count_</name>
+        <qualifiedname>StubEncryptedStoreStress::enc_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="78" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_encrypted_store_stress_1a564f4d4d58cc9e57e158ab67da358869" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubEncryptedStoreStress::dec_count_</definition>
+        <argsstring></argsstring>
+        <name>dec_count_</name>
+        <qualifiedname>StubEncryptedStoreStress::dec_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="79" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_encrypted_store_stress_1a311cfc46e9392290660655dad40be77c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubEncryptedStoreStress::write</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>write</name>
+        <qualifiedname>StubEncryptedStoreStress::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="39" column="10" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="39" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_stress_1a25d2ba60aa2833f5919a58f0902aec74" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubEncryptedStoreStress::rotateKey</definition>
+        <argsstring>()</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>StubEncryptedStoreStress::rotateKey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="45" column="10" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_stress_1a4d76cdaec6aa97c477fea57bd76edc52" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StubEncryptedStoreStress::encrypt</definition>
+        <argsstring>(const std::string &amp;plaintext)</argsstring>
+        <name>encrypt</name>
+        <qualifiedname>StubEncryptedStoreStress::encrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="50" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_stress_1ab42a39ad79ff9cbbe1bb8a4226fb37dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StubEncryptedStoreStress::decrypt</definition>
+        <argsstring>(const std::string &amp;ciphertext)</argsstring>
+        <name>decrypt</name>
+        <qualifiedname>StubEncryptedStoreStress::decrypt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ciphertext</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="55" column="17" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="55" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_stress_1a0bdad7977fb38695f370546e72ab97f6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubEncryptedStoreStress::writeCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>writeCount</name>
+        <qualifiedname>StubEncryptedStoreStress::writeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="68" column="14" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_stress_1ab34a36815d93fdc3932a27f1d71d887b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubEncryptedStoreStress::rotationCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>rotationCount</name>
+        <qualifiedname>StubEncryptedStoreStress::rotationCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="69" column="14" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_stress_1accd2f1cc0203e724f9fbcb179b37669e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubEncryptedStoreStress::encCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>encCount</name>
+        <qualifiedname>StubEncryptedStoreStress::encCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="70" column="14" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_encrypted_store_stress_1a2bc83d338b317dc9973e58378bfe78e2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubEncryptedStoreStress::decCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>decCount</name>
+        <qualifiedname>StubEncryptedStoreStress::decCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="71" column="14" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" line="37" column="1" bodyfile="tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp" bodystart="37" bodyend="80"/>
+    <listofallmembers>
+      <member refid="class_stub_encrypted_store_stress_1a564f4d4d58cc9e57e158ab67da358869" prot="private" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>dec_count_</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a2bc83d338b317dc9973e58378bfe78e2" prot="public" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>decCount</name></member>
+      <member refid="class_stub_encrypted_store_stress_1ab42a39ad79ff9cbbe1bb8a4226fb37dc" prot="public" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>decrypt</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a3b818df1752c54aa2c7334d3d149e221" prot="private" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>enc_count_</name></member>
+      <member refid="class_stub_encrypted_store_stress_1accd2f1cc0203e724f9fbcb179b37669e" prot="public" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>encCount</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a4d76cdaec6aa97c477fea57bd76edc52" prot="public" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>encrypt</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a66033af1e08322d69242c16e2747e2a4" prot="private" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>mu_</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a25d2ba60aa2833f5919a58f0902aec74" prot="public" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>rotateKey</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a97c43945c6f5ddfa9e5ce73d42bc06b3" prot="private" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>rotation_count_</name></member>
+      <member refid="class_stub_encrypted_store_stress_1ab34a36815d93fdc3932a27f1d71d887b" prot="public" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>rotationCount</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a22fc5300a907f6491f402019f76fcc15" prot="private" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>store_</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a311cfc46e9392290660655dad40be77c" prot="public" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>write</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a6e355a770e97204a46d788bbae9dbe4e" prot="private" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>write_count_</name></member>
+      <member refid="class_stub_encrypted_store_stress_1a0bdad7977fb38695f370546e72ab97f6" prot="public" virt="non-virtual"><scope>StubEncryptedStoreStress</scope><name>writeCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

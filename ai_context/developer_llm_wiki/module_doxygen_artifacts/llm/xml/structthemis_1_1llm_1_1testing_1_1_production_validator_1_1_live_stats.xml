@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::testing::ProductionValidator::LiveStats</compoundname>
+    <includes refid="production__validator_8h" local="no">production_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a9be9ed269a6fe8dc93a661e8abb57a10" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::testing::ProductionValidator::LiveStats::active_requests</definition>
+        <argsstring></argsstring>
+        <name>active_requests</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::LiveStats::active_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="231" column="16" bodyfile="include/llm/production_validator.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a10065cfa2e438edd77a8dbd0ba07ce71" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::testing::ProductionValidator::LiveStats::current_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>current_latency_ms</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::LiveStats::current_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="232" column="16" bodyfile="include/llm/production_validator.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a952b2fa6e7d05beb47b6b0acb5be7bfd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::testing::ProductionValidator::LiveStats::current_throughput</definition>
+        <argsstring></argsstring>
+        <name>current_throughput</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::LiveStats::current_throughput</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="233" column="16" bodyfile="include/llm/production_validator.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a600cb92b76a53ab22a991ecf45abad3c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::testing::ProductionValidator::LiveStats::memory_mb</definition>
+        <argsstring></argsstring>
+        <name>memory_mb</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::LiveStats::memory_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="234" column="16" bodyfile="include/llm/production_validator.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a743a18fd1c57403e14bfb63e5fcdf225" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::testing::ProductionValidator::LiveStats::uptime_seconds</definition>
+        <argsstring></argsstring>
+        <name>uptime_seconds</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::LiveStats::uptime_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="235" column="16" bodyfile="include/llm/production_validator.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/production_validator.h" line="230" column="5" bodyfile="include/llm/production_validator.h" bodystart="230" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a9be9ed269a6fe8dc93a661e8abb57a10" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::LiveStats</scope><name>active_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a10065cfa2e438edd77a8dbd0ba07ce71" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::LiveStats</scope><name>current_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a952b2fa6e7d05beb47b6b0acb5be7bfd" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::LiveStats</scope><name>current_throughput</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a600cb92b76a53ab22a991ecf45abad3c" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::LiveStats</scope><name>memory_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_live_stats_1a743a18fd1c57403e14bfb63e5fcdf225" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::LiveStats</scope><name>uptime_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

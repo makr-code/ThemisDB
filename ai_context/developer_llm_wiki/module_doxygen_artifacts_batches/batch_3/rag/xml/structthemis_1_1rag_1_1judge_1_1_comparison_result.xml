@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_comparison_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::ComparisonResult</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Winner</name>
+        <qualifiedname>themis::rag::judge::ComparisonResult::Winner</qualifiedname>
+        <enumvalue id="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48a3dc48fa0f11923466f634303cca7dc88" prot="public">
+          <name>ANSWER_A</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48a27dfb553d196448243dfda23951ab396" prot="public">
+          <name>ANSWER_B</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48a8eb6c56ba51924a4cf185ec29e22be22" prot="public">
+          <name>TIE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="146" column="5" bodyfile="include/rag/rag_judge.h" bodystart="146" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a4533944c842acad34cf11e136534ba2f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48" kindref="member">Winner</ref></type>
+        <definition>Winner themis::rag::judge::ComparisonResult::winner</definition>
+        <argsstring></argsstring>
+        <name>winner</name>
+        <qualifiedname>themis::rag::judge::ComparisonResult::winner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="152" column="12" bodyfile="include/rag/rag_judge.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_comparison_result_1ab9f86ab2e4bf06d84398827a14d84a19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ComparisonResult::reasoning</definition>
+        <argsstring></argsstring>
+        <name>reasoning</name>
+        <qualifiedname>themis::rag::judge::ComparisonResult::reasoning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="153" column="17" bodyfile="include/rag/rag_judge.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a858c4b61bbeac6c19217f9174d7f9e0c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::ComparisonResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::ComparisonResult::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="154" column="12" bodyfile="include/rag/rag_judge.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_comparison_result_1aab1a337e0b0db59bd18371b4fc4e96a8" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48" kindref="member">Winner</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Winner&gt; themis::rag::judge::ComparisonResult::dimension_winners</definition>
+        <argsstring></argsstring>
+        <name>dimension_winners</name>
+        <qualifiedname>themis::rag::judge::ComparisonResult::dimension_winners</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="157" column="24" bodyfile="include/rag/rag_judge.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comparison result for pairwise evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="145" column="1" bodyfile="include/rag/rag_judge.h" bodystart="145" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a858c4b61bbeac6c19217f9174d7f9e0c" prot="public" virt="non-virtual"><scope>themis::rag::judge::ComparisonResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1aab1a337e0b0db59bd18371b4fc4e96a8" prot="public" virt="non-virtual"><scope>themis::rag::judge::ComparisonResult</scope><name>dimension_winners</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1ab9f86ab2e4bf06d84398827a14d84a19" prot="public" virt="non-virtual"><scope>themis::rag::judge::ComparisonResult</scope><name>reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a709b4281ccedf6f936aa598e1e3d3e48" prot="public" virt="non-virtual"><scope>themis::rag::judge::ComparisonResult</scope><name>Winner</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_comparison_result_1a4533944c842acad34cf11e136534ba2f" prot="public" virt="non-virtual"><scope>themis::rag::judge::ComparisonResult</scope><name>winner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

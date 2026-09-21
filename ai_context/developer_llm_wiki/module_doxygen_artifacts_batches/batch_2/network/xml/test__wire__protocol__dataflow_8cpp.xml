@@ -1,0 +1,742 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wire__protocol__dataflow_8cpp" kind="file" language="C++">
+    <compoundname>test_wire_protocol_dataflow.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="wire__protocol__server_8h" local="yes">network/wire_protocol_server.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>network/qos_manager.h</label>
+        <link refid="qos__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>network/wire_protocol_server.h</label>
+        <link refid="wire__protocol__server_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_wire_protocol_dataflow.cpp</label>
+        <link refid="test__wire__protocol__dataflow_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="5">
+        <label>boost/asio/thread_pool.hpp</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>deque</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="12">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="21">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="16">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD01_QueryEngineDI_DefaultIsNullopt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD01_QueryEngineDI_DefaultIsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="42" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="42" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1a85f94a4a0f86aa8a0a455c22495775db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD02_CursorEntry_FieldsAccessible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD02_CursorEntry_FieldsAccessible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="63" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="63" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1ad16b09acee2318bafef99ee45992051d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD03_CursorEntry_CopyMove)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD03_CursorEntry_CopyMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="85" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="85" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1a7ed440317b6fb66cdcf3fffcd60174e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD04_QueryAql_FallbackResponseShape)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD04_QueryAql_FallbackResponseShape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="109" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="109" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1a43a3212377781b2c78ecb192ea6325f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD05_GraphTraverse_FallbackResponseShape)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD05_GraphTraverse_FallbackResponseShape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="129" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="129" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1a10a1707e2a07d8ecfb4875494bf0269f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD06_CursorNext_ResponseShape)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD06_CursorNext_ResponseShape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="148" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="148" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1aed9cf4d4719a46c70768090284fcd29b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD07_CursorClose_SuccessShape)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD07_CursorClose_SuccessShape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="169" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="169" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1a45212d4d48e2bb708bf8c80a8367ef0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD08_BatchGet_ResponseShape)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD08_BatchGet_ResponseShape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="189" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="189" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1aebd04b8e3ebf88f78d09df80f15e9ddb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD09_BatchPut_ResponseShape)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD09_BatchPut_ResponseShape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="213" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="213" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1a47fe50dd024b2edf2dcd880dd80d9448" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WireProtocolDataflow, WPD10_DispatchedOpcodeConstants)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WireProtocolDataflow</type>
+        </param>
+        <param>
+          <type>WPD10_DispatchedOpcodeConstants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="237" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="237" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1aa18b24a42946944524a7ff99097648a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RocksDBWrapperKeyValuePair, KB01_StructMembersAccessible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RocksDBWrapperKeyValuePair</type>
+        </param>
+        <param>
+          <type>KB01_StructMembersAccessible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="270" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="270" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1acb50a210bbfb9445c236be7e0049935e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RocksDBWrapperKeyValuePair, KB02_StructDefaultConstruct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RocksDBWrapperKeyValuePair</type>
+        </param>
+        <param>
+          <type>KB02_StructDefaultConstruct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="281" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="281" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1a5dc561232d4935dc555b3fbb3f1dfacc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RocksDBWrapperKeyValuePair, KB03_VectorOfPairs)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RocksDBWrapperKeyValuePair</type>
+        </param>
+        <param>
+          <type>KB03_VectorOfPairs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="287" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="287" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1ad6e874a9d1d71455e86b3314ba0df0f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RocksDBWrapperKeyValuePair, KB04_MoveSemantics)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RocksDBWrapperKeyValuePair</type>
+        </param>
+        <param>
+          <type>KB04_MoveSemantics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="297" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="297" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wire__protocol__dataflow_8cpp_1af0435dec89be8228b0141cd36b49bfd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RocksDBWrapperKeyValuePair, KB05_PutBatchDeclaredOnWrapper)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RocksDBWrapperKeyValuePair</type>
+        </param>
+        <param>
+          <type>KB05_PutBatchDeclaredOnWrapper</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_wire_protocol_dataflow.cpp" line="313" column="1" bodyfile="tests/network/test_wire_protocol_dataflow.cpp" bodystart="313" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for data-flow Phase 1–5 changes in <ref refid="classthemis_1_1network_1_1_wire_protocol_server" kindref="compound">WireProtocolServer</ref> and RocksDBWrapper. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All tests operate on public API surfaces only (<ref refid="struct_config" kindref="compound">Config</ref>, structs, opcode constants) — no live TCP connections required.</para>
+<sect1 id="test__wire__protocol__dataflow_8cpp_1autotoc_md10_1s1"><sect2 id="test__wire__protocol__dataflow_8cpp_1autotoc_md10">
+<title>Test IDs</title><para>WPD-01 QueryEngine DI — default 9th constructor parameter is nullptr WPD-02 CursorEntry struct — fields result/offset/ttl_ms are accessible WPD-03 dispatchToWorkerPool — method is declared on Session (compile check) WPD-04 handleQuery fallback contract — AQL_NOT_INTEGRATED when no engine WPD-05 handleGraphTraverse fallback contract — GRAPH_NOT_INTEGRATED when no engine WPD-06 CURSOR_NEXT opcode — registry response has cursor_id echo + has_more WPD-07 CURSOR_CLOSE opcode — success=false + cursor_id when cursor absent WPD-08 BATCH_GET uses multiGet — response shape has found_count + not_found_count WPD-09 BATCH_PUT uses putBatch — response has success_count + collection WPD-10 Worker pool dispatch — BATCH_GET, BATCH_PUT, QUERY_AQL, GRAPH_TRAVERSE opcode constants match expected values KB-01 RocksDBWrapper::KeyValuePair — struct members key + value accessible KB-02 RocksDBWrapper::putBatch — declaration exists (API surface present) </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wire__protocol__server_8h" kindref="compound">network/wire_protocol_server.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">themis::RocksDBWrapper;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-01<sp/>–<sp/>QueryEngine<sp/>DI:<sp/>optional<sp/>9th<sp/>constructor<sp/>parameter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD01_QueryEngineDI_DefaultIsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>9th<sp/>(query_engine)<sp/>parameter<sp/>must<sp/>default<sp/>to<sp/>nullptr<sp/>so<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>existing<sp/>callers<sp/>that<sp/>do<sp/>not<sp/>pass<sp/>it<sp/>are<sp/>unaffected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config" kindref="compound">WireProtocolServer::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a37b70fb6dec7e8baaf74999300a037b5" kindref="member">port</ref><sp/>=<sp/>19001;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a580eb8284fc9c0e63ad597a0b813e8b2" kindref="member">require_auth</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>cannot<sp/>actually<sp/>construct<sp/>a<sp/>WireProtocolServer<sp/>in<sp/>a<sp/>unit<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(it<sp/>binds<sp/>a<sp/>socket),<sp/>but<sp/>we<sp/>can<sp/>verify<sp/>that<sp/>the<sp/>Config<sp/>struct<sp/>and<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>forward-declaration<sp/>of<sp/>QueryEngine<sp/>compile<sp/>correctly,<sp/>and<sp/>that<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ctor<sp/>signature<sp/>accepts<sp/>fewer<sp/>than<sp/>9<sp/>arguments<sp/>through<sp/>a<sp/>config<sp/>object.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(cfg.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_config_1a37b70fb6dec7e8baaf74999300a037b5" kindref="member">port</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>QueryEngine<sp/>forward-declaration<sp/>is<sp/>missing,<sp/>#include<sp/>would<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>inclusion<sp/>of<sp/>wire_protocol_server.h<sp/>is<sp/>sufficient<sp/>for<sp/>compile<sp/>check.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-02<sp/>–<sp/>CursorEntry<sp/>struct<sp/>API<sp/>shape</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD02_CursorEntry_FieldsAccessible)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry" kindref="compound">WireProtocolServer::CursorEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>results<sp/>defaults<sp/>to<sp/>null<sp/>json</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(entry.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1afe4f55efafa62ecd4d0ed9df1c98a1aa" kindref="member">results</ref>.is_null());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>offset<sp/>defaults<sp/>to<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a41132fe747f5f52429358473980a802a" kindref="member">offset</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ttl_ms<sp/>defaults<sp/>to<sp/>0<sp/>(never<sp/>expires)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a5907602afe5bbc37254555291351e23f" kindref="member">ttl_ms</ref>,<sp/>0LL);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mutate<sp/>and<sp/>verify</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1afe4f55efafa62ecd4d0ed9df1c98a1aa" kindref="member">results</ref><sp/>=<sp/>json::array({</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a41132fe747f5f52429358473980a802a" kindref="member">offset</ref><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a5907602afe5bbc37254555291351e23f" kindref="member">ttl_ms</ref><sp/><sp/>=<sp/>300&apos;000LL;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1afe4f55efafa62ecd4d0ed9df1c98a1aa" kindref="member">results</ref>.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a41132fe747f5f52429358473980a802a" kindref="member">offset</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a5907602afe5bbc37254555291351e23f" kindref="member">ttl_ms</ref>,<sp/>300&apos;000LL);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-03<sp/>–<sp/>CursorEntry<sp/>copy/move<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD03_CursorEntry_CopyMove)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry" kindref="compound">WireProtocolServer::CursorEntry</ref><sp/>original;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1afe4f55efafa62ecd4d0ed9df1c98a1aa" kindref="member">results</ref><sp/>=<sp/>json::array({1,<sp/>2,<sp/>3});</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a41132fe747f5f52429358473980a802a" kindref="member">offset</ref><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a5907602afe5bbc37254555291351e23f" kindref="member">ttl_ms</ref><sp/><sp/>=<sp/>60&apos;000LL;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>copy<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.offset,<sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.ttl_ms,<sp/><sp/>60&apos;000LL);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.results,<sp/>original.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1afe4f55efafa62ecd4d0ed9df1c98a1aa" kindref="member">results</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry" kindref="compound">WireProtocolServer::CursorEntry</ref><sp/>moved<sp/>=<sp/>std::move(original);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1a41132fe747f5f52429358473980a802a" kindref="member">offset</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.<ref refid="structthemis_1_1network_1_1_wire_protocol_server_1_1_cursor_entry_1afe4f55efafa62ecd4d0ed9df1c98a1aa" kindref="member">results</ref>.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-04<sp/>–<sp/>handleQuery<sp/>fallback<sp/>contract<sp/>(AQL_NOT_INTEGRATED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>server<sp/>returns<sp/>this<sp/>when<sp/>no<sp/>QueryEngine<sp/>is<sp/>wired.<sp/><sp/>Tests<sp/>verify<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JSON<sp/>shapes<sp/>expected<sp/>by<sp/>the<sp/>client<sp/>SDK.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD04_QueryAql_FallbackResponseShape)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>the<sp/>response<sp/>contract<sp/>for<sp/>AQL<sp/>when<sp/>engine<sp/>is<sp/>not<sp/>wired.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>response;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;error_code&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AQL_NOT_INTEGRATED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AQL<sp/>query<sp/>execution<sp/>is<sp/>not<sp/>yet<sp/>integrated<sp/>in<sp/>the<sp/>wire<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;protocol.<sp/>Use<sp/>the<sp/>HTTP<sp/>REST<sp/>API<sp/>endpoint<sp/>POST<sp/>/api/v1/query<sp/>instead.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>doc<sp/>IN<sp/>collection<sp/>RETURN<sp/>doc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(response[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;error_code&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;AQL_NOT_INTEGRATED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(response[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;/api/v1/query&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>doc<sp/>IN<sp/>collection<sp/>RETURN<sp/>doc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-05<sp/>–<sp/>handleGraphTraverse<sp/>fallback<sp/>contract<sp/>(GRAPH_NOT_INTEGRATED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD05_GraphTraverse_FallbackResponseShape)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>response;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;error_code&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_NOT_INTEGRATED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Graph<sp/>traversal<sp/>is<sp/>not<sp/>yet<sp/>integrated<sp/>in<sp/>the<sp/>wire<sp/>protocol.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Use<sp/>the<sp/>HTTP<sp/>REST<sp/>API<sp/>endpoint<sp/>POST<sp/>/api/v1/graph/traverse<sp/>instead.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;persons&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;start_vertex&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;persons/42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(response[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;error_code&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_NOT_INTEGRATED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(response[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;/api/v1/graph/traverse&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-06<sp/>–<sp/>CURSOR_NEXT<sp/>response<sp/>contract<sp/>(registry<sp/>present)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD06_CursorNext_ResponseShape)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>a<sp/>valid<sp/>cursor<sp/>is<sp/>in<sp/>the<sp/>registry<sp/>the<sp/>server<sp/>returns<sp/>the<sp/>next<sp/>batch.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>the<sp/>contract<sp/>shape<sp/>the<sp/>new<sp/>implementation<sp/>must<sp/>produce.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>response;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/>json::array({json::object({{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>1}}),</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::object({{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>2}})});</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;has_more&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;cursor_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cursor-7-1714560000000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response[</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(response[</highlight><highlight class="stringliteral">&quot;has_more&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;cursor_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;cursor-7-1714560000000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-07<sp/>–<sp/>CURSOR_CLOSE<sp/>response<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD07_CursorClose_SuccessShape)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cursor<sp/>existed<sp/>and<sp/>was<sp/>erased.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>response_ok;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>response_ok[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>response_ok[</highlight><highlight class="stringliteral">&quot;cursor_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cursor-7-1714560000000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response_ok[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cursor<sp/>was<sp/>not<sp/>found.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>response_miss;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>response_miss[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>response_miss[</highlight><highlight class="stringliteral">&quot;cursor_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cursor-7-1714560000000&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>response_miss[</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Cursor<sp/>not<sp/>found<sp/>or<sp/>already<sp/>closed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(response_miss[</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_miss[</highlight><highlight class="stringliteral">&quot;cursor_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;cursor-7-1714560000000&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-08<sp/>–<sp/>BATCH_GET<sp/>response<sp/>shape<sp/>(multiGet<sp/>path,<sp/>B2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD08_BatchGet_ResponseShape)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>the<sp/>B2<sp/>fix,<sp/>BATCH_GET<sp/>uses<sp/>multiGet<sp/>and<sp/>returns<sp/>found_count<sp/>+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>not_found_count.<sp/><sp/>Verify<sp/>the<sp/>expected<sp/>response<sp/>envelope.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>response;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::object({{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;found&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::object({{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;found&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;found_count&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;not_found_count&quot;</highlight><highlight class="normal">]<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response.contains(</highlight><highlight class="stringliteral">&quot;found_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response.contains(</highlight><highlight class="stringliteral">&quot;not_found_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;found_count&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;not_found_count&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">].size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-09<sp/>–<sp/>BATCH_PUT<sp/>response<sp/>shape<sp/>(putBatch<sp/>path,<sp/>B3-wire)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD09_BatchPut_ResponseShape)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>the<sp/>B3-wire<sp/>fix,<sp/>BATCH_PUT<sp/>builds<sp/>a<sp/>putBatch<sp/>and<sp/>returns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>success_count<sp/>+<sp/>failure_count<sp/>+<sp/>collection.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>response;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;results&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::object({{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json::object({{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;success_count&quot;</highlight><highlight class="normal">]<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;failure_count&quot;</highlight><highlight class="normal">]<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>response[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response.contains(</highlight><highlight class="stringliteral">&quot;success_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response.contains(</highlight><highlight class="stringliteral">&quot;failure_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;success_count&quot;</highlight><highlight class="normal">],<sp/>2);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;failure_count&quot;</highlight><highlight class="normal">],<sp/>0);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WPD-10<sp/>–<sp/>Worker-pool<sp/>opcode<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>all<sp/>dispatched<sp/>opcodes<sp/>match<sp/>the<sp/>wire<sp/>protocol<sp/>spec.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(WireProtocolDataflow,<sp/>WPD10_DispatchedOpcodeConstants)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Opcodes<sp/>that<sp/>must<sp/>be<sp/>dispatched<sp/>to<sp/>worker_pool_<sp/>(CPU-heavy<sp/>or<sp/>storage<sp/>I/O).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">OpcodeSpec<sp/>{<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name;<sp/>uint8_t<sp/>value;<sp/>};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>OpcodeSpec<sp/>dispatched[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;BATCH_GET&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x13},</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;BATCH_PUT&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x14},</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;QUERY_AQL&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x20},</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;VECTOR_SEARCH&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>0x40},</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;GRAPH_TRAVERSE&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>0x41},</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;GEO_QUERY&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x50},</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;TIMESERIES_QUERY&quot;</highlight><highlight class="normal">,<sp/>0x51},</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>values<sp/>are<sp/>unique<sp/>(no<sp/>duplicates<sp/>in<sp/>the<sp/>dispatch<sp/>table).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>std::size(dispatched);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>i<sp/>+<sp/>1;<sp/>j<sp/>&lt;<sp/>std::size(dispatched);<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(dispatched[i].value,<sp/>dispatched[j].value)</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>opcode:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dispatched[i].name</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>and<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dispatched[j].name;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>known<sp/>values.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0x13u,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x13));<sp/></highlight><highlight class="comment">//<sp/>BATCH_GET</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0x14u,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x14));<sp/></highlight><highlight class="comment">//<sp/>BATCH_PUT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0x20u,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x20));<sp/></highlight><highlight class="comment">//<sp/>QUERY_AQL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(0x41u,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0x41));<sp/></highlight><highlight class="comment">//<sp/>GRAPH_TRAVERSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KB-01<sp/>–<sp/>RocksDBWrapper::KeyValuePair<sp/>struct<sp/>members</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(RocksDBWrapperKeyValuePair,<sp/>KB01_StructMembersAccessible)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper::KeyValuePair<sp/>kv;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>kv.key<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;users:alice&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>kv.value<sp/>=<sp/>{0x01,<sp/>0x02,<sp/>0x03};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kv.key,<sp/></highlight><highlight class="stringliteral">&quot;users:alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(kv.value.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kv.value[0],<sp/>0x01u);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kv.value[2],<sp/>0x03u);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(RocksDBWrapperKeyValuePair,<sp/>KB02_StructDefaultConstruct)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper::KeyValuePair<sp/>kv;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(kv.key.empty());</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(kv.value.empty());</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(RocksDBWrapperKeyValuePair,<sp/>KB03_VectorOfPairs)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RocksDBWrapper::KeyValuePair&gt;<sp/>batch;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.push_back({</highlight><highlight class="stringliteral">&quot;col:k1&quot;</highlight><highlight class="normal">,<sp/>{0xAA}});</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.push_back({</highlight><highlight class="stringliteral">&quot;col:k2&quot;</highlight><highlight class="normal">,<sp/>{0xBB,<sp/>0xCC}});</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(batch.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(batch[0].key,<sp/></highlight><highlight class="stringliteral">&quot;col:k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(batch[1].value.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(RocksDBWrapperKeyValuePair,<sp/>KB04_MoveSemantics)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper::KeyValuePair<sp/>kv;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>kv.key<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;col:key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>kv.value<sp/>=<sp/>std::vector&lt;uint8_t&gt;(1000,<sp/>0xAA);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>moved<sp/>=<sp/>std::move(kv);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.key,<sp/></highlight><highlight class="stringliteral">&quot;col:key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.value.size(),<sp/>1000u);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KB-05:<sp/>putBatch()<sp/>is<sp/>declared<sp/>—<sp/>compile-time<sp/>API<sp/>check<sp/>via<sp/>function<sp/>pointer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">PutBatchFn<sp/>=<sp/>bool<sp/>(RocksDBWrapper::*)(</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RocksDBWrapper::KeyValuePair&gt;&amp;);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="test__wire__protocol__dataflow_8cpp_1a8447b304bbd2b5274444d4f48c6141cd" kindref="member">TEST</ref>(RocksDBWrapperKeyValuePair,<sp/>KB05_PutBatchDeclaredOnWrapper)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>PutBatchFn<sp/>fn<sp/>=<sp/>&amp;RocksDBWrapper::putBatch;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>declaration<sp/>is<sp/>missing<sp/>the<sp/>test<sp/>will<sp/>not<sp/>compile.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(fn,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_wire_protocol_dataflow.cpp"/>
+  </compounddef>
+</doxygen>

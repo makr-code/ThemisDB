@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_generation_result" kind="struct" language="C++" prot="public">
+    <compoundname>GenerationResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_generation_result_1aec817bd640a4dbb035ac889fa3a23e00" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool GenerationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>GenerationResult::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="89" column="10" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generation_result_1a2e1151f34805b4b8a47319c7264448fb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool GenerationResult::validation_error</definition>
+        <argsstring></argsstring>
+        <name>validation_error</name>
+        <qualifiedname>GenerationResult::validation_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="90" column="10" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generation_result_1af5d23e6310a73a8c2f48f80a28ec821d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool GenerationResult::transport_error</definition>
+        <argsstring></argsstring>
+        <name>transport_error</name>
+        <qualifiedname>GenerationResult::transport_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="91" column="10" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generation_result_1a3fe79e1d378061844b67506a0876734b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool GenerationResult::parse_error</definition>
+        <argsstring></argsstring>
+        <name>parse_error</name>
+        <qualifiedname>GenerationResult::parse_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="92" column="10" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_generation_result_1affd24d2528e4d7e1b4fdf69fae14d340" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds GenerationResult::latency_us</definition>
+        <argsstring></argsstring>
+        <name>latency_us</name>
+        <qualifiedname>GenerationResult::latency_us</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="93" column="31" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single stubbed generation call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="88" column="1" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="88" bodyend="94"/>
+    <listofallmembers>
+      <member refid="struct_generation_result_1affd24d2528e4d7e1b4fdf69fae14d340" prot="public" virt="non-virtual"><scope>GenerationResult</scope><name>latency_us</name></member>
+      <member refid="struct_generation_result_1a3fe79e1d378061844b67506a0876734b" prot="public" virt="non-virtual"><scope>GenerationResult</scope><name>parse_error</name></member>
+      <member refid="struct_generation_result_1aec817bd640a4dbb035ac889fa3a23e00" prot="public" virt="non-virtual"><scope>GenerationResult</scope><name>success</name></member>
+      <member refid="struct_generation_result_1af5d23e6310a73a8c2f48f80a28ec821d" prot="public" virt="non-virtual"><scope>GenerationResult</scope><name>transport_error</name></member>
+      <member refid="struct_generation_result_1a2e1151f34805b4b8a47319c7264448fb" prot="public" virt="non-virtual"><scope>GenerationResult</scope><name>validation_error</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_enriched_training_example" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EnrichedTrainingExample</compoundname>
+    <includes refid="multi__model__training__data_8h" local="no">multi_model_training_data.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_enriched_training_example_1af1e0c0a8ba4dd7fa7fa57dc8c373d2a0" prot="public" static="no" mutable="no">
+        <type>TrainingSample</type>
+        <definition>TrainingSample themis::llm::EnrichedTrainingExample::base_example</definition>
+        <argsstring></argsstring>
+        <name>base_example</name>
+        <qualifiedname>themis::llm::EnrichedTrainingExample::base_example</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="89" column="20" bodyfile="include/llm/multi_model_training_data.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_enriched_training_example_1a036f4a5b31ce8263b981aa30f69bd3c0" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_graph_context" kindref="compound">GraphContext</ref> &gt;</type>
+        <definition>std::optional&lt;GraphContext&gt; themis::llm::EnrichedTrainingExample::graph_context</definition>
+        <argsstring></argsstring>
+        <name>graph_context</name>
+        <qualifiedname>themis::llm::EnrichedTrainingExample::graph_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="92" column="19" bodyfile="include/llm/multi_model_training_data.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_enriched_training_example_1a5ef6bfd263ba22232e3d74578e72ddc2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_vector_similarity" kindref="compound">VectorSimilarity</ref> &gt;</type>
+        <definition>std::optional&lt;VectorSimilarity&gt; themis::llm::EnrichedTrainingExample::vector_similarity</definition>
+        <argsstring></argsstring>
+        <name>vector_similarity</name>
+        <qualifiedname>themis::llm::EnrichedTrainingExample::vector_similarity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="93" column="19" bodyfile="include/llm/multi_model_training_data.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_enriched_training_example_1ab9fa71cd557dd50d2717a634e45c60cb" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_relational_join" kindref="compound">RelationalJoin</ref> &gt;</type>
+        <definition>std::optional&lt;RelationalJoin&gt; themis::llm::EnrichedTrainingExample::relational_join</definition>
+        <argsstring></argsstring>
+        <name>relational_join</name>
+        <qualifiedname>themis::llm::EnrichedTrainingExample::relational_join</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="94" column="19" bodyfile="include/llm/multi_model_training_data.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_enriched_training_example_1a5b6996ceb9d9369732ff25bd94d08f35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EnrichedTrainingExample::getCombinedContext</definition>
+        <argsstring>(const std::string &amp;format=&quot;default&quot;) const</argsstring>
+        <name>getCombinedContext</name>
+        <qualifiedname>themis::llm::EnrichedTrainingExample::getCombinedContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="96" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_enriched_training_example_1a7ae2456731d25afbe3894612a852cbb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EnrichedTrainingExample::getEnrichedInstruction</definition>
+        <argsstring>() const</argsstring>
+        <name>getEnrichedInstruction</name>
+        <qualifiedname>themis::llm::EnrichedTrainingExample::getEnrichedInstruction</qualifiedname>
+        <briefdescription>
+<para>Get Enriched Instruction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="102" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_enriched_training_example_1a5a2acf3b4db09e1dcac7ca23be708415" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::EnrichedTrainingExample::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::EnrichedTrainingExample::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_model_training_data.h" line="108" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_model_training_data.h" line="88" column="1" bodyfile="include/llm/multi_model_training_data.h" bodystart="88" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_enriched_training_example_1af1e0c0a8ba4dd7fa7fa57dc8c373d2a0" prot="public" virt="non-virtual"><scope>themis::llm::EnrichedTrainingExample</scope><name>base_example</name></member>
+      <member refid="structthemis_1_1llm_1_1_enriched_training_example_1a5b6996ceb9d9369732ff25bd94d08f35" prot="public" virt="non-virtual"><scope>themis::llm::EnrichedTrainingExample</scope><name>getCombinedContext</name></member>
+      <member refid="structthemis_1_1llm_1_1_enriched_training_example_1a7ae2456731d25afbe3894612a852cbb7" prot="public" virt="non-virtual"><scope>themis::llm::EnrichedTrainingExample</scope><name>getEnrichedInstruction</name></member>
+      <member refid="structthemis_1_1llm_1_1_enriched_training_example_1a036f4a5b31ce8263b981aa30f69bd3c0" prot="public" virt="non-virtual"><scope>themis::llm::EnrichedTrainingExample</scope><name>graph_context</name></member>
+      <member refid="structthemis_1_1llm_1_1_enriched_training_example_1ab9fa71cd557dd50d2717a634e45c60cb" prot="public" virt="non-virtual"><scope>themis::llm::EnrichedTrainingExample</scope><name>relational_join</name></member>
+      <member refid="structthemis_1_1llm_1_1_enriched_training_example_1a5a2acf3b4db09e1dcac7ca23be708415" prot="public" virt="non-virtual"><scope>themis::llm::EnrichedTrainingExample</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_enriched_training_example_1a5ef6bfd263ba22232e3d74578e72ddc2" prot="public" virt="non-virtual"><scope>themis::llm::EnrichedTrainingExample</scope><name>vector_similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

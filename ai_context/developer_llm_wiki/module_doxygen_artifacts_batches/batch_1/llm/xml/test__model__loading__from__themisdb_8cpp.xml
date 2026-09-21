@@ -1,0 +1,1172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__model__loading__from__themisdb_8cpp" kind="file" language="C++">
+    <compoundname>test_model_loading_from_themisdb.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llama__wrapper_8h" local="yes">llm/llama_wrapper.h</includes>
+    <includes refid="llm__model__storage_8h" local="yes">llm/llm_model_storage.h</includes>
+    <includes local="yes">storage/blob_storage_manager.h</includes>
+    <includes local="yes">storage/blob_backend_filesystem.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">security/encryption.h</includes>
+    <includes local="yes">security/mock_key_provider.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="35">
+        <label>llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>llm/grammar.h</label>
+        <link refid="grammar_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>llm/grammar_cache.h</label>
+        <link refid="grammar__cache_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/llama_wrapper.h</label>
+        <link refid="llama__wrapper_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>llm/llamacpp_inference_engine.h</label>
+        <link refid="llamacpp__inference__engine_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>llm/llm_model_audit_logger.h</label>
+        <link refid="llm__model__audit__logger_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>llm/llm_model_storage.h</label>
+        <link refid="llm__model__storage_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>llm/llm_response_cache.h</label>
+        <link refid="llm__response__cache_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>llm/lora_certificate_store.h</label>
+        <link refid="lora__certificate__store_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>llm/lora_security_validator.h</label>
+        <link refid="lora__security__validator_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/model_loader.h</label>
+        <link refid="model__loader_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>llm/multi_lora_manager.h</label>
+        <link refid="multi__lora__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_model_loading_from_themisdb.cpp</label>
+        <link refid="test__model__loading__from__themisdb_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="18">
+        <label>chrono</label>
+      </node>
+      <node id="30">
+        <label>condition_variable</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="55">
+        <label>filesystem</label>
+      </node>
+      <node id="56">
+        <label>fstream</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="19">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="39">
+        <label>list</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="25">
+        <label>ostream</label>
+      </node>
+      <node id="10">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="38">
+        <label>queue</label>
+      </node>
+      <node id="27">
+        <label>regex</label>
+      </node>
+      <node id="52">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="54">
+        <label>security/mock_key_provider.h</label>
+      </node>
+      <node id="29">
+        <label>shared_mutex</label>
+      </node>
+      <node id="48">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="53">
+        <label>storage/blob_backend_filesystem.h</label>
+      </node>
+      <node id="50">
+        <label>storage/blob_storage_manager.h</label>
+      </node>
+      <node id="49">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="51">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="41">
+        <label>thread</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="28">
+        <label>unordered_set</label>
+      </node>
+      <node id="24">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="32">
+        <label>utils/clock.h</label>
+      </node>
+      <node id="37">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="17">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_model_loading_from_themis_d_b_test" prot="public">ModelLoadingFromThemisDBTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, LoadModelBlob_NotFound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>LoadModelBlob_NotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="148" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1a7c919f45e3bded6a315bcb3b05df5c69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, LoadModelBlob_SmallModelInline)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>LoadModelBlob_SmallModelInline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="155" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="155" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1af0e8c84fdf6bc88b347525f395d8eb8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, LoadModelBlob_LargeModelExternal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>LoadModelBlob_LargeModelExternal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="173" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="173" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1af4f1913355542a9a23a3577c9907e8ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, LoadModelBlob_WithEncryption)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>LoadModelBlob_WithEncryption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="188" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1aa1364d76b5d527e97c3def1c859ba630" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, CleanupTempModels_EmptyDirectory)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>CleanupTempModels_EmptyDirectory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="196" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="196" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1a266afce0cb6a396eaa9667e323497631" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, CleanupTempModels_OldFiles)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>CleanupTempModels_OldFiles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="203" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="203" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1a683ed1f55f36f40bcdd56f4765a93819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, CleanupTempModels_CustomThreshold)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>CleanupTempModels_CustomThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="233" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="233" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1ad5eff17dcadbf328074d9ae2cff72c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, EndToEnd_StoreAndLoadMetadata)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>EndToEnd_StoreAndLoadMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="254" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="254" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1a243f21c8590d987758699795f31a06bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, EndToEnd_StoreAndLoadBlob)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>EndToEnd_StoreAndLoadBlob</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="272" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="272" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1a664bad93d5e6e634cf8ea0eccec98f7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, MultipleModels_DifferentSizes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleModels_DifferentSizes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="286" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="286" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1a350852ba72f01b646557056ba1fab5ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, ErrorHandling_CorruptedMetadata)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorHandling_CorruptedMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="318" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="318" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1a8a740dbb4f8f631fa2e750b2fb4dae38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, ErrorHandling_MissingBlob)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorHandling_MissingBlob</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="322" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="322" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="test__model__loading__from__themisdb_8cpp_1ae2a9acddd4e31cb0842051b9a8689aa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ModelLoadingFromThemisDBTest, Performance_LoadMultipleTimes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref></type>
+        </param>
+        <param>
+          <type>Performance_LoadMultipleTimes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loading_from_themisdb.cpp" line="340" column="1" bodyfile="tests/llm/test_model_loading_from_themisdb.cpp" bodystart="340" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for loading LLM models from ThemisDB blob storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests the complete pipeline for loading models from ThemisDB:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1llm_1_1_l_l_m_model_storage_1a46b9192c20de9fa00c0acc4081292cac" kindref="member">LLMModelStorage::loadModelBlob()</ref> - blob retrieval</para>
+</listitem><listitem><para><ref refid="class_llama_wrapper_1a633f2d1236a3c535d9e98e41af562473" kindref="member">LlamaWrapper::loadModelFromThemisDB()</ref> - complete loading pipeline</para>
+</listitem><listitem><para><ref refid="class_llama_wrapper_1ac47334f015daa34fcb257afc077f89ec" kindref="member">LlamaWrapper::cleanupTempModels()</ref> - cache management</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="author"><para>ThemisDB Team / GitHub Copilot </para>
+</simplesect>
+<simplesect kind="date"><para>January 2026 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llama__wrapper_8h" kindref="compound">llm/llama_wrapper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__model__storage_8h" kindref="compound">llm/llm_model_storage.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/blob_storage_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/blob_backend_filesystem.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/encryption.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/mock_key_provider.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">themis::storage</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="class_model_loading_from_themis_d_b_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a3449c28433a9a764b6c06a912d8648b1" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>temporary<sp/>directories</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a31f74f0e825d14274b82780a9b0d73ee" kindref="member">test_dir_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themisdb_test_model_loading&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a1c23a17369d2e8c877e10b31f0506580" kindref="member">db_path_</ref><sp/>=<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a31f74f0e825d14274b82780a9b0d73ee" kindref="member">test_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;db&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a0081f05f05de6cc66cc810e1b74ea9fb" kindref="member">blob_path_</ref><sp/>=<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a31f74f0e825d14274b82780a9b0d73ee" kindref="member">test_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;blobs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_model_loading_from_themis_d_b_test_1a1c23a17369d2e8c877e10b31f0506580" kindref="member">db_path_</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_model_loading_from_themis_d_b_test_1a0081f05f05de6cc66cc810e1b74ea9fb" kindref="member">blob_path_</ref>);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>RocksDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>db_config;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>db_config.db_path<sp/>=<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a1c23a17369d2e8c877e10b31f0506580" kindref="member">db_path_</ref>.string();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>db_config.create_if_missing<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a74a69978be2de79fb694ceead4f38e33" kindref="member">db_</ref><sp/>=<sp/>std::make_shared&lt;RocksDBWrapper&gt;(db_config);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_model_loading_from_themis_d_b_test_1a74a69978be2de79fb694ceead4f38e33" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>BlobStorageManager<sp/>with<sp/>filesystem<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BlobStorageConfig<sp/>blob_config;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>blob_config.enable_filesystem<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>blob_config.filesystem_base_path<sp/>=<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a0081f05f05de6cc66cc810e1b74ea9fb" kindref="member">blob_path_</ref>.string();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>blob_config.inline_threshold_bytes<sp/>=<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>1KB<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a686927df03650f438aebd3387572b272" kindref="member">blob_manager_</ref><sp/>=<sp/>std::make_shared&lt;BlobStorageManager&gt;(blob_config);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fs_backend<sp/>=<sp/>std::make_shared&lt;FilesystemBlobBackend&gt;(<ref refid="class_model_loading_from_themis_d_b_test_1a0081f05f05de6cc66cc810e1b74ea9fb" kindref="member">blob_path_</ref>.string());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a686927df03650f438aebd3387572b272" kindref="member">blob_manager_</ref>-&gt;registerBackend(BlobStorageType::FILESYSTEM,<sp/>fs_backend);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>LLMModelStorage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config" kindref="compound">LLMModelStorage::Config</ref><sp/>storage_config;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage_config.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a71be4fe89d26a16d34712f25f838034a" kindref="member">db</ref><sp/>=<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a74a69978be2de79fb694ceead4f38e33" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage_config.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a29d5d1aa45c0607fa8dd6100d91dc423" kindref="member">blob_manager</ref><sp/>=<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a686927df03650f438aebd3387572b272" kindref="member">blob_manager_</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage_config.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a8b59e490d922e660ee14cfb08db6e0be" kindref="member">use_blob_storage</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage_config.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a2896af1a6cd68b511d55afe8a89b18c6" kindref="member">inline_threshold_mb</ref><sp/>=<sp/>1;<sp/><sp/></highlight><highlight class="comment">//<sp/>1MB<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage_config.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_storage_1_1_config_1a4c4e09c043ffd1759ba5c60fbd3160c0" kindref="member">enable_encryption</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a30de97049fbeed1d557013c5c33d036b" kindref="member">model_storage_</ref><sp/>=<sp/>std::make_shared&lt;LLMModelStorage&gt;(storage_config);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>small<sp/>test<sp/>model<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a250dba28210efa8c7ffd9479e70dfeb9" kindref="member">createTestModelFile</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a3290570e387e5f9759ddf77e0cabb32e" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a30de97049fbeed1d557013c5c33d036b" kindref="member">model_storage_</ref>.reset();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a686927df03650f438aebd3387572b272" kindref="member">blob_manager_</ref>.reset();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a74a69978be2de79fb694ceead4f38e33" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up<sp/>test<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_model_loading_from_themis_d_b_test_1a31f74f0e825d14274b82780a9b0d73ee" kindref="member">test_dir_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_model_loading_from_themis_d_b_test_1a31f74f0e825d14274b82780a9b0d73ee" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up<sp/>temp<sp/>models<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::path<sp/>temp_models<sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themisdb_models&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(temp_models))<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(temp_models);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a250dba28210efa8c7ffd9479e70dfeb9" kindref="member">createTestModelFile</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a74a9051d1727c131fdf5b12d2e769872" kindref="member">test_model_path_</ref><sp/>=<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a31f74f0e825d14274b82780a9b0d73ee" kindref="member">test_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;test_model.gguf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>small<sp/>fake<sp/>GGUF<sp/>file<sp/>(just<sp/>some<sp/>bytes<sp/>for<sp/>testing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>file(<ref refid="class_model_loading_from_themis_d_b_test_1a74a9051d1727c131fdf5b12d2e769872" kindref="member">test_model_path_</ref>,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>fake_gguf<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GGUF_TEST_MODEL_CONTENT_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file<sp/>&lt;&lt;<sp/>fake_gguf;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file.close();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read<sp/>it<sp/>back</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ifstream<sp/>in_file(<ref refid="class_model_loading_from_themis_d_b_test_1a74a9051d1727c131fdf5b12d2e769872" kindref="member">test_model_path_</ref>,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_model_loading_from_themis_d_b_test_1a5dd111e55e4eb8c15bc6773035b2c8be" kindref="member">test_model_data_</ref><sp/>=<sp/>std::vector&lt;uint8_t&gt;(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(std::istreambuf_iterator&lt;char&gt;(in_file)),</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::istreambuf_iterator&lt;char&gt;()</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in_file.close();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata" kindref="compound">LLMModelMetadata</ref><sp/><ref refid="class_model_loading_from_themis_d_b_test_1ad5ba7e70d1b7ec5fbb9a30d9c9433e9f" kindref="member">createTestMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata" kindref="compound">LLMModelMetadata</ref><sp/>metadata;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aa930f755a871b7216305d7012750f864" kindref="member">model_id</ref><sp/>=<sp/>model_id;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a62c5ad0bb61ac6b383d33b0e459dd10b" kindref="member">model_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a2db290a78cf53755ea388db4b04bdaab" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1af525ae7f276f294ca671c9e83b95c516" kindref="member">architecture</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llama&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a31a1b01900666606104d1a61f509e151" kindref="member">format</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gguf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a0e5a9e62caf31a6a07633ebfc2208b59" kindref="member">quantization</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Q4_K_M&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a16f92d85b019cfee5237e3f6efe289ab" kindref="member">size_bytes</ref><sp/>=<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a5dd111e55e4eb8c15bc6773035b2c8be" kindref="member">test_model_data_</ref>.size();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ab4fe27a5d188ab9dd5e4ef4e8d9bafdb" kindref="member">checksum</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_checksum&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aa9ecd2a152496c0f99e7ee3d01b3e555" kindref="member">parameter_count</ref><sp/>=<sp/>7000000000;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1abe70084872ea528f652b1754ab94c462" kindref="member">context_length</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ae0ca0c8c544c7d428487e6118628f13c" kindref="member">capabilities</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;text-generation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;chat&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metadata;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a31f74f0e825d14274b82780a9b0d73ee" kindref="member">test_dir_</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a1c23a17369d2e8c877e10b31f0506580" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a0081f05f05de6cc66cc810e1b74ea9fb" kindref="member">blob_path_</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a74a9051d1727c131fdf5b12d2e769872" kindref="member">test_model_path_</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a5dd111e55e4eb8c15bc6773035b2c8be" kindref="member">test_model_data_</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a74a69978be2de79fb694ceead4f38e33" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;BlobStorageManager&gt;<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a686927df03650f438aebd3387572b272" kindref="member">blob_manager_</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;LLMModelStorage&gt;<sp/><ref refid="class_model_loading_from_themis_d_b_test_1a30de97049fbeed1d557013c5c33d036b" kindref="member">model_storage_</ref>;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMModelStorage::loadModelBlob()<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>LoadModelBlob_NotFound)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>load<sp/>non-existent<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob_opt<sp/>=<sp/>model_storage_-&gt;loadModelBlob(</highlight><highlight class="stringliteral">&quot;non_existent_model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(blob_opt.has_value());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>LoadModelBlob_SmallModelInline)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>a<sp/>small<sp/>model<sp/>(&lt;<sp/>1MB,<sp/>should<sp/>be<sp/>inline)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>model_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;small_test_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>createTestMetadata(model_id);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>without<sp/>blob<sp/>data<sp/>(inline)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>small_data(100,<sp/>0x42);<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model_storage_-&gt;storeModel(metadata,<sp/>small_data));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>blob</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob_opt<sp/>=<sp/>model_storage_-&gt;loadModelBlob(model_id);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(blob_opt.has_value());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(blob_opt-&gt;size(),<sp/>small_data.size());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*blob_opt,<sp/>small_data);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>LoadModelBlob_LargeModelExternal)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>a<sp/>larger<sp/>model<sp/>(&gt;<sp/>1KB,<sp/>should<sp/>use<sp/>blob<sp/>storage)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>model_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;large_test_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>createTestMetadata(model_id);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model_storage_-&gt;storeModel(metadata,<sp/>test_model_data_));</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>blob</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob_opt<sp/>=<sp/>model_storage_-&gt;loadModelBlob(model_id);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(blob_opt.has_value());</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(blob_opt-&gt;size(),<sp/>test_model_data_.size());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*blob_opt,<sp/>test_model_data_);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>LoadModelBlob_WithEncryption)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Field<sp/>encryption<sp/>unavailable<sp/>in<sp/>Community<sp/>edition&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LlamaWrapper::cleanupTempModels()<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>CleanupTempModels_EmptyDirectory)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>temp<sp/>models<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/><ref refid="class_llama_wrapper_1ac47334f015daa34fcb257afc077f89ec" kindref="member">LlamaWrapper::cleanupTempModels</ref>(7);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>0);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>CleanupTempModels_OldFiles)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>temp<sp/>models<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/>temp_dir<sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themisdb_models&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(temp_dir);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>some<sp/>old<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>old_file1<sp/>=<sp/>temp_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;old_model_1.gguf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>old_file2<sp/>=<sp/>temp_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;old_model_2.gguf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream(old_file1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;old<sp/>model<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream(old_file2)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;old<sp/>model<sp/>2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>modification<sp/>time<sp/>to<sp/>10<sp/>days<sp/>ago</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ten_days_ago<sp/>=<sp/>fs::file_time_type::clock::now()<sp/>-<sp/>std::chrono::hours(24<sp/>*<sp/>10);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::last_write_time(old_file1,<sp/>ten_days_ago);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::last_write_time(old_file2,<sp/>ten_days_ago);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>recent<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recent_file<sp/>=<sp/>temp_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;recent_model.gguf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream(recent_file)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;recent<sp/>model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>files<sp/>older<sp/>than<sp/>7<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/><ref refid="class_llama_wrapper_1ac47334f015daa34fcb257afc077f89ec" kindref="member">LlamaWrapper::cleanupTempModels</ref>(7);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>2);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fs::exists(old_file1));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fs::exists(old_file2));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fs::exists(recent_file));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>CleanupTempModels_CustomThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/>temp_dir<sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themisdb_models&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(temp_dir);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>file5days<sp/>=<sp/>temp_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;file_5days.gguf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream(file5days)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;5<sp/>days<sp/>old&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>five_days_ago<sp/>=<sp/>fs::file_time_type::clock::now()<sp/>-<sp/>std::chrono::hours(24<sp/>*<sp/>5);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::last_write_time(file5days,<sp/>five_days_ago);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>with<sp/>3-day<sp/>threshold<sp/>(should<sp/>remove<sp/>5-day-old<sp/>file)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/><ref refid="class_llama_wrapper_1ac47334f015daa34fcb257afc077f89ec" kindref="member">LlamaWrapper::cleanupTempModels</ref>(3);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>1);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fs::exists(file5days));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>EndToEnd_StoreAndLoadMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>model_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;e2e_test_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>createTestMetadata(model_id);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model_storage_-&gt;storeModel(metadata,<sp/>test_model_data_));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded_metadata<sp/>=<sp/>model_storage_-&gt;loadModel(model_id);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded_metadata.has_value());</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_metadata-&gt;model_id,<sp/>model_id);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_metadata-&gt;model_name,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_metadata-&gt;architecture,<sp/></highlight><highlight class="stringliteral">&quot;llama&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_metadata-&gt;format,<sp/></highlight><highlight class="stringliteral">&quot;gguf&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded_metadata-&gt;size_bytes,<sp/>test_model_data_.size());</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>EndToEnd_StoreAndLoadBlob)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>model_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;e2e_blob_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>createTestMetadata(model_id);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model_storage_-&gt;storeModel(metadata,<sp/>test_model_data_));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>blob</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob_opt<sp/>=<sp/>model_storage_-&gt;loadModelBlob(model_id);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(blob_opt.has_value());</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*blob_opt,<sp/>test_model_data_);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>MultipleModels_DifferentSizes)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>multiple<sp/>models<sp/>with<sp/>different<sp/>sizes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>small_data(500,<sp/>0xAA);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>medium_data(5000,<sp/>0xBB);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>large_data<sp/>=<sp/>test_model_data_;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta1<sp/>=<sp/>createTestMetadata(</highlight><highlight class="stringliteral">&quot;small_model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta2<sp/>=<sp/>createTestMetadata(</highlight><highlight class="stringliteral">&quot;medium_model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta3<sp/>=<sp/>createTestMetadata(</highlight><highlight class="stringliteral">&quot;large_model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model_storage_-&gt;storeModel(meta1,<sp/>small_data));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model_storage_-&gt;storeModel(meta2,<sp/>medium_data));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model_storage_-&gt;storeModel(meta3,<sp/>large_data));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob1<sp/>=<sp/>model_storage_-&gt;loadModelBlob(</highlight><highlight class="stringliteral">&quot;small_model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob2<sp/>=<sp/>model_storage_-&gt;loadModelBlob(</highlight><highlight class="stringliteral">&quot;medium_model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob3<sp/>=<sp/>model_storage_-&gt;loadModelBlob(</highlight><highlight class="stringliteral">&quot;large_model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(blob1.has_value());</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(blob2.has_value());</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(blob3.has_value());</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(blob1-&gt;size(),<sp/>small_data.size());</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(blob2-&gt;size(),<sp/>medium_data.size());</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(blob3-&gt;size(),<sp/>large_data.size());</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Handling<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>ErrorHandling_CorruptedMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Corrupted<sp/>metadata<sp/>path<sp/>triggers<sp/>SEH<sp/>crash<sp/>on<sp/>Windows;<sp/>needs<sp/>safe<sp/>parser<sp/>hardening&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>ErrorHandling_MissingBlob)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>model_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;model_with_missing_blob&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>createTestMetadata(model_id);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>metadata<sp/>only<sp/>(no<sp/>blob<sp/>data)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model_storage_-&gt;storeModel(metadata,<sp/>std::nullopt));</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>load<sp/>blob</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob_opt<sp/>=<sp/>model_storage_-&gt;loadModelBlob(model_id);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>nullopt<sp/>when<sp/>blob<sp/>is<sp/>missing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(blob_opt.has_value());</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Performance<sp/>Tests<sp/>(basic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><ref refid="test__model__loading__from__themisdb_8cpp_1a3ced601d2ed8fad3a68a07098f3b8c3f" kindref="member">TEST_F</ref>(<ref refid="class_model_loading_from_themis_d_b_test" kindref="compound">ModelLoadingFromThemisDBTest</ref>,<sp/>Performance_LoadMultipleTimes)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>model_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;perf_test_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>createTestMetadata(model_id);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model_storage_-&gt;storeModel(metadata,<sp/>test_model_data_));</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>10<sp/>times<sp/>and<sp/>measure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/>=<sp/>model_storage_-&gt;loadModelBlob(model_id);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(blob.has_value());</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>complete<sp/>in<sp/>reasonable<sp/>time<sp/>(&lt;<sp/>1<sp/>second<sp/>for<sp/>small<sp/>model)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(duration_ms,<sp/>1000);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Loaded<sp/>model<sp/>10<sp/>times<sp/>in<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>duration_ms<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_model_loading_from_themisdb.cpp"/>
+  </compounddef>
+</doxygen>

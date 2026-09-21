@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_iso27001_audit_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::Iso27001AuditReport</compoundname>
+    <includes refid="iso27001__rules_8h" local="no">iso27001_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_audit_report_1a082ae24824c06938262a5400ab91ad26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001AuditReport::report_id</definition>
+        <argsstring></argsstring>
+        <name>report_id</name>
+        <qualifiedname>themis::governance::Iso27001AuditReport::report_id</qualifiedname>
+        <briefdescription>
+<para>Unique report identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="73" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_audit_report_1a13e7666cad69044ea177bbc9c316c60e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::Iso27001AuditReport::generated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>generated_at_ms</name>
+        <qualifiedname>themis::governance::Iso27001AuditReport::generated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Report generation time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="74" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_audit_report_1a279fd0773457e234e39a14e216a74146" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001AuditReport::scope</definition>
+        <argsstring></argsstring>
+        <name>scope</name>
+        <qualifiedname>themis::governance::Iso27001AuditReport::scope</qualifiedname>
+        <briefdescription>
+<para>Audit scope description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="75" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_audit_report_1ad5f387ef9053886b3df8b8e7a27fc76c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::Iso27001AuditReport::total_controls</definition>
+        <argsstring></argsstring>
+        <name>total_controls</name>
+        <qualifiedname>themis::governance::Iso27001AuditReport::total_controls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of controls evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="76" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_audit_report_1a13feb475b599aa59cd97e73a68aab482" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::Iso27001AuditReport::controls_met</definition>
+        <argsstring></argsstring>
+        <name>controls_met</name>
+        <qualifiedname>themis::governance::Iso27001AuditReport::controls_met</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of controls satisfied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="77" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_audit_report_1a36f8e0688854733e15fe9855660fa5ef" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::governance::Iso27001AuditReport::compliance_score</definition>
+        <argsstring></argsstring>
+        <name>compliance_score</name>
+        <qualifiedname>themis::governance::Iso27001AuditReport::compliance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Score 0–100. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="78" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_audit_report_1a10c5eee32d0ed9889ae4a94e88f6b8d2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_iso27001_control_result" kindref="compound">Iso27001ControlResult</ref> &gt;</type>
+        <definition>std::vector&lt;Iso27001ControlResult&gt; themis::governance::Iso27001AuditReport::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::governance::Iso27001AuditReport::results</qualifiedname>
+        <briefdescription>
+<para>Per-control results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="79" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_audit_report_1a2478e0910ff2da4f9fb08cbfb8ceece2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_iso27001_evidence_item" kindref="compound">Iso27001EvidenceItem</ref> &gt;</type>
+        <definition>std::vector&lt;Iso27001EvidenceItem&gt; themis::governance::Iso27001AuditReport::evidence_items</definition>
+        <argsstring></argsstring>
+        <name>evidence_items</name>
+        <qualifiedname>themis::governance::Iso27001AuditReport::evidence_items</qualifiedname>
+        <briefdescription>
+<para>All collected evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="80" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_iso27001_audit_report_1a9499de64fc825063637bae34a72e97e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::Iso27001AuditReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::Iso27001AuditReport::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="86" column="20" bodyfile="src/governance/iso27001_rules.cpp" bodystart="102" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/iso27001_rules.h" line="72" column="1" bodyfile="include/governance/iso27001_rules.h" bodystart="72" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_iso27001_audit_report_1a36f8e0688854733e15fe9855660fa5ef" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001AuditReport</scope><name>compliance_score</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_audit_report_1a13feb475b599aa59cd97e73a68aab482" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001AuditReport</scope><name>controls_met</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_audit_report_1a2478e0910ff2da4f9fb08cbfb8ceece2" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001AuditReport</scope><name>evidence_items</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_audit_report_1a13e7666cad69044ea177bbc9c316c60e" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001AuditReport</scope><name>generated_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_audit_report_1a082ae24824c06938262a5400ab91ad26" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001AuditReport</scope><name>report_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_audit_report_1a10c5eee32d0ed9889ae4a94e88f6b8d2" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001AuditReport</scope><name>results</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_audit_report_1a279fd0773457e234e39a14e216a74146" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001AuditReport</scope><name>scope</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_audit_report_1a9499de64fc825063637bae34a72e97e1" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001AuditReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_audit_report_1ad5f387ef9053886b3df8b8e7a27fc76c" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001AuditReport</scope><name>total_controls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

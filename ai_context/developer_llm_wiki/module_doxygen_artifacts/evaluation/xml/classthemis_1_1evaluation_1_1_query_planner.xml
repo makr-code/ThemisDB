@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_query_planner" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::evaluation::QueryPlanner</compoundname>
+    <derivedcompoundref refid="classthemis_1_1evaluation_1_1_default_query_planner" prot="public" virt="non-virtual">themis::evaluation::DefaultQueryPlanner</derivedcompoundref>
+    <includes refid="query__planner_8h" local="no">query_planner.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_query_planner_1a857e79fa498aba733b3ed2b8e69bfc2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::QueryPlanner::QueryPlanner</definition>
+        <argsstring>()=default</argsstring>
+        <name>QueryPlanner</name>
+        <qualifiedname>themis::evaluation::QueryPlanner::QueryPlanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="257" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_query_planner_1a1320c6690a842a05b6dac40e42e65120" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::evaluation::QueryPlanner::~QueryPlanner</definition>
+        <argsstring>()=default</argsstring>
+        <name>~QueryPlanner</name>
+        <qualifiedname>themis::evaluation::QueryPlanner::~QueryPlanner</qualifiedname>
+        <briefdescription>
+<para>Query Planner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="262" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_query_planner_1a341b22b620f58e4c03c28a8a42997af4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::QueryPlanner::QueryPlanner</definition>
+        <argsstring>(const QueryPlanner &amp;)=delete</argsstring>
+        <name>QueryPlanner</name>
+        <qualifiedname>themis::evaluation::QueryPlanner::QueryPlanner</qualifiedname>
+        <param>
+          <type>const QueryPlanner &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="264" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_query_planner_1a214ca1aaee23e0944815bab29a9ec208" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_query_planner_1a857e79fa498aba733b3ed2b8e69bfc2a" kindref="member">QueryPlanner</ref> &amp;</type>
+        <definition>QueryPlanner &amp; themis::evaluation::QueryPlanner::operator=</definition>
+        <argsstring>(const QueryPlanner &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::QueryPlanner::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_query_planner_1a857e79fa498aba733b3ed2b8e69bfc2a" kindref="member">QueryPlanner</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="265" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_query_planner_1a09647479584b209c08733fac45a1d4a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::QueryPlanner::QueryPlanner</definition>
+        <argsstring>(QueryPlanner &amp;&amp;)=delete</argsstring>
+        <name>QueryPlanner</name>
+        <qualifiedname>themis::evaluation::QueryPlanner::QueryPlanner</qualifiedname>
+        <param>
+          <type>QueryPlanner &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="266" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_query_planner_1a2041c3b31c0ef85a2e3a9d4706fd4c26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_query_planner_1a857e79fa498aba733b3ed2b8e69bfc2a" kindref="member">QueryPlanner</ref> &amp;</type>
+        <definition>QueryPlanner &amp; themis::evaluation::QueryPlanner::operator=</definition>
+        <argsstring>(QueryPlanner &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::QueryPlanner::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1evaluation_1_1_query_planner_1a857e79fa498aba733b3ed2b8e69bfc2a" kindref="member">QueryPlanner</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="267" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_query_planner_1a26e40d112fd1fbde3abf0c7fc5372a90" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_planner_decision" kindref="compound">PlannerDecision</ref></type>
+        <definition>virtual PlannerDecision themis::evaluation::QueryPlanner::selectPath</definition>
+        <argsstring>(const ExecutionEligibility &amp;eligibility, const TensorArtifactFreshness &amp;freshness, const PlannerConfig &amp;config) const noexcept=0</argsstring>
+        <name>selectPath</name>
+        <qualifiedname>themis::evaluation::QueryPlanner::selectPath</qualifiedname>
+        <reimplementedby refid="classthemis_1_1evaluation_1_1_default_query_planner_1afe6c6f7f5ff91b637f66dffb15a01797">selectPath</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_execution_eligibility" kindref="compound">ExecutionEligibility</ref> &amp;</type>
+          <declname>eligibility</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness" kindref="compound">TensorArtifactFreshness</ref> &amp;</type>
+          <declname>freshness</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_planner_config" kindref="compound">PlannerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="269" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_query_planner_1ad0eb3ee7e6c1b35bb2db0841b10f2434" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::evaluation::QueryPlanner::isKernelEligibleForGpu</definition>
+        <argsstring>(KernelCategory category, const ExecutionEligibility &amp;eligibility) noexcept</argsstring>
+        <name>isKernelEligibleForGpu</name>
+        <qualifiedname>themis::evaluation::QueryPlanner::isKernelEligibleForGpu</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170a" kindref="member">KernelCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_execution_eligibility" kindref="compound">ExecutionEligibility</ref> &amp;</type>
+          <declname>eligibility</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="274" column="18" bodyfile="src/evaluation/include/query_planner.h" bodystart="274" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::evaluation::DefaultQueryPlanner</label>
+        <link refid="classthemis_1_1evaluation_1_1_default_query_planner"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::evaluation::QueryPlanner</label>
+        <link refid="classthemis_1_1evaluation_1_1_query_planner"/>
+      </node>
+    </inheritancegraph>
+    <location file="src/evaluation/include/query_planner.h" line="255" column="1" bodyfile="src/evaluation/include/query_planner.h" bodystart="255" bodyend="280"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1ad0eb3ee7e6c1b35bb2db0841b10f2434" prot="public" virt="non-virtual"><scope>themis::evaluation::QueryPlanner</scope><name>isKernelEligibleForGpu</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a214ca1aaee23e0944815bab29a9ec208" prot="public" virt="non-virtual"><scope>themis::evaluation::QueryPlanner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a2041c3b31c0ef85a2e3a9d4706fd4c26" prot="public" virt="non-virtual"><scope>themis::evaluation::QueryPlanner</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a857e79fa498aba733b3ed2b8e69bfc2a" prot="public" virt="non-virtual"><scope>themis::evaluation::QueryPlanner</scope><name>QueryPlanner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a341b22b620f58e4c03c28a8a42997af4" prot="public" virt="non-virtual"><scope>themis::evaluation::QueryPlanner</scope><name>QueryPlanner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a09647479584b209c08733fac45a1d4a2" prot="public" virt="non-virtual"><scope>themis::evaluation::QueryPlanner</scope><name>QueryPlanner</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a26e40d112fd1fbde3abf0c7fc5372a90" prot="public" virt="pure-virtual"><scope>themis::evaluation::QueryPlanner</scope><name>selectPath</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_query_planner_1a1320c6690a842a05b6dac40e42e65120" prot="public" virt="virtual"><scope>themis::evaluation::QueryPlanner</scope><name>~QueryPlanner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

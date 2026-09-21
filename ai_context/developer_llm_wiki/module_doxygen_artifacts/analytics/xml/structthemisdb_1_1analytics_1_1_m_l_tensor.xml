@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_m_l_tensor" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::MLTensor</compoundname>
+    <includes refid="ml__serving_8h" local="no">ml_serving.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_tensor_1ac35265396fd953b2d6c7c3430fc6a343" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::MLTensor::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::analytics::MLTensor::name</qualifiedname>
+        <briefdescription>
+<para>Tensor name (must match model input/output name). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="79" column="28" bodyfile="include/analytics/ml_serving.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_tensor_1a515a3157ad47e9bd3c3c6e642731286a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themisdb::analytics::MLTensor::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <qualifiedname>themisdb::analytics::MLTensor::shape</qualifiedname>
+        <briefdescription>
+<para>Dimensions, e.g. {batch_size, num_features}. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="80" column="19" bodyfile="include/analytics/ml_serving.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_m_l_tensor_1ae18683c8d7227bff450d58e4c5bfec43" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themisdb::analytics::MLTensor::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::analytics::MLTensor::data</qualifiedname>
+        <briefdescription>
+<para>Row-major float32 values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="81" column="21" bodyfile="include/analytics/ml_serving.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_m_l_tensor_1a976962dba1d2e1577eacee705e637710" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::analytics::MLTensor::numElements</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>numElements</name>
+        <qualifiedname>themisdb::analytics::MLTensor::numElements</qualifiedname>
+        <briefdescription>
+<para>Num Elements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="88" column="17" bodyfile="src/analytics/ml_serving.cpp" bodystart="80" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/ml_serving.h" line="78" column="1" bodyfile="include/analytics/ml_serving.h" bodystart="78" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1ae18683c8d7227bff450d58e4c5bfec43" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLTensor</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1ac35265396fd953b2d6c7c3430fc6a343" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLTensor</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1a976962dba1d2e1577eacee705e637710" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLTensor</scope><name>numElements</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_m_l_tensor_1a515a3157ad47e9bd3c3c6e642731286a" prot="public" virt="non-virtual"><scope>themisdb::analytics::MLTensor</scope><name>shape</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

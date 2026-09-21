@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_dbscan_config" kind="struct" language="C++" prot="public">
+    <compoundname>DbscanConfig</compoundname>
+    <includes refid="geo__clustering_8h" local="no">geo_clustering.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_dbscan_config_1aa1587c2d311fb22f837693808c8b3ed3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::DbscanConfig::epsilon_m</definition>
+        <argsstring></argsstring>
+        <name>epsilon_m</name>
+        <qualifiedname>DbscanConfig::epsilon_m</qualifiedname>
+        <initializer>{500.0}</initializer>
+        <briefdescription>
+<para>Neighbourhood radius in metres (ε). Must be &gt; 0. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="52" column="12" bodyfile="include/geo/geo_clustering.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_dbscan_config_1a07bd4d1aebb7770b5ff46994304379d0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::DbscanConfig::min_points</definition>
+        <argsstring></argsstring>
+        <name>min_points</name>
+        <qualifiedname>DbscanConfig::min_points</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum number of points (including the core point itself) required to form a dense neighbourhood. Must be ≥ 1. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_clustering.h" line="55" column="17" bodyfile="include/geo/geo_clustering.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the DBSCAN geo clustering algorithm. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>DBSCAN groups nearby points into clusters based on density. Points that are not reachable from any core point are labeled as noise. </para>
+    </detaileddescription>
+    <location file="include/geo/geo_clustering.h" line="50" column="1" bodyfile="include/geo/geo_clustering.h" bodystart="50" bodyend="56"/>
+    <listofallmembers>
+      <member refid="struct_dbscan_config_1aa1587c2d311fb22f837693808c8b3ed3" prot="public" virt="non-virtual"><scope>DbscanConfig</scope><name>epsilon_m</name></member>
+      <member refid="struct_dbscan_config_1a07bd4d1aebb7770b5ff46994304379d0" prot="public" virt="non-virtual"><scope>DbscanConfig</scope><name>min_points</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

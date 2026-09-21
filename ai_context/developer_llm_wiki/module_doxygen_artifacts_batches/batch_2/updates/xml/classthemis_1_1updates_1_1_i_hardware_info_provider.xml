@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_i_hardware_info_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::updates::IHardwareInfoProvider</compoundname>
+    <derivedcompoundref refid="classthemis_1_1updates_1_1_system_hardware_info_provider" prot="public" virt="non-virtual">themis::updates::SystemHardwareInfoProvider</derivedcompoundref>
+    <includes refid="hardware__telemetry_8h" local="no">hardware_telemetry.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_hardware_info_provider_1ad0008773eb125360d433e995d33417aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::updates::IHardwareInfoProvider::~IHardwareInfoProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IHardwareInfoProvider</name>
+        <qualifiedname>themis::updates::IHardwareInfoProvider::~IHardwareInfoProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="198" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_hardware_info_provider_1aee0cf7aa558ec84b29d9814dad347f73" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::updates::IHardwareInfoProvider::cpuModel</definition>
+        <argsstring>() const =0</argsstring>
+        <name>cpuModel</name>
+        <qualifiedname>themis::updates::IHardwareInfoProvider::cpuModel</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_system_hardware_info_provider_1a445e920b49ddb4e7b2c5ec90a56f4587">cpuModel</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>CPU model name (e.g. &quot;Intel Core i7-12700K&quot;), empty if unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="201" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_hardware_info_provider_1a06887204fc79bbf4e96325c4bb3f5124" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>unsigned int</type>
+        <definition>virtual unsigned int themis::updates::IHardwareInfoProvider::cpuCores</definition>
+        <argsstring>() const =0</argsstring>
+        <name>cpuCores</name>
+        <qualifiedname>themis::updates::IHardwareInfoProvider::cpuCores</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_system_hardware_info_provider_1a89ce5f74fb1f52010561d7ace78c8c6e">cpuCores</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Logical CPU core count, 0 if unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="204" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_hardware_info_provider_1a08f64b1bcc846c5db6274d4e8665b741" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::updates::IHardwareInfoProvider::totalRamMb</definition>
+        <argsstring>() const =0</argsstring>
+        <name>totalRamMb</name>
+        <qualifiedname>themis::updates::IHardwareInfoProvider::totalRamMb</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_system_hardware_info_provider_1a2b38f05ef817ea3a386f50edffd7db35">totalRamMb</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Total RAM in megabytes, 0 if unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="207" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_hardware_info_provider_1a9c1b7d84e84a6047122a1b24479ccc12" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::updates::IHardwareInfoProvider::osFamily</definition>
+        <argsstring>() const =0</argsstring>
+        <name>osFamily</name>
+        <qualifiedname>themis::updates::IHardwareInfoProvider::osFamily</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_system_hardware_info_provider_1a8bbf9545c884ddad496cea0186c7d9c7">osFamily</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>OS family string (&quot;Linux&quot;, &quot;Windows&quot;, &quot;macOS&quot;, &quot;Unknown&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="210" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_hardware_info_provider_1af445f840f0d9fe46e535732c05154e8c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::updates::IHardwareInfoProvider::cpuArch</definition>
+        <argsstring>() const =0</argsstring>
+        <name>cpuArch</name>
+        <qualifiedname>themis::updates::IHardwareInfoProvider::cpuArch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_system_hardware_info_provider_1a6495aa2a3e925384c0b7ab931427f2b0">cpuArch</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>CPU architecture string (&quot;x86_64&quot;, &quot;aarch64&quot;, …). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="213" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for querying host hardware facts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The default production implementation reads /proc/cpuinfo, /proc/meminfo, and uname(2) on POSIX systems, and the Win32 API on Windows. Tests inject a mock that returns canned values without touching the real OS. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::updates::IHardwareInfoProvider</label>
+        <link refid="classthemis_1_1updates_1_1_i_hardware_info_provider"/>
+      </node>
+      <node id="2">
+        <label>themis::updates::SystemHardwareInfoProvider</label>
+        <link refid="classthemis_1_1updates_1_1_system_hardware_info_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/updates/hardware_telemetry.h" line="196" column="1" bodyfile="include/updates/hardware_telemetry.h" bodystart="196" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_i_hardware_info_provider_1af445f840f0d9fe46e535732c05154e8c" prot="public" virt="pure-virtual"><scope>themis::updates::IHardwareInfoProvider</scope><name>cpuArch</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_hardware_info_provider_1a06887204fc79bbf4e96325c4bb3f5124" prot="public" virt="pure-virtual"><scope>themis::updates::IHardwareInfoProvider</scope><name>cpuCores</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_hardware_info_provider_1aee0cf7aa558ec84b29d9814dad347f73" prot="public" virt="pure-virtual"><scope>themis::updates::IHardwareInfoProvider</scope><name>cpuModel</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_hardware_info_provider_1a9c1b7d84e84a6047122a1b24479ccc12" prot="public" virt="pure-virtual"><scope>themis::updates::IHardwareInfoProvider</scope><name>osFamily</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_hardware_info_provider_1a08f64b1bcc846c5db6274d4e8665b741" prot="public" virt="pure-virtual"><scope>themis::updates::IHardwareInfoProvider</scope><name>totalRamMb</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_hardware_info_provider_1ad0008773eb125360d433e995d33417aa" prot="public" virt="virtual"><scope>themis::updates::IHardwareInfoProvider</scope><name>~IHardwareInfoProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

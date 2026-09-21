@@ -1,0 +1,542 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1attention_1_1_flash_attention" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::attention::FlashAttention</compoundname>
+    <includes refid="flash__attention_8h" local="no">flash_attention.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a277579080339c86dff57ec0fc3f36d78" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref></type>
+        <definition>Backend themis::llm::attention::FlashAttention::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="185" column="13" bodyfile="include/llm/attention/flash_attention.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1aa8c38747f47344c22d015b0f512a7ead" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kindref="compound">FlashAttentionConfig</ref></type>
+        <definition>FlashAttentionConfig themis::llm::attention::FlashAttention::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="186" column="26" bodyfile="include/llm/attention/flash_attention.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1afdd362dca6d6150586e1be5fd97f4cf2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention" kindref="compound">IFlashAttention</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IFlashAttention&gt; themis::llm::attention::FlashAttention::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="187" column="21" bodyfile="include/llm/attention/flash_attention.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a7c72c061735e0d8add2382110611b895" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::FlashAttention::FlashAttention</definition>
+        <argsstring>(Backend backend, const FlashAttentionConfig &amp;config)</argsstring>
+        <name>FlashAttention</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::FlashAttention</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kindref="compound">FlashAttentionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="124" column="5" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="269" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1abea3e54f121807a584e130e8c052de12" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::FlashAttention::~FlashAttention</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~FlashAttention</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::~FlashAttention</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="126" column="5" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="286" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a87a4057d4e74c2c42512efa88e5b73cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::FlashAttention::forward</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, Tensor &amp;O, const KVCacheManager *kv_cache=nullptr)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::forward</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>O</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager" kindref="compound">KVCacheManager</ref> *</type>
+          <declname>kv_cache</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">O</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kv_cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements forward without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="128" column="12" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="309" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1aa878ca02877d587b4ee9aa16ff7f5558" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+        <definition>Status themis::llm::attention::FlashAttention::backward</definition>
+        <argsstring>(const Tensor &amp;dO, Tensor &amp;dQ, Tensor &amp;dK, Tensor &amp;dV)</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::backward</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dO</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dQ</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dK</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>dV</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dQ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dV</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dQ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">dV</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements backward without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="144" column="12" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="331" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1aaccf46b89738f416bc28c7ff0face037" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::attention::FlashAttention::getBackendName</definition>
+        <argsstring>() const</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::getBackendName</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="168" column="17" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="420" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a27548fdc67d85d12502cce16ee310aa2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" kindref="compound">FlashAttentionConfig</ref> &amp;</type>
+        <definition>const FlashAttentionConfig &amp; themis::llm::attention::FlashAttention::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="170" column="32" bodyfile="include/llm/attention/flash_attention.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a6c57638f4faeec5f11e2511ffb0b841a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" kindref="compound">AttentionMemoryStats</ref></type>
+        <definition>AttentionMemoryStats themis::llm::attention::FlashAttention::getMemoryStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::getMemoryStats</qualifiedname>
+        <briefdescription>
+<para>Get Memory Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="176" column="26" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="427" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1af9f925248ec66091c17e9533fe03fd38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::llm::attention::FlashAttention::getExpectedSpeedup</definition>
+        <argsstring>() const</argsstring>
+        <name>getExpectedSpeedup</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::getExpectedSpeedup</qualifiedname>
+        <briefdescription>
+<para>Get Expected Speedup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="182" column="12" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="445" bodyend="465"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1ae26851a7d66710bb9859423406fcd308" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref></type>
+        <definition>Backend themis::llm::attention::FlashAttention::selectBestBackend</definition>
+        <argsstring>()</argsstring>
+        <name>selectBestBackend</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::selectBestBackend</qualifiedname>
+        <briefdescription>
+<para>Select Best <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1aabc88e33ddccbea0e7f3684d96ac69e7" kindref="member">isBackendAvailable()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="155" column="20" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="348" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1aabc88e33ddccbea0e7f3684d96ac69e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::FlashAttention::isBackendAvailable</definition>
+        <argsstring>(Backend backend)</argsstring>
+        <name>isBackendAvailable</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::isBackendAvailable</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Is <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref> Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1attention_1_1cuda_1_1_flash_attention_c_u_d_a_1ac645e68e40283099b4f64845eabd8510" kindref="member">cuda::FlashAttentionCUDA::isAvailable()</ref>, <ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ae67f46afceca241098cd213d300f29b6" kindref="member">vulkan::FlashAttentionVulkan::isAvailable()</ref>, <ref refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1ae63714215696218d07c8600044e8eadd" kindref="member">hip::FlashAttentionHIP::isAvailable()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="162" column="17" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="383" bodyend="418"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1ad6fcfdab65797c9548365e1547c55467" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref></type>
+        <definition>Backend themis::llm::attention::FlashAttention::detectCUDABackend</definition>
+        <argsstring>()</argsstring>
+        <name>detectCUDABackend</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::detectCUDABackend</qualifiedname>
+        <briefdescription>
+<para>Detect CUDABackend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1attention_1_1cuda_1_1_flash_attention_c_u_d_a_1a036b2126eedb86d1497c642815588a31" kindref="member">cuda::FlashAttentionCUDA::getComputeCapability()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="194" column="20" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="516" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1ac8c6d0ed76fb5b3240e20ffaeeec8dd9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref></type>
+        <definition>Backend themis::llm::attention::FlashAttention::detectVulkanBackend</definition>
+        <argsstring>()</argsstring>
+        <name>detectVulkanBackend</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::detectVulkanBackend</qualifiedname>
+        <briefdescription>
+<para>Detect Vulkan <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1attention_1_1vulkan_1_1_flash_attention_vulkan_1ae67f46afceca241098cd213d300f29b6" kindref="member">vulkan::FlashAttentionVulkan::isAvailable()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="199" column="20" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="537" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1af747b0231b4c96e4a543bd457b780cc1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref></type>
+        <definition>Backend themis::llm::attention::FlashAttention::detectHIPBackend</definition>
+        <argsstring>()</argsstring>
+        <name>detectHIPBackend</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::detectHIPBackend</qualifiedname>
+        <briefdescription>
+<para>Detect HIPBackend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1attention_1_1hip_1_1_flash_attention_h_i_p_1ae63714215696218d07c8600044e8eadd" kindref="member">hip::FlashAttentionHIP::isAvailable()</ref>, hipGetDeviceProperties(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="204" column="20" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="550" bodyend="568"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a904c215e0d8bccd1637cbeeba953fd9f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention" kindref="compound">IFlashAttention</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IFlashAttention &gt; themis::llm::attention::FlashAttention::createBackend</definition>
+        <argsstring>(Backend backend)</argsstring>
+        <name>createBackend</name>
+        <qualifiedname>themis::llm::attention::FlashAttention::createBackend</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Create <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements createBackend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="212" column="21" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="474" bodyend="509"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/flash_attention.h" line="122" column="1" bodyfile="include/llm/attention/flash_attention.h" bodystart="122" bodyend="213"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a277579080339c86dff57ec0fc3f36d78" prot="private" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1aa878ca02877d587b4ee9aa16ff7f5558" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1aa8c38747f47344c22d015b0f512a7ead" prot="private" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a904c215e0d8bccd1637cbeeba953fd9f" prot="private" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>createBackend</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1ad6fcfdab65797c9548365e1547c55467" prot="private" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>detectCUDABackend</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1af747b0231b4c96e4a543bd457b780cc1" prot="private" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>detectHIPBackend</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1ac8c6d0ed76fb5b3240e20ffaeeec8dd9" prot="private" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>detectVulkanBackend</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a7c72c061735e0d8add2382110611b895" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>FlashAttention</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a87a4057d4e74c2c42512efa88e5b73cf" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1aaccf46b89738f416bc28c7ff0face037" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>getBackendName</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a27548fdc67d85d12502cce16ee310aa2" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1af9f925248ec66091c17e9533fe03fd38" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>getExpectedSpeedup</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1a6c57638f4faeec5f11e2511ffb0b841a" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1afdd362dca6d6150586e1be5fd97f4cf2" prot="private" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1aabc88e33ddccbea0e7f3684d96ac69e7" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>isBackendAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1ae26851a7d66710bb9859423406fcd308" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>selectBestBackend</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_1abea3e54f121807a584e130e8c052de12" prot="public" virt="non-virtual"><scope>themis::llm::attention::FlashAttention</scope><name>~FlashAttention</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

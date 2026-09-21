@@ -1,0 +1,887 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::observability::test</compoundname>
+    <innerclass refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" prot="public">themis::observability::test::ProvenanceStoreTest</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" prot="public">themis::observability::test::ReplicationTracingIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" prot="public">themis::observability::test::ShardingTracingIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" prot="public">themis::observability::test::TransactionTracingIntegrationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, StoreAndRetrieveSingleRecord)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>StoreAndRetrieveSingleRecord</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="68" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="68" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a6dccfbcb7c622bf9769713ac18d0a872" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, RetrieveNonexistentRecord)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>RetrieveNonexistentRecord</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="84" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="84" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a10d0b736f57434553c61d0afc5d17122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, StoreAndQueryProvenanceChain)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>StoreAndQueryProvenanceChain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="93" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="93" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1ab96d587e00d08643f5fac70882dc3e5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, ChainOrderingByStepNumber)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>ChainOrderingByStepNumber</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="113" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="113" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a69121ffb34c84ed54e84ed1f408e2b92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, QueryByTimeRange)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>QueryByTimeRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="133" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="133" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a8f33fcb08e2c09448a9ded76e5c3ed45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, TimeRangeIncludesEndpoints)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>TimeRangeIncludesEndpoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="154" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="154" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a6519ed2e914043a565d84e8c39ba4837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, ListQueryIds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>ListQueryIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="174" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="174" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a06acc301845b35afe246506d471ac444" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, DeleteQuery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>DeleteQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="191" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="191" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a0f082a6f098e265014d5932a90e57fe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, FlushWrites)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>FlushWrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="211" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="211" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a8f0ee5e99e112ece280b409af62ad020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, MultipleQueriesIndependent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleQueriesIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="227" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="227" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a49ddced4097c9445a20f5d51423d6e13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, RetentionMaxRecordsKeepsMostRecentRecords)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>RetentionMaxRecordsKeepsMostRecentRecords</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="251" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="251" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1aa4429f1134d1f66e89fe9f92ed355e67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ProvenanceStoreTest, RetentionMaxAgePrunesOldRecordsOnWrite)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_provenance_store_test" kindref="compound">ProvenanceStoreTest</ref></type>
+        </param>
+        <param>
+          <type>RetentionMaxAgePrunesOldRecordsOnWrite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_provenance_store.cpp" line="267" column="1" bodyfile="tests/observability/test_provenance_store.cpp" bodystart="267" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1ab01dd858f4f1493c828ece33a19e0bf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, ShipToReplicaSpanCreation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ShipToReplicaSpanCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_001: shipToReplica span creation with lag context </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="51" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="51" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1ad7e6ca4345c1ef6bef8deb916bcb235b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, WALShippingSequence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>WALShippingSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_002: WAL shipping event sequencing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="75" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="75" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a1067fb9a7714603bad851c86214aed8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, LagQuantileTracking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LagQuantileTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_003: Replication lag quantile tracking in spans </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="107" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="107" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a723aa38960fd1ecf22471af79ab39036" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, CrossRegionShipping)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CrossRegionShipping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_004: Cross-region WAL shipping trace </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="135" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="135" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a4570fc73168c2de6882d499514e29e02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, FailoverDetectionPattern)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>FailoverDetectionPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_005: Failover detection event pattern </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="169" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="169" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1ae8298d06587e8ec341b60ad008a77cdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, LagSpikeDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LagSpikeDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_006: Lag spike detection and trace annotation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="201" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="201" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a8c03cef9495ec5d641bcedffed98fd86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, MultiReplicaDistribution)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>MultiReplicaDistribution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_007: Multi-replica write distribution </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="234" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="234" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a16d807badabe08681f891f40032c6441" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, BackpressureHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BackpressureHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_008: Backpressure handling in spans </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="262" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="262" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1aa0d207bd378d7cd8497df67f5c2b9fe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, RecoveryHierarchy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RecoveryHierarchy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_009: Recovery verification span hierarchy </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="292" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="292" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1acb6e449d0846f3b0808ba4805fa2c834" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ReplicationTracingIntegrationTest, LagAlertThreshold)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_replication_tracing_integration_test" kindref="compound">ReplicationTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>LagAlertThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>REP_TRACE_010: Lag alert decision threshold tracing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_replication.cpp" line="319" column="1" bodyfile="tests/observability/test_tracing_integration_replication.cpp" bodystart="319" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a24bb8faa5dfc3ef6af8abd0c17139cba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, RouteWriteSpanCreation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RouteWriteSpanCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_001: routeWrite span creation with shard context baggage </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="51" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="51" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a541e9873bed74f9e4fa6dc34032666bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, ExactPathGateTransition)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ExactPathGateTransition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_002: Exact-path gate transition tracing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="74" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="74" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1ae9fd8f6046d4f3d72dcf34c158638c48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, TopologyChangeEventRecording)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>TopologyChangeEventRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_003: Topology change event recording </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="101" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="101" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a5f7def55390bc0c4d176456edc78a12c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, RebalanceSpanHierarchy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RebalanceSpanHierarchy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_004: Rebalance operation span hierarchy </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="131" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="131" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1ad9fb87e167cb19961ac86ff2abf8c87a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, MultiShardDistribution)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>MultiShardDistribution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_005: Multi-shard write distribution tracing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="161" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="161" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a601a1ba923d94f50395e3c80d7bdb80c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, ShardDiscoveryLatency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ShardDiscoveryLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_006: Shard discovery latency in spans </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="190" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="190" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a9fcd5497acd9e570c59600536bf4f778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, StallDetectionPattern)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StallDetectionPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_007: Stall detection event pattern </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="219" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="219" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a87978325147b256205d1006b7e5b1e69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, TopologyRefreshTrigger)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>TopologyRefreshTrigger</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_008: Topology refresh trigger tracing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="248" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="248" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a0995e7bffa72373035f56d0d9332fa64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, ParentCoordinatorReference)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ParentCoordinatorReference</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_009: Parent span reference from coordinator </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="274" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="274" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1ad221acba64f0ca6bff588e334f6f3e5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(ShardingTracingIntegrationTest, BaggagePropagationAcrossShards)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BaggagePropagationAcrossShards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SHARD_TRACE_010: Baggage propagation across shards </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_sharding.cpp" line="300" column="1" bodyfile="tests/observability/test_tracing_integration_sharding.cpp" bodystart="300" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a6b85690e44151d491df44d63a0cb0d7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, BeginTxnSpanCreation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BeginTxnSpanCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_001: beginTxn span creation with baggage propagation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="60" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="60" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a2334aca973d92b1da22341d0b80a861d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, NestedSpanHierarchy)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>NestedSpanHierarchy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_002: Nested beginTxn → commitTxn span hierarchy </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="92" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="92" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1acfa4caffae672201c283ba47f62c9a69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, SAGARetrySpanTracking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SAGARetrySpanTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_003: SAGA retry span tracking </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="121" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="121" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a24db98346843c398603bba1a270a6e8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, TransactionTimeoutPattern)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>TransactionTimeoutPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_004: Transaction timeout failure trace pattern </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="161" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="161" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a70d3580d3068bd271ca36f2cc30dab6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, ByzantineFailurePattern)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ByzantineFailurePattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_005: Byzantine failure detection in trace </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="187" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="187" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1aa797b743515a27d9409c2b03afd49dc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, ParentChildSpanLinking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ParentChildSpanLinking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_006: Parent-child span linking verification </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="215" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="215" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a1842a63a9d088dcd14da4c339f2db21f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, CrossShardPropagation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CrossShardPropagation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_007: Cross-shard transaction trace propagation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="244" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="244" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a67acd4c43798e3068d1c51646be2c055" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, BaggageInheritance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BaggageInheritance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_008: Baggage inheritance verification </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="270" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="270" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1a81c63c7137f89cdecf979ae813305a3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, PerformanceOverheadWithin2Percent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>PerformanceOverheadWithin2Percent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_009: Zero performance regression (≤2% overhead) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="299" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="299" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1observability_1_1test_1ae7c7b3761adeed64677c5165f4f75fdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::test::TEST_F</definition>
+        <argsstring>(TransactionTracingIntegrationTest, EventRecordingDuringPhases)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::observability::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1test_1_1_transaction_tracing_integration_test" kindref="compound">TransactionTracingIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>EventRecordingDuringPhases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TXN_TRACE_010: Event recording during transaction phases </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_tracing_integration_transaction.cpp" line="344" column="1" bodyfile="tests/observability/test_tracing_integration_transaction.cpp" bodystart="344" bodyend="369"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/observability/test_provenance_store.cpp" line="17" column="38"/>
+  </compounddef>
+</doxygen>

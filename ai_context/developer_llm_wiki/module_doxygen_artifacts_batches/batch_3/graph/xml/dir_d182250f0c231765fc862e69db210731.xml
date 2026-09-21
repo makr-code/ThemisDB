@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d182250f0c231765fc862e69db210731" kind="dir">
+    <compoundname>src/graph</compoundname>
+    <innerfile refid="adjacency__list_8cpp">adjacency_list.cpp</innerfile>
+    <innerfile refid="distributed__graph_8cpp">distributed_graph.cpp</innerfile>
+    <innerfile refid="explain__plan_8cpp">explain_plan.cpp</innerfile>
+    <innerfile refid="gpu__traversal_8cpp">gpu_traversal.cpp</innerfile>
+    <innerfile refid="graph__error__taxonomy_8cpp">graph_error_taxonomy.cpp</innerfile>
+    <innerfile refid="graph__phase__gate__orchestrator_8cpp">graph_phase_gate_orchestrator.cpp</innerfile>
+    <innerfile refid="graph__query__cache_8cpp">graph_query_cache.cpp</innerfile>
+    <innerfile refid="graph__query__optimizer_8cpp">graph_query_optimizer.cpp</innerfile>
+    <innerfile refid="graph__query__rewriter_8cpp">graph_query_rewriter.cpp</innerfile>
+    <innerfile refid="graph__watermark_8cpp">graph_watermark.cpp</innerfile>
+    <innerfile refid="knowledge__graph__reasoner_8cpp">knowledge_graph_reasoner.cpp</innerfile>
+    <innerfile refid="ontology__manager_8cpp">ontology_manager.cpp</innerfile>
+    <innerfile refid="parallel__traversal_8cpp">parallel_traversal.cpp</innerfile>
+    <innerfile refid="path__constraints_8cpp">path_constraints.cpp</innerfile>
+    <innerfile refid="rotate__completion_8cpp">rotate_completion.cpp</innerfile>
+    <innerfile refid="scheduled__edge__refresh_8cpp">scheduled_edge_refresh.cpp</innerfile>
+    <innerfile refid="tensor__deduplication__manager_8cpp">tensor_deduplication_manager.cpp</innerfile>
+    <innerfile refid="tensor__fingerprint__graph_8cpp">tensor_fingerprint_graph.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/graph/"/>
+  </compounddef>
+</doxygen>

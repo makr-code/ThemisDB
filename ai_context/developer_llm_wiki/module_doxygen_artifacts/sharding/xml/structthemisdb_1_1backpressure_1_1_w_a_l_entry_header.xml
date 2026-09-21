@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::backpressure::WALEntryHeader</compoundname>
+    <includes refid="backpressure__protocol_8h" local="no">backpressure_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a682cc4b265e5f71ae985248f4fec132a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::WALEntryHeader::magic</definition>
+        <argsstring></argsstring>
+        <name>magic</name>
+        <qualifiedname>themisdb::backpressure::WALEntryHeader::magic</qualifiedname>
+        <initializer>= 0x54484D57</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="314" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a71b59fb057afa64ea33a69878eeaf188" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::WALEntryHeader::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themisdb::backpressure::WALEntryHeader::version</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="315" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1accfcf0a7f5f9b230f7da8be3791943f2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::WALEntryHeader::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themisdb::backpressure::WALEntryHeader::sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="316" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1afac3ac07f93b498f882856f3d08f8411" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::WALEntryHeader::timestamp_us</definition>
+        <argsstring></argsstring>
+        <name>timestamp_us</name>
+        <qualifiedname>themisdb::backpressure::WALEntryHeader::timestamp_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="317" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1ac92332167ba96619e18f0cad3682c8c1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::WALEntryHeader::payload_length</definition>
+        <argsstring></argsstring>
+        <name>payload_length</name>
+        <qualifiedname>themisdb::backpressure::WALEntryHeader::payload_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="318" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1aadd7cd63150ef34240282862fe3ecf0b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::WALEntryHeader::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::backpressure::WALEntryHeader::checksum</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="319" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a8d32c2633596a6196e43bc37c2cec6ad" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::backpressure::WALEntryHeader::SIZE</definition>
+        <argsstring></argsstring>
+        <name>SIZE</name>
+        <qualifiedname>themisdb::backpressure::WALEntryHeader::SIZE</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="321" column="29" bodyfile="include/sharding/backpressure_protocol.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a2be45994f27f67ae821f3d5183901b76" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::backpressure::WALEntryHeader::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::backpressure::WALEntryHeader::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="323" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a7b0c998356a8de872b7c58b28788af8a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header" kindref="compound">WALEntryHeader</ref> &gt;</type>
+        <definition>static std::optional&lt; WALEntryHeader &gt; themisdb::backpressure::WALEntryHeader::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::backpressure::WALEntryHeader::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="324" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>WAL entry header </para>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="313" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="313" bodyend="325"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1aadd7cd63150ef34240282862fe3ecf0b" prot="public" virt="non-virtual"><scope>themisdb::backpressure::WALEntryHeader</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a7b0c998356a8de872b7c58b28788af8a" prot="public" virt="non-virtual"><scope>themisdb::backpressure::WALEntryHeader</scope><name>deserialize</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a682cc4b265e5f71ae985248f4fec132a" prot="public" virt="non-virtual"><scope>themisdb::backpressure::WALEntryHeader</scope><name>magic</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1ac92332167ba96619e18f0cad3682c8c1" prot="public" virt="non-virtual"><scope>themisdb::backpressure::WALEntryHeader</scope><name>payload_length</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1accfcf0a7f5f9b230f7da8be3791943f2" prot="public" virt="non-virtual"><scope>themisdb::backpressure::WALEntryHeader</scope><name>sequence_number</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a2be45994f27f67ae821f3d5183901b76" prot="public" virt="non-virtual"><scope>themisdb::backpressure::WALEntryHeader</scope><name>serialize</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a8d32c2633596a6196e43bc37c2cec6ad" prot="public" virt="non-virtual"><scope>themisdb::backpressure::WALEntryHeader</scope><name>SIZE</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1afac3ac07f93b498f882856f3d08f8411" prot="public" virt="non-virtual"><scope>themisdb::backpressure::WALEntryHeader</scope><name>timestamp_us</name></member>
+      <member refid="structthemisdb_1_1backpressure_1_1_w_a_l_entry_header_1a71b59fb057afa64ea33a69878eeaf188" prot="public" virt="non-virtual"><scope>themisdb::backpressure::WALEntryHeader</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

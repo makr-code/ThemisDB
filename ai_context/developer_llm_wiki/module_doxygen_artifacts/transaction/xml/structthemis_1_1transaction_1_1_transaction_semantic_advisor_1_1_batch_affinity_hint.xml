@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint</compoundname>
+    <includes refid="transaction__semantic__advisor_8h" local="no">transaction_semantic_advisor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1afb8ba113c6fcce91fafc6c8508d714af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint::primary_tx_id</definition>
+        <argsstring></argsstring>
+        <name>primary_tx_id</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint::primary_tx_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="60" column="21" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1a939415385952f163a6ed275a1c063270" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint::affine_tx_ids</definition>
+        <argsstring></argsstring>
+        <name>affine_tx_ids</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint::affine_tx_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="62" column="21" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1a0660437869b23fc6dfb1a19deae587ee" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint::conflict_probability</definition>
+        <argsstring></argsstring>
+        <name>conflict_probability</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint::conflict_probability</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="64" column="16" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1ae83c59eeb4e413cc6fad379a8b73d4fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="66" column="21" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_semantic_advisor.h" line="59" column="5" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="59" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1a939415385952f163a6ed275a1c063270" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint</scope><name>affine_tx_ids</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1a0660437869b23fc6dfb1a19deae587ee" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint</scope><name>conflict_probability</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1afb8ba113c6fcce91fafc6c8508d714af" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint</scope><name>primary_tx_id</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1ae83c59eeb4e413cc6fad379a8b73d4fe" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

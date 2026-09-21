@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_warmup_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::WarmupResult</compoundname>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_warmup_result_1a079d00652b4289c86083b0a7609b9b6f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::WarmupResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::cache::WarmupResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="132" column="17" bodyfile="include/cache/cache_interfaces.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_warmup_result_1a7496572c7e35af98436efdad8df43620" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::WarmupResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::cache::WarmupResult::error</qualifiedname>
+        <briefdescription>
+<para>Non-empty when ok == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="133" column="17" bodyfile="include/cache/cache_interfaces.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_warmup_result_1aa7bada7c6f3460458bcf653a05c7b6c7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_warmup_stats" kindref="compound">WarmupStats</ref></type>
+        <definition>WarmupStats themis::cache::WarmupResult::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::cache::WarmupResult::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="134" column="17" bodyfile="include/cache/cache_interfaces.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::cache::WarmupResult</label>
+        <link refid="structthemis_1_1cache_1_1_warmup_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::WarmupStats</label>
+        <link refid="structthemis_1_1cache_1_1_warmup_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cache/cache_interfaces.h" line="131" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="131" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_warmup_result_1a7496572c7e35af98436efdad8df43620" prot="public" virt="non-virtual"><scope>themis::cache::WarmupResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1cache_1_1_warmup_result_1a079d00652b4289c86083b0a7609b9b6f" prot="public" virt="non-virtual"><scope>themis::cache::WarmupResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1cache_1_1_warmup_result_1aa7bada7c6f3460458bcf653a05c7b6c7" prot="public" virt="non-virtual"><scope>themis::cache::WarmupResult</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

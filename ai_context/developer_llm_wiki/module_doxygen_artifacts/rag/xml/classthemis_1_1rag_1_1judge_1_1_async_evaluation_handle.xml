@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::AsyncEvaluationHandle</compoundname>
+    <includes refid="batch__evaluator_8h" local="no">batch_evaluator.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1ad1634b592085b404bbe730b18a2b58f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class BatchEvaluator</definition>
+        <argsstring></argsstring>
+        <name>BatchEvaluator</name>
+        <qualifiedname>themis::rag::judge::AsyncEvaluationHandle::BatchEvaluator</qualifiedname>
+        <param>
+          <type>BatchEvaluator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="127" column="18" bodyfile="include/rag/batch_evaluator.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1a234cc65714d18e69d8d3d9014333f220" prot="private" static="no" mutable="no">
+        <type>std::future&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt;</type>
+        <definition>std::future&lt;EvaluationResult&gt; themis::rag::judge::AsyncEvaluationHandle::future_</definition>
+        <argsstring></argsstring>
+        <name>future_</name>
+        <qualifiedname>themis::rag::judge::AsyncEvaluationHandle::future_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="128" column="17" bodyfile="include/rag/batch_evaluator.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1a3d1ac1759a6d4f88eeed186e61886deb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::rag::judge::AsyncEvaluationHandle::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::rag::judge::AsyncEvaluationHandle::cancelled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="129" column="17" bodyfile="include/rag/batch_evaluator.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1af31b78177826fc1c2b7e904802802dd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::AsyncEvaluationHandle::isDone</definition>
+        <argsstring>() const</argsstring>
+        <name>isDone</name>
+        <qualifiedname>themis::rag::judge::AsyncEvaluationHandle::isDone</qualifiedname>
+        <briefdescription>
+<para>Check if evaluation is complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if done </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="105" column="10" bodyfile="src/rag/batch_evaluator.cpp" bodystart="188" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1ad02025e87c9452e670916852c46e19e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::AsyncEvaluationHandle::wait</definition>
+        <argsstring>(std::chrono::milliseconds timeout=std::chrono::milliseconds::max())</argsstring>
+        <name>wait</name>
+        <qualifiedname>themis::rag::judge::AsyncEvaluationHandle::wait</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds::max()</defval>
+        </param>
+        <briefdescription>
+<para>Wait for evaluation to complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wait.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if completed within timeout</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), std::chrono::milliseconds::max(), wait_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="112" column="10" bodyfile="src/rag/batch_evaluator.cpp" bodystart="202" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1a55ca816ddbb96f91ed44881e7333cea4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::judge::AsyncEvaluationHandle::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::rag::judge::AsyncEvaluationHandle::get</qualifiedname>
+        <briefdescription>
+<para>Get evaluation result (blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get.</para>
+<para><simplesect kind="return"><para>Evaluation result </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if evaluation failed</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), wait_for(), THEMIS_WARN(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="119" column="22" bodyfile="src/rag/batch_evaluator.cpp" bodystart="219" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1aee3d1f70fed030e969a88df9b938765d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::AsyncEvaluationHandle::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::rag::judge::AsyncEvaluationHandle::cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="124" column="10" bodyfile="src/rag/batch_evaluator.cpp" bodystart="252" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Async evaluation handle. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/batch_evaluator.h" line="99" column="1" bodyfile="include/rag/batch_evaluator.h" bodystart="99" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1ad1634b592085b404bbe730b18a2b58f3" prot="private" virt="non-virtual"><scope>themis::rag::judge::AsyncEvaluationHandle</scope><name>BatchEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1aee3d1f70fed030e969a88df9b938765d" prot="public" virt="non-virtual"><scope>themis::rag::judge::AsyncEvaluationHandle</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1a3d1ac1759a6d4f88eeed186e61886deb" prot="private" virt="non-virtual"><scope>themis::rag::judge::AsyncEvaluationHandle</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1a234cc65714d18e69d8d3d9014333f220" prot="private" virt="non-virtual"><scope>themis::rag::judge::AsyncEvaluationHandle</scope><name>future_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1a55ca816ddbb96f91ed44881e7333cea4" prot="public" virt="non-virtual"><scope>themis::rag::judge::AsyncEvaluationHandle</scope><name>get</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1af31b78177826fc1c2b7e904802802dd8" prot="public" virt="non-virtual"><scope>themis::rag::judge::AsyncEvaluationHandle</scope><name>isDone</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle_1ad02025e87c9452e670916852c46e19e7" prot="public" virt="non-virtual"><scope>themis::rag::judge::AsyncEvaluationHandle</scope><name>wait</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

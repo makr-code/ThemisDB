@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_spatial_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SpatialPlan</compoundname>
+    <includes refid="geospatial__optimizer__hints_8h" local="no">geospatial_optimizer_hints.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_plan_1a7187eebc7c6fade66c5796156dd07c08" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SpatialPlan::predicateId</definition>
+        <argsstring></argsstring>
+        <name>predicateId</name>
+        <qualifiedname>themis::query::SpatialPlan::predicateId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="55" column="17" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_spatial_plan_1ab4cc8bf91086b5cbbd1736c0b577af45" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_spatial_hint" kindref="compound">SpatialHint</ref> &gt;</type>
+        <definition>std::vector&lt;SpatialHint&gt; themis::query::SpatialPlan::hints</definition>
+        <argsstring></argsstring>
+        <name>hints</name>
+        <qualifiedname>themis::query::SpatialPlan::hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="56" column="17" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_plan_1a160ac1062eda75ccf05316bd86b0d5a8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::SpatialPlan::hasHint</definition>
+        <argsstring>(SpatialHintType type) const</argsstring>
+        <name>hasHint</name>
+        <qualifiedname>themis::query::SpatialPlan::hasHint</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1af1ea3b158d67f26263789a47f033ca33" kindref="member">SpatialHintType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Has Hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="63" column="10" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="69" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_plan_1aae0785980c0d9fb669ba853c1b8d0b7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_spatial_hint" kindref="compound">SpatialHint</ref> *</type>
+        <definition>const SpatialHint * themis::query::SpatialPlan::getHint</definition>
+        <argsstring>(SpatialHintType type) const</argsstring>
+        <name>getHint</name>
+        <qualifiedname>themis::query::SpatialPlan::getHint</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1af1ea3b158d67f26263789a47f033ca33" kindref="member">SpatialHintType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get Hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="70" column="23" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="78" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_plan_1add96952b7cb24efa5f143712d49f67ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::SpatialPlan::addHint</definition>
+        <argsstring>(const SpatialHint &amp;hint)</argsstring>
+        <name>addHint</name>
+        <qualifiedname>themis::query::SpatialPlan::addHint</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_spatial_hint" kindref="compound">SpatialHint</ref> &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Add Hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValid(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="76" column="10" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="92" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_spatial_plan_1a6992572376f5ad50ff95e15b7d5e7a92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::SpatialPlan::getCostAdjustmentFactor</definition>
+        <argsstring>() const</argsstring>
+        <name>getCostAdjustmentFactor</name>
+        <qualifiedname>themis::query::SpatialPlan::getCostAdjustmentFactor</qualifiedname>
+        <briefdescription>
+<para>Get Cost Adjustment Factor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_optimizer_hints.h" line="82" column="12" bodyfile="src/query/geospatial_optimizer_hints.cpp" bodystart="98" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_optimizer_hints.h" line="54" column="1" bodyfile="include/query/geospatial_optimizer_hints.h" bodystart="54" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_spatial_plan_1add96952b7cb24efa5f143712d49f67ea" prot="public" virt="non-virtual"><scope>themis::query::SpatialPlan</scope><name>addHint</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_plan_1a6992572376f5ad50ff95e15b7d5e7a92" prot="public" virt="non-virtual"><scope>themis::query::SpatialPlan</scope><name>getCostAdjustmentFactor</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_plan_1aae0785980c0d9fb669ba853c1b8d0b7a" prot="public" virt="non-virtual"><scope>themis::query::SpatialPlan</scope><name>getHint</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_plan_1a160ac1062eda75ccf05316bd86b0d5a8" prot="public" virt="non-virtual"><scope>themis::query::SpatialPlan</scope><name>hasHint</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_plan_1ab4cc8bf91086b5cbbd1736c0b577af45" prot="public" virt="non-virtual"><scope>themis::query::SpatialPlan</scope><name>hints</name></member>
+      <member refid="structthemis_1_1query_1_1_spatial_plan_1a7187eebc7c6fade66c5796156dd07c08" prot="public" virt="non-virtual"><scope>themis::query::SpatialPlan</scope><name>predicateId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

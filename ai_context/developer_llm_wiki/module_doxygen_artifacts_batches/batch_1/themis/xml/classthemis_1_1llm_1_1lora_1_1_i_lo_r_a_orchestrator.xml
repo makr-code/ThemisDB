@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::lora::ILoRAOrchestrator</compoundname>
+    <includes refid="lora__orchestrator__interface_8h" local="no">lora_orchestrator_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a50b996362baf9fedd31bae754c587859" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::ILoRAOrchestrator::~ILoRAOrchestrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILoRAOrchestrator</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::~ILoRAOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="22" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae8fd765ceb838c6ec5d3bf1989a9d5bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::lora::ILoRAOrchestrator::createAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const TrainingData &amp;data, const LoRAHyperparameters &amp;params, bool async)=0</argsstring>
+        <name>createAdapter</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::createAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const TrainingData &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const LoRAHyperparameters &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>async</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="23" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a83afc0bf432e975f031eb215a08339c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_job_info" kindref="compound">LoRAJobInfo</ref> &gt;</type>
+        <definition>virtual std::optional&lt; LoRAJobInfo &gt; themis::llm::lora::ILoRAOrchestrator::getJob</definition>
+        <argsstring>(const std::string &amp;job_id)=0</argsstring>
+        <name>getJob</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::getJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="27" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ade183065f68c7bfc178577a677a5a44c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::lora::ILoRAOrchestrator::isLoaded</definition>
+        <argsstring>(const std::string &amp;adapter_id) const =0</argsstring>
+        <name>isLoaded</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::isLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="28" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae781fe70228f31cad3c6fabe470b2db8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::lora::ILoRAOrchestrator::loadAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, bool async)=0</argsstring>
+        <name>loadAdapter</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::loadAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>async</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="29" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a4504adc6e503f20eb07fb9c82e8ee98a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::lora::ILoRAOrchestrator::verifyAuditChain</definition>
+        <argsstring>(const std::string &amp;adapter_id) const =0</argsstring>
+        <name>verifyAuditChain</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::verifyAuditChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="30" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a068bd40cfd542e910a16803696b6d99b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>virtual std::optional&lt; nlohmann::json &gt; themis::llm::lora::ILoRAOrchestrator::getAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id) const =0</argsstring>
+        <name>getAdapter</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::getAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="33" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a53f38ed3418ff8fbaf9c1aaf45f3693f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>virtual std::vector&lt; nlohmann::json &gt; themis::llm::lora::ILoRAOrchestrator::searchAdapters</definition>
+        <argsstring>(const nlohmann::json &amp;criteria) const =0</argsstring>
+        <name>searchAdapters</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::searchAdapters</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>criteria</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="34" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1aec7030d2a694557e4056e79825f97c3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::llm::lora::ILoRAOrchestrator::getVersions</definition>
+        <argsstring>(const std::string &amp;adapter_id) const =0</argsstring>
+        <name>getVersions</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::getVersions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="35" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a311383188dabfea87cd39a668e6ba084" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>virtual std::optional&lt; nlohmann::json &gt; themis::llm::lora::ILoRAOrchestrator::getProvenanceRecord</definition>
+        <argsstring>(const std::string &amp;adapter_id) const =0</argsstring>
+        <name>getProvenanceRecord</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::getProvenanceRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="36" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae53c0e888c038c706d6cebc33f070f2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>virtual std::vector&lt; nlohmann::json &gt; themis::llm::lora::ILoRAOrchestrator::getInferenceAuditLog</definition>
+        <argsstring>(const std::string &amp;adapter_id) const =0</argsstring>
+        <name>getInferenceAuditLog</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::getInferenceAuditLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="37" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a020b10a00f74ae4a79725df3777c2e79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>virtual std::vector&lt; nlohmann::json &gt; themis::llm::lora::ILoRAOrchestrator::listAdapterSnapshots</definition>
+        <argsstring>(const std::string &amp;adapter_id) const =0</argsstring>
+        <name>listAdapterSnapshots</name>
+        <qualifiedname>themis::llm::lora::ILoRAOrchestrator::listAdapterSnapshots</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/lora_orchestrator_interface.h" line="38" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/lora_orchestrator_interface.h" line="20" column="1" bodyfile="include/themis/llm/lora_orchestrator_interface.h" bodystart="20" bodyend="39"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae8fd765ceb838c6ec5d3bf1989a9d5bf" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>createAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a068bd40cfd542e910a16803696b6d99b" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>getAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae53c0e888c038c706d6cebc33f070f2b" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>getInferenceAuditLog</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a83afc0bf432e975f031eb215a08339c9" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>getJob</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a311383188dabfea87cd39a668e6ba084" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>getProvenanceRecord</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1aec7030d2a694557e4056e79825f97c3e" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>getVersions</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ade183065f68c7bfc178577a677a5a44c" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>isLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a020b10a00f74ae4a79725df3777c2e79" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>listAdapterSnapshots</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1ae781fe70228f31cad3c6fabe470b2db8" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>loadAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a53f38ed3418ff8fbaf9c1aaf45f3693f" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>searchAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a4504adc6e503f20eb07fb9c82e8ee98a" prot="public" virt="pure-virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>verifyAuditChain</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator_1a50b996362baf9fedd31bae754c587859" prot="public" virt="virtual"><scope>themis::llm::lora::ILoRAOrchestrator</scope><name>~ILoRAOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

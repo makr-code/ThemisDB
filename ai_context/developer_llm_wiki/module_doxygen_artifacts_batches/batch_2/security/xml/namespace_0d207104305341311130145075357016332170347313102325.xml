@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d207104305341311130145075357016332170347313102325" kind="namespace" language="C++">
+    <compoundname>@207104305341311130145075357016332170347313102325</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_mtls_authenticator.cpp" line="12" column="1"/>
+  </compounddef>
+</doxygen>

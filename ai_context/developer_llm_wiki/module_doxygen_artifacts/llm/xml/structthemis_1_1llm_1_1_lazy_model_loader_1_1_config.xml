@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LazyModelLoader::Config</compoundname>
+    <includes refid="model__loader_8h" local="no">model_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a738079d39b625d907a673d96879f5576" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::Config::max_vram_mb</definition>
+        <argsstring></argsstring>
+        <name>max_vram_mb</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::max_vram_mb</qualifiedname>
+        <initializer>= 24576</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="96" column="16" bodyfile="include/llm/model_loader.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a63d6f898eea4fce23a9dba4b98897d0b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::Config::max_ram_mb</definition>
+        <argsstring></argsstring>
+        <name>max_ram_mb</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::max_ram_mb</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="97" column="16" bodyfile="include/llm/model_loader.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1ac22734912463f59a17683ab0ff02bfd9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LazyModelLoader::Config::max_models</definition>
+        <argsstring></argsstring>
+        <name>max_models</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::max_models</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="100" column="16" bodyfile="include/llm/model_loader.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a8cb16bc051b660f8c662cbab2faa0bca" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::LazyModelLoader::Config::model_ttl</definition>
+        <argsstring></argsstring>
+        <name>model_ttl</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::model_ttl</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="101" column="30" bodyfile="include/llm/model_loader.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a9043ea1c150d1a755f730607c109e564" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::Config::enable_lazy_load</definition>
+        <argsstring></argsstring>
+        <name>enable_lazy_load</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::enable_lazy_load</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="102" column="14" bodyfile="include/llm/model_loader.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a72437a3a6752aae3cd4aa8b5697529af" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LazyModelLoader::Config::default_n_gpu_layers</definition>
+        <argsstring></argsstring>
+        <name>default_n_gpu_layers</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::default_n_gpu_layers</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="105" column="13" bodyfile="include/llm/model_loader.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1ad6096fea62fe943fbc86a6ddfd961028" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LazyModelLoader::Config::default_n_ctx</definition>
+        <argsstring></argsstring>
+        <name>default_n_ctx</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::default_n_ctx</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="106" column="13" bodyfile="include/llm/model_loader.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a5bc90a86cdbcc348b594dd8df98db976" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::Config::use_mmap</definition>
+        <argsstring></argsstring>
+        <name>use_mmap</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::use_mmap</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="107" column="14" bodyfile="include/llm/model_loader.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a438416d68d2a4663c7a4124077882bf1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::Config::prefer_custom_gguf_loader</definition>
+        <argsstring></argsstring>
+        <name>prefer_custom_gguf_loader</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::prefer_custom_gguf_loader</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="110" column="14" bodyfile="include/llm/model_loader.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1aa04ddf0309400a8203c7d022dee7cc7a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::Config::fallback_to_native</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_native</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::fallback_to_native</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="111" column="14" bodyfile="include/llm/model_loader.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1af47c861a3efbf89497f2aeb12a639f07" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LazyModelLoader::Config::require_model_integrity</definition>
+        <argsstring></argsstring>
+        <name>require_model_integrity</name>
+        <qualifiedname>themis::llm::LazyModelLoader::Config::require_model_integrity</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_loader.h" line="114" column="14" bodyfile="include/llm/model_loader.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_loader.h" line="94" column="5" bodyfile="include/llm/model_loader.h" bodystart="94" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1ad6096fea62fe943fbc86a6ddfd961028" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>default_n_ctx</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a72437a3a6752aae3cd4aa8b5697529af" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>default_n_gpu_layers</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a9043ea1c150d1a755f730607c109e564" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>enable_lazy_load</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1aa04ddf0309400a8203c7d022dee7cc7a" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>fallback_to_native</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1ac22734912463f59a17683ab0ff02bfd9" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>max_models</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a63d6f898eea4fce23a9dba4b98897d0b" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>max_ram_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a738079d39b625d907a673d96879f5576" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>max_vram_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a8cb16bc051b660f8c662cbab2faa0bca" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>model_ttl</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a438416d68d2a4663c7a4124077882bf1" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>prefer_custom_gguf_loader</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1af47c861a3efbf89497f2aeb12a639f07" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>require_model_integrity</name></member>
+      <member refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config_1a5bc90a86cdbcc348b594dd8df98db976" prot="public" virt="non-virtual"><scope>themis::llm::LazyModelLoader::Config</scope><name>use_mmap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

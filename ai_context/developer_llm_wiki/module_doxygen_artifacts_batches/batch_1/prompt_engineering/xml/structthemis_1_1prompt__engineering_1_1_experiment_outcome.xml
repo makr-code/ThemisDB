@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_experiment_outcome" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ExperimentOutcome</compoundname>
+    <includes refid="prompt__ab__experiment_8h" local="no">prompt_ab_experiment.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a02602b9e365f36eb239f00bf848a3c7f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ExperimentOutcome::experiment_id</definition>
+        <argsstring></argsstring>
+        <name>experiment_id</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentOutcome::experiment_id</qualifiedname>
+        <briefdescription>
+<para>Parent experiment ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="120" column="17" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a42ed5039f5e931778b29a6b5007c6289" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1abb835094aeb3decb5b2a1cd322f5ae49" kindref="member">ExperimentVariant</ref></type>
+        <definition>ExperimentVariant themis::prompt_engineering::ExperimentOutcome::variant</definition>
+        <argsstring></argsstring>
+        <name>variant</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentOutcome::variant</qualifiedname>
+        <briefdescription>
+<para>Which side of the experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="121" column="23" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a4526cfd1cd42134f4f8823fcbc07b594" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ExperimentOutcome::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentOutcome::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Quality score (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="122" column="12" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1aa2794a1116caba889a65209a663485c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ExperimentOutcome::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentOutcome::request_id</qualifiedname>
+        <briefdescription>
+<para>Originating request ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="123" column="17" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1af02dc260416a4cd0c70c00e3eb995d67" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::ExperimentOutcome::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentOutcome::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="124" column="43" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a0c9fd3eb951c6e44e7a6c056d1e998c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::ExperimentOutcome::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::ExperimentOutcome::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="127" column="20" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="122" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single scored observation for one variant of an experiment. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h" line="119" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="119" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a02602b9e365f36eb239f00bf848a3c7f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentOutcome</scope><name>experiment_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1aa2794a1116caba889a65209a663485c1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentOutcome</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a4526cfd1cd42134f4f8823fcbc07b594" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentOutcome</scope><name>score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1af02dc260416a4cd0c70c00e3eb995d67" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentOutcome</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a0c9fd3eb951c6e44e7a6c056d1e998c8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentOutcome</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_experiment_outcome_1a42ed5039f5e931778b29a6b5007c6289" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ExperimentOutcome</scope><name>variant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

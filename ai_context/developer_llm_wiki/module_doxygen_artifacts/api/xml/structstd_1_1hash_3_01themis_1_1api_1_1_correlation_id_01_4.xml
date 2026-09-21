@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstd_1_1hash_3_01themis_1_1api_1_1_correlation_id_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::hash&lt; themis::api::CorrelationId &gt;</compoundname>
+    <includes refid="correlation__id_8h" local="no">correlation_id.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1hash_3_01themis_1_1api_1_1_correlation_id_01_4_1a91859c6b63606094e8955520b85e7f13" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t std::hash&lt; themis::api::CorrelationId &gt;::operator()</definition>
+        <argsstring>(const themis::api::CorrelationId &amp;id) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>std::hash&lt; themis::api::CorrelationId &gt;::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1api_1_1_correlation_id" kindref="compound">themis::api::CorrelationId</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/correlation_id.h" line="198" column="17" bodyfile="include/api/correlation_id.h" bodystart="198" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/correlation_id.h" line="197" column="1" bodyfile="include/api/correlation_id.h" bodystart="197" bodyend="207"/>
+    <listofallmembers>
+      <member refid="structstd_1_1hash_3_01themis_1_1api_1_1_correlation_id_01_4_1a91859c6b63606094e8955520b85e7f13" prot="public" virt="non-virtual"><scope>std::hash&lt; themis::api::CorrelationId &gt;</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

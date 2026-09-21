@@ -1,0 +1,643 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_auth_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::AuthError</compoundname>
+    <includes refid="auth__error_8h" local="no">auth_error.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_error_1a6a6d7e31f5d43291fac1233c2f534198" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref></type>
+        <definition>AuthErrorCode themis::auth::AuthError::code_</definition>
+        <argsstring></argsstring>
+        <name>code_</name>
+        <qualifiedname>themis::auth::AuthError::code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="213" column="19" bodyfile="include/auth/auth_error.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_error_1a674cb2f0616bba8cdfacd2e354e133e3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::public_message_</definition>
+        <argsstring></argsstring>
+        <name>public_message_</name>
+        <qualifiedname>themis::auth::AuthError::public_message_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="214" column="17" bodyfile="include/auth/auth_error.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_error_1a9b3012db60736cededc0c897cd80b0fb" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::internal_message_</definition>
+        <argsstring></argsstring>
+        <name>internal_message_</name>
+        <qualifiedname>themis::auth::AuthError::internal_message_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="215" column="17" bodyfile="include/auth/auth_error.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_error_1a91f92be80181a1a21da0d2e42907acdd" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::request_id_</definition>
+        <argsstring></argsstring>
+        <name>request_id_</name>
+        <qualifiedname>themis::auth::AuthError::request_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="216" column="17" bodyfile="include/auth/auth_error.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_error_1a4f48ca389a1e960ad15d08318e0e38b1" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::AuthError::timestamp_</definition>
+        <argsstring></argsstring>
+        <name>timestamp_</name>
+        <qualifiedname>themis::auth::AuthError::timestamp_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="217" column="43" bodyfile="include/auth/auth_error.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_error_1afed5cd3c8145ec550604588564887264" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::seconds &gt;</type>
+        <definition>std::optional&lt;std::chrono::seconds&gt; themis::auth::AuthError::retry_after_</definition>
+        <argsstring></argsstring>
+        <name>retry_after_</name>
+        <qualifiedname>themis::auth::AuthError::retry_after_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="218" column="19" bodyfile="include/auth/auth_error.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a80aa85a2bdb83eaa0cad181ed20e7a1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthError::AuthError</definition>
+        <argsstring>(AuthErrorCode code, std::string public_message, std::string internal_message=&quot;&quot;, std::string request_id=&quot;&quot;)</argsstring>
+        <name>AuthError</name>
+        <qualifiedname>themis::auth::AuthError::AuthError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>public_message</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>internal_message</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>request_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="153" column="5" bodyfile="src/auth/auth_error.cpp" bodystart="26" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874" kindref="member">AuthErrorCode</ref></type>
+        <definition>AuthErrorCode themis::auth::AuthError::code</definition>
+        <argsstring>() const</argsstring>
+        <name>code</name>
+        <qualifiedname>themis::auth::AuthError::code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="160" column="19" bodyfile="include/auth/auth_error.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a6fdcebc03c68e669d0a98abfe53ab46d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::auth::AuthError::publicMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>publicMessage</name>
+        <qualifiedname>themis::auth::AuthError::publicMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="162" column="23" bodyfile="include/auth/auth_error.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1afaa895ef395f72dea8c9840421c5bbc5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::auth::AuthError::internalMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>internalMessage</name>
+        <qualifiedname>themis::auth::AuthError::internalMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="164" column="23" bodyfile="include/auth/auth_error.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a56f56e92b78f790d5fab54f1028f9bb4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::auth::AuthError::requestId</definition>
+        <argsstring>() const</argsstring>
+        <name>requestId</name>
+        <qualifiedname>themis::auth::AuthError::requestId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="166" column="23" bodyfile="include/auth/auth_error.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a3688acb99a9b6859c62bec93e9a1d039" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::AuthError::timestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::auth::AuthError::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="168" column="43" bodyfile="include/auth/auth_error.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a43950857cd1d6baac7b1a79adfc99d93" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthError::setRetryAfter</definition>
+        <argsstring>(std::chrono::seconds duration)</argsstring>
+        <name>setRetryAfter</name>
+        <qualifiedname>themis::auth::AuthError::setRetryAfter</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Set Retry After. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryAfter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="175" column="10" bodyfile="include/auth/auth_error.h" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1adeae7fc9de5ddc7c982a67b8926bdc23" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::chrono::seconds &gt;</type>
+        <definition>std::optional&lt; std::chrono::seconds &gt; themis::auth::AuthError::retryAfter</definition>
+        <argsstring>() const</argsstring>
+        <name>retryAfter</name>
+        <qualifiedname>themis::auth::AuthError::retryAfter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="179" column="19" bodyfile="include/auth/auth_error.h" bodystart="179" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a6adadbe51e0166c107fbac5f7d9d085b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::auth::AuthError::toPublicJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toPublicJSON</name>
+        <qualifiedname>themis::auth::AuthError::toPublicJSON</qualifiedname>
+        <briefdescription>
+<para>To Public JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="187" column="20" bodyfile="src/auth/auth_error.cpp" bodystart="39" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1ae05b76ec61d267ccf06e712f6861f371" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::auth::AuthError::toInternalJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toInternalJSON</name>
+        <qualifiedname>themis::auth::AuthError::toInternalJSON</qualifiedname>
+        <briefdescription>
+<para>To Internal JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="193" column="20" bodyfile="src/auth/auth_error.cpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1adc816f79fb74eadcd959422e3c000d1c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthError::logError</definition>
+        <argsstring>() const</argsstring>
+        <name>logError</name>
+        <qualifiedname>themis::auth::AuthError::logError</qualifiedname>
+        <briefdescription>
+<para>Log Error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="198" column="10" bodyfile="src/auth/auth_error.cpp" bodystart="62" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a50eb3993ee06e578bee825deea43b0e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_error_1a80aa85a2bdb83eaa0cad181ed20e7a1e" kindref="member">AuthError</ref></type>
+        <definition>AuthError themis::auth::AuthError::fromException</definition>
+        <argsstring>(const std::exception &amp;e, const std::string &amp;request_id=&quot;&quot;)</argsstring>
+        <name>fromException</name>
+        <qualifiedname>themis::auth::AuthError::fromException</qualifiedname>
+        <param>
+          <type>const std::exception &amp;</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>From Exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="200" column="22" bodyfile="src/auth/auth_error.cpp" bodystart="78" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a9244a2de5b8f85a80cafc15bf150504d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::maskSensitiveData</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>maskSensitiveData</name>
+        <qualifiedname>themis::auth::AuthError::maskSensitiveData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Mask Sensitive Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), it(), begin(), end(), append(), position(), masker(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="210" column="24" bodyfile="src/auth/auth_error.cpp" bodystart="108" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1aa5c85097a5fd6a7ad869ebb233ec90b5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::generateRequestId</definition>
+        <argsstring>()</argsstring>
+        <name>generateRequestId</name>
+        <qualifiedname>themis::auth::AuthError::generateRequestId</qualifiedname>
+        <briefdescription>
+<para>Generate Request Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: local_gen(), local_rd(), dis(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="224" column="24" bodyfile="src/auth/auth_error.cpp" bodystart="248" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1ae95d1a9fd910f3489f5b8482fdc26338" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::maskEmail</definition>
+        <argsstring>(const std::string &amp;email)</argsstring>
+        <name>maskEmail</name>
+        <qualifiedname>themis::auth::AuthError::maskEmail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>email</declname>
+        </param>
+        <briefdescription>
+<para>Mask Email. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">email</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">email</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), substr(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="230" column="24" bodyfile="src/auth/auth_error.cpp" bodystart="163" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1af04d89990aef6fd3db74b27749fe344f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::maskPrincipal</definition>
+        <argsstring>(const std::string &amp;principal)</argsstring>
+        <name>maskPrincipal</name>
+        <qualifiedname>themis::auth::AuthError::maskPrincipal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <briefdescription>
+<para>Mask Principal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="236" column="24" bodyfile="src/auth/auth_error.cpp" bodystart="186" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a737d36cddfe744e22eb9f1dbb126e934" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::maskFilePath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>maskFilePath</name>
+        <qualifiedname>themis::auth::AuthError::maskFilePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Mask File Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_last_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="242" column="24" bodyfile="src/auth/auth_error.cpp" bodystart="202" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a1bc8dbe3058c9d9c7467826ebabef3b5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::maskIPAddress</definition>
+        <argsstring>(const std::string &amp;ip)</argsstring>
+        <name>maskIPAddress</name>
+        <qualifiedname>themis::auth::AuthError::maskIPAddress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Mask IPAddress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="248" column="24" bodyfile="src/auth/auth_error.cpp" bodystart="218" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_error_1a35e6ebcdec40f5204fd3ff2e1500edd5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::AuthError::maskToken</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>maskToken</name>
+        <qualifiedname>themis::auth::AuthError::maskToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Mask Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: length(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="254" column="24" bodyfile="src/auth/auth_error.cpp" bodystart="234" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_error.h" line="151" column="1" bodyfile="include/auth/auth_error.h" bodystart="151" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a80aa85a2bdb83eaa0cad181ed20e7a1e" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>AuthError</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>code</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a6a6d7e31f5d43291fac1233c2f534198" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>code_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a50eb3993ee06e578bee825deea43b0e0" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>fromException</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1aa5c85097a5fd6a7ad869ebb233ec90b5" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>generateRequestId</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a9b3012db60736cededc0c897cd80b0fb" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>internal_message_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1afaa895ef395f72dea8c9840421c5bbc5" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>internalMessage</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1adc816f79fb74eadcd959422e3c000d1c" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>logError</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1ae95d1a9fd910f3489f5b8482fdc26338" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>maskEmail</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a737d36cddfe744e22eb9f1dbb126e934" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>maskFilePath</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a1bc8dbe3058c9d9c7467826ebabef3b5" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>maskIPAddress</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1af04d89990aef6fd3db74b27749fe344f" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>maskPrincipal</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a9244a2de5b8f85a80cafc15bf150504d" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>maskSensitiveData</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a35e6ebcdec40f5204fd3ff2e1500edd5" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>maskToken</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a674cb2f0616bba8cdfacd2e354e133e3" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>public_message_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a6fdcebc03c68e669d0a98abfe53ab46d" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>publicMessage</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a91f92be80181a1a21da0d2e42907acdd" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>request_id_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a56f56e92b78f790d5fab54f1028f9bb4" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>requestId</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1afed5cd3c8145ec550604588564887264" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>retry_after_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1adeae7fc9de5ddc7c982a67b8926bdc23" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>retryAfter</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a43950857cd1d6baac7b1a79adfc99d93" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>setRetryAfter</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a3688acb99a9b6859c62bec93e9a1d039" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>timestamp</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a4f48ca389a1e960ad15d08318e0e38b1" prot="private" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>timestamp_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1ae05b76ec61d267ccf06e712f6861f371" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>toInternalJSON</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_error_1a6adadbe51e0166c107fbac5f7d9d085b" prot="public" virt="non-virtual"><scope>themis::auth::AuthError</scope><name>toPublicJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

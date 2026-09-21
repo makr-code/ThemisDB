@@ -1,0 +1,489 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="governance__audit__integrity_8h" kind="file" language="C++">
+    <compoundname>governance_audit_integrity.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__audit__export__high__volume_8cpp" local="yes">benchmarks/governance/bench_audit_export_high_volume.cpp</includedby>
+    <includedby refid="audit__batch__writer_8h" local="yes">include/governance/audit_batch_writer.h</includedby>
+    <includedby refid="governance__audit__integrity_8cpp" local="yes">src/governance/governance_audit_integrity.cpp</includedby>
+    <includedby refid="test__audit__integrity_8cpp" local="yes">tests/governance/test_audit_integrity.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/governance/governance_audit_integrity.h</label>
+        <link refid="governance__audit__integrity_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/governance/bench_audit_export_high_volume.cpp</label>
+        <link refid="bench__audit__export__high__volume_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/governance/audit_batch_writer.h</label>
+        <link refid="audit__batch__writer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/governance/governance_audit_integrity.h</label>
+        <link refid="governance__audit__integrity_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/governance/audit_batch_writer.cpp</label>
+        <link refid="audit__batch__writer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/governance/governance_audit_integrity.cpp</label>
+        <link refid="governance__audit__integrity_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/governance/test_audit_integrity.cpp</label>
+        <link refid="test__audit__integrity_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1governance_1_1_signature_info" prot="public">themis::governance::SignatureInfo</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_immutable_audit_entry" prot="public">themis::governance::ImmutableAuditEntry</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_signer" prot="public">themis::governance::AuditSigner</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_tamper_incident" prot="public">themis::governance::TamperIncident</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_tamper_detector" prot="public">themis::governance::AuditTamperDetector</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_retention_policy" prot="public">themis::governance::AuditRetentionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_legal_hold" prot="public">themis::governance::LegalHold</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_retention_manager" prot="public">themis::governance::AuditRetentionManager</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_integrity_manager" prot="public">themis::governance::AuditIntegrityManager</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics" prot="private">themis::governance::AuditIntegrityManager::PerformanceMetrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="governance__audit__integrity_8h_1abf159e710db81ac470b7c21c9cfef5ee" prot="public" static="no">
+        <name>THEMIS_GOVERNANCE_AUDIT_INTEGRITY_H</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="25" column="9" bodyfile="include/governance/governance_audit_integrity.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Audit trail cryptographic signing, integrity verification, and chain-of-custody. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.48 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Critical Path 3: Audit Trail Integrity &amp; Immutability</para>
+</simplesect>
+This module provides:<itemizedlist>
+<listitem><para>Cryptographic signing of audit entries (SHA-256 with RSA/HMAC)</para>
+</listitem><listitem><para>Chain-of-custody: each entry includes hash of previous entry</para>
+</listitem><listitem><para>Key rotation support for signature verification</para>
+</listitem><listitem><para>Tamper detection: verify signatures and detect changes</para>
+</listitem><listitem><para>Integrity verification across time ranges</para>
+</listitem><listitem><para>Configurable retention policies with archival and legal hold</para>
+</listitem></itemizedlist>
+</para>
+<para>Latency targets:<itemizedlist>
+<listitem><para>Signing: ≤1ms per entry</para>
+</listitem><listitem><para>Verification: ≤10ms per entry</para>
+</listitem><listitem><para>Tamper detection accuracy: &gt;99% </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_GOVERNANCE_AUDIT_INTEGRITY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="governance__audit__integrity_8h_1abf159e710db81ac470b7c21c9cfef5ee" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_GOVERNANCE_AUDIT_INTEGRITY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">governance<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit<sp/>Entry<sp/>with<sp/>Integrity<sp/>Information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1governance_1_1_signature_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_signature_info" kindref="compound">SignatureInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1governance_1_1_signature_info_1a9409f50230518b5bf04ffc65dd225470" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_signature_info_1a9409f50230518b5bf04ffc65dd225470" kindref="member">signature</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base64-encoded<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1governance_1_1_signature_info_1ac786f88b6d75df16e7e01626e392c99f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_signature_info_1ac786f88b6d75df16e7e01626e392c99f" kindref="member">algorithm</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;HMAC-SHA256&quot;,<sp/>&quot;RSA-SHA256&quot;,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1governance_1_1_signature_info_1a98da319425c15fcfd80a9403f35de84c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_signature_info_1a98da319425c15fcfd80a9403f35de84c" kindref="member">signed_at_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>when<sp/>signed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1governance_1_1_signature_info_1a5be59508a133fb5f84abad96f1493757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_signature_info_1a5be59508a133fb5f84abad96f1493757" kindref="member">key_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ID<sp/>of<sp/>signing<sp/>key<sp/>(for<sp/>rotation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1governance_1_1_signature_info_1a5bb1ad5844e3ea2957a0620dd45e320d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_signature_info_1a5bb1ad5844e3ea2957a0620dd45e320d" kindref="member">previous_entry_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Chain-of-custody:<sp/>hash<sp/>of<sp/>previous<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1governance_1_1_signature_info_1a076e07e5662c007a8b93d723f17fb58b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_signature_info_1a076e07e5662c007a8b93d723f17fb58b" kindref="member">entry_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256<sp/>hash<sp/>of<sp/>this<sp/>entry<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_signature_info_1a7da2c972a1c06513b737792bd779d2c4" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_signature_info" kindref="compound">SignatureInfo</ref><sp/><ref refid="structthemis_1_1governance_1_1_signature_info_1a0c7433301168407a0f3984e6f36dc6e8" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1governance_1_1_immutable_audit_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>audit<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1aa23f4fb4b9c19e689ed128a7332877b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1aa23f4fb4b9c19e689ed128a7332877b9" kindref="member">entry_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>entry<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a3cbafc26c38422a060298ea350de98db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a3cbafc26c38422a060298ea350de98db" kindref="member">rule_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rule<sp/>being<sp/>operated<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a379fc026776e53538fff5c397d3981e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a379fc026776e53538fff5c397d3981e9" kindref="member">operation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;create&quot;,<sp/>&quot;update&quot;,<sp/>&quot;delete&quot;,<sp/>&quot;rollback&quot;,<sp/>&quot;verify&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1ac0d831d0cb4e934b9d4522e98c154a6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1ac0d831d0cb4e934b9d4522e98c154a6a" kindref="member">user</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>performing<sp/>the<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a95d79c18d91503c25def9261e6d693e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a95d79c18d91503c25def9261e6d693e9" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>operation<sp/>occurred</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1afcabed3f48ecf21dfb7798dc3a1bacbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1afcabed3f48ecf21dfb7798dc3a1bacbd" kindref="member">details</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Integrity<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1aa1fc03aa8178813169f519a7e129fdaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_signature_info" kindref="compound">SignatureInfo</ref><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1aa1fc03aa8178813169f519a7e129fdaa" kindref="member">signature_info</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cryptographic<sp/>signature<sp/>details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a063dec5e8d8024daf312662658330355" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a063dec5e8d8024daf312662658330355" kindref="member">entry_sequence_number</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequential<sp/>entry<sp/>number<sp/>(for<sp/>ordering)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1adb5896fe76584aad4f38072941bde4f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1adb5896fe76584aad4f38072941bde4f0" kindref="member">is_archived</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>archived</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a69ef163028fef0a5f98fe40ba51631b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a69ef163028fef0a5f98fe40ba51631b7" kindref="member">archive_timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>archived</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1governance_1_1_immutable_audit_entry_1ae1b644b71d8559c5158afbb0d2760ebc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1ae1b644b71d8559c5158afbb0d2760ebc" kindref="member">archive_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash<sp/>of<sp/>archive<sp/>(if<sp/>archived)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a4ca466e1e4ca504e440ca478d80b8b6b" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a4738d589b7228593216b9eb459399fdb" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1adeb8f56699d3365d8427dbead165a11c" kindref="member">verifyIntegrity</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit<sp/>Signer<sp/>-<sp/>Cryptographic<sp/>Signing<sp/>and<sp/>Verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1governance_1_1_audit_signer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_audit_signer_1a2f5f5ed65a463e6fa29362379f5c523a" kindref="member">AuditSigner</ref><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1governance_1_1_audit_signer_1ab1fd18248a3abad9b755ec0dd8052b3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1ab1fd18248a3abad9b755ec0dd8052b3f" kindref="member">SignatureAlgorithm</ref><sp/>{</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1governance_1_1_audit_signer_1ab1fd18248a3abad9b755ec0dd8052b3fa5d0256351c8faa8ba79724701023e8c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1ab1fd18248a3abad9b755ec0dd8052b3fa5d0256351c8faa8ba79724701023e8c1" kindref="member">HMAC_SHA256</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fast,<sp/>symmetric<sp/>(use<sp/>for<sp/>performance)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1governance_1_1_audit_signer_1ab1fd18248a3abad9b755ec0dd8052b3fa6022f09f0d53b9c5a989e590775d0b6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1ab1fd18248a3abad9b755ec0dd8052b3fa6022f09f0d53b9c5a989e590775d0b6d" kindref="member">RSA_SHA256</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Asymmetric<sp/>(use<sp/>for<sp/>compliance/non-repudiation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1a2f5f5ed65a463e6fa29362379f5c523a" kindref="member">AuditSigner</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1ab1fd18248a3abad9b755ec0dd8052b3f" kindref="member">SignatureAlgorithm</ref><sp/>algorithm,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>secret_key</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_signature_info" kindref="compound">SignatureInfo</ref><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1a83043dc22ac9a036309d62bfc004f41b" kindref="member">signEntry</ref>(</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>previous_entry_hash<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1ac12fa6cb57b5c5d722ec12382d647f1e" kindref="member">verifySignature</ref>(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_signature_info" kindref="compound">SignatureInfo</ref>&amp;<sp/>signature_info</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1governance_1_1_audit_signer_1a3050867f7b9e746f53641f98fc8b57a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1a3050867f7b9e746f53641f98fc8b57a8" kindref="member">getKeyId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key_id_;<sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1a84fc18d38fa8816a80c02138eaaff79b" kindref="member">getAlgorithmName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer_1ab1fd18248a3abad9b755ec0dd8052b3f" kindref="member">SignatureAlgorithm</ref><sp/>algorithm_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key_id_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>secret_key_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>computeSha256Hash(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>computeHmacSha256(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>computeRsaSha256(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyHmacSha256(</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>signature</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyRsaSha256(</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>signature</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit<sp/>Tamper<sp/>Detector<sp/>-<sp/>Detect<sp/>Alterations<sp/>and<sp/>Integrity<sp/>Violations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1governance_1_1_tamper_incident" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref><sp/>{</highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fec" kindref="member">TamperType</ref><sp/>{</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fecad0eb6b378baae0b4b64c2933674e61fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fecad0eb6b378baae0b4b64c2933674e61fc" kindref="member">INVALID_SIGNATURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entry<sp/>signature<sp/>doesn&apos;t<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca1076a45b2f5fe760fdddb4038f5fda10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca1076a45b2f5fe760fdddb4038f5fda10" kindref="member">BROKEN_CHAIN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Previous<sp/>entry<sp/>hash<sp/>doesn&apos;t<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fecaf16391370c3f8ee7b594c94f22924c8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fecaf16391370c3f8ee7b594c94f22924c8a" kindref="member">MISSING_ENTRY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gap<sp/>in<sp/>sequence<sp/>numbers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca1cfb76a7e18d0bb84884e46ea067ef60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca1cfb76a7e18d0bb84884e46ea067ef60" kindref="member">REORDERED_ENTRY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entries<sp/>out<sp/>of<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fecaeaedd764f88f3e0fe323b903b431ef08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fecaeaedd764f88f3e0fe323b903b431ef08" kindref="member">ALTERED_ENTRY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entry<sp/>content<sp/>changed<sp/>(hash<sp/>mismatch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca0d66a0be739637348589c95077cde692" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca0d66a0be739637348589c95077cde692" kindref="member">CLOCK_SKEW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Impossible<sp/>timestamps<sp/>(timestamp<sp/>&lt;<sp/>previous)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca9552e19e11361ca637f444c195885dc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca9552e19e11361ca637f444c195885dc6" kindref="member">KEY_ROTATION_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>rotation<sp/>verification<sp/>failed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204" refid="structthemis_1_1governance_1_1_tamper_incident_1ad915fa69d809902939aeb08eec547f85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ad915fa69d809902939aeb08eec547f85" kindref="member">incident_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>incident<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="structthemis_1_1governance_1_1_tamper_incident_1afa0f6165250949ae48c34192b9a1f05f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fec" kindref="member">TamperType</ref><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1afa0f6165250949ae48c34192b9a1f05f" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Type<sp/>of<sp/>tampering<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1governance_1_1_tamper_incident_1ae45d17fcdb9021aaec1ccafc1c620e49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ae45d17fcdb9021aaec1ccafc1c620e49" kindref="member">detected_at_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>tampering<sp/>was<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="structthemis_1_1governance_1_1_tamper_incident_1a2c34cc16e4ce3c9e87dc8f832551eba3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1a2c34cc16e4ce3c9e87dc8f832551eba3" kindref="member">tamper_entry_sequence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequence<sp/>number<sp/>of<sp/>tampered<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1governance_1_1_tamper_incident_1ad8ee3e562b796438f510c54bb9c574f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ad8ee3e562b796438f510c54bb9c574f5" kindref="member">tamper_entry_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ID<sp/>of<sp/>tampered<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="structthemis_1_1governance_1_1_tamper_incident_1ad4427ca459c8c23a9f54923905e4af59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ad4427ca459c8c23a9f54923905e4af59" kindref="member">evidence</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detailed<sp/>evidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="structthemis_1_1governance_1_1_tamper_incident_1aeb33d9c430690382a2abf950af99ed3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1aeb33d9c430690382a2abf950af99ed3a" kindref="member">affected_entry_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>affected<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="structthemis_1_1governance_1_1_tamper_incident_1ac653e50ce3e6234a5d196dfaa19351eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ac653e50ce3e6234a5d196dfaa19351eb" kindref="member">is_critical</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>True<sp/>if<sp/>core<sp/>audit<sp/>trail<sp/>corrupted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1aeb7816186795685622a956e2898b757e" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref><sp/><ref refid="structthemis_1_1governance_1_1_tamper_incident_1a21f3fec49231b4fb33ef6cd173c8d824" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1governance_1_1_audit_tamper_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_audit_tamper_detector" kindref="compound">AuditTamperDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TamperIncident&gt;<sp/><ref refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a082fadb084b97562c1da821fca4e22ab" kindref="member">verifyEntry</ref>(</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref>&amp;<sp/>signer,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;ImmutableAuditEntry&gt;&amp;<sp/>previous_entry<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TamperIncident&gt;<sp/><ref refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a910d3a280c97788bd9c2f027f8043018" kindref="member">verifyAuditTrail</ref>(</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ImmutableAuditEntry&gt;&amp;<sp/>entries,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref>&amp;<sp/>signer</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TamperIncident&gt;<sp/><ref refid="classthemis_1_1governance_1_1_audit_tamper_detector_1a9d56eac51ebec239cff218ecfa52f76d" kindref="member">verifyTimeRange</ref>(</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ImmutableAuditEntry&gt;&amp;<sp/>entries,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref>&amp;<sp/>signer,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_time_ms,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>end_time_ms</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_audit_tamper_detector_1abb84355af43271dbd4116bf3120f4b39" kindref="member">generateTamperReport</ref>(</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TamperIncident&gt;&amp;<sp/>incidents</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TamperIncident&gt;<sp/>checkSignatureValidity(</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref>&amp;<sp/>signer</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TamperIncident&gt;<sp/>checkChainOfCustody(</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>previous_entry</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TamperIncident&gt;<sp/>checkSequenceValidity(</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>previous_entry</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TamperIncident&gt;<sp/>checkTimestampValidity(</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>previous_entry</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audit<sp/>Retention<sp/>Policy<sp/>-<sp/>Enforce<sp/>Retention<sp/>and<sp/>Archival<sp/>Rules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1governance_1_1_audit_retention_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="320" refid="structthemis_1_1governance_1_1_audit_retention_policy_1a3e8a0674859a4bfc533fd33c3a27da0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1a3e8a0674859a4bfc533fd33c3a27da0f" kindref="member">policy_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>policy<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321" refid="structthemis_1_1governance_1_1_audit_retention_policy_1a229c7f5b9daebb5ef7e0e2ee94d8449e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1a229c7f5b9daebb5ef7e0e2ee94d8449e" kindref="member">retention_period_days</ref><sp/>=<sp/>2555;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>7<sp/>years<sp/>(2555<sp/>days)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322" refid="structthemis_1_1governance_1_1_audit_retention_policy_1a7f47c9bd9acb2a3a04f12dafa5bd41d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1a7f47c9bd9acb2a3a04f12dafa5bd41d2" kindref="member">archive_after_days</ref><sp/>=<sp/>365;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Archive<sp/>after<sp/>1<sp/>year</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323" refid="structthemis_1_1governance_1_1_audit_retention_policy_1aa30d89720fb376de116fe0bab295ced9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1aa30d89720fb376de116fe0bab295ced9" kindref="member">enable_legal_hold</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Support<sp/>legal<sp/>hold<sp/>override</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324" refid="structthemis_1_1governance_1_1_audit_retention_policy_1af210ef2df1e665241821628aad9df093" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1af210ef2df1e665241821628aad9df093" kindref="member">compress_on_archive</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compress<sp/>archived<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="structthemis_1_1governance_1_1_audit_retention_policy_1a4018141413aa5da622aa116f530fea51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1a4018141413aa5da622aa116f530fea51" kindref="member">archive_destination</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Where<sp/>to<sp/>store<sp/>archived<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326" refid="structthemis_1_1governance_1_1_audit_retention_policy_1a60d67da890b950ac4a0bee54284adbbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1a60d67da890b950ac4a0bee54284adbbd" kindref="member">created_at_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Policy<sp/>creation<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="structthemis_1_1governance_1_1_audit_retention_policy_1a111a7daa256e3193d823e4dfa90fe042" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1a111a7daa256e3193d823e4dfa90fe042" kindref="member">modified_at_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>modification<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328" refid="structthemis_1_1governance_1_1_audit_retention_policy_1ad7171009ddc891a67b83041647969136" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1ad7171009ddc891a67b83041647969136" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1a28a1e19d0a1dd51e713bf087a2f4d27a" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref><sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy_1a216b3c93d78e0ea79d01820201fb4d74" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343" refid="structthemis_1_1governance_1_1_legal_hold" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_legal_hold" kindref="compound">LegalHold</ref><sp/>{</highlight></codeline>
+<codeline lineno="344" refid="structthemis_1_1governance_1_1_legal_hold_1a2770e9b86ba77eea5587ff44a26e6956" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_legal_hold_1a2770e9b86ba77eea5587ff44a26e6956" kindref="member">hold_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>hold<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345" refid="structthemis_1_1governance_1_1_legal_hold_1a04c1921dd2a3179ea940d1761b8011d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_legal_hold_1a04c1921dd2a3179ea940d1761b8011d8" kindref="member">rule_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rule<sp/>ID<sp/>(optional,<sp/>for<sp/>targeted<sp/>holds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346" refid="structthemis_1_1governance_1_1_legal_hold_1acfcf60d9985b0f80bb50a45528a9ad53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_legal_hold_1acfcf60d9985b0f80bb50a45528a9ad53" kindref="member">initiated_by</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Who<sp/>initiated<sp/>the<sp/>hold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347" refid="structthemis_1_1governance_1_1_legal_hold_1a6ca3b7941b2094c593c255a5c7e1f5ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_legal_hold_1a6ca3b7941b2094c593c255a5c7e1f5ea" kindref="member">initiated_at_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>hold<sp/>was<sp/>initiated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348" refid="structthemis_1_1governance_1_1_legal_hold_1a546d8c499e81bcac474600cf02605e53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_legal_hold_1a546d8c499e81bcac474600cf02605e53" kindref="member">expire_at_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>hold<sp/>expires<sp/>(0<sp/>=<sp/>indefinite)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349" refid="structthemis_1_1governance_1_1_legal_hold_1afd72974994782bfe679a209d97045cb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_legal_hold_1afd72974994782bfe679a209d97045cb2" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reason<sp/>for<sp/>legal<sp/>hold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350" refid="structthemis_1_1governance_1_1_legal_hold_1a9016cd4bafe40cc93b158ddbff273217" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_legal_hold_1a9016cd4bafe40cc93b158ddbff273217" kindref="member">status</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;active&quot;,<sp/>&quot;released&quot;,<sp/>&quot;expired&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_legal_hold_1af4114ec76afe06ed4d72adf111db8d55" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_legal_hold" kindref="compound">LegalHold</ref><sp/><ref refid="structthemis_1_1governance_1_1_legal_hold_1a821a8ec3c8ed3ca04eaccccf93d69444" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365" refid="classthemis_1_1governance_1_1_audit_retention_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1aa0239e7d9b0ef0fe7e12eee18f2cdd1a" kindref="member">AuditRetentionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1aa0239e7d9b0ef0fe7e12eee18f2cdd1a" kindref="member">AuditRetentionManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref>&amp;<sp/>default_policy);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1aade7cd2832ce655b13d3303d191697fb" kindref="member">shouldArchive</ref>(</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>current_time_ms</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1ad53527b90cabc3c244c1f16514549eef" kindref="member">shouldDelete</ref>(</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>current_time_ms</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1abf6d091fe403a522583e95446d138e7f" kindref="member">isOnLegalHold</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>rule_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1ad2c08711fea38436791fcf84eeca8fcd" kindref="member">addLegalHold</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_legal_hold" kindref="compound">LegalHold</ref>&amp;<sp/>hold);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1a25ad2d21f8f3c7a0108a7eef6f164a96" kindref="member">releaseLegalHold</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hold_id);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="415" refid="classthemis_1_1governance_1_1_audit_retention_manager_1a25bdaaf65f6008e36b4081576b04e8c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1a25bdaaf65f6008e36b4081576b04e8c9" kindref="member">getPolicy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>policy_;<sp/>}</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1ae91771789c1f1105045e1a3757ed88b5" kindref="member">setPolicy</ref>(</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref>&amp;<sp/>new_policy,</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>changed_by</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="427" refid="classthemis_1_1governance_1_1_audit_retention_manager_1a531d99ad9e4588ed68b3fcf43538ed47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;int64_t,<sp/>AuditRetentionPolicy&gt;&gt;&amp;<sp/><ref refid="classthemis_1_1governance_1_1_audit_retention_manager_1a531d99ad9e4588ed68b3fcf43538ed47" kindref="member">getPolicyHistory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>policy_history_;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref><sp/>policy_;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;int64_t,<sp/>AuditRetentionPolicy&gt;&gt;<sp/>policy_history_;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>LegalHold&gt;<sp/>legal_holds_;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integrated<sp/>Audit<sp/>Integrity<sp/>Manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442" refid="classthemis_1_1governance_1_1_audit_integrity_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1aa39a25884491728b2ed5585e85a2ae85" kindref="member">AuditIntegrityManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1aa39a25884491728b2ed5585e85a2ae85" kindref="member">AuditIntegrityManager</ref>(</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref>&amp;<sp/>retention_policy,</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;AuditSigner&gt;&amp;<sp/>signer</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref><sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a0c9ffdd3a75dadc8ec458ff77a3ecead" kindref="member">addEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TamperIncident&gt;<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a61666c051733019ace3d19ee9f369180" kindref="member">verifyIntegrity</ref>();</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TamperIncident&gt;<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a8cb57ca179b9ca585d5272eb685653ba" kindref="member">verifyTimeRange</ref>(</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_time_ms,</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>end_time_ms</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ImmutableAuditEntry&gt;<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a06648e6c96de150b539ed678efc15936" kindref="member">getEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entry_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ImmutableAuditEntry&gt;<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1ae7bd4a40a37ebaaeecdbb79a6781d086" kindref="member">queryEntries</ref>(</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>rule_id<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>user<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;int64_t&gt;&amp;<sp/>start_time_ms<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;int64_t&gt;&amp;<sp/>end_time_ms<sp/>=<sp/>std::nullopt</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a6cae86995aebb5a2a492d62a94856807" kindref="member">archiveExpiredEntries</ref>();</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1aa3cb289815c331f9a205f57f81258d40" kindref="member">performCleanup</ref>();</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="499" refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a45f82b48b556f10677e37079d78b1248" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TamperIncident&gt;&amp;<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a45f82b48b556f10677e37079d78b1248" kindref="member">getLastTamperIncidents</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_tamper_incidents_;</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1ad81db566897eb619534c0c521a08d16a" kindref="member">getPerformanceMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a8cfe119a6f4dce096abebdb3535cae61" kindref="member">exportAuditTrail</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>compress<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a1baff03bff8fcd5fdcf0a0e5a759bfa2" kindref="member">importAuditTrail</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1acdc188a4271e1fabefc2c710724e9ed3" kindref="member">rotateKey</ref>(</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;AuditSigner&gt;&amp;<sp/>new_signer,</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>key_transition_entry</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="528" refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a141e48c1e038eca77bfe9fbf6721cde7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;AuditSigner&gt;&gt;&amp;<sp/><ref refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a141e48c1e038eca77bfe9fbf6721cde7" kindref="member">getKeyHistory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key_history_;</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AuditSigner&gt;<sp/>current_signer_;</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::shared_ptr&lt;AuditSigner&gt;&gt;<sp/>key_history_;</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ImmutableAuditEntry&gt;<sp/>entries_;</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AuditTamperDetector&gt;<sp/>tamper_detector_;</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AuditRetentionManager&gt;<sp/>retention_manager_;</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TamperIncident&gt;<sp/>last_tamper_incidents_;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PerformanceMetrics<sp/>{</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>signing_times_us;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Microseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>verification_times_us;</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>total_entries<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>total_tamper_checks<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/>metrics_;</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>getNextSequenceNumber()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getPreviousEntryHash()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"></highlight></codeline>
+<codeline lineno="564"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="565"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_GOVERNANCE_AUDIT_INTEGRITY_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/governance/governance_audit_integrity.h"/>
+  </compounddef>
+</doxygen>

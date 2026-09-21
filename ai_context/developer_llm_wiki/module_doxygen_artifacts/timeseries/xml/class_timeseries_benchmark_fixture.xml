@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_timeseries_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>TimeseriesBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_timeseries_benchmark_fixture_1afac83793281de95e08767e0859a82aac" prot="private" static="yes" mutable="no" thread_local="yes">
+        <type>std::string</type>
+        <definition>std::string TimeseriesBenchmarkFixture::tls_test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>tls_test_db_path_</name>
+        <qualifiedname>TimeseriesBenchmarkFixture::tls_test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_ingestion.cpp" line="66" column="37" bodyfile="benchmarks/timeseries/bench_timeseries_ingestion.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_timeseries_benchmark_fixture_1ae81589278e212fd87dc4cb6952baab6c" prot="private" static="yes" mutable="no" thread_local="yes">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt; RocksDBWrapper &gt; TimeseriesBenchmarkFixture::tls_db_</definition>
+        <argsstring></argsstring>
+        <name>tls_db_</name>
+        <qualifiedname>TimeseriesBenchmarkFixture::tls_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_ingestion.cpp" line="67" column="41" bodyfile="benchmarks/timeseries/bench_timeseries_ingestion.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_timeseries_benchmark_fixture_1ac76d3bd6cca0e82fbedc566dd17b1850" prot="private" static="yes" mutable="no" thread_local="yes">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_time_series_store" kindref="compound">TimeSeriesStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; TimeSeriesStore &gt; TimeseriesBenchmarkFixture::tls_ts_store_</definition>
+        <argsstring></argsstring>
+        <name>tls_ts_store_</name>
+        <qualifiedname>TimeseriesBenchmarkFixture::tls_ts_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_ingestion.cpp" line="68" column="41" bodyfile="benchmarks/timeseries/bench_timeseries_ingestion.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_timeseries_benchmark_fixture_1a039f773c34da094fb25153626497c7cf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TimeseriesBenchmarkFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TimeseriesBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_ingestion.cpp" line="21" column="10" bodyfile="benchmarks/timeseries/bench_timeseries_ingestion.cpp" bodystart="21" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_timeseries_benchmark_fixture_1a962b4d3f628499b8cf5c3819ffa302f1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TimeseriesBenchmarkFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TimeseriesBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_ingestion.cpp" line="47" column="10" bodyfile="benchmarks/timeseries/bench_timeseries_ingestion.cpp" bodystart="47" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_timeseries_benchmark_fixture_1a375aa724da732470313fdc549d848689" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_time_series_store" kindref="compound">TimeSeriesStore</ref> *</type>
+        <definition>static TimeSeriesStore * TimeseriesBenchmarkFixture::tsStore</definition>
+        <argsstring>()</argsstring>
+        <name>tsStore</name>
+        <qualifiedname>TimeseriesBenchmarkFixture::tsStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/timeseries/bench_timeseries_ingestion.cpp" line="61" column="28" bodyfile="benchmarks/timeseries/bench_timeseries_ingestion.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TimeseriesBenchmarkFixture</label>
+        <link refid="class_timeseries_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TimeseriesBenchmarkFixture</label>
+        <link refid="class_timeseries_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/timeseries/bench_timeseries_ingestion.cpp" line="19" column="1" bodyfile="benchmarks/timeseries/bench_timeseries_ingestion.cpp" bodystart="19" bodyend="69"/>
+    <listofallmembers>
+      <member refid="class_timeseries_benchmark_fixture_1a039f773c34da094fb25153626497c7cf" prot="public" virt="non-virtual"><scope>TimeseriesBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_timeseries_benchmark_fixture_1a962b4d3f628499b8cf5c3819ffa302f1" prot="public" virt="non-virtual"><scope>TimeseriesBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_timeseries_benchmark_fixture_1ae81589278e212fd87dc4cb6952baab6c" prot="private" virt="non-virtual"><scope>TimeseriesBenchmarkFixture</scope><name>tls_db_</name></member>
+      <member refid="class_timeseries_benchmark_fixture_1afac83793281de95e08767e0859a82aac" prot="private" virt="non-virtual"><scope>TimeseriesBenchmarkFixture</scope><name>tls_test_db_path_</name></member>
+      <member refid="class_timeseries_benchmark_fixture_1ac76d3bd6cca0e82fbedc566dd17b1850" prot="private" virt="non-virtual"><scope>TimeseriesBenchmarkFixture</scope><name>tls_ts_store_</name></member>
+      <member refid="class_timeseries_benchmark_fixture_1a375aa724da732470313fdc549d848689" prot="protected" virt="non-virtual"><scope>TimeseriesBenchmarkFixture</scope><name>tsStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

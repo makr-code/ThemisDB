@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9f259c895405c071cb0a91a891b1efe4" kind="dir">
+    <compoundname>benchmarks/base</compoundname>
+    <innerfile refid="bench__advanced__patterns_8cpp">bench_advanced_patterns.cpp</innerfile>
+    <innerfile refid="bench__arm__memory_8cpp">bench_arm_memory.cpp</innerfile>
+    <innerfile refid="bench__arm__simd_8cpp">bench_arm_simd.cpp</innerfile>
+    <innerfile refid="bench__async__io__multiscan_8cpp">bench_async_io_multiscan.cpp</innerfile>
+    <innerfile refid="bench__auto__buffers_8cpp">bench_auto_buffers.cpp</innerfile>
+    <innerfile refid="bench__base__hot__paths_8cpp">bench_base_hot_paths.cpp</innerfile>
+    <innerfile refid="bench__base__wasm__sandbox_8cpp">bench_base_wasm_sandbox.cpp</innerfile>
+    <innerfile refid="bench__comprehensive_8cpp">bench_comprehensive.cpp</innerfile>
+    <innerfile refid="bench__compression_8cpp">bench_compression.cpp</innerfile>
+    <innerfile refid="bench__edge__cases__comprehensive_8cpp">bench_edge_cases_comprehensive.cpp</innerfile>
+    <innerfile refid="bench__gorilla__codec_8cpp">bench_gorilla_codec.cpp</innerfile>
+    <innerfile refid="bench__hotspots__micro_8cpp">bench_hotspots_micro.cpp</innerfile>
+    <innerfile refid="bench__latency__comprehensive_8cpp">bench_latency_comprehensive.cpp</innerfile>
+    <innerfile refid="bench__module__load__hot__reload_8cpp">bench_module_load_hot_reload.cpp</innerfile>
+    <innerfile refid="bench__multithreading__comprehensive_8cpp">bench_multithreading_comprehensive.cpp</innerfile>
+    <innerfile refid="bench__scalability__comprehensive_8cpp">bench_scalability_comprehensive.cpp</innerfile>
+    <innerfile refid="bench__simd__distance_8cpp">bench_simd_distance.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/base/"/>
+  </compounddef>
+</doxygen>

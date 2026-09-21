@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_schema_diff" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::SchemaDiff</compoundname>
+    <includes refid="schema__diff_8h" local="no">schema_diff.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_schema_diff_1a327d7c15a4f76f403f20c8cbf0a98ef0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::SchemaDiff::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::metadata::SchemaDiff::table_name</qualifiedname>
+        <briefdescription>
+<para>Name of the diffed table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="132" column="28" bodyfile="include/metadata/schema_diff.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_schema_diff_1afb140121258b5c25addc770e677a7ef7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_column_diff" kindref="compound">ColumnDiff</ref> &gt;</type>
+        <definition>std::vector&lt;ColumnDiff&gt; themis::metadata::SchemaDiff::column_diffs</definition>
+        <argsstring></argsstring>
+        <name>column_diffs</name>
+        <qualifiedname>themis::metadata::SchemaDiff::column_diffs</qualifiedname>
+        <briefdescription>
+<para>All column-level changes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="133" column="17" bodyfile="include/metadata/schema_diff.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_schema_diff_1aab172470a7aa52cbf38acf36162e345a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_index_diff" kindref="compound">IndexDiff</ref> &gt;</type>
+        <definition>std::vector&lt;IndexDiff&gt; themis::metadata::SchemaDiff::index_diffs</definition>
+        <argsstring></argsstring>
+        <name>index_diffs</name>
+        <qualifiedname>themis::metadata::SchemaDiff::index_diffs</qualifiedname>
+        <briefdescription>
+<para>All index-level changes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="134" column="18" bodyfile="include/metadata/schema_diff.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_schema_diff_1a8a345a5ddddd438c19951b7baa1a35ce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::metadata::SchemaDiff::isEmpty</definition>
+        <argsstring>() const</argsstring>
+        <name>isEmpty</name>
+        <qualifiedname>themis::metadata::SchemaDiff::isEmpty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if no column or index changes were found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="137" column="10" bodyfile="include/metadata/schema_diff.h" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_schema_diff_1a3b5571fe56b175e09ba6f9699bad1c5d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::metadata::SchemaDiff::addedColumnCount</definition>
+        <argsstring>() const</argsstring>
+        <name>addedColumnCount</name>
+        <qualifiedname>themis::metadata::SchemaDiff::addedColumnCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of columns added in the new schema. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="142" column="12" bodyfile="include/metadata/schema_diff.h" bodystart="142" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_schema_diff_1a6cbdc10771795650bdacdff1736e6e94" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::metadata::SchemaDiff::removedColumnCount</definition>
+        <argsstring>() const</argsstring>
+        <name>removedColumnCount</name>
+        <qualifiedname>themis::metadata::SchemaDiff::removedColumnCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of columns removed in the new schema. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="151" column="12" bodyfile="include/metadata/schema_diff.h" bodystart="151" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_schema_diff_1a311f7c2d128e2e59f29aa1284234b621" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::metadata::SchemaDiff::modifiedColumnCount</definition>
+        <argsstring>() const</argsstring>
+        <name>modifiedColumnCount</name>
+        <qualifiedname>themis::metadata::SchemaDiff::modifiedColumnCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of columns that exist in both schemas but whose attributes (type, nullability, index) have changed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="163" column="12" bodyfile="include/metadata/schema_diff.h" bodystart="163" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_schema_diff_1ab5fb43f728319a44e3437da90376878e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1a8efd44656ac5d0cf26226df8e9a7fbc2" kindref="member">json</ref></type>
+        <definition>json themis::metadata::SchemaDiff::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::SchemaDiff::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise the full diff to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Schema: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;name&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;column_diffs&quot;</highlight><highlight class="normal">:<sp/><sp/>[<sp/>...<sp/>],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;index_diffs&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/>[<sp/>...<sp/>],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;summary&quot;</highlight><highlight class="normal">:<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;added_columns&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/>&lt;n&gt;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;removed_columns&quot;</highlight><highlight class="normal">:<sp/><sp/>&lt;n&gt;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;modified_columns&quot;</highlight><highlight class="normal">:<sp/>&lt;n&gt;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;index_changes&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/>&lt;n&gt;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="190" column="10" bodyfile="include/metadata/schema_diff.h" bodystart="190" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated diff result for a single table. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Both <computeroutput>column_diffs</computeroutput> and <computeroutput>index_diffs</computeroutput> are sorted by their respective name fields to guarantee deterministic output regardless of the order in which properties/indexes appear in the source schemas. </para>
+    </detaileddescription>
+    <location file="include/metadata/schema_diff.h" line="131" column="1" bodyfile="include/metadata/schema_diff.h" bodystart="131" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_schema_diff_1a3b5571fe56b175e09ba6f9699bad1c5d" prot="public" virt="non-virtual"><scope>themis::metadata::SchemaDiff</scope><name>addedColumnCount</name></member>
+      <member refid="structthemis_1_1metadata_1_1_schema_diff_1afb140121258b5c25addc770e677a7ef7" prot="public" virt="non-virtual"><scope>themis::metadata::SchemaDiff</scope><name>column_diffs</name></member>
+      <member refid="structthemis_1_1metadata_1_1_schema_diff_1aab172470a7aa52cbf38acf36162e345a" prot="public" virt="non-virtual"><scope>themis::metadata::SchemaDiff</scope><name>index_diffs</name></member>
+      <member refid="structthemis_1_1metadata_1_1_schema_diff_1a8a345a5ddddd438c19951b7baa1a35ce" prot="public" virt="non-virtual"><scope>themis::metadata::SchemaDiff</scope><name>isEmpty</name></member>
+      <member refid="structthemis_1_1metadata_1_1_schema_diff_1a311f7c2d128e2e59f29aa1284234b621" prot="public" virt="non-virtual"><scope>themis::metadata::SchemaDiff</scope><name>modifiedColumnCount</name></member>
+      <member refid="structthemis_1_1metadata_1_1_schema_diff_1a6cbdc10771795650bdacdff1736e6e94" prot="public" virt="non-virtual"><scope>themis::metadata::SchemaDiff</scope><name>removedColumnCount</name></member>
+      <member refid="structthemis_1_1metadata_1_1_schema_diff_1a327d7c15a4f76f403f20c8cbf0a98ef0" prot="public" virt="non-virtual"><scope>themis::metadata::SchemaDiff</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1metadata_1_1_schema_diff_1ab5fb43f728319a44e3437da90376878e" prot="public" virt="non-virtual"><scope>themis::metadata::SchemaDiff</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_bulk_link_creation_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::BulkLinkCreationStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bulk_link_creation_stress_1a7688a8dc7f111c3a0635cbfb21bb67df" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::BulkLinkCreationStress::link_count</definition>
+        <argsstring></argsstring>
+        <name>link_count</name>
+        <qualifiedname>themis::process::BulkLinkCreationStress::link_count</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Link count for this scenario (default: 10,000). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="284" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bulk_link_creation_stress_1a5b06445e4b0c19b44da9cd6ccf67494e" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::BulkLinkCreationStress::expected_latency_per_link_ms</definition>
+        <argsstring></argsstring>
+        <name>expected_latency_per_link_ms</name>
+        <qualifiedname>themis::process::BulkLinkCreationStress::expected_latency_per_link_ms</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Expected latency per link (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="287" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_bulk_link_creation_stress_1aa667f6a080dec53766c6b1cc2cd2b799" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::BulkLinkCreationStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::BulkLinkCreationStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with bulk links. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="290" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_bulk_link_creation_stress_1ae7abc12a650900fc13b0be700e95b9d8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::BulkLinkCreationStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::BulkLinkCreationStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success for this scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="293" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_bulk_link_creation_stress_1af593c77067979d16425acd183f87a41c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::BulkLinkCreationStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::BulkLinkCreationStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="295" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="295" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bulk link creation scenario for process linker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> 10,000+ links added concurrently <linebreak/>
+ <bold>Link Count:</bold> 10,000+ <linebreak/>
+ <bold>Expected Behavior:</bold> Latency 1-10 ms per link; no deadlocks <linebreak/>
+ <bold>Trigger:</bold> <computeroutput>PROC_MAX_CONTEXT_EXCEEDED</computeroutput> if context size exceeds limit <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>All links created successfully (or explicit error)</para>
+</listitem><listitem><para>Throughput 100+ links/sec</para>
+</listitem><listitem><para>No deadlocks or race conditions</para>
+</listitem><listitem><para>Latency scales linearly with link count </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="282" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="282" bodyend="298"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_bulk_link_creation_stress_1af593c77067979d16425acd183f87a41c" prot="public" virt="non-virtual"><scope>themis::process::BulkLinkCreationStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_bulk_link_creation_stress_1a5b06445e4b0c19b44da9cd6ccf67494e" prot="public" virt="non-virtual"><scope>themis::process::BulkLinkCreationStress</scope><name>expected_latency_per_link_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_bulk_link_creation_stress_1aa667f6a080dec53766c6b1cc2cd2b799" prot="public" virt="non-virtual"><scope>themis::process::BulkLinkCreationStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_bulk_link_creation_stress_1ae7abc12a650900fc13b0be700e95b9d8" prot="public" virt="non-virtual"><scope>themis::process::BulkLinkCreationStress</scope><name>isSuccess</name></member>
+      <member refid="structthemis_1_1process_1_1_bulk_link_creation_stress_1a7688a8dc7f111c3a0635cbfb21bb67df" prot="public" virt="non-virtual"><scope>themis::process::BulkLinkCreationStress</scope><name>link_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

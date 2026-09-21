@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_circuit_breaker_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CircuitBreaker::Config</compoundname>
+    <includes refid="federation__resilience_8h" local="no">federation_resilience.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_circuit_breaker_1_1_config_1abb458345c89b8ab8038d2589ce2b76a1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::CircuitBreaker::Config::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::query::CircuitBreaker::Config::failure_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="36" column="13" bodyfile="include/query/federation_resilience.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_circuit_breaker_1_1_config_1a7a58eab0176c02ba20089d9613c54133" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::CircuitBreaker::Config::failure_window</definition>
+        <argsstring></argsstring>
+        <name>failure_window</name>
+        <qualifiedname>themis::query::CircuitBreaker::Config::failure_window</qualifiedname>
+        <initializer>{60000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="39" column="35" bodyfile="include/query/federation_resilience.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_circuit_breaker_1_1_config_1a76c9ee74289d0b9b72a10c7324399a80" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::CircuitBreaker::Config::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::query::CircuitBreaker::Config::timeout</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="42" column="35" bodyfile="include/query/federation_resilience.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_circuit_breaker_1_1_config_1a7a267f33773db80109d05e519e1fb667" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::CircuitBreaker::Config::half_open_max_requests</definition>
+        <argsstring></argsstring>
+        <name>half_open_max_requests</name>
+        <qualifiedname>themis::query::CircuitBreaker::Config::half_open_max_requests</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/federation_resilience.h" line="45" column="13" bodyfile="include/query/federation_resilience.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/federation_resilience.h" line="34" column="5" bodyfile="include/query/federation_resilience.h" bodystart="34" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_circuit_breaker_1_1_config_1abb458345c89b8ab8038d2589ce2b76a1" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker::Config</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_circuit_breaker_1_1_config_1a7a58eab0176c02ba20089d9613c54133" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker::Config</scope><name>failure_window</name></member>
+      <member refid="structthemis_1_1query_1_1_circuit_breaker_1_1_config_1a7a267f33773db80109d05e519e1fb667" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker::Config</scope><name>half_open_max_requests</name></member>
+      <member refid="structthemis_1_1query_1_1_circuit_breaker_1_1_config_1a76c9ee74289d0b9b72a10c7324399a80" prot="public" virt="non-virtual"><scope>themis::query::CircuitBreaker::Config</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

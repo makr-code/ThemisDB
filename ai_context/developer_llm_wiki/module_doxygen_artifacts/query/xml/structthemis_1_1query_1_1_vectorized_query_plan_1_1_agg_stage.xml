@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::VectorizedQueryPlan::AggStage</compoundname>
+    <includes refid="vectorized__execution_8h" local="no">vectorized_execution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage_1ad3db07439f8bbebd720967077d1e6449" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_vectorized_aggregation" kindref="compound">VectorizedAggregation</ref> &gt;</type>
+        <definition>std::vector&lt;VectorizedAggregation&gt; themis::query::VectorizedQueryPlan::AggStage::aggregations</definition>
+        <argsstring></argsstring>
+        <name>aggregations</name>
+        <qualifiedname>themis::query::VectorizedQueryPlan::AggStage::aggregations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/vectorized_execution.h" line="194" column="32" bodyfile="include/query/vectorized_execution.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/vectorized_execution.h" line="194" column="5" bodyfile="include/query/vectorized_execution.h" bodystart="194" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_vectorized_query_plan_1_1_agg_stage_1ad3db07439f8bbebd720967077d1e6449" prot="public" virt="non-virtual"><scope>themis::query::VectorizedQueryPlan::AggStage</scope><name>aggregations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

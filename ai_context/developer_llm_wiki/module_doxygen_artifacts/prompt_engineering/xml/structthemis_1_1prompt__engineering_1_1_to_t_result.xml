@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_to_t_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ToTResult</compoundname>
+    <includes refid="tree__of__thoughts_8h" local="no">tree_of_thoughts.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_result_1a3a31a0ed089676f1b19506f4ac62ebce" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ToTResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::prompt_engineering::ToTResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when a conclusive answer was found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="76" column="30" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_result_1ae73371b754e9a237fae3021dd87d0e24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ToTResult::answer</definition>
+        <argsstring></argsstring>
+        <name>answer</name>
+        <qualifiedname>themis::prompt_engineering::ToTResult::answer</qualifiedname>
+        <briefdescription>
+<para>The final synthesised answer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="77" column="30" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_result_1a340ea23f06f1788bdbc3a68ab284f2a9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::ToTResult::best_path</definition>
+        <argsstring></argsstring>
+        <name>best_path</name>
+        <qualifiedname>themis::prompt_engineering::ToTResult::best_path</qualifiedname>
+        <briefdescription>
+<para>Thought chain of the winning path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="78" column="17" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_result_1ac921f837048d2f5c91454a9fcad5c946" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ToTResult::best_score</definition>
+        <argsstring></argsstring>
+        <name>best_score</name>
+        <qualifiedname>themis::prompt_engineering::ToTResult::best_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Score of the winning path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="79" column="30" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_result_1acc269dbf25ac9e9b21c900442cb15471" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ToTResult::nodes_explored</definition>
+        <argsstring></argsstring>
+        <name>nodes_explored</name>
+        <qualifiedname>themis::prompt_engineering::ToTResult::nodes_explored</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total nodes evaluated during search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="80" column="30" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_result_1a72c6308e1d9887c8c78cf965a4987f51" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::ToTResult::log</definition>
+        <argsstring></argsstring>
+        <name>log</name>
+        <qualifiedname>themis::prompt_engineering::ToTResult::log</qualifiedname>
+        <briefdescription>
+<para>Verbose per-step log (populated when <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_config_1afd0bc07d4423e39c15073db0285dcd13" kindref="member">ToTConfig::verbose</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="81" column="17" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete result of a tree-of-thoughts reasoning session. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/tree_of_thoughts.h" line="75" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="75" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_result_1ae73371b754e9a237fae3021dd87d0e24" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTResult</scope><name>answer</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_result_1a340ea23f06f1788bdbc3a68ab284f2a9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTResult</scope><name>best_path</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_result_1ac921f837048d2f5c91454a9fcad5c946" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTResult</scope><name>best_score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_result_1a72c6308e1d9887c8c78cf965a4987f51" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTResult</scope><name>log</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_result_1acc269dbf25ac9e9b21c900442cb15471" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTResult</scope><name>nodes_explored</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_result_1a3a31a0ed089676f1b19506f4ac62ebce" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

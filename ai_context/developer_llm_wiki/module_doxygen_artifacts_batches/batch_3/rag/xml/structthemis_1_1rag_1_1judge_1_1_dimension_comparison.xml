@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_dimension_comparison" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::DimensionComparison</compoundname>
+    <includes refid="pairwise__comparator_8h" local="no">pairwise_comparator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a514a410c11324ee317f2fb65a3f38618" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::DimensionComparison::dimension_name</definition>
+        <argsstring></argsstring>
+        <name>dimension_name</name>
+        <qualifiedname>themis::rag::judge::DimensionComparison::dimension_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="43" column="17" bodyfile="include/rag/pairwise_comparator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a5e8b7587f5eabf4b25442ebc0d25f3ab" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4b" kindref="member">ComparisonWinner</ref></type>
+        <definition>ComparisonWinner themis::rag::judge::DimensionComparison::winner</definition>
+        <argsstring></argsstring>
+        <name>winner</name>
+        <qualifiedname>themis::rag::judge::DimensionComparison::winner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="44" column="22" bodyfile="include/rag/pairwise_comparator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a01329b993c15a443854414727313ac96" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DimensionComparison::score_a</definition>
+        <argsstring></argsstring>
+        <name>score_a</name>
+        <qualifiedname>themis::rag::judge::DimensionComparison::score_a</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="45" column="12" bodyfile="include/rag/pairwise_comparator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a4783e6410e8121f6d74497903c2fac72" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DimensionComparison::score_b</definition>
+        <argsstring></argsstring>
+        <name>score_b</name>
+        <qualifiedname>themis::rag::judge::DimensionComparison::score_b</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="46" column="12" bodyfile="include/rag/pairwise_comparator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a7aa7ac9807e54b14bf5fe50397aab5ac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DimensionComparison::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::DimensionComparison::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="47" column="12" bodyfile="include/rag/pairwise_comparator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a6111fe2336d74bad857200934ae5624a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::DimensionComparison::reasoning</definition>
+        <argsstring></argsstring>
+        <name>reasoning</name>
+        <qualifiedname>themis::rag::judge::DimensionComparison::reasoning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="48" column="17" bodyfile="include/rag/pairwise_comparator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-dimension comparison result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/pairwise_comparator.h" line="42" column="1" bodyfile="include/rag/pairwise_comparator.h" bodystart="42" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a7aa7ac9807e54b14bf5fe50397aab5ac" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionComparison</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a514a410c11324ee317f2fb65a3f38618" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionComparison</scope><name>dimension_name</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a6111fe2336d74bad857200934ae5624a" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionComparison</scope><name>reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a01329b993c15a443854414727313ac96" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionComparison</scope><name>score_a</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a4783e6410e8121f6d74497903c2fac72" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionComparison</scope><name>score_b</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dimension_comparison_1a5e8b7587f5eabf4b25442ebc0d25f3ab" prot="public" virt="non-virtual"><scope>themis::rag::judge::DimensionComparison</scope><name>winner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_delta_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::DeltaBlock</compoundname>
+    <includes refid="index__compression_8h" local="no">index_compression.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_delta_block_1a69ca28a990b1704c0a1fb58f44defdee" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::index::DeltaBlock::base</definition>
+        <argsstring></argsstring>
+        <name>base</name>
+        <qualifiedname>themis::index::DeltaBlock::base</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>First value in the sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="171" column="26" bodyfile="include/index/index_compression.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_delta_block_1a258a5d53926f1afc941145b422a21172" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::index::DeltaBlock::deltas</definition>
+        <argsstring></argsstring>
+        <name>deltas</name>
+        <qualifiedname>themis::index::DeltaBlock::deltas</qualifiedname>
+        <briefdescription>
+<para>Differences between consecutive values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="172" column="17" bodyfile="include/index/index_compression.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1index_1_1_delta_block_1ae0c5455962e1dadcde594bdf53bbdaa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt; int64_t &gt; themis::index::DeltaBlock::decompress</definition>
+        <argsstring>() const</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::index::DeltaBlock::decompress</qualifiedname>
+        <briefdescription>
+<para>Reconstruct the original sequence of integers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="175" column="17" bodyfile="src/index/index_compression.cpp" bodystart="359" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Delta encoding for sorted integer-like key suffixes.</para>
+<para>Instead of storing each value verbatim, only the difference to the previous value is stored. This is most effective when keys are densely sequential (e.g., auto-increment primary keys).</para>
+<para><simplesect kind="note"><para>The empty-sequence sentinel is <computeroutput>{<ref refid="structthemis_1_1index_1_1_delta_block_1a69ca28a990b1704c0a1fb58f44defdee" kindref="member">base</ref>=0, <ref refid="structthemis_1_1index_1_1_delta_block_1a258a5d53926f1afc941145b422a21172" kindref="member">deltas</ref>=[]}</computeroutput>. A single- element sequence <computeroutput>{0}</computeroutput> produces the same block representation and therefore cannot be round-tripped. Callers should use positive integer primary keys (the standard database convention) to avoid this ambiguity. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/index/index_compression.h" line="170" column="1" bodyfile="include/index/index_compression.h" bodystart="170" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_delta_block_1a69ca28a990b1704c0a1fb58f44defdee" prot="public" virt="non-virtual"><scope>themis::index::DeltaBlock</scope><name>base</name></member>
+      <member refid="structthemis_1_1index_1_1_delta_block_1ae0c5455962e1dadcde594bdf53bbdaa6" prot="public" virt="non-virtual"><scope>themis::index::DeltaBlock</scope><name>decompress</name></member>
+      <member refid="structthemis_1_1index_1_1_delta_block_1a258a5d53926f1afc941145b422a21172" prot="public" virt="non-virtual"><scope>themis::index::DeltaBlock</scope><name>deltas</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

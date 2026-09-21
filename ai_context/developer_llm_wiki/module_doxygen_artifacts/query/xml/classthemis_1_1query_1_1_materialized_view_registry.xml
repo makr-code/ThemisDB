@@ -1,0 +1,797 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_materialized_view_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::MaterializedViewRegistry</compoundname>
+    <includes refid="materialized__view_8h" local="no">materialized_view.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_materialized_view_registry_1a8d40ff90d5698cf4dc0e8abd79a04c6b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::MaterializedViewRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="402" column="24" bodyfile="include/query/materialized_view.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_materialized_view_registry_1a8c9f8810d0da3c06189b89883c87f9ef" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_materialized_view" kindref="compound">MaterializedView</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;MaterializedView&gt; &gt; themis::query::MaterializedViewRegistry::views_</definition>
+        <argsstring></argsstring>
+        <name>views_</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::views_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="404" column="24" bodyfile="include/query/materialized_view.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_materialized_view_registry_1a599edc0e08bc2ef041b4bf4f7e1e4e4d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::query::MaterializedViewRegistry::table_index_</definition>
+        <argsstring></argsstring>
+        <name>table_index_</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::table_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="406" column="24" bodyfile="include/query/materialized_view.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1a27e8ada617e2d4d61d884e3849fae83c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MaterializedViewRegistry::MaterializedViewRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>MaterializedViewRegistry</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::MaterializedViewRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="282" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1a5a5f9d67e1af77c49150152cc709b3fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MaterializedViewRegistry::~MaterializedViewRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MaterializedViewRegistry</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::~MaterializedViewRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="283" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1a6a53a6cb456a4d24aec34262dc702050" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MaterializedViewRegistry::MaterializedViewRegistry</definition>
+        <argsstring>(const MaterializedViewRegistry &amp;)=delete</argsstring>
+        <name>MaterializedViewRegistry</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::MaterializedViewRegistry</qualifiedname>
+        <param>
+          <type>const MaterializedViewRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="286" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1a3df30c9332001269558714b9bd542265" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_materialized_view_registry_1a27e8ada617e2d4d61d884e3849fae83c" kindref="member">MaterializedViewRegistry</ref> &amp;</type>
+        <definition>MaterializedViewRegistry &amp; themis::query::MaterializedViewRegistry::operator=</definition>
+        <argsstring>(const MaterializedViewRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_materialized_view_registry_1a27e8ada617e2d4d61d884e3849fae83c" kindref="member">MaterializedViewRegistry</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="287" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1afe0db51000a095a95bc9c8092e93d727" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MaterializedViewRegistry::MaterializedViewRegistry</definition>
+        <argsstring>(MaterializedViewRegistry &amp;&amp;) noexcept=default</argsstring>
+        <name>MaterializedViewRegistry</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::MaterializedViewRegistry</qualifiedname>
+        <param>
+          <type>MaterializedViewRegistry &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="288" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1ae04a2d8911dc7c0e2328240af4a825e3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_materialized_view_registry_1a27e8ada617e2d4d61d884e3849fae83c" kindref="member">MaterializedViewRegistry</ref> &amp;</type>
+        <definition>MaterializedViewRegistry &amp; themis::query::MaterializedViewRegistry::operator=</definition>
+        <argsstring>(MaterializedViewRegistry &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_materialized_view_registry_1a27e8ada617e2d4d61d884e3849fae83c" kindref="member">MaterializedViewRegistry</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="289" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1adbfcc19c37c27650d4081095f517a1cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::query::MaterializedViewRegistry::registerView</definition>
+        <argsstring>(std::shared_ptr&lt; MaterializedView &gt; view)</argsstring>
+        <name>registerView</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::registerView</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_materialized_view" kindref="compound">MaterializedView</ref> &gt;</type>
+          <declname>view</declname>
+        </param>
+        <briefdescription>
+<para>Register View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">view</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="300" column="12" bodyfile="src/query/materialized_view.cpp" bodystart="617" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1a4927d13296792d7f4d3749fbeb26a5db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_materialized_view" kindref="compound">MaterializedView</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MaterializedView &gt; themis::query::MaterializedViewRegistry::getView</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getView</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::getView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="307" column="21" bodyfile="src/query/materialized_view.cpp" bodystart="648" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1aae1b6b56d65844abaf6fd5eb6a61cbf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MaterializedViewRegistry::removeView</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>removeView</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::removeView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Remove View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), getDefinition(), erase(), std::remove(), begin(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="314" column="10" bodyfile="src/query/materialized_view.cpp" bodystart="667" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1a028c8549988a60f869079e06563514b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::query::MaterializedViewRegistry::listViews</definition>
+        <argsstring>() const</argsstring>
+        <name>listViews</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::listViews</qualifiedname>
+        <briefdescription>
+<para>List Views. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="320" column="17" bodyfile="src/query/materialized_view.cpp" bodystart="685" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1ade9f86357816f3c08ff240cbc4538e48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MaterializedViewRegistry::onInsert</definition>
+        <argsstring>(const std::string &amp;table, const BaseEntity &amp;entity)</argsstring>
+        <name>onInsert</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::onInsert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>On Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::object(), getAllFields(), std::visit(), constexpr(), getPrimaryKey(), empty(), <ref refid="classthemis_1_1query_1_1_materialized_view_registry_1affb4a8cf3a5c49ae221499b9a48a2f28" kindref="member">onInsertJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="331" column="10" bodyfile="src/query/materialized_view.cpp" bodystart="708" bodyend="727"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1a2fad71b874494e7e59877d1b0d6a1837" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MaterializedViewRegistry::onDelete</definition>
+        <argsstring>(const std::string &amp;table, const BaseEntity &amp;entity)</argsstring>
+        <name>onDelete</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::onDelete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>On Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::object(), getPrimaryKey(), empty(), <ref refid="classthemis_1_1query_1_1_materialized_view_registry_1abbcf1101335f05add860d38d6f1ff583" kindref="member">onDeleteJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="338" column="10" bodyfile="src/query/materialized_view.cpp" bodystart="735" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1a69afbb043704c8bf5232f5067aa77177" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MaterializedViewRegistry::onUpdate</definition>
+        <argsstring>(const std::string &amp;table, const BaseEntity &amp;entity)</argsstring>
+        <name>onUpdate</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::onUpdate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>On Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::object(), getAllFields(), std::visit(), constexpr(), getPrimaryKey(), empty(), <ref refid="classthemis_1_1query_1_1_materialized_view_registry_1ae37f74980fc3a3d04a821ce90cfa363f" kindref="member">onUpdateJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="345" column="10" bodyfile="src/query/materialized_view.cpp" bodystart="750" bodyend="768"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1affb4a8cf3a5c49ae221499b9a48a2f28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MaterializedViewRegistry::onInsertJson</definition>
+        <argsstring>(const std::string &amp;table, const nlohmann::json &amp;row)</argsstring>
+        <name>onInsertJson</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::onInsertJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>========================================================================= Delta propagation (JSON overloads — for tests and lightweight callers) ========================================================================= </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Insert Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), propagateDeltaJson_locked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="353" column="10" bodyfile="src/query/materialized_view.cpp" bodystart="776" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1abbcf1101335f05add860d38d6f1ff583" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MaterializedViewRegistry::onDeleteJson</definition>
+        <argsstring>(const std::string &amp;table, const nlohmann::json &amp;row)</argsstring>
+        <name>onDeleteJson</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::onDeleteJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>On Delete Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), propagateDeltaJson_locked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="360" column="10" bodyfile="src/query/materialized_view.cpp" bodystart="788" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1ae37f74980fc3a3d04a821ce90cfa363f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MaterializedViewRegistry::onUpdateJson</definition>
+        <argsstring>(const std::string &amp;table, const nlohmann::json &amp;row)</argsstring>
+        <name>onUpdateJson</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::onUpdateJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>On Update Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), propagateDeltaJson_locked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="367" column="10" bodyfile="src/query/materialized_view.cpp" bodystart="800" bodyend="804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1a22033dc039d89ed9b5f23b7d203f6c62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_materialized_view" kindref="compound">MaterializedView</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MaterializedView &gt; themis::query::MaterializedViewRegistry::tryRewrite</definition>
+        <argsstring>(const std::string &amp;query_aql) const</argsstring>
+        <name>tryRewrite</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::tryRewrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_aql</declname>
+        </param>
+        <briefdescription>
+<para>Try Rewrite. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="378" column="21" bodyfile="src/query/materialized_view.cpp" bodystart="834" bodyend="849"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1acd93b805afaf7871c727e6c9019678e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::query::MaterializedViewRegistry::refreshStale</definition>
+        <argsstring>()</argsstring>
+        <name>refreshStale</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::refreshStale</qualifiedname>
+        <briefdescription>
+<para>Refresh Stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getDefinition(), isStale(), push_back(), refresh(), THEMIS_INFO(), getName(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="389" column="12" bodyfile="src/query/materialized_view.cpp" bodystart="857" bodyend="886"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_materialized_view_registry_1aec84cc9dc301ef528e7d120fb71bcac9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MaterializedViewRegistry::propagateDeltaJson_locked</definition>
+        <argsstring>(const std::string &amp;table, DeltaOp op, const nlohmann::json &amp;row)</argsstring>
+        <name>propagateDeltaJson_locked</name>
+        <qualifiedname>themis::query::MaterializedViewRegistry::propagateDeltaJson_locked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a8736e41fd407435fef37c146516d269d" kindref="member">DeltaOp</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Propagate Delta Json locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="398" column="10" bodyfile="src/query/materialized_view.cpp" bodystart="812" bodyend="828"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_view.h" line="280" column="1" bodyfile="include/query/materialized_view.h" bodystart="280" bodyend="407"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a4927d13296792d7f4d3749fbeb26a5db" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>getView</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a028c8549988a60f869079e06563514b3" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>listViews</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a27e8ada617e2d4d61d884e3849fae83c" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>MaterializedViewRegistry</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a6a53a6cb456a4d24aec34262dc702050" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>MaterializedViewRegistry</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1afe0db51000a095a95bc9c8092e93d727" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>MaterializedViewRegistry</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a8d40ff90d5698cf4dc0e8abd79a04c6b" prot="private" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a2fad71b874494e7e59877d1b0d6a1837" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>onDelete</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1abbcf1101335f05add860d38d6f1ff583" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>onDeleteJson</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1ade9f86357816f3c08ff240cbc4538e48" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>onInsert</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1affb4a8cf3a5c49ae221499b9a48a2f28" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>onInsertJson</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a69afbb043704c8bf5232f5067aa77177" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>onUpdate</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1ae37f74980fc3a3d04a821ce90cfa363f" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>onUpdateJson</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a3df30c9332001269558714b9bd542265" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1ae04a2d8911dc7c0e2328240af4a825e3" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1aec84cc9dc301ef528e7d120fb71bcac9" prot="private" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>propagateDeltaJson_locked</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1acd93b805afaf7871c727e6c9019678e0" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>refreshStale</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1adbfcc19c37c27650d4081095f517a1cd" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>registerView</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1aae1b6b56d65844abaf6fd5eb6a61cbf2" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>removeView</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a599edc0e08bc2ef041b4bf4f7e1e4e4d" prot="private" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>table_index_</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a22033dc039d89ed9b5f23b7d203f6c62" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>tryRewrite</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a8c9f8810d0da3c06189b89883c87f9ef" prot="private" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>views_</name></member>
+      <member refid="classthemis_1_1query_1_1_materialized_view_registry_1a5a5f9d67e1af77c49150152cc709b3fc" prot="public" virt="non-virtual"><scope>themis::query::MaterializedViewRegistry</scope><name>~MaterializedViewRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

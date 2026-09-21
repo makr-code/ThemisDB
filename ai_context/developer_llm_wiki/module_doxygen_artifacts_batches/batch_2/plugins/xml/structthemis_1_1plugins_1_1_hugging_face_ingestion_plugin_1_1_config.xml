@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::HuggingFaceIngestionPlugin::Config</compoundname>
+    <includes refid="huggingface__ingestion__plugin_8h" local="no">huggingface_ingestion_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1abb750fdedfa36c9fc24fd4e55e515139" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HuggingFaceIngestionPlugin::Config::dataset_name</definition>
+        <argsstring></argsstring>
+        <name>dataset_name</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::dataset_name</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;lexlms/ger_legal_data&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="65" column="21" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a5037485db662a779e002d78663b10ff8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HuggingFaceIngestionPlugin::Config::split</definition>
+        <argsstring></argsstring>
+        <name>split</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::split</qualifiedname>
+        <initializer>= &quot;train&quot;</initializer>
+        <briefdescription>
+<para>train/test/validation </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="66" column="21" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ac64da13f6fa64a825e16b89f831f4467" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::HuggingFaceIngestionPlugin::Config::streaming</definition>
+        <argsstring></argsstring>
+        <name>streaming</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::streaming</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Stream large datasets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="67" column="14" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ac2272204f5e31210e3d4f4dc1ad2e8a3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::HuggingFaceIngestionPlugin::Config::chunk_size</definition>
+        <argsstring></argsstring>
+        <name>chunk_size</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::chunk_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Rows per API request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="68" column="16" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1aa8214a55f24332739430e16109c31a4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HuggingFaceIngestionPlugin::Config::auth_token</definition>
+        <argsstring></argsstring>
+        <name>auth_token</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::auth_token</qualifiedname>
+        <briefdescription>
+<para>Optional HF token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="69" column="21" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a90e9bee8e988692284994d552ba04330" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HuggingFaceIngestionPlugin::Config::text_field</definition>
+        <argsstring></argsstring>
+        <name>text_field</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::text_field</qualifiedname>
+        <initializer>= &quot;text&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="72" column="21" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a16facac1cbe62c768ad922d512169af8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HuggingFaceIngestionPlugin::Config::label_field</definition>
+        <argsstring></argsstring>
+        <name>label_field</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::label_field</qualifiedname>
+        <initializer>= &quot;label&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="73" column="21" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a034c8df151ed2365eec4adaf1ded4f5b" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::HuggingFaceIngestionPlugin::Config::custom_fields</definition>
+        <argsstring></argsstring>
+        <name>custom_fields</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::custom_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="74" column="18" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a87322ab9e1fb81d4b533aa05e8dfbc7c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::HuggingFaceIngestionPlugin::Config::cache_dir</definition>
+        <argsstring></argsstring>
+        <name>cache_dir</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::cache_dir</qualifiedname>
+        <initializer>= &quot;./cache/huggingface&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="77" column="21" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a614f68bd46bfcdb8cb988e5ea53860a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::HuggingFaceIngestionPlugin::Config::use_cache</definition>
+        <argsstring></argsstring>
+        <name>use_cache</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::use_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="78" column="14" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a55b7c47ce545d738c9afb78c7996cd22" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::HuggingFaceIngestionPlugin::Config::max_requests_per_second</definition>
+        <argsstring></argsstring>
+        <name>max_requests_per_second</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::max_requests_per_second</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="81" column="16" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a712db5b9ef5e267b4c072a492c07891b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::HuggingFaceIngestionPlugin::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="84" column="16" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a8951e5473777be8c579dbecb2d097b07" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::HuggingFaceIngestionPlugin::Config::retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_ms</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::retry_delay_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="85" column="16" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a8a4d8a60602eaf7e42d234080f24c7c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref></type>
+        <definition>json themis::plugins::HuggingFaceIngestionPlugin::Config::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="87" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ab83db1eb0697434894935f8e136e4457" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::plugins::HuggingFaceIngestionPlugin::Config::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::plugins::HuggingFaceIngestionPlugin::Config::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1plugins_1ab547de4562831812e9d0c228715ff0b5" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/huggingface_ingestion_plugin.h" line="88" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for HuggingFace plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/huggingface_ingestion_plugin.h" line="64" column="5" bodyfile="include/plugins/huggingface_ingestion_plugin.h" bodystart="64" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1aa8214a55f24332739430e16109c31a4e" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>auth_token</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a87322ab9e1fb81d4b533aa05e8dfbc7c" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>cache_dir</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ac2272204f5e31210e3d4f4dc1ad2e8a3" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>chunk_size</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a034c8df151ed2365eec4adaf1ded4f5b" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>custom_fields</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1abb750fdedfa36c9fc24fd4e55e515139" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>dataset_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ab83db1eb0697434894935f8e136e4457" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a16facac1cbe62c768ad922d512169af8" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>label_field</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a55b7c47ce545d738c9afb78c7996cd22" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>max_requests_per_second</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a712db5b9ef5e267b4c072a492c07891b" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a8951e5473777be8c579dbecb2d097b07" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>retry_delay_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a5037485db662a779e002d78663b10ff8" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>split</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1ac64da13f6fa64a825e16b89f831f4467" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>streaming</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a90e9bee8e988692284994d552ba04330" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>text_field</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a8a4d8a60602eaf7e42d234080f24c7c3" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1plugins_1_1_hugging_face_ingestion_plugin_1_1_config_1a614f68bd46bfcdb8cb988e5ea53860a5" prot="public" virt="non-virtual"><scope>themis::plugins::HuggingFaceIngestionPlugin::Config</scope><name>use_cache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

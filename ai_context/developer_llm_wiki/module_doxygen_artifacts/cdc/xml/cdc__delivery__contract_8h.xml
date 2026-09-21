@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cdc__delivery__contract_8h" kind="file" language="C++">
+    <compoundname>cdc_delivery_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="test__cdc__diagnostics__hardening_8cpp" local="yes">tests/cdc/test_cdc_diagnostics_hardening.cpp</includedby>
+    <includedby refid="test__cdc__replay__ack__hardening_8cpp" local="yes">tests/cdc/test_cdc_replay_ack_hardening.cpp</includedby>
+    <includedby refid="test__cdc__transport__degradation_8cpp" local="yes">tests/cdc/test_cdc_transport_degradation.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cdc/cdc_delivery_contract.h</label>
+        <link refid="cdc__delivery__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cdc/cdc_delivery_contract.h</label>
+        <link refid="cdc__delivery__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/cdc/test_cdc_diagnostics_hardening.cpp</label>
+        <link refid="test__cdc__diagnostics__hardening_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/cdc/test_cdc_replay_ack_hardening.cpp</label>
+        <link refid="test__cdc__replay__ack__hardening_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/cdc/test_cdc_transport_degradation.cpp</label>
+        <link refid="test__cdc__transport__degradation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cdc">themis::cdc</innernamespace>
+    <briefdescription>
+<para>Frozen CDC delivery, transport, and replay contract semantics for the active v1.x major release line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract that all CDC module components must honour. It is the single authoritative source for:<itemizedlist>
+<listitem><para>Event sequence and ordering guarantees.</para>
+</listitem><listitem><para>At-least-once delivery semantics and acknowledgement rules.</para>
+</listitem><listitem><para>Replay session scope and state-machine contract.</para>
+</listitem><listitem><para>Transport degradation classification and fail-closed policy.</para>
+</listitem><listitem><para>Consumer-group partition consistency rules.</para>
+</listitem><listitem><para>Diagnostic observability obligations.</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="cdc__delivery__contract_8h_1autotoc_md0_1s1"><sect2 id="cdc__delivery__contract_8h_1autotoc_md0">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump accompanied by migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/cdc/ROADMAP.md — Phase 1 contract freeze </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="delivery__tracker_8h" kindref="compound">include/cdc/delivery_tracker.h</ref> — §2 at-least-once implementation </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="icdc__replay__controller_8h" kindref="compound">include/cdc/icdc_replay_controller.h</ref> — §3 replay state machine </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="consumer__group_8h" kindref="compound">include/cdc/consumer_group.h</ref> — §5 partition consistency </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">cdc</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Event<sp/>sequence<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>change<sp/>events<sp/>carry<sp/>a<sp/>monotonically<sp/>increasing,<sp/>gap-free<sp/>sequence<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>assigned<sp/>by<sp/>the<sp/>Changefeed.<sp/><sp/>Consumers<sp/>MUST<sp/>use<sp/>the<sp/>sequence<sp/>as<sp/>the<sp/>canonical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>resume<sp/>cursor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1cdc_1a780dc7ccf89b9fa52a50891e6708429a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1cdc_1a780dc7ccf89b9fa52a50891e6708429a" kindref="member">kMaxEventSequence</ref><sp/>=<sp/>UINT64_MAX<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1cdc_1a8054a96692f7626b1616bd423c51c251" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1cdc_1a8054a96692f7626b1616bd423c51c251" kindref="member">kNoSequence</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1cdc_1ad749e73881c4ae67af96837a484974d5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cdc_1ad749e73881c4ae67af96837a484974d5" kindref="member">kMaxEventKeyBytes</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1cdc_1a0d07b86115d71bb532397505ab64d679" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cdc_1a0d07b86115d71bb532397505ab64d679" kindref="member">kMaxEventValueBytes</ref><sp/>=<sp/>64<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>64<sp/>MiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>At-least-once<sp/>delivery<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>DeliveryTracker<sp/>implements<sp/>at-least-once<sp/>delivery.<sp/><sp/>All<sp/>components<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>wrap<sp/>or<sp/>compose<sp/>DeliveryTracker<sp/>MUST<sp/>preserve<sp/>these<sp/>guarantees.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1cdc_1adb0fbbf7e18134817008f9190ae8e6e6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1cdc_1adb0fbbf7e18134817008f9190ae8e6e6" kindref="member">kDefaultAckTimeout</ref>{30&apos;000};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1cdc_1ad0770eb555b8aa7233bebb2560210aac" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1cdc_1ad0770eb555b8aa7233bebb2560210aac" kindref="member">kMaxAckTimeoutOverride</ref>{300&apos;000};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1cdc_1ae8a0fbe7b7025a49323816f88aa2b433" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cdc_1ae8a0fbe7b7025a49323816f88aa2b433" kindref="member">kDefaultMaxPendingPerConsumer</ref><sp/>=<sp/>10&apos;000;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Replay<sp/>session<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ICDCReplayController<sp/>and<sp/>IReplaySession<sp/>implementations<sp/>must<sp/>obey<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>following<sp/>state-machine<sp/>transitions.<sp/><sp/>Deviations<sp/>are<sp/>defects.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Active<sp/><sp/>→<sp/>Done<sp/><sp/><sp/><sp/><sp/><sp/>(all<sp/>events<sp/>in<sp/>window<sp/>delivered<sp/>or<sp/>window<sp/>empty)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Active<sp/><sp/>→<sp/>Cancelled<sp/>(cancel()<sp/>called<sp/>before<sp/>drain<sp/>complete)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Done<sp/><sp/><sp/><sp/>→<sp/>Done<sp/><sp/><sp/><sp/><sp/><sp/>(terminal;<sp/>nextBatch()<sp/>always<sp/>returns<sp/>{})</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Cancelled<sp/>→<sp/>Cancelled<sp/>(terminal;<sp/>nextBatch()<sp/>always<sp/>returns<sp/>{})</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>done()<sp/>MUST<sp/>return<sp/>true<sp/>for<sp/>both<sp/>Done<sp/>and<sp/>Cancelled<sp/>states.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1cdc_1a03f0a4f30fd366e462af4a8f265394a4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cdc_1a03f0a4f30fd366e462af4a8f265394a4" kindref="member">kDefaultMaxReplayEventsPerSession</ref><sp/>=<sp/>1&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="namespacethemis_1_1cdc_1a550cf64a0e014d98fa00a1e3a07bd5cf" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cdc_1a550cf64a0e014d98fa00a1e3a07bd5cf" kindref="member">kDefaultReplayBatchSize</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Transport<sp/>degradation<sp/>failure<sp/>classes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Every<sp/>CDC<sp/>transport<sp/>failure<sp/>MUST<sp/>be<sp/>classified<sp/>into<sp/>one<sp/>of<sp/>these<sp/>canonical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>classes<sp/>so<sp/>that<sp/>operators<sp/>receive<sp/>consistent,<sp/>actionable<sp/>diagnostics.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510c" kindref="member">CdcTransportFailureClass</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510cab1f023eff9a6b5308d6024e4c6b3d475" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510cab1f023eff9a6b5308d6024e4c6b3d475" kindref="member">Transient</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510cad94018f883a83ef60a58a9b19798a7e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510cad94018f883a83ef60a58a9b19798a7e0" kindref="member">BackendUnreachable</ref><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca6ade67ebabfc50290b43350e713a287d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca6ade67ebabfc50290b43350e713a287d" kindref="member">AuthFailure</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510caeb89cf735181361e04403ff1cf99d45e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510caeb89cf735181361e04403ff1cf99d45e" kindref="member">PayloadInvalid</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca6b35f70bda190ffb2b7032d24d4662bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca6b35f70bda190ffb2b7032d24d4662bd" kindref="member">BackpressureRequired</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca33b241cb9c1618e22fd4217f653b1acc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca33b241cb9c1618e22fd4217f653b1acc" kindref="member">DuplicateEvent</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca8462b58246e70e5c83e5b939a9332cb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca8462b58246e70e5c83e5b939a9332cb5" kindref="member">InternalError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Fail-closed<sp/>contract<sp/>for<sp/>transport<sp/>degradation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>When<sp/>a<sp/>transport<sp/>failure<sp/>prevents<sp/>a<sp/>deterministic<sp/>delivery<sp/>decision,<sp/>all<sp/>CDC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>components<sp/>MUST<sp/>default<sp/>to<sp/>fail-closed:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>Event<sp/>is<sp/>enqueued<sp/>in<sp/>the<sp/>DeadLetterQueue<sp/>(not<sp/>silently<sp/>dropped).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>Diagnostics<sp/>MUST<sp/>record<sp/>the<sp/>failure<sp/>class<sp/>and<sp/>stream<sp/>context.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>Consumer<sp/>delivery<sp/>state<sp/>is<sp/>NOT<sp/>advanced<sp/>until<sp/>explicit<sp/>ACK<sp/>is<sp/>received.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fail-open<sp/>behaviour<sp/>is<sp/>ONLY<sp/>allowed<sp/>for<sp/>CdcTransportFailureClass::Transient</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>with<sp/>documented<sp/>retry<sp/>policy<sp/>and<sp/>operator<sp/>opt-in<sp/>configuration.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="namespacethemis_1_1cdc_1aacd550ead981690b666fd0148b2b19e8" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cdc_1aacd550ead981690b666fd0148b2b19e8" kindref="member">isCdcFailClosedClass</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510c" kindref="member">CdcTransportFailureClass</ref><sp/>fc)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510cad94018f883a83ef60a58a9b19798a7e0" kindref="member">CdcTransportFailureClass::BackendUnreachable</ref></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca6ade67ebabfc50290b43350e713a287d" kindref="member">CdcTransportFailureClass::AuthFailure</ref></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca8462b58246e70e5c83e5b939a9332cb5" kindref="member">CdcTransportFailureClass::InternalError</ref></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510ca6b35f70bda190ffb2b7032d24d4662bd" kindref="member">CdcTransportFailureClass::BackpressureRequired</ref></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1cdc_1a87207ca9a99819b78171a8e0c4d8510caeb89cf735181361e04403ff1cf99d45e" kindref="member">CdcTransportFailureClass::PayloadInvalid</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Consumer-group<sp/>partition<sp/>consistency<sp/>rules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ConsumerGroupManager<sp/>MUST<sp/>honour<sp/>all<sp/>of<sp/>the<sp/>following:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>Partition<sp/>assignment<sp/>for<sp/>a<sp/>given<sp/>(key,<sp/>consumer_count)<sp/>pair<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>deterministic<sp/>and<sp/>stateless:<sp/>same<sp/>inputs<sp/>always<sp/>produce<sp/>the<sp/>same<sp/>output.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>Two<sp/>distinct<sp/>consumer<sp/>IDs<sp/>in<sp/>the<sp/>same<sp/>group<sp/>MUST<sp/>receive<sp/>disjoint<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>subsets<sp/>(no<sp/>overlapping<sp/>partitions<sp/>for<sp/>valid<sp/>configurations).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>Committed<sp/>offsets<sp/>MUST<sp/>be<sp/>persisted<sp/>to<sp/>RocksDB<sp/>before<sp/>acknowledgeEvents()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>returns<sp/>to<sp/>the<sp/>caller;<sp/>memory-only<sp/>state<sp/>is<sp/>not<sp/>sufficient.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>d)<sp/>fetchEventsAtLeastOnce()<sp/>MUST<sp/>resume<sp/>from<sp/>the<sp/>last<sp/>committed<sp/>offset<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>consumer<sp/>reconnects;<sp/>it<sp/>must<sp/>not<sp/>re-scan<sp/>from<sp/>sequence<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="namespacethemis_1_1cdc_1aedf3f593dde98371ad5c23aade3b5122" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1cdc_1aedf3f593dde98371ad5c23aade3b5122" kindref="member">kMaxConsumerGroupSize</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="namespacethemis_1_1cdc_1aaa01e0dbfb6d1ca5fa436b43bb2d319a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1cdc_1aaa01e0dbfb6d1ca5fa436b43bb2d319a" kindref="member">kMaxConsumerGroupsPerChangefeed</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Diagnostic<sp/>observability<sp/>obligations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>CDC<sp/>components<sp/>that<sp/>handle<sp/>events<sp/>MUST<sp/>emit<sp/>actionable<sp/>diagnostics<sp/>for:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Redelivery<sp/>events:<sp/>consumer_id,<sp/>sequence,<sp/>attempt<sp/>count.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>DLQ<sp/>promotions:<sp/>failure<sp/>reason,<sp/>event<sp/>key,<sp/>timestamp.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Lag<sp/>growth:<sp/>consumer_id,<sp/>current<sp/>lag,<sp/>threshold.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Transport<sp/>failures:<sp/>failure<sp/>class,<sp/>stream<sp/>context,<sp/>retry<sp/>count.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Diagnostics<sp/>MUST<sp/>include<sp/>both<sp/>stream-id<sp/>and<sp/>consumer-group<sp/>context<sp/>where</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>applicable<sp/>so<sp/>operators<sp/>can<sp/>correlate<sp/>across<sp/>components.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="namespacethemis_1_1cdc_1a1862359fa5bbdca5166d8a92753a2a0b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cdc_1a1862359fa5bbdca5166d8a92753a2a0b" kindref="member">kConsumerLagWarningThreshold</ref><sp/>=<sp/>1&apos;000;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="namespacethemis_1_1cdc_1a31ab9a06ae52802b5a2337ac5e0bb872" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1cdc_1a31ab9a06ae52802b5a2337ac5e0bb872" kindref="member">kRedeliveryEscalationThreshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cdc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cdc/cdc_delivery_contract.h"/>
+  </compounddef>
+</doxygen>

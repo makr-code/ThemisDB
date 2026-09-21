@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_pairwise_comparator_test" kind="class" language="C++" prot="public">
+    <compoundname>PairwiseComparatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_pairwise_comparator_test_1a880c78c48df41fcaff56966693e31538" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator" kindref="compound">PairwiseComparator</ref></type>
+        <definition>PairwiseComparator PairwiseComparatorTest::comparator_</definition>
+        <argsstring></argsstring>
+        <name>comparator_</name>
+        <qualifiedname>PairwiseComparatorTest::comparator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_uncovered.cpp" line="165" column="24" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PairwiseComparatorTest</label>
+        <link refid="class_pairwise_comparator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PairwiseComparatorTest</label>
+        <link refid="class_pairwise_comparator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>comparator_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::PairwiseComparator</label>
+        <link refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_uncovered.cpp" line="163" column="1" bodyfile="tests/rag/test_rag_uncovered.cpp" bodystart="163" bodyend="166"/>
+    <listofallmembers>
+      <member refid="class_pairwise_comparator_test_1a880c78c48df41fcaff56966693e31538" prot="protected" virt="non-virtual"><scope>PairwiseComparatorTest</scope><name>comparator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

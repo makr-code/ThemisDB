@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_metric" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::Metric</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_1a9d2db859c50270eb79f5725242c024d1" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string themis::observability::Metric::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::observability::Metric::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="50" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_1af189039ef92006a705aea3c02a0285d2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::Metric::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::observability::Metric::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="51" column="12" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_1a9dcc5c04e43fc5bc941c7bc259e477d2" prot="public" static="no" mutable="no">
+        <type>map&lt; string, string &gt;</type>
+        <definition>map&lt;string, string&gt; themis::observability::Metric::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::observability::Metric::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="52" column="9" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_metric_1a5123fa1ef1e11a80bffe41ecb0e1b16e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::Metric::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::observability::Metric::timestamp_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="53" column="14" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple metric representation for benchmarking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" line="49" column="1" bodyfile="benchmarks/observability/bench_observability_phase2_exporter_stress.cpp" bodystart="49" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_metric_1a9dcc5c04e43fc5bc941c7bc259e477d2" prot="public" virt="non-virtual"><scope>themis::observability::Metric</scope><name>labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_1a9d2db859c50270eb79f5725242c024d1" prot="public" virt="non-virtual"><scope>themis::observability::Metric</scope><name>name</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_1a5123fa1ef1e11a80bffe41ecb0e1b16e" prot="public" virt="non-virtual"><scope>themis::observability::Metric</scope><name>timestamp_ns</name></member>
+      <member refid="structthemis_1_1observability_1_1_metric_1af189039ef92006a705aea3c02a0285d2" prot="public" virt="non-virtual"><scope>themis::observability::Metric</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

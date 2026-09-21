@@ -1,0 +1,1394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__policy_8cpp" kind="file" language="C++">
+    <compoundname>test_content_policy.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="content__policy_8h" local="yes">content/content_policy.h</includes>
+    <includes refid="mime__detector_8h" local="yes">content/mime_detector.h</includes>
+    <includes local="yes">storage/security_signature_manager.h</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>content/content_policy.h</label>
+        <link refid="content__policy_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>content/mime_detector.h</label>
+        <link refid="mime__detector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_policy.cpp</label>
+        <link refid="test__content__policy_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>set</label>
+      </node>
+      <node id="14">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_content_policy_test" prot="public">ContentPolicyTest</innerclass>
+    <innerclass refid="class_mime_detector_test" prot="public">MimeDetectorTest</innerclass>
+    <innerclass refid="class_mime_detector_ocr_test" prot="public">MimeDetectorOcrTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, IsAllowed_WhitelistedType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>IsAllowed_WhitelistedType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="90" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a0ba9434c28677f2a154dad81087eb4bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, IsAllowed_NotWhitelisted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>IsAllowed_NotWhitelisted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="96" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a9fb1e72678ecbce5ae1b21ed991df57a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, GetMaxSize_WhitelistedType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>GetMaxSize_WhitelistedType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="101" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="101" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a5e3d0c34bc8a20e3ea5e92908d68a6d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, GetMaxSize_NotWhitelisted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>GetMaxSize_NotWhitelisted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="107" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a2495430b4fe32bd07265822785d5a47c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, IsDenied_BlacklistedType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>IsDenied_BlacklistedType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="116" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="116" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a27cef63bbb525d5add3621d84b03109e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, IsDenied_NotBlacklisted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>IsDenied_NotBlacklisted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="121" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="121" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1afd1e4bd33f08d603779af26f52734215" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, GetDenialReason_BlacklistedType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>GetDenialReason_BlacklistedType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="126" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="126" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a10551ed62a332bc1354414ebe0d3fb54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, GetDenialReason_NotBlacklisted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>GetDenialReason_NotBlacklisted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="133" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1aa57d1c776613b0e5add15facbabcac50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, GetCategoryMaxSize_ExistingCategory)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>GetCategoryMaxSize_ExistingCategory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="141" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="141" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a2f35806c2a1b526114116ee45198f6d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ContentPolicyTest, GetCategoryMaxSize_NonExistingCategory)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>GetCategoryMaxSize_NonExistingCategory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="149" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1aa8b3c39e9ad181f05fa7dbd714544ba3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_AllowedType_ValidSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_AllowedType_ValidSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="171" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="171" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a5b1a29de8f254d559e669a425e84b6d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_AllowedType_SizeExceeded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_AllowedType_SizeExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="181" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="181" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1aee3630e9f0564204f52e56581b1a1268" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_BlacklistedType)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_BlacklistedType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="192" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="192" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a57667e3d88e5467acabe7cabfbc58e83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_UnknownType_DefaultPolicy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_UnknownType_DefaultPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="203" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="203" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1ab22ac59aecfe9c11e6e08359fced974b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_UnknownType_ExceedsDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_UnknownType_ExceedsDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="212" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="212" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1afd34e7f98163f18a87a58e7a616f6355" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_CategoryRule_Geo)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_CategoryRule_Geo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="222" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="222" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1ae60b554e58a79398d09edb087f099a98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_CategoryRule_GeoExceeded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_CategoryRule_GeoExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="231" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="231" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a24a33084e844d17d8ac04ad4b4bca457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_CategoryRule_ThemisDB)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_CategoryRule_ThemisDB</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="240" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="240" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a45e1983fbb750bda35b53e250a8280ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_CategoryRule_Executable_Denied)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_CategoryRule_Executable_Denied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="249" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="249" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a179b08b334952bfdc5b609efecefdf1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_EmptyFilename)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_EmptyFilename</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="262" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="262" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a8a596d86662e19f5176297df162ca603" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_ZeroSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_ZeroSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="269" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="269" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1ade642f4ead5c47af02af68e0632ea4f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, ValidateUpload_MaxUint64Size)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_MaxUint64Size</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="277" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="277" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1ac49be291d11f4e4a0ea0c0a5bbcaf5e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, DetectMimeType_DoubleExtension)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>DetectMimeType_DoubleExtension</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="289" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="289" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1af9a14b67aabeb7d7dd82d34addfac077" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorTest, DetectMimeType_CaseInsensitive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref></type>
+        </param>
+        <param>
+          <type>DetectMimeType_CaseInsensitive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="296" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="296" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1ae528b9c493844d9fce6743db995da4d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentPolicyOcrTest, OcrDisabledByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentPolicyOcrTest</type>
+        </param>
+        <param>
+          <type>OcrDisabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="308" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="308" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1aa211d08b1bc1440c83e27ab4eb6c9879" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentPolicyOcrTest, OcrEnabledWhenFlagSet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentPolicyOcrTest</type>
+        </param>
+        <param>
+          <type>OcrEnabledWhenFlagSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="314" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="314" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1ab9caa0549c0ace6f8bb31d56657bba50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentPolicyOcrTest, OcrCanBeDisabledAgain)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentPolicyOcrTest</type>
+        </param>
+        <param>
+          <type>OcrCanBeDisabledAgain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="320" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="320" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1aab12bbd21c6b203143eb3629e3d8ea76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_DisabledByDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_DisabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="345" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="345" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1aaca549613833ba6bc4ed48fdc484378d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_EnabledForPng)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_EnabledForPng</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="352" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="352" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a4a15d8e48f436e712c4bda331bdfcb09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_EnabledForJpeg)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_EnabledForJpeg</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="357" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="357" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a77c11ed6a857c265f4c5f2329f6bb4bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_EnabledForTiff)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_EnabledForTiff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="362" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="362" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1ae2faee0d14315d4f8edc6452e96d34f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_NotForNonImageTypes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_NotForNonImageTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="367" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="367" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a3706417253ab9e999f949b14f1c258be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_DisableAfterEnable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_DisableAfterEnable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="377" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="377" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1aece96f5b8f057c4eff3959f60f542a27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_FalseByDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_OcrRecommended_FalseByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="388" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="388" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a70d0cead20066b1804eb3147e707c7f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_TrueForPngWhenEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_OcrRecommended_TrueForPngWhenEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="394" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="394" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1aeabd8ccdf2b40e62192d620394ddc569" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_TrueForJpegWhenEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_OcrRecommended_TrueForJpegWhenEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="402" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="402" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a835db23933233b43e940ce3636c207a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_TrueForTiffWhenEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_OcrRecommended_TrueForTiffWhenEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="409" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="409" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1ade0103d3b0e9c57198d8d73cce41b75e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_FalseForNonImageWhenEnabled)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_OcrRecommended_FalseForNonImageWhenEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="416" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="416" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1ae74d20c9935b1d8811b9642f3d03aa5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_FalseWhenDenied)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateUpload_OcrRecommended_FalseWhenDenied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="423" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="423" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1adc4e221564c92a3b33d44849cfd75f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_BoolOverload_DisabledReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_BoolOverload_DisabledReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="435" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="435" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1abe066b960fe9d5011d77b61b54c90eea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_BoolOverload_EnabledForOcrMimeTypes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_BoolOverload_EnabledForOcrMimeTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="442" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="442" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1a5fb828a1284b0ed40285264672204180" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_BoolOverload_NotForNonOcrMimeTypes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_BoolOverload_NotForNonOcrMimeTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="449" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="449" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__policy_8cpp_1af4fe2d623c3caec846ded28673c32f13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MimeDetectorOcrTest, ShouldTriggerOcr_BoolOverload_IndependentOfInternalPolicy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref></type>
+        </param>
+        <param>
+          <type>ShouldTriggerOcr_BoolOverload_IndependentOfInternalPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_policy.cpp" line="458" column="1" bodyfile="tests/content/test_content_policy.cpp" bodystart="458" bodyend="465"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__policy_8h" kindref="compound">content/content_policy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="mime__detector_8h" kindref="compound">content/mime_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/security_signature_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentPolicy<sp/>Unit<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="class_content_policy_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_content_policy_test_1a447af392674a105cf4a6a39252b6547d" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref><sp/>=<sp/><ref refid="structthemis_1_1content_1_1_content_policy" kindref="compound">ContentPolicy</ref>();</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>whitelist<sp/>policies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.allowed.push_back({</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024,<sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Plain<sp/>text<sp/>files&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.allowed.push_back({</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5<sp/>*<sp/>1024<sp/>*<sp/>1024,<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;JSON<sp/>files&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.allowed.push_back({</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>20<sp/>*<sp/>1024<sp/>*<sp/>1024,<sp/><sp/></highlight><highlight class="comment">//<sp/>20<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;PNG<sp/>images&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>blacklist<sp/>policies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.denied.push_back({</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;application/x-executable&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Executable<sp/>files<sp/>are<sp/>not<sp/>allowed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.denied.push_back({</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;application/x-msdownload&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Windows<sp/>executables<sp/>are<sp/>not<sp/>allowed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>category<sp/>rules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.category_rules[</highlight><highlight class="stringliteral">&quot;geo&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;geo&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>allow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1024ULL<sp/>*<sp/>1024<sp/>*<sp/>1024,<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Geospatial<sp/>data<sp/>category&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.category_rules[</highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>allow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024,<sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>data<sp/>category&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.category_rules[</highlight><highlight class="stringliteral">&quot;executable&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;executable&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>deny</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Executable<sp/>files<sp/>category<sp/>is<sp/>blocked&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.default_max_size<sp/>=<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>.default_action<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>allow<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_policy" kindref="compound">ContentPolicy</ref><sp/><ref refid="class_content_policy_test_1a3e5ac77066df8e61b6b025ccab6798ea" kindref="member">policy_</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Whitelist<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>IsAllowed_WhitelistedType)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy_.isAllowed(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy_.isAllowed(</highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy_.isAllowed(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>IsAllowed_NotWhitelisted)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy_.isAllowed(</highlight><highlight class="stringliteral">&quot;video/mp4&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy_.isAllowed(</highlight><highlight class="stringliteral">&quot;application/pdf&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>GetMaxSize_WhitelistedType)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getMaxSize(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">),<sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getMaxSize(</highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">),<sp/>5<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getMaxSize(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">),<sp/>20<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>GetMaxSize_NotWhitelisted)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>default_max_size<sp/>(100<sp/>MB)<sp/>for<sp/>non-whitelisted<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getMaxSize(</highlight><highlight class="stringliteral">&quot;video/mp4&quot;</highlight><highlight class="normal">),<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Blacklist<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>IsDenied_BlacklistedType)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy_.isDenied(</highlight><highlight class="stringliteral">&quot;application/x-executable&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy_.isDenied(</highlight><highlight class="stringliteral">&quot;application/x-msdownload&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>IsDenied_NotBlacklisted)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy_.isDenied(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy_.isDenied(</highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>GetDenialReason_BlacklistedType)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getDenialReason(</highlight><highlight class="stringliteral">&quot;application/x-executable&quot;</highlight><highlight class="normal">),<sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Executable<sp/>files<sp/>are<sp/>not<sp/>allowed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getDenialReason(</highlight><highlight class="stringliteral">&quot;application/x-msdownload&quot;</highlight><highlight class="normal">),<sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Windows<sp/>executables<sp/>are<sp/>not<sp/>allowed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>GetDenialReason_NotBlacklisted)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getDenialReason(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Category<sp/>Rules<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>GetCategoryMaxSize_ExistingCategory)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getCategoryMaxSize(</highlight><highlight class="stringliteral">&quot;geo&quot;</highlight><highlight class="normal">),<sp/>1024ULL<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getCategoryMaxSize(</highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">),<sp/>2ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>executable<sp/>has<sp/>max_size=0,<sp/>but<sp/>implementation<sp/>returns<sp/>default_max_size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>because<sp/>of<sp/>&quot;max_size<sp/>&gt;<sp/>0&quot;<sp/>check<sp/>in<sp/>getCategoryMaxSize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getCategoryMaxSize(</highlight><highlight class="stringliteral">&quot;executable&quot;</highlight><highlight class="normal">),<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_content_policy_test" kindref="compound">ContentPolicyTest</ref>,<sp/>GetCategoryMaxSize_NonExistingCategory)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>default_max_size<sp/>(100<sp/>MB)<sp/>for<sp/>non-existing<sp/>categories</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy_.getCategoryMaxSize(</highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">),<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MimeDetector<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="class_mime_detector_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_mime_detector_test_1a00da79e6b6b2b5c4d18cb913bc51d0d2" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipping<sp/>MimeDetectorTest<sp/>on<sp/>Windows<sp/>due<sp/>to<sp/>MIME<sp/>backend<sp/>fallback<sp/>differences.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Let<sp/>MimeDetector<sp/>resolve<sp/>the<sp/>best<sp/>available<sp/>config<sp/>path<sp/>itself.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_mime_detector_test_1ad89dc9d56f5a165150237e3d1c6b32d5" kindref="member">detector_</ref><sp/>=<sp/>std::make_shared&lt;MimeDetector&gt;(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MimeDetector&gt;<sp/><ref refid="class_mime_detector_test_1ad89dc9d56f5a165150237e3d1c6b32d5" kindref="member">detector_</ref>;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_AllowedType_ValidSize)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>small<sp/>text<sp/>file<sp/>(should<sp/>be<sp/>allowed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;test.txt&quot;</highlight><highlight class="normal">,<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.blacklisted);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.size_exceeded);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mime_type,<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_AllowedType_SizeExceeded)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>large<sp/>text<sp/>file<sp/>(exceeds<sp/>10<sp/>MB<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;test.txt&quot;</highlight><highlight class="normal">,<sp/>15<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>15<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.allowed);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.blacklisted);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.size_exceeded);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mime_type,<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.reason.find(</highlight><highlight class="stringliteral">&quot;exceeds&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_BlacklistedType)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>executable<sp/>file<sp/>(should<sp/>be<sp/>denied)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;malware.exe&quot;</highlight><highlight class="normal">,<sp/>1024);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.allowed);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.blacklisted);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.size_exceeded);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.mime_type.find(</highlight><highlight class="stringliteral">&quot;executable&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.mime_type.find(</highlight><highlight class="stringliteral">&quot;msdownload&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_UnknownType_DefaultPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>file<sp/>with<sp/>unknown<sp/>extension<sp/>(should<sp/>use<sp/>default<sp/>policy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;file.xyz&quot;</highlight><highlight class="normal">,<sp/>50<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>50<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);<sp/><sp/></highlight><highlight class="comment">//<sp/>default_action<sp/>=<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.blacklisted);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.size_exceeded);<sp/><sp/></highlight><highlight class="comment">//<sp/>under<sp/>100<sp/>MB<sp/>default<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_UnknownType_ExceedsDefault)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>large<sp/>unknown<sp/>file<sp/>(exceeds<sp/>100<sp/>MB<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;file.xyz&quot;</highlight><highlight class="normal">,<sp/>150<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>150<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.allowed);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.blacklisted);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.size_exceeded);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.reason.find(</highlight><highlight class="stringliteral">&quot;default<sp/>limit&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_CategoryRule_Geo)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>GeoJSON<sp/>file<sp/>(geo<sp/>category,<sp/>1<sp/>GB<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;map.geojson&quot;</highlight><highlight class="normal">,<sp/>500<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>500<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.size_exceeded);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mime_type,<sp/></highlight><highlight class="stringliteral">&quot;application/geo+json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_CategoryRule_GeoExceeded)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>large<sp/>GeoJSON<sp/>file<sp/>(exceeds<sp/>1<sp/>GB<sp/>geo<sp/>category<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;bigmap.geojson&quot;</highlight><highlight class="normal">,<sp/>1200ULL<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>1.2<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.allowed);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.size_exceeded);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mime_type,<sp/></highlight><highlight class="stringliteral">&quot;application/geo+json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_CategoryRule_ThemisDB)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>ThemisDB<sp/>file<sp/>(themis<sp/>category,<sp/>2<sp/>GB<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;data.themisdb&quot;</highlight><highlight class="normal">,<sp/>1500ULL<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>1.5<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.size_exceeded);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mime_type,<sp/></highlight><highlight class="stringliteral">&quot;application/x-themisdb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_CategoryRule_Executable_Denied)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>executable<sp/>category<sp/>(should<sp/>be<sp/>denied<sp/>by<sp/>category<sp/>rule)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;program.exe&quot;</highlight><highlight class="normal">,<sp/>1024);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.allowed);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.blacklisted);<sp/><sp/></highlight><highlight class="comment">//<sp/>category<sp/>denial<sp/>should<sp/>set<sp/>blacklisted<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.reason.find(</highlight><highlight class="stringliteral">&quot;denied&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>Cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_EmptyFilename)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>1024);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>handle<sp/>gracefully<sp/>(likely<sp/>uses<sp/>default<sp/>policy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.mime_type.empty());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_ZeroSize)<sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;test.txt&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>files<sp/>should<sp/>be<sp/>allowed<sp/>(under<sp/>any<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.size_exceeded);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>ValidateUpload_MaxUint64Size)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>maximum<sp/>possible<sp/>file<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;test.txt&quot;</highlight><highlight class="normal">,<sp/>UINT64_MAX);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.allowed);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.size_exceeded);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multiple<sp/>Extension<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>DetectMimeType_DoubleExtension)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>.tar.gz<sp/>double<sp/>extension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;archive.tar.gz&quot;</highlight><highlight class="normal">,<sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mime_type,<sp/></highlight><highlight class="stringliteral">&quot;application/gzip&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_test" kindref="compound">MimeDetectorTest</ref>,<sp/>DetectMimeType_CaseInsensitive)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>uppercase<sp/>extension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;TEST.TXT&quot;</highlight><highlight class="normal">,<sp/>1024);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;test.txt&quot;</highlight><highlight class="normal">,<sp/>1024);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result1.mime_type,<sp/>result2.mime_type);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ContentPolicy::ocrEnabled()<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae528b9c493844d9fce6743db995da4d0" kindref="member">TEST</ref>(ContentPolicyOcrTest,<sp/>OcrDisabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_policy" kindref="compound">ContentPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.<ref refid="structthemis_1_1content_1_1_content_policy_1ab2f79a4636f120e5d5851c99904dff1f" kindref="member">ocrEnabled</ref>());</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.<ref refid="structthemis_1_1content_1_1_content_policy_1a4cf6c05cd329f3b4e07e0460a05d3386" kindref="member">ocr_enabled</ref>);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae528b9c493844d9fce6743db995da4d0" kindref="member">TEST</ref>(ContentPolicyOcrTest,<sp/>OcrEnabledWhenFlagSet)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_policy" kindref="compound">ContentPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1content_1_1_content_policy_1a4cf6c05cd329f3b4e07e0460a05d3386" kindref="member">ocr_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.<ref refid="structthemis_1_1content_1_1_content_policy_1ab2f79a4636f120e5d5851c99904dff1f" kindref="member">ocrEnabled</ref>());</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae528b9c493844d9fce6743db995da4d0" kindref="member">TEST</ref>(ContentPolicyOcrTest,<sp/>OcrCanBeDisabledAgain)<sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_policy" kindref="compound">ContentPolicy</ref><sp/>policy;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1content_1_1_content_policy_1a4cf6c05cd329f3b4e07e0460a05d3386" kindref="member">ocr_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.<ref refid="structthemis_1_1content_1_1_content_policy_1ab2f79a4636f120e5d5851c99904dff1f" kindref="member">ocrEnabled</ref>());</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1content_1_1_content_policy_1a4cf6c05cd329f3b4e07e0460a05d3386" kindref="member">ocr_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.<ref refid="structthemis_1_1content_1_1_content_policy_1ab2f79a4636f120e5d5851c99904dff1f" kindref="member">ocrEnabled</ref>());</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MimeDetector::shouldTriggerOcr()<sp/>and<sp/>enableOcr()<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="class_mime_detector_ocr_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_mime_detector_ocr_test_1ab7df68c5875eb475dfa76a073908feea" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipping<sp/>MimeDetectorOcrTest<sp/>on<sp/>Windows<sp/>due<sp/>to<sp/>MIME/OCR<sp/>backend<sp/>differences.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Let<sp/>MimeDetector<sp/>resolve<sp/>the<sp/>best<sp/>available<sp/>config<sp/>path<sp/>itself.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_mime_detector_ocr_test_1a2ab595b89f15cd30f2b319c1eaff18d7" kindref="member">detector_</ref><sp/>=<sp/>std::make_shared&lt;MimeDetector&gt;(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MimeDetector&gt;<sp/><ref refid="class_mime_detector_ocr_test_1a2ab595b89f15cd30f2b319c1eaff18d7" kindref="member">detector_</ref>;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_DisabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OCR<sp/>must<sp/>be<sp/>opt-in;<sp/>no<sp/>trigger<sp/>when<sp/>policy.ocr_enabled<sp/>is<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/tiff&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_EnabledForPng)<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="355"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_EnabledForJpeg)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_EnabledForTiff)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/tiff&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_NotForNonImageTypes)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Text<sp/>and<sp/>document<sp/>MIME<sp/>types<sp/>must<sp/>not<sp/>trigger<sp/>OCR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;application/pdf&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;video/mp4&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/gif&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>GIF<sp/>not<sp/>in<sp/>OCR<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/bmp&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>BMP<sp/>not<sp/>in<sp/>OCR<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_DisableAfterEnable)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ValidationResult::ocr_recommended<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ValidateUpload_OcrRecommended_FalseByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ocr_recommended<sp/>must<sp/>be<sp/>false<sp/>when<sp/>OCR<sp/>is<sp/>not<sp/>enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;photo.png&quot;</highlight><highlight class="normal">,<sp/>1<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ocr_recommended);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ValidateUpload_OcrRecommended_TrueForPngWhenEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;photo.png&quot;</highlight><highlight class="normal">,<sp/>1<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.mime_type,<sp/></highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ocr_recommended);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ValidateUpload_OcrRecommended_TrueForJpegWhenEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;scan.jpg&quot;</highlight><highlight class="normal">,<sp/>1<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ocr_recommended);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ValidateUpload_OcrRecommended_TrueForTiffWhenEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;document.tiff&quot;</highlight><highlight class="normal">,<sp/>1<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ocr_recommended);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ValidateUpload_OcrRecommended_FalseForNonImageWhenEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;report.txt&quot;</highlight><highlight class="normal">,<sp/>1024);</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.allowed);</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ocr_recommended);</highlight></codeline>
+<codeline lineno="421"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ValidateUpload_OcrRecommended_FalseWhenDenied)<sp/>{</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Executables<sp/>are<sp/>blacklisted;<sp/>ocr_recommended<sp/>must<sp/>remain<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector_-&gt;validateUpload(</highlight><highlight class="stringliteral">&quot;malware.exe&quot;</highlight><highlight class="normal">,<sp/>1024);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.allowed);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ocr_recommended);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MimeDetector::shouldTriggerOcr(mime,<sp/>bool)<sp/>—<sp/>stateless<sp/>overload<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_BoolOverload_DisabledReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stateless<sp/>overload:<sp/>ocr_enabled=false<sp/>must<sp/>return<sp/>false<sp/>regardless<sp/>of<sp/>MIME<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/tiff&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="440"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_BoolOverload_EnabledForOcrMimeTypes)<sp/>{</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stateless<sp/>overload:<sp/>ocr_enabled=true<sp/>must<sp/>return<sp/>true<sp/>for<sp/>the<sp/>three<sp/>OCR<sp/>MIME<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/jpeg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/tiff&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="447"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_BoolOverload_NotForNonOcrMimeTypes)<sp/>{</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stateless<sp/>overload:<sp/>even<sp/>with<sp/>ocr_enabled=true,<sp/>non-OCR<sp/>MIME<sp/>types<sp/>return<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;application/pdf&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/gif&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/bmp&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;video/mp4&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="456"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><ref refid="test__content__policy_8cpp_1ae9cddf6ba71c533352da16cbf036e2c3" kindref="member">TEST_F</ref>(<ref refid="class_mime_detector_ocr_test" kindref="compound">MimeDetectorOcrTest</ref>,<sp/>ShouldTriggerOcr_BoolOverload_IndependentOfInternalPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stateless<sp/>overload<sp/>must<sp/>ignore<sp/>the<sp/>detector&apos;s<sp/>internal<sp/>policy<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>overload<sp/>ignores<sp/>internal<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>detector_-&gt;enableOcr(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector_-&gt;shouldTriggerOcr(</highlight><highlight class="stringliteral">&quot;image/png&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">));<sp/></highlight><highlight class="comment">//<sp/>overload<sp/>ignores<sp/>internal<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_policy.cpp"/>
+  </compounddef>
+</doxygen>

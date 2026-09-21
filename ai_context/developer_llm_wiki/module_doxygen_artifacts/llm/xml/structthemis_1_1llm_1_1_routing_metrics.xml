@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_routing_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RoutingMetrics</compoundname>
+    <includes refid="lora__router_8h" local="no">lora_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_metrics_1a16f2fb79e5fcb947bd9273ab3e8a97d4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::RoutingMetrics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::llm::RoutingMetrics::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="85" column="12" bodyfile="include/llm/lora_router.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_metrics_1a164836c866ae8cde0e56ca4130820087" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::RoutingMetrics::successful_routes</definition>
+        <argsstring></argsstring>
+        <name>successful_routes</name>
+        <qualifiedname>themis::llm::RoutingMetrics::successful_routes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="86" column="12" bodyfile="include/llm/lora_router.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_metrics_1a749b0e8319b5d19617d8613680bcd47c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::RoutingMetrics::fallback_routes</definition>
+        <argsstring></argsstring>
+        <name>fallback_routes</name>
+        <qualifiedname>themis::llm::RoutingMetrics::fallback_routes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="87" column="12" bodyfile="include/llm/lora_router.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_metrics_1a7b4f894204e218022d9395d69232d176" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::llm::RoutingMetrics::adapter_usage_count</definition>
+        <argsstring></argsstring>
+        <name>adapter_usage_count</name>
+        <qualifiedname>themis::llm::RoutingMetrics::adapter_usage_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="88" column="24" bodyfile="include/llm/lora_router.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_metrics_1a7e1b1ee9f1c1f35edb6298763037da42" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::llm::RoutingMetrics::adapter_avg_similarity</definition>
+        <argsstring></argsstring>
+        <name>adapter_avg_similarity</name>
+        <qualifiedname>themis::llm::RoutingMetrics::adapter_avg_similarity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="89" column="24" bodyfile="include/llm/lora_router.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_metrics_1a496ca86b98d8193130e52db1102598db" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::RoutingMetrics::avg_routing_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_routing_latency_ms</name>
+        <qualifiedname>themis::llm::RoutingMetrics::avg_routing_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="90" column="12" bodyfile="include/llm/lora_router.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_metrics_1ac53113df32b0586db80483ade93bf6ec" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::RoutingMetrics::avg_similarity_score</definition>
+        <argsstring></argsstring>
+        <name>avg_similarity_score</name>
+        <qualifiedname>themis::llm::RoutingMetrics::avg_similarity_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="91" column="12" bodyfile="include/llm/lora_router.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_routing_metrics_1a76b7bef39905c887f80e256324809ae3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::RoutingMetrics::~RoutingMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RoutingMetrics</name>
+        <qualifiedname>themis::llm::RoutingMetrics::~RoutingMetrics</qualifiedname>
+        <briefdescription>
+<para>Routing Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="84" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_routing_metrics_1a541a2a9a7ccf228b683bef82d792ffff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::RoutingMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::RoutingMetrics::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="97" column="10" bodyfile="src/llm/lora_router.cpp" bodystart="52" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_router.h" line="79" column="1" bodyfile="include/llm/lora_router.h" bodystart="79" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_routing_metrics_1a7e1b1ee9f1c1f35edb6298763037da42" prot="public" virt="non-virtual"><scope>themis::llm::RoutingMetrics</scope><name>adapter_avg_similarity</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_metrics_1a7b4f894204e218022d9395d69232d176" prot="public" virt="non-virtual"><scope>themis::llm::RoutingMetrics</scope><name>adapter_usage_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_metrics_1a496ca86b98d8193130e52db1102598db" prot="public" virt="non-virtual"><scope>themis::llm::RoutingMetrics</scope><name>avg_routing_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_metrics_1ac53113df32b0586db80483ade93bf6ec" prot="public" virt="non-virtual"><scope>themis::llm::RoutingMetrics</scope><name>avg_similarity_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_metrics_1a749b0e8319b5d19617d8613680bcd47c" prot="public" virt="non-virtual"><scope>themis::llm::RoutingMetrics</scope><name>fallback_routes</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_metrics_1a164836c866ae8cde0e56ca4130820087" prot="public" virt="non-virtual"><scope>themis::llm::RoutingMetrics</scope><name>successful_routes</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_metrics_1a541a2a9a7ccf228b683bef82d792ffff" prot="public" virt="non-virtual"><scope>themis::llm::RoutingMetrics</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_metrics_1a16f2fb79e5fcb947bd9273ab3e8a97d4" prot="public" virt="non-virtual"><scope>themis::llm::RoutingMetrics</scope><name>total_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_metrics_1a76b7bef39905c887f80e256324809ae3" prot="public" virt="virtual"><scope>themis::llm::RoutingMetrics</scope><name>~RoutingMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,2642 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1server" kind="namespace" language="C++">
+    <compoundname>themis::server</compoundname>
+    <innerclass refid="classthemis_1_1server_1_1_adaptive_rate_limiter" prot="public">themis::server::AdaptiveRateLimiter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_admin_api_handler" prot="public">themis::server::AdminApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_ai_plugin_api_handler" prot="public">themis::server::AiPluginApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_anomaly_event" prot="public">themis::server::AnomalyEvent</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_api_auth_config" prot="public">themis::server::ApiAuthConfig</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_a_p_i_deprecation_info" prot="public">themis::server::APIDeprecationInfo</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_a_p_i_gateway" prot="public">themis::server::APIGateway</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_api_key_mgmt_handler" prot="public">themis::server::ApiKeyMgmtHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_api_security_audit_finding" prot="public">themis::server::ApiSecurityAuditFinding</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_api_security_auditor" prot="public">themis::server::ApiSecurityAuditor</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_api_security_audit_report" prot="public">themis::server::ApiSecurityAuditReport</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_a_p_i_version" prot="public">themis::server::APIVersion</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_a_p_i_version_config" prot="public">themis::server::APIVersionConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_a_p_i_version_manager" prot="public">themis::server::APIVersionManager</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_a_p_i_version_range" prot="public">themis::server::APIVersionRange</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_async_job_api_handler" prot="public">themis::server::AsyncJobApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_async_job_record" prot="public">themis::server::AsyncJobRecord</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_async_job_registry" prot="public">themis::server::AsyncJobRegistry</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_async_s_s_e_stream" prot="public">themis::server::AsyncSSEStream</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_async_s_s_e_stream_config" prot="public">themis::server::AsyncSSEStreamConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_audit_api_handler" prot="public">themis::server::AuditApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_audit_log_entry" prot="public">themis::server::AuditLogEntry</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_audit_query_filter" prot="public">themis::server::AuditQueryFilter</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_auth_context" prot="public">themis::server::AuthContext</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_auth_middleware" prot="public">themis::server::AuthMiddleware</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_backend_endpoint" prot="public">themis::server::BackendEndpoint</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_backend_health_sample" prot="public">themis::server::BackendHealthSample</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_bpmn_api_handler" prot="public">themis::server::BpmnApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_branch_api_handler" prot="public">themis::server::BranchApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_breaking_change_info" prot="public">themis::server::BreakingChangeInfo</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_buffer_a_p_i_handler" prot="public">themis::server::BufferAPIHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_cache_admin_api_handler" prot="public">themis::server::CacheAdminApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_cache_api_handler" prot="public">themis::server::CacheApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_cdn_cache_middleware" prot="public">themis::server::CdnCacheMiddleware</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_cdn_route_policy" prot="public">themis::server::CdnRoutePolicy</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_changefeed_api_handler" prot="public">themis::server::ChangefeedApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_chunked_response_writer" prot="public">themis::server::ChunkedResponseWriter</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_chunked_writer_config" prot="public">themis::server::ChunkedWriterConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_classification_api_handler" prot="public">themis::server::ClassificationApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_cluster_gateway_config" prot="public">themis::server::ClusterGatewayConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_compat_checker" prot="public">themis::server::CompatChecker</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_compat_check_result" prot="public">themis::server::CompatCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_compat_policy" prot="public">themis::server::CompatPolicy</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_compliance_reporting_api_handler" prot="public">themis::server::ComplianceReportingApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_consistent_hash_ring" prot="public">themis::server::ConsistentHashRing</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_content_api_handler" prot="public">themis::server::ContentApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_continuous_query_api_handler" prot="public">themis::server::ContinuousQueryApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_cost_based_rate_limiter" prot="public">themis::server::CostBasedRateLimiter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_diff_api_handler" prot="public">themis::server::DiffApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_distributed_gateway" prot="public">themis::server::DistributedGateway</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_distributed_txn_api_handler" prot="public">themis::server::DistributedTxnApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_encrypted_storage_api_handler" prot="public">themis::server::EncryptedStorageApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_endpoint_auth_config" prot="public">themis::server::EndpointAuthConfig</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_entity_api_config" prot="public">themis::server::EntityApiConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_entity_api_handler" prot="public">themis::server::EntityApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_error_api_handler" prot="public">themis::server::ErrorApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_ethics_api_handler" prot="public">themis::server::EthicsApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_export_api_handler" prot="public">themis::server::ExportApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_feedback_a_p_i_handler" prot="public">themis::server::FeedbackAPIHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_gateway_node" prot="public">themis::server::GatewayNode</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_gateway_route_config" prot="public">themis::server::GatewayRouteConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_geo_topology_api_handler" prot="public">themis::server::GeoTopologyApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_graph_api_handler" prot="public">themis::server::GraphApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_graph_q_l_api_handler" prot="public">themis::server::GraphQLApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_grpc_web_proxy_handler" prot="public">themis::server::GrpcWebProxyHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_health_error_service" prot="public">themis::server::HealthErrorService</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_hot_reload_api_handler" prot="public">themis::server::HotReloadApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_http3_connection_metrics" prot="public">themis::server::Http3ConnectionMetrics</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_http3_fallback_manager" prot="public">themis::server::Http3FallbackManager</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_http3_production_config" prot="public">themis::server::Http3ProductionConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_http_server" prot="public">themis::server::HttpServer</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_http_shutdown_manager" prot="public">themis::server::HttpShutdownManager</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_http_type_adapter" prot="public">themis::server::HttpTypeAdapter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_import_api_handler" prot="public">themis::server::ImportApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_i_mqtt_message_handler" prot="public">themis::server::IMqttMessageHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_index_api_handler" prot="public">themis::server::IndexApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_keys_api_handler" prot="public">themis::server::KeysApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_l_l_m_api_handler" prot="public">themis::server::LLMApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_l_l_m_grpc_service" prot="public">themis::server::LLMGrpcService</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_load_shedder" prot="public">themis::server::LoadShedder</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_lo_r_a_api_handler" prot="public">themis::server::LoRAApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_maintenance_api_handler" prot="public">themis::server::MaintenanceApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_merge_api_handler" prot="public">themis::server::MergeApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_model_integrity_verifier" prot="public">themis::server::ModelIntegrityVerifier</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_monitoring_api_handler" prot="public">themis::server::MonitoringApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport" prot="public">themis::server::MqttCDCTransport</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_mqtt_client_config" prot="public">themis::server::MqttClientConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_mqtt_client_service" prot="public">themis::server::MqttClientService</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_mvcc_api_handler" prot="public">themis::server::MvccApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_o_auth2_provider" prot="public">themis::server::OAuth2Provider</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_per_client_rate_limiter" prot="public">themis::server::PerClientRateLimiter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_p_i_i_api_handler" prot="public">themis::server::PIIApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_pii_mapping" prot="public">themis::server::PiiMapping</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_pii_query_filter" prot="public">themis::server::PiiQueryFilter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_p_i_t_r_api_handler" prot="public">themis::server::PITRApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_pki_api_handler" prot="public">themis::server::PkiApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_policy_api_handler" prot="public">themis::server::PolicyApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_policy_manager_api_handler" prot="public">themis::server::PolicyManagerApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_policy_template_api_handler" prot="public">themis::server::PolicyTemplateApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_policy_validation_api_handler" prot="public">themis::server::PolicyValidationApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_policy_versioning_api_handler" prot="public">themis::server::PolicyVersioningApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_profile_resolution_result" prot="public">themis::server::ProfileResolutionResult</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_profiling_api_handler" prot="public">themis::server::ProfilingApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_prompt_api_handler" prot="public">themis::server::PromptApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_prompt_engineering_api_handler" prot="public">themis::server::PromptEngineeringApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_prompt_engineering_grpc_service" prot="public">themis::server::PromptEngineeringGrpcService</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_query_api_handler" prot="public">themis::server::QueryApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_query_exec_status" prot="public">themis::server::QueryExecStatus</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_ranger_client" prot="public">themis::server::RangerClient</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_ranger_client_config" prot="public">themis::server::RangerClientConfig</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_rate_limit_config" prot="public">themis::server::RateLimitConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_rate_limiter" prot="public">themis::server::RateLimiter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_rate_limiting_middleware" prot="public">themis::server::RateLimitingMiddleware</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_redis_rate_limiter_config" prot="public">themis::server::RedisRateLimiterConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_replication_topology_api_handler" prot="public">themis::server::ReplicationTopologyApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_reports_api_handler" prot="public">themis::server::ReportsApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_request" prot="public">themis::server::Request</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_request_coalescing_manager" prot="public">themis::server::RequestCoalescingManager</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_request_validation_middleware" prot="public">themis::server::RequestValidationMiddleware</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_response" prot="public">themis::server::Response</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_response_transformer" prot="public">themis::server::ResponseTransformer</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_retention_api_handler" prot="public">themis::server::RetentionApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_retention_query_filter" prot="public">themis::server::RetentionQueryFilter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_review_scheduling_api_handler" prot="public">themis::server::ReviewSchedulingApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_rope_api_handler" prot="public">themis::server::RopeApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_route_entry" prot="public">themis::server::RouteEntry</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_route_operation" prot="public">themis::server::RouteOperation</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_route_param" prot="public">themis::server::RouteParam</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_route_registry" prot="public">themis::server::RouteRegistry</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_route_version_router" prot="public">themis::server::RouteVersionRouter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_s_a_g_a_api_handler" prot="public">themis::server::SAGAApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_s_a_g_a_batch_detail" prot="public">themis::server::SAGABatchDetail</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_s_a_g_a_batch_info" prot="public">themis::server::SAGABatchInfo</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_saml_auth_provider" prot="public">themis::server::SamlAuthProvider</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_schema_api_handler" prot="public">themis::server::SchemaApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_schema_field_descriptor" prot="public">themis::server::SchemaFieldDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_scraper_plugin_api_handler" prot="public">themis::server::ScraperPluginApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_server_build_capabilities" prot="public">themis::server::ServerBuildCapabilities</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_serverless_function" prot="public">themis::server::ServerlessFunction</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_serverless_function_api_handler" prot="public">themis::server::ServerlessFunctionApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_server_profile_validation_result" prot="public">themis::server::ServerProfileValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_server_runtime_feature_requests" prot="public">themis::server::ServerRuntimeFeatureRequests</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_service_mesh_api_handler" prot="public">themis::server::ServiceMeshApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_session_api_handler" prot="public">themis::server::SessionApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_sharding_metrics_handler" prot="public">themis::server::ShardingMetricsHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_shard_repair_api_handler" prot="public">themis::server::ShardRepairApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_smart_router" prot="public">themis::server::SmartRouter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_snapshot_api_handler" prot="public">themis::server::SnapshotApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_spatial_api_handler" prot="public">themis::server::SpatialApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_sse_connection_manager" prot="public">themis::server::SseConnectionManager</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_task_scheduler_api_handler" prot="public">themis::server::TaskSchedulerApiHandler</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_tenant_workload_stats" prot="public">themis::server::TenantWorkloadStats</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_time_series_api_handler" prot="public">themis::server::TimeSeriesApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_token_bucket" prot="public">themis::server::TokenBucket</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_token_bucket_rate_limiter" prot="public">themis::server::TokenBucketRateLimiter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_transaction_api_handler" prot="public">themis::server::TransactionApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_udf_api_handler" prot="public">themis::server::UdfApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_update_api_handler" prot="public">themis::server::UpdateApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_vector_api_handler" prot="public">themis::server::VectorApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_voice_api_handler" prot="public">themis::server::VoiceApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_w_a_l_api_handler" prot="public">themis::server::WALApiHandler</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_wal_grpc_service" prot="public">themis::server::WalGrpcService</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_wasm_handler_config" prot="public">themis::server::WasmHandlerConfig</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_wasm_handler_entry" prot="public">themis::server::WasmHandlerEntry</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_wasm_handler_registry" prot="public">themis::server::WasmHandlerRegistry</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_wasm_invoke_result" prot="public">themis::server::WasmInvokeResult</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_workload_fingerprint_engine" prot="public">themis::server::WorkloadFingerprintEngine</innerclass>
+    <innernamespace refid="namespacethemis_1_1server_1_1_a_p_i_headers">themis::server::APIHeaders</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server_1_1auth__scope__mapper">themis::server::auth_scope_mapper</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server_1_1perf">themis::server::perf</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server_1_1rpc">themis::server::rpc</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server_1_1test">themis::server::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1server_1ae75ca711f0b9df391a9a7b69ed05d7dd" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>AuditSeverity</name>
+        <qualifiedname>themis::server::AuditSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1ae75ca711f0b9df391a9a7b69ed05d7dda41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1ae75ca711f0b9df391a9a7b69ed05d7ddac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1ae75ca711f0b9df391a9a7b69ed05d7ddab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1ae75ca711f0b9df391a9a7b69ed05d7dda99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="23" column="1" bodyfile="include/server/api_security_audit.h" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1server_1a42c75eabac43c70aad496f3acb4a9d6c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AsyncJobStatus</name>
+        <qualifiedname>themis::server::AsyncJobStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1a42c75eabac43c70aad496f3acb4a9d6cac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Accepted, not yet started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a42c75eabac43c70aad496f3acb4a9d6ca43491564ebcfd38568918efbd6e840fd" prot="public">
+          <name>RUNNING</name>
+          <briefdescription>
+<para>Executing in background thread. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a42c75eabac43c70aad496f3acb4a9d6ca8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+<para>Finished successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a42c75eabac43c70aad496f3acb4a9d6cab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Finished with an error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a42c75eabac43c70aad496f3acb4a9d6ca9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+<para>Cancelled by client request. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="44" column="1" bodyfile="include/server/async_job_api_handler.h" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1server_1a5a9a25eb5b1f9b7104c6c9a9970e8080" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CacheDirective</name>
+        <qualifiedname>themis::server::CacheDirective</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1a5a9a25eb5b1f9b7104c6c9a9970e8080acd0c6092d6a6874f379fe4827ed1db8b" prot="public">
+          <name>PUBLIC</name>
+          <briefdescription>
+<para>public – CDN and browser may cache </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a5a9a25eb5b1f9b7104c6c9a9970e8080a84c6d22cfdf3772e66b07bde636e0571" prot="public">
+          <name>PRIVATE</name>
+          <briefdescription>
+<para>private – browser only, not shared caches </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a5a9a25eb5b1f9b7104c6c9a9970e8080a54ccf0850636d8d9a21f0cb07b058035" prot="public">
+          <name>NO_CACHE</name>
+          <briefdescription>
+<para>no-cache – revalidate with origin on every use </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a5a9a25eb5b1f9b7104c6c9a9970e8080abc8a5ae4ad0a8629d8a8205e5ed9f43f" prot="public">
+          <name>NO_STORE</name>
+          <briefdescription>
+<para>no-store – do not persist at all (sensitive data) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cdn_cache_middleware.h" line="27" column="1" bodyfile="include/server/cdn_cache_middleware.h" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1server_1af51e044269d336ec6753315e57442d6f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OperationType</name>
+        <qualifiedname>themis::server::OperationType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1af51e044269d336ec6753315e57442d6fa3b2114de5fa2f7590fa78423837fcf3d" prot="public">
+          <name>SIMPLE_GET</name>
+          <briefdescription>
+<para>Simple key/value or point lookup — cost 1. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1af51e044269d336ec6753315e57442d6fad7d577ccbc03fd52d121816db0432dfc" prot="public">
+          <name>COMPLEX_QUERY</name>
+          <briefdescription>
+<para>Multi-predicate or join query — cost 10. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1af51e044269d336ec6753315e57442d6fa4939a0c5f946aa98a33244d2f3cfef58" prot="public">
+          <name>VECTOR_SEARCH</name>
+          <briefdescription>
+<para>ANN / embedding similarity search — cost 20. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1af51e044269d336ec6753315e57442d6fa0a634ab1731eb9828e524815667ab5de" prot="public">
+          <name>LLM_COMPLETION</name>
+          <briefdescription>
+<para>LLM inference / completion call — cost 100. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1af51e044269d336ec6753315e57442d6fa72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Caller supplies an explicit cost via allowRequest(). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cost_based_rate_limiter.h" line="23" column="1" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77c" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>Http3CongestionAlgorithm</name>
+        <qualifiedname>themis::server::Http3CongestionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77caec6b5414eb175379ff9efc9b3eef5814" prot="public">
+          <name>Cubic</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>CUBIC (RFC 8312) – ngtcp2 default. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77ca77b6e24f5b78b6eb0697aa8994ce15e9" prot="public">
+          <name>Reno</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>New Reno – conservative, good for very stable networks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77ca75b0454dcb25b99d9336fcd2108f59f9" prot="public">
+          <name>Bbr</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>BBR v1 – better for high-BDP and lossy mobile networks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="29" column="1" bodyfile="include/server/http3_production_config.h" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ShutdownPhase</name>
+        <qualifiedname>themis::server::ShutdownPhase</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671af5137a026a4b2f3b1c8a21cfc60dd14b" prot="public">
+          <name>kIdle</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Shutdown has not started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671a4edb91985bca34f444ffdaacfa4ede22" prot="public">
+          <name>kDraining</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Waiting for in-flight requests to finish. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671aac2c6f3615e75207e7ab703ad1c966ad" prot="public">
+          <name>kForceClose</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Drain timeout elapsed; forcing sessions closed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671ac435122fe43315cf3377c25ae561c28e" prot="public">
+          <name>kTeardown</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Subsystems being torn down. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671a9e2024e27d037d51bb46ef86d2e0ea4d" prot="public">
+          <name>kDone</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Shutdown complete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_shutdown_manager.h" line="36" column="1" bodyfile="include/server/http_shutdown_manager.h" bodystart="36" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ServerActivationProfile</name>
+        <qualifiedname>themis::server::ServerActivationProfile</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57a30fc6bbba82125243ecf4ddb27fee645" prot="public">
+          <name>Minimal</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57aeb6d8ae6f20283755b339c0dc273988b" prot="public">
+          <name>Standard</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57aa0f27638260642afb474516cc918407e" prot="public">
+          <name>Enterprise</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Runtime activation profile used to enforce startup feature contracts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="30" column="1" bodyfile="include/server/server_activation_profile.h" bodystart="30" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>ServerErrorClass</name>
+        <qualifiedname>themis::server::ServerErrorClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>=  0</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a6a6b6786495f87f7a838cb59a3373f9b" prot="public">
+          <name>AUTH_GATE_DENIED</name>
+          <initializer>=  1</initializer>
+          <briefdescription>
+<para>Auth gate denied the request (invalid/missing/expired credential). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a90f78850249c5344fd5ce82b9f22d112" prot="public">
+          <name>TRANSPORT_TIMEOUT</name>
+          <initializer>=  2</initializer>
+          <briefdescription>
+<para>Transport-layer timeout: handler did not complete within deadline. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a1193fca3bf4099eba1478e3a40862512" prot="public">
+          <name>SHUTDOWN_DRAIN_TIMEOUT</name>
+          <initializer>=  3</initializer>
+          <briefdescription>
+<para>Graceful shutdown drain exceeded kShutdownDrainMaxTimeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ad5396b5bf47321267f6db180394b4582" prot="public">
+          <name>RATE_LIMIT_EXCEEDED</name>
+          <initializer>=  4</initializer>
+          <briefdescription>
+<para>Per-client or global rate limit exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161aa224afc9af395429edad294f94a9ae14" prot="public">
+          <name>PROTOCOL_VIOLATION</name>
+          <initializer>=  5</initializer>
+          <briefdescription>
+<para>Malformed protocol frame or violates structural wire contract. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac777724408cff35227adfacc541b55e0" prot="public">
+          <name>INPUT_VALIDATION_ERROR</name>
+          <initializer>=  6</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> body or parameter fails schema/JSON validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a3bddb6477bf76bf03253664033b46911" prot="public">
+          <name>RETRY_BUDGET_EXHAUSTED</name>
+          <initializer>=  7</initializer>
+          <briefdescription>
+<para>All retry attempts exhausted within the global retry budget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161aee8dff70d94c288b30780ea95d080a66" prot="public">
+          <name>BACKPRESSURE_SHED</name>
+          <initializer>=  8</initializer>
+          <briefdescription>
+<para><ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> shed due to backpressure queue limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac07ff7b5d7be3b8a5d8435d9827dea76" prot="public">
+          <name>QUORUM_UNAVAILABLE</name>
+          <initializer>=  9</initializer>
+          <briefdescription>
+<para>gRPC/raft quorum unavailable (≥ n/2+1 nodes unreachable). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a94f58f39fbe930b311f80bb571faa31e" prot="public">
+          <name>VERSION_MISMATCH</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+<para>API version not supported or version contract mismatch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ad4381a52828e126b02907417a6e7abd4" prot="public">
+          <name>SERVER_DRAINING</name>
+          <initializer>= 11</initializer>
+          <briefdescription>
+<para>Underlying transport is in the process of draining/shutting down. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+<para>Unclassified internal error; always results in 500 / INTERNAL. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical server error classes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Values are stable across v1.x. Any addition of a new class requires a CHANGELOG entry. Removal or renumbering requires a v2.0 major bump. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="179" column="1" bodyfile="include/server/server_api_contract.h" bodystart="179" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>ServerState</name>
+        <qualifiedname>themis::server::ServerState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252af5137a026a4b2f3b1c8a21cfc60dd14b" prot="public">
+          <name>kIdle</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Server constructed but not yet started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252a2fc7fbf0d19294f85dd3880460dd3c0a" prot="public">
+          <name>kRunning</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Accepting and processing requests. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252a4edb91985bca34f444ffdaacfa4ede22" prot="public">
+          <name>kDraining</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Draining in-flight requests; no new connections accepted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252ad222414baa8a2c6f4d07524918f75fd1" prot="public">
+          <name>kStopped</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Fully stopped; no I/O activity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Server lifecycle state machine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transitions: kIdle → kRunning → kDraining → kStopped. No reverse transitions are permitted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="270" column="1" bodyfile="include/server/server_api_contract.h" bodystart="270" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1server_1a477e691cc1886a0aca690c6b1ee34023" prot="public" static="no">
+        <type><ref refid="structthemis_1_1server_1_1_auth_middleware_1_1_auth_context" kindref="compound">AuthMiddleware::AuthContext</ref></type>
+        <definition>using themis::server::AuthContext = AuthMiddleware::AuthContext</definition>
+        <argsstring></argsstring>
+        <name>AuthContext</name>
+        <qualifiedname>themis::server::AuthContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_gateway.h" line="35" column="1" bodyfile="include/server/api_gateway.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::server::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::server::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/branch_api_handler.h" line="21" column="1" bodyfile="include/server/branch_api_handler.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1server_1afa51a850969e3b12eee7051fdb7df6c8" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> &amp;, <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref> &amp;)&gt;</type>
+        <definition>using themis::server::RouteHandler = std::function&lt;void(const Request&amp;, Response&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RouteHandler</name>
+        <qualifiedname>themis::server::RouteHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="48" column="1" bodyfile="include/server/error_api_handler.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1server_1ae1385a803b449aaee1d8bcefd08ae0ef" prot="public" static="no">
+        <type>net::ip::tcp</type>
+        <definition>using themis::server::tcp = net::ip::tcp</definition>
+        <argsstring></argsstring>
+        <name>tcp</name>
+        <qualifiedname>themis::server::tcp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="31" column="1" bodyfile="include/server/health_error_service.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1server_1a7ec6611e952c620866324045b6239742" prot="public" static="no">
+        <type>std::function&lt; http::response&lt; http::string_body &gt;( const http::request&lt; http::string_body &gt; &amp;)&gt;</type>
+        <definition>using themis::server::RequestHandler = std::function&lt;http::response&lt;http::string_body&gt;(
+   const http::request&lt;http::string_body&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RequestHandler</name>
+        <qualifiedname>themis::server::RequestHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http_server.h" line="232" column="1" bodyfile="include/server/http_server.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1server_1a40373827a675d7a508c2ac314a0d4a8a" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1server_1_1_anomaly_event" kindref="compound">AnomalyEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::server::AnomalyCallback = std::function&lt;void(const AnomalyEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AnomalyCallback</name>
+        <qualifiedname>themis::server::AnomalyCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="108" column="1" bodyfile="include/server/rate_limiter.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1server_1a3cda50e81ea2596b2d62a064ddb19468" prot="public" static="no">
+        <type>themis::Tracer</type>
+        <definition>using themis::server::Tracer = themis::Tracer</definition>
+        <argsstring></argsstring>
+        <name>Tracer</name>
+        <qualifiedname>themis::server::Tracer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/entity_api_handler.cpp" line="47" column="1" bodyfile="src/server/entity_api_handler.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a0a3eed95742d0f9daaa1bdd7f3cfbc34" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::kMaxRoutePathBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxRoutePathBytes</name>
+        <qualifiedname>themis::server::kMaxRoutePathBytes</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum allowed HTTP route path length in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="54" column="30" bodyfile="include/server/server_api_contract.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a74d243e2d7ab6e9a06da93af53dfa36a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::kMaxRegisteredRoutes</definition>
+        <argsstring></argsstring>
+        <name>kMaxRegisteredRoutes</name>
+        <qualifiedname>themis::server::kMaxRegisteredRoutes</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum number of simultaneously registered routes per protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="57" column="30" bodyfile="include/server/server_api_contract.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a1f13e728df719699f818243e1e4de399" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::kMaxRequestBodyBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxRequestBodyBytes</name>
+        <qualifiedname>themis::server::kMaxRequestBodyBytes</qualifiedname>
+        <initializer>= 16u * 1024u * 1024u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum allowed request body size (16 MiB) enforced at the transport layer. Requests exceeding this limit are rejected with 413 before handler dispatch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="61" column="30" bodyfile="include/server/server_api_contract.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a7d6415e951bed90e2551a33506b94efe" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::kMaxGrpcMetadataValueBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxGrpcMetadataValueBytes</name>
+        <qualifiedname>themis::server::kMaxGrpcMetadataValueBytes</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+<para>Maximum gRPC metadata value size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="64" column="30" bodyfile="include/server/server_api_contract.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1ad0bd3aa600450caa57f465c2539a8bab" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::kMaxMqttPayloadBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxMqttPayloadBytes</name>
+        <qualifiedname>themis::server::kMaxMqttPayloadBytes</qualifiedname>
+        <initializer>= 256u * 1024u</initializer>
+        <briefdescription>
+<para>Maximum MQTT payload size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="67" column="30" bodyfile="include/server/server_api_contract.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a12e2b882fa48d468650991e328a67cdc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::server::kAuthClockSkewTolerance</definition>
+        <argsstring></argsstring>
+        <name>kAuthClockSkewTolerance</name>
+        <qualifiedname>themis::server::kAuthClockSkewTolerance</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Default clock-skew tolerance for JWT exp/nbf comparisons. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="87" column="39" bodyfile="include/server/server_api_contract.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1af025ce0fd3d8373abe6315b9e6f0ab07" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::kServerMaxJwtTokenBytes</definition>
+        <argsstring></argsstring>
+        <name>kServerMaxJwtTokenBytes</name>
+        <qualifiedname>themis::server::kServerMaxJwtTokenBytes</qualifiedname>
+        <initializer>= 16u * 1024u</initializer>
+        <briefdescription>
+<para>Maximum accepted JWT token size at the server transport boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="90" column="30" bodyfile="include/server/server_api_contract.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a3df3c1d52c55578320956007df1a7042" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::kDefaultMaxRetries</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxRetries</name>
+        <qualifiedname>themis::server::kDefaultMaxRetries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Default maximum number of retry attempts per request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="105" column="22" bodyfile="include/server/server_api_contract.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a90b242ec7d2cbf47c971ac91d0be95f1" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::server::kRetryBaseDelay</definition>
+        <argsstring></argsstring>
+        <name>kRetryBaseDelay</name>
+        <qualifiedname>themis::server::kRetryBaseDelay</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Default base delay for exponential backoff. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="108" column="44" bodyfile="include/server/server_api_contract.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a4513c9d5af2f5de713377004ba750cce" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::server::kRetryGlobalBudget</definition>
+        <argsstring></argsstring>
+        <name>kRetryGlobalBudget</name>
+        <qualifiedname>themis::server::kRetryGlobalBudget</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Default global retry budget (wall-clock window for all retry attempts). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="111" column="39" bodyfile="include/server/server_api_contract.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1adb0678413d6f5c6aef332d1cff42950d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::server::kRetryMaxBaseDelay</definition>
+        <argsstring></argsstring>
+        <name>kRetryMaxBaseDelay</name>
+        <qualifiedname>themis::server::kRetryMaxBaseDelay</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Maximum allowed retry base delay (operator-configurable upper bound). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="114" column="44" bodyfile="include/server/server_api_contract.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a5e6a4d602ceee384ff9a0feda954295a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::server::kDefaultRequestTimeout</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRequestTimeout</name>
+        <qualifiedname>themis::server::kDefaultRequestTimeout</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Default per-request handler timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="130" column="39" bodyfile="include/server/server_api_contract.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1ac2b6b6bed238fa4039502af8fc766d67" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::server::kMaxRequestTimeout</definition>
+        <argsstring></argsstring>
+        <name>kMaxRequestTimeout</name>
+        <qualifiedname>themis::server::kMaxRequestTimeout</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+<para>Maximum allowed per-request handler timeout (operator-configurable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="133" column="39" bodyfile="include/server/server_api_contract.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a2022ead71e3c0a2686c9bb1a059ac2d0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::server::kShutdownDrainTimeout</definition>
+        <argsstring></argsstring>
+        <name>kShutdownDrainTimeout</name>
+        <qualifiedname>themis::server::kShutdownDrainTimeout</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Default graceful shutdown drain timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="136" column="39" bodyfile="include/server/server_api_contract.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1accf42aa5eb428f39c37b176c0d7a2799" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::server::kShutdownDrainMaxTimeout</definition>
+        <argsstring></argsstring>
+        <name>kShutdownDrainMaxTimeout</name>
+        <qualifiedname>themis::server::kShutdownDrainMaxTimeout</qualifiedname>
+        <initializer>{120}</initializer>
+        <briefdescription>
+<para>Hard maximum for graceful shutdown drain (after which connections are forced closed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="139" column="39" bodyfile="include/server/server_api_contract.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1aee2337dd14eb641a288ee5e0d44f3fc3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::server::kKeepaliveIdleTimeout</definition>
+        <argsstring></argsstring>
+        <name>kKeepaliveIdleTimeout</name>
+        <qualifiedname>themis::server::kKeepaliveIdleTimeout</qualifiedname>
+        <initializer>{90}</initializer>
+        <briefdescription>
+<para>Keepalive idle timeout before connection recycling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="142" column="39" bodyfile="include/server/server_api_contract.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a8ae10c1c2a91613369dc1e5ad512358d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::kBackpressureQueueLimit</definition>
+        <argsstring></argsstring>
+        <name>kBackpressureQueueLimit</name>
+        <qualifiedname>themis::server::kBackpressureQueueLimit</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+<para>In-flight request queue depth that triggers backpressure shedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="157" column="30" bodyfile="include/server/server_api_contract.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a67c68a7fd416d1acc604eaf0d61a2399" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::kWebSocketWriteBufferLimit</definition>
+        <argsstring></argsstring>
+        <name>kWebSocketWriteBufferLimit</name>
+        <qualifiedname>themis::server::kWebSocketWriteBufferLimit</qualifiedname>
+        <initializer>= 1u * 1024u * 1024u</initializer>
+        <briefdescription>
+<para>Per-session WebSocket write buffer limit in bytes before read-pause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="160" column="30" bodyfile="include/server/server_api_contract.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1adf07b56dc150bb3bcef86081be6d8953" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::kWebSocketWriteBufferResumeThreshold</definition>
+        <argsstring></argsstring>
+        <name>kWebSocketWriteBufferResumeThreshold</name>
+        <qualifiedname>themis::server::kWebSocketWriteBufferResumeThreshold</qualifiedname>
+        <initializer>= 256u * 1024u</initializer>
+        <briefdescription>
+<para>WebSocket write buffer drain threshold before reads resume. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="163" column="30" bodyfile="include/server/server_api_contract.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a8e633366b023fffef9ea9d665ddbab81" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::server::kRateLimitWindow</definition>
+        <argsstring></argsstring>
+        <name>kRateLimitWindow</name>
+        <qualifiedname>themis::server::kRateLimitWindow</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Default per-client rate limit window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="290" column="39" bodyfile="include/server/server_api_contract.h" bodystart="290" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1ae46c98f7578281b27e9661eb967ec7bc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::server::kRateLimitSyncInterval</definition>
+        <argsstring></argsstring>
+        <name>kRateLimitSyncInterval</name>
+        <qualifiedname>themis::server::kRateLimitSyncInterval</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Default synchronisation interval for distributed rate limit state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="293" column="44" bodyfile="include/server/server_api_contract.h" bodystart="293" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1af619be27b6d2578d0ea5f2bea3cbbf74" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::server::kEntitiesPrefix</definition>
+        <argsstring></argsstring>
+        <name>kEntitiesPrefix</name>
+        <qualifiedname>themis::server::kEntitiesPrefix</qualifiedname>
+        <initializer>= &quot;/entities/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/api_gateway.cpp" line="69" column="35" bodyfile="src/server/api_gateway.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a53dab6e3508d50e1ba009956962a9445" prot="public" static="yes" mutable="no">
+        <type>const char</type>
+        <definition>const char themis::server::kBase64Chars[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kBase64Chars</name>
+        <qualifiedname>themis::server::kBase64Chars</qualifiedname>
+        <initializer>                           =
+&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/cache_admin_api_handler.cpp" line="102" column="19" bodyfile="src/server/cache_admin_api_handler.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1aa2e09ea3dacea8534235a89ecb5a3923" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::EVENT_TYPES_MAX_LEN</definition>
+        <argsstring></argsstring>
+        <name>EVENT_TYPES_MAX_LEN</name>
+        <qualifiedname>themis::server::EVENT_TYPES_MAX_LEN</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/changefeed_api_handler.cpp" line="60" column="25" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a436769f85acfe11718c59262b94d6809" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::EVENT_TYPES_PARAM_LEN</definition>
+        <argsstring></argsstring>
+        <name>EVENT_TYPES_PARAM_LEN</name>
+        <qualifiedname>themis::server::EVENT_TYPES_PARAM_LEN</qualifiedname>
+        <initializer>= sizeof(&quot;event_types=&quot;) - 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/changefeed_api_handler.cpp" line="62" column="25" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a6913b77de0b3914da4d0ef9062d0ebb0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::kMaxTokensLimit</definition>
+        <argsstring></argsstring>
+        <name>kMaxTokensLimit</name>
+        <qualifiedname>themis::server::kMaxTokensLimit</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/llm_api_handler.cpp" line="862" column="22" bodyfile="src/server/llm_api_handler.cpp" bodystart="862" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1ad0fed52a1c750c9fd0de8b0ab676315b" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::server::kTokenBucketLua</definition>
+        <argsstring></argsstring>
+        <name>kTokenBucketLua</name>
+        <qualifiedname>themis::server::kTokenBucketLua</qualifiedname>
+        <initializer>                                  = R&quot;LUA(
+local key       = KEYS[1]
+local capacity  = tonumber(ARGV[1])
+local rate      = tonumber(ARGV[2])
+local consume   = tonumber(ARGV[3])
+local now_ms    = tonumber(ARGV[4])
+local ttl_sec   = tonumber(ARGV[5])
+
+local data = redis.call(&quot;HMGET&quot;, key, &quot;tokens&quot;, &quot;last_ms&quot;)
+local tokens  = tonumber(data[1]) or capacity
+local last_ms = tonumber(data[2]) or now_ms
+
+-- refill
+local elapsed_sec = math.max(0, (now_ms - last_ms) / 1000.0)
+local new_tokens  = math.min(capacity, tokens + elapsed_sec * rate)
+
+-- try to consume
+if new_tokens &lt; consume then
+    -- Update the refilled amount even on rejection so subsequent calls see the correct state
+    redis.call(&quot;HMSET&quot;, key, &quot;tokens&quot;, new_tokens, &quot;last_ms&quot;, now_ms)
+    redis.call(&quot;EXPIRE&quot;, key, ttl_sec)
+    return 0
+end
+
+new_tokens = new_tokens - consume
+redis.call(&quot;HMSET&quot;, key, &quot;tokens&quot;, new_tokens, &quot;last_ms&quot;, now_ms)
+redis.call(&quot;EXPIRE&quot;, key, ttl_sec)
+return 1
+)LUA&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/rate_limiter_v2.cpp" line="40" column="19" bodyfile="src/server/rate_limiter_v2.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1ae3f405f160c21199f5c086e48ec6056c" prot="public" static="yes" mutable="no">
+        <type>const scheduler::ExternalSchedulerAdapter</type>
+        <definition>const scheduler::ExternalSchedulerAdapter themis::server::s_adapter</definition>
+        <argsstring></argsstring>
+        <name>s_adapter</name>
+        <qualifiedname>themis::server::s_adapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/task_scheduler_api_handler.cpp" line="1195" column="50" bodyfile="src/server/task_scheduler_api_handler.cpp" bodystart="1195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a03f26e27b1ea349864f485a0669e0d85" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::server::INVALID_ISOLATION_MSG</definition>
+        <argsstring></argsstring>
+        <name>INVALID_ISOLATION_MSG</name>
+        <qualifiedname>themis::server::INVALID_ISOLATION_MSG</qualifiedname>
+        <initializer>                                              =
+&quot;Invalid isolation level. Use &apos;read_committed&apos;, &apos;snapshot&apos;, or &apos;serializable&apos;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/transaction_api_handler.cpp" line="29" column="29" bodyfile="src/server/transaction_api_handler.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a82b960014902e597e73ea1d75ddcfb27" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::MAX_TRANSACTION_BODY_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_TRANSACTION_BODY_SIZE</name>
+        <qualifiedname>themis::server::MAX_TRANSACTION_BODY_SIZE</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/transaction_api_handler.cpp" line="32" column="25" bodyfile="src/server/transaction_api_handler.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1server_1a423b147fc30ff4133368e9b57a947182" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>char</type>
+        <definition>char themis::server::kBase64Chars[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kBase64Chars</name>
+        <qualifiedname>themis::server::kBase64Chars</qualifiedname>
+        <initializer>                               =
+&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/wasm_handler_registry.cpp" line="120" column="23" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1server_1afa602c8e3e01964acabef3fcd641cae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::asyncJobStatusToString</definition>
+        <argsstring>(AsyncJobStatus s)</argsstring>
+        <name>asyncJobStatusToString</name>
+        <qualifiedname>themis::server::asyncJobStatusToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1a42c75eabac43c70aad496f3acb4a9d6c" kindref="member">AsyncJobStatus</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Async Job Status To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements asyncJobStatusToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/async_job_api_handler.cpp" line="111" column="13" bodyfile="src/server/async_job_api_handler.cpp" bodystart="111" bodyend="120" declfile="include/server/async_job_api_handler.h" declline="57" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a8d4f576a8c6fc2c9ec1eb80a19f8a0be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::defaultCostFor</definition>
+        <argsstring>(OperationType op)</argsstring>
+        <name>defaultCostFor</name>
+        <qualifiedname>themis::server::defaultCostFor</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1af51e044269d336ec6753315e57442d6f" kindref="member">OperationType</ref></type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>Default Cost For. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaultCostFor without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cost_based_rate_limiter.h" line="37" column="15" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="37" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1afa10f1c2a0732598af28fe9b02eb5c18" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::server::phaseLabel</definition>
+        <argsstring>(ShutdownPhase phase) noexcept</argsstring>
+        <name>phaseLabel</name>
+        <qualifiedname>themis::server::phaseLabel</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671" kindref="member">ShutdownPhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/http_shutdown_manager.cpp" line="26" column="18" bodyfile="src/server/http_shutdown_manager.cpp" bodystart="26" bodyend="35" declfile="include/server/http_shutdown_manager.h" declline="44" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a45d9c77f187e33a580eba33f5e232789" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::buildImportWizardHtml</definition>
+        <argsstring>()</argsstring>
+        <name>buildImportWizardHtml</name>
+        <qualifiedname>themis::server::buildImportWizardHtml</qualifiedname>
+        <briefdescription>
+<para>Build Import Wizard Html. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/import_wizard_builder.cpp" line="23" column="13" bodyfile="src/server/import_wizard_builder.cpp" bodystart="23" bodyend="468" declfile="include/server/import_wizard_builder.h" declline="23" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a81b53524f4242636d6907155603fc249" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::toString</definition>
+        <argsstring>(ServerActivationProfile profile)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::server::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57" kindref="member">ServerActivationProfile</ref></type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="103" column="21" bodyfile="include/server/server_activation_profile.h" bodystart="103" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a42c86e15798680b36aba240664d3f9fd" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::normalizeProfileValue</definition>
+        <argsstring>(std::string value)</argsstring>
+        <name>normalizeProfileValue</name>
+        <qualifiedname>themis::server::normalizeProfileValue</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="120" column="21" bodyfile="include/server/server_activation_profile.h" bodystart="120" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a57ccc771342c0fe770c779ef1298144e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57" kindref="member">ServerActivationProfile</ref> &gt;</type>
+        <definition>std::optional&lt; ServerActivationProfile &gt; themis::server::parseProfileValue</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>parseProfileValue</name>
+        <qualifiedname>themis::server::parseProfileValue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="127" column="23" bodyfile="include/server/server_activation_profile.h" bodystart="127" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a989f351839120db2cb17f04ab8d61f18" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; bool &gt;</type>
+        <definition>std::optional&lt; bool &gt; themis::server::jsonBoolAtPath</definition>
+        <argsstring>(const nlohmann::json &amp;root, std::initializer_list&lt; std::string_view &gt; path)</argsstring>
+        <name>jsonBoolAtPath</name>
+        <qualifiedname>themis::server::jsonBoolAtPath</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type>std::initializer_list&lt; std::string_view &gt;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="141" column="23" bodyfile="include/server/server_activation_profile.h" bodystart="141" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1acbf3ea7555d54554ab180e0013e09739" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_profile_resolution_result" kindref="compound">ProfileResolutionResult</ref></type>
+        <definition>ProfileResolutionResult themis::server::resolveServerActivationProfile</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;cli_profile, const std::optional&lt; nlohmann::json &gt; &amp;config, const std::optional&lt; std::string &gt; &amp;env_profile, const std::string &amp;default_profile)</argsstring>
+        <name>resolveServerActivationProfile</name>
+        <qualifiedname>themis::server::resolveServerActivationProfile</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>cli_profile</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; nlohmann::json &gt; &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>env_profile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>default_profile</declname>
+        </param>
+        <briefdescription>
+<para>Resolve the effective server activation profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolution precedence is: CLI argument &gt; config file &gt; environment variable &gt; compile-time default profile.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cli_profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional CLI profile override (e.g. <ndash/>server-profile). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parsed runtime config. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>env_profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional profile from THEMIS_SERVER_PROFILE. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>default_profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compile-time default profile from build configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resolution metadata with source/value or a descriptive error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="182" column="33" bodyfile="include/server/server_activation_profile.h" bodystart="182" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a75f37f34f300ea514ede961a21ed12ce" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_server_runtime_feature_requests" kindref="compound">ServerRuntimeFeatureRequests</ref></type>
+        <definition>ServerRuntimeFeatureRequests themis::server::extractRuntimeFeatureRequests</definition>
+        <argsstring>(const std::optional&lt; nlohmann::json &gt; &amp;config, bool hsm_stub_opt_in)</argsstring>
+        <name>extractRuntimeFeatureRequests</name>
+        <qualifiedname>themis::server::extractRuntimeFeatureRequests</qualifiedname>
+        <param>
+          <type>const std::optional&lt; nlohmann::json &gt; &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hsm_stub_opt_in</declname>
+        </param>
+        <briefdescription>
+<para>Extract runtime feature activation requests from config/CLI context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Missing paths are treated as &quot;not requested&quot;, and malformed values are ignored to keep extraction non-throwing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parsed runtime config. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hsm_stub_opt_in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether explicit HSM stub opt-in was requested. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Runtime request snapshot used for capability validation/reporting. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="250" column="38" bodyfile="include/server/server_activation_profile.h" bodystart="250" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1ab4ee67561a0df64a43b1edbffd7853e8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_server_profile_validation_result" kindref="compound">ServerProfileValidationResult</ref></type>
+        <definition>ServerProfileValidationResult themis::server::validateServerActivationProfile</definition>
+        <argsstring>(ServerActivationProfile profile, const ServerBuildCapabilities &amp;build_capabilities, const ServerRuntimeFeatureRequests &amp;runtime_requests, bool allow_degraded_build)</argsstring>
+        <name>validateServerActivationProfile</name>
+        <qualifiedname>themis::server::validateServerActivationProfile</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57" kindref="member">ServerActivationProfile</ref></type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_server_build_capabilities" kindref="compound">ServerBuildCapabilities</ref> &amp;</type>
+          <declname>build_capabilities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_server_runtime_feature_requests" kindref="compound">ServerRuntimeFeatureRequests</ref> &amp;</type>
+          <declname>runtime_requests</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_degraded_build</declname>
+        </param>
+        <briefdescription>
+<para>Validate profile requirements against build/runtime capability signals. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This enforces the profile feature matrix and rejects contradictory runtime requests (feature requested but not compiled in). Missing required features become warnings only when <computeroutput>allow_degraded_build</computeroutput> is true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selected activation profile. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>build_capabilities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compile-time feature capability state. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runtime_requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime configuration requests. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allow_degraded_build</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enables warning-only handling for missing required features. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validation result containing errors (startup blockers) and warnings. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="298" column="39" bodyfile="include/server/server_activation_profile.h" bodystart="298" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a7b159466570c2504918d32ffcbed9576" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_server_profile_validation_result" kindref="compound">ServerProfileValidationResult</ref></type>
+        <definition>ServerProfileValidationResult themis::server::validateHsmRuntimeForProfile</definition>
+        <argsstring>(ServerActivationProfile profile, bool stub_provider_active, bool explicit_stub_opt_in)</argsstring>
+        <name>validateHsmRuntimeForProfile</name>
+        <qualifiedname>themis::server::validateHsmRuntimeForProfile</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57" kindref="member">ServerActivationProfile</ref></type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>stub_provider_active</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>explicit_stub_opt_in</declname>
+        </param>
+        <briefdescription>
+<para>Enforce HSM runtime policy for the selected profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stub HSM operation requires explicit opt-in in all profiles, and Enterprise profile always requires hardware-backed HSM.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Selected activation profile. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stub_provider_active</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True when runtime uses stub HSM provider. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>explicit_stub_opt_in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True when operator explicitly opted in to stub mode. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validation result with blocking errors for policy violations. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="358" column="39" bodyfile="include/server/server_activation_profile.h" bodystart="358" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a19b983a446b515394a50cb88f343ce4b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::makeStartupCapabilityReport</definition>
+        <argsstring>(ServerActivationProfile profile, const ProfileResolutionResult &amp;profile_resolution, const ServerBuildCapabilities &amp;build_capabilities, const ServerRuntimeFeatureRequests &amp;runtime_requests, const ServerProfileValidationResult &amp;validation, bool allow_degraded_build, bool production_mode)</argsstring>
+        <name>makeStartupCapabilityReport</name>
+        <qualifiedname>themis::server::makeStartupCapabilityReport</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1a5138877267ca594bc62149104cce6c57" kindref="member">ServerActivationProfile</ref></type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_profile_resolution_result" kindref="compound">ProfileResolutionResult</ref> &amp;</type>
+          <declname>profile_resolution</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_server_build_capabilities" kindref="compound">ServerBuildCapabilities</ref> &amp;</type>
+          <declname>build_capabilities</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_server_runtime_feature_requests" kindref="compound">ServerRuntimeFeatureRequests</ref> &amp;</type>
+          <declname>runtime_requests</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_server_profile_validation_result" kindref="compound">ServerProfileValidationResult</ref> &amp;</type>
+          <declname>validation</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_degraded_build</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>production_mode</declname>
+        </param>
+        <briefdescription>
+<para>Build machine-readable startup capability report payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The report captures selected profile, build capabilities, runtime requests, validation status, and startup mode flags and is intended for structured logs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active profile. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>profile_resolution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Profile resolution metadata. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>build_capabilities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compile-time capabilities. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runtime_requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime feature requests. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>validation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Validation output for the current startup stage. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allow_degraded_build</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether degraded override was requested. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>production_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether production mode detection is active. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON object suitable for structured startup logging. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_activation_profile.h" line="394" column="24" bodyfile="include/server/server_activation_profile.h" bodystart="394" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a374934d4da895b2393c2e2c939acb6f9" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::isServerFailClosedClass</definition>
+        <argsstring>(ServerErrorClass ec) noexcept</argsstring>
+        <name>isServerFailClosedClass</name>
+        <qualifiedname>themis::server::isServerFailClosedClass</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref></type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when the given error class requires fail-closed behaviour (i.e., the server MUST deny rather than attempting any fallback). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/server_api_contract.h" line="243" column="24" bodyfile="include/server/server_api_contract.h" bodystart="243" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a7204689abc0f1cb63ab59ff18e47221d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::timePointToIso</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp)</argsstring>
+        <name>timePointToIso</name>
+        <qualifiedname>themis::server::timePointToIso</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>Time Point To Iso. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/async_job_api_handler.cpp" line="128" column="20" bodyfile="src/server/async_job_api_handler.cpp" bodystart="128" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1aba96f62a0a72cec1fcc181ce9c70203e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::server::containsCaseInsensitive</definition>
+        <argsstring>(const std::string &amp;haystack, const std::string &amp;needle)</argsstring>
+        <name>containsCaseInsensitive</name>
+        <qualifiedname>themis::server::containsCaseInsensitive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>haystack</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>needle</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Case-insensitive string contains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">haystack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">needle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), std::search(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/audit_api_handler.cpp" line="31" column="13" bodyfile="src/server/audit_api_handler.cpp" bodystart="31" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1aedf74dedd541b414c216902b108081cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; Changefeed::ChangeEventType &gt;</type>
+        <definition>static std::set&lt; Changefeed::ChangeEventType &gt; themis::server::parseEventTypes</definition>
+        <argsstring>(const std::string &amp;types_str)</argsstring>
+        <name>parseEventTypes</name>
+        <qualifiedname>themis::server::parseEventTypes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>types_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse Event Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">types_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), THEMIS_WARN(), ss(), std::getline(), find_first_not_of(), find_last_not_of(), substr(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/changefeed_api_handler.cpp" line="70" column="17" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="70" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a91e99782a1c8314c4e2bb9b686d36877" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::extractPathParam</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;prefix)</argsstring>
+        <name>extractPathParam</name>
+        <qualifiedname>themis::server::extractPathParam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Helper method to extract path parameter from URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rfind(), substr(), length(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/content_api_handler.cpp" line="60" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="60" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a3190f280f769706e596be209e0d63014" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::extractUserId</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, std::shared_ptr&lt; AuthMiddleware &gt; auth)</argsstring>
+        <name>extractUserId</name>
+        <qualifiedname>themis::server::extractUserId</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+<para>Helper method to extract auth context from request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), empty(), <ref refid="classthemis_1_1server_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">AuthMiddleware::extractBearerToken()</ref>, std::string_view(), data(), size(), validateToken(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/content_api_handler.cpp" line="80" column="20" bodyfile="src/server/content_api_handler.cpp" bodystart="80" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1adcecca8cddd894851c9d5673704082c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>static const char * themis::server::costModelAlgoName</definition>
+        <argsstring>(themis::graph::GraphQueryOptimizer::TraversalAlgorithm algo)</argsstring>
+        <name>costModelAlgoName</name>
+        <qualifiedname>themis::server::costModelAlgoName</qualifiedname>
+        <param>
+          <type>themis::graph::GraphQueryOptimizer::TraversalAlgorithm</type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+<para>───────────────────────────────────────────────────────────────────────────── Cost model calibration HTTP API (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+8.0) ───────────────────────────────────────────────────────────────────────────── </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/graph_api_handler.cpp" line="733" column="19" bodyfile="src/server/graph_api_handler.cpp" bodystart="733" bodyend="745"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1ae2c0c64e5c7fd142df944b3b22c1d023" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::graph::GraphQueryOptimizer::QueryConstraints</type>
+        <definition>static themis::graph::GraphQueryOptimizer::QueryConstraints themis::server::parseQueryConstraints</definition>
+        <argsstring>(const json &amp;body, const std::string &amp;key=&quot;constraints&quot;)</argsstring>
+        <name>parseQueryConstraints</name>
+        <qualifiedname>themis::server::parseQueryConstraints</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+          <defval>&quot;constraints&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/graph_api_handler.cpp" line="877" column="1" bodyfile="src/server/graph_api_handler.cpp" bodystart="877" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a65e674489c32b48a43082c4dea9db23b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref></type>
+        <definition>static json themis::server::planToJson</definition>
+        <argsstring>(const themis::graph::GraphQueryOptimizer::OptimizationPlan &amp;plan, const std::string &amp;explanation)</argsstring>
+        <name>planToJson</name>
+        <qualifiedname>themis::server::planToJson</qualifiedname>
+        <param>
+          <type>const themis::graph::GraphQueryOptimizer::OptimizationPlan &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>explanation</declname>
+        </param>
+        <briefdescription>
+<para>Helper: serialise an OptimizationPlan as a JSON object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">explanation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/graph_api_handler.cpp" line="934" column="13" bodyfile="src/server/graph_api_handler.cpp" bodystart="934" bodyend="990"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a6a3672c76fd22ddf95c4b4fb3f86d947" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::extractContentFsPk</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>extractContentFsPk</name>
+        <qualifiedname>themis::server::extractContentFsPk</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>── ContentFS HTTP handlers ───────────────────────────────────────────────── These wrap ContentFS (binary blob storage) over HTTP: PUT /api/v1/content/fs/{pk} — store blob (body = raw bytes, Content-Type header used as MIME) GET /api/v1/content/fs/{pk} — retrieve blob HEAD /api/v1/content/fs/{pk} — metadata only (no body) DELETE /api/v1/content/fs/{pk} — remove blob </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), target(), find(), substr(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/http_server.cpp" line="16262" column="20" bodyfile="src/server/http_server.cpp" bodystart="16262" bodyend="16273"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1ac2ce3123459ce7fdfdafcd7f056dbac8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::base64_encode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>base64_encode</name>
+        <qualifiedname>themis::server::base64_encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Base64 encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/pki_api_handler.cpp" line="70" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="70" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a42fa9684df2988b6c865d376b5cb7e92" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::server::base64_decode</definition>
+        <argsstring>(const std::string &amp;encoded)</argsstring>
+        <name>base64_decode</name>
+        <qualifiedname>themis::server::base64_decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Base64 decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: T(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/pki_api_handler.cpp" line="97" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="97" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1ad8063fcd9994bf70d69bff279f71f54a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>time_t</type>
+        <definition>static time_t themis::server::portable_mkgmtime_impl</definition>
+        <argsstring>(std::tm const *tmin)</argsstring>
+        <name>portable_mkgmtime_impl</name>
+        <qualifiedname>themis::server::portable_mkgmtime_impl</qualifiedname>
+        <param>
+          <type>std::tm const *</type>
+          <declname>tmin</declname>
+        </param>
+        <briefdescription>
+<para>Portable time conversion helpers (static). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tmin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: _mkgmtime(), timegm(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/query_api_handler.cpp" line="89" column="22" bodyfile="src/server/query_api_handler.cpp" bodystart="89" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1aa82cab4d8a4c2eb3af44a85b2b24af3f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::server::portable_gmtime_r_impl</definition>
+        <argsstring>(const time_t *t, std::tm *out)</argsstring>
+        <name>portable_gmtime_r_impl</name>
+        <qualifiedname>themis::server::portable_gmtime_r_impl</qualifiedname>
+        <param>
+          <type>const time_t *</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>std::tm *</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Portable gmtime r impl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: gmtime_s(), gmtime_r(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/query_api_handler.cpp" line="103" column="20" bodyfile="src/server/query_api_handler.cpp" bodystart="103" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a2a912743a1eb29b41a62bef73c17c0b6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::server::nearly_equal</definition>
+        <argsstring>(double lhs, double rhs, double abs_epsilon=1e-12, double rel_epsilon=1e-9)</argsstring>
+        <name>nearly_equal</name>
+        <qualifiedname>themis::server::nearly_equal</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>rhs</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>abs_epsilon</declname>
+          <defval>1e-12</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>rel_epsilon</declname>
+          <defval>1e-9</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/query_api_handler.cpp" line="111" column="20" bodyfile="src/server/query_api_handler.cpp" bodystart="111" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1acf59ae766195610fb19871a4f57fd68f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::lower</definition>
+        <argsstring>(std::string s)</argsstring>
+        <name>lower</name>
+        <qualifiedname>themis::server::lower</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Helper: to lower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/ranger_adapter.cpp" line="168" column="20" bodyfile="src/server/ranger_adapter.cpp" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1af0db972ec9d3fb40c2727cd7d51ff20a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::base64_encode_local</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>base64_encode_local</name>
+        <qualifiedname>themis::server::base64_encode_local</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Base64 encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/saga_api_handler.cpp" line="29" column="20" bodyfile="src/server/saga_api_handler.cpp" bodystart="29" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1abcef192da11fdb507c2f047448e6a123" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::server::timePointToISO8601</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp)</argsstring>
+        <name>timePointToISO8601</name>
+        <qualifiedname>themis::server::timePointToISO8601</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>Time Point To ISO8601. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::time_point::max(), std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/session_api_handler.cpp" line="70" column="20" bodyfile="src/server/session_api_handler.cpp" bodystart="70" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a1ef76263082e1dd83da99cf732afc0b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::server::validateBodySize</definition>
+        <argsstring>(std::string_view body)</argsstring>
+        <name>validateBodySize</name>
+        <qualifiedname>themis::server::validateBodySize</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Validate Body Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: validateStringLength(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/transaction_api_handler.cpp" line="40" column="13" bodyfile="src/server/transaction_api_handler.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a8ac32c1bf4b749cbafde271da075cc44" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::server::validateTxnField</definition>
+        <argsstring>(std::string_view value, size_t max_len)</argsstring>
+        <name>validateTxnField</name>
+        <qualifiedname>themis::server::validateTxnField</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_len</declname>
+        </param>
+        <briefdescription>
+<para>Validate Txn Field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: validateStringLength(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/transaction_api_handler.cpp" line="52" column="13" bodyfile="src/server/transaction_api_handler.cpp" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a465044939d8e695fcfb750aad20f447d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::server::validateTxnTableName</definition>
+        <argsstring>(std::string_view table)</argsstring>
+        <name>validateTxnTableName</name>
+        <qualifiedname>themis::server::validateTxnTableName</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Validate Txn Table Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: validateTxnField(), validatePathSegment(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/transaction_api_handler.cpp" line="63" column="13" bodyfile="src/server/transaction_api_handler.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1ab735f74404d790f69d59861296aabc0a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>IsolationLevel</type>
+        <definition>static IsolationLevel themis::server::parseIsolationLevel</definition>
+        <argsstring>(const json &amp;body, bool *valid, std::string *error_msg)</argsstring>
+        <name>parseIsolationLevel</name>
+        <qualifiedname>themis::server::parseIsolationLevel</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>valid</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+<para>Parse Isolation Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">valid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/transaction_api_handler.cpp" line="76" column="23" bodyfile="src/server/transaction_api_handler.cpp" bodystart="76" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1ae071e98f8aea2f6f29767e5e37172e66" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>static const char * themis::server::isolationLevelToString</definition>
+        <argsstring>(IsolationLevel iso) noexcept</argsstring>
+        <name>isolationLevelToString</name>
+        <qualifiedname>themis::server::isolationLevelToString</qualifiedname>
+        <param>
+          <type>IsolationLevel</type>
+          <declname>iso</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/transaction_api_handler.cpp" line="97" column="19" bodyfile="src/server/transaction_api_handler.cpp" bodystart="97" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1a1b4289448cad5894ec6ac98c8f5a0ad6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::server::isBase64</definition>
+        <argsstring>(unsigned char c)</argsstring>
+        <name>isBase64</name>
+        <qualifiedname>themis::server::isBase64</qualifiedname>
+        <param>
+          <type>unsigned char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Is Base64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isalnum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/wasm_handler_registry.cpp" line="129" column="13" bodyfile="src/server/wasm_handler_registry.cpp" bodystart="129" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/adaptive_rate_limiter.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>

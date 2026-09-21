@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_store_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSStore::Stats</compoundname>
+    <includes refid="tsstore_8h" local="no">tsstore.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_stats_1a1b8e669b3270b2bcb7832b1938d51748" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSStore::Stats::total_data_points</definition>
+        <argsstring></argsstring>
+        <name>total_data_points</name>
+        <qualifiedname>themis::TSStore::Stats::total_data_points</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="191" column="16" bodyfile="include/timeseries/tsstore.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_stats_1a46a28e5fa46dfd605925ac8fa8f69ca9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSStore::Stats::total_metrics</definition>
+        <argsstring></argsstring>
+        <name>total_metrics</name>
+        <qualifiedname>themis::TSStore::Stats::total_metrics</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="192" column="16" bodyfile="include/timeseries/tsstore.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_stats_1a7334390de424c2abdcab8b591c665bc1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSStore::Stats::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>themis::TSStore::Stats::total_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="193" column="16" bodyfile="include/timeseries/tsstore.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_stats_1a5689a576e461fdce363177db6750883d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSStore::Stats::oldest_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>oldest_timestamp_ms</name>
+        <qualifiedname>themis::TSStore::Stats::oldest_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="194" column="17" bodyfile="include/timeseries/tsstore.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_stats_1ae2ff4b5073d6e2fa8469ee70a296fd32" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSStore::Stats::newest_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>newest_timestamp_ms</name>
+        <qualifiedname>themis::TSStore::Stats::newest_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="195" column="17" bodyfile="include/timeseries/tsstore.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/tsstore.h" line="190" column="5" bodyfile="include/timeseries/tsstore.h" bodystart="190" bodyend="196"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_store_1_1_stats_1ae2ff4b5073d6e2fa8469ee70a296fd32" prot="public" virt="non-virtual"><scope>themis::TSStore::Stats</scope><name>newest_timestamp_ms</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_stats_1a5689a576e461fdce363177db6750883d" prot="public" virt="non-virtual"><scope>themis::TSStore::Stats</scope><name>oldest_timestamp_ms</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_stats_1a1b8e669b3270b2bcb7832b1938d51748" prot="public" virt="non-virtual"><scope>themis::TSStore::Stats</scope><name>total_data_points</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_stats_1a46a28e5fa46dfd605925ac8fa8f69ca9" prot="public" virt="non-virtual"><scope>themis::TSStore::Stats</scope><name>total_metrics</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_stats_1a7334390de424c2abdcab8b591c665bc1" prot="public" virt="non-virtual"><scope>themis::TSStore::Stats</scope><name>total_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_feedback_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::FeedbackEntry</compoundname>
+    <includes refid="database__domain__auto__labeler_8h" local="no">database_domain_auto_labeler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_feedback_entry_1a988115f71170dc6196b4a4e468f8b204" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::FeedbackEntry::query_text</definition>
+        <argsstring></argsstring>
+        <name>query_text</name>
+        <qualifiedname>themis::training::FeedbackEntry::query_text</qualifiedname>
+        <briefdescription>
+<para>Original SQL query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="29" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_feedback_entry_1ae0cd73d415e69fc055420a32c95a1e42" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::FeedbackEntry::plan_json</definition>
+        <argsstring></argsstring>
+        <name>plan_json</name>
+        <qualifiedname>themis::training::FeedbackEntry::plan_json</qualifiedname>
+        <briefdescription>
+<para>EXPLAIN output (JSON). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="30" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_feedback_entry_1a25896f700fe55d2dcc251ee2c6f59c82" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::FeedbackEntry::is_positive</definition>
+        <argsstring></argsstring>
+        <name>is_positive</name>
+        <qualifiedname>themis::training::FeedbackEntry::is_positive</qualifiedname>
+        <briefdescription>
+<para>true = accepted recommendation </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="31" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_feedback_entry_1a0070f592e31d05c126aa56a90844d54e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::FeedbackEntry::delta_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>delta_p99_ms</name>
+        <qualifiedname>themis::training::FeedbackEntry::delta_p99_ms</qualifiedname>
+        <briefdescription>
+<para>Latency delta observed (negative = faster). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="32" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_feedback_entry_1ad24e5e1fc848e0c0b1acb9a2af25a7ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::FeedbackEntry::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::training::FeedbackEntry::source_id</qualifiedname>
+        <briefdescription>
+<para>Feedback origin identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/database_domain_auto_labeler.h" line="33" column="17" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Feedback entry from a DBA or system operator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Mirrors the shape of entries produced by <computeroutput>FeedbackCollector</computeroutput> so that <computeroutput>labelFromDBAFeedback()</computeroutput> can process them without depending on the full feedback-collector header. </para>
+    </detaileddescription>
+    <location file="include/training/database_domain_auto_labeler.h" line="28" column="1" bodyfile="include/training/database_domain_auto_labeler.h" bodystart="28" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_feedback_entry_1a0070f592e31d05c126aa56a90844d54e" prot="public" virt="non-virtual"><scope>themis::training::FeedbackEntry</scope><name>delta_p99_ms</name></member>
+      <member refid="structthemis_1_1training_1_1_feedback_entry_1a25896f700fe55d2dcc251ee2c6f59c82" prot="public" virt="non-virtual"><scope>themis::training::FeedbackEntry</scope><name>is_positive</name></member>
+      <member refid="structthemis_1_1training_1_1_feedback_entry_1ae0cd73d415e69fc055420a32c95a1e42" prot="public" virt="non-virtual"><scope>themis::training::FeedbackEntry</scope><name>plan_json</name></member>
+      <member refid="structthemis_1_1training_1_1_feedback_entry_1a988115f71170dc6196b4a4e468f8b204" prot="public" virt="non-virtual"><scope>themis::training::FeedbackEntry</scope><name>query_text</name></member>
+      <member refid="structthemis_1_1training_1_1_feedback_entry_1ad24e5e1fc848e0c0b1acb9a2af25a7ba" prot="public" virt="non-virtual"><scope>themis::training::FeedbackEntry</scope><name>source_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

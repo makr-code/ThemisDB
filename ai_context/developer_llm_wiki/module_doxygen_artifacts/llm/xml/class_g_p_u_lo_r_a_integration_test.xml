@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_lo_r_a_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>GPULoRAIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_p_u_lo_r_a_integration_test_1a24b1c216799e7d1d576bd74c6dc80570" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path GPULoRAIntegrationTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>GPULoRAIntegrationTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_lora_integration.cpp" line="55" column="14" bodyfile="tests/llm/test_gpu_lora_integration.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_lo_r_a_integration_test_1a4e0f27405e50beaee2a9ece5d6d22629" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPULoRAIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPULoRAIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_lora_integration.cpp" line="44" column="10" bodyfile="tests/llm/test_gpu_lora_integration.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_lo_r_a_integration_test_1a1f71f07b19ebde37d7979f1081d6a9fd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPULoRAIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPULoRAIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_lora_integration.cpp" line="49" column="10" bodyfile="tests/llm/test_gpu_lora_integration.cpp" bodystart="49" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Test fixture for GPU and LoRA integration tests </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPULoRAIntegrationTest</label>
+        <link refid="class_g_p_u_lo_r_a_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPULoRAIntegrationTest</label>
+        <link refid="class_g_p_u_lo_r_a_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_gpu_lora_integration.cpp" line="42" column="1" bodyfile="tests/llm/test_gpu_lora_integration.cpp" bodystart="42" bodyend="56"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_lo_r_a_integration_test_1a4e0f27405e50beaee2a9ece5d6d22629" prot="protected" virt="non-virtual"><scope>GPULoRAIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_lo_r_a_integration_test_1a1f71f07b19ebde37d7979f1081d6a9fd" prot="protected" virt="non-virtual"><scope>GPULoRAIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="class_g_p_u_lo_r_a_integration_test_1a24b1c216799e7d1d576bd74c6dc80570" prot="protected" virt="non-virtual"><scope>GPULoRAIntegrationTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

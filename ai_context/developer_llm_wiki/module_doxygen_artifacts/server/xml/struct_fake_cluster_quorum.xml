@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_fake_cluster_quorum" kind="struct" language="C++" prot="public">
+    <compoundname>FakeClusterQuorum</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_fake_cluster_quorum_1a3ce00df389285f6d0412b8fccb415d83" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int FakeClusterQuorum::cluster_size</definition>
+        <argsstring></argsstring>
+        <name>cluster_size</name>
+        <qualifiedname>FakeClusterQuorum::cluster_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="60" column="9" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_cluster_quorum_1ae8c2030e3b232e1de97f077e80cb13bd" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; FakeClusterQuorum::live_nodes</definition>
+        <argsstring></argsstring>
+        <name>live_nodes</name>
+        <qualifiedname>FakeClusterQuorum::live_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="61" column="17" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_fake_cluster_quorum_1ad51dacd80c4713ab9c991a8b79766df5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FakeClusterQuorum::FakeClusterQuorum</definition>
+        <argsstring>(int size)</argsstring>
+        <name>FakeClusterQuorum</name>
+        <qualifiedname>FakeClusterQuorum::FakeClusterQuorum</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="63" column="14" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_fake_cluster_quorum_1a4272b6a4d9b715ea08bf94e2aae868fd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool FakeClusterQuorum::hasQuorum</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>FakeClusterQuorum::hasQuorum</qualifiedname>
+        <briefdescription>
+<para>Majority quorum: need &gt; half the cluster. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="66" column="11" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_fake_cluster_quorum_1a26506d1a66f2f6c5e740459cf8669775" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FakeClusterQuorum::removeNode</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>FakeClusterQuorum::removeNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="71" column="10" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_fake_cluster_quorum_1ac4d11323d2d9be3e76a97b02f507306c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FakeClusterQuorum::addNode</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>addNode</name>
+        <qualifiedname>FakeClusterQuorum::addNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="74" column="10" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="74" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Cluster quorum state. Models the minimum quorum logic of <ref refid="classthemis_1_1server_1_1_distributed_gateway" kindref="compound">DistributedGateway</ref>. majority = floor(cluster_size / 2) + 1 </para>
+    </detaileddescription>
+    <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="59" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="59" bodyend="80"/>
+    <listofallmembers>
+      <member refid="struct_fake_cluster_quorum_1ac4d11323d2d9be3e76a97b02f507306c" prot="public" virt="non-virtual"><scope>FakeClusterQuorum</scope><name>addNode</name></member>
+      <member refid="struct_fake_cluster_quorum_1a3ce00df389285f6d0412b8fccb415d83" prot="public" virt="non-virtual"><scope>FakeClusterQuorum</scope><name>cluster_size</name></member>
+      <member refid="struct_fake_cluster_quorum_1ad51dacd80c4713ab9c991a8b79766df5" prot="public" virt="non-virtual"><scope>FakeClusterQuorum</scope><name>FakeClusterQuorum</name></member>
+      <member refid="struct_fake_cluster_quorum_1a4272b6a4d9b715ea08bf94e2aae868fd" prot="public" virt="non-virtual"><scope>FakeClusterQuorum</scope><name>hasQuorum</name></member>
+      <member refid="struct_fake_cluster_quorum_1ae8c2030e3b232e1de97f077e80cb13bd" prot="public" virt="non-virtual"><scope>FakeClusterQuorum</scope><name>live_nodes</name></member>
+      <member refid="struct_fake_cluster_quorum_1a26506d1a66f2f6c5e740459cf8669775" prot="public" virt="non-virtual"><scope>FakeClusterQuorum</scope><name>removeNode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_scraper_relational_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ScraperRelationalRecord</compoundname>
+    <includes refid="scraper__metadata__writer_8h" local="no">scraper_metadata_writer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a9f740e54a29ccc53ca65aa80ad0d3368" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::doc_id</qualifiedname>
+        <briefdescription>
+<para>FNV-1a hash of URL + content (hex, 16 chars). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="42" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a86aee999fa8bcfd50c8889e976904421" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="43" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a7e21a2ffefa184692e2c7934c28d88b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="44" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a0d4cd00469592389ab5392b43f34855f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::source_name</definition>
+        <argsstring></argsstring>
+        <name>source_name</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::source_name</qualifiedname>
+        <briefdescription>
+<para>E.g. &quot;openjur.de&quot;, &quot;gesetze_im_internet&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="45" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1af9ab66156d2a5fa814388fcb7aec3c67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::gov_source_id</definition>
+        <argsstring></argsstring>
+        <name>gov_source_id</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::gov_source_id</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1scraper_1_1_gov_data_source_1ae7b738078d84dd70e0272c7316d9062c" kindref="member">GovDataSource::id</ref> (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="46" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a7aa0de99b06abd7165fe3e9ab9b2bf24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::gap_id</definition>
+        <argsstring></argsstring>
+        <name>gap_id</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::gap_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="47" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a8265c5946194496bfbc32e2c7ea14479" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::text_snippet</definition>
+        <argsstring></argsstring>
+        <name>text_snippet</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::text_snippet</qualifiedname>
+        <briefdescription>
+<para>First 500 chars of extracted text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="48" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a3b3550627cc7b6e79ba6d153f5f85895" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scraper::ScraperRelationalRecord::quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_score</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::quality_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="49" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1ae0fa0dabd11521b73dd20e2879177dcd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scraper::ScraperRelationalRecord::gap_relevance</definition>
+        <argsstring></argsstring>
+        <name>gap_relevance</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::gap_relevance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="50" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a0d9c09054da8fa5934b766ef5758d9c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::scraped_at</definition>
+        <argsstring></argsstring>
+        <name>scraped_at</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::scraped_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="51" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a9db940881c59623d76c1465d09390358" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::document_type</definition>
+        <argsstring></argsstring>
+        <name>document_type</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::document_type</qualifiedname>
+        <briefdescription>
+<para>Urteil, Beschluss, Gesetz, … </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="52" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1ad5a38e8c1fa3f8bc3088b38f0e843776" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::date_issued</definition>
+        <argsstring></argsstring>
+        <name>date_issued</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::date_issued</qualifiedname>
+        <briefdescription>
+<para>Publication/decision date from page metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="53" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a84f3b1db22ec916815613d0420c9ae20" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::ScraperRelationalRecord::is_scraper_ingested</definition>
+        <argsstring></argsstring>
+        <name>is_scraper_ingested</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::is_scraper_ingested</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Always true for records produced by this plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="57" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1a524ca69f775e64a872ba3c92ce6f9e9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::ingestion_source_type</definition>
+        <argsstring></argsstring>
+        <name>ingestion_source_type</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::ingestion_source_type</qualifiedname>
+        <initializer>= &quot;SCRAPER&quot;</initializer>
+        <briefdescription>
+<para>Fixed literal &quot;SCRAPER&quot; — identifies automated web-scraping as origin. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="59" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_relational_record_1ab7f3b6837ca569a10467f13b1a456fed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperRelationalRecord::ingestion_plugin_version</definition>
+        <argsstring></argsstring>
+        <name>ingestion_plugin_version</name>
+        <qualifiedname>themis::scraper::ScraperRelationalRecord::ingestion_plugin_version</qualifiedname>
+        <initializer>= &quot;1.0.0&quot;</initializer>
+        <briefdescription>
+<para>Semver of the scraper plugin that produced this record. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_metadata_writer.h" line="61" column="17" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Relational record written for each accepted scraped document. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>PROVENANCE GUARANTEE Every record written by the scraper plugin MUST carry the three fields below. They allow any consumer to trace data back to automated ingestion and treat it accordingly (e.g. require manual review before using in a legal proceeding).</para>
+<para>is_scraper_ingested – always <computeroutput>true</computeroutput> for records produced by this plugin ingestion_source_type – &quot;SCRAPER&quot; (constant literal) ingestion_plugin_version – semver of the scraper plugin that produced the record </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_metadata_writer.h" line="41" column="1" bodyfile="include/scraper/scraper_metadata_writer.h" bodystart="41" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1ad5a38e8c1fa3f8bc3088b38f0e843776" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>date_issued</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a9f740e54a29ccc53ca65aa80ad0d3368" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a9db940881c59623d76c1465d09390358" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>document_type</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a7aa0de99b06abd7165fe3e9ab9b2bf24" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>gap_id</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1ae0fa0dabd11521b73dd20e2879177dcd" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>gap_relevance</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1af9ab66156d2a5fa814388fcb7aec3c67" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>gov_source_id</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1ab7f3b6837ca569a10467f13b1a456fed" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>ingestion_plugin_version</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a524ca69f775e64a872ba3c92ce6f9e9d" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>ingestion_source_type</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a84f3b1db22ec916815613d0420c9ae20" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>is_scraper_ingested</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a3b3550627cc7b6e79ba6d153f5f85895" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>quality_score</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a0d9c09054da8fa5934b766ef5758d9c7" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>scraped_at</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a0d4cd00469592389ab5392b43f34855f" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>source_name</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a8265c5946194496bfbc32e2c7ea14479" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>text_snippet</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a7e21a2ffefa184692e2c7934c28d88b4" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>title</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_relational_record_1a86aee999fa8bcfd50c8889e976904421" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperRelationalRecord</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

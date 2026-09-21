@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_lock_free_hash_table" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::LockFreeHashTable</compoundname>
+    <includes refid="lock__free__linker__contract_8h" local="no">lock_free_linker_contract.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Key</type>
+      </param>
+      <param>
+        <type>typename Value</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_hash_table_1a164c31012cc361808f95841bab68571c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::LockFreeHashTable&lt; Key, Value &gt;::insert</definition>
+        <argsstring>(const Key &amp;key, const Value &amp;value)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::process::LockFreeHashTable::insert</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const Value &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Insert a key-value pair (or update if exists). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Atomic operation; concurrent calls are serialized at key level.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to insert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to insert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if inserted; false if key already existed (value updated) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="335" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_hash_table_1aac4ffb6b82f1d39c0c66472c3838e0e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; Value &gt;</type>
+        <definition>std::optional&lt; Value &gt; themis::process::LockFreeHashTable&lt; Key, Value &gt;::lookup</definition>
+        <argsstring>(const Key &amp;key) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::process::LockFreeHashTable::lookup</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Lookup a value by key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Lock-free read; may return stale value briefly during concurrent writes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to lookup </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Value if found; std::nullopt otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="345" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_hash_table_1a757a52ce50c180d02e06bf071d9f515f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::LockFreeHashTable&lt; Key, Value &gt;::erase</definition>
+        <argsstring>(const Key &amp;key)</argsstring>
+        <name>erase</name>
+        <qualifiedname>themis::process::LockFreeHashTable::erase</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete a key-value pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Marks entry for deletion; actual reclamation deferred to epoch-safe point.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to delete </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if deleted; false if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="355" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_hash_table_1ac9eaaf1f3111fab7d9563d9d28cd1858" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::process::LockFreeHashTable&lt; Key, Value &gt;::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::process::LockFreeHashTable::size</qualifiedname>
+        <briefdescription>
+<para>Get number of entries (approximate; may be stale). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Approximate entry count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="361" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_lock_free_hash_table_1a17176e51d8030826e9192e590f06234d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Visitor</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::process::LockFreeHashTable&lt; Key, Value &gt;::forEach</definition>
+        <argsstring>(Visitor visitor) const</argsstring>
+        <name>forEach</name>
+        <qualifiedname>themis::process::LockFreeHashTable::forEach</qualifiedname>
+        <param>
+          <type>Visitor</type>
+          <declname>visitor</declname>
+        </param>
+        <briefdescription>
+<para>Iterate over all entries (snapshot). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Note: concurrent modifications may not be visible.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>visitor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable(const Key&amp;, const Value&amp;) called for each entry </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="371" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lock-free concurrent hash table for link registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Supports lockless reads and minimal-contention writes. </para>
+    </detaileddescription>
+    <location file="include/process/lock_free_linker_contract.h" line="324" column="1" bodyfile="include/process/lock_free_linker_contract.h" bodystart="324" bodyend="372"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_lock_free_hash_table_1a757a52ce50c180d02e06bf071d9f515f" prot="public" virt="non-virtual"><scope>themis::process::LockFreeHashTable</scope><name>erase</name></member>
+      <member refid="classthemis_1_1process_1_1_lock_free_hash_table_1a17176e51d8030826e9192e590f06234d" prot="public" virt="non-virtual"><scope>themis::process::LockFreeHashTable</scope><name>forEach</name></member>
+      <member refid="classthemis_1_1process_1_1_lock_free_hash_table_1a164c31012cc361808f95841bab68571c" prot="public" virt="non-virtual"><scope>themis::process::LockFreeHashTable</scope><name>insert</name></member>
+      <member refid="classthemis_1_1process_1_1_lock_free_hash_table_1aac4ffb6b82f1d39c0c66472c3838e0e2" prot="public" virt="non-virtual"><scope>themis::process::LockFreeHashTable</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1process_1_1_lock_free_hash_table_1ac9eaaf1f3111fab7d9563d9d28cd1858" prot="public" virt="non-virtual"><scope>themis::process::LockFreeHashTable</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1experimental_1_1_dictionary_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::experimental::DictionaryCodec</compoundname>
+    <includes refid="lossless__vector__compression_8h" local="no">lossless_vector_compression.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_dictionary_codec_1ad2e4b0f1821b7a2a4650458c361acad4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1experimental_1_1_dictionary_compressed" kindref="compound">DictionaryCompressed</ref>&lt; T &gt;</type>
+        <definition>static DictionaryCompressed&lt; T &gt; themis::experimental::DictionaryCodec&lt; T &gt;::compress</definition>
+        <argsstring>(const std::vector&lt; T &gt; &amp;vec)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::experimental::DictionaryCodec::compress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; T &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="288" column="33" bodyfile="include/utils/lossless_vector_compression.h" bodystart="288" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_dictionary_codec_1a1758635438188a6a591320793dab2d76" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; T &gt;</type>
+        <definition>static std::vector&lt; T &gt; themis::experimental::DictionaryCodec&lt; T &gt;::decompress</definition>
+        <argsstring>(const DictionaryCompressed&lt; T &gt; &amp;compressed)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::experimental::DictionaryCodec::decompress</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1experimental_1_1_dictionary_compressed" kindref="compound">DictionaryCompressed</ref>&lt; T &gt; &amp;</type>
+          <declname>compressed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="309" column="24" bodyfile="include/utils/lossless_vector_compression.h" bodystart="309" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dictionary codec component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/lossless_vector_compression.h" line="286" column="1" bodyfile="include/utils/lossless_vector_compression.h" bodystart="286" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1experimental_1_1_dictionary_codec_1ad2e4b0f1821b7a2a4650458c361acad4" prot="public" virt="non-virtual"><scope>themis::experimental::DictionaryCodec</scope><name>compress</name></member>
+      <member refid="classthemis_1_1experimental_1_1_dictionary_codec_1a1758635438188a6a591320793dab2d76" prot="public" virt="non-virtual"><scope>themis::experimental::DictionaryCodec</scope><name>decompress</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

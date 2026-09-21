@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1safety_1_1_handle_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::safety::HandleRegistry</compoundname>
+    <includes refid="move__safety__helpers_8h" local="no">move_safety_helpers.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1safety_1_1_handle_registry_1a25966b2ecfeefa899ffe87a8d9ae6473" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::safety::HandleRegistry&lt; T &gt;::IdType = std::string</definition>
+        <argsstring></argsstring>
+        <name>IdType</name>
+        <qualifiedname>themis::safety::HandleRegistry::IdType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="77" column="5" bodyfile="include/security/move_safety_helpers.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1safety_1_1_handle_registry_1a04c714d681a0922b59ab21dc4437c45b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::safety::HandleRegistry&lt; T &gt;::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::safety::HandleRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="139" column="24" bodyfile="include/security/move_safety_helpers.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1safety_1_1_handle_registry_1a1d5fc1362dde6f0cd897ddb1b20b11d8" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="classthemis_1_1safety_1_1_handle_registry_1a25966b2ecfeefa899ffe87a8d9ae6473" kindref="member">IdType</ref>, T &gt;</type>
+        <definition>std::map&lt;IdType, T&gt; themis::safety::HandleRegistry&lt; T &gt;::objects_</definition>
+        <argsstring></argsstring>
+        <name>objects_</name>
+        <qualifiedname>themis::safety::HandleRegistry::objects_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="140" column="14" bodyfile="include/security/move_safety_helpers.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1safety_1_1_handle_registry_1aa900bb067af78b272dee50987d3e357e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::safety::HandleRegistry&lt; T &gt;::store</definition>
+        <argsstring>(const IdType &amp;id, T obj)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::safety::HandleRegistry::store</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1safety_1_1_handle_registry_1a25966b2ecfeefa899ffe87a8d9ae6473" kindref="member">IdType</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+<para>Store object by ID (moves the object). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="80" column="10" bodyfile="include/security/move_safety_helpers.h" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1safety_1_1_handle_registry_1a10c01c182f06831653525429bb5929b7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt; T &gt; themis::safety::HandleRegistry&lt; T &gt;::get</definition>
+        <argsstring>(const IdType &amp;id) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::safety::HandleRegistry::get</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1safety_1_1_handle_registry_1a25966b2ecfeefa899ffe87a8d9ae6473" kindref="member">IdType</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve object by ID (returns copy/reference). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="91" column="19" bodyfile="include/security/move_safety_helpers.h" bodystart="91" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1safety_1_1_handle_registry_1a54c2835cde78e088766118b155b5be70" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::safety::HandleRegistry&lt; T &gt;::contains</definition>
+        <argsstring>(const IdType &amp;id) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::safety::HandleRegistry::contains</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1safety_1_1_handle_registry_1a25966b2ecfeefa899ffe87a8d9ae6473" kindref="member">IdType</ref> &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Check if ID exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="106" column="10" bodyfile="include/security/move_safety_helpers.h" bodystart="106" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1safety_1_1_handle_registry_1abd9ed5b8aa9643e06d3795f152805013" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::safety::HandleRegistry&lt; T &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::safety::HandleRegistry::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="117" column="10" bodyfile="include/security/move_safety_helpers.h" bodystart="117" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1safety_1_1_handle_registry_1a9d74fb68ac5eca57e693c9d6764f5882" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::safety::HandleRegistry&lt; T &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::safety::HandleRegistry::size</qualifiedname>
+        <briefdescription>
+<para>Get count of stored objects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="128" column="12" bodyfile="include/security/move_safety_helpers.h" bodystart="128" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registry that stores objects by ID after they&apos;ve been moved. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides safe access to moved objects by ID instead of reference</para>
+<para>Usage: <programlisting filename=".cpp"><codeline><highlight class="normal">registry.store(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>std::move(obj));</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>registry.get(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/security/move_safety_helpers.h" line="75" column="1" bodyfile="include/security/move_safety_helpers.h" bodystart="75" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1safety_1_1_handle_registry_1abd9ed5b8aa9643e06d3795f152805013" prot="public" virt="non-virtual"><scope>themis::safety::HandleRegistry</scope><name>clear</name></member>
+      <member refid="classthemis_1_1safety_1_1_handle_registry_1a54c2835cde78e088766118b155b5be70" prot="public" virt="non-virtual"><scope>themis::safety::HandleRegistry</scope><name>contains</name></member>
+      <member refid="classthemis_1_1safety_1_1_handle_registry_1a10c01c182f06831653525429bb5929b7" prot="public" virt="non-virtual"><scope>themis::safety::HandleRegistry</scope><name>get</name></member>
+      <member refid="classthemis_1_1safety_1_1_handle_registry_1a25966b2ecfeefa899ffe87a8d9ae6473" prot="public" virt="non-virtual"><scope>themis::safety::HandleRegistry</scope><name>IdType</name></member>
+      <member refid="classthemis_1_1safety_1_1_handle_registry_1a04c714d681a0922b59ab21dc4437c45b" prot="private" virt="non-virtual"><scope>themis::safety::HandleRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1safety_1_1_handle_registry_1a1d5fc1362dde6f0cd897ddb1b20b11d8" prot="private" virt="non-virtual"><scope>themis::safety::HandleRegistry</scope><name>objects_</name></member>
+      <member refid="classthemis_1_1safety_1_1_handle_registry_1a9d74fb68ac5eca57e693c9d6764f5882" prot="public" virt="non-virtual"><scope>themis::safety::HandleRegistry</scope><name>size</name></member>
+      <member refid="classthemis_1_1safety_1_1_handle_registry_1aa900bb067af78b272dee50987d3e357e" prot="public" virt="non-virtual"><scope>themis::safety::HandleRegistry</scope><name>store</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

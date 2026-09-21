@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_h_s_m_security_checker" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::HSMSecurityChecker</compoundname>
+    <includes refid="hsm__security__checker_8h" local="no">hsm_security_checker.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::security::HSMSecurityChecker::isProductionMode</definition>
+        <argsstring>()</argsstring>
+        <name>isProductionMode</name>
+        <qualifiedname>themis::security::HSMSecurityChecker::isProductionMode</qualifiedname>
+        <briefdescription>
+<para>Is Production Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if running in production mode <simplesect kind="return"><para>true if production mode is active</para>
+</simplesect>
+Calls: std::getenv(), mode(), environment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Mode. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">env_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Environment. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">env</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/hsm_security_checker.h" line="36" column="17" bodyfile="include/security/hsm_security_checker.h" bodystart="36" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_security_checker_1a843296d2d2e3f7c5e8f4c41888898023" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::security::HSMSecurityChecker::hasAllowStubFlag</definition>
+        <argsstring>(int argc, char *argv[])</argsstring>
+        <name>hasAllowStubFlag</name>
+        <qualifiedname>themis::security::HSMSecurityChecker::hasAllowStubFlag</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+<para>Has Allow Stub Flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">argc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">argv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+Calls: std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_security_checker.h" line="72" column="17" bodyfile="include/security/hsm_security_checker.h" bodystart="72" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::security::HSMSecurityChecker::validateProductionSafety</definition>
+        <argsstring>(const HSMProvider &amp;hsm, int argc, char *argv[])</argsstring>
+        <name>validateProductionSafety</name>
+        <qualifiedname>themis::security::HSMSecurityChecker::validateProductionSafety</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> &amp;</type>
+          <declname>hsm</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+<para>Validate Production Safety. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hsm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">argc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">argv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" kindref="member">isProductionMode()</ref>, isStubProvider(), <ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a843296d2d2e3f7c5e8f4c41888898023" kindref="member">hasAllowStubFlag()</ref>, THEMIS_WARN(), THEMIS_CRITICAL(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_security_checker.h" line="89" column="17" bodyfile="include/security/hsm_security_checker.h" bodystart="89" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_h_s_m_security_checker_1a2f088184c4cace6bbf9e0234492346ac" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::HSMSecurityChecker::getPeriodicWarning</definition>
+        <argsstring>(const HSMProvider &amp;hsm)</argsstring>
+        <name>getPeriodicWarning</name>
+        <qualifiedname>themis::security::HSMSecurityChecker::getPeriodicWarning</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref> &amp;</type>
+          <declname>hsm</declname>
+        </param>
+        <briefdescription>
+<para>Get Periodic Warning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get warning message for periodic security checks <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hsm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HSM provider instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Warning message or empty string if no warning needed</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" kindref="member">isProductionMode()</ref>, isStubProvider(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_security_checker.h" line="156" column="24" bodyfile="include/security/hsm_security_checker.h" bodystart="156" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HSM Security Checker - Production Safety Utilities</para>
+<para>Provides utilities for enforcing HSM security requirements in production. Addresses FIND-002 security audit findings. </para>
+    </detaileddescription>
+    <location file="include/security/hsm_security_checker.h" line="28" column="1" bodyfile="include/security/hsm_security_checker.h" bodystart="28" bodyend="169"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a2f088184c4cace6bbf9e0234492346ac" prot="public" virt="non-virtual"><scope>themis::security::HSMSecurityChecker</scope><name>getPeriodicWarning</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a843296d2d2e3f7c5e8f4c41888898023" prot="public" virt="non-virtual"><scope>themis::security::HSMSecurityChecker</scope><name>hasAllowStubFlag</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aad99c0dc1810f78e6aae3a0c81ed2da4" prot="public" virt="non-virtual"><scope>themis::security::HSMSecurityChecker</scope><name>isProductionMode</name></member>
+      <member refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" prot="public" virt="non-virtual"><scope>themis::security::HSMSecurityChecker</scope><name>validateProductionSafety</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

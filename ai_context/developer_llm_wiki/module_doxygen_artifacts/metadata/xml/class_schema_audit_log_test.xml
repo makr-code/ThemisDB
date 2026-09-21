@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_schema_audit_log_test" kind="class" language="C++" prot="public">
+    <compoundname>SchemaAuditLogTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_schema_audit_log_test_1ac3a59cd7e675cf75de26a9a5a3faf076" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; SchemaAuditLogTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>SchemaAuditLogTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="40" column="21" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_schema_audit_log_test_1a6681ec07f22ec7b08546fd5950844fc4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SchemaAuditLogTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SchemaAuditLogTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="25" column="10" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="25" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_schema_audit_log_test_1ac83b8f574e24f050bb20c743b899ecf2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SchemaAuditLogTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SchemaAuditLogTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="34" column="10" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SchemaAuditLogTest</label>
+        <link refid="class_schema_audit_log_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SchemaAuditLogTest</label>
+        <link refid="class_schema_audit_log_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_schema_audit_log.cpp" line="23" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="23" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_schema_audit_log_test_1ac3a59cd7e675cf75de26a9a5a3faf076" prot="protected" virt="non-virtual"><scope>SchemaAuditLogTest</scope><name>db_</name></member>
+      <member refid="class_schema_audit_log_test_1a6681ec07f22ec7b08546fd5950844fc4" prot="protected" virt="non-virtual"><scope>SchemaAuditLogTest</scope><name>SetUp</name></member>
+      <member refid="class_schema_audit_log_test_1ac83b8f574e24f050bb20c743b899ecf2" prot="protected" virt="non-virtual"><scope>SchemaAuditLogTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_region_staleness_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::RegionStalenessInfo</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_region_staleness_info_1aa8c913ebb0b0b6d7b53c79ee50b216b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::RegionStalenessInfo::region_id</definition>
+        <argsstring></argsstring>
+        <name>region_id</name>
+        <qualifiedname>themisdb::replication::RegionStalenessInfo::region_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1937" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1937" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_region_staleness_info_1a1767eb6fe3f2e9e48171fa7c704bab8e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::RegionStalenessInfo::staleness_ms</definition>
+        <argsstring></argsstring>
+        <name>staleness_ms</name>
+        <qualifiedname>themisdb::replication::RegionStalenessInfo::staleness_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated replication lag to this region (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1938" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1938" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_region_staleness_info_1aecadefc4d7487dfde1a565f308d2fa9e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::RegionStalenessInfo::last_applied_sequence</definition>
+        <argsstring></argsstring>
+        <name>last_applied_sequence</name>
+        <qualifiedname>themisdb::replication::RegionStalenessInfo::last_applied_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Last WAL sequence known to be applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1939" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1939" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_region_staleness_info_1a8e20ee34c1c439fb84087ef9eed11e3e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::RegionStalenessInfo::last_update</definition>
+        <argsstring></argsstring>
+        <name>last_update</name>
+        <qualifiedname>themisdb::replication::RegionStalenessInfo::last_update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1940" column="43" bodyfile="include/replication/replication_manager.h" bodystart="1940" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_region_staleness_info_1a31885b2c91c0a2b9f83e9cbf678a8e3d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::RegionStalenessInfo::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themisdb::replication::RegionStalenessInfo::is_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1941" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1941" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Per-region staleness tracking snapshot. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1936" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1936" bodyend="1942"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_region_staleness_info_1a31885b2c91c0a2b9f83e9cbf678a8e3d" prot="public" virt="non-virtual"><scope>themisdb::replication::RegionStalenessInfo</scope><name>is_healthy</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_region_staleness_info_1aecadefc4d7487dfde1a565f308d2fa9e" prot="public" virt="non-virtual"><scope>themisdb::replication::RegionStalenessInfo</scope><name>last_applied_sequence</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_region_staleness_info_1a8e20ee34c1c439fb84087ef9eed11e3e" prot="public" virt="non-virtual"><scope>themisdb::replication::RegionStalenessInfo</scope><name>last_update</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_region_staleness_info_1aa8c913ebb0b0b6d7b53c79ee50b216b2" prot="public" virt="non-virtual"><scope>themisdb::replication::RegionStalenessInfo</scope><name>region_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_region_staleness_info_1a1767eb6fe3f2e9e48171fa7c704bab8e" prot="public" virt="non-virtual"><scope>themisdb::replication::RegionStalenessInfo</scope><name>staleness_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

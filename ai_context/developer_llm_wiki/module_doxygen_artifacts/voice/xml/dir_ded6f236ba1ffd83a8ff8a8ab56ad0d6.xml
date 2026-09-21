@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ded6f236ba1ffd83a8ff8a8ab56ad0d6" kind="dir">
+    <compoundname>benchmarks/voice</compoundname>
+    <innerfile refid="bench__voice__a8__baselines_8cpp">bench_voice_a8_baselines.cpp</innerfile>
+    <innerfile refid="bench__voice__assistant_8cpp">bench_voice_assistant.cpp</innerfile>
+    <innerfile refid="bench__voice__assistant__latency_8cpp">bench_voice_assistant_latency.cpp</innerfile>
+    <innerfile refid="bench__voice__audio__preprocessing_8cpp">bench_voice_audio_preprocessing.cpp</innerfile>
+    <innerfile refid="bench__voice__dedicated__gates_8cpp">bench_voice_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__voice__session__lifecycle_8cpp">bench_voice_session_lifecycle.cpp</innerfile>
+    <innerfile refid="bench__voice__streaming__throughput_8cpp">bench_voice_streaming_throughput.cpp</innerfile>
+    <innerfile refid="bench__voice__stt__tts__latency_8cpp">bench_voice_stt_tts_latency.cpp</innerfile>
+    <innerfile refid="bench__voice__wake__word__batch_8cpp">bench_voice_wake_word_batch.cpp</innerfile>
+    <innerfile refid="benchmark__fixtures_8h">benchmark_fixtures.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/"/>
+  </compounddef>
+</doxygen>

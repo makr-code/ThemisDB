@@ -1,0 +1,716 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_ann_frontdoor" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::AnnFrontdoor</compoundname>
+    <includes refid="ann__frontdoor_8h" local="no">ann_frontdoor.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config" prot="public">themis::index::AnnFrontdoor::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_ann_frontdoor_1ab36742a76341d53b70fc89b690c99bfb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::index::AnnFrontdoor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::index::AnnFrontdoor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="310" column="63" bodyfile="include/index/ann_frontdoor.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_ann_frontdoor_1af1a8d402b775d9ff8f77735fbe2a633b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;IAnnIndex&gt; &gt; themis::index::AnnFrontdoor::backends_</definition>
+        <argsstring></argsstring>
+        <name>backends_</name>
+        <qualifiedname>themis::index::AnnFrontdoor::backends_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="311" column="24" bodyfile="include/index/ann_frontdoor.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_ann_frontdoor_1afed1282cceb33f68eb78a36237f9de39" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AnnScopeKind&gt; themis::index::AnnFrontdoor::scope_kinds_</definition>
+        <argsstring></argsstring>
+        <name>scope_kinds_</name>
+        <qualifiedname>themis::index::AnnFrontdoor::scope_kinds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="312" column="38" bodyfile="include/index/ann_frontdoor.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_ann_frontdoor_1a03b35b51f14f53851a808b8950f50aa0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; themis::index::AnnFrontdoor::vim_</definition>
+        <argsstring></argsstring>
+        <name>vim_</name>
+        <qualifiedname>themis::index::AnnFrontdoor::vim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="313" column="43" bodyfile="include/index/ann_frontdoor.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_ann_frontdoor_1a47670f05516695b2b60dcee25a001a1f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1index_1_1_tiered_index_manager" kindref="compound">TieredIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TieredIndexManager&gt; themis::index::AnnFrontdoor::tiered_</definition>
+        <argsstring></argsstring>
+        <name>tiered_</name>
+        <qualifiedname>themis::index::AnnFrontdoor::tiered_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="314" column="43" bodyfile="include/index/ann_frontdoor.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::AnnFrontdoor::AnnFrontdoor</definition>
+        <argsstring>()</argsstring>
+        <name>AnnFrontdoor</name>
+        <qualifiedname>themis::index::AnnFrontdoor::AnnFrontdoor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="205" column="5" bodyfile="src/index/ann_frontdoor.cpp" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1ace6e826871b3ea011ad2256a755dda50" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::AnnFrontdoor::AnnFrontdoor</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>AnnFrontdoor</name>
+        <qualifiedname>themis::index::AnnFrontdoor::AnnFrontdoor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Ann Frontdoor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="212" column="14" bodyfile="src/index/ann_frontdoor.cpp" bodystart="144" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1ae15714c76c41e7fae9e7175094213e3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::AnnFrontdoor::~AnnFrontdoor</definition>
+        <argsstring>()</argsstring>
+        <name>~AnnFrontdoor</name>
+        <qualifiedname>themis::index::AnnFrontdoor::~AnnFrontdoor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="213" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a386ad9fb77cdf10206a05187999abde8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::AnnFrontdoor::AnnFrontdoor</definition>
+        <argsstring>(const AnnFrontdoor &amp;)=delete</argsstring>
+        <name>AnnFrontdoor</name>
+        <qualifiedname>themis::index::AnnFrontdoor::AnnFrontdoor</qualifiedname>
+        <param>
+          <type>const AnnFrontdoor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="216" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1aedffa6112a3a8629ba265b540a939efb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref> &amp;</type>
+        <definition>AnnFrontdoor &amp; themis::index::AnnFrontdoor::operator=</definition>
+        <argsstring>(const AnnFrontdoor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::index::AnnFrontdoor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="217" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a45372154214b046a98808e0de2d046ac" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::AnnFrontdoor::AnnFrontdoor</definition>
+        <argsstring>(AnnFrontdoor &amp;&amp;) noexcept=default</argsstring>
+        <name>AnnFrontdoor</name>
+        <qualifiedname>themis::index::AnnFrontdoor::AnnFrontdoor</qualifiedname>
+        <param>
+          <type>AnnFrontdoor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="218" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a3d92229d16be19a4da51a6610ae803fc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref> &amp;</type>
+        <definition>AnnFrontdoor &amp; themis::index::AnnFrontdoor::operator=</definition>
+        <argsstring>(AnnFrontdoor &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::index::AnnFrontdoor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" kindref="member">AnnFrontdoor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="219" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1ae7d0744c7321fa6fa34ca7cb8eae04f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::AnnFrontdoor::registerBackend</definition>
+        <argsstring>(std::string scope_id, std::shared_ptr&lt; IAnnIndex &gt; backend, AnnScopeKind kind=AnnScopeKind::Generic)</argsstring>
+        <name>registerBackend</name>
+        <qualifiedname>themis::index::AnnFrontdoor::registerBackend</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>scope_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref></type>
+          <declname>kind</declname>
+          <defval><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8045a0a6c688b0635e3caccc408a1446" kindref="member">AnnScopeKind::Generic</ref></defval>
+        </param>
+        <briefdescription>
+<para>Register Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scope_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scope. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="225" column="10" bodyfile="src/index/ann_frontdoor.cpp" bodystart="161" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1ac112f2655c8d9d694927eef081d77140" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::AnnFrontdoor::registerScopeKind</definition>
+        <argsstring>(std::string scope_id, AnnScopeKind kind)</argsstring>
+        <name>registerScopeKind</name>
+        <qualifiedname>themis::index::AnnFrontdoor::registerScopeKind</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>scope_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref></type>
+          <declname>kind</declname>
+        </param>
+        <briefdescription>
+<para>Register Scope Kind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scope_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scope. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scope_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the scope. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="234" column="10" bodyfile="src/index/ann_frontdoor.cpp" bodystart="178" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1aef8f933d6581da164056cdb3f986df51" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref></type>
+        <definition>AnnScopeKind themis::index::AnnFrontdoor::getScopeKind</definition>
+        <argsstring>(const std::string &amp;scope_id) const noexcept</argsstring>
+        <name>getScopeKind</name>
+        <qualifiedname>themis::index::AnnFrontdoor::getScopeKind</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="236" column="19" bodyfile="src/index/ann_frontdoor.cpp" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a7115aa6eb4dbf467a107806cb8696f12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::AnnFrontdoor::registerVectorIndexManager</definition>
+        <argsstring>(std::shared_ptr&lt; VectorIndexManager &gt; vim)</argsstring>
+        <name>registerVectorIndexManager</name>
+        <qualifiedname>themis::index::AnnFrontdoor::registerVectorIndexManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> &gt;</type>
+          <declname>vim</declname>
+        </param>
+        <briefdescription>
+<para>Register Vector Index Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="242" column="10" bodyfile="src/index/ann_frontdoor.cpp" bodystart="193" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a082e4a0fa905858d01bb21ff34d14097" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::AnnFrontdoor::registerTieredIndexManager</definition>
+        <argsstring>(std::shared_ptr&lt; TieredIndexManager &gt; tim)</argsstring>
+        <name>registerTieredIndexManager</name>
+        <qualifiedname>themis::index::AnnFrontdoor::registerTieredIndexManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1index_1_1_tiered_index_manager" kindref="compound">TieredIndexManager</ref> &gt;</type>
+          <declname>tim</declname>
+        </param>
+        <briefdescription>
+<para>Register Tiered Index Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="248" column="10" bodyfile="src/index/ann_frontdoor.cpp" bodystart="207" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a03ee3efc87eb19d0a05c81e4c60b7d9b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result" kindref="compound">AnnFrontdoorResult</ref></type>
+        <definition>AnnFrontdoorResult themis::index::AnnFrontdoor::search</definition>
+        <argsstring>(const float *query_vector, std::size_t dim, int k=0, const AnnQueryContext &amp;context={}) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::index::AnnFrontdoor::search</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref> &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="255" column="25" bodyfile="src/index/ann_frontdoor.cpp" bodystart="334" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a0218d2ff498f1193738f6a704e9c5751" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref></type>
+        <definition>AnnStrategy themis::index::AnnFrontdoor::planStrategy</definition>
+        <argsstring>(const AnnQueryContext &amp;context) const noexcept</argsstring>
+        <name>planStrategy</name>
+        <qualifiedname>themis::index::AnnFrontdoor::planStrategy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="261" column="18" bodyfile="src/index/ann_frontdoor.cpp" bodystart="216" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a26d93a0a3439a5ed1bdea7315e3d994b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_ann_retrieval_plan" kindref="compound">AnnRetrievalPlan</ref></type>
+        <definition>AnnRetrievalPlan themis::index::AnnFrontdoor::planRetrieval</definition>
+        <argsstring>(const AnnQueryContext &amp;context) const noexcept</argsstring>
+        <name>planRetrieval</name>
+        <qualifiedname>themis::index::AnnFrontdoor::planRetrieval</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="264" column="23" bodyfile="src/index/ann_frontdoor.cpp" bodystart="221" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1aacc1ea1a23cb87d9860d6729ca10564f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoor::explainStrategy</definition>
+        <argsstring>(const AnnQueryContext &amp;context) const</argsstring>
+        <name>explainStrategy</name>
+        <qualifiedname>themis::index::AnnFrontdoor::explainStrategy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="267" column="18" bodyfile="src/index/ann_frontdoor.cpp" bodystart="325" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1ac150f33f642d879292ec700edfb3363c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::index::AnnFrontdoor::registeredBackendCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>registeredBackendCount</name>
+        <qualifiedname>themis::index::AnnFrontdoor::registeredBackendCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="274" column="18" bodyfile="src/index/ann_frontdoor.cpp" bodystart="609" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a3e7c3bbdf33f000cdeee17d2dbca8a60" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1index_1_1_ann_frontdoor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const AnnFrontdoor::Config &amp; themis::index::AnnFrontdoor::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::index::AnnFrontdoor::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="276" column="19" bodyfile="src/index/ann_frontdoor.cpp" bodystart="613" bodyend="615"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1ad65c6f976a35dd564b784d8e4dbd81da" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IAnnIndex &gt; themis::index::AnnFrontdoor::resolveBackend</definition>
+        <argsstring>(const std::string &amp;scope_id) const noexcept</argsstring>
+        <name>resolveBackend</name>
+        <qualifiedname>themis::index::AnnFrontdoor::resolveBackend</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="280" column="22" bodyfile="src/index/ann_frontdoor.cpp" bodystart="621" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a51fcd074b7c7142fb34a4b1cf2c28bee" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; AnnSearchResult &gt; themis::index::AnnFrontdoor::executeSearch</definition>
+        <argsstring>(IAnnIndex &amp;backend, const float *query, std::size_t dim, int k) const</argsstring>
+        <name>executeSearch</name>
+        <qualifiedname>themis::index::AnnFrontdoor::executeSearch</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1index_1_1_i_ann_index" kindref="compound">IAnnIndex</ref> &amp;</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="284" column="18" bodyfile="src/index/ann_frontdoor.cpp" bodystart="627" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1acf2d7eb1386119e2cb437aad21d6e8e8" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_ann_search_result" kindref="compound">AnnSearchResult</ref> &gt;</type>
+        <definition>std::vector&lt; AnnSearchResult &gt; themis::index::AnnFrontdoor::bruteForceSearch</definition>
+        <argsstring>(const float *query, std::size_t dim, int k, const AnnQueryContext &amp;context) const</argsstring>
+        <name>bruteForceSearch</name>
+        <qualifiedname>themis::index::AnnFrontdoor::bruteForceSearch</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="291" column="18" bodyfile="src/index/ann_frontdoor.cpp" bodystart="641" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1a454c7d6851f029090c10d8089ced36d9" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::AnnFrontdoor::buildRoutingReason</definition>
+        <argsstring>(AnnStrategy strategy, const AnnQueryContext &amp;context) const</argsstring>
+        <name>buildRoutingReason</name>
+        <qualifiedname>themis::index::AnnFrontdoor::buildRoutingReason</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="298" column="18" bodyfile="src/index/ann_frontdoor.cpp" bodystart="656" bodyend="674"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_ann_frontdoor_1acb62947496e1891095d64c3b0e7ce219" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::AnnFrontdoor::recallEstimate</definition>
+        <argsstring>(AnnStrategy strategy) noexcept</argsstring>
+        <name>recallEstimate</name>
+        <qualifiedname>themis::index::AnnFrontdoor::recallEstimate</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Estimated recall fraction for a given strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="308" column="19" bodyfile="src/index/ann_frontdoor.cpp" bodystart="677" bodyend="688"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/ann_frontdoor.h" line="168" column="1" bodyfile="include/index/ann_frontdoor.h" bodystart="168" bodyend="315"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1ae6dab985f17d43c25455fe8525f2edd2" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>AnnFrontdoor</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1ace6e826871b3ea011ad2256a755dda50" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>AnnFrontdoor</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a386ad9fb77cdf10206a05187999abde8" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>AnnFrontdoor</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a45372154214b046a98808e0de2d046ac" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>AnnFrontdoor</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1af1a8d402b775d9ff8f77735fbe2a633b" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>backends_</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1acf2d7eb1386119e2cb437aad21d6e8e8" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>bruteForceSearch</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a454c7d6851f029090c10d8089ced36d9" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>buildRoutingReason</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a3e7c3bbdf33f000cdeee17d2dbca8a60" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>config</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1ab36742a76341d53b70fc89b690c99bfb" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a51fcd074b7c7142fb34a4b1cf2c28bee" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>executeSearch</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1aacc1ea1a23cb87d9860d6729ca10564f" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>explainStrategy</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1aef8f933d6581da164056cdb3f986df51" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>getScopeKind</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1aedffa6112a3a8629ba265b540a939efb" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a3d92229d16be19a4da51a6610ae803fc" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a26d93a0a3439a5ed1bdea7315e3d994b" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>planRetrieval</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a0218d2ff498f1193738f6a704e9c5751" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>planStrategy</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1acb62947496e1891095d64c3b0e7ce219" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>recallEstimate</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1ae7d0744c7321fa6fa34ca7cb8eae04f8" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>registerBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1ac150f33f642d879292ec700edfb3363c" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>registeredBackendCount</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1ac112f2655c8d9d694927eef081d77140" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>registerScopeKind</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a082e4a0fa905858d01bb21ff34d14097" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>registerTieredIndexManager</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a7115aa6eb4dbf467a107806cb8696f12" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>registerVectorIndexManager</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1ad65c6f976a35dd564b784d8e4dbd81da" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>resolveBackend</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1afed1282cceb33f68eb78a36237f9de39" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>scope_kinds_</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a03ee3efc87eb19d0a05c81e4c60b7d9b" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>search</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a47670f05516695b2b60dcee25a001a1f" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>tiered_</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1a03b35b51f14f53851a808b8950f50aa0" prot="private" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>vim_</name></member>
+      <member refid="classthemis_1_1index_1_1_ann_frontdoor_1ae15714c76c41e7fae9e7175094213e3d" prot="public" virt="non-virtual"><scope>themis::index::AnnFrontdoor</scope><name>~AnnFrontdoor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

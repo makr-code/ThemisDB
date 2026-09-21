@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::GPUErasureCoderImpl</compoundname>
+    <includes refid="gpu__erasure__coder_8h" local="no">gpu_erasure_coder.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1af9a50ddcb9f350d2a396796d45a070db" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::GPUErasureCoderImpl::~GPUErasureCoderImpl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GPUErasureCoderImpl</name>
+        <qualifiedname>themis::sharding::GPUErasureCoderImpl::~GPUErasureCoderImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="215" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1a78db214b036d104c3accbc5a2957dc0a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::GPUErasureCoderImpl::initialize</definition>
+        <argsstring>(const GPUConfig &amp;config)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::sharding::GPUErasureCoderImpl::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_g_p_u_config" kindref="compound">GPUConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="217" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1a2bebbf047a619895a5e12ad3ba87d70d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::sharding::GPUErasureCoderImpl::shutdown</definition>
+        <argsstring>()=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::sharding::GPUErasureCoderImpl::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="218" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1a764ff42a1983f6ad1f2e977ec9aeeb5e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>virtual std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::sharding::GPUErasureCoderImpl::encode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, uint32_t data_shards, uint32_t parity_shards)=0</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::sharding::GPUErasureCoderImpl::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="220" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1a0d2c50fe6f585fe766e82d7723fedcd8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>virtual std::vector&lt; uint8_t &gt; themis::sharding::GPUErasureCoderImpl::decode</definition>
+        <argsstring>(const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;available_chunks, const std::vector&lt; uint32_t &gt; &amp;missing_indices, uint32_t data_shards, uint32_t parity_shards)=0</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::sharding::GPUErasureCoderImpl::decode</qualifiedname>
+        <param>
+          <type>const std::map&lt; uint32_t, std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>available_chunks</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>missing_indices</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="226" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1ad2921b6f15b038c5e6f45e9a4b5d72ab" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>virtual std::vector&lt; std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &gt; themis::sharding::GPUErasureCoderImpl::batchEncode</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;data_blocks, uint32_t data_shards, uint32_t parity_shards)=0</argsstring>
+        <name>batchEncode</name>
+        <qualifiedname>themis::sharding::GPUErasureCoderImpl::batchEncode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>data_blocks</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>data_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parity_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="233" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1acbfa0e432c2a1027804a49bb725d7559" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::GPUErasureCoderImpl::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::sharding::GPUErasureCoderImpl::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gpu_erasure_coder.h" line="239" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Platform-specific implementation interface Implemented separately for CUDA (.cu) and OpenCL (.cpp) </para>
+    </detaileddescription>
+    <location file="include/sharding/gpu_erasure_coder.h" line="213" column="1" bodyfile="include/sharding/gpu_erasure_coder.h" bodystart="213" bodyend="240"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1ad2921b6f15b038c5e6f45e9a4b5d72ab" prot="public" virt="pure-virtual"><scope>themis::sharding::GPUErasureCoderImpl</scope><name>batchEncode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1a0d2c50fe6f585fe766e82d7723fedcd8" prot="public" virt="pure-virtual"><scope>themis::sharding::GPUErasureCoderImpl</scope><name>decode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1a764ff42a1983f6ad1f2e977ec9aeeb5e" prot="public" virt="pure-virtual"><scope>themis::sharding::GPUErasureCoderImpl</scope><name>encode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1a78db214b036d104c3accbc5a2957dc0a" prot="public" virt="pure-virtual"><scope>themis::sharding::GPUErasureCoderImpl</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1acbfa0e432c2a1027804a49bb725d7559" prot="public" virt="pure-virtual"><scope>themis::sharding::GPUErasureCoderImpl</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1a2bebbf047a619895a5e12ad3ba87d70d" prot="public" virt="pure-virtual"><scope>themis::sharding::GPUErasureCoderImpl</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1sharding_1_1_g_p_u_erasure_coder_impl_1af9a50ddcb9f350d2a396796d45a070db" prot="public" virt="virtual"><scope>themis::sharding::GPUErasureCoderImpl</scope><name>~GPUErasureCoderImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

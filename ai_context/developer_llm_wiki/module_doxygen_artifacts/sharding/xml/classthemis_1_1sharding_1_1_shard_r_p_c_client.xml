@@ -1,0 +1,781 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_shard_r_p_c_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardRPCClient</compoundname>
+    <includes refid="shard__rpc__client_8h" local="no">shard_rpc_client.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config" prot="public">themis::sharding::ShardRPCClient::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge" prot="public">themis::sharding::ShardRPCClient::WaitForEdge</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_impl" prot="public">themis::sharding::ShardRPCClient::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9115a696d3f1bb16ad0b55e05d10b784" prot="public" static="no">
+        <type>std::function&lt; nlohmann::json(std::string, nlohmann::json)&gt;</type>
+        <definition>using themis::sharding::ShardRPCClient::InProcessResponseHandler = 
+std::function&lt;nlohmann::json(std::string ,
+                             nlohmann::json )&gt;</definition>
+        <argsstring></argsstring>
+        <name>InProcessResponseHandler</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::InProcessResponseHandler</qualifiedname>
+        <briefdescription>
+<para>Inject a custom response handler for the in-process simulation path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <computeroutput>handler</computeroutput> is called by sendRequestInProcess() instead of the built-in hardcoded responses. This enables test and integration code to:<itemizedlist>
+<listitem><para>simulate NACK/abort responses (&quot;vote&quot;: &quot;abort&quot;)</para>
+</listitem><listitem><para>inject network-timeout exceptions</para>
+</listitem><listitem><para>exercise partial-failure and circuit-breaker code paths</para>
+</listitem></itemizedlist>
+</para>
+<para>The handler receives the RPC method name (e.g. &quot;prepare&quot;, &quot;commit&quot;) and the full <computeroutput>params</computeroutput> JSON and must return a well-formed response JSON. Pass <computeroutput>nullptr</computeroutput> to restore the built-in hardcoded fallback behaviour.</para>
+<para>Thread safety: the handler is stored under the impl mutex; it is safe to call this method from any thread before or during RPC use.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable matching <computeroutput>nlohmann::json(std::string, nlohmann::json)</computeroutput>, or <computeroutput>nullptr</computeroutput> to clear. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="243" column="5" bodyfile="include/sharding/shard_rpc_client.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a31967c32000be01c786b05070b729ac3" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::sharding::ShardRPCClient::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="251" column="21" bodyfile="include/sharding/shard_rpc_client.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardRPCClient::ShardRPCClient</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>ShardRPCClient</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::ShardRPCClient</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct RPC client using provided transport/runtime configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="116" column="14" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="290" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a2ff40279dd4bbb454ca81569e390017d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardRPCClient::~ShardRPCClient</definition>
+        <argsstring>()</argsstring>
+        <name>~ShardRPCClient</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::~ShardRPCClient</qualifiedname>
+        <briefdescription>
+<para>Destroy client and release internal connection/circuit-breaker state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="118" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9e9ccbee5e5f674b899d664dadd9b134" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardRPCClient::ShardRPCClient</definition>
+        <argsstring>(const ShardRPCClient &amp;)=delete</argsstring>
+        <name>ShardRPCClient</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::ShardRPCClient</qualifiedname>
+        <param>
+          <type>const ShardRPCClient &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a142923bfc76d4cbe031d2a8ab3978ab0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref> &amp;</type>
+        <definition>ShardRPCClient &amp; themis::sharding::ShardRPCClient::operator=</definition>
+        <argsstring>(const ShardRPCClient &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="122" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ab7ea37dcdf73ac3046a41765387346a0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardRPCClient::ShardRPCClient</definition>
+        <argsstring>(ShardRPCClient &amp;&amp;) noexcept=default</argsstring>
+        <name>ShardRPCClient</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::ShardRPCClient</qualifiedname>
+        <param>
+          <type>ShardRPCClient &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ae6515128104af45c1feac6be06edfe87" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref> &amp;</type>
+        <definition>ShardRPCClient &amp; themis::sharding::ShardRPCClient::operator=</definition>
+        <argsstring>(ShardRPCClient &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" kindref="member">ShardRPCClient</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="124" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a79e7511b4fc117282961170e94aeaeb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRPCClient::prepare</definition>
+        <argsstring>(const std::string &amp;txn_id, const nlohmann::json &amp;operations)</argsstring>
+        <name>prepare</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::prepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>operations</declname>
+        </param>
+        <briefdescription>
+<para>Send PREPARE request (2PC Phase 1). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prepare.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operations to prepare </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if shard votes to commit</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), size(), sendRequest(), contains(), THEMIS_WARN(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="132" column="10" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="315" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a84d2a36f9e2aeff43908a15d752e1df7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRPCClient::commit</definition>
+        <argsstring>(const std::string &amp;txn_id, int64_t commit_timestamp)</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::commit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>commit_timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Send COMMIT request (2PC Phase 2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Commit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>commit_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Commit timestamp for MVCC </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if committed successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">commit_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), sendRequest(), contains(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="143" column="10" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="351" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9f092722dd87e1c3306aa0df98574445" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRPCClient::abort</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>abort</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::abort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Send ABORT request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Abort.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if aborted successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), sendRequest(), contains(), THEMIS_WARN(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="153" column="10" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="386" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ad1a0439952d72b82839079c631dbb6c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRPCClient::compensate</definition>
+        <argsstring>(const std::string &amp;txn_id, const nlohmann::json &amp;operation)</argsstring>
+        <name>compensate</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::compensate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+<para>Send COMPENSATE request (SAGA compensation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compensate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compensation operation JSON payload </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if compensation executed successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), sendRequest(), contains(), THEMIS_WARN(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="161" column="10" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="417" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1aab0e355a2c2b9e01bea7c83a6acb02df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardRPCClient::snapshotRead</definition>
+        <argsstring>(int64_t snapshot_ts, const nlohmann::json &amp;query)</argsstring>
+        <name>snapshotRead</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::snapshotRead</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>snapshot_ts</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute snapshot read at specific timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Snapshot Read.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot timestamp for consistent read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query to execute </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Query results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), sendRequest(), contains(), size(), THEMIS_ERROR(), nlohmann::json::array(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="172" column="20" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="452" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a23e16bb6780a5c776abb17f3bdbf765b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRPCClient::writeEntity</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;uuid, const nlohmann::json &amp;data, uint64_t timestamp_ns=0)</argsstring>
+        <name>writeEntity</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::writeEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>uuid</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_ns</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Replicate (write) a single entity to this shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write Entity.</para>
+<para>Uses the gRPC ReplicateData RPC in multi-node deployments and a lightweight in-process acknowledgement for loopback/test endpoints.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection / namespace name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity UUID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity payload (JSON object) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timestamp_ns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Write timestamp (nanoseconds since epoch); 0 = now </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the entity was accepted by the remote shard</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), sendRequest(), contains(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="189" column="10" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="538" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1adaafe7db1c0ed6234e44542874e3d603" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRPCClient::ping</definition>
+        <argsstring>()</argsstring>
+        <name>ping</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::ping</qualifiedname>
+        <briefdescription>
+<para>Check if shard is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ping.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: sendRequest(), nlohmann::json::object(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="199" column="10" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="487" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a4430a1af0ff1055c780edb39db5eef5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_r_p_c_client_1_1_wait_for_edge" kindref="compound">WaitForEdge</ref> &gt;</type>
+        <definition>std::vector&lt; ShardRPCClient::WaitForEdge &gt; themis::sharding::ShardRPCClient::collectWaitForEdges</definition>
+        <argsstring>()</argsstring>
+        <name>collectWaitForEdges</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::collectWaitForEdges</qualifiedname>
+        <briefdescription>
+<para>Pull all active local wait-for edges from the remote shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Collect Wait For Edges.</para>
+<para>Used by the coordinator&apos;s deadlock-detection thread to build a cluster-wide wait-for graph that supplements edges explicitly reported via CrossShardTransactionCoordinator::reportDistributedWait().</para>
+<para><simplesect kind="return"><para>List of wait-for edges currently active on the remote shard. Returns an empty list on RPC failure (fail-open: callers should not abort transactions solely on the basis of a missing response).</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: sendRequest(), nlohmann::json::object(), contains(), is_array(), is_string(), push_back(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="222" column="17" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="501" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a77cf559ab782aca71898b618bc149754" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardRPCClient::setInProcessResponseHandler</definition>
+        <argsstring>(InProcessResponseHandler handler)</argsstring>
+        <name>setInProcessResponseHandler</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::setInProcessResponseHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9115a696d3f1bb16ad0b55e05d10b784" kindref="member">InProcessResponseHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Set In Process Response Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="247" column="10" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="303" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1aff0c527df8f81945a93dbe696d338929" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardRPCClient::sendRequest</definition>
+        <argsstring>(const std::string &amp;method, const nlohmann::json &amp;params)</argsstring>
+        <name>sendRequest</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::sendRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Send RPC request with retry logic Routes to either gRPC or in-process implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: sendRequestGrpc(), isExplicitInProcessEndpoint(), sendRequestInProcess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="257" column="20" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="569" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a4b3b867f23946ecf98b7333906e8dc02" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardRPCClient::sendRequestInProcess</definition>
+        <argsstring>(const std::string &amp;method, const nlohmann::json &amp;params)</argsstring>
+        <name>sendRequestInProcess</name>
+        <qualifiedname>themis::sharding::ShardRPCClient::sendRequestInProcess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Send request using in-process simulation (for single-node). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send Request In Process.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isExplicitInProcessEndpoint(), lk(), exchange(), THEMIS_WARN(), allowRequest(), THEMIS_DEBUG(), std::chrono::steady_clock::now(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="265" column="20" bodyfile="src/sharding/shard_rpc_client.cpp" bodystart="1042" bodyend="1194"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RPC Client for shard-to-shard communication. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>v1.3.0: Basic RPC implementation for distributed transactions Supports 2PC (Two-Phase Commit) protocol messages</para>
+<para>v1.3.4: Added gRPC support for multi-node cluster deployments<itemizedlist>
+<listitem><para>Real gRPC connections for horizontal scaling</para>
+</listitem><listitem><para>Automatic retry with exponential backoff</para>
+</listitem><listitem><para>Connection keepalive and pooling</para>
+</listitem><listitem><para>Healthcheck endpoint</para>
+</listitem><listitem><para>Error categorization (retryable vs non-retryable) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/shard_rpc_client.h" line="83" column="1" bodyfile="include/sharding/shard_rpc_client.h" bodystart="83" bodyend="335"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9f092722dd87e1c3306aa0df98574445" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>abort</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a4430a1af0ff1055c780edb39db5eef5b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>collectWaitForEdges</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a84d2a36f9e2aeff43908a15d752e1df7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>commit</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ad1a0439952d72b82839079c631dbb6c1" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>compensate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a31967c32000be01c786b05070b729ac3" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9115a696d3f1bb16ad0b55e05d10b784" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>InProcessResponseHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a142923bfc76d4cbe031d2a8ab3978ab0" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ae6515128104af45c1feac6be06edfe87" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1adaafe7db1c0ed6234e44542874e3d603" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>ping</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a79e7511b4fc117282961170e94aeaeb7" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>prepare</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1aff0c527df8f81945a93dbe696d338929" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>sendRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a4b3b867f23946ecf98b7333906e8dc02" prot="private" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>sendRequestInProcess</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a77cf559ab782aca71898b618bc149754" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>setInProcessResponseHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a1f95a222cc42e3a5def9c1157e62016c" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>ShardRPCClient</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a9e9ccbee5e5f674b899d664dadd9b134" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>ShardRPCClient</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1ab7ea37dcdf73ac3046a41765387346a0" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>ShardRPCClient</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1aab0e355a2c2b9e01bea7c83a6acb02df" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>snapshotRead</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a23e16bb6780a5c776abb17f3bdbf765b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>writeEntity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_r_p_c_client_1a2ff40279dd4bbb454ca81569e390017d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRPCClient</scope><name>~ShardRPCClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

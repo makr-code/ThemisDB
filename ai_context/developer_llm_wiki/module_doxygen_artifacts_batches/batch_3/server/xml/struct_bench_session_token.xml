@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_bench_session_token" kind="struct" language="C++" prot="public">
+    <compoundname>BenchSessionToken</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_bench_session_token_1a584b802d929faa1944972cd6a19d510c" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* BenchSessionToken::token_id</definition>
+        <argsstring></argsstring>
+        <name>token_id</name>
+        <qualifiedname>BenchSessionToken::token_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="85" column="16" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_session_token_1a6f5d67e93c24ffdc7aead246f6fc5baf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BenchSessionToken::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>BenchSessionToken::valid</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="86" column="10" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_session_token_1a130b305f5132c0789e8ff021ba640440" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool BenchSessionToken::replayed</definition>
+        <argsstring></argsstring>
+        <name>replayed</name>
+        <qualifiedname>BenchSessionToken::replayed</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="87" column="10" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal session-token stub for 0-RTT gate benchmarking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_http3_gates.cpp" line="84" column="1" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="84" bodyend="88"/>
+    <listofallmembers>
+      <member refid="struct_bench_session_token_1a130b305f5132c0789e8ff021ba640440" prot="public" virt="non-virtual"><scope>BenchSessionToken</scope><name>replayed</name></member>
+      <member refid="struct_bench_session_token_1a584b802d929faa1944972cd6a19d510c" prot="public" virt="non-virtual"><scope>BenchSessionToken</scope><name>token_id</name></member>
+      <member refid="struct_bench_session_token_1a6f5d67e93c24ffdc7aead246f6fc5baf" prot="public" virt="non-virtual"><scope>BenchSessionToken</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

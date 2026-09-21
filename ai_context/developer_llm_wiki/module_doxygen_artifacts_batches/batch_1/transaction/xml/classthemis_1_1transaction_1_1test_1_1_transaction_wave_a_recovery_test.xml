@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::TransactionWaveARecoveryTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test_1a3b0fef330309cd5a8e859321cbfa6196" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::transaction::test::TransactionWaveARecoveryTest::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::transaction::test::TransactionWaveARecoveryTest::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="336" column="18" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="336" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test_1a12f0da5dc103b83fb8fd882ef5167578" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::TransactionWaveARecoveryTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::transaction::test::TransactionWaveARecoveryTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="333" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="333" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::TransactionWaveARecoveryTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::TransactionWaveARecoveryTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="331" column="1" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="331" bodyend="337"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test_1a3b0fef330309cd5a8e859321cbfa6196" prot="protected" virt="non-virtual"><scope>themis::transaction::test::TransactionWaveARecoveryTest</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test_1a12f0da5dc103b83fb8fd882ef5167578" prot="protected" virt="non-virtual"><scope>themis::transaction::test::TransactionWaveARecoveryTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

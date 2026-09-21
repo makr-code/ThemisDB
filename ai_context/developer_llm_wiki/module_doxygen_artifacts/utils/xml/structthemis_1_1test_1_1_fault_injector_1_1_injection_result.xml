@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1_fault_injector_1_1_injection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::FaultInjector::InjectionResult</compoundname>
+    <includes refid="fault__injector_8h" local="no">fault_injector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a4fe33fd04cd674c868af77001f3cb93b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::test::FaultInjector::InjectionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::test::FaultInjector::InjectionResult::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="77" column="14" bodyfile="tests/utils/fault_injector.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1aa19557f622f8617d2583fad17aa5be67" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654" kindref="member">InjectionState</ref></type>
+        <definition>InjectionState themis::test::FaultInjector::InjectionResult::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::test::FaultInjector::InjectionResult::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="78" column="24" bodyfile="tests/utils/fault_injector.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a3b6bb614ebc949151fd4203a8e4a64c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::test::FaultInjector::InjectionResult::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::test::FaultInjector::InjectionResult::component</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="79" column="21" bodyfile="tests/utils/fault_injector.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1ad28ba6ac6fd33035900dd943ad62852a" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8" kindref="member">FaultType</ref></type>
+        <definition>FaultType themis::test::FaultInjector::InjectionResult::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::test::FaultInjector::InjectionResult::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="80" column="19" bodyfile="tests/utils/fault_injector.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a2ec60ed3f009313f4251b174ac487c79" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::test::FaultInjector::InjectionResult::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::test::FaultInjector::InjectionResult::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="81" column="47" bodyfile="tests/utils/fault_injector.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a3def65c7929b836d85e11d1abcc05c59" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::test::FaultInjector::InjectionResult::estimated_recovery</definition>
+        <argsstring></argsstring>
+        <name>estimated_recovery</name>
+        <qualifiedname>themis::test::FaultInjector::InjectionResult::estimated_recovery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="82" column="47" bodyfile="tests/utils/fault_injector.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a5af87155c0c7b97adf4462c61d335e35" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::test::FaultInjector::InjectionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::test::FaultInjector::InjectionResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="83" column="21" bodyfile="tests/utils/fault_injector.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/utils/fault_injector.h" line="76" column="5" bodyfile="tests/utils/fault_injector.h" bodystart="76" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a3b6bb614ebc949151fd4203a8e4a64c1" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector::InjectionResult</scope><name>component</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a5af87155c0c7b97adf4462c61d335e35" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector::InjectionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a3def65c7929b836d85e11d1abcc05c59" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector::InjectionResult</scope><name>estimated_recovery</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a2ec60ed3f009313f4251b174ac487c79" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector::InjectionResult</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1aa19557f622f8617d2583fad17aa5be67" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector::InjectionResult</scope><name>state</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1a4fe33fd04cd674c868af77001f3cb93b" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector::InjectionResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result_1ad28ba6ac6fd33035900dd943ad62852a" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector::InjectionResult</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

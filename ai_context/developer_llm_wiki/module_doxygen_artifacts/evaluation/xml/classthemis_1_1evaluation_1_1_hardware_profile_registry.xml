@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_hardware_profile_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::evaluation::HardwareProfileRegistry</compoundname>
+    <includes refid="hardware__profile_8h" local="no">hardware_profile.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a07dd85b9ff0f104fdeca53ce38521927" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &gt;</type>
+        <definition>std::vector&lt;HardwareProfile&gt; themis::evaluation::HardwareProfileRegistry::profiles_</definition>
+        <argsstring></argsstring>
+        <name>profiles_</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::profiles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="175" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a5cbb67a8b08a8e0fb93b2a674542e311" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" kindref="member">DeploymentProfileId</ref> &gt;</type>
+        <definition>std::optional&lt;DeploymentProfileId&gt; themis::evaluation::HardwareProfileRegistry::active_profile_</definition>
+        <argsstring></argsstring>
+        <name>active_profile_</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::active_profile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="176" column="19" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1adde01cf3d9f8984b5c040eb4a47f8671" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::HardwareProfileRegistry::HardwareProfileRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>HardwareProfileRegistry</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::HardwareProfileRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="145" column="5" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="484" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a9871860aee5c75ef364bf51bb1b7cfdf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::HardwareProfileRegistry::HardwareProfileRegistry</definition>
+        <argsstring>(std::vector&lt; HardwareProfile &gt; profiles)</argsstring>
+        <name>HardwareProfileRegistry</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::HardwareProfileRegistry</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &gt;</type>
+          <declname>profiles</declname>
+        </param>
+        <briefdescription>
+<para>Hardware Profile Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profiles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="151" column="14" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="487" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a016b09dd33c779d6f9670be29ac84dc9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::span&lt; const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &gt;</type>
+        <definition>std::span&lt; const HardwareProfile &gt; themis::evaluation::HardwareProfileRegistry::profiles</definition>
+        <argsstring>() const</argsstring>
+        <name>profiles</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::profiles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="155" column="16" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="503" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a60b44e7c7a4c9e735df010030c7b0e8a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> *</type>
+        <definition>const HardwareProfile * themis::evaluation::HardwareProfileRegistry::activeProfile</definition>
+        <argsstring>() const</argsstring>
+        <name>activeProfile</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::activeProfile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="157" column="28" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="507" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a8295ffa821bc9c68b16b792e18d52836" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> *</type>
+        <definition>const HardwareProfile * themis::evaluation::HardwareProfileRegistry::find</definition>
+        <argsstring>(DeploymentProfileId profile_id) const</argsstring>
+        <name>find</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::find</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" kindref="member">DeploymentProfileId</ref></type>
+          <declname>profile_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="159" column="28" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="511" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a0e1226b5023de688652d8bd31c36589b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> *</type>
+        <definition>const HardwareProfile * themis::evaluation::HardwareProfileRegistry::find</definition>
+        <argsstring>(std::string_view profile_name) const</argsstring>
+        <name>find</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::find</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>profile_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="161" column="28" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="515" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a01f793abcbf33174cfd37dcae5d856e1" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::HardwareProfileRegistry::activate</definition>
+        <argsstring>(DeploymentProfileId profile_id, std::string *error=nullptr)</argsstring>
+        <name>activate</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::activate</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" kindref="member">DeploymentProfileId</ref></type>
+          <declname>profile_id</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>error</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Activate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the profile. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a8295ffa821bc9c68b16b792e18d52836" kindref="member">find()</ref>, <ref refid="namespacethemis_1_1evaluation_1a18ada6dfe2fd4378ca0dc8f0f97128d5" kindref="member">toString()</ref>, <ref refid="namespacethemis_1_1evaluation_1a77c962c7565dfa47bf899a2b31133977" kindref="member">validateHardwareProfile()</ref>, ok(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="163" column="11" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="526" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a865069766a172cc62eed362f959f4c6e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::HardwareProfileRegistry::activate</definition>
+        <argsstring>(std::string_view profile_name, std::string *error=nullptr)</argsstring>
+        <name>activate</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::activate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>profile_name</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>error</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Activate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the profile. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1evaluation_1a14b67248c6b52b6ef68b791596dd2847" kindref="member">parseDeploymentProfileId()</ref>, std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="165" column="11" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="552" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a736bd6bce74ef050b18d5b585fdbc9e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result" kindref="compound">HardwareProfileValidationResult</ref></type>
+        <definition>HardwareProfileValidationResult themis::evaluation::HardwareProfileRegistry::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::validate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="167" column="38" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="563" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1ad00480bb798d2e2a3e6c939a31827114" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_tier_transition_result" kindref="compound">TierTransitionResult</ref></type>
+        <definition>TierTransitionResult themis::evaluation::HardwareProfileRegistry::transitionTo</definition>
+        <argsstring>(DeploymentProfileId target_profile, const TierTransitionRequest &amp;request) const</argsstring>
+        <name>transitionTo</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::transitionTo</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" kindref="member">DeploymentProfileId</ref></type>
+          <declname>target_profile</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_tier_transition_request" kindref="compound">TierTransitionRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="169" column="27" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="583" bodyend="602"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a2a0180f020951aaf3bb7eb218e1f8d4a" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1adde01cf3d9f8984b5c040eb4a47f8671" kindref="member">HardwareProfileRegistry</ref></type>
+        <definition>HardwareProfileRegistry themis::evaluation::HardwareProfileRegistry::withBuiltIns</definition>
+        <argsstring>()</argsstring>
+        <name>withBuiltIns</name>
+        <qualifiedname>themis::evaluation::HardwareProfileRegistry::withBuiltIns</qualifiedname>
+        <briefdescription>
+<para>With Built Ins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1adde01cf3d9f8984b5c040eb4a47f8671" kindref="member">HardwareProfileRegistry()</ref>, <ref refid="namespacethemis_1_1evaluation_1a63618a5697f00a18b64da3bc10577113" kindref="member">defaultHardwareProfiles()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="153" column="37" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="499" bodyend="501"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/hardware_profile.h" line="143" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="143" bodyend="177"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a01f793abcbf33174cfd37dcae5d856e1" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>activate</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a865069766a172cc62eed362f959f4c6e" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>activate</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a5cbb67a8b08a8e0fb93b2a674542e311" prot="private" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>active_profile_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a60b44e7c7a4c9e735df010030c7b0e8a" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>activeProfile</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a8295ffa821bc9c68b16b792e18d52836" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>find</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a0e1226b5023de688652d8bd31c36589b" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>find</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1adde01cf3d9f8984b5c040eb4a47f8671" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>HardwareProfileRegistry</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a9871860aee5c75ef364bf51bb1b7cfdf" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>HardwareProfileRegistry</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a016b09dd33c779d6f9670be29ac84dc9" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>profiles</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a07dd85b9ff0f104fdeca53ce38521927" prot="private" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>profiles_</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1ad00480bb798d2e2a3e6c939a31827114" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>transitionTo</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a736bd6bce74ef050b18d5b585fdbc9e4" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>validate</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_hardware_profile_registry_1a2a0180f020951aaf3bb7eb218e1f8d4a" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileRegistry</scope><name>withBuiltIns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

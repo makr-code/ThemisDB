@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_matrix_kernel_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::MatrixKernelParams</compoundname>
+    <includes refid="kernel__invocation_8h" local="no">kernel_invocation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_params_1afbfecdf74a123c5803017a203e758f92" prot="public" static="no" mutable="no">
+        <type>const void *</type>
+        <definition>const void* themis::acceleration::MatrixKernelParams::A</definition>
+        <argsstring></argsstring>
+        <name>A</name>
+        <qualifiedname>themis::acceleration::MatrixKernelParams::A</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Input matrix A [M × K]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="232" column="16" bodyfile="include/acceleration/kernel_invocation.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_params_1adac7b67e4abf248e99f9b1732636714e" prot="public" static="no" mutable="no">
+        <type>const void *</type>
+        <definition>const void* themis::acceleration::MatrixKernelParams::B</definition>
+        <argsstring></argsstring>
+        <name>B</name>
+        <qualifiedname>themis::acceleration::MatrixKernelParams::B</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Input matrix B [K × N]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="233" column="16" bodyfile="include/acceleration/kernel_invocation.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_params_1ac62844ef26494e4046afc20de3ed0e6d" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::acceleration::MatrixKernelParams::C</definition>
+        <argsstring></argsstring>
+        <name>C</name>
+        <qualifiedname>themis::acceleration::MatrixKernelParams::C</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Output matrix C [M × N]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="234" column="16" bodyfile="include/acceleration/kernel_invocation.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a15d5c612b88539249291304440d3625f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::MatrixKernelParams::M</definition>
+        <argsstring></argsstring>
+        <name>M</name>
+        <qualifiedname>themis::acceleration::MatrixKernelParams::M</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rows of A and C. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="235" column="17" bodyfile="include/acceleration/kernel_invocation.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a6a43c307e14f24cfe5aa6f7d611c6cdc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::MatrixKernelParams::K</definition>
+        <argsstring></argsstring>
+        <name>K</name>
+        <qualifiedname>themis::acceleration::MatrixKernelParams::K</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cols of A / rows of B. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="236" column="17" bodyfile="include/acceleration/kernel_invocation.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a7ec8b9e9cb66363269d60e66b0d95e63" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::MatrixKernelParams::N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <qualifiedname>themis::acceleration::MatrixKernelParams::N</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Cols of B and C. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="237" column="17" bodyfile="include/acceleration/kernel_invocation.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_params_1af494c5ecd1a44e14d1823b56c70f6c77" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::acceleration::MatrixKernelParams::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themis::acceleration::MatrixKernelParams::alpha</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Scaling factor for A × B. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="238" column="17" bodyfile="include/acceleration/kernel_invocation.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a177374324ec76f84e85a228d02847fdd" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::acceleration::MatrixKernelParams::beta</definition>
+        <argsstring></argsstring>
+        <name>beta</name>
+        <qualifiedname>themis::acceleration::MatrixKernelParams::beta</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Scaling factor for existing C. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="239" column="17" bodyfile="include/acceleration/kernel_invocation.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_matrix_kernel_params_1acd54f9953fcdb4b5641800d41b399a30" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7" kindref="member">MatrixPrecision</ref></type>
+        <definition>MatrixPrecision themis::acceleration::MatrixKernelParams::precision</definition>
+        <argsstring></argsstring>
+        <name>precision</name>
+        <qualifiedname>themis::acceleration::MatrixKernelParams::precision</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1ad156b3642ab6b14c18311c90bcac5fd7a693aa0bef84c25fe81c7e62e72f9313d" kindref="member">MatrixPrecision::FP32</ref></initializer>
+        <briefdescription>
+<para>Arithmetic precision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="240" column="21" bodyfile="include/acceleration/kernel_invocation.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Describes one batched matrix-multiply call: C = alpha * A × B + beta * C. All pointer fields are device pointers (GPU) or host pointers (CPU backend). A is [M × K], B is [K × N], C is [M × N]; all stored row-major. </para>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_invocation.h" line="231" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="231" bodyend="241"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1afbfecdf74a123c5803017a203e758f92" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelParams</scope><name>A</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1af494c5ecd1a44e14d1823b56c70f6c77" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelParams</scope><name>alpha</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1adac7b67e4abf248e99f9b1732636714e" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelParams</scope><name>B</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a177374324ec76f84e85a228d02847fdd" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelParams</scope><name>beta</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1ac62844ef26494e4046afc20de3ed0e6d" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelParams</scope><name>C</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a6a43c307e14f24cfe5aa6f7d611c6cdc" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelParams</scope><name>K</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a15d5c612b88539249291304440d3625f" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelParams</scope><name>M</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1a7ec8b9e9cb66363269d60e66b0d95e63" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelParams</scope><name>N</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_matrix_kernel_params_1acd54f9953fcdb4b5641800d41b399a30" prot="public" virt="non-virtual"><scope>themis::acceleration::MatrixKernelParams</scope><name>precision</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

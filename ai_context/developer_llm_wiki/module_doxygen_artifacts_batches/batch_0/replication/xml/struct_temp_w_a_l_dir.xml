@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_temp_w_a_l_dir" kind="struct" language="C++" prot="public">
+    <compoundname>TempWALDir</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_temp_w_a_l_dir_1a10749f8852f26dea48c8183754c013a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TempWALDir::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>TempWALDir::path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_ha.cpp" line="63" column="17" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_temp_w_a_l_dir_1a93eb3f31071a9d42902c88932b1efe5e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>TempWALDir::TempWALDir</definition>
+        <argsstring>(const std::string &amp;p)</argsstring>
+        <name>TempWALDir</name>
+        <qualifiedname>TempWALDir::TempWALDir</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_ha.cpp" line="64" column="14" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="64" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_temp_w_a_l_dir_1a093a8e7bf261a3438c77f399de22d4bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>TempWALDir::~TempWALDir</definition>
+        <argsstring>()</argsstring>
+        <name>~TempWALDir</name>
+        <qualifiedname>TempWALDir::~TempWALDir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_ha.cpp" line="78" column="5" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="78" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_temp_w_a_l_dir_1a93eb3f31071a9d42902c88932b1efe5e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>TempWALDir::TempWALDir</definition>
+        <argsstring>(const std::string &amp;p)</argsstring>
+        <name>TempWALDir</name>
+        <qualifiedname>TempWALDir::TempWALDir</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_new_features.cpp" line="62" column="14" bodyfile="tests/replication/test_replication_new_features.cpp" bodystart="62" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_temp_w_a_l_dir_1a093a8e7bf261a3438c77f399de22d4bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>TempWALDir::~TempWALDir</definition>
+        <argsstring>()</argsstring>
+        <name>~TempWALDir</name>
+        <qualifiedname>TempWALDir::~TempWALDir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_new_features.cpp" line="76" column="5" bodyfile="tests/replication/test_replication_new_features.cpp" bodystart="76" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_temp_w_a_l_dir_1a93eb3f31071a9d42902c88932b1efe5e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>TempWALDir::TempWALDir</definition>
+        <argsstring>(const std::string &amp;p)</argsstring>
+        <name>TempWALDir</name>
+        <qualifiedname>TempWALDir::TempWALDir</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="54" column="14" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_temp_w_a_l_dir_1a093a8e7bf261a3438c77f399de22d4bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>TempWALDir::~TempWALDir</definition>
+        <argsstring>()</argsstring>
+        <name>~TempWALDir</name>
+        <qualifiedname>TempWALDir::~TempWALDir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="58" column="5" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_ha.cpp" line="62" column="1" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="62" bodyend="88"/>
+    <listofallmembers>
+      <member refid="struct_temp_w_a_l_dir_1a10749f8852f26dea48c8183754c013a0" prot="public" virt="non-virtual"><scope>TempWALDir</scope><name>path</name></member>
+      <member refid="struct_temp_w_a_l_dir_1a93eb3f31071a9d42902c88932b1efe5e" prot="public" virt="non-virtual"><scope>TempWALDir</scope><name>TempWALDir</name></member>
+      <member refid="struct_temp_w_a_l_dir_1a93eb3f31071a9d42902c88932b1efe5e" prot="public" virt="non-virtual"><scope>TempWALDir</scope><name>TempWALDir</name></member>
+      <member refid="struct_temp_w_a_l_dir_1a93eb3f31071a9d42902c88932b1efe5e" prot="public" virt="non-virtual"><scope>TempWALDir</scope><name>TempWALDir</name></member>
+      <member refid="struct_temp_w_a_l_dir_1a093a8e7bf261a3438c77f399de22d4bc" prot="public" virt="non-virtual"><scope>TempWALDir</scope><name>~TempWALDir</name></member>
+      <member refid="struct_temp_w_a_l_dir_1a093a8e7bf261a3438c77f399de22d4bc" prot="public" virt="non-virtual"><scope>TempWALDir</scope><name>~TempWALDir</name></member>
+      <member refid="struct_temp_w_a_l_dir_1a093a8e7bf261a3438c77f399de22d4bc" prot="public" virt="non-virtual"><scope>TempWALDir</scope><name>~TempWALDir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::AdaptiveCircuitBreaker::Config</compoundname>
+    <includes refid="adaptive__circuit__breaker_8h" local="no">adaptive_circuit_breaker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1ac3f6cdb138ca303ae920e02449019e48" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveCircuitBreaker::Config::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Config::failure_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Consecutive failures in CLOSED state that trip the circuit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="101" column="20" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2a174aa5112aad723559403a62549064" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveCircuitBreaker::Config::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Config::success_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Consecutive successes in HALF_OPEN state that close the circuit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="104" column="20" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a4067381a8ba207b3ecc103a406b70d14" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::duration</type>
+        <definition>std::chrono::steady_clock::duration themis::network::AdaptiveCircuitBreaker::Config::open_timeout</definition>
+        <argsstring></argsstring>
+        <name>open_timeout</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Config::open_timeout</qualifiedname>
+        <initializer>{
+                std::chrono::seconds(60)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>How long to keep the circuit OPEN before entering HALF_OPEN. Accepts any std::chrono duration, e.g. seconds/milliseconds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="108" column="49" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="108" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a6ef2cbafe5b60045b4150a53ae81cf1e" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::duration</type>
+        <definition>std::chrono::steady_clock::duration themis::network::AdaptiveCircuitBreaker::Config::half_open_timeout</definition>
+        <argsstring></argsstring>
+        <name>half_open_timeout</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Config::half_open_timeout</qualifiedname>
+        <initializer>{
+                std::chrono::seconds(30)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum time in HALF_OPEN before falling back to OPEN. Accepts any std::chrono duration, e.g. seconds/milliseconds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="113" column="49" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="113" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2b494ef121cacdf3aa9466fbc67dc854" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::AdaptiveCircuitBreaker::Config::enable_adaptive_threshold</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_threshold</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Config::enable_adaptive_threshold</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable dynamic adjustment of <computeroutput>failure_threshold</computeroutput> at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="117" column="18" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a3d4c2dfac5d90c0ffcefee23dee2f862" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::AdaptiveCircuitBreaker::Config::adaptive_factor</definition>
+        <argsstring></argsstring>
+        <name>adaptive_factor</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Config::adaptive_factor</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Fraction by which the threshold is adjusted on adaptation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the circuit trips repeatedly (indicating the threshold is too generous), <computeroutput>failure_threshold</computeroutput> is decreased by this fraction. When the circuit stays closed for a long time it is increased. Range: (0, 1). Default: 0.10 (10 %). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="127" column="20" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1aee5e87e22c52dd68be4ac16a7fe3e2b0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker_1af0b789e5b34fd8c5ac1b7c94f919fcb4" kindref="member">ErrorClass</ref>, <ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config" kindref="compound">ErrorClassConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;ErrorClass, ErrorClassConfig&gt; themis::network::AdaptiveCircuitBreaker::Config::error_class_configs</definition>
+        <argsstring></argsstring>
+        <name>error_class_configs</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::Config::error_class_configs</qualifiedname>
+        <briefdescription>
+<para>Per-error-class threshold overrides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Errors reported via <computeroutput>recordFailure(error_class)</computeroutput> that match a key here are tracked separately. If any class reaches its own threshold, the circuit trips independently of the global counter.</para>
+<para>Example: <programlisting><codeline><highlight class="normal">cfg.error_class_configs[</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/>{3};</highlight></codeline>
+<codeline><highlight class="normal">cfg.error_class_configs[</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{5};</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="142" column="32" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Construction-time configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/adaptive_circuit_breaker.h" line="99" column="9" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="99" bodyend="143"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a3d4c2dfac5d90c0ffcefee23dee2f862" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Config</scope><name>adaptive_factor</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2b494ef121cacdf3aa9466fbc67dc854" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Config</scope><name>enable_adaptive_threshold</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1aee5e87e22c52dd68be4ac16a7fe3e2b0" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Config</scope><name>error_class_configs</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1ac3f6cdb138ca303ae920e02449019e48" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Config</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a6ef2cbafe5b60045b4150a53ae81cf1e" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Config</scope><name>half_open_timeout</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a4067381a8ba207b3ecc103a406b70d14" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Config</scope><name>open_timeout</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2a174aa5112aad723559403a62549064" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::Config</scope><name>success_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

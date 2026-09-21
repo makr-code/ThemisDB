@@ -1,0 +1,1052 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_archive_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::ArchiveProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor" prot="public" virt="non-virtual">themis::content::IContentProcessor</basecompoundref>
+    <includes refid="archive__processor_8h" local="no">archive_processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_archive_processor_1af361d41e06d8a574878906d0ca405b81" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_archive_processor_config" kindref="compound">ArchiveProcessorConfig</ref></type>
+        <definition>ArchiveProcessorConfig themis::content::ArchiveProcessor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::content::ArchiveProcessor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="231" column="28" bodyfile="include/content/archive_processor.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_archive_processor_1a51b2c29b1c384872319f8156c7769077" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_content_security_manager" kindref="compound">ContentSecurityManager</ref></type>
+        <definition>ContentSecurityManager themis::content::ArchiveProcessor::security_manager_</definition>
+        <argsstring></argsstring>
+        <name>security_manager_</name>
+        <qualifiedname>themis::content::ArchiveProcessor::security_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="232" column="28" bodyfile="include/content/archive_processor.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a07d02388ce30e9c9daeb1dd5d33309d0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ArchiveProcessor::ArchiveProcessor</definition>
+        <argsstring>(ArchiveProcessorConfig config=ArchiveProcessorConfig{})</argsstring>
+        <name>ArchiveProcessor</name>
+        <qualifiedname>themis::content::ArchiveProcessor::ArchiveProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_archive_processor_config" kindref="compound">ArchiveProcessorConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1content_1_1_archive_processor_config" kindref="compound">ArchiveProcessorConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="102" column="14" bodyfile="src/content/archive_processor.cpp" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1af947c376c4cbe4799b305fcbe8828bc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ArchiveProcessor::~ArchiveProcessor</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ArchiveProcessor</name>
+        <qualifiedname>themis::content::ArchiveProcessor::~ArchiveProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="103" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1ae76742f3d78022f1e01dac2e4e808094" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::ArchiveProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::ArchiveProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32">extract</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_archive_processor_1a89c0123c150c3bd83e820e667f4dc5bc" kindref="member">process()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="106" column="22" bodyfile="src/content/archive_processor.cpp" bodystart="1017" bodyend="1030"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a1cb8e903dcfc511d6e6b16bff0da0a5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::content::ArchiveProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::ArchiveProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extraction_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="111" column="17" bodyfile="src/content/archive_processor.cpp" bodystart="1040" bodyend="1052"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a0c78d0f4bf63a6e80a61b49d205af44a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::ArchiveProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::ArchiveProcessor::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c">generateEmbedding</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements generateEmbedding without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="117" column="17" bodyfile="src/content/archive_processor.cpp" bodystart="1060" bodyend="1064"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1ab3cd1d893997ae69987cc8aa817b8dde" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ArchiveProcessor::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::ArchiveProcessor::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="119" column="17" bodyfile="include/content/archive_processor.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a71bb15f458d8fbc36c1fda20755d9c29" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>std::vector&lt; ContentCategory &gt; themis::content::ArchiveProcessor::getSupportedCategories</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::ArchiveProcessor::getSupportedCategories</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0">getSupportedCategories</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="121" column="17" bodyfile="include/content/archive_processor.h" bodystart="121" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a89c0123c150c3bd83e820e667f4dc5bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_archive_processor_result" kindref="compound">ArchiveProcessorResult</ref></type>
+        <definition>ArchiveProcessorResult themis::content::ArchiveProcessor::process</definition>
+        <argsstring>(const std::string &amp;blob, const std::string &amp;mime_type, const std::string &amp;filename)</argsstring>
+        <name>process</name>
+        <qualifiedname>themis::content::ArchiveProcessor::process</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_archive_processor_1ac47188840b088cd9952b781a4f028515" kindref="member">detectFormat()</ref>, <ref refid="classthemis_1_1content_1_1_archive_processor_1a0b97003ecc09b93e8bdd831718a0c181" kindref="member">extractMetadata()</ref>, has_value(), value(), empty(), <ref refid="classthemis_1_1content_1_1_archive_processor_1ac6502484cdada70301a5d2793f32e450" kindref="member">validateArchive()</ref>, checkZipBomb(), failed(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="132" column="28" bodyfile="src/content/archive_processor.cpp" bodystart="887" bodyend="1004"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a643915ce0aa7db023729275ff8604801" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveProcessor::canHandle</definition>
+        <argsstring>(const std::string &amp;mime_type) const</argsstring>
+        <name>canHandle</name>
+        <qualifiedname>themis::content::ArchiveProcessor::canHandle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Can Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="143" column="10" bodyfile="src/content/archive_processor.cpp" bodystart="112" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a0fc0f942388df765559347ce44ce755a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_archive_extraction_result" kindref="compound">ArchiveExtractionResult</ref></type>
+        <definition>ArchiveExtractionResult themis::content::ArchiveProcessor::extractToTemp</definition>
+        <argsstring>(const std::string &amp;blob, ArchiveFormat format, const std::string &amp;password=&quot;&quot;)</argsstring>
+        <name>extractToTemp</name>
+        <qualifiedname>themis::content::ArchiveProcessor::extractToTemp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2c" kindref="member">ArchiveFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Extract To Temp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractZip(), extractTar(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="185" column="29" bodyfile="src/content/archive_processor.cpp" bodystart="849" bodyend="862"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1ac6502484cdada70301a5d2793f32e450" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveProcessor::validateArchive</definition>
+        <argsstring>(const ArchiveMetadata &amp;metadata, std::string &amp;error_message) const</argsstring>
+        <name>validateArchive</name>
+        <qualifiedname>themis::content::ArchiveProcessor::validateArchive</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_archive_metadata" kindref="compound">ArchiveMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <briefdescription>
+<para>Validate Archive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="197" column="10" bodyfile="src/content/archive_processor.cpp" bodystart="462" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a8da146c22db614576afa463da3639dc2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1content_1_1_archive_processor_config" kindref="compound">ArchiveProcessorConfig</ref> &amp;</type>
+        <definition>const ArchiveProcessorConfig &amp; themis::content::ArchiveProcessor::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::content::ArchiveProcessor::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="212" column="34" bodyfile="include/content/archive_processor.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1aa2ea449d59de67bf55e2a516feda535c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ArchiveProcessor::setConfig</definition>
+        <argsstring>(ArchiveProcessorConfig config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::content::ArchiveProcessor::setConfig</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_archive_processor_config" kindref="compound">ArchiveProcessorConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="219" column="10" bodyfile="include/content/archive_processor.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a61119ab3d556a585130bb8886dad0783" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ArchiveProcessor::setSecurityConfig</definition>
+        <argsstring>(const ContentSecurityConfig &amp;security_config)</argsstring>
+        <name>setSecurityConfig</name>
+        <qualifiedname>themis::content::ArchiveProcessor::setSecurityConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref> &amp;</type>
+          <declname>security_config</declname>
+        </param>
+        <briefdescription>
+<para>Set Security Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">security_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1content_1_1_archive_processor_1aa2ea449d59de67bf55e2a516feda535c" kindref="member">setConfig()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="226" column="10" bodyfile="include/content/archive_processor.h" bodystart="226" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a6514101c817326a9555e7bbc7812fa1f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::content::ArchiveProcessor::isAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::content::ArchiveProcessor::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isAvailable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="150" column="17" bodyfile="include/content/archive_processor.h" bodystart="150" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1ac47188840b088cd9952b781a4f028515" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2c" kindref="member">ArchiveFormat</ref></type>
+        <definition>ArchiveFormat themis::content::ArchiveProcessor::detectFormat</definition>
+        <argsstring>(const std::string &amp;blob, const std::string &amp;filename)</argsstring>
+        <name>detectFormat</name>
+        <qualifiedname>themis::content::ArchiveProcessor::detectFormat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Detect Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ SECTION 2: Format Detection with Fallback Logic ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::memcpy(), data(), std::memcmp(), std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="164" column="26" bodyfile="src/content/archive_processor.cpp" bodystart="136" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a0b97003ecc09b93e8bdd831718a0c181" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_archive_metadata" kindref="compound">ArchiveMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; ArchiveMetadata &gt; themis::content::ArchiveProcessor::extractMetadata</definition>
+        <argsstring>(const std::string &amp;blob, ArchiveFormat format)</argsstring>
+        <name>extractMetadata</name>
+        <qualifiedname>themis::content::ArchiveProcessor::extractMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2c" kindref="member">ArchiveFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Extract Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), fs::temp_directory_path(), generateRandomString(), writeBlobToFile(), string(), fs::remove(), zip_open(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="172" column="26" bodyfile="src/content/archive_processor.cpp" bodystart="206" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1acab9eba027761654b4e620e0feac97fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveProcessor::isEncrypted</definition>
+        <argsstring>(const std::string &amp;blob, ArchiveFormat format)</argsstring>
+        <name>isEncrypted</name>
+        <qualifiedname>themis::content::ArchiveProcessor::isEncrypted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2c" kindref="member">ArchiveFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Is Encrypted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_archive_processor_1a0b97003ecc09b93e8bdd831718a0c181" kindref="member">extractMetadata()</ref>, has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="183" column="17" bodyfile="src/content/archive_processor.cpp" bodystart="388" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a8be0dcb79a7bbea9bc3ebb6d3f37d0fe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ArchiveProcessor::sanitizePath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>sanitizePath</name>
+        <qualifiedname>themis::content::ArchiveProcessor::sanitizePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ SECTION 3: Path Sanitization &amp; Security ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::replace(), begin(), end(), size(), std::isalpha(), erase(), empty(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="204" column="24" bodyfile="src/content/archive_processor.cpp" bodystart="399" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a33fbaf25eed244783325349547566c09" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ArchiveProcessor::cleanupTempDirectory</definition>
+        <argsstring>(const std::string &amp;temp_dir)</argsstring>
+        <name>cleanupTempDirectory</name>
+        <qualifiedname>themis::content::ArchiveProcessor::cleanupTempDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>temp_dir</declname>
+        </param>
+        <briefdescription>
+<para>Cleanup Temp Directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ SECTION 4: Temporary Directory Management ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">temp_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">temp_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fs::exists(), fs::remove_all(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="210" column="17" bodyfile="src/content/archive_processor.cpp" bodystart="869" bodyend="877"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a4e275c9238b9b1f049b1389d8ba839bf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_archive_extraction_result" kindref="compound">ArchiveExtractionResult</ref></type>
+        <definition>ArchiveExtractionResult themis::content::ArchiveProcessor::extractZip</definition>
+        <argsstring>(const std::string &amp;blob, const std::string &amp;password)</argsstring>
+        <name>extractZip</name>
+        <qualifiedname>themis::content::ArchiveProcessor::extractZip</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+<para>Extract Zip. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateTempDirectory(), fs::path(), writeBlobToFile(), string(), zip_open(), c_str(), zip_error_to_str(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="240" column="29" bodyfile="src/content/archive_processor.cpp" bodystart="524" bodyend="667"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a6acfec263946c991db3c92aeeaef902d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_archive_extraction_result" kindref="compound">ArchiveExtractionResult</ref></type>
+        <definition>ArchiveExtractionResult themis::content::ArchiveProcessor::extractTar</definition>
+        <argsstring>(const std::string &amp;blob, ArchiveFormat format)</argsstring>
+        <name>extractTar</name>
+        <qualifiedname>themis::content::ArchiveProcessor::extractTar</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2c" kindref="member">ArchiveFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Extract Tar. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: assign(), begin(), end(), inflateInit2(), data(), size(), out_buf(), inflate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="247" column="29" bodyfile="src/content/archive_processor.cpp" bodystart="676" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a9a89b2671d1e5226bb81f5a08c892bb3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ArchiveProcessor::generateTempDirectory</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTempDirectory</name>
+        <qualifiedname>themis::content::ArchiveProcessor::generateTempDirectory</qualifiedname>
+        <briefdescription>
+<para>Generate Temp Directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="254" column="17" bodyfile="src/content/archive_processor.cpp" bodystart="445" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_archive_processor_1a6f700121f43a58797bf97444c437cec2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveProcessor::checkCompressionRatio</definition>
+        <argsstring>(uint64_t compressed, uint64_t uncompressed) const</argsstring>
+        <name>checkCompressionRatio</name>
+        <qualifiedname>themis::content::ArchiveProcessor::checkCompressionRatio</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>compressed</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>uncompressed</declname>
+        </param>
+        <briefdescription>
+<para>Check Compression Ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">uncompressed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="261" column="10" bodyfile="src/content/archive_processor.cpp" bodystart="454" bodyend="460"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::content::ArchiveProcessor</label>
+        <link refid="classthemis_1_1content_1_1_archive_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::content::ArchiveProcessor</label>
+        <link refid="classthemis_1_1content_1_1_archive_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/archive_processor.h" line="100" column="1" bodyfile="include/content/archive_processor.h" bodystart="100" bodyend="262"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a07d02388ce30e9c9daeb1dd5d33309d0" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>ArchiveProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a643915ce0aa7db023729275ff8604801" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>canHandle</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a6f700121f43a58797bf97444c437cec2" prot="private" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>checkCompressionRatio</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a1cb8e903dcfc511d6e6b16bff0da0a5e" prot="public" virt="virtual"><scope>themis::content::ArchiveProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a33fbaf25eed244783325349547566c09" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>cleanupTempDirectory</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1af361d41e06d8a574878906d0ca405b81" prot="private" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1ac47188840b088cd9952b781a4f028515" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>detectFormat</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1ae76742f3d78022f1e01dac2e4e808094" prot="public" virt="virtual"><scope>themis::content::ArchiveProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a0b97003ecc09b93e8bdd831718a0c181" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>extractMetadata</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a6acfec263946c991db3c92aeeaef902d" prot="private" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>extractTar</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a0fc0f942388df765559347ce44ce755a" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>extractToTemp</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a4e275c9238b9b1f049b1389d8ba839bf" prot="private" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>extractZip</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a0c78d0f4bf63a6e80a61b49d205af44a" prot="public" virt="virtual"><scope>themis::content::ArchiveProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a9a89b2671d1e5226bb81f5a08c892bb3" prot="private" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>generateTempDirectory</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a8da146c22db614576afa463da3639dc2" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1ab3cd1d893997ae69987cc8aa817b8dde" prot="public" virt="virtual"><scope>themis::content::ArchiveProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a71bb15f458d8fbc36c1fda20755d9c29" prot="public" virt="virtual"><scope>themis::content::ArchiveProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a6514101c817326a9555e7bbc7812fa1f" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1acab9eba027761654b4e620e0feac97fa" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>isEncrypted</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a89c0123c150c3bd83e820e667f4dc5bc" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>process</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a8be0dcb79a7bbea9bc3ebb6d3f37d0fe" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>sanitizePath</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a51b2c29b1c384872319f8156c7769077" prot="private" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>security_manager_</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1aa2ea449d59de67bf55e2a516feda535c" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1a61119ab3d556a585130bb8886dad0783" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>setSecurityConfig</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1ac6502484cdada70301a5d2793f32e450" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>validateArchive</name></member>
+      <member refid="classthemis_1_1content_1_1_archive_processor_1af947c376c4cbe4799b305fcbe8828bc5" prot="public" virt="non-virtual"><scope>themis::content::ArchiveProcessor</scope><name>~ArchiveProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::ArchiveProcessor</scope><name>~IContentProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

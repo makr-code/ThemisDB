@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_linker_edge_test" kind="class" language="C++" prot="public">
+    <compoundname>LinkerEdgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_linker_edge_test_1a4c42757fa4afe6055287c377583ee491" prot="protected" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1process_1_1_process_link" kindref="compound">ProcessLink</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ProcessLink&gt; LinkerEdgeTest::link_storage</definition>
+        <argsstring></argsstring>
+        <name>link_storage</name>
+        <qualifiedname>LinkerEdgeTest::link_storage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_linker_edge_focused.cpp" line="30" column="14" bodyfile="tests/process/test_process_linker_edge_focused.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_linker_edge_test_1aee7aa6d8524aca647474e770b41af669" prot="protected" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1process_1_1_process_attachment" kindref="compound">ProcessAttachment</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ProcessAttachment&gt; LinkerEdgeTest::attachment_storage</definition>
+        <argsstring></argsstring>
+        <name>attachment_storage</name>
+        <qualifiedname>LinkerEdgeTest::attachment_storage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_linker_edge_focused.cpp" line="31" column="14" bodyfile="tests/process/test_process_linker_edge_focused.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_linker_edge_test_1af1a77edf8139f61bad04534e56c5a22b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LinkerEdgeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LinkerEdgeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_linker_edge_focused.cpp" line="33" column="10" bodyfile="tests/process/test_process_linker_edge_focused.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_linker_edge_test_1a557d50e4171a0152bf29374dc59a5350" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool LinkerEdgeTest::create_link</definition>
+        <argsstring>(const ProcessLink &amp;link, ProcError &amp;out_error)</argsstring>
+        <name>create_link</name>
+        <qualifiedname>LinkerEdgeTest::create_link</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_link" kindref="compound">ProcessLink</ref> &amp;</type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> &amp;</type>
+          <declname>out_error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_linker_edge_focused.cpp" line="39" column="10" bodyfile="tests/process/test_process_linker_edge_focused.cpp" bodystart="39" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_linker_edge_test_1a792a46c2c8b46af90a4ad4052146eda0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool LinkerEdgeTest::create_attachment</definition>
+        <argsstring>(const ProcessAttachment &amp;attach, ProcError &amp;out_error)</argsstring>
+        <name>create_attachment</name>
+        <qualifiedname>LinkerEdgeTest::create_attachment</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_attachment" kindref="compound">ProcessAttachment</ref> &amp;</type>
+          <declname>attach</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> &amp;</type>
+          <declname>out_error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_linker_edge_focused.cpp" line="50" column="10" bodyfile="tests/process/test_process_linker_edge_focused.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LinkerEdgeTest</label>
+        <link refid="class_linker_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LinkerEdgeTest</label>
+        <link refid="class_linker_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_process_linker_edge_focused.cpp" line="27" column="1" bodyfile="tests/process/test_process_linker_edge_focused.cpp" bodystart="27" bodyend="59"/>
+    <listofallmembers>
+      <member refid="class_linker_edge_test_1aee7aa6d8524aca647474e770b41af669" prot="protected" virt="non-virtual"><scope>LinkerEdgeTest</scope><name>attachment_storage</name></member>
+      <member refid="class_linker_edge_test_1a792a46c2c8b46af90a4ad4052146eda0" prot="protected" virt="non-virtual"><scope>LinkerEdgeTest</scope><name>create_attachment</name></member>
+      <member refid="class_linker_edge_test_1a557d50e4171a0152bf29374dc59a5350" prot="protected" virt="non-virtual"><scope>LinkerEdgeTest</scope><name>create_link</name></member>
+      <member refid="class_linker_edge_test_1a4c42757fa4afe6055287c377583ee491" prot="protected" virt="non-virtual"><scope>LinkerEdgeTest</scope><name>link_storage</name></member>
+      <member refid="class_linker_edge_test_1af1a77edf8139f61bad04534e56c5a22b" prot="protected" virt="non-virtual"><scope>LinkerEdgeTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

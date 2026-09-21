@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1test_1_1_voice_session" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::test::VoiceSession</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_1aa4522a76f78a6f7ce81067ab10f075be" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::test::VoiceSession::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>themis::voice::test::VoiceSession::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="189" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_1a773df6c5d92906960c4693144d7f6f80" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_backend" kindref="compound">VoiceBackend</ref> *</type>
+        <definition>VoiceBackend* themis::voice::test::VoiceSession::stt_</definition>
+        <argsstring></argsstring>
+        <name>stt_</name>
+        <qualifiedname>themis::voice::test::VoiceSession::stt_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="190" column="16" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_1aecd66d6d1680d9f7e9c8e2b48ce15ca1" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_backend" kindref="compound">VoiceBackend</ref> *</type>
+        <definition>VoiceBackend* themis::voice::test::VoiceSession::llm_</definition>
+        <argsstring></argsstring>
+        <name>llm_</name>
+        <qualifiedname>themis::voice::test::VoiceSession::llm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="191" column="16" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_1aed544b4ed18cc183a38afd47aa1ee6e0" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1_1test_1a658df365cf1c6d4dc09041bac76dcd50" kindref="member">SessionState</ref></type>
+        <definition>SessionState themis::voice::test::VoiceSession::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::voice::test::VoiceSession::state_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1_1test_1a658df365cf1c6d4dc09041bac76dcd50a18ff74f43da410c5529f7d6fca84f115" kindref="member">SessionState::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="192" column="16" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_1a3750d507fa861edf9b7c4ccab725fa96" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::test::VoiceSession::processed_</definition>
+        <argsstring></argsstring>
+        <name>processed_</name>
+        <qualifiedname>themis::voice::test::VoiceSession::processed_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="193" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_1a2a4df96f5014302d434f8c0d01c840ee" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::test::VoiceSession::teardown_count_</definition>
+        <argsstring></argsstring>
+        <name>teardown_count_</name>
+        <qualifiedname>themis::voice::test::VoiceSession::teardown_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="194" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_1aa45d38e0fb25be786e974eefc6cd507a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::test::VoiceSession::VoiceSession</definition>
+        <argsstring>(int id, VoiceBackend *stt, VoiceBackend *llm)</argsstring>
+        <name>VoiceSession</name>
+        <qualifiedname>themis::voice::test::VoiceSession::VoiceSession</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_backend" kindref="compound">VoiceBackend</ref> *</type>
+          <declname>stt</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1test_1_1_voice_backend" kindref="compound">VoiceBackend</ref> *</type>
+          <declname>llm</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="151" column="12" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="151" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_1a13ce8d3733ba35adaacaf9e3aa161a7f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::voice::test::VoiceSession::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::voice::test::VoiceSession::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="154" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_1a2e7facb7fca101cc5af439dc50a3edd7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1_1test_1a658df365cf1c6d4dc09041bac76dcd50" kindref="member">SessionState</ref></type>
+        <definition>SessionState themis::voice::test::VoiceSession::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themis::voice::test::VoiceSession::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="155" column="16" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_1a452765c7918564563845d7ac8ac9968a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::test::VoiceSession::isActive</definition>
+        <argsstring>() const</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themis::voice::test::VoiceSession::isActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="157" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_1a68aac4ded741c1ab8fdcffe682fbb171" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::test::VoiceSession::process</definition>
+        <argsstring>(const std::string &amp;chunk)</argsstring>
+        <name>process</name>
+        <qualifiedname>themis::voice::test::VoiceSession::process</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Returns false and sets state=ERROR when backends are unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="160" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="160" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_1aca9c69cdb2a4e2bbd10bd03d165da149" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::test::VoiceSession::teardown</definition>
+        <argsstring>()</argsstring>
+        <name>teardown</name>
+        <qualifiedname>themis::voice::test::VoiceSession::teardown</qualifiedname>
+        <briefdescription>
+<para>Explicit teardown — must be idempotent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="178" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="178" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_1a9c1d06d49aaffd4ed9c10ab0e0740f07" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::voice::test::VoiceSession::processedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>processedCount</name>
+        <qualifiedname>themis::voice::test::VoiceSession::processedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="185" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="185" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_1aeb109e6970eef9bfa9d5bc0a279cf5d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::voice::test::VoiceSession::teardownCount</definition>
+        <argsstring>() const</argsstring>
+        <name>teardownCount</name>
+        <qualifiedname>themis::voice::test::VoiceSession::teardownCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="186" column="7" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="186" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="149" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="149" bodyend="195"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1a13ce8d3733ba35adaacaf9e3aa161a7f" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>id</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1aa4522a76f78a6f7ce81067ab10f075be" prot="private" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>id_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1a452765c7918564563845d7ac8ac9968a" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>isActive</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1aecd66d6d1680d9f7e9c8e2b48ce15ca1" prot="private" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>llm_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1a68aac4ded741c1ab8fdcffe682fbb171" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>process</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1a3750d507fa861edf9b7c4ccab725fa96" prot="private" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>processed_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1a9c1d06d49aaffd4ed9c10ab0e0740f07" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>processedCount</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1a2e7facb7fca101cc5af439dc50a3edd7" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>state</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1aed544b4ed18cc183a38afd47aa1ee6e0" prot="private" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>state_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1a773df6c5d92906960c4693144d7f6f80" prot="private" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>stt_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1aca9c69cdb2a4e2bbd10bd03d165da149" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>teardown</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1a2a4df96f5014302d434f8c0d01c840ee" prot="private" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>teardown_count_</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1aeb109e6970eef9bfa9d5bc0a279cf5d1" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>teardownCount</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_1aa45d38e0fb25be786e974eefc6cd507a" prot="public" virt="non-virtual"><scope>themis::voice::test::VoiceSession</scope><name>VoiceSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

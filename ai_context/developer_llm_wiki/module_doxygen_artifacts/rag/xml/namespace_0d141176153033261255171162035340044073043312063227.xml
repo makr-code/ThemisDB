@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d141176153033261255171162035340044073043312063227" kind="namespace" language="C++">
+    <compoundname>@141176153033261255171162035340044073043312063227</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rag/test_tensor_rag_provenance.cpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

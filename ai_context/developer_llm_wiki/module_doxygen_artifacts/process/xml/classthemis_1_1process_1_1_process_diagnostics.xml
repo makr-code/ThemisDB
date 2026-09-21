@@ -1,0 +1,792 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_process_diagnostics" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ProcessDiagnostics</compoundname>
+    <includes refid="process__diagnostics_8h" local="no">process_diagnostics.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a8c6a7059b59f58295bcfe8826380f4c4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref></type>
+        <definition>DiagnosticRecord themis::process::ProcessDiagnostics::createImportIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message)</argsstring>
+        <name>createImportIncident</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::createImportIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create an import incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Import Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kDeserialiserFailed). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (filename, model ID). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message for the operator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> with IMPORT_INCIDENT classification.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the input. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DiagnosticRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="177" column="29" bodyfile="src/process/process_diagnostics.cpp" bodystart="121" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a2812f4a8b0d719d9ea103eca0d3088d7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref></type>
+        <definition>DiagnosticRecord themis::process::ProcessDiagnostics::createValidationIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message)</argsstring>
+        <name>createValidationIncident</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::createValidationIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create a validation incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Validation Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kSerialiserFailed or kInvalidTransition). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message for the operator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> with VALIDATION_INCIDENT classification.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the input. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DiagnosticRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="190" column="29" bodyfile="src/process/process_diagnostics.cpp" bodystart="143" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a6f110fd4469ab755820935537b9bb05e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref></type>
+        <definition>DiagnosticRecord themis::process::ProcessDiagnostics::createRetrievalIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message)</argsstring>
+        <name>createRetrievalIncident</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::createRetrievalIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create a retrieval incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Retrieval Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (instance ID, model ID). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message for the operator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> with RETRIEVAL_INCIDENT classification.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the input. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DiagnosticRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="203" column="29" bodyfile="src/process/process_diagnostics.cpp" bodystart="165" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a82a40dc585865e8ee234ed9f6e589674" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref></type>
+        <definition>DiagnosticRecord themis::process::ProcessDiagnostics::createLinkingIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message)</argsstring>
+        <name>createLinkingIncident</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::createLinkingIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create a linking incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Linking Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kInvalidTransition). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (link ID, instance ID). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message for the operator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> with LINKING_INCIDENT classification.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the input. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DiagnosticRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="216" column="29" bodyfile="src/process/process_diagnostics.cpp" bodystart="187" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a977b7d7fb47ef74f88e166aa6fa88c57" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref></type>
+        <definition>DiagnosticRecord themis::process::ProcessDiagnostics::createResourceIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message)</argsstring>
+        <name>createResourceIncident</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::createResourceIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create a resource limit incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Resource Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kExecutionTimeout). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message describing which limit was exceeded. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> with RESOURCE_INCIDENT classification.</para>
+</simplesect>
+Example message: &quot;Max nesting depth (100) exceeded in sub-process definitions. &quot; &quot;Reduce nesting or split model into separate definitions.&quot;</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the input. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DiagnosticRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="233" column="29" bodyfile="src/process/process_diagnostics.cpp" bodystart="209" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a2ecdf60d8c51fb36abb8668eb961a6d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref></type>
+        <definition>DiagnosticRecord themis::process::ProcessDiagnostics::createConcurrencyIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message)</argsstring>
+        <name>createConcurrencyIncident</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::createConcurrencyIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create a concurrency incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Concurrency Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kInvalidTransition). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (model ID, instance ID). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message describing the concurrent update conflict. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> with CONCURRENCY_INCIDENT classification.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the input. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DiagnosticRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="246" column="29" bodyfile="src/process/process_diagnostics.cpp" bodystart="231" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a4092561503911228cb0cc308c3adef5a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref></type>
+        <definition>DiagnosticRecord themis::process::ProcessDiagnostics::createCycleIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message)</argsstring>
+        <name>createCycleIncident</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::createCycleIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create a cyclic dependency incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Cycle Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kInvalidTransition). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (link ID, path). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message describing the cycle. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> with CYCLE_INCIDENT classification.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the input. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DiagnosticRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="259" column="29" bodyfile="src/process/process_diagnostics.cpp" bodystart="253" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a2641048c9e84c72558ec739009c6b433" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref></type>
+        <definition>DiagnosticRecord themis::process::ProcessDiagnostics::createMalformedInputIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message)</argsstring>
+        <name>createMalformedInputIncident</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::createMalformedInputIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create a malformed input incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Malformed Input Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kDeserialiserFailed). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (filename, model ID). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message describing the malformation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> with MALFORMED_INPUT_INCIDENT classification.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the input. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DiagnosticRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="272" column="29" bodyfile="src/process/process_diagnostics.cpp" bodystart="275" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a0136486f75c9562230339b38e20de6a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref></type>
+        <definition>DiagnosticRecord themis::process::ProcessDiagnostics::createMissingTargetIncident</definition>
+        <argsstring>(ProcError error, std::string_view input_id, std::string_view message)</argsstring>
+        <name>createMissingTargetIncident</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::createMissingTargetIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Create a missing target incident diagnostic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Missing Target Incident.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code (typically kInvalidTransition). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (link ID, reference). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message describing the missing target. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1process_1_1_diagnostic_record" kindref="compound">DiagnosticRecord</ref> with MISSING_TARGET_INCIDENT classification.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the input. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: DiagnosticRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="285" column="29" bodyfile="src/process/process_diagnostics.cpp" bodystart="297" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_process_diagnostics_1a3c5fdbcf0ea43f5466469aae25ec6796" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ProcessDiagnostics::ProcessDiagnostics</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ProcessDiagnostics</name>
+        <qualifiedname>themis::process::ProcessDiagnostics::ProcessDiagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="292" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory for creating diagnostic records. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides semantic constructors for each incident class to ensure consistent error reporting across the process module. </para>
+    </detaileddescription>
+    <location file="include/process/process_diagnostics.h" line="168" column="1" bodyfile="include/process/process_diagnostics.h" bodystart="168" bodyend="293"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a2ecdf60d8c51fb36abb8668eb961a6d2" prot="public" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>createConcurrencyIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a4092561503911228cb0cc308c3adef5a" prot="public" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>createCycleIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a8c6a7059b59f58295bcfe8826380f4c4" prot="public" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>createImportIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a82a40dc585865e8ee234ed9f6e589674" prot="public" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>createLinkingIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a2641048c9e84c72558ec739009c6b433" prot="public" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>createMalformedInputIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a0136486f75c9562230339b38e20de6a1" prot="public" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>createMissingTargetIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a977b7d7fb47ef74f88e166aa6fa88c57" prot="public" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>createResourceIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a6f110fd4469ab755820935537b9bb05e" prot="public" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>createRetrievalIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a2812f4a8b0d719d9ea103eca0d3088d7" prot="public" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>createValidationIncident</name></member>
+      <member refid="classthemis_1_1process_1_1_process_diagnostics_1a3c5fdbcf0ea43f5466469aae25ec6796" prot="private" virt="non-virtual"><scope>themis::process::ProcessDiagnostics</scope><name>ProcessDiagnostics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

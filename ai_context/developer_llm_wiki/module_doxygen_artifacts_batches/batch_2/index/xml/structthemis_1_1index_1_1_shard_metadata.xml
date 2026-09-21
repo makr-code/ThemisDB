@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_shard_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::ShardMetadata</compoundname>
+    <includes refid="ann__frontdoor_8h" local="no">ann_frontdoor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_shard_metadata_1a11952d7398f9ec46485aed4fc92a9f88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::ShardMetadata::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::index::ShardMetadata::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="76" column="17" bodyfile="include/index/ann_frontdoor.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_shard_metadata_1a47c93017d7ddbd740e7fe66ef7621ded" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::ShardMetadata::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::index::ShardMetadata::estimated_cost</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="77" column="12" bodyfile="include/index/ann_frontdoor.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_shard_metadata_1af5c1ca8fdb3cb5fed62315f6f33cf6f0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::ShardMetadata::estimated_relevance</definition>
+        <argsstring></argsstring>
+        <name>estimated_relevance</name>
+        <qualifiedname>themis::index::ShardMetadata::estimated_relevance</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>latency_ms + io_cost </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="78" column="12" bodyfile="include/index/ann_frontdoor.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_shard_metadata_1a11a41cbe86efc6a726dd356fadba8ccb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::ShardMetadata::estimated_freshness</definition>
+        <argsstring></argsstring>
+        <name>estimated_freshness</name>
+        <qualifiedname>themis::index::ShardMetadata::estimated_freshness</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>0.0-1.0, inferred from shard summary </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="79" column="12" bodyfile="include/index/ann_frontdoor.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_shard_metadata_1a5a5ab4e0e76da3e6e67afa111e3ac542" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::ShardMetadata::estimated_locality</definition>
+        <argsstring></argsstring>
+        <name>estimated_locality</name>
+        <qualifiedname>themis::index::ShardMetadata::estimated_locality</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>0.0-1.0, age factor </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="80" column="12" bodyfile="include/index/ann_frontdoor.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_shard_metadata_1a93712bab9e87ca2e63eee19ff8f56dc0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::ShardMetadata::estimated_recall</definition>
+        <argsstring></argsstring>
+        <name>estimated_recall</name>
+        <qualifiedname>themis::index::ShardMetadata::estimated_recall</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+<para>0.0-1.0, network locality </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="81" column="12" bodyfile="include/index/ann_frontdoor.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/ann_frontdoor.h" line="75" column="1" bodyfile="include/index/ann_frontdoor.h" bodystart="75" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_shard_metadata_1a47c93017d7ddbd740e7fe66ef7621ded" prot="public" virt="non-virtual"><scope>themis::index::ShardMetadata</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1index_1_1_shard_metadata_1a11a41cbe86efc6a726dd356fadba8ccb" prot="public" virt="non-virtual"><scope>themis::index::ShardMetadata</scope><name>estimated_freshness</name></member>
+      <member refid="structthemis_1_1index_1_1_shard_metadata_1a5a5ab4e0e76da3e6e67afa111e3ac542" prot="public" virt="non-virtual"><scope>themis::index::ShardMetadata</scope><name>estimated_locality</name></member>
+      <member refid="structthemis_1_1index_1_1_shard_metadata_1a93712bab9e87ca2e63eee19ff8f56dc0" prot="public" virt="non-virtual"><scope>themis::index::ShardMetadata</scope><name>estimated_recall</name></member>
+      <member refid="structthemis_1_1index_1_1_shard_metadata_1af5c1ca8fdb3cb5fed62315f6f33cf6f0" prot="public" virt="non-virtual"><scope>themis::index::ShardMetadata</scope><name>estimated_relevance</name></member>
+      <member refid="structthemis_1_1index_1_1_shard_metadata_1a11952d7398f9ec46485aed4fc92a9f88" prot="public" virt="non-virtual"><scope>themis::index::ShardMetadata</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

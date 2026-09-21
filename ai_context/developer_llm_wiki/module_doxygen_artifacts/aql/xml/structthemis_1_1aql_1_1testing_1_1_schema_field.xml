@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_schema_field" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::SchemaField</compoundname>
+    <includes refid="schema__context__builder_8h" local="no">schema_context_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_schema_field_1a444e940003a0b92daf19e79f4f2bfca4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::SchemaField::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::aql::testing::SchemaField::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="44" column="17" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_schema_field_1a1931422e3f4a03da7e085b95a0201f60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::SchemaField::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::aql::testing::SchemaField::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="45" column="17" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_schema_field_1a90c2000b50dba97778de1c5e832ed00b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::SchemaField::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::aql::testing::SchemaField::required</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="46" column="17" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_schema_field_1a2c3614f6596367986dc48b6e754078cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::SchemaField::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::aql::testing::SchemaField::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="47" column="17" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/fixtures/schema_context_builder.h" line="43" column="1" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="43" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_schema_field_1a2c3614f6596367986dc48b6e754078cc" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaField</scope><name>description</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_schema_field_1a444e940003a0b92daf19e79f4f2bfca4" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaField</scope><name>name</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_schema_field_1a90c2000b50dba97778de1c5e832ed00b" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaField</scope><name>required</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_schema_field_1a1931422e3f4a03da7e085b95a0201f60" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaField</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

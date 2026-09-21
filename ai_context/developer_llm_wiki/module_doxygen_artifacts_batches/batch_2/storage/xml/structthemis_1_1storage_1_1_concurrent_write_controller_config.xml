@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_concurrent_write_controller_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ConcurrentWriteControllerConfig</compoundname>
+    <includes refid="concurrent__write__controller_8h" local="no">concurrent_write_controller.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_controller_config_1a8d8fb4bd72ae6205722bc04f477ef48b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteControllerConfig::max_concurrent_writes</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_writes</name>
+        <qualifiedname>themis::storage::ConcurrentWriteControllerConfig::max_concurrent_writes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of write operations that may proceed in parallel. Set to 0 to use <computeroutput>std::thread::hardware_concurrency() / 2</computeroutput> (min 1). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="36" column="12" bodyfile="include/storage/concurrent_write_controller.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_controller_config_1ac01c769d49b9bc11e8e2e002341e8d9a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ConcurrentWriteControllerConfig::max_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth</name>
+        <qualifiedname>themis::storage::ConcurrentWriteControllerConfig::max_queue_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of callers that may queue waiting for a slot. Callers that arrive when the queue is full receive <computeroutput>AcquireError::QUEUE_FULL</computeroutput>. Set to 0 for unlimited queue depth. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="41" column="12" bodyfile="include/storage/concurrent_write_controller.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_concurrent_write_controller_config_1a185640a73c9d805f0abd0d73ed1f501c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::storage::ConcurrentWriteControllerConfig::acquire_timeout</definition>
+        <argsstring></argsstring>
+        <name>acquire_timeout</name>
+        <qualifiedname>themis::storage::ConcurrentWriteControllerConfig::acquire_timeout</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum time a caller will wait for a slot. Set to 0 for unlimited wait (block forever). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="45" column="31" bodyfile="include/storage/concurrent_write_controller.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/concurrent_write_controller.h" line="33" column="1" bodyfile="include/storage/concurrent_write_controller.h" bodystart="33" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_controller_config_1a185640a73c9d805f0abd0d73ed1f501c" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteControllerConfig</scope><name>acquire_timeout</name></member>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_controller_config_1a8d8fb4bd72ae6205722bc04f477ef48b" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteControllerConfig</scope><name>max_concurrent_writes</name></member>
+      <member refid="structthemis_1_1storage_1_1_concurrent_write_controller_config_1ac01c769d49b9bc11e8e2e002341e8d9a" prot="public" virt="non-virtual"><scope>themis::storage::ConcurrentWriteControllerConfig</scope><name>max_queue_depth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

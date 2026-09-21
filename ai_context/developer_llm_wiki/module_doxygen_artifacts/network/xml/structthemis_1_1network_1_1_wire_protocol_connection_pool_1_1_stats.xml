@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::WireProtocolConnectionPool::Stats</compoundname>
+    <includes refid="wire__protocol__connection__pool_8h" local="no">wire_protocol_connection_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a132a63b54eab92fa61996ceadb7adf0d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::total_connections</definition>
+        <argsstring></argsstring>
+        <name>total_connections</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::total_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="271" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a42d89d06f2032feff009ecc0a7818d91" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::available_connections</definition>
+        <argsstring></argsstring>
+        <name>available_connections</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::available_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="272" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a4cb7d3ef57a646cb001279ae484badd6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::in_use_connections</definition>
+        <argsstring></argsstring>
+        <name>in_use_connections</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::in_use_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="273" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ab54b88acb867f78571d9a805e3fde84b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::stale_connections_removed</definition>
+        <argsstring></argsstring>
+        <name>stale_connections_removed</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::stale_connections_removed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="274" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a837243341f9d3c923b246552fce61105" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::failed_connections</definition>
+        <argsstring></argsstring>
+        <name>failed_connections</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::failed_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="275" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ad0a709301a96c2d201b1d12a42db7fd8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::acquire_timeouts</definition>
+        <argsstring></argsstring>
+        <name>acquire_timeouts</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::acquire_timeouts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="276" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ab36a8d1ae3991eda03e1f4660f99538d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::connections_created</definition>
+        <argsstring></argsstring>
+        <name>connections_created</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::connections_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="277" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1af8151b48aa1e0fa106f6e0daae4d57c1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::connections_reused</definition>
+        <argsstring></argsstring>
+        <name>connections_reused</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::connections_reused</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="278" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1aeef269d731ca8cee1ac8d81acf7ece85" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::keepalive_checks_sent</definition>
+        <argsstring></argsstring>
+        <name>keepalive_checks_sent</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::keepalive_checks_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="279" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1abbbfb3ad137c368c417522684b113abb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolConnectionPool::Stats::utilization</definition>
+        <argsstring></argsstring>
+        <name>utilization</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::utilization</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Current utilization: active / (active + idle), averaged across all targets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="281" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ac19acd66732a5deb53421171b704ab13" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::WireProtocolConnectionPool::Stats::pool_size_adaptations</definition>
+        <argsstring></argsstring>
+        <name>pool_size_adaptations</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::pool_size_adaptations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of pool-size adaptations performed by the adaptive strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="283" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1aa528b08190b7b9bbb4ae5ee88f81ad0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::network::WireProtocolConnectionPool::Stats::getReuseRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getReuseRate</name>
+        <qualifiedname>themis::network::WireProtocolConnectionPool::Stats::getReuseRate</qualifiedname>
+        <briefdescription>
+<para>Calculate connection reuse rate (0.0 - 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="288" column="16" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="288" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get pool statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_connection_pool.h" line="270" column="5" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="270" bodyend="295"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ad0a709301a96c2d201b1d12a42db7fd8" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>acquire_timeouts</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a42d89d06f2032feff009ecc0a7818d91" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>available_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ab36a8d1ae3991eda03e1f4660f99538d" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>connections_created</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1af8151b48aa1e0fa106f6e0daae4d57c1" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>connections_reused</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a837243341f9d3c923b246552fce61105" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>failed_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1aa528b08190b7b9bbb4ae5ee88f81ad0b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>getReuseRate</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a4cb7d3ef57a646cb001279ae484badd6" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>in_use_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1aeef269d731ca8cee1ac8d81acf7ece85" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>keepalive_checks_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ac19acd66732a5deb53421171b704ab13" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>pool_size_adaptations</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1ab54b88acb867f78571d9a805e3fde84b" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>stale_connections_removed</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1a132a63b54eab92fa61996ceadb7adf0d" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>total_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_wire_protocol_connection_pool_1_1_stats_1abbbfb3ad137c368c417522684b113abb" prot="public" virt="non-virtual"><scope>themis::network::WireProtocolConnectionPool::Stats</scope><name>utilization</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_multi_document_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::MultiDocumentSummary</compoundname>
+    <includes refid="document__summarizer_8h" local="no">document_summarizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_document_summary_1a58cb5041ba1c10e5eaf9d00097666591" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::MultiDocumentSummary::combined_summary</definition>
+        <argsstring></argsstring>
+        <name>combined_summary</name>
+        <qualifiedname>themis::rag::MultiDocumentSummary::combined_summary</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Single combined summary ready for context injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="84" column="17" bodyfile="include/rag/document_summarizer.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_document_summary_1afe26a0f5a57bbf6b1ceec3db8a41d5c6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_document_summary" kindref="compound">DocumentSummary</ref> &gt;</type>
+        <definition>std::vector&lt;DocumentSummary&gt; themis::rag::MultiDocumentSummary::per_document_summaries</definition>
+        <argsstring></argsstring>
+        <name>per_document_summaries</name>
+        <qualifiedname>themis::rag::MultiDocumentSummary::per_document_summaries</qualifiedname>
+        <briefdescription>
+<para>Per-document breakdowns (in the same order as the input documents). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="87" column="17" bodyfile="include/rag/document_summarizer.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_document_summary_1af8424e4cdb3f921beccd4102140f9349" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::MultiDocumentSummary::total_input_chars</definition>
+        <argsstring></argsstring>
+        <name>total_input_chars</name>
+        <qualifiedname>themis::rag::MultiDocumentSummary::total_input_chars</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total character count of all input documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="90" column="12" bodyfile="include/rag/document_summarizer.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_document_summary_1a77f1373649f5b295d7a848a1ef85b93d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::MultiDocumentSummary::summary_chars</definition>
+        <argsstring></argsstring>
+        <name>summary_chars</name>
+        <qualifiedname>themis::rag::MultiDocumentSummary::summary_chars</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Character count of combined_summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="93" column="12" bodyfile="include/rag/document_summarizer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_document_summary_1a1bea47755949944db028083f7cf9978e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::MultiDocumentSummary::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::rag::MultiDocumentSummary::compression_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Compression ratio: summary_chars / total_input_chars. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="96" column="12" bodyfile="include/rag/document_summarizer.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_document_summary_1ad4465e20199261a4519d1e32189cab6d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::MultiDocumentSummary::used_llm</definition>
+        <argsstring></argsstring>
+        <name>used_llm</name>
+        <qualifiedname>themis::rag::MultiDocumentSummary::used_llm</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when at least one document was summarized via the LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="99" column="10" bodyfile="include/rag/document_summarizer.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_multi_document_summary_1aeb4fe707ef89bfc96ec0f9bcd34dedac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::MultiDocumentSummary::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::rag::MultiDocumentSummary::elapsed_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock time for the entire summarization pass (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="102" column="12" bodyfile="include/rag/document_summarizer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated result of summarizing multiple documents. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/document_summarizer.h" line="82" column="1" bodyfile="include/rag/document_summarizer.h" bodystart="82" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_multi_document_summary_1a58cb5041ba1c10e5eaf9d00097666591" prot="public" virt="non-virtual"><scope>themis::rag::MultiDocumentSummary</scope><name>combined_summary</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_document_summary_1a1bea47755949944db028083f7cf9978e" prot="public" virt="non-virtual"><scope>themis::rag::MultiDocumentSummary</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_document_summary_1aeb4fe707ef89bfc96ec0f9bcd34dedac" prot="public" virt="non-virtual"><scope>themis::rag::MultiDocumentSummary</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_document_summary_1afe26a0f5a57bbf6b1ceec3db8a41d5c6" prot="public" virt="non-virtual"><scope>themis::rag::MultiDocumentSummary</scope><name>per_document_summaries</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_document_summary_1a77f1373649f5b295d7a848a1ef85b93d" prot="public" virt="non-virtual"><scope>themis::rag::MultiDocumentSummary</scope><name>summary_chars</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_document_summary_1af8424e4cdb3f921beccd4102140f9349" prot="public" virt="non-virtual"><scope>themis::rag::MultiDocumentSummary</scope><name>total_input_chars</name></member>
+      <member refid="structthemis_1_1rag_1_1_multi_document_summary_1ad4465e20199261a4519d1e32189cab6d" prot="public" virt="non-virtual"><scope>themis::rag::MultiDocumentSummary</scope><name>used_llm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

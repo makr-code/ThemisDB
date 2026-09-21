@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::SpatialIndexManager::IndexStats</compoundname>
+    <includes refid="spatial__index_8h" local="no">spatial_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a2f0a1c37b884a82fa880d7b78d3ed1d8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::SpatialIndexManager::IndexStats::entry_count</definition>
+        <argsstring></argsstring>
+        <name>entry_count</name>
+        <qualifiedname>themis::index::SpatialIndexManager::IndexStats::entry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="145" column="16" bodyfile="include/index/spatial_index.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1ae90c6eab5760fe6ef569ea299af55a45" prot="public" static="no" mutable="no">
+        <type>geo::MBR</type>
+        <definition>geo::MBR themis::index::SpatialIndexManager::IndexStats::total_bounds</definition>
+        <argsstring></argsstring>
+        <name>total_bounds</name>
+        <qualifiedname>themis::index::SpatialIndexManager::IndexStats::total_bounds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="146" column="18" bodyfile="include/index/spatial_index.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a61d25d4262b259c4f8b10b2b8e0be47c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::SpatialIndexManager::IndexStats::avg_area</definition>
+        <argsstring></argsstring>
+        <name>avg_area</name>
+        <qualifiedname>themis::index::SpatialIndexManager::IndexStats::avg_area</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="147" column="16" bodyfile="include/index/spatial_index.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a679bca626165e49d5ccd3847c2364a6a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::SpatialIndexManager::IndexStats::morton_buckets</definition>
+        <argsstring></argsstring>
+        <name>morton_buckets</name>
+        <qualifiedname>themis::index::SpatialIndexManager::IndexStats::morton_buckets</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="148" column="16" bodyfile="include/index/spatial_index.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get index statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/spatial_index.h" line="144" column="5" bodyfile="include/index/spatial_index.h" bodystart="144" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a61d25d4262b259c4f8b10b2b8e0be47c" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager::IndexStats</scope><name>avg_area</name></member>
+      <member refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a2f0a1c37b884a82fa880d7b78d3ed1d8" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager::IndexStats</scope><name>entry_count</name></member>
+      <member refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1a679bca626165e49d5ccd3847c2364a6a" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager::IndexStats</scope><name>morton_buckets</name></member>
+      <member refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_index_stats_1ae90c6eab5760fe6ef569ea299af55a45" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager::IndexStats</scope><name>total_bounds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

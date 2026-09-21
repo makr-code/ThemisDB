@@ -1,0 +1,1004 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1importers_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::importers::test</compoundname>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_audit_trail_exception_safety_test" prot="public">themis::importers::test::AuditTrailExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test" prot="public">themis::importers::test::CanonicalResolverExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test" prot="public">themis::importers::test::FlatFileImporterDataRaceTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test" prot="public">themis::importers::test::HuggingFaceIngestionPluginDataRaceTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test" prot="public">themis::importers::test::KafkaImporterExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test" prot="public">themis::importers::test::MDMEngineExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_my_s_q_l_importer_data_race_test" prot="public">themis::importers::test::MySQLImporterDataRaceTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_data_race_test" prot="public">themis::importers::test::PostgreSQLImporterDataRaceTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test" prot="public">themis::importers::test::PostgreSQLImporterMDMExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test" prot="public">themis::importers::test::S3ImporterExceptionSafetyTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1importers_1_1test_1a61d2081a1e4a35619adcf42233eb376e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::test::kImportersConcurrencySeed</definition>
+        <argsstring></argsstring>
+        <name>kImportersConcurrencySeed</name>
+        <qualifiedname>themis::importers::test::kImportersConcurrencySeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="33" column="18" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1importers_1_1test_1ac1b5be846ba5642c437b6f516435ef14" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::test::kConcurrentIterations</definition>
+        <argsstring></argsstring>
+        <name>kConcurrentIterations</name>
+        <qualifiedname>themis::importers::test::kConcurrentIterations</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="34" column="18" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1importers_1_1test_1a975d07d855dd40572b3a77564c1ec9cf" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::test::kWorkerThreadCount</definition>
+        <argsstring></argsstring>
+        <name>kWorkerThreadCount</name>
+        <qualifiedname>themis::importers::test::kWorkerThreadCount</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="35" column="18" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1importers_1_1test_1a22473c1be96ebbf5a9bcc807baaa7df5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::test::kExceptionTestTimeout_ms</definition>
+        <argsstring></argsstring>
+        <name>kExceptionTestTimeout_ms</name>
+        <qualifiedname>themis::importers::test::kExceptionTestTimeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="36" column="15" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1importers_1_1test_1aa5c6b6b9bb32a3168e801ce20cac0ef7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::test::kAllocationRetries</definition>
+        <argsstring></argsstring>
+        <name>kAllocationRetries</name>
+        <qualifiedname>themis::importers::test::kAllocationRetries</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="37" column="15" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1importers_1_1test_1ad8347c6ea5a78f8864f3b230e145b409" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::importers::test::kImportersPhase2Seed</definition>
+        <argsstring></argsstring>
+        <name>kImportersPhase2Seed</name>
+        <qualifiedname>themis::importers::test::kImportersPhase2Seed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="35" column="20" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(PostgreSQLImporterDataRaceTest, IMPI_2A_PG_01_ConcurrentTypeMapAccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_data_race_test" kindref="compound">PostgreSQLImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_PG_01_ConcurrentTypeMapAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-PG-01: Concurrent access to custom_type_map_</para>
+<para>Exercises: ParseColumnType() method concurrent reads + writes Iteration count: 1000 Expected: No data races, consistent behavior </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="59" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="59" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a27eff5ad6c4005ff0ccde550d199a5b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(MySQLImporterDataRaceTest, IMPI_2A_MY_01_ConcurrentTypeCacheAccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_my_s_q_l_importer_data_race_test" kindref="compound">MySQLImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_MY_01_ConcurrentTypeCacheAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-MY-01: Concurrent access to type_mapping_cache_</para>
+<para>Exercises: Type cache initialization and lookup under concurrent pressure Iteration count: 1000 Expected: No data races, consistent type mapping </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="115" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="115" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a2571532d41750eacbf29f348984c8dba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(MySQLImporterDataRaceTest, IMPI_2A_MY_02_ConcurrentMetadataSnapshot)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_my_s_q_l_importer_data_race_test" kindref="compound">MySQLImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_MY_02_ConcurrentMetadataSnapshot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-MY-02: Concurrent access to field_metadata_snapshot_</para>
+<para>Exercises: Metadata snapshot read-write patterns Iteration count: 1000 Expected: No data races, consistent metadata </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="148" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="148" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a2086bc2507649a1986bb4815695aa584" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(MySQLImporterDataRaceTest, IMPI_2A_MY_03_ConcurrentConnectionPoolStats)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_my_s_q_l_importer_data_race_test" kindref="compound">MySQLImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_MY_03_ConcurrentConnectionPoolStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-MY-03: Concurrent access to connection_pool_stats_</para>
+<para>Exercises: Connection pool statistics concurrent updates Iteration count: 1000 Expected: No data races, consistent statistics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="178" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="178" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a36ca4754df8488c0d0aeaefda3f5c95f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(MySQLImporterDataRaceTest, IMPI_2A_MY_04_TypeCacheStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_my_s_q_l_importer_data_race_test" kindref="compound">MySQLImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_MY_04_TypeCacheStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-MY-04: Type cache with stress testing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="204" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="204" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1aa01755057aa7e598cb233f0f73987725" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(MySQLImporterDataRaceTest, IMPI_2A_MY_05_MetadataSnapshotStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_my_s_q_l_importer_data_race_test" kindref="compound">MySQLImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_MY_05_MetadataSnapshotStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-MY-05: Metadata snapshot with concurrent updates </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="230" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="230" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a2c291a4c1e4b79ec54404e89470289e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(MySQLImporterDataRaceTest, IMPI_2A_MY_06_ConnectionPoolStatsStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_my_s_q_l_importer_data_race_test" kindref="compound">MySQLImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_MY_06_ConnectionPoolStatsStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-MY-06: Connection pool stats stress </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="256" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="256" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a5f34bf6a03bfd5018fcb6df2d96a1750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(MySQLImporterDataRaceTest, IMPI_2A_MY_07_LockOrderingVerification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_my_s_q_l_importer_data_race_test" kindref="compound">MySQLImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_MY_07_LockOrderingVerification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-MY-07: Lock ordering verification - no deadlock </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="282" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="282" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a5c7a157d5008f0e55dc607d46c63cb33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(MySQLImporterDataRaceTest, IMPI_2A_MY_08_ExceptionSafetyWithConcurrency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_my_s_q_l_importer_data_race_test" kindref="compound">MySQLImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_MY_08_ExceptionSafetyWithConcurrency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-MY-08: Exception safety with concurrent access </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="308" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="308" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1ab917d1bc23926b462c0fbd5befc3c547" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(FlatFileImporterDataRaceTest, IMPI_2A_FF_01_ConcurrentColumnOptionsMap)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test" kindref="compound">FlatFileImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_FF_01_ConcurrentColumnOptionsMap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-FF-01: Concurrent access to column_options_map_ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="350" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="350" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a8a695a9dfb723fe27e6615417554613d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(FlatFileImporterDataRaceTest, IMPI_2A_FF_02_ConcurrentFieldValidatorState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test" kindref="compound">FlatFileImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_FF_02_ConcurrentFieldValidatorState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-FF-02: Concurrent access to field_validator_state_ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="376" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="376" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1ad8e288fc746c45c8b8bcf63bc9aeb440" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(FlatFileImporterDataRaceTest, IMPI_2A_FF_03_ConcurrentSchemaInferenceCache)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test" kindref="compound">FlatFileImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_FF_03_ConcurrentSchemaInferenceCache</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-FF-03: Concurrent access to schema_inference_cache_ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="402" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="402" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a06d80c310b749c2a3b18d386058343c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(FlatFileImporterDataRaceTest, IMPI_2A_FF_04_ColumnOptionsStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test" kindref="compound">FlatFileImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_FF_04_ColumnOptionsStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-FF-04: Column options stress testing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="428" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="428" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1af6f5a8a8f833f788d50f76c9f7f9916a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(FlatFileImporterDataRaceTest, IMPI_2A_FF_05_FieldValidatorStateStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test" kindref="compound">FlatFileImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_FF_05_FieldValidatorStateStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-FF-05: Field validator state stress testing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="454" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="454" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1aeb85741d449d649bd962e5d8ab24a8c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(FlatFileImporterDataRaceTest, IMPI_2A_FF_06_SchemaInferenceCacheStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test" kindref="compound">FlatFileImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_FF_06_SchemaInferenceCacheStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-FF-06: Schema inference cache stress testing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="480" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="480" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a8b82173278c50b26a799dfebb47c0039" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(FlatFileImporterDataRaceTest, IMPI_2A_FF_07_ProgressCallbackConcurrency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_flat_file_importer_data_race_test" kindref="compound">FlatFileImporterDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_FF_07_ProgressCallbackConcurrency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-FF-07: Progress callback with concurrent access </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="506" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="506" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1aabf1d48cc85512d9fa6cd1145854dca3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(HuggingFaceIngestionPluginDataRaceTest, IMPI_2A_HF_01_ConcurrentConfigState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test" kindref="compound">HuggingFaceIngestionPluginDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_HF_01_ConcurrentConfigState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-HF-01: Concurrent access to config_state_ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="543" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="543" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a247a23260a36fd4a5f9cb4fc6900f045" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(HuggingFaceIngestionPluginDataRaceTest, IMPI_2A_HF_02_ConcurrentProgressTracking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test" kindref="compound">HuggingFaceIngestionPluginDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_HF_02_ConcurrentProgressTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-HF-02: Concurrent access to progress_tracking_state_ </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="569" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="569" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1add8dfa88406fdcb4700ff2393a3f4d19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(HuggingFaceIngestionPluginDataRaceTest, IMPI_2A_HF_03_ConfigStateStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test" kindref="compound">HuggingFaceIngestionPluginDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_HF_03_ConfigStateStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-HF-03: Config state stress testing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="595" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="595" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1af4ad820acf7bbc24ec054330628572a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(HuggingFaceIngestionPluginDataRaceTest, IMPI_2A_HF_04_ProgressTrackingAtomicity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test" kindref="compound">HuggingFaceIngestionPluginDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_HF_04_ProgressTrackingAtomicity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-HF-04: Progress tracking with atomicity </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="621" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="621" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a4cafe627f4198913bde53a74997e83ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(HuggingFaceIngestionPluginDataRaceTest, IMPI_2A_HF_05_ConfigRMWSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_hugging_face_ingestion_plugin_data_race_test" kindref="compound">HuggingFaceIngestionPluginDataRaceTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2A_HF_05_ConfigRMWSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2A-HF-05: Config read-modify-write safety </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="647" column="1" bodyfile="tests/importers/test_importers_phase2a_data_race_focused.cpp" bodystart="647" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a8d347d5c2abbd9596ca1757ea42dd8e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(KafkaImporterExceptionSafetyTest, IMPI_2B_KA_01_ConsumerInitExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test" kindref="compound">KafkaImporterExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_KA_01_ConsumerInitExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-KA-01: Exception safety during Kafka consumer initialization</para>
+<para>Gap: KafkaConsumer allocation not wrapped with std::make_unique Fix: Use std::make_unique&lt;KafkaConsumer&gt;(...) for exception-safe allocation Scenario: Verify no memory leak if Initialize() throws </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="59" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="59" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a174f75af1aea7f8e0fdf05b0c0b043f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(KafkaImporterExceptionSafetyTest, IMPI_2B_KA_02_OffsetStateExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test" kindref="compound">KafkaImporterExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_KA_02_OffsetStateExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-KA-02: Exception safety during offset state tracking</para>
+<para>Gap: Offset state allocation not wrapped with exception guard Fix: Add try-catch around nested initialization sequence Scenario: Verify cleanup if offset commit fails </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="76" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1aa65f50c1257f230ad7d4a4f197a5ffd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(KafkaImporterExceptionSafetyTest, IMPI_2B_KA_03_MessageBufferExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test" kindref="compound">KafkaImporterExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_KA_03_MessageBufferExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-KA-03: Exception safety during message buffer allocation</para>
+<para>Gap: Message buffer not wrapped with std::make_unique Fix: Use std::make_unique&lt;Message[]&gt;(...) for exception-safe allocation Scenario: Verify cleanup if ProcessBatch() throws </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="91" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="91" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a36fb4dd9d7651b98a7501cb021e00d03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(KafkaImporterExceptionSafetyTest, IMPI_2B_KA_04_ConnectionPoolExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test" kindref="compound">KafkaImporterExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_KA_04_ConnectionPoolExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-KA-04: Exception safety during connection pool initialization</para>
+<para>Gap: ConnectionPool allocation not guarded with try-catch Fix: Wrap pool initialization with try-catch and explicit cleanup Scenario: Verify cleanup if Connect() or SetConsumerGroup() throws </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="106" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a1f7fc294b78d5ab13256597745990119" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(CanonicalResolverExceptionSafetyTest, IMPI_2B_CR_01_EntityResolverExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test" kindref="compound">CanonicalResolverExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_CR_01_EntityResolverExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-CR-01: Exception safety during EntityResolver allocation</para>
+<para>Gap: EntityResolver not wrapped with std::make_unique Fix: Use std::make_unique&lt;EntityResolver&gt;(...) Scenario: Verify cleanup if schema validation throws </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="134" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="134" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1aa4975ec526e623fa3079b1ac7d7c3b1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(CanonicalResolverExceptionSafetyTest, IMPI_2B_CR_02_TypeResolverExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test" kindref="compound">CanonicalResolverExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_CR_02_TypeResolverExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-CR-02: Exception safety during TypeResolver allocation</para>
+<para>Gap: TypeResolver not wrapped with std::make_unique Fix: Use std::make_unique&lt;TypeResolver&gt;(...) Scenario: Verify cleanup if rule load fails </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="149" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="149" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a43daf15595cc2bc6010774b2e7d8c911" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(CanonicalResolverExceptionSafetyTest, IMPI_2B_CR_03_NamespaceResolverExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test" kindref="compound">CanonicalResolverExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_CR_03_NamespaceResolverExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-CR-03: Exception safety during NamespaceResolver allocation</para>
+<para>Gap: NamespaceResolver not wrapped with std::make_unique Fix: Use std::make_unique&lt;NamespaceResolver&gt;(...) Scenario: Verify cleanup if namespace hints processing fails </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="164" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="164" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1abf6fa18435735621a2c2ba87ce043d6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(MDMEngineExceptionSafetyTest, IMPI_2B_MD_01_EntitySnapshotMergeExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test" kindref="compound">MDMEngineExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_MD_01_EntitySnapshotMergeExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-MD-01: Exception safety during entity snapshot merge</para>
+<para>Gap: Entity snapshot allocation not wrapped with std::make_unique Fix: Use std::make_unique&lt;EntitySnapshot&gt;(...) with RAII wrapper Scenario: Verify cleanup if merge operation throws </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="192" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="192" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a07116dfb9d96ff6436d529601d9b5235" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(AuditTrailExceptionSafetyTest, IMPI_2B_AT_01_AuditRecordSigningExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_audit_trail_exception_safety_test" kindref="compound">AuditTrailExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_AT_01_AuditRecordSigningExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-AT-01: Exception safety during audit record signing</para>
+<para>Gap: AuditRecord allocation not wrapped with std::make_unique Fix: Use std::make_unique&lt;AuditRecord&gt;(...) for allocation Scenario: Verify cleanup if signing operation throws </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="220" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="220" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a27e43a33b514efd7f257f2824c45c3d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(PostgreSQLImporterMDMExceptionSafetyTest, IMPI_2B_PM_01_MDMMetadataResolverExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test" kindref="compound">PostgreSQLImporterMDMExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_PM_01_MDMMetadataResolverExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-PM-01: Exception safety during MDM metadata resolver initialization</para>
+<para>Gap: MetadataResolver allocation not wrapped with std::make_unique Fix: Use std::make_unique&lt;MetadataResolver&gt;(...) + try-catch Scenario: Verify cleanup if MDM connection fails </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="248" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="248" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1ae830849cd95126a411e806e8bd72b29d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(PostgreSQLImporterMDMExceptionSafetyTest, IMPI_2B_PM_02_LineageTrackerExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test" kindref="compound">PostgreSQLImporterMDMExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_PM_02_LineageTrackerExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-PM-02: Exception safety during lineage tracker allocation</para>
+<para>Gap: LineageTracker allocation not wrapped with std::make_unique Fix: Use std::make_unique&lt;LineageTracker&gt;(...) + try-catch Scenario: Verify cleanup if schema load fails </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="263" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="263" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a5f75585b2943ceda0578cee93cc0ed33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST_F</definition>
+        <argsstring>(S3ImporterExceptionSafetyTest, IMPI_2B_S3_01_S3ObjectStreamExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::importers::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test" kindref="compound">S3ImporterExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>IMPI_2B_S3_01_S3ObjectStreamExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>IMPI-2B-S3-01: Exception safety during S3 object stream allocation</para>
+<para>Gap: S3ObjectStream allocation not wrapped with std::make_unique Fix: Use std::make_unique&lt;S3ObjectStream&gt;(...) for allocation Scenario: Verify cleanup if open() throws </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="291" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="291" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1aa59810510ad730c3ef23190d0b71c95d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST</definition>
+        <argsstring>(ImportersPhase2T2_3ConflictQualityAudit, IMCF_01_DeterminismVerification)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::importers::test::TEST</qualifiedname>
+        <param>
+          <type>ImportersPhase2T2_3ConflictQualityAudit</type>
+        </param>
+        <param>
+          <type>IMCF_01_DeterminismVerification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="41" column="1" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="41" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1ab52ba5c206d6186ec8e4fa9c7a63e0e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST</definition>
+        <argsstring>(ImportersPhase2T2_3ConflictQualityAudit, IMCF_02_ConflictReasonClassification)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::importers::test::TEST</qualifiedname>
+        <param>
+          <type>ImportersPhase2T2_3ConflictQualityAudit</type>
+        </param>
+        <param>
+          <type>IMCF_02_ConflictReasonClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="103" column="1" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="103" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a4343aba652ab9c6c177772d8961c686a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST</definition>
+        <argsstring>(ImportersPhase2T2_3ConflictQualityAudit, IMCF_03_QualityScoreFormula)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::importers::test::TEST</qualifiedname>
+        <param>
+          <type>ImportersPhase2T2_3ConflictQualityAudit</type>
+        </param>
+        <param>
+          <type>IMCF_03_QualityScoreFormula</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="164" column="1" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="164" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a724e35097954b7a013e07dab8b66eebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST</definition>
+        <argsstring>(ImportersPhase2T2_3ConflictQualityAudit, IMCF_04_QualityGateBypassAudit)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::importers::test::TEST</qualifiedname>
+        <param>
+          <type>ImportersPhase2T2_3ConflictQualityAudit</type>
+        </param>
+        <param>
+          <type>IMCF_04_QualityGateBypassAudit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="223" column="1" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="223" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1ae5a0eb18638c2f7a7793b9002499f71b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST</definition>
+        <argsstring>(ImportersPhase2T2_3ConflictQualityAudit, IMCF_05_AuditEventStructure)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::importers::test::TEST</qualifiedname>
+        <param>
+          <type>ImportersPhase2T2_3ConflictQualityAudit</type>
+        </param>
+        <param>
+          <type>IMCF_05_AuditEventStructure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="282" column="1" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="282" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a587f9f6f5181e48ee475ff4a733e735c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST</definition>
+        <argsstring>(ImportersPhase2T2_3ConflictQualityAudit, IMCF_06_CorrelationIDPropagation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::importers::test::TEST</qualifiedname>
+        <param>
+          <type>ImportersPhase2T2_3ConflictQualityAudit</type>
+        </param>
+        <param>
+          <type>IMCF_06_CorrelationIDPropagation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="359" column="1" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="359" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a9ee6239cdcf7d3f72653c4d476997466" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST</definition>
+        <argsstring>(ImportersPhase2T2_3ConflictQualityAudit, IMCF_07_AuditTrailReplay)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::importers::test::TEST</qualifiedname>
+        <param>
+          <type>ImportersPhase2T2_3ConflictQualityAudit</type>
+        </param>
+        <param>
+          <type>IMCF_07_AuditTrailReplay</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="398" column="1" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="398" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a5a6e63267a977dc5b8dfd92cbe3264d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST</definition>
+        <argsstring>(ImportersPhase2T2_3ConflictQualityAudit, IMCF_08_AuditBufferManagement)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::importers::test::TEST</qualifiedname>
+        <param>
+          <type>ImportersPhase2T2_3ConflictQualityAudit</type>
+        </param>
+        <param>
+          <type>IMCF_08_AuditBufferManagement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="440" column="1" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="440" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1importers_1_1test_1a76909b56465ba0cc96c5ce42c45ac4fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::test::TEST</definition>
+        <argsstring>(ImportersPhase2T2_3ConflictQualityAudit, IntegrationFullWorkflow)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::importers::test::TEST</qualifiedname>
+        <param>
+          <type>ImportersPhase2T2_3ConflictQualityAudit</type>
+        </param>
+        <param>
+          <type>IntegrationFullWorkflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" line="487" column="1" bodyfile="tests/importers/test_importers_phase2_t2_3_conflict_quality_audit.cpp" bodystart="487" bodyend="566"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/importers/test_importers_phase2a_data_race_focused.cpp" line="30" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_i_v_r_a_m_policy_test" kind="class" language="C++" prot="public">
+    <compoundname>IVRAMPolicyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_i_v_r_a_m_policy_test_1a66d60dbe0a8aee6d7f91337a4d7937ea" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IVRAMPolicyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IVRAMPolicyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="30" column="10" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_i_v_r_a_m_policy_test_1acac0894b2ff75309d063543cfc952af8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IVRAMPolicyTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>IVRAMPolicyTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="31" column="10" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IVRAMPolicyTest</label>
+        <link refid="class_i_v_r_a_m_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IVRAMPolicyTest</label>
+        <link refid="class_i_v_r_a_m_policy_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_memory_hierarchy.cpp" line="28" column="1" bodyfile="tests/gpu/test_gpu_memory_hierarchy.cpp" bodystart="28" bodyend="32"/>
+    <listofallmembers>
+      <member refid="class_i_v_r_a_m_policy_test_1a66d60dbe0a8aee6d7f91337a4d7937ea" prot="protected" virt="non-virtual"><scope>IVRAMPolicyTest</scope><name>SetUp</name></member>
+      <member refid="class_i_v_r_a_m_policy_test_1acac0894b2ff75309d063543cfc952af8" prot="protected" virt="non-virtual"><scope>IVRAMPolicyTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

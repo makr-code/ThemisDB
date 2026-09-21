@@ -1,0 +1,743 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::DistributedTrainer</compoundname>
+    <includes refid="distributed__trainer_8h" local="no">distributed_trainer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1af0bd952d2386c17da8fd78d088afaa94" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::llm::lora::DistributedTrainer::BarrierFn = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>BarrierFn</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::BarrierFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="121" column="5" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a221257e88be9d15580982f0e36d13920" prot="public" static="no">
+        <type>std::function&lt; void(std::vector&lt; float &gt; &amp;)&gt;</type>
+        <definition>using themis::llm::lora::DistributedTrainer::BroadcastFn = std::function&lt;void(std::vector&lt;float&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BroadcastFn</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::BroadcastFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="123" column="5" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a43611bd48c6bbf479900b8e8c675b382" prot="public" static="no">
+        <type>std::function&lt; void(std::vector&lt; float &gt; &amp;data)&gt;</type>
+        <definition>using themis::llm::lora::DistributedTrainer::AllReduceCpuFn = std::function&lt;void(std::vector&lt;float&gt;&amp; data)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AllReduceCpuFn</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::AllReduceCpuFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="125" column="5" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ae421bacdf345a2875321a147eb0e6c62" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref></type>
+        <definition>DistributedConfig themis::llm::lora::DistributedTrainer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="216" column="23" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a0eba077f6c4c5f37a75f038194af4e93" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedTrainer::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="217" column="10" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a3c6957f67dca27406aa083d9860387b0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats" kindref="compound">DistributedStats</ref></type>
+        <definition>DistributedStats themis::llm::lora::DistributedTrainer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="220" column="22" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a4c3869e396dabddd27abe4a23bd17732" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1af0bd952d2386c17da8fd78d088afaa94" kindref="member">BarrierFn</ref> &gt;</type>
+        <definition>std::optional&lt;BarrierFn&gt; themis::llm::lora::DistributedTrainer::barrier_fn_</definition>
+        <argsstring></argsstring>
+        <name>barrier_fn_</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::barrier_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="234" column="26" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a324d99ebc677647f33713b41002ade86" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a221257e88be9d15580982f0e36d13920" kindref="member">BroadcastFn</ref> &gt;</type>
+        <definition>std::optional&lt;BroadcastFn&gt; themis::llm::lora::DistributedTrainer::broadcast_fn_</definition>
+        <argsstring></argsstring>
+        <name>broadcast_fn_</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::broadcast_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="235" column="24" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac78b7c1476f2ffdb0dacee868530e998" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a43611bd48c6bbf479900b8e8c675b382" kindref="member">AllReduceCpuFn</ref> &gt;</type>
+        <definition>std::optional&lt;AllReduceCpuFn&gt; themis::llm::lora::DistributedTrainer::allreduce_cpu_fn_</definition>
+        <argsstring></argsstring>
+        <name>allreduce_cpu_fn_</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::allreduce_cpu_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="236" column="21" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ae7a748daafec317bed98ddee07ec7884" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::DistributedTrainer::DistributedTrainer</definition>
+        <argsstring>(const DistributedConfig &amp;config)</argsstring>
+        <name>DistributedTrainer</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::DistributedTrainer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Distributed Trainer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="131" column="14" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="23" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a6b3d9206a25c07f99c8f925f733c34df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::DistributedTrainer::~DistributedTrainer</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedTrainer</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::~DistributedTrainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="132" column="5" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a587c6094b0d924ca25d4424b5996e21d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedTrainer::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::warn(), spdlog::error(), <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac5a24a9c4e5e1e24acc6aee061ca5d12" kindref="member">is_distributed()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="138" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="46" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ab6986d58f7dd8c1d5aea62df0a0a5f06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedTrainer::finalize</definition>
+        <argsstring>()</argsstring>
+        <name>finalize</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::finalize</qualifiedname>
+        <briefdescription>
+<para>Finalize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac5a24a9c4e5e1e24acc6aee061ca5d12" kindref="member">is_distributed()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="143" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="103" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac5a24a9c4e5e1e24acc6aee061ca5d12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedTrainer::is_distributed</definition>
+        <argsstring>() const</argsstring>
+        <name>is_distributed</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::is_distributed</qualifiedname>
+        <briefdescription>
+<para>Is distributed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="149" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="116" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a369acb57766020e38d9b8bfd4b7326de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedTrainer::is_master</definition>
+        <argsstring>() const</argsstring>
+        <name>is_master</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::is_master</qualifiedname>
+        <briefdescription>
+<para>Is master. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="155" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="120" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a874e7243af69d498568909c13b2824eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedTrainer::synchronize_gradients</definition>
+        <argsstring>(std::vector&lt; Tensor * &gt; &amp;gradients)</argsstring>
+        <name>synchronize_gradients</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::synchronize_gradients</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>gradients</declname>
+        </param>
+        <briefdescription>
+<para>Synchronize gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac5a24a9c4e5e1e24acc6aee061ca5d12" kindref="member">is_distributed()</ref>, spdlog::error(), std::chrono::high_resolution_clock::now(), data(), allreduce_cpu(), size(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="162" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="130" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1abb6e1ce6d13181581c61db45ff66a2d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::DistributedTrainer::broadcast_parameters</definition>
+        <argsstring>(std::vector&lt; Tensor * &gt; &amp;parameters)</argsstring>
+        <name>broadcast_parameters</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::broadcast_parameters</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+<para>Broadcast parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac5a24a9c4e5e1e24acc6aee061ca5d12" kindref="member">is_distributed()</ref>, spdlog::error(), std::chrono::high_resolution_clock::now(), data(), broadcast_cpu(), size(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="169" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="172" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a37b63907eac955df5a6981f3c206d65a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedTrainer::barrier</definition>
+        <argsstring>()</argsstring>
+        <name>barrier</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::barrier</qualifiedname>
+        <briefdescription>
+<para>Barrier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac5a24a9c4e5e1e24acc6aee061ca5d12" kindref="member">is_distributed()</ref>, spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="174" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="209" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a689ddbbeab72c01751c4faf4269d2f7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedTrainer::setBarrierFn</definition>
+        <argsstring>(BarrierFn fn)</argsstring>
+        <name>setBarrierFn</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::setBarrierFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1af0bd952d2386c17da8fd78d088afaa94" kindref="member">BarrierFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Barrier Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="181" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="229" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a13c8dc95b729581f10ea4337796895fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedTrainer::setBroadcastFn</definition>
+        <argsstring>(BroadcastFn fn)</argsstring>
+        <name>setBroadcastFn</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::setBroadcastFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a221257e88be9d15580982f0e36d13920" kindref="member">BroadcastFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Broadcast Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="187" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="238" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a770e06ae4b4daa9d955a701e3e81a59d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedTrainer::setAllReduceCpuFn</definition>
+        <argsstring>(AllReduceCpuFn fn)</argsstring>
+        <name>setAllReduceCpuFn</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::setAllReduceCpuFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a43611bd48c6bbf479900b8e8c675b382" kindref="member">AllReduceCpuFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set All Reduce Cpu Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="193" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="247" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a6b643ee461afd92bfb637dd2f894bd33" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_config" kindref="compound">DistributedConfig</ref></type>
+        <definition>DistributedConfig themis::llm::lora::DistributedTrainer::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="195" column="23" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="195" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a212fe44fe341eae297102e2485d729a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_distributed_stats" kindref="compound">DistributedStats</ref></type>
+        <definition>DistributedStats themis::llm::lora::DistributedTrainer::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::stats</qualifiedname>
+        <briefdescription>
+<para>Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="201" column="22" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="251" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1afc966df483916784a841006e8937ac72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedTrainer::reset_stats</definition>
+        <argsstring>()</argsstring>
+        <name>reset_stats</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::reset_stats</qualifiedname>
+        <briefdescription>
+<para>Reset stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements reset_stats without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="206" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ad561a788dd770ae92e6e0caabcfe9a5b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::DistributedTrainer::world_size</definition>
+        <argsstring>() const</argsstring>
+        <name>world_size</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::world_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="208" column="9" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a209b2e5eadf5d4e9d3b3dd3bd33f80f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::DistributedTrainer::rank</definition>
+        <argsstring>() const</argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::rank</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="210" column="9" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a7b5e2edfe3075b5a4445b679fc1565cb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::DistributedTrainer::scale_learning_rate</definition>
+        <argsstring>(float base_lr, int world_size, const std::string &amp;strategy=&quot;sqrt&quot;)</argsstring>
+        <name>scale_learning_rate</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::scale_learning_rate</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>base_lr</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>world_size</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>strategy</declname>
+          <defval>&quot;sqrt&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Scale learning rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">world_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sqrt(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="212" column="18" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="274" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a08ae17dee5a3015ca34f13a6c96f7bf0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedTrainer::allreduce_cpu</definition>
+        <argsstring>(std::vector&lt; float &gt; &amp;data)</argsstring>
+        <name>allreduce_cpu</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::allreduce_cpu</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Allreduce cpu. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>allreduce_cpu: delegates to the injected <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a43611bd48c6bbf479900b8e8c675b382" kindref="member">AllReduceCpuFn</ref> when available (MPI_Allreduce / Gloo allreduce must be injected via <ref refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a770e06ae4b4daa9d955a701e3e81a59d" kindref="member">setAllReduceCpuFn()</ref> before training starts when world_size &gt; 1).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Falls back to local scale for single-process builds (world_size == 1) where no peer exchange is needed. Calls: spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="227" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="299" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a17be10d0ea75202c431315b7ef1c0116" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::DistributedTrainer::broadcast_cpu</definition>
+        <argsstring>(std::vector&lt; float &gt; &amp;data)</argsstring>
+        <name>broadcast_cpu</name>
+        <qualifiedname>themis::llm::lora::DistributedTrainer::broadcast_cpu</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Broadcast cpu. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>CPU-based Broadcast (simplified).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/distributed_trainer.h" line="232" column="10" bodyfile="src/llm/lora_framework/distributed_trainer.cpp" bodystart="325" bodyend="337"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/distributed_trainer.h" line="119" column="1" bodyfile="include/llm/lora_framework/distributed_trainer.h" bodystart="119" bodyend="237"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a08ae17dee5a3015ca34f13a6c96f7bf0" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>allreduce_cpu</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac78b7c1476f2ffdb0dacee868530e998" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>allreduce_cpu_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a43611bd48c6bbf479900b8e8c675b382" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>AllReduceCpuFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a37b63907eac955df5a6981f3c206d65a" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>barrier</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a4c3869e396dabddd27abe4a23bd17732" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>barrier_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1af0bd952d2386c17da8fd78d088afaa94" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>BarrierFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a17be10d0ea75202c431315b7ef1c0116" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>broadcast_cpu</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a324d99ebc677647f33713b41002ade86" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>broadcast_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1abb6e1ce6d13181581c61db45ff66a2d0" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>broadcast_parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a221257e88be9d15580982f0e36d13920" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>BroadcastFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a6b643ee461afd92bfb637dd2f894bd33" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ae421bacdf345a2875321a147eb0e6c62" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ae7a748daafec317bed98ddee07ec7884" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>DistributedTrainer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ab6986d58f7dd8c1d5aea62df0a0a5f06" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>finalize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a587c6094b0d924ca25d4424b5996e21d" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a0eba077f6c4c5f37a75f038194af4e93" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ac5a24a9c4e5e1e24acc6aee061ca5d12" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>is_distributed</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a369acb57766020e38d9b8bfd4b7326de" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>is_master</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a209b2e5eadf5d4e9d3b3dd3bd33f80f5" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>rank</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1afc966df483916784a841006e8937ac72" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>reset_stats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a7b5e2edfe3075b5a4445b679fc1565cb" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>scale_learning_rate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a770e06ae4b4daa9d955a701e3e81a59d" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>setAllReduceCpuFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a689ddbbeab72c01751c4faf4269d2f7e" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>setBarrierFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a13c8dc95b729581f10ea4337796895fa" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>setBroadcastFn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a212fe44fe341eae297102e2485d729a7" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>stats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a3c6957f67dca27406aa083d9860387b0" prot="private" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a874e7243af69d498568909c13b2824eb" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>synchronize_gradients</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1ad561a788dd770ae92e6e0caabcfe9a5b" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>world_size</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_distributed_trainer_1a6b3d9206a25c07f99c8f925f733c34df" prot="public" virt="non-virtual"><scope>themis::llm::lora::DistributedTrainer</scope><name>~DistributedTrainer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

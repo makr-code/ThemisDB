@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::srg::StubTxnParticipant</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::bench::srg::StubTxnParticipant::State</qualifiedname>
+        <enumvalue id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720aa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a6bbfc22048d63183dd626a026e63e497" prot="public">
+          <name>PREPARED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720a4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="109" column="5" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a1b2c90841b3d5c9b7efb7d518f442d48" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720" kindref="member">State</ref></type>
+        <definition>State themis::bench::srg::StubTxnParticipant::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::bench::srg::StubTxnParticipant::state</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">State::IDLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="110" column="11" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1ae3425d301e5fa5286193a6855a6668bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::srg::StubTxnParticipant::current_txn</definition>
+        <argsstring></argsstring>
+        <name>current_txn</name>
+        <qualifiedname>themis::bench::srg::StubTxnParticipant::current_txn</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="111" column="17" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="111" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a0789b8559d3218b89e68c0f042672729" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref></type>
+        <definition>ShardingErrorCode themis::bench::srg::StubTxnParticipant::prepare</definition>
+        <argsstring>(const std::string &amp;txn_id) noexcept</argsstring>
+        <name>prepare</name>
+        <qualifiedname>themis::bench::srg::StubTxnParticipant::prepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="113" column="23" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="113" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a344afc0e425b629d0474fd375b95a655" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a711c6dfc935763d99afbb4ea7bfeeb62" kindref="member">ShardingErrorCode</ref></type>
+        <definition>ShardingErrorCode themis::bench::srg::StubTxnParticipant::commit</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::bench::srg::StubTxnParticipant::commit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="118" column="23" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="118" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a02ac0cbfa30d3d984a54b6fb3d7ceef7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::srg::StubTxnParticipant::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::bench::srg::StubTxnParticipant::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="123" column="10" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub 2PC participant (in-memory, no network). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="107" column="1" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="107" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a344afc0e425b629d0474fd375b95a655" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubTxnParticipant</scope><name>commit</name></member>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1ae3425d301e5fa5286193a6855a6668bf" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubTxnParticipant</scope><name>current_txn</name></member>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a0789b8559d3218b89e68c0f042672729" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubTxnParticipant</scope><name>prepare</name></member>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a02ac0cbfa30d3d984a54b6fb3d7ceef7" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubTxnParticipant</scope><name>reset</name></member>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a050118ab3e3d2881983ab7690e160720" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubTxnParticipant</scope><name>State</name></member>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_txn_participant_1a1b2c90841b3d5c9b7efb7d518f442d48" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubTxnParticipant</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

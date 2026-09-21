@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_multi_modal_search_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::MultiModalSearch::Config</compoundname>
+    <includes refid="multi__modal__search_8h" local="no">multi_modal_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_multi_modal_search_1_1_config_1aa32459a03f8213a96492cfec73aa0ce7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::MultiModalSearch::Config::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::MultiModalSearch::Config::k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Results to return. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="85" column="16" bodyfile="include/search/multi_modal_search.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_multi_modal_search_1_1_config_1a181323eaa72a4c3dd7f5b08322c1949a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::MultiModalSearch::Config::rrf_k</definition>
+        <argsstring></argsstring>
+        <name>rrf_k</name>
+        <qualifiedname>themis::MultiModalSearch::Config::rrf_k</qualifiedname>
+        <initializer>= 60.0</initializer>
+        <briefdescription>
+<para>RRF smoothing constant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="86" column="16" bodyfile="include/search/multi_modal_search.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_multi_modal_search_1_1_config_1ac5ac72d3508904009551bc67ad698dcd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::MultiModalSearch::Config::candidates_per_modal</definition>
+        <argsstring></argsstring>
+        <name>candidates_per_modal</name>
+        <qualifiedname>themis::MultiModalSearch::Config::candidates_per_modal</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>How many candidates to fetch per modality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="87" column="16" bodyfile="include/search/multi_modal_search.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/multi_modal_search.h" line="84" column="5" bodyfile="include/search/multi_modal_search.h" bodystart="84" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_multi_modal_search_1_1_config_1ac5ac72d3508904009551bc67ad698dcd" prot="public" virt="non-virtual"><scope>themis::MultiModalSearch::Config</scope><name>candidates_per_modal</name></member>
+      <member refid="structthemis_1_1_multi_modal_search_1_1_config_1aa32459a03f8213a96492cfec73aa0ce7" prot="public" virt="non-virtual"><scope>themis::MultiModalSearch::Config</scope><name>k</name></member>
+      <member refid="structthemis_1_1_multi_modal_search_1_1_config_1a181323eaa72a4c3dd7f5b08322c1949a" prot="public" virt="non-virtual"><scope>themis::MultiModalSearch::Config</scope><name>rrf_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

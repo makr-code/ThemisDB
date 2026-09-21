@@ -1,0 +1,1185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::GossipConsensusAdapter</compoundname>
+    <basecompoundref refid="classthemisdb_1_1sharding_1_1_consensus_module" prot="public" virt="non-virtual">themisdb::sharding::ConsensusModule</basecompoundref>
+    <includes refid="gossip__consensus__adapter_8h" local="no">gossip_consensus_adapter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1abe731a442ecd34b84ab869979e41aa32" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref></type>
+        <definition>ConsensusConfig themisdb::sharding::GossipConsensusAdapter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="122" column="21" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad202fe0686e88d7e5b2f0b4f10bbdf64" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_gossip_protocol" kindref="compound">themis::sharding::GossipProtocol</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::sharding::GossipProtocol&gt; themisdb::sharding::GossipConsensusAdapter::gossip_</definition>
+        <argsstring></argsstring>
+        <name>gossip_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::gossip_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="123" column="21" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a32c8ece77739a8d3561898ab2b7292af" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">themis::sharding::DistributedCoordinator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::sharding::DistributedCoordinator&gt; themisdb::sharding::GossipConsensusAdapter::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="124" column="21" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad404b3eb70ed7e77df20d49d2c10e417" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::GossipConsensusAdapter::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="126" column="17" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a7789706387132291bd65a77adf1ab6d6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::GossipConsensusAdapter::cluster_nodes_</definition>
+        <argsstring></argsstring>
+        <name>cluster_nodes_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::cluster_nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="127" column="17" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ac03e65cd5369d3d3d314b2e7f7f64bfd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::GossipConsensusAdapter::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="130" column="24" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a03a8ee9f10a1f18c0d539bf8a8a23ddd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::GossipConsensusAdapter::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::running_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="131" column="17" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a3e01de62595df82dadf4e137775682cc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::GossipConsensusAdapter::next_log_index_</definition>
+        <argsstring></argsstring>
+        <name>next_log_index_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::next_log_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="132" column="17" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aff72e3d27d321a47275ebfd6163f5773" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::GossipConsensusAdapter::commit_index_</definition>
+        <argsstring></argsstring>
+        <name>commit_index_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::commit_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="133" column="17" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aaaf60438117023b9764361f2bed9e56f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::GossipConsensusAdapter::log_mutex_</definition>
+        <argsstring></argsstring>
+        <name>log_mutex_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::log_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="136" column="24" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aab9b976dba80697af29bd891ca4229fe" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &gt;</type>
+        <definition>std::map&lt;uint64_t, ConsensusLogEntry&gt; themisdb::sharding::GossipConsensusAdapter::log_entries_</definition>
+        <argsstring></argsstring>
+        <name>log_entries_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::log_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="137" column="14" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1afca9b8e554d3bdebd041f947396ddfae" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, std::set&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;uint64_t, std::set&lt;std::string&gt; &gt; themisdb::sharding::GossipConsensusAdapter::log_acknowledgments_</definition>
+        <argsstring></argsstring>
+        <name>log_acknowledgments_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::log_acknowledgments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="138" column="14" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a0f0b5902f964037ca48e55361f27b078" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::GossipConsensusAdapter::callbacks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_mutex_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::callbacks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="141" column="24" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1abf2e9a8e9b314839056175c38936d604" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const ConsensusLogEntry&amp;)&gt; themisdb::sharding::GossipConsensusAdapter::on_commit_callback_</definition>
+        <argsstring></argsstring>
+        <name>on_commit_callback_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::on_commit_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="142" column="19" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a59e489d0adc38ce8ba2ea7a02ef1cbca" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(<ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>, <ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>)&gt;</type>
+        <definition>std::function&lt;void(ConsensusState, ConsensusState)&gt; themisdb::sharding::GossipConsensusAdapter::on_state_change_callback_</definition>
+        <argsstring></argsstring>
+        <name>on_state_change_callback_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::on_state_change_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="143" column="19" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a3dffb4417aeb80b5a1cf0658e68d6240" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;, const std::string&amp;)&gt; themisdb::sharding::GossipConsensusAdapter::on_leader_change_callback_</definition>
+        <argsstring></argsstring>
+        <name>on_leader_change_callback_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::on_leader_change_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="144" column="19" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a4b3a40af5c0b51b3d1feb60b5520970e" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::sharding::GossipConsensusAdapter::gossip_thread_</definition>
+        <argsstring></argsstring>
+        <name>gossip_thread_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::gossip_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="147" column="17" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a998f8a40208eaa7a83cbecd860b41ffc" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::sharding::GossipConsensusAdapter::gossip_cv_</definition>
+        <argsstring></argsstring>
+        <name>gossip_cv_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::gossip_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="148" column="29" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a9e67f0048a44de53b0d87403c92362b4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::GossipConsensusAdapter::total_operations_</definition>
+        <argsstring></argsstring>
+        <name>total_operations_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::total_operations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="151" column="17" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a777fbc7feaef131308b1b72b8d067d38" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::sharding::GossipConsensusAdapter::failed_operations_</definition>
+        <argsstring></argsstring>
+        <name>failed_operations_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::failed_operations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="152" column="17" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a9478431c06ddf51fcb49ce2905b1d04d" prot="private" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::GossipConsensusAdapter::snapshot_data_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_data_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::snapshot_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="155" column="20" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a329ec716bad8e24484179b74f875d1f0" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::GossipConsensusAdapter::snapshot_index_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_index_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::snapshot_index_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="156" column="14" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1afec13307934a11a86353176fd354e188" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::GossipConsensusAdapter::snapshot_term_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_term_</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::snapshot_term_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="157" column="14" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a484fa3b75f732bc2d7f53d6d57d86b73" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::GossipConsensusAdapter::GossipConsensusAdapter</definition>
+        <argsstring>(const ConsensusConfig &amp;config)</argsstring>
+        <name>GossipConsensusAdapter</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::GossipConsensusAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_consensus_config" kindref="compound">ConsensusConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="43" column="14" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="23" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a8d7748bff43f0ea994a63d99aafe2f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::GossipConsensusAdapter::~GossipConsensusAdapter</definition>
+        <argsstring>() override</argsstring>
+        <name>~GossipConsensusAdapter</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::~GossipConsensusAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="44" column="5" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aff9e2fb29bed174372d139f5e491bc08" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref></type>
+        <definition>ConsensusType themisdb::sharding::GossipConsensusAdapter::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::getType</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a7072331bf9ce83ff94e404e752d0ffcb">getType</reimplements>
+        <briefdescription>
+<para>Get the consensus module type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="47" column="19" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aaec30e0a36383bbb74c97bf251ad8813" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::initialize</definition>
+        <argsstring>(const std::string &amp;node_id, const std::vector&lt; std::string &gt; &amp;cluster_nodes) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::initialize</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a83a2c537c9426f7ee018c5ab143b0ed7">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>cluster_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cluster_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="49" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="44" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a7d95f2bb6a64c807efa3410ffe94bd4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::start</definition>
+        <argsstring>() override</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::start</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a5851d5f141f85e31b42f5fc0370bf723">start</reimplements>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), spdlog::warn(), store(), std::thread(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="54" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="75" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a6ec65615dae35c24fef0128075485662" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::GossipConsensusAdapter::stop</definition>
+        <argsstring>() override</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::stop</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1afbcf4f19b90bb6ada83b36ad470f4488">stop</reimplements>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), store(), notify_all(), themis::utils::joinThreadWithin(), THEMIS_WARN(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="55" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="94" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a2f468951da0194551b38089fdb2b4172" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::isLeader</definition>
+        <argsstring>() const override</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::isLeader</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a383eaf86a69a5fc663436aaaa78aaea0">isLeader</reimplements>
+        <briefdescription>
+<para>Check if this node is the leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="57" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="110" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a1f4f01a02ae5732fd7873b7c4583ae8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::GossipConsensusAdapter::getLeaderId</definition>
+        <argsstring>() const override</argsstring>
+        <name>getLeaderId</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::getLeaderId</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a3421abadc4205d3daaeaf86d964e40a1">getLeaderId</reimplements>
+        <briefdescription>
+<para>Get the current leader&apos;s ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Leader ID or empty if no leader </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="58" column="17" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="124" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a017b3fe5a1b358817721e26ffe41e1ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref></type>
+        <definition>ConsensusState themisdb::sharding::GossipConsensusAdapter::getState</definition>
+        <argsstring>() const override</argsstring>
+        <name>getState</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::getState</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1ae8b42fa6c903fab2751e5603a477a278">getState</reimplements>
+        <briefdescription>
+<para>Get current consensus state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="59" column="20" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="133" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a57656af4a039e02195ba2f7c18f26ac6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; uint64_t &gt;</type>
+        <definition>std::optional&lt; uint64_t &gt; themisdb::sharding::GossipConsensusAdapter::propose</definition>
+        <argsstring>(const std::string &amp;operation, const nlohmann::json &amp;data) override</argsstring>
+        <name>propose</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::propose</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1adaf2b0f967c4c635d78c8123fefe80fc">propose</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Propose. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), spdlog::error(), std::chrono::system_clock::now(), lock(), empty(), insert(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="61" column="19" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="146" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a1d208f22c1cdd767f4eb0a00f596992a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::waitForCommit</definition>
+        <argsstring>(uint64_t log_index, std::chrono::milliseconds timeout) override</argsstring>
+        <name>waitForCommit</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::waitForCommit</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a2c9b5927f506d55d5f6482046e771a39">waitForCommit</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>log_index</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Wait For Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), load(), hasReachedQuorum(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="66" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="190" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ac6b30934dcb380fd680d957a252e7b24" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; ConsensusLogEntry &gt; themisdb::sharding::GossipConsensusAdapter::readLog</definition>
+        <argsstring>(uint64_t start_index, std::optional&lt; uint64_t &gt; end_index=std::nullopt) override</argsstring>
+        <name>readLog</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::readLog</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1adf94c2f9a7bba429c7d0faaaee55e763">readLog</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>start_index</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; uint64_t &gt;</type>
+          <declname>end_index</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Read Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), value_or(), load(), find(), end(), hasReachedQuorumUnlocked(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="71" column="17" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="219" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a2065df62d1712cad0faf2ff961bc1a5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::GossipConsensusAdapter::getCommitIndex</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCommitIndex</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::getCommitIndex</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1acd6b4da71aa70374b3780bc1d957eeef">getCommitIndex</reimplements>
+        <briefdescription>
+<para>Get the current commit index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="76" column="14" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="249" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1abc8a27e36168095e44ccf7c9419e29ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::GossipConsensusAdapter::getLastLogIndex</definition>
+        <argsstring>() const override</argsstring>
+        <name>getLastLogIndex</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::getLastLogIndex</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a9549840aa654b3d6858f12e42bd7ec7b">getLastLogIndex</reimplements>
+        <briefdescription>
+<para>Get the last log index (highest index in the log). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The index of the last entry in the log </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="77" column="14" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="253" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a8a5fd6549a8ff8f0515d104e1bb26462" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::addNode</definition>
+        <argsstring>(const std::string &amp;node_id, const std::string &amp;endpoint) override</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::addNode</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa3f3baf10ca603e105ffd09038868d2a">addNode</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Add Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), spdlog::error(), std::find(), begin(), end(), spdlog::warn(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="79" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="267" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad72f66a64d524ed75ae383ba4a97e04d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::removeNode</definition>
+        <argsstring>(const std::string &amp;node_id) override</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::removeNode</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a0912ec311abb7769bcda991c9d042179">removeNode</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::find(), begin(), end(), spdlog::warn(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="84" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="295" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a79a553724f5778e97f810e6b6063d969" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::transferLeadership</definition>
+        <argsstring>(const std::string &amp;target_node_id) override</argsstring>
+        <name>transferLeadership</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::transferLeadership</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1ab5d1da4f19a6f003c8610833c6256413">transferLeadership</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Transfer Leadership. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="86" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="315" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ae3bffa6b86c7e664a1c3d7c8db11097c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::takeSnapshot</definition>
+        <argsstring>(const nlohmann::json &amp;snapshot_data) override</argsstring>
+        <name>takeSnapshot</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::takeSnapshot</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6787d6aba6ba9b5d1c605ff8bf49b8f">takeSnapshot</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>snapshot_data</declname>
+        </param>
+        <briefdescription>
+<para>Take Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), spdlog::warn(), lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="88" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="327" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad4a4d124e70b633e530a352e5de39f63" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::restoreSnapshot</definition>
+        <argsstring>(const nlohmann::json &amp;snapshot_data) override</argsstring>
+        <name>restoreSnapshot</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::restoreSnapshot</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a1fcfa30acb35b9d6976c4d880327d370">restoreSnapshot</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>snapshot_data</declname>
+        </param>
+        <briefdescription>
+<para>Restore Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: is_null(), empty(), spdlog::error(), contains(), lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="89" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="353" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a7eafa8a16c60dc9e28cb567e60d409e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats" kindref="compound">ConsensusStats</ref></type>
+        <definition>ConsensusStats themisdb::sharding::GossipConsensusAdapter::getStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::getStats</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1abbbbcfd0623ef2d7f77240a55663c1f3">getStats</reimplements>
+        <briefdescription>
+<para>Get consensus statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="91" column="20" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="374" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a5427a8a732ac9595faa801966a6cc5d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::GossipConsensusAdapter::getStatus</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::getStatus</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1a872896a5ebf381b720a88448d0a31e07">getStatus</reimplements>
+        <briefdescription>
+<para>Get detailed status as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="92" column="20" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="388" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a1fbeed590b02fa7178627af5661fa7e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::GossipConsensusAdapter::onCommit</definition>
+        <argsstring>(std::function&lt; void(const ConsensusLogEntry &amp;)&gt; callback) override</argsstring>
+        <name>onCommit</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::onCommit</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6d7a8f5129bf1b2cc98a240537a0884">onCommit</reimplements>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback for committed entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call when entries are committed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="94" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="416" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a86e43d2fe466eca9c9f911aee6089a51" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::GossipConsensusAdapter::onStateChange</definition>
+        <argsstring>(std::function&lt; void(ConsensusState, ConsensusState)&gt; callback) override</argsstring>
+        <name>onStateChange</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::onStateChange</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1aee56e58061ad88aa336bc576227c62e1">onStateChange</reimplements>
+        <param>
+          <type>std::function&lt; void(<ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>, <ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback for state changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call when consensus state changes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="98" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="428" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a7d55e2a00a79d7525f4163ff0b7e7dbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::GossipConsensusAdapter::onLeaderChange</definition>
+        <argsstring>(std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt; callback) override</argsstring>
+        <name>onLeaderChange</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::onLeaderChange</qualifiedname>
+        <reimplements refid="classthemisdb_1_1sharding_1_1_consensus_module_1af4e15a033c7c2064dfe930b0972406fd">onLeaderChange</reimplements>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback for leader changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call when leader changes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callbacks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="102" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="440" bodyend="450"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a6165db7be98fe2e22dd0a4c6bc6b7453" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::GossipConsensusAdapter::gossipThread</definition>
+        <argsstring>()</argsstring>
+        <name>gossipThread</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::gossipThread</qualifiedname>
+        <briefdescription>
+<para>Background thread for gossip propagation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gossip Thread.</para>
+<para>Calls: spdlog::debug(), load(), lock(), wait_for(), unlock(), log_lock(), hasReachedQuorumUnlocked(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="110" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="458" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a99a6b2149113e7aa87a8bd07e1f0eeec" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::hasReachedQuorum</definition>
+        <argsstring>(uint64_t log_index) const</argsstring>
+        <name>hasReachedQuorum</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::hasReachedQuorum</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>log_index</declname>
+        </param>
+        <briefdescription>
+<para>Check if a log entry has reached quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="115" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="510" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad7302f3d957cbcd2520f8521d7f4ea4f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::GossipConsensusAdapter::hasReachedQuorumUnlocked</definition>
+        <argsstring>(uint64_t log_index) const</argsstring>
+        <name>hasReachedQuorumUnlocked</name>
+        <qualifiedname>themisdb::sharding::GossipConsensusAdapter::hasReachedQuorumUnlocked</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>log_index</declname>
+        </param>
+        <briefdescription>
+<para>FIXED: Check quorum without acquiring lock (assumes log_mutex_ already held). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_consensus_adapter.h" line="120" column="10" bodyfile="src/sharding/gossip_consensus_adapter.cpp" bodystart="520" bodyend="530"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adapter for <ref refid="classthemis_1_1sharding_1_1_gossip_protocol" kindref="compound">GossipProtocol</ref> and <ref refid="classthemis_1_1sharding_1_1_distributed_coordinator" kindref="compound">DistributedCoordinator</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Adapts the existing Gossip protocol and distributed coordinator to the <ref refid="classthemisdb_1_1sharding_1_1_consensus_module" kindref="compound">ConsensusModule</ref> interface. Gossip is eventually consistent and leaderless, but can be used for certain distributed scenarios.</para>
+<para>Note: Gossip is not strongly consistent like Raft or Paxos. It provides eventual consistency and is best suited for:<itemizedlist>
+<listitem><para>Cluster membership detection</para>
+</listitem><listitem><para>Failure detection</para>
+</listitem><listitem><para>Configuration propagation</para>
+</listitem><listitem><para>Metrics aggregation </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::sharding::ConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_consensus_module"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::GossipConsensusAdapter</label>
+        <link refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::sharding::ConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_consensus_module"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::GossipConsensusAdapter</label>
+        <link refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/gossip_consensus_adapter.h" line="41" column="1" bodyfile="include/sharding/gossip_consensus_adapter.h" bodystart="41" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a8a5fd6549a8ff8f0515d104e1bb26462" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>addNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a0f0b5902f964037ca48e55361f27b078" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>callbacks_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a7789706387132291bd65a77adf1ab6d6" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>cluster_nodes_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aff72e3d27d321a47275ebfd6163f5773" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>commit_index_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1abe731a442ecd34b84ab869979e41aa32" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a32c8ece77739a8d3561898ab2b7292af" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>coordinator_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a777fbc7feaef131308b1b72b8d067d38" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>failed_operations_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a2065df62d1712cad0faf2ff961bc1a5b" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>getCommitIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1abc8a27e36168095e44ccf7c9419e29ed" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>getLastLogIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a1f4f01a02ae5732fd7873b7c4583ae8d" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>getLeaderId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a017b3fe5a1b358817721e26ffe41e1ec" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>getState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a7eafa8a16c60dc9e28cb567e60d409e9" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a5427a8a732ac9595faa801966a6cc5d6" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>getStatus</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aff9e2fb29bed174372d139f5e491bc08" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>getType</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad202fe0686e88d7e5b2f0b4f10bbdf64" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>gossip_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a998f8a40208eaa7a83cbecd860b41ffc" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>gossip_cv_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a4b3a40af5c0b51b3d1feb60b5520970e" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>gossip_thread_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a484fa3b75f732bc2d7f53d6d57d86b73" prot="public" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>GossipConsensusAdapter</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a6165db7be98fe2e22dd0a4c6bc6b7453" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>gossipThread</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a99a6b2149113e7aa87a8bd07e1f0eeec" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>hasReachedQuorum</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad7302f3d957cbcd2520f8521d7f4ea4f" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>hasReachedQuorumUnlocked</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aaec30e0a36383bbb74c97bf251ad8813" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a2f468951da0194551b38089fdb2b4172" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>isLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1afca9b8e554d3bdebd041f947396ddfae" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>log_acknowledgments_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aab9b976dba80697af29bd891ca4229fe" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>log_entries_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1aaaf60438117023b9764361f2bed9e56f" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>log_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a3e01de62595df82dadf4e137775682cc" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>next_log_index_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad404b3eb70ed7e77df20d49d2c10e417" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>node_id_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1abf2e9a8e9b314839056175c38936d604" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>on_commit_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a3dffb4417aeb80b5a1cf0658e68d6240" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>on_leader_change_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a59e489d0adc38ce8ba2ea7a02ef1cbca" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>on_state_change_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a1fbeed590b02fa7178627af5661fa7e3" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>onCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a7d55e2a00a79d7525f4163ff0b7e7dbb" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>onLeaderChange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a86e43d2fe466eca9c9f911aee6089a51" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>onStateChange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a57656af4a039e02195ba2f7c18f26ac6" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>propose</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ac6b30934dcb380fd680d957a252e7b24" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>readLog</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad72f66a64d524ed75ae383ba4a97e04d" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>removeNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ad4a4d124e70b633e530a352e5de39f63" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>restoreSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a03a8ee9f10a1f18c0d539bf8a8a23ddd" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a9478431c06ddf51fcb49ce2905b1d04d" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>snapshot_data_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a329ec716bad8e24484179b74f875d1f0" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>snapshot_index_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1afec13307934a11a86353176fd354e188" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>snapshot_term_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a7d95f2bb6a64c807efa3410ffe94bd4d" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ac03e65cd5369d3d3d314b2e7f7f64bfd" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>state_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a6ec65615dae35c24fef0128075485662" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1ae3bffa6b86c7e664a1c3d7c8db11097c" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>takeSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a9e67f0048a44de53b0d87403c92362b4" prot="private" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>total_operations_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a79a553724f5778e97f810e6b6063d969" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>transferLeadership</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a1d208f22c1cdd767f4eb0a00f596992a" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>waitForCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aea7c50f32fbb821075e9854a52862816" prot="public" virt="virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>~ConsensusModule</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_gossip_consensus_adapter_1a8d7748bff43f0ea994a63d99aafe2f93" prot="public" virt="non-virtual"><scope>themisdb::sharding::GossipConsensusAdapter</scope><name>~GossipConsensusAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

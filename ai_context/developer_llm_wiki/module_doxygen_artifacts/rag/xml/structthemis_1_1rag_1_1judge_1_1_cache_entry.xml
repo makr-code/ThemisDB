@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CacheEntry</compoundname>
+    <includes refid="evaluation__cache_8h" local="no">evaluation_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_entry_1a95393c03f7c79905ed3cb0dfd2a2b3be" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::judge::CacheEntry::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::rag::judge::CacheEntry::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="26" column="22" bodyfile="include/rag/evaluation_cache.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_entry_1ae1d17a6241d631c7ecd06d95a5196f48" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::judge::CacheEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::judge::CacheEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="27" column="43" bodyfile="include/rag/evaluation_cache.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_entry_1aac4d2b0a0d426d5f89714f31a389a2ca" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CacheEntry::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::rag::judge::CacheEntry::access_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="28" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_cache_entry_1ad5b4c748e611311845d8ace99691d477" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CacheEntry::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::CacheEntry::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="29" column="12" bodyfile="include/rag/evaluation_cache.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cache entry with metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::judge::CacheEntry</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_cache_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>result</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::EvaluationResult</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/evaluation_cache.h" line="25" column="1" bodyfile="include/rag/evaluation_cache.h" bodystart="25" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_entry_1aac4d2b0a0d426d5f89714f31a389a2ca" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheEntry</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_entry_1ad5b4c748e611311845d8ace99691d477" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheEntry</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_entry_1a95393c03f7c79905ed3cb0dfd2a2b3be" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheEntry</scope><name>result</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_cache_entry_1ae1d17a6241d631c7ecd06d95a5196f48" prot="public" virt="non-virtual"><scope>themis::rag::judge::CacheEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

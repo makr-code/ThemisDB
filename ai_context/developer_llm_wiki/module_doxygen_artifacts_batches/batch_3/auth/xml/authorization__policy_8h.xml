@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="authorization__policy_8h" kind="file" language="C++">
+    <compoundname>authorization_policy.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="test__auth__wavec__authorization_8cpp" local="yes">tests/auth/test_auth_wavec_authorization.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/authorization_policy.h</label>
+        <link refid="authorization__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/authorization_policy.h</label>
+        <link refid="authorization__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/auth/test_auth_wavec_authorization.cpp</label>
+        <link refid="test__auth__wavec__authorization_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1auth_1_1_subject_attributes" prot="public">themis::auth::SubjectAttributes</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_resource_attributes" prot="public">themis::auth::ResourceAttributes</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_environment_attributes" prot="public">themis::auth::EnvironmentAttributes</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_policy_evaluation_result" prot="public">themis::auth::PolicyEvaluationResult</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_i_authorization_policy" prot="public">themis::auth::IAuthorizationPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten.</para>
+</simplesect>
+<simplesect kind="note"><para><bold>Interface-Only Header</bold>: Policy evaluation is delegated to external adapters (OPA, Apache Ranger). No direct .cpp implementation. See opa_adapter.cpp and ranger_adapter.cpp in src/server/. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SubjectAttributes<sp/>—<sp/>identity<sp/>and<sp/>role<sp/>attributes<sp/>of<sp/>the<sp/>requesting<sp/>principal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1auth_1_1_subject_attributes" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_subject_attributes" kindref="compound">SubjectAttributes</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1auth_1_1_subject_attributes_1aa97ccca17991084ad6813570b3563e1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_subject_attributes_1aa97ccca17991084ad6813570b3563e1e" kindref="member">subject_id</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1auth_1_1_subject_attributes_1a60ca3067659fca20913cece86cd1375b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_subject_attributes_1a60ca3067659fca20913cece86cd1375b" kindref="member">role</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1auth_1_1_subject_attributes_1af8ed17b6212d5253ff53b85afa0f2828" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_subject_attributes_1af8ed17b6212d5253ff53b85afa0f2828" kindref="member">groups</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1auth_1_1_subject_attributes_1adae56c5a25d1d2aae089e034377b4819" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_subject_attributes_1adae56c5a25d1d2aae089e034377b4819" kindref="member">attributes</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1auth_1_1_subject_attributes_1a00cb92efe7f20ab777109ea317f5e9fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_subject_attributes_1a00cb92efe7f20ab777109ea317f5e9fe" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1auth_1_1_subject_attributes_1aaab92b370ebea39ab8298754807cdbc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_subject_attributes_1aaab92b370ebea39ab8298754807cdbc3" kindref="member">clearance_level</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ResourceAttributes<sp/>—<sp/>attributes<sp/>of<sp/>the<sp/>target<sp/>resource</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1auth_1_1_resource_attributes" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_resource_attributes" kindref="compound">ResourceAttributes</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1auth_1_1_resource_attributes_1a3e10005fa8f45e756000dd011aca2f59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_resource_attributes_1a3e10005fa8f45e756000dd011aca2f59" kindref="member">resource_id</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1auth_1_1_resource_attributes_1a4c6cdaffe289e74928b0e33c0fcb7666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_resource_attributes_1a4c6cdaffe289e74928b0e33c0fcb7666" kindref="member">resource_type</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1auth_1_1_resource_attributes_1adadab13db0127db8cd042d7cc3ec1ece" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_resource_attributes_1adadab13db0127db8cd042d7cc3ec1ece" kindref="member">owner_id</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1auth_1_1_resource_attributes_1afd2c0b59246e02e149737b3bc1c67944" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_resource_attributes_1afd2c0b59246e02e149737b3bc1c67944" kindref="member">classification</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1auth_1_1_resource_attributes_1adb9739f3626209d8a12521cc594b0711" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_resource_attributes_1adb9739f3626209d8a12521cc594b0711" kindref="member">labels</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EnvironmentAttributes<sp/>—<sp/>contextual<sp/>attributes<sp/>at<sp/>the<sp/>time<sp/>of<sp/>the<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1auth_1_1_environment_attributes" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_environment_attributes" kindref="compound">EnvironmentAttributes</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1auth_1_1_environment_attributes_1a9c425acb6d55fe005382cd56e87d5cd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_environment_attributes_1a9c425acb6d55fe005382cd56e87d5cd9" kindref="member">client_ip</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1auth_1_1_environment_attributes_1a44bc5339c6fe5ffcbd8458c602beffb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_environment_attributes_1a44bc5339c6fe5ffcbd8458c602beffb4" kindref="member">geo_region</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1auth_1_1_environment_attributes_1a9769f8aaaadc6150cfb023aa26344a2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_environment_attributes_1a9769f8aaaadc6150cfb023aa26344a2c" kindref="member">request_time</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1auth_1_1_environment_attributes_1a48a63949a5537472c9caef26b7eda45b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_environment_attributes_1a48a63949a5537472c9caef26b7eda45b" kindref="member">is_mfa_verified</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1auth_1_1_environment_attributes_1aa319c6330f84eaad79f9bbeb37d85989" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_environment_attributes_1aa319c6330f84eaad79f9bbeb37d85989" kindref="member">device_trust_level</ref>;<sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PolicyDecision<sp/>—<sp/>tri-valued<sp/>decision<sp/>per<sp/>XACML<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0a40908e0f79c647b844c42f5babdc3feb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0" kindref="member">PolicyDecision</ref><sp/>{<sp/><ref refid="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0a40908e0f79c647b844c42f5babdc3feb" kindref="member">ALLOW</ref>,<sp/><ref refid="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0a264ecc6e6542b05976cd28ae19093d0a" kindref="member">DENY</ref>,<sp/><ref refid="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0aeb7295999e22b161fe9136ac2a60c0d5" kindref="member">NOT_APPLICABLE</ref><sp/>};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PolicyEvaluationResult<sp/>—<sp/>structured<sp/>result<sp/>from<sp/>a<sp/>single<sp/>policy<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1auth_1_1_policy_evaluation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_policy_evaluation_result" kindref="compound">PolicyEvaluationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1auth_1_1_policy_evaluation_result_1af00e926f1869b4193ef1c9520ccde402" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0" kindref="member">PolicyDecision</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_policy_evaluation_result_1af00e926f1869b4193ef1c9520ccde402" kindref="member">decision</ref><sp/>=<sp/><ref refid="namespacethemis_1_1auth_1ab38da4f1f52839ea4d6930bc894afee0aeb7295999e22b161fe9136ac2a60c0d5" kindref="member">PolicyDecision::NOT_APPLICABLE</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1auth_1_1_policy_evaluation_result_1ad173a0e3d9819efe4dd2f08e42d2efd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_policy_evaluation_result_1ad173a0e3d9819efe4dd2f08e42d2efd7" kindref="member">policy_id</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1auth_1_1_policy_evaluation_result_1a40d43efaf7a4c3872546ae339f48f5ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_policy_evaluation_result_1a40d43efaf7a4c3872546ae339f48f5ef" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1auth_1_1_policy_evaluation_result_1a7e953ebee2461066d64c721c72726251" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_policy_evaluation_result_1a7e953ebee2461066d64c721c72726251" kindref="member">applicable_policies</ref>;<sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAuthorizationPolicy<sp/>—<sp/>ABAC<sp/>policy<sp/>evaluation<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1auth_1_1_i_authorization_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_i_authorization_policy" kindref="compound">IAuthorizationPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1auth_1_1_i_authorization_policy_1a3e7c1c171680fc4b379305bf5c93b073" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_authorization_policy_1a3e7c1c171680fc4b379305bf5c93b073" kindref="member">~IAuthorizationPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1auth_1_1_i_authorization_policy_1ad247b279085ff3e6e367f6ef61993482" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_policy_evaluation_result" kindref="compound">PolicyEvaluationResult</ref><sp/><ref refid="classthemis_1_1auth_1_1_i_authorization_policy_1ad247b279085ff3e6e367f6ef61993482" kindref="member">evaluate</ref>(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_subject_attributes" kindref="compound">SubjectAttributes</ref>&amp;<sp/><sp/><sp/><sp/><sp/>subject,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_resource_attributes" kindref="compound">ResourceAttributes</ref>&amp;<sp/><sp/><sp/><sp/>resource,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>action,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_environment_attributes" kindref="compound">EnvironmentAttributes</ref>&amp;<sp/>environment<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1auth_1_1_i_authorization_policy_1a5ea59d3938c0f6f3c4daec66adac8956" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_i_authorization_policy_1a5ea59d3938c0f6f3c4daec66adac8956" kindref="member">policyId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1auth_1_1_i_authorization_policy_1a53f260d0c4a62e3633f77c823b82925a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_i_authorization_policy_1a53f260d0c4a62e3633f77c823b82925a" kindref="member">policyVersion</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1auth_1_1_i_authorization_policy_1a97cc59eca56fa783de0f5bf7c7e15744" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_i_authorization_policy_1a97cc59eca56fa783de0f5bf7c7e15744" kindref="member">reload</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/authorization_policy.h"/>
+  </compounddef>
+</doxygen>

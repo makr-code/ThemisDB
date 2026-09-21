@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_bias_detector_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::BiasDetectorConfig</compoundname>
+    <includes refid="bias__detector_8h" local="no">bias_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1aa642b6a98271d39820f40ea2dd521b83" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::BiasDetectorConfig::min_samples_for_detection</definition>
+        <argsstring></argsstring>
+        <name>min_samples_for_detection</name>
+        <qualifiedname>themis::rag::judge::BiasDetectorConfig::min_samples_for_detection</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Minimum samples needed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="47" column="9" bodyfile="include/rag/bias_detector.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1aeccf6bd307518d6673f4fce13d632225" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasDetectorConfig::significance_threshold</definition>
+        <argsstring></argsstring>
+        <name>significance_threshold</name>
+        <qualifiedname>themis::rag::judge::BiasDetectorConfig::significance_threshold</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>P-value threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="48" column="12" bodyfile="include/rag/bias_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1a51d2b0e9b2348e31479f1df0d7507032" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BiasDetectorConfig::bias_threshold</definition>
+        <argsstring></argsstring>
+        <name>bias_threshold</name>
+        <qualifiedname>themis::rag::judge::BiasDetectorConfig::bias_threshold</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Minimum bias magnitude to report. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="49" column="12" bodyfile="include/rag/bias_detector.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1a24f387f0e8c246cd61bf33eafc6b55b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::BiasDetectorConfig::enable_position_bias_check</definition>
+        <argsstring></argsstring>
+        <name>enable_position_bias_check</name>
+        <qualifiedname>themis::rag::judge::BiasDetectorConfig::enable_position_bias_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="51" column="10" bodyfile="include/rag/bias_detector.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1a8699fb09e80a9344eb88bb011fd35c4c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::BiasDetectorConfig::enable_length_bias_check</definition>
+        <argsstring></argsstring>
+        <name>enable_length_bias_check</name>
+        <qualifiedname>themis::rag::judge::BiasDetectorConfig::enable_length_bias_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="52" column="10" bodyfile="include/rag/bias_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1a3481ab24d4e494c3b7c6dc4fb59b65c4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::BiasDetectorConfig::enable_self_enhancement_check</definition>
+        <argsstring></argsstring>
+        <name>enable_self_enhancement_check</name>
+        <qualifiedname>themis::rag::judge::BiasDetectorConfig::enable_self_enhancement_check</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Requires answer provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="53" column="10" bodyfile="include/rag/bias_detector.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for bias detection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/bias_detector.h" line="46" column="1" bodyfile="include/rag/bias_detector.h" bodystart="46" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1a51d2b0e9b2348e31479f1df0d7507032" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetectorConfig</scope><name>bias_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1a8699fb09e80a9344eb88bb011fd35c4c" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetectorConfig</scope><name>enable_length_bias_check</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1a24f387f0e8c246cd61bf33eafc6b55b4" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetectorConfig</scope><name>enable_position_bias_check</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1a3481ab24d4e494c3b7c6dc4fb59b65c4" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetectorConfig</scope><name>enable_self_enhancement_check</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1aa642b6a98271d39820f40ea2dd521b83" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetectorConfig</scope><name>min_samples_for_detection</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config_1aeccf6bd307518d6673f4fce13d632225" prot="public" virt="non-virtual"><scope>themis::rag::judge::BiasDetectorConfig</scope><name>significance_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_w_a_l_applier" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::WALApplier</compoundname>
+    <includes refid="wal__applier_8h" local="no">wal_applier.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a020b47d61e7fad87dea2893be05c3b21" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config" kindref="compound">WALApplierConfig</ref></type>
+        <definition>WALApplierConfig themis::sharding::WALApplier::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::WALApplier::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="139" column="22" bodyfile="include/sharding/wal_applier.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a1af2bc66c03aa437815c120039891335" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::WALApplier::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::WALApplier::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="141" column="24" bodyfile="include/sharding/wal_applier.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a4572a0e00a12eabdc4e7dddf99f09b2c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALApplier::current_lsn_</definition>
+        <argsstring></argsstring>
+        <name>current_lsn_</name>
+        <qualifiedname>themis::sharding::WALApplier::current_lsn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="142" column="9" bodyfile="include/sharding/wal_applier.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a9aaed218b927d317af52b839e317123d" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a71744a9683623f46023237880b4413fd" kindref="member">ApplyHandler</ref></type>
+        <definition>ApplyHandler themis::sharding::WALApplier::apply_handler_</definition>
+        <argsstring></argsstring>
+        <name>apply_handler_</name>
+        <qualifiedname>themis::sharding::WALApplier::apply_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="144" column="18" bodyfile="include/sharding/wal_applier.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a2ab256208f37727a54ccfa7bc51f4541" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::WALApplier::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::sharding::WALApplier::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="146" column="24" bodyfile="include/sharding/wal_applier.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_w_a_l_applier_1aef382ee4d1fbc9c581ea8a5a0230bdee" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats" kindref="compound">WALApplierStats</ref></type>
+        <definition>WALApplierStats themis::sharding::WALApplier::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::sharding::WALApplier::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="147" column="21" bodyfile="include/sharding/wal_applier.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1ad55f264cb742ec542e44255b8d94e5af" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::WALApplier::WALApplier</definition>
+        <argsstring>(const WALApplierConfig &amp;config)</argsstring>
+        <name>WALApplier</name>
+        <qualifiedname>themis::sharding::WALApplier::WALApplier</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_config" kindref="compound">WALApplierConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct WAL applier with replica-side apply policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL apply configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="107" column="14" bodyfile="src/sharding/wal_applier.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1af73fd95034e1db328ba7eb3a4c01c191" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::WALApplier::~WALApplier</definition>
+        <argsstring>()</argsstring>
+        <name>~WALApplier</name>
+        <qualifiedname>themis::sharding::WALApplier::~WALApplier</qualifiedname>
+        <briefdescription>
+<para>Destructor for WAL applier instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="110" column="5" bodyfile="src/sharding/wal_applier.cpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a894f9a96c7e41ae2007bfb1134ab86c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALApplier::setApplyHandler</definition>
+        <argsstring>(ApplyHandler handler)</argsstring>
+        <name>setApplyHandler</name>
+        <qualifiedname>themis::sharding::WALApplier::setApplyHandler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a71744a9683623f46023237880b4413fd" kindref="member">ApplyHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Install entry apply handler used for storage mutation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Apply Handler.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked per WAL entry.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="116" column="10" bodyfile="src/sharding/wal_applier.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1abad4f31dfb0bf9d7e5736febfc44d650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_apply_result" kindref="compound">ApplyResult</ref></type>
+        <definition>ApplyResult themis::sharding::WALApplier::applyBatch</definition>
+        <argsstring>(const std::vector&lt; WALEntry &gt; &amp;entries)</argsstring>
+        <name>applyBatch</name>
+        <qualifiedname>themis::sharding::WALApplier::applyBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Apply a batch of entries from a primary shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entries to apply. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Apply result including failure diagnostics. </para>
+</simplesect>
+<simplesect kind="note"><para>In strict mode, the method fails closed on stale/duplicate/out-of-order LSNs.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), push_back(), max(), std::to_string(), <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>, stats_lock(), validateLSN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="124" column="17" bodyfile="src/sharding/wal_applier.cpp" bodystart="43" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1abeceda46c7017e39803993c94f29e058" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::WALApplier::getCurrentLSN</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentLSN</name>
+        <qualifiedname>themis::sharding::WALApplier::getCurrentLSN</qualifiedname>
+        <briefdescription>
+<para>Return current replica <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> cursor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="127" column="9" bodyfile="src/sharding/wal_applier.cpp" bodystart="135" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a24f27acc4d38324e84d27b6acaed058b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALApplier::setCurrentLSN</definition>
+        <argsstring>(const LSN &amp;lsn)</argsstring>
+        <name>setCurrentLSN</name>
+        <qualifiedname>themis::sharding::WALApplier::setCurrentLSN</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>Set current replica <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> (e.g. bootstrap/recovery initialization). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Current <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="130" column="10" bodyfile="src/sharding/wal_applier.cpp" bodystart="150" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a2cd2d541a74cdce509c31f93d8954724" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_applier_stats" kindref="compound">WALApplierStats</ref></type>
+        <definition>WALApplierStats themis::sharding::WALApplier::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::WALApplier::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return WAL applier statistics snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="133" column="21" bodyfile="src/sharding/wal_applier.cpp" bodystart="155" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1af36a2d62877ddd17f0038b2c2059a890" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::WALApplier::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themis::sharding::WALApplier::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset statistics counters while preserving current replica <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Statistics.</para>
+<para>Calls: lock(), WALApplierStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="136" column="10" bodyfile="src/sharding/wal_applier.cpp" bodystart="169" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a5669fb6755b967cf8a65556b67090b16" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALApplier::applyEntry</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>applyEntry</name>
+        <qualifiedname>themis::sharding::WALApplier::applyEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Apply one WAL entry with retry policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: apply_handler_(), <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>, what(), std::this_thread::sleep_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="150" column="10" bodyfile="src/sharding/wal_applier.cpp" bodystart="181" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1a4076edd9cc1b46513363f63dd32b5444" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALApplier::validateLSN</definition>
+        <argsstring>(const LSN &amp;expected, const LSN &amp;actual)</argsstring>
+        <name>validateLSN</name>
+        <qualifiedname>themis::sharding::WALApplier::validateLSN</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>actual</declname>
+        </param>
+        <briefdescription>
+<para>Validate expected-to-actual <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> sequence continuity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements validateLSN without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="153" column="10" bodyfile="src/sharding/wal_applier.cpp" bodystart="216" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_w_a_l_applier_1ac70c04b641fe1b6a36622aca10e14a1b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::WALApplier::handleConflict</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>handleConflict</name>
+        <qualifiedname>themis::sharding::WALApplier::handleConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Handle conflict-detection accounting/decision for one entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Conflict.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="namespacethemis_1_1sharding_1a0e0db9c66a1fab819f829d615f9cd5b2" kindref="member">toString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="156" column="10" bodyfile="src/sharding/wal_applier.cpp" bodystart="236" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>WAL Applier</para>
+<para>Applies WAL entries on replica </para>
+    </detaileddescription>
+    <location file="include/sharding/wal_applier.h" line="101" column="1" bodyfile="include/sharding/wal_applier.h" bodystart="101" bodyend="157"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a9aaed218b927d317af52b839e317123d" prot="private" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>apply_handler_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1abad4f31dfb0bf9d7e5736febfc44d650" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>applyBatch</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a5669fb6755b967cf8a65556b67090b16" prot="private" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>applyEntry</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a020b47d61e7fad87dea2893be05c3b21" prot="private" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a4572a0e00a12eabdc4e7dddf99f09b2c" prot="private" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>current_lsn_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1abeceda46c7017e39803993c94f29e058" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>getCurrentLSN</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a2cd2d541a74cdce509c31f93d8954724" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1ac70c04b641fe1b6a36622aca10e14a1b" prot="private" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>handleConflict</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a1af2bc66c03aa437815c120039891335" prot="private" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1af36a2d62877ddd17f0038b2c2059a890" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>resetStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a894f9a96c7e41ae2007bfb1134ab86c4" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>setApplyHandler</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a24f27acc4d38324e84d27b6acaed058b" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>setCurrentLSN</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1aef382ee4d1fbc9c581ea8a5a0230bdee" prot="private" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a2ab256208f37727a54ccfa7bc51f4541" prot="private" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1a4076edd9cc1b46513363f63dd32b5444" prot="private" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>validateLSN</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1ad55f264cb742ec542e44255b8d94e5af" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>WALApplier</name></member>
+      <member refid="classthemis_1_1sharding_1_1_w_a_l_applier_1af73fd95034e1db328ba7eb3a4c01c191" prot="public" virt="non-virtual"><scope>themis::sharding::WALApplier</scope><name>~WALApplier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

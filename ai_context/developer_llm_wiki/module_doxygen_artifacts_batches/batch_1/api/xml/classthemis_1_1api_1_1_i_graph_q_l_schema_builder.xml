@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_graph_q_l_schema_builder" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::IGraphQLSchemaBuilder</compoundname>
+    <includes refid="graphql__schema__builder_8h" local="no">graphql_schema_builder.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1a61576ddcf1118358cba93d15e796068e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::IGraphQLSchemaBuilder::~IGraphQLSchemaBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGraphQLSchemaBuilder</name>
+        <qualifiedname>themis::api::IGraphQLSchemaBuilder::~IGraphQLSchemaBuilder</qualifiedname>
+        <briefdescription>
+<para>IGraph QLSchema Builder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="149" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1a1bccbd84311d4691d3ea1678e499e241" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder" kindref="compound">IGraphQLSchemaBuilder</ref> &amp;</type>
+        <definition>virtual IGraphQLSchemaBuilder &amp; themis::api::IGraphQLSchemaBuilder::addType</definition>
+        <argsstring>(GraphQLTypeDescriptor descriptor)=0</argsstring>
+        <name>addType</name>
+        <qualifiedname>themis::api::IGraphQLSchemaBuilder::addType</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1api_1_1_graph_q_l_type_descriptor" kindref="compound">GraphQLTypeDescriptor</ref></type>
+          <declname>descriptor</declname>
+        </param>
+        <briefdescription>
+<para>Add Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="156" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1a641a9ace2a832916f8b19ebc90318755" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder" kindref="compound">IGraphQLSchemaBuilder</ref> &amp;</type>
+        <definition>virtual IGraphQLSchemaBuilder &amp; themis::api::IGraphQLSchemaBuilder::addQuery</definition>
+        <argsstring>(GraphQLFieldDescriptor field)=0</argsstring>
+        <name>addQuery</name>
+        <qualifiedname>themis::api::IGraphQLSchemaBuilder::addQuery</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor" kindref="compound">GraphQLFieldDescriptor</ref></type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Add Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="163" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1af178cd5a5a39f4e4e056bad56ceb2a99" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder" kindref="compound">IGraphQLSchemaBuilder</ref> &amp;</type>
+        <definition>virtual IGraphQLSchemaBuilder &amp; themis::api::IGraphQLSchemaBuilder::addMutation</definition>
+        <argsstring>(GraphQLFieldDescriptor field)=0</argsstring>
+        <name>addMutation</name>
+        <qualifiedname>themis::api::IGraphQLSchemaBuilder::addMutation</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1api_1_1_graph_q_l_field_descriptor" kindref="compound">GraphQLFieldDescriptor</ref></type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Add Mutation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="170" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1aaabd87ea3c7b517416b898614078a937" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_schema_validation_result" kindref="compound">SchemaValidationResult</ref></type>
+        <definition>virtual SchemaValidationResult themis::api::IGraphQLSchemaBuilder::build</definition>
+        <argsstring>()=0</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::api::IGraphQLSchemaBuilder::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="176" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1ac3c81be9a9ee20b6ae174229019af6e2" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::api::IGraphQLSchemaBuilder::isBuilt</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isBuilt</name>
+        <qualifiedname>themis::api::IGraphQLSchemaBuilder::isBuilt</qualifiedname>
+        <briefdescription>
+<para>Is Built. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_schema_builder.h" line="183" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_schema_builder.h" line="143" column="1" bodyfile="include/api/graphql_schema_builder.h" bodystart="143" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1af178cd5a5a39f4e4e056bad56ceb2a99" prot="public" virt="pure-virtual"><scope>themis::api::IGraphQLSchemaBuilder</scope><name>addMutation</name></member>
+      <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1a641a9ace2a832916f8b19ebc90318755" prot="public" virt="pure-virtual"><scope>themis::api::IGraphQLSchemaBuilder</scope><name>addQuery</name></member>
+      <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1a1bccbd84311d4691d3ea1678e499e241" prot="public" virt="pure-virtual"><scope>themis::api::IGraphQLSchemaBuilder</scope><name>addType</name></member>
+      <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1aaabd87ea3c7b517416b898614078a937" prot="public" virt="pure-virtual"><scope>themis::api::IGraphQLSchemaBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1ac3c81be9a9ee20b6ae174229019af6e2" prot="public" virt="pure-virtual"><scope>themis::api::IGraphQLSchemaBuilder</scope><name>isBuilt</name></member>
+      <member refid="classthemis_1_1api_1_1_i_graph_q_l_schema_builder_1a61576ddcf1118358cba93d15e796068e" prot="public" virt="virtual"><scope>themis::api::IGraphQLSchemaBuilder</scope><name>~IGraphQLSchemaBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

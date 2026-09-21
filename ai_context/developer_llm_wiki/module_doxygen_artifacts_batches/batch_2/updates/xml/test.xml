@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_blue_green_deployment_resource_test" kindref="compound">themis::updates::test::BlueGreenDeploymentResourceTest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>UP-FIN-07..09: Blue-green deployment resource cleanup on exception  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_build_verifier_resource_safety_test" kindref="compound">themis::updates::test::BuildVerifierResourceSafetyTest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>UP-FIN-04: Build verifier destructor exception safety  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test" kindref="compound">themis::updates::test::ClusterUpdateManagerRAIITest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>UP-FIN-10..12: Cluster manager batch update RAII patterns  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_code_quality_improvements_test" kindref="compound">themis::updates::test::CodeQualityImprovementsTest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>UP-FIN-21..22: Null check order and size_t/int comparison  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_lambda_capture_and_const_test" kindref="compound">themis::updates::test::LambdaCaptureAndConstTest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>UP-FIN-19: Lambda capture and const correctness  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_schema_migration_resource_test" kindref="compound">themis::updates::test::SchemaMigrationResourceTest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>UP-FIN-13..15: Schema migration resource cleanup  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_string_concatenation_performance_test" kindref="compound">themis::updates::test::StringConcatenationPerformanceTest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>UP-FIN-16..18: String concatenation performance in error paths  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test" kindref="compound">themis::updates::test::TenantUpdateSchedulerSafetyTest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>UP-FIL-01: Integer overflow detection in size calculations  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1updates_1_1test_1a9dc6b9bf73906f19e3edc23fde734e90" kindref="member">themis::updates::test::TEST_F</ref>  (<ref refid="classthemis_1_1updates_1_1test_1_1_updates_r_a_i_i_integration_test" kindref="compound">UpdatesRAIIIntegrationTest</ref>, UP_FIN_24_PerformanceBaselineMaintained)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>UP-FIN-24: Performance baseline maintained  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1updates_1_1test_1ae68d6344a62bbaa0252f653d23ad05b6" kindref="member">themis::updates::test::TEST_F</ref>  (<ref refid="classthemis_1_1updates_1_1test_1_1_updates_r_a_i_i_integration_test" kindref="compound">UpdatesRAIIIntegrationTest</ref>, UP_FIN_25_CompilerWarningsFree)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>UP-FIN-25: Compiler warnings eliminated  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_updates_r_a_i_i_integration_test" kindref="compound">themis::updates::test::UpdatesRAIIIntegrationTest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>UP-FIN-23: All RAII patterns integrated correctly  </para>
+</listitem>
+<varlistentry><term>Class <ref refid="classthemis_1_1updates_1_1test_1_1_vector_optimization_and_override_test" kindref="compound">themis::updates::test::VectorOptimizationAndOverrideTest</ref>  </term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>UP-FIN-20: Vector copy optimization and override keyword </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

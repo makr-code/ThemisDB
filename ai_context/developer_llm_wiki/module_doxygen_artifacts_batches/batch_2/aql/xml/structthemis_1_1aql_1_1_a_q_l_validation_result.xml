@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLValidationResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_validation_result_1a01fa3b797a4d7e0b05db240e1a8e0f9f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLValidationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::aql::AQLValidationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="33" column="10" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_validation_result_1a2569035800667beb30d61021a97769f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLValidationResult::error_category</definition>
+        <argsstring></argsstring>
+        <name>error_category</name>
+        <qualifiedname>themis::aql::AQLValidationResult::error_category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="34" column="17" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_validation_result_1a8c4d2498f1a8cc4632c7262777b620bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::aql::AQLValidationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="35" column="17" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_validation_result_1a1d5316e3084d18b1c183382475f6d7ff" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::AQLValidationResult::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::aql::AQLValidationResult::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="36" column="14" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_validation_result_1a6efbda3577f961df3c4ebae9c77a8336" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::aql::AQLValidationResult::elapsed_us</definition>
+        <argsstring></argsstring>
+        <name>elapsed_us</name>
+        <qualifiedname>themis::aql::AQLValidationResult::elapsed_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="37" column="31" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="32" column="1" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="32" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_validation_result_1a6efbda3577f961df3c4ebae9c77a8336" prot="public" virt="non-virtual"><scope>themis::aql::AQLValidationResult</scope><name>elapsed_us</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_validation_result_1a2569035800667beb30d61021a97769f2" prot="public" virt="non-virtual"><scope>themis::aql::AQLValidationResult</scope><name>error_category</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_validation_result_1a8c4d2498f1a8cc4632c7262777b620bc" prot="public" virt="non-virtual"><scope>themis::aql::AQLValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_validation_result_1a1d5316e3084d18b1c183382475f6d7ff" prot="public" virt="non-virtual"><scope>themis::aql::AQLValidationResult</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_validation_result_1a01fa3b797a4d7e0b05db240e1a8e0f9f" prot="public" virt="non-virtual"><scope>themis::aql::AQLValidationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

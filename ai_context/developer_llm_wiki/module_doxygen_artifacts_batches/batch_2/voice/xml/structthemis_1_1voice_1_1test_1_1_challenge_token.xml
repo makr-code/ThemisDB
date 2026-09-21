@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1test_1_1_challenge_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::test::ChallengeToken</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1test_1_1_challenge_token_1a238aaba72779f6fd109d87e88694b7b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::test::ChallengeToken::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::voice::test::ChallengeToken::value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="202" column="15" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1test_1_1_challenge_token_1aa29131d12dd314d4141b595b88d51648" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::test::ChallengeToken::stale</definition>
+        <argsstring></argsstring>
+        <name>stale</name>
+        <qualifiedname>themis::voice::test::ChallengeToken::stale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="203" column="8" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_wave_a_chaos_bundle.cpp" line="201" column="1" bodyfile="tests/voice/test_voice_wave_a_chaos_bundle.cpp" bodystart="201" bodyend="204"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1test_1_1_challenge_token_1aa29131d12dd314d4141b595b88d51648" prot="public" virt="non-virtual"><scope>themis::voice::test::ChallengeToken</scope><name>stale</name></member>
+      <member refid="structthemis_1_1voice_1_1test_1_1_challenge_token_1a238aaba72779f6fd109d87e88694b7b1" prot="public" virt="non-virtual"><scope>themis::voice::test::ChallengeToken</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_lock_manager_1_1_lock_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LockManager::LockResult</compoundname>
+    <includes refid="lock__manager_8h" local="no">lock_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103b" kindref="member">LockStatus</ref></type>
+        <definition>LockStatus themis::LockManager::LockResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::LockManager::LockResult::status</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1af81bad04b0740078178dc7c57088103ba1cc3141d803b7887a88aa3955391260e" kindref="member">LockStatus::GRANTED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="53" column="20" bodyfile="include/transaction/lock_manager.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lock_manager_1_1_lock_result_1a601190c84a60c23b16667715a07de585" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LockManager::LockResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::LockManager::LockResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="54" column="21" bodyfile="include/transaction/lock_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_lock_manager_1_1_lock_result_1aceaf7f002ec0b97d88be8d78b6984594" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_lock_manager_1_1_lock_result" kindref="compound">LockResult</ref></type>
+        <definition>static LockResult themis::LockManager::LockResult::Granted</definition>
+        <argsstring>()</argsstring>
+        <name>Granted</name>
+        <qualifiedname>themis::LockManager::LockResult::Granted</qualifiedname>
+        <briefdescription>
+<para>Granted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements Granted without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="61" column="27" bodyfile="include/transaction/lock_manager.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_lock_manager_1_1_lock_result_1a37afb6e04ba14bca03362d8052397046" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_lock_manager_1_1_lock_result" kindref="compound">LockResult</ref></type>
+        <definition>static LockResult themis::LockManager::LockResult::Timeout</definition>
+        <argsstring>()</argsstring>
+        <name>Timeout</name>
+        <qualifiedname>themis::LockManager::LockResult::Timeout</qualifiedname>
+        <briefdescription>
+<para>Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements Timeout without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="67" column="27" bodyfile="include/transaction/lock_manager.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_lock_manager_1_1_lock_result_1aba588be13378ad12cbac5cb2174b1b8e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_lock_manager_1_1_lock_result" kindref="compound">LockResult</ref></type>
+        <definition>static LockResult themis::LockManager::LockResult::Denied</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Denied</name>
+        <qualifiedname>themis::LockManager::LockResult::Denied</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Denied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/lock_manager.h" line="74" column="27" bodyfile="include/transaction/lock_manager.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/lock_manager.h" line="52" column="5" bodyfile="include/transaction/lock_manager.h" bodystart="52" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_result_1aba588be13378ad12cbac5cb2174b1b8e" prot="public" virt="non-virtual"><scope>themis::LockManager::LockResult</scope><name>Denied</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_result_1aceaf7f002ec0b97d88be8d78b6984594" prot="public" virt="non-virtual"><scope>themis::LockManager::LockResult</scope><name>Granted</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_result_1a601190c84a60c23b16667715a07de585" prot="public" virt="non-virtual"><scope>themis::LockManager::LockResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_result_1a254e9fe0d585bb8f331da26900c75e54" prot="public" virt="non-virtual"><scope>themis::LockManager::LockResult</scope><name>status</name></member>
+      <member refid="structthemis_1_1_lock_manager_1_1_lock_result_1a37afb6e04ba14bca03362d8052397046" prot="public" virt="non-virtual"><scope>themis::LockManager::LockResult</scope><name>Timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

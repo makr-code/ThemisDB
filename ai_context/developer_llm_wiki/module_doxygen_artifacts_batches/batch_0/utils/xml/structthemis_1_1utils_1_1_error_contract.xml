@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_error_contract" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::ErrorContract</compoundname>
+    <includes refid="error__contracts_8h" local="no">error_contracts.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_contract_1a8a4b3375fdeab358f48732363685116d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref></type>
+        <definition>ErrorCode themis::utils::ErrorContract::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::utils::ErrorContract::code</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref> code for this condition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="323" column="15" bodyfile="include/utils/error_contracts.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_contract_1ada01fc1bd6073ad209b540c4b5d0ab9e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161" kindref="member">ErrorSeverity</ref></type>
+        <definition>ErrorSeverity themis::utils::ErrorContract::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::utils::ErrorContract::severity</qualifiedname>
+        <briefdescription>
+<para>Severity classification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="324" column="19" bodyfile="include/utils/error_contracts.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_contract_1a307be91c61aa150ee90ab966114bfd4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContract::when_occurs</definition>
+        <argsstring></argsstring>
+        <name>when_occurs</name>
+        <qualifiedname>themis::utils::ErrorContract::when_occurs</qualifiedname>
+        <briefdescription>
+<para>Condition description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="325" column="17" bodyfile="include/utils/error_contracts.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_contract_1a6e019161955b954b15ea5d4d25916dea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContract::diagnostic_logged</definition>
+        <argsstring></argsstring>
+        <name>diagnostic_logged</name>
+        <qualifiedname>themis::utils::ErrorContract::diagnostic_logged</qualifiedname>
+        <briefdescription>
+<para>What diagnostic info is logged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="326" column="17" bodyfile="include/utils/error_contracts.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_contract_1ac69d0f99dd28e9c62bbc9dfe6a7d3274" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContract::recovery_strategy</definition>
+        <argsstring></argsstring>
+        <name>recovery_strategy</name>
+        <qualifiedname>themis::utils::ErrorContract::recovery_strategy</qualifiedname>
+        <briefdescription>
+<para>How to recover. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="327" column="17" bodyfile="include/utils/error_contracts.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_contract_1af3df88f06a37810ed093149282933225" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ErrorContract::downstream_impact</definition>
+        <argsstring></argsstring>
+        <name>downstream_impact</name>
+        <qualifiedname>themis::utils::ErrorContract::downstream_impact</qualifiedname>
+        <briefdescription>
+<para>Who is affected downstream. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="328" column="17" bodyfile="include/utils/error_contracts.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_error_contract_1ada8f797cf1d16730e3009f25f82c9a70" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref> &gt;</type>
+        <definition>std::vector&lt;ErrorCode&gt; themis::utils::ErrorContract::related_codes</definition>
+        <argsstring></argsstring>
+        <name>related_codes</name>
+        <qualifiedname>themis::utils::ErrorContract::related_codes</qualifiedname>
+        <briefdescription>
+<para>Other errors in same subsystem. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_contracts.h" line="329" column="17" bodyfile="include/utils/error_contracts.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Machine-readable contract describing error conditions, severity, and recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used in API documentation to specify:<itemizedlist>
+<listitem><para>When an error occurs (preconditions/postconditions)</para>
+</listitem><listitem><para>What will be logged (diagnostic information)</para>
+</listitem><listitem><para>How to recover (fallback strategies)</para>
+</listitem><listitem><para>Downstream impact (who is affected)</para>
+</listitem></itemizedlist>
+</para>
+<para>This is the &quot;machine-readable&quot; complement to @error_contract Doxygen tags. </para>
+    </detaileddescription>
+    <location file="include/utils/error_contracts.h" line="322" column="1" bodyfile="include/utils/error_contracts.h" bodystart="322" bodyend="330"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_error_contract_1a8a4b3375fdeab358f48732363685116d" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContract</scope><name>code</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_contract_1a6e019161955b954b15ea5d4d25916dea" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContract</scope><name>diagnostic_logged</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_contract_1af3df88f06a37810ed093149282933225" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContract</scope><name>downstream_impact</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_contract_1ac69d0f99dd28e9c62bbc9dfe6a7d3274" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContract</scope><name>recovery_strategy</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_contract_1ada8f797cf1d16730e3009f25f82c9a70" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContract</scope><name>related_codes</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_contract_1ada01fc1bd6073ad209b540c4b5d0ab9e" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContract</scope><name>severity</name></member>
+      <member refid="structthemis_1_1utils_1_1_error_contract_1a307be91c61aa150ee90ab966114bfd4e" prot="public" virt="non-virtual"><scope>themis::utils::ErrorContract</scope><name>when_occurs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

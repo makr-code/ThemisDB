@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1metrics_1_1_gauge" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::metrics::Gauge</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1metrics_1_1_metric" prot="public" virt="non-virtual">themis::acceleration::metrics::Metric</basecompoundref>
+    <includes refid="metrics__collector_8h" local="no">metrics_collector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1af74af70bfaf67bbafec4e9fe53aa3b03" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; double &gt;</type>
+        <definition>std::atomic&lt;double&gt; themis::acceleration::metrics::Gauge::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::acceleration::metrics::Gauge::value_</qualifiedname>
+        <briefdescription>
+<para>Atomic gauge value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="132" column="17" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a58b1634f2be0aef7a699e1c65337bfb7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::metrics::Gauge::Gauge</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;description)</argsstring>
+        <name>Gauge</name>
+        <qualifiedname>themis::acceleration::metrics::Gauge::Gauge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="98" column="5" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="98" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a91e383cc3c025b6f03b2bae3bbfa9550" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::Gauge::set</definition>
+        <argsstring>(double value)</argsstring>
+        <name>set</name>
+        <qualifiedname>themis::acceleration::metrics::Gauge::set</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="106" column="10" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1af4e1c78c66e8e5952290e633ddd6996e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::Gauge::increment</definition>
+        <argsstring>(double delta=1.0)</argsstring>
+        <name>increment</name>
+        <qualifiedname>themis::acceleration::metrics::Gauge::increment</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="110" column="10" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="110" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a7aca31c987b5691805b514ea19e6aed3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::metrics::Gauge::decrement</definition>
+        <argsstring>(double delta=1.0)</argsstring>
+        <name>decrement</name>
+        <qualifiedname>themis::acceleration::metrics::Gauge::decrement</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="117" column="10" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="117" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a50a14ab8ba25b74d1c94e83b2d4cba9d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::acceleration::metrics::Gauge::value</definition>
+        <argsstring>() const</argsstring>
+        <name>value</name>
+        <qualifiedname>themis::acceleration::metrics::Gauge::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="123" column="12" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a60da7d520d63a62bfcde7d4921a4ffeb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::metrics::Gauge::serialize</definition>
+        <argsstring>() const override</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::acceleration::metrics::Gauge::serialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a8cdabb43320e11cc5d67c7e4282bc5dc">serialize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/metrics/metrics_collector.h" line="127" column="17" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="127" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::metrics::Gauge</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::metrics::Metric</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_metric"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::metrics::Gauge</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::metrics::Metric</label>
+        <link refid="classthemis_1_1acceleration_1_1metrics_1_1_metric"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/metrics/metrics_collector.h" line="96" column="1" bodyfile="include/acceleration/metrics/metrics_collector.h" bodystart="96" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a7aca31c987b5691805b514ea19e6aed3" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>decrement</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a3bc275d1d5af3a7bc61cd2958e8ea61f" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>description</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a7ca704d465091be7595cf8c1c55551f9" prot="protected" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>description_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a58b1634f2be0aef7a699e1c65337bfb7" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>Gauge</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1af4e1c78c66e8e5952290e633ddd6996e" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>increment</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1abf86806255be20a34f305660c88f4e0a" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>Metric</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1aadcf4365f60491c6a8cd6a8bc18ff92c" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a75b611abc18c4e4c5f0efdbcd23d1b56" prot="protected" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>name_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a60da7d520d63a62bfcde7d4921a4ffeb" prot="public" virt="virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a91e383cc3c025b6f03b2bae3bbfa9550" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>set</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a3c861bacfc74e9c3667a2e4eefd12e32" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1ab9cfe5ad6c6a599f5bb842fdb6e539cc" prot="protected" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>type_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1a50a14ab8ba25b74d1c94e83b2d4cba9d" prot="public" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>value</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_gauge_1af74af70bfaf67bbafec4e9fe53aa3b03" prot="private" virt="non-virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>value_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1metrics_1_1_metric_1a429231908c192821685e910b57e7ab5d" prot="public" virt="virtual"><scope>themis::acceleration::metrics::Gauge</scope><name>~Metric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

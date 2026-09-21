@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::core::concerns::IEvictionStrategy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy" prot="public" virt="non-virtual">themis::core::concerns::ARCEvictionStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy" prot="public" virt="non-virtual">themis::core::concerns::LFUEvictionStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy" prot="public" virt="non-virtual">themis::core::concerns::LRUEvictionStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy" prot="public" virt="non-virtual">themis::core::concerns::TTLEvictionStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy" prot="public" virt="non-virtual">themis::core::concerns::TwoTierEvictionStrategy</derivedcompoundref>
+    <includes refid="cache__strategies_8h" local="no">cache_strategies.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a3652ac2ccfef517f32a0071347ebf080" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::core::concerns::IEvictionStrategy::~IEvictionStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IEvictionStrategy</name>
+        <qualifiedname>themis::core::concerns::IEvictionStrategy::~IEvictionStrategy</qualifiedname>
+        <briefdescription>
+<para>IEviction Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/cache_strategies.h" line="29" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a943d6e51f95142703fad164a6d7152f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IEvictionStrategy::onAccess</definition>
+        <argsstring>(std::string_view key)=0</argsstring>
+        <name>onAccess</name>
+        <qualifiedname>themis::core::concerns::IEvictionStrategy::onAccess</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1af65953d142b138122ab7491605789f65">onAccess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1a97f010c9d26fc43aac331f0e0572cb07">onAccess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy_1afd059cf45f5640aa8c909dd89fc669f6">onAccess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a53ebdee1c4f793e2a910bfad43a4e50f">onAccess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy_1a276cd6f44e8d6d90fe7e01bb86a0cbc2">onAccess</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/cache_strategies.h" line="35" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a4b9d6ecaefe1c6e5dbdd8890036b7156" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IEvictionStrategy::onInsert</definition>
+        <argsstring>(std::string_view key, uint64_t timestamp_ms)=0</argsstring>
+        <name>onInsert</name>
+        <qualifiedname>themis::core::concerns::IEvictionStrategy::onInsert</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a17671e767fe8a418c9d831f9990d8774">onInsert</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1a5de00f80b596564d35ca0b269f0f459b">onInsert</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy_1a3c3552bd2da402f08dbf5cf2609b48c1">onInsert</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a50f3d65d12adb4f8158962e373151077">onInsert</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy_1ae37afecec5626f6c78a56c05a01e3bbb">onInsert</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>On Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/cache_strategies.h" line="42" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a26c64327ca3715d29df363534725672f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IEvictionStrategy::onRemove</definition>
+        <argsstring>(std::string_view key)=0</argsstring>
+        <name>onRemove</name>
+        <qualifiedname>themis::core::concerns::IEvictionStrategy::onRemove</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ab487dc95f31acf9c743dea30843d4a23">onRemove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1a53755f084a8e385ecc3771fce9cdd963">onRemove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy_1a512fdb1443627b915638412ba8204dfc">onRemove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a0a9e311c0657128239309b2942b330a3">onRemove</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy_1aaaf62b7bb7423e66d8c310ce63b1d506">onRemove</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/cache_strategies.h" line="48" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a212782df993db6a7333d63ddf0a95d5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>virtual std::optional&lt; std::string &gt; themis::core::concerns::IEvictionStrategy::selectVictim</definition>
+        <argsstring>()=0</argsstring>
+        <name>selectVictim</name>
+        <qualifiedname>themis::core::concerns::IEvictionStrategy::selectVictim</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1a41bfe6e3b9a7a8ab6ad48e2f03546859">selectVictim</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1a6957e8ff039643ca92f2dfbfa573b725">selectVictim</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy_1ab0cf7507bef72c00184667785989dcea">selectVictim</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a1764f7ed0d7c08ffd9933473ef5e5a82">selectVictim</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy_1a335d132f127d0e92ea3526fef1df5a5c">selectVictim</reimplementedby>
+        <briefdescription>
+<para>Select Victim. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/cache_strategies.h" line="54" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a9d52f4309c92ddf5cdee5bbcfddf3af3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IEvictionStrategy::clear</definition>
+        <argsstring>()=0</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::core::concerns::IEvictionStrategy::clear</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1afb311d653731c3afe0970f1435f3bc12">clear</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1aca10d37bfad0d3b1307caa09df293b3a">clear</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy_1a55282e7d39e07a44f94614495138f557">clear</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1ab2388afbf7138a638690a967a77b7a06">clear</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy_1a00f22cc42330c95972d13c6a0cb1c243">clear</reimplementedby>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/cache_strategies.h" line="59" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1ac0a5c2d7082b48f576f1ba960a392e5e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::core::concerns::IEvictionStrategy::size</definition>
+        <argsstring>() const =0</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::core::concerns::IEvictionStrategy::size</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1ad444f5e65166168e22fa8485c136be5e">size</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1a16630f901df9a5bd2f58de0d70db8755">size</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy_1ab50a247a3ba97219b5b55217ea2d991d">size</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a3b7244eeb986b4d36753c73e187cc0e0">size</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy_1a09e4ef67729b08e2c625e706d2fb752e">size</reimplementedby>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/cache_strategies.h" line="65" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a54c4cabb9da4de4d92a74594e4e16b9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::core::concerns::IEvictionStrategy::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::core::concerns::IEvictionStrategy::getName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy_1af2b20b7ce08c52acce2d7af10f5b8ce0">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy_1af53bc5637060613471637844cdaf8d3c">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy_1a28e6abb732ed74f095ae9a758f049611">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy_1a86999feaac49acfef2f0e087b6632dcf">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy_1a862712b9a8f4ada2d16c51fc7b2ea2d6">getName</reimplementedby>
+        <briefdescription>
+<para>Get Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/cache_strategies.h" line="71" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ARCEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_a_r_c_eviction_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::IEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy"/>
+      </node>
+      <node id="3">
+        <label>themis::core::concerns::LFUEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_l_f_u_eviction_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::core::concerns::LRUEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_l_r_u_eviction_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::core::concerns::TTLEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_t_t_l_eviction_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::core::concerns::TwoTierEvictionStrategy</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_two_tier_eviction_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/core/concerns/cache_strategies.h" line="23" column="1" bodyfile="include/core/concerns/cache_strategies.h" bodystart="23" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a9d52f4309c92ddf5cdee5bbcfddf3af3" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IEvictionStrategy</scope><name>clear</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a54c4cabb9da4de4d92a74594e4e16b9e" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IEvictionStrategy</scope><name>getName</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a943d6e51f95142703fad164a6d7152f9" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IEvictionStrategy</scope><name>onAccess</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a4b9d6ecaefe1c6e5dbdd8890036b7156" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IEvictionStrategy</scope><name>onInsert</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a26c64327ca3715d29df363534725672f" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IEvictionStrategy</scope><name>onRemove</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a212782df993db6a7333d63ddf0a95d5a" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IEvictionStrategy</scope><name>selectVictim</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1ac0a5c2d7082b48f576f1ba960a392e5e" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IEvictionStrategy</scope><name>size</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy_1a3652ac2ccfef517f32a0071347ebf080" prot="public" virt="virtual"><scope>themis::core::concerns::IEvictionStrategy</scope><name>~IEvictionStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

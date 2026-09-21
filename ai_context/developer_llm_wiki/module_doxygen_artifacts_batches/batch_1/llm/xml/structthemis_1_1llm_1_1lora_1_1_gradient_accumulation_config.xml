@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GradientAccumulationConfig</compoundname>
+    <includes refid="gradient__utils_8h" local="no">gradient_utils.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a7598314022ed7b1d1758be094d892206" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::GradientAccumulationConfig::accumulation_steps</definition>
+        <argsstring></argsstring>
+        <name>accumulation_steps</name>
+        <qualifiedname>themis::llm::lora::GradientAccumulationConfig::accumulation_steps</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="71" column="9" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1aee876bb3cf54caf7dc19de8b041471f3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GradientAccumulationConfig::normalize</definition>
+        <argsstring></argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::llm::lora::GradientAccumulationConfig::normalize</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="72" column="10" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a98abc4ee7b9fafc1343a663e73ce8f83" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::GradientAccumulationConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::GradientAccumulationConfig::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="74" column="10" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="74" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1ab1cd459f4f06567c3c545d88918819b7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" kindref="compound">GradientAccumulationConfig</ref></type>
+        <definition>static GradientAccumulationConfig themis::llm::lora::GradientAccumulationConfig::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::GradientAccumulationConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gradient_utils.h" line="87" column="39" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="87" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gradient_utils.h" line="70" column="1" bodyfile="include/llm/lora_framework/gradient_utils.h" bodystart="70" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a7598314022ed7b1d1758be094d892206" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientAccumulationConfig</scope><name>accumulation_steps</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1ab1cd459f4f06567c3c545d88918819b7" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientAccumulationConfig</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1aee876bb3cf54caf7dc19de8b041471f3" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientAccumulationConfig</scope><name>normalize</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a98abc4ee7b9fafc1343a663e73ce8f83" prot="public" virt="non-virtual"><scope>themis::llm::lora::GradientAccumulationConfig</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_structured_output_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::StructuredOutputConfig</compoundname>
+    <includes refid="structured__output_8h" local="no">structured_output.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_config_1abe6d05a739853e202ceda120a73cc0a9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4a" kindref="member">OutputConstraintType</ref></type>
+        <definition>OutputConstraintType themis::prompt_engineering::StructuredOutputConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputConfig::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aab50339a10e1de285ac99d4c3990b8693" kindref="member">OutputConstraintType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="56" column="28" bodyfile="include/prompt_engineering/structured_output.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_config_1af8132a0da657e86dedf22219ca112ccd" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" kindref="compound">JsonSchemaConstraint</ref></type>
+        <definition>JsonSchemaConstraint themis::prompt_engineering::StructuredOutputConfig::json_schema</definition>
+        <argsstring></argsstring>
+        <name>json_schema</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputConfig::json_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="57" column="28" bodyfile="include/prompt_engineering/structured_output.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_config_1aaf47537a25b6f4a62d975f724c7a171a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" kindref="compound">RegexGrammarConstraint</ref></type>
+        <definition>RegexGrammarConstraint themis::prompt_engineering::StructuredOutputConfig::regex_grammar</definition>
+        <argsstring></argsstring>
+        <name>regex_grammar</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputConfig::regex_grammar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="58" column="28" bodyfile="include/prompt_engineering/structured_output.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_config_1a4a581ff32ade9f1574370cf9653c597d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::StructuredOutputConfig::repair_json</definition>
+        <argsstring></argsstring>
+        <name>repair_json</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputConfig::repair_json</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Apply JSON repair pipeline before validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="59" column="10" bodyfile="include/prompt_engineering/structured_output.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_config_1acd8e672561b0e54991bfca47add0226a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::StructuredOutputConfig::strip_markdown</definition>
+        <argsstring></argsstring>
+        <name>strip_markdown</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputConfig::strip_markdown</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Strip Markdown fences before any validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="60" column="10" bodyfile="include/prompt_engineering/structured_output.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for a single structured-output enforcement pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::JsonSchemaConstraint</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint"/>
+      </node>
+      <node id="3">
+        <label>themis::prompt_engineering::RegexGrammarConstraint</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::StructuredOutputConfig</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_structured_output_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>json_schema</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>regex_grammar</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/structured_output.h" line="55" column="1" bodyfile="include/prompt_engineering/structured_output.h" bodystart="55" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1af8132a0da657e86dedf22219ca112ccd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputConfig</scope><name>json_schema</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1aaf47537a25b6f4a62d975f724c7a171a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputConfig</scope><name>regex_grammar</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1a4a581ff32ade9f1574370cf9653c597d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputConfig</scope><name>repair_json</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1acd8e672561b0e54991bfca47add0226a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputConfig</scope><name>strip_markdown</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1abe6d05a739853e202ceda120a73cc0a9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

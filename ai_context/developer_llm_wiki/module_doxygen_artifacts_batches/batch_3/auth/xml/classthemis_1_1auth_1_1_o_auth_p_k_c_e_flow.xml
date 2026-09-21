@@ -1,0 +1,627 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::OAuthPKCEFlow</compoundname>
+    <includes refid="oauth__pkce__flow_8h" local="no">oauth_pkce_flow.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge" prot="public">themis::auth::OAuthPKCEFlow::PKCEChallenge</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_token_response" prot="public">themis::auth::OAuthPKCEFlow::TokenResponse</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config" prot="public">themis::auth::OAuthPKCEFlow::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1af04e7325338153f0c833a8af88ee754a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::OAuthPKCEFlow::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="97" column="12" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1ac839fd2937d743bfc7f2dcf478c6530f" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; url, const std::string&amp; body)&gt; themis::auth::OAuthPKCEFlow::http_post_fn_</definition>
+        <argsstring></argsstring>
+        <name>http_post_fn_</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::http_post_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="98" column="19" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a56613c5965c141899afe7eb0c50937bf" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(unsigned char *buf, std::size_t len)&gt;</type>
+        <definition>std::function&lt;void(unsigned char* buf, std::size_t len)&gt; themis::auth::OAuthPKCEFlow::rand_bytes_fn_</definition>
+        <argsstring></argsstring>
+        <name>rand_bytes_fn_</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::rand_bytes_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="99" column="19" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a4965565aa7893a308627909ea4048266" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::OAuthPKCEFlow::OAuthPKCEFlow</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>OAuthPKCEFlow</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::OAuthPKCEFlow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>OAuth PKCEFlow. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="57" column="14" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="53" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a2327dfe4ac122bf19f952a2c9a22b750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge" kindref="compound">PKCEChallenge</ref></type>
+        <definition>OAuthPKCEFlow::PKCEChallenge themis::auth::OAuthPKCEFlow::generateChallenge</definition>
+        <argsstring>()</argsstring>
+        <name>generateChallenge</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::generateChallenge</qualifiedname>
+        <briefdescription>
+<para>Generate Challenge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ RFC 7636 §4.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+1 – Generate code_verifier and code_challenge ============================================================================ Calls: fillRandomBytes(), data(), size(), base64UrlEncode(), sha256(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="63" column="19" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="91" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a6df0698a7966badda753fa7952ff679c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::buildAuthorizationUrl</definition>
+        <argsstring>(const PKCEChallenge &amp;challenge, const std::string &amp;state=&quot;&quot;) const</argsstring>
+        <name>buildAuthorizationUrl</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::buildAuthorizationUrl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge" kindref="compound">PKCEChallenge</ref> &amp;</type>
+          <declname>challenge</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="65" column="17" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="120" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a5f5f543e60c7b86b16f5adc788861850" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_token_response" kindref="compound">TokenResponse</ref></type>
+        <definition>OAuthPKCEFlow::TokenResponse themis::auth::OAuthPKCEFlow::exchangeCode</definition>
+        <argsstring>(const std::string &amp;authorization_code, const std::string &amp;code_verifier)</argsstring>
+        <name>exchangeCode</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::exchangeCode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>authorization_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code_verifier</declname>
+        </param>
+        <briefdescription>
+<para>Exchange Code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ RFC 7636 §4.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">authorization_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code_verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">authorization_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code_verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+5 – Token Exchange ============================================================================ Calls: empty(), AuthError(), buildFormBody(), spdlog::debug(), httpPost(), std::current_exception(), what(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="74" column="19" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="167" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a23d1890ff76a8b4e2bea06b7389e34ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref></type>
+        <definition>JWTClaims themis::auth::OAuthPKCEFlow::validateIdToken</definition>
+        <argsstring>(const TokenResponse &amp;token_response)</argsstring>
+        <name>validateIdToken</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::validateIdToken</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_token_response" kindref="compound">TokenResponse</ref> &amp;</type>
+          <declname>token_response</declname>
+        </param>
+        <briefdescription>
+<para>Validate Id Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), AuthError(), validator(), parseAndValidate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="82" column="15" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="284" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1ac336b9d47cccc89036dc6269540c9ae3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::OAuthPKCEFlow::setHttpPostForTesting</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt; fn)</argsstring>
+        <name>setHttpPostForTesting</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::setHttpPostForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="88" column="10" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a2c1a204f4dc386bb1bcaeda3290ba152" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::OAuthPKCEFlow::setRandBytesForTesting</definition>
+        <argsstring>(std::function&lt; void(unsigned char *buf, std::size_t len)&gt; fn)</argsstring>
+        <name>setRandBytesForTesting</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::setRandBytesForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; void(unsigned char *buf, std::size_t len)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="92" column="10" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="81" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1aad5df052d1959bd124f8ba494a7a75bb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::httpPost</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Http Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: http_post_fn_(), curl_easy_init(), curl_easy_setopt(), c_str(), size(), curl_slist_append(), curl_multi_init(), curl_slist_free_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="107" column="17" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="310" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1ab5c958f90060064d85d3c8b617fc8cf6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::OAuthPKCEFlow::fillRandomBytes</definition>
+        <argsstring>(unsigned char *buf, std::size_t len)</argsstring>
+        <name>fillRandomBytes</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::fillRandomBytes</qualifiedname>
+        <param>
+          <type>unsigned char *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Fill Random Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: rand_bytes_fn_(), RAND_bytes(), AuthError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="113" column="17" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="405" bodyend="414"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a0237bf38e4d10648a9b3be25bc401d1c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::base64UrlEncode</definition>
+        <argsstring>(const unsigned char *data, std::size_t len)</argsstring>
+        <name>base64UrlEncode</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::base64UrlEncode</qualifiedname>
+        <param>
+          <type>const unsigned char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Url Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), empty(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="121" column="24" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="454" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a9b63ae0a8f9734a479e82b4d2d36742f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::sha256</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>sha256</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::sha256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sha256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: EVP_MD_CTX_new(), AuthError(), EVP_DigestInit_ex(), EVP_sha256(), EVP_DigestUpdate(), data(), size(), EVP_DigestFinal_ex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="127" column="24" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="423" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a0e0b4cf7b763aec0ef234e730d73e95e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::urlEncode</definition>
+        <argsstring>(const std::string &amp;value)</argsstring>
+        <name>urlEncode</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::urlEncode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Url Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: curl_easy_init(), curl_easy_escape(), c_str(), size(), curl_free(), curl_easy_cleanup(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="133" column="24" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="495" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1ae66a997ea7a731d31ec42b3e5aa1c46c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::buildFormBody</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;params)</argsstring>
+        <name>buildFormBody</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::buildFormBody</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="134" column="24" bodyfile="src/auth/oauth_pkce_flow.cpp" bodystart="511" bodyend="522"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oauth_pkce_flow.h" line="25" column="1" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="25" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a0237bf38e4d10648a9b3be25bc401d1c" prot="private" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>base64UrlEncode</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a6df0698a7966badda753fa7952ff679c" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>buildAuthorizationUrl</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1ae66a997ea7a731d31ec42b3e5aa1c46c" prot="private" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>buildFormBody</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1af04e7325338153f0c833a8af88ee754a" prot="private" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a5f5f543e60c7b86b16f5adc788861850" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>exchangeCode</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1ab5c958f90060064d85d3c8b617fc8cf6" prot="private" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>fillRandomBytes</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a2327dfe4ac122bf19f952a2c9a22b750" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>generateChallenge</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1ac839fd2937d743bfc7f2dcf478c6530f" prot="private" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>http_post_fn_</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1aad5df052d1959bd124f8ba494a7a75bb" prot="private" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>httpPost</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a4965565aa7893a308627909ea4048266" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>OAuthPKCEFlow</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a56613c5965c141899afe7eb0c50937bf" prot="private" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>rand_bytes_fn_</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1ac336b9d47cccc89036dc6269540c9ae3" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>setHttpPostForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a2c1a204f4dc386bb1bcaeda3290ba152" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>setRandBytesForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a9b63ae0a8f9734a479e82b4d2d36742f" prot="private" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>sha256</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a0e0b4cf7b763aec0ef234e730d73e95e" prot="private" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>urlEncode</name></member>
+      <member refid="classthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1a23d1890ff76a8b4e2bea06b7389e34ef" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow</scope><name>validateIdToken</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

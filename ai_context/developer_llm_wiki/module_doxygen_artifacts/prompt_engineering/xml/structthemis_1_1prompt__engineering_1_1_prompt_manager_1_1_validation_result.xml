@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptManager::ValidationResult</compoundname>
+    <includes refid="prompt__manager_8h" local="no">prompt_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1a53266035381a119d1466836c9af92bc0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptManager::ValidationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::ValidationResult::valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="172" column="14" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1aa77f469d821e82aa00b49630a569c7ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::PromptManager::ValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::ValidationResult::errors</qualifiedname>
+        <briefdescription>
+<para>List of validation errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="173" column="21" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1a4ee1ebc7dfa6ff8878026e1dcb487bca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::PromptManager::ValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::prompt_engineering::PromptManager::ValidationResult::warnings</qualifiedname>
+        <briefdescription>
+<para>Non-fatal warnings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_manager.h" line="174" column="21" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validation result for a prompt template. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_manager.h" line="171" column="5" bodyfile="include/prompt_engineering/prompt_manager.h" bodystart="171" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1aa77f469d821e82aa00b49630a569c7ca" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::ValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1a53266035381a119d1466836c9af92bc0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::ValidationResult</scope><name>valid</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_validation_result_1a4ee1ebc7dfa6ff8878026e1dcb487bca" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptManager::ValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

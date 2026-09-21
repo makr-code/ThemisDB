@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_certificate_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardCertificateInfo</compoundname>
+    <includes refid="pki__shard__certificate_8h" local="no">pki_shard_certificate.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a1a752b835b620c251e5e726c19905ee9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardCertificateInfo::subject_cn</definition>
+        <argsstring></argsstring>
+        <name>subject_cn</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::subject_cn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="35" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a038872e3c5e83fe0428052abd461d3af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardCertificateInfo::serial_number</definition>
+        <argsstring></argsstring>
+        <name>serial_number</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::serial_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="36" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a57faf674d851414d71cdaf70bee7775d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardCertificateInfo::issuer_cn</definition>
+        <argsstring></argsstring>
+        <name>issuer_cn</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::issuer_cn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="37" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a122b48444155115c06e92f4a212dec67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardCertificateInfo::not_before</definition>
+        <argsstring></argsstring>
+        <name>not_before</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::not_before</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="38" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a941d9fdab365aec74e4d2c5bd3b2f106" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardCertificateInfo::not_after</definition>
+        <argsstring></argsstring>
+        <name>not_after</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::not_after</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="39" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a42eb8e9fad3b07516d5c047c12db8f3a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ShardCertificateInfo::san_dns</definition>
+        <argsstring></argsstring>
+        <name>san_dns</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::san_dns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="42" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1adb0449cac84975d250e25d40a00ab69c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ShardCertificateInfo::san_ip</definition>
+        <argsstring></argsstring>
+        <name>san_ip</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::san_ip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="43" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1ad1cdf4fc5db2c5801670214be29c3fae" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ShardCertificateInfo::san_uri</definition>
+        <argsstring></argsstring>
+        <name>san_uri</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::san_uri</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="44" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a0f1f86abec5eb098c2c0b3a27af852f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardCertificateInfo::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="47" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a627f01a1014a44266e1c116ab3045e21" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardCertificateInfo::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="48" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a0a0d6b3341d72032e477a56e7646a9e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardCertificateInfo::rack</definition>
+        <argsstring></argsstring>
+        <name>rack</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::rack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="49" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1aea43c4a33da21a97c333ad3721e1e5dc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardCertificateInfo::token_range_start</definition>
+        <argsstring></argsstring>
+        <name>token_range_start</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::token_range_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="50" column="14" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a2598c408e0c0864be274a49a9ccceeca" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardCertificateInfo::token_range_end</definition>
+        <argsstring></argsstring>
+        <name>token_range_end</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::token_range_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="51" column="14" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a53045b3d8ba14c4e23642d821bf00167" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ShardCertificateInfo::capabilities</definition>
+        <argsstring></argsstring>
+        <name>capabilities</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::capabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="52" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a34fadd51089a9a1b851f78ad2f9e2bb6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardCertificateInfo::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::role</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="53" column="17" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_shard_certificate_info_1a5578f5dc757a045a6a82f127a3670037" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardCertificateInfo::hasCapability</definition>
+        <argsstring>(const std::string &amp;cap) const</argsstring>
+        <name>hasCapability</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::hasCapability</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if certificate has a specific capability </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="58" column="10" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_shard_certificate_info_1acabc102b505a46bab86bbcedb46295dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardCertificateInfo::isValidNow</definition>
+        <argsstring>() const</argsstring>
+        <name>isValidNow</name>
+        <qualifiedname>themis::sharding::ShardCertificateInfo::isValidNow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if certificate is currently valid (time-based) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/pki_shard_certificate.h" line="65" column="10" bodyfile="src/sharding/pki_shard_certificate.cpp" bodystart="167" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Shard Certificate Information</para>
+<para>Represents X.509 certificate extensions specific to shard identity. These extensions are parsed from the certificate and used for:<itemizedlist>
+<listitem><para>Shard identification and authentication</para>
+</listitem><listitem><para>Capability-based access control</para>
+</listitem><listitem><para>Token range assignment</para>
+</listitem><listitem><para>Datacenter/rack locality </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/pki_shard_certificate.h" line="33" column="1" bodyfile="include/sharding/pki_shard_certificate.h" bodystart="33" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a53045b3d8ba14c4e23642d821bf00167" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>capabilities</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a627f01a1014a44266e1c116ab3045e21" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>datacenter</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a5578f5dc757a045a6a82f127a3670037" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>hasCapability</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a57faf674d851414d71cdaf70bee7775d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>issuer_cn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1acabc102b505a46bab86bbcedb46295dd" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>isValidNow</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a941d9fdab365aec74e4d2c5bd3b2f106" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>not_after</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a122b48444155115c06e92f4a212dec67" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>not_before</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a0a0d6b3341d72032e477a56e7646a9e9" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>rack</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a34fadd51089a9a1b851f78ad2f9e2bb6" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>role</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a42eb8e9fad3b07516d5c047c12db8f3a" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>san_dns</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1adb0449cac84975d250e25d40a00ab69c" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>san_ip</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1ad1cdf4fc5db2c5801670214be29c3fae" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>san_uri</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a038872e3c5e83fe0428052abd461d3af" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>serial_number</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a0f1f86abec5eb098c2c0b3a27af852f1" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a1a752b835b620c251e5e726c19905ee9" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>subject_cn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1a2598c408e0c0864be274a49a9ccceeca" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>token_range_end</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_certificate_info_1aea43c4a33da21a97c333ad3721e1e5dc" prot="public" virt="non-virtual"><scope>themis::sharding::ShardCertificateInfo</scope><name>token_range_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_object_centric_tracer_test" kind="class" language="C++" prot="public">
+    <compoundname>ObjectCentricTracerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_object_centric_tracer_test_1a0dcd08f36bf1e57cab16697b4d53184a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ObjectCentricTracerTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ObjectCentricTracerTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="67" column="17" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_object_centric_tracer_test_1a3d44ff3241d3665eae494bcc27c9b8fe" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; ObjectCentricTracerTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ObjectCentricTracerTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="68" column="35" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_object_centric_tracer_test_1a5c905ae3e31a10edc4831feb8e60f895" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">themis::process::ProcessModelManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessModelManager&gt; ObjectCentricTracerTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>ObjectCentricTracerTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="69" column="21" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_object_centric_tracer_test_1a958d23ebb409a34ba0ee12a34c53973b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">themis::process::ProcessLinker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessLinker&gt; ObjectCentricTracerTest::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>ObjectCentricTracerTest::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="70" column="27" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_object_centric_tracer_test_1aa5ac330a26d369e3a20c2e7df26f0bd5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_object_centric_tracer" kindref="compound">themis::process::ObjectCentricTracer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ObjectCentricTracer&gt; ObjectCentricTracerTest::tracer_</definition>
+        <argsstring></argsstring>
+        <name>tracer_</name>
+        <qualifiedname>ObjectCentricTracerTest::tracer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="71" column="21" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_object_centric_tracer_test_1a872ea35616dc3aafb3009ad2281f0049" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ObjectCentricTracerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ObjectCentricTracerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="30" column="10" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="30" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_object_centric_tracer_test_1a8c416f83cb06ea043b5f7e7b250b8067" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ObjectCentricTracerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ObjectCentricTracerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="49" column="10" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_object_centric_tracer_test_1aba0520c8860a6fa259f7b3291d57a773" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ObjectCentricTracerTest::saveModel</definition>
+        <argsstring>(const std::string &amp;model_id, const json &amp;nodes, const json &amp;edges)</argsstring>
+        <name>saveModel</name>
+        <qualifiedname>ObjectCentricTracerTest::saveModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const json &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>const json &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <briefdescription>
+<para>Persist a model with given nodes/edges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_object_centric_tracer.cpp" line="58" column="10" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="58" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ObjectCentricTracerTest</label>
+        <link refid="class_object_centric_tracer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ObjectCentricTracerTest</label>
+        <link refid="class_object_centric_tracer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_object_centric_tracer.cpp" line="28" column="1" bodyfile="tests/process/test_object_centric_tracer.cpp" bodystart="28" bodyend="72"/>
+    <listofallmembers>
+      <member refid="class_object_centric_tracer_test_1a3d44ff3241d3665eae494bcc27c9b8fe" prot="protected" virt="non-virtual"><scope>ObjectCentricTracerTest</scope><name>db_</name></member>
+      <member refid="class_object_centric_tracer_test_1a0dcd08f36bf1e57cab16697b4d53184a" prot="protected" virt="non-virtual"><scope>ObjectCentricTracerTest</scope><name>db_path_</name></member>
+      <member refid="class_object_centric_tracer_test_1a958d23ebb409a34ba0ee12a34c53973b" prot="protected" virt="non-virtual"><scope>ObjectCentricTracerTest</scope><name>linker_</name></member>
+      <member refid="class_object_centric_tracer_test_1a5c905ae3e31a10edc4831feb8e60f895" prot="protected" virt="non-virtual"><scope>ObjectCentricTracerTest</scope><name>mgr_</name></member>
+      <member refid="class_object_centric_tracer_test_1aba0520c8860a6fa259f7b3291d57a773" prot="protected" virt="non-virtual"><scope>ObjectCentricTracerTest</scope><name>saveModel</name></member>
+      <member refid="class_object_centric_tracer_test_1a872ea35616dc3aafb3009ad2281f0049" prot="protected" virt="non-virtual"><scope>ObjectCentricTracerTest</scope><name>SetUp</name></member>
+      <member refid="class_object_centric_tracer_test_1a8c416f83cb06ea043b5f7e7b250b8067" prot="protected" virt="non-virtual"><scope>ObjectCentricTracerTest</scope><name>TearDown</name></member>
+      <member refid="class_object_centric_tracer_test_1aa5ac330a26d369e3a20c2e7df26f0bd5" prot="protected" virt="non-virtual"><scope>ObjectCentricTracerTest</scope><name>tracer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

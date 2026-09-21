@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__analytics__optional__fallback__focused_8cpp_1ad9aaf9d1b0c76852f2c567cf43f8b167" kindref="member">TEST</ref>  (OptionalFallback, MLServingUnavailableIsDistinctFromOk)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>OPF-01: MLServingStatus::UNAVAILABLE is defined and distinct from OK.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__optional__fallback__focused_8cpp_1ae7361040053079fb8ecfb7b74a12ee79" kindref="member">TEST</ref>  (OptionalFallback, MLServingPolicyRejectedIsDistinct)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>OPF-02: MLServingStatus::POLICY_REJECTED is defined and distinct.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__optional__fallback__focused_8cpp_1a8a535120972f5367b8e82f8df0f5f40d" kindref="member">TEST</ref>  (OptionalFallback, MLServingStatusValuesComparable)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>OPF-03: MLServingStatus values can be compared.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__optional__fallback__focused_8cpp_1aed5ed22e77a4d89cc50e970c6b113b2b" kindref="member">TEST</ref>  (OptionalFallback, StreamBackpressureErrorCodeDefined)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>OPF-04: AnalyticsErrorCode::STREAM_BACKPRESSURE is defined.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__optional__fallback__focused_8cpp_1a0a81a78f71a71759b1a70a792353b650" kindref="member">TEST</ref>  (OptionalFallback, AggregationOverflowErrorCodeDefined)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>OPF-05: AnalyticsErrorCode::AGGREGATION_OVERFLOW is defined and distinct.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__optional__fallback__focused_8cpp_1aec849e4fcfdc86788acab62de1ef8b04" kindref="member">TEST</ref>  (OptionalFallback, ErrorCodesUsableInSwitch)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>OPF-06: Key error codes are usable in a switch statement.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__optional__fallback__focused_8cpp_1ac2a46084ef4e6f044078f482e0e1ad51" kindref="member">TEST</ref>  (OptionalFallback, CombinedConfigCompiles)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>OPF-07: BoundedExecutionPolicy and StreamingRuntimeLimits can be combined.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__optional__fallback__focused_8cpp_1ae9ef1145fe342e1d8bfc73a90481e8f6" kindref="member">TEST</ref>  (OptionalFallback, DefaultCombinedConfigBothUnconstrained)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>OPF-08: isConstrained() queries are independent on a default-constructed combined config.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1a126d77224838895d7ddcfdac9a874ad1" kindref="member">TEST</ref>  (StreamingRuntimeLimits, DefaultIsUnconstrained)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>SRL-01: Default-constructed StreamingRuntimeLimits is unconstrained.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1a8c21faedff6fa45fae9218e6104a260c" kindref="member">TEST</ref>  (StreamingRuntimeLimits, EventsPerWindowMakesConstrained)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>SRL-02: Setting max_events_per_window makes the struct constrained.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1a381ec4a592d2c8ae3cf5c022e2a712ca" kindref="member">TEST</ref>  (StreamingRuntimeLimits, MemoryLimitMakesConstrained)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>SRL-03: Setting max_window_memory_bytes makes the struct constrained.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1a16e204f9ce40a941db5150a75c25b909" kindref="member">TEST</ref>  (StreamingRuntimeLimits, BackPressureModeValuesDistinct)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>SRL-04: BackPressureMode values are distinct.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1a8cc51768aa3a4ab15aba8256d107a0a3" kindref="member">TEST</ref>  (StreamingRuntimeLimits, DefaultModeIsDrop)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>SRL-05: Default back_pressure_mode is DROP.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1ae5b5e529381b3b9dc31fbc6d7db59bb2" kindref="member">TEST</ref>  (StreamingRuntimeLimits, AllModesHandledInSwitch)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>SRL-06: All three BackPressureMode values can be used in a switch statement.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1a7ef4b27bd77caa26386430b4540fe568" kindref="member">TEST</ref>  (StreamingRuntimeLimits, DropModeWithEventsLimitIsConstrained)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>SRL-07: StreamingRuntimeLimits with DROP and events limit is constrained.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1aadc13a3c5dcbe44b22f8c29bcb6aa92c" kindref="member">TEST</ref>  (StreamingRuntimeLimits, BlockModeWithBothLimitsIsConstrained)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>SRL-08: StreamingRuntimeLimits with BLOCK mode and both limits set is constrained.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1adea8338ea1156cbc1b835f45407f41b8" kindref="member">TEST</ref>  (StreamingRuntimeLimits, ShedModeWithMemoryLimitIsConstrained)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>SRL-09: SHED mode with memory-only limit is constrained.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__analytics__streaming__limits__focused_8cpp_1af281867730a012335595d6b64d66589c" kindref="member">TEST</ref>  (StreamingRuntimeLimits, UnconstrainedLimitsAndPolicyBothFalse)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>SRL-10: Unconstrained StreamingRuntimeLimits and unconstrained BoundedExecutionPolicy are both false. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

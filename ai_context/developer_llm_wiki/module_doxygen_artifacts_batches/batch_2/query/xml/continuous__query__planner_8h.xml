@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="continuous__query__planner_8h" kind="file" language="C++">
+    <compoundname>continuous_query_planner.h</compoundname>
+    <includes refid="continuous__query__engine_8h" local="yes">query/continuous_query_engine.h</includes>
+    <includes refid="continuous__query__registry_8h" local="yes">query/continuous_query_registry.h</includes>
+    <includes refid="synopsis__store_8h" local="yes">query/synopsis_store.h</includes>
+    <includes refid="cq__watermark_8h" local="yes">query/cq_watermark.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="continuous__query__engine__impl_8h" local="yes">include/query/continuous_query_engine_impl.h</includedby>
+    <includedby refid="continuous__query__planner_8cpp" local="yes">src/query/continuous_query_planner.cpp</includedby>
+    <includedby refid="test__continuous__query__engine_8cpp" local="yes">tests/query/test_continuous_query_engine.cpp</includedby>
+    <includedby refid="test__wave1__critical__gap__fixes_8cpp" local="yes">tests/query/test_wave1_critical_gap_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>query/continuous_query_engine.h</label>
+        <link refid="continuous__query__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/continuous_query_planner.h</label>
+        <link refid="continuous__query__planner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>query/continuous_query_registry.h</label>
+        <link refid="continuous__query__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>query/cq_watermark.h</label>
+        <link refid="cq__watermark_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>query/synopsis_store.h</label>
+        <link refid="synopsis__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>query/window_spec.h</label>
+        <link refid="window__spec_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>deque</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/query/bench_continuous_query.cpp</label>
+        <link refid="bench__continuous__query_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/query/continuous_query_engine_impl.h</label>
+        <link refid="continuous__query__engine__impl_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/continuous_query_planner.h</label>
+        <link refid="continuous__query__planner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/query/continuous_query_engine.cpp</label>
+        <link refid="continuous__query__engine_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/query/continuous_query_planner.cpp</label>
+        <link refid="continuous__query__planner_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_continuous_query_engine.cpp</label>
+        <link refid="test__continuous__query__engine_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_continuous_query_state" prot="public">themis::query::ContinuousQueryState</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_continuous_plan" prot="public">themis::query::ContinuousPlan</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_continuous_query_planner" prot="public">themis::query::ContinuousQueryPlanner</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__query__engine_8h" kindref="compound">query/continuous_query_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__query__registry_8h" kindref="compound">query/continuous_query_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="synopsis__store_8h" kindref="compound">query/synopsis_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cq__watermark_8h" kindref="compound">query/cq_watermark.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1query_1_1_continuous_query_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_continuous_query_state" kindref="compound">ContinuousQueryState</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1query_1_1_continuous_query_state_1a610136001f87c7726aeb4302053f0416" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_state_1a610136001f87c7726aeb4302053f0416" kindref="member">spec</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1query_1_1_continuous_query_state_1a5d8a8bfe5a77a31ee28990627d8148b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_info" kindref="compound">ContinuousQueryInfo</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_state_1a5d8a8bfe5a77a31ee28990627d8148b6" kindref="member">info</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1query_1_1_continuous_query_state_1aeb2feebc8b5f1906a308241a25a71253" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SynopsisStore&gt;<sp/><ref refid="structthemis_1_1query_1_1_continuous_query_state_1aeb2feebc8b5f1906a308241a25a71253" kindref="member">synopsis</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1query_1_1_continuous_query_state_1aa8e9ff053858ef0873263f73a33f39da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;CQWatermark&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_state_1aa8e9ff053858ef0873263f73a33f39da" kindref="member">watermark</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3" kindref="member">CQPlanNodeType</ref><sp/>{<sp/><ref refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3af382cbb5712b735513a43ef9eacfad28" kindref="member">SYNOPSIS</ref>,<sp/><ref refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3acf25f0720a9734694e52062b8eebd429" kindref="member">DELTA_AGG</ref>,<sp/><ref refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3ad20d4afba9e274c83e9c9b7d536f683d" kindref="member">RESULT_EMIT</ref>,<sp/><ref refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3a9bac194ce9ab1aff4edc121e77d0f28c" kindref="member">SCATTER_GATHER</ref><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_continuous_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_continuous_plan" kindref="compound">ContinuousPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_continuous_plan_1a5241fe3dc2290482b99e4f9159d4c715" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3" kindref="member">CQPlanNodeType</ref><sp/><ref refid="structthemis_1_1query_1_1_continuous_plan_1a5241fe3dc2290482b99e4f9159d4c715" kindref="member">type</ref>{<ref refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3ad20d4afba9e274c83e9c9b7d536f683d" kindref="member">CQPlanNodeType::RESULT_EMIT</ref>};</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1query_1_1_continuous_plan_1aed4cef7d4ab2a200066ff0f0bcbb5a25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_continuous_plan_1aed4cef7d4ab2a200066ff0f0bcbb5a25" kindref="member">query_name</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_continuous_plan_1a927002f963506ed819e1c47b9b9744d3" kindref="member">evaluate</ref>(<ref refid="structthemis_1_1query_1_1_continuous_query_state" kindref="compound">ContinuousQueryState</ref>&amp;<sp/>state,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;CQResult&gt;&amp;<sp/>results)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1query_1_1_continuous_query_planner" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_continuous_query_planner_1abdcb3cddf6ef12edbee225c7a58f94c0" kindref="member">ContinuousQueryPlanner</ref><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1query_1_1_continuous_query_planner_1abdcb3cddf6ef12edbee225c7a58f94c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_continuous_query_planner_1abdcb3cddf6ef12edbee225c7a58f94c0" kindref="member">ContinuousQueryPlanner</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;ContinuousPlan&gt;<sp/><ref refid="classthemis_1_1query_1_1_continuous_query_planner_1a25e7a345530f02f3f79799f53957d94d" kindref="member">compile</ref>(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref>&amp;<sp/>spec)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/continuous_query_planner.h"/>
+  </compounddef>
+</doxygen>

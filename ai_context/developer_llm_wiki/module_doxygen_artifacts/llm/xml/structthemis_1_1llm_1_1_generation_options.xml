@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_generation_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GenerationOptions</compoundname>
+    <includes refid="llm__client_8h" local="no">llm_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_options_1a40368a7fad203107dfbaef7a511cb1c3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GenerationOptions::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::llm::GenerationOptions::max_tokens</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="21" column="9" bodyfile="include/llm/llm_client.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_options_1a5553ac16e72ee5c3a6779f3222c45234" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GenerationOptions::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::llm::GenerationOptions::temperature</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="23" column="11" bodyfile="include/llm/llm_client.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_options_1ad387cee1765870d9ba589072033f5503" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GenerationOptions::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::llm::GenerationOptions::top_k</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="25" column="9" bodyfile="include/llm/llm_client.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_options_1a09e3c4bb9b0cc77d32ebe92171132c56" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::GenerationOptions::top_p</definition>
+        <argsstring></argsstring>
+        <name>top_p</name>
+        <qualifiedname>themis::llm::GenerationOptions::top_p</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="27" column="11" bodyfile="include/llm/llm_client.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_options_1a125715e22485abacf37c8c43fd89667e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::GenerationOptions::stop_sequences</definition>
+        <argsstring></argsstring>
+        <name>stop_sequences</name>
+        <qualifiedname>themis::llm::GenerationOptions::stop_sequences</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="29" column="17" bodyfile="include/llm/llm_client.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_generation_options_1a978856e0cc090cc144d7326608c521fb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::GenerationOptions::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::llm::GenerationOptions::timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_client.h" line="31" column="14" bodyfile="include/llm/llm_client.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_client.h" line="20" column="1" bodyfile="include/llm/llm_client.h" bodystart="20" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_generation_options_1a40368a7fad203107dfbaef7a511cb1c3" prot="public" virt="non-virtual"><scope>themis::llm::GenerationOptions</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_options_1a125715e22485abacf37c8c43fd89667e" prot="public" virt="non-virtual"><scope>themis::llm::GenerationOptions</scope><name>stop_sequences</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_options_1a5553ac16e72ee5c3a6779f3222c45234" prot="public" virt="non-virtual"><scope>themis::llm::GenerationOptions</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_options_1a978856e0cc090cc144d7326608c521fb" prot="public" virt="non-virtual"><scope>themis::llm::GenerationOptions</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_options_1ad387cee1765870d9ba589072033f5503" prot="public" virt="non-virtual"><scope>themis::llm::GenerationOptions</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1llm_1_1_generation_options_1a09e3c4bb9b0cc77d32ebe92171132c56" prot="public" virt="non-virtual"><scope>themis::llm::GenerationOptions</scope><name>top_p</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

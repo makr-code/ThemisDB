@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_routing_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::RoutingDecision</compoundname>
+    <includes refid="tensor__routing__strategy_8h" local="no">tensor_routing_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1aa86994c03ce58e3f9c7d224626283dd8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::RoutingDecision::primary_target</definition>
+        <argsstring></argsstring>
+        <name>primary_target</name>
+        <qualifiedname>themis::tensor::RoutingDecision::primary_target</qualifiedname>
+        <briefdescription>
+<para>Primary routing target (e.g., &quot;GRAPH_VALIDATION&quot;, &quot;FALLBACK&quot;, &quot;CACHE&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="38" column="17" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1a15e592538b1742238981369213d15c8c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::RoutingDecision::fallback_target</definition>
+        <argsstring></argsstring>
+        <name>fallback_target</name>
+        <qualifiedname>themis::tensor::RoutingDecision::fallback_target</qualifiedname>
+        <briefdescription>
+<para>Fallback target if primary fails. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="41" column="17" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1a2fa06ffbcb555f165c70404a86d87c67" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::RoutingDecision::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::tensor::RoutingDecision::confidence</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Confidence in this routing decision (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="44" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1ae94eed650b095d0a1aca60d6720288f3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::RoutingDecision::primary_cost</definition>
+        <argsstring></argsstring>
+        <name>primary_cost</name>
+        <qualifiedname>themis::tensor::RoutingDecision::primary_cost</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Cost estimate for primary path (relative units). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="47" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1afc6745837a15620d2d3f1fb83652adf6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::RoutingDecision::fallback_cost</definition>
+        <argsstring></argsstring>
+        <name>fallback_cost</name>
+        <qualifiedname>themis::tensor::RoutingDecision::fallback_cost</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Cost estimate for fallback path (relative units). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="50" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1ad8900b3a92c2c6db864b90d3b97f017e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::RoutingDecision::expected_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>expected_latency_ms</name>
+        <qualifiedname>themis::tensor::RoutingDecision::expected_latency_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Expected latency for primary path (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="53" column="11" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1a9b3dcfa6bcd1e9dfc5df03750df4375f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::RoutingDecision::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::tensor::RoutingDecision::reason</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Human-readable explanation of the routing choice. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="56" column="17" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1a69324942f9dda1739ce61cddc48b9b09" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::RoutingDecision::reason_code</definition>
+        <argsstring></argsstring>
+        <name>reason_code</name>
+        <qualifiedname>themis::tensor::RoutingDecision::reason_code</qualifiedname>
+        <briefdescription>
+<para>Machine-readable routing reason code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="59" column="17" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1af5d253583097713475865e7af41cad7d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::RoutingDecision::enable_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_caching</name>
+        <qualifiedname>themis::tensor::RoutingDecision::enable_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether to cache results for future similar queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="62" column="10" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1a4f22afc6fead51a2420a7990f91d74fa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::tensor::RoutingDecision::cache_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl_seconds</name>
+        <qualifiedname>themis::tensor::RoutingDecision::cache_ttl_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+<para>TTL for cached results (seconds, 0 = no cache). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="65" column="14" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1ae750608f69967fe5f2918062363ffd79" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::tensor::RoutingDecision::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::tensor::RoutingDecision::priority</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Priority level for processing (higher = more urgent, 0-100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="68" column="13" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_routing_decision_1a096970c072835091ce89625cda6c943e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::tensor::RoutingDecision::shard_hints</definition>
+        <argsstring></argsstring>
+        <name>shard_hints</name>
+        <qualifiedname>themis::tensor::RoutingDecision::shard_hints</qualifiedname>
+        <briefdescription>
+<para>Shard selection hints for federated queries (shard IDs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="71" column="17" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Routing decision produced by a routing strategy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Specifies where and how tensor-layer results should be forwarded:<itemizedlist>
+<listitem><para>To graph validation for truth layer processing</para>
+</listitem><listitem><para>To fallback/degraded path if primary failed</para>
+</listitem><listitem><para>To caching/memoization for similar future queries </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_routing_strategy.h" line="36" column="1" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="36" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1a4f22afc6fead51a2420a7990f91d74fa" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>cache_ttl_seconds</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1a2fa06ffbcb555f165c70404a86d87c67" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1af5d253583097713475865e7af41cad7d" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>enable_caching</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1ad8900b3a92c2c6db864b90d3b97f017e" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>expected_latency_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1afc6745837a15620d2d3f1fb83652adf6" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>fallback_cost</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1a15e592538b1742238981369213d15c8c" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>fallback_target</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1ae94eed650b095d0a1aca60d6720288f3" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>primary_cost</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1aa86994c03ce58e3f9c7d224626283dd8" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>primary_target</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1ae750608f69967fe5f2918062363ffd79" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>priority</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1a9b3dcfa6bcd1e9dfc5df03750df4375f" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1a69324942f9dda1739ce61cddc48b9b09" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>reason_code</name></member>
+      <member refid="structthemis_1_1tensor_1_1_routing_decision_1a096970c072835091ce89625cda6c943e" prot="public" virt="non-virtual"><scope>themis::tensor::RoutingDecision</scope><name>shard_hints</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

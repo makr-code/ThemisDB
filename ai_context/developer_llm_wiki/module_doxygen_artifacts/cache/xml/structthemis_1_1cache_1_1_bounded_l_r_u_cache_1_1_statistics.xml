@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::BoundedLRUCache::Statistics</compoundname>
+    <includes refid="bounded__lru__cache_8h" local="no">bounded_lru_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics_1a3a84a8eed0d541a5da0d25922c0221e3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::BoundedLRUCache::Statistics::current_size</definition>
+        <argsstring></argsstring>
+        <name>current_size</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Statistics::current_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="70" column="16" bodyfile="include/cache/bounded_lru_cache.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics_1a97f6f61efbdc601b0f0e34fa9d9faf34" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::BoundedLRUCache::Statistics::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Statistics::hits</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="71" column="16" bodyfile="include/cache/bounded_lru_cache.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics_1aada48500a0525311cfaeed5508ce1040" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::BoundedLRUCache::Statistics::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Statistics::misses</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="72" column="16" bodyfile="include/cache/bounded_lru_cache.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics_1a083951d4a747cdb486f7de3a797b7e73" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::cache::BoundedLRUCache::Statistics::hit_ratio</definition>
+        <argsstring>() const</argsstring>
+        <name>hit_ratio</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::Statistics::hit_ratio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="74" column="16" bodyfile="include/cache/bounded_lru_cache.h" bodystart="74" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/bounded_lru_cache.h" line="69" column="5" bodyfile="include/cache/bounded_lru_cache.h" bodystart="69" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics_1a3a84a8eed0d541a5da0d25922c0221e3" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Statistics</scope><name>current_size</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics_1a083951d4a747cdb486f7de3a797b7e73" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Statistics</scope><name>hit_ratio</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics_1a97f6f61efbdc601b0f0e34fa9d9faf34" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Statistics</scope><name>hits</name></member>
+      <member refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics_1aada48500a0525311cfaeed5508ce1040" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache::Statistics</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

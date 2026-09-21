@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_learned_quantizer_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LearnedQuantizer::Config</compoundname>
+    <includes refid="learned__quantizer_8h" local="no">learned_quantizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_learned_quantizer_1_1_config_1a49d0e51238de52a34d64061e0157e28e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LearnedQuantizer::Config::bits_per_dimension</definition>
+        <argsstring></argsstring>
+        <name>bits_per_dimension</name>
+        <qualifiedname>themis::LearnedQuantizer::Config::bits_per_dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="56" column="13" bodyfile="include/index/learned_quantizer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_learned_quantizer_1_1_config_1af4987b9a8a83dea13dc0c5185b56b615" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LearnedQuantizer::Config::per_dimension</definition>
+        <argsstring></argsstring>
+        <name>per_dimension</name>
+        <qualifiedname>themis::LearnedQuantizer::Config::per_dimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="57" column="14" bodyfile="include/index/learned_quantizer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_learned_quantizer_1_1_config_1aa51de44910d5c304c1d13b734477a205" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LearnedQuantizer::Config::block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::LearnedQuantizer::Config::block_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="58" column="13" bodyfile="include/index/learned_quantizer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_learned_quantizer_1_1_config_1a3837d74a65f0170f950b81b3f9c516a7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LearnedQuantizer::Config::training_iterations</definition>
+        <argsstring></argsstring>
+        <name>training_iterations</name>
+        <qualifiedname>themis::LearnedQuantizer::Config::training_iterations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="59" column="13" bodyfile="include/index/learned_quantizer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_learned_quantizer_1_1_config_1af92c638736105387c127c3a4b331ae4c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::LearnedQuantizer::Config::convergence_threshold</definition>
+        <argsstring></argsstring>
+        <name>convergence_threshold</name>
+        <qualifiedname>themis::LearnedQuantizer::Config::convergence_threshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="60" column="15" bodyfile="include/index/learned_quantizer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_learned_quantizer_1_1_config_1adb9e977d09a6000f0bc81fc009b127a6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LearnedQuantizer::Config::use_percentiles</definition>
+        <argsstring></argsstring>
+        <name>use_percentiles</name>
+        <qualifiedname>themis::LearnedQuantizer::Config::use_percentiles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="61" column="14" bodyfile="include/index/learned_quantizer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_learned_quantizer_1_1_config_1a919109dd407ca68393c14a65b123d659" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::LearnedQuantizer::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::LearnedQuantizer::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_quantizer.h" line="63" column="9" bodyfile="include/index/learned_quantizer.h" bodystart="63" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/learned_quantizer.h" line="55" column="5" bodyfile="include/index/learned_quantizer.h" bodystart="55" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_config_1a49d0e51238de52a34d64061e0157e28e" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Config</scope><name>bits_per_dimension</name></member>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_config_1aa51de44910d5c304c1d13b734477a205" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Config</scope><name>block_size</name></member>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_config_1a919109dd407ca68393c14a65b123d659" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_config_1af92c638736105387c127c3a4b331ae4c" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Config</scope><name>convergence_threshold</name></member>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_config_1af4987b9a8a83dea13dc0c5185b56b615" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Config</scope><name>per_dimension</name></member>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_config_1a3837d74a65f0170f950b81b3f9c516a7" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Config</scope><name>training_iterations</name></member>
+      <member refid="structthemis_1_1_learned_quantizer_1_1_config_1adb9e977d09a6000f0bc81fc009b127a6" prot="public" virt="non-virtual"><scope>themis::LearnedQuantizer::Config</scope><name>use_percentiles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

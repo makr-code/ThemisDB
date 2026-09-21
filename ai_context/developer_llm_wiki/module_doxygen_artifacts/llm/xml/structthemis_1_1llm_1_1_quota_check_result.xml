@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_quota_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::QuotaCheckResult</compoundname>
+    <includes refid="token__quota__manager_8h" local="no">token_quota_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_check_result_1ab527e9bff4936c51f7afb9c108b8c7d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::QuotaCheckResult::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::llm::QuotaCheckResult::allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>false if the request was denied by quota </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/token_quota_manager.h" line="24" column="10" bodyfile="include/llm/token_quota_manager.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_check_result_1a5b95ad102fb7a4f14aa2ea457694116d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::QuotaCheckResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::QuotaCheckResult::reason</qualifiedname>
+        <briefdescription>
+<para>human-readable explanation when denied </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/token_quota_manager.h" line="25" column="17" bodyfile="include/llm/token_quota_manager.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_check_result_1a43541252b2d821a75af2c3c0b7b53cd1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaCheckResult::tokens_used</definition>
+        <argsstring></argsstring>
+        <name>tokens_used</name>
+        <qualifiedname>themis::llm::QuotaCheckResult::tokens_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>tokens consumed in the current window </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/token_quota_manager.h" line="26" column="12" bodyfile="include/llm/token_quota_manager.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_quota_check_result_1a6aafdeba4c433e31ba38598bc0cfeae8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::QuotaCheckResult::tokens_limit</definition>
+        <argsstring></argsstring>
+        <name>tokens_limit</name>
+        <qualifiedname>themis::llm::QuotaCheckResult::tokens_limit</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>configured limit for the window </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/token_quota_manager.h" line="27" column="12" bodyfile="include/llm/token_quota_manager.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/token_quota_manager.h" line="23" column="1" bodyfile="include/llm/token_quota_manager.h" bodystart="23" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_quota_check_result_1ab527e9bff4936c51f7afb9c108b8c7d7" prot="public" virt="non-virtual"><scope>themis::llm::QuotaCheckResult</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_check_result_1a5b95ad102fb7a4f14aa2ea457694116d" prot="public" virt="non-virtual"><scope>themis::llm::QuotaCheckResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_check_result_1a6aafdeba4c433e31ba38598bc0cfeae8" prot="public" virt="non-virtual"><scope>themis::llm::QuotaCheckResult</scope><name>tokens_limit</name></member>
+      <member refid="structthemis_1_1llm_1_1_quota_check_result_1a43541252b2d821a75af2c3c0b7b53cd1" prot="public" virt="non-virtual"><scope>themis::llm::QuotaCheckResult</scope><name>tokens_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

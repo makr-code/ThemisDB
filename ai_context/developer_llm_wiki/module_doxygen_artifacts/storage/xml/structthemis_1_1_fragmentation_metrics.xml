@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_fragmentation_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FragmentationMetrics</compoundname>
+    <includes refid="index__maintenance_8h" local="no">index_maintenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1a8b46a33d3d8fb4995b8744fbcc717af1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FragmentationMetrics::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::FragmentationMetrics::index_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="67" column="17" bodyfile="include/storage/index_maintenance.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1ac16a998cd069d948e173e4ce33057fe3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FragmentationMetrics::fragmentation_percentage</definition>
+        <argsstring></argsstring>
+        <name>fragmentation_percentage</name>
+        <qualifiedname>themis::FragmentationMetrics::fragmentation_percentage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="68" column="12" bodyfile="include/storage/index_maintenance.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1ab1ec6655d9537398178db5e72cd0e239" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1" kindref="member">FragmentationLevel</ref></type>
+        <definition>FragmentationLevel themis::FragmentationMetrics::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::FragmentationMetrics::level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">FragmentationLevel::LOW</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="69" column="24" bodyfile="include/storage/index_maintenance.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1a1fd8c845d1c5ff4fa3d019f18e630ec0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FragmentationMetrics::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::FragmentationMetrics::total_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="70" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1a5590e277431a00487a9b2e8695a22d9b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FragmentationMetrics::orphan_entries</definition>
+        <argsstring></argsstring>
+        <name>orphan_entries</name>
+        <qualifiedname>themis::FragmentationMetrics::orphan_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="71" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1ae67a94f53f91d6bfd0702b2f0acd530c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FragmentationMetrics::last_updated_ms</definition>
+        <argsstring></argsstring>
+        <name>last_updated_ms</name>
+        <qualifiedname>themis::FragmentationMetrics::last_updated_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="72" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1ad5b81365c7747cd631c510a60c51e77e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FragmentationMetrics::statistics_staleness_ms</definition>
+        <argsstring></argsstring>
+        <name>statistics_staleness_ms</name>
+        <qualifiedname>themis::FragmentationMetrics::statistics_staleness_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="73" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1a82f2a7f2825710528982afb1e8f84e92" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FragmentationMetrics::file_count</definition>
+        <argsstring></argsstring>
+        <name>file_count</name>
+        <qualifiedname>themis::FragmentationMetrics::file_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="76" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1a1912b78f337946b6aeec775f230f8d70" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FragmentationMetrics::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::FragmentationMetrics::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="77" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_fragmentation_metrics_1a77c26baff1cd0b300da3fcc50bfc8646" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::FragmentationMetrics::wasted_space_bytes</definition>
+        <argsstring></argsstring>
+        <name>wasted_space_bytes</name>
+        <qualifiedname>themis::FragmentationMetrics::wasted_space_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_maintenance.h" line="78" column="14" bodyfile="include/storage/index_maintenance.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Index fragmentation metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/index_maintenance.h" line="66" column="1" bodyfile="include/storage/index_maintenance.h" bodystart="66" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_fragmentation_metrics_1a82f2a7f2825710528982afb1e8f84e92" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>file_count</name></member>
+      <member refid="structthemis_1_1_fragmentation_metrics_1ac16a998cd069d948e173e4ce33057fe3" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>fragmentation_percentage</name></member>
+      <member refid="structthemis_1_1_fragmentation_metrics_1a8b46a33d3d8fb4995b8744fbcc717af1" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1_fragmentation_metrics_1ae67a94f53f91d6bfd0702b2f0acd530c" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>last_updated_ms</name></member>
+      <member refid="structthemis_1_1_fragmentation_metrics_1ab1ec6655d9537398178db5e72cd0e239" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>level</name></member>
+      <member refid="structthemis_1_1_fragmentation_metrics_1a5590e277431a00487a9b2e8695a22d9b" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>orphan_entries</name></member>
+      <member refid="structthemis_1_1_fragmentation_metrics_1a1912b78f337946b6aeec775f230f8d70" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1_fragmentation_metrics_1ad5b81365c7747cd631c510a60c51e77e" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>statistics_staleness_ms</name></member>
+      <member refid="structthemis_1_1_fragmentation_metrics_1a1fd8c845d1c5ff4fa3d019f18e630ec0" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>total_entries</name></member>
+      <member refid="structthemis_1_1_fragmentation_metrics_1a77c26baff1cd0b300da3fcc50bfc8646" prot="public" virt="non-virtual"><scope>themis::FragmentationMetrics</scope><name>wasted_space_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

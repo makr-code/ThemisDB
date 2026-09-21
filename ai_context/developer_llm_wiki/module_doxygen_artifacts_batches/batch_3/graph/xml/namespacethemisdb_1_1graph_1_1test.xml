@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1graph_1_1test" kind="namespace" language="C++">
+    <compoundname>themisdb::graph::test</compoundname>
+    <innernamespace refid="namespacethemisdb_1_1graph_1_1test_1_1phase3">themisdb::graph::test::phase3</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="48" column="32"/>
+  </compounddef>
+</doxygen>

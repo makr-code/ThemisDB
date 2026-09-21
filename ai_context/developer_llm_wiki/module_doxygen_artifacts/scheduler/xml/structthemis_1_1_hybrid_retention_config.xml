@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hybrid_retention_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HybridRetentionConfig</compoundname>
+    <includes refid="hybrid__retention__manager_8h" local="no">hybrid_retention_manager.h</includes>
+    <innerclass refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config" prot="public">themis::HybridRetentionConfig::Stage1Config</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config" prot="public">themis::HybridRetentionConfig::Stage2Config</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config" prot="public">themis::HybridRetentionConfig::Stage3Config</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1a488b31d76765dcca982dc54e99b14fdc" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config" kindref="compound">themis::HybridRetentionConfig::Stage1Config</ref></type>
+        <definition>struct themis::HybridRetentionConfig::Stage1Config themis::HybridRetentionConfig::stage1</definition>
+        <argsstring></argsstring>
+        <name>stage1</name>
+        <qualifiedname>themis::HybridRetentionConfig::stage1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="39" column="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1ace78f57aa2774826543b26a92675527b" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config" kindref="compound">themis::HybridRetentionConfig::Stage2Config</ref></type>
+        <definition>struct themis::HybridRetentionConfig::Stage2Config themis::HybridRetentionConfig::stage2</definition>
+        <argsstring></argsstring>
+        <name>stage2</name>
+        <qualifiedname>themis::HybridRetentionConfig::stage2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="60" column="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1af74a8d971003fe0c90f04218061f71ff" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config" kindref="compound">themis::HybridRetentionConfig::Stage3Config</ref></type>
+        <definition>struct themis::HybridRetentionConfig::Stage3Config themis::HybridRetentionConfig::stage3</definition>
+        <argsstring></argsstring>
+        <name>stage3</name>
+        <qualifiedname>themis::HybridRetentionConfig::stage3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="68" column="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1a6ff60ac41455555192121e21b2643306" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HybridRetentionConfig::auto_cleanup</definition>
+        <argsstring></argsstring>
+        <name>auto_cleanup</name>
+        <qualifiedname>themis::HybridRetentionConfig::auto_cleanup</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="71" column="10" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1a820fe79e00f4e75617dfd413f7e4b14d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HybridRetentionConfig::verify_aggregates</definition>
+        <argsstring></argsstring>
+        <name>verify_aggregates</name>
+        <qualifiedname>themis::HybridRetentionConfig::verify_aggregates</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="72" column="10" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1a097732534206799107d3f3536843425f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::HybridRetentionConfig::source_table</definition>
+        <argsstring></argsstring>
+        <name>source_table</name>
+        <qualifiedname>themis::HybridRetentionConfig::source_table</qualifiedname>
+        <initializer>= &quot;timeseries&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="73" column="17" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1ab1c440e37e24cdf899c883ea5598299b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::HybridRetentionConfig::adaptive_table</definition>
+        <argsstring></argsstring>
+        <name>adaptive_table</name>
+        <qualifiedname>themis::HybridRetentionConfig::adaptive_table</qualifiedname>
+        <initializer>= &quot;timeseries_adaptive&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="74" column="17" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_config_1a96e7d4dc244d310496a9cef47eef4585" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::HybridRetentionConfig::longterm_table</definition>
+        <argsstring></argsstring>
+        <name>longterm_table</name>
+        <qualifiedname>themis::HybridRetentionConfig::longterm_table</qualifiedname>
+        <initializer>= &quot;timeseries_longterm&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="75" column="17" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for hybrid retention strategy. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::HybridRetentionConfig</label>
+        <link refid="structthemis_1_1_hybrid_retention_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stage1</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stage2</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>stage3</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::HybridRetentionConfig::Stage1Config</label>
+        <link refid="structthemis_1_1_hybrid_retention_config_1_1_stage1_config"/>
+      </node>
+      <node id="3">
+        <label>themis::HybridRetentionConfig::Stage2Config</label>
+        <link refid="structthemis_1_1_hybrid_retention_config_1_1_stage2_config"/>
+      </node>
+      <node id="4">
+        <label>themis::HybridRetentionConfig::Stage3Config</label>
+        <link refid="structthemis_1_1_hybrid_retention_config_1_1_stage3_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/scheduler/hybrid_retention_manager.h" line="32" column="1" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="32" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hybrid_retention_config_1ab1c440e37e24cdf899c883ea5598299b" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig</scope><name>adaptive_table</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1a6ff60ac41455555192121e21b2643306" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig</scope><name>auto_cleanup</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1a96e7d4dc244d310496a9cef47eef4585" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig</scope><name>longterm_table</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1a097732534206799107d3f3536843425f" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig</scope><name>source_table</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1a488b31d76765dcca982dc54e99b14fdc" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig</scope><name>stage1</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1ace78f57aa2774826543b26a92675527b" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig</scope><name>stage2</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1af74a8d971003fe0c90f04218061f71ff" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig</scope><name>stage3</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_config_1a820fe79e00f4e75617dfd413f7e4b14d" prot="public" virt="non-virtual"><scope>themis::HybridRetentionConfig</scope><name>verify_aggregates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

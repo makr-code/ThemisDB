@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_capability_match_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::CapabilityMatchResult</compoundname>
+    <includes refid="shard__capabilities_8h" local="no">shard_capabilities.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1a6e4d79e9eee497b7a2c6edb039277440" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CapabilityMatchResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="91" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1aafe2575533f6a68bdcbc0fb0c0fbfcc4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatchResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="92" column="12" bodyfile="include/sharding/shard_capabilities.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1ae68df37cf38155f1e957f8d072985314" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatchResult::keyword_score</definition>
+        <argsstring></argsstring>
+        <name>keyword_score</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::keyword_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="93" column="12" bodyfile="include/sharding/shard_capabilities.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1a3065e4f28b534ffd54644595a382b3e7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatchResult::semantic_score</definition>
+        <argsstring></argsstring>
+        <name>semantic_score</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::semantic_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="94" column="12" bodyfile="include/sharding/shard_capabilities.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1a9fbd90bd71b192abbe3f55f66e31473c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatchResult::domain_score</definition>
+        <argsstring></argsstring>
+        <name>domain_score</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::domain_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="95" column="12" bodyfile="include/sharding/shard_capabilities.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1ab1598123a9b8e87ed42ba3a16faadc72" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatchResult::organization_score</definition>
+        <argsstring></argsstring>
+        <name>organization_score</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::organization_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="96" column="12" bodyfile="include/sharding/shard_capabilities.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1a678797cb3fcd85bc233136517fe8efb6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatchResult::region_score</definition>
+        <argsstring></argsstring>
+        <name>region_score</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::region_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="97" column="12" bodyfile="include/sharding/shard_capabilities.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1aa67d32b7f856482482b9a58c20080aca" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::CapabilityMatchResult::data_type_score</definition>
+        <argsstring></argsstring>
+        <name>data_type_score</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::data_type_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="98" column="12" bodyfile="include/sharding/shard_capabilities.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1a7cb0e03ddfd801fc9329078afe78ab6c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatchResult::matched_keywords</definition>
+        <argsstring></argsstring>
+        <name>matched_keywords</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::matched_keywords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detailed match information for debugging/metrics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="103" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1a6fd1588b445b28403b8fc64b78c474b0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatchResult::matched_domains</definition>
+        <argsstring></argsstring>
+        <name>matched_domains</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::matched_domains</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="104" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1a591d29830263c528cab8f5127e9bb371" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatchResult::matched_organizations</definition>
+        <argsstring></argsstring>
+        <name>matched_organizations</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::matched_organizations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="105" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1a00286b87e44b86b96f790a425b68c59b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatchResult::matched_regions</definition>
+        <argsstring></argsstring>
+        <name>matched_regions</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::matched_regions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="106" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_capability_match_result_1a0d079bd36ac9735f3a53c2de87450bbd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::CapabilityMatchResult::matched_data_types</definition>
+        <argsstring></argsstring>
+        <name>matched_data_types</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::matched_data_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="107" column="17" bodyfile="include/sharding/shard_capabilities.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_capability_match_result_1a77f167cca7661fcd2cd0171fc1c6fbf2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::CapabilityMatchResult::CapabilityMatchResult</definition>
+        <argsstring>()</argsstring>
+        <name>CapabilityMatchResult</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::CapabilityMatchResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="112" column="5" bodyfile="include/sharding/shard_capabilities.h" bodystart="112" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_capability_match_result_1aea4e1ce623f3aee6566187572e304a44" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CapabilityMatchResult::operator&lt;</definition>
+        <argsstring>(const CapabilityMatchResult &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a77f167cca7661fcd2cd0171fc1c6fbf2" kindref="member">CapabilityMatchResult</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comparison operator for sorting by score (descending) Note: Returns true if this score is GREATER than other&apos;s score to enable descending sort when used with std::sort </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="122" column="5" bodyfile="include/sharding/shard_capabilities.h" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_capability_match_result_1addf5248d6516eb5858076c231ac261ea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CapabilityMatchResult::operator&gt;</definition>
+        <argsstring>(const CapabilityMatchResult &amp;other) const</argsstring>
+        <name>operator&gt;</name>
+        <qualifiedname>themis::sharding::CapabilityMatchResult::operator&gt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_capability_match_result_1a77f167cca7661fcd2cd0171fc1c6fbf2" kindref="member">CapabilityMatchResult</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Explicit descending comparison </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_capabilities.h" line="129" column="10" bodyfile="include/sharding/shard_capabilities.h" bodystart="129" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Capability Match Result</para>
+<para>Represents the relevance score between a query and a shard&apos;s capabilities </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_capabilities.h" line="90" column="1" bodyfile="include/sharding/shard_capabilities.h" bodystart="90" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a77f167cca7661fcd2cd0171fc1c6fbf2" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>CapabilityMatchResult</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1aa67d32b7f856482482b9a58c20080aca" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>data_type_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a9fbd90bd71b192abbe3f55f66e31473c" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>domain_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1ae68df37cf38155f1e957f8d072985314" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>keyword_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a0d079bd36ac9735f3a53c2de87450bbd" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>matched_data_types</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a6fd1588b445b28403b8fc64b78c474b0" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>matched_domains</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a7cb0e03ddfd801fc9329078afe78ab6c" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>matched_keywords</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a591d29830263c528cab8f5127e9bb371" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>matched_organizations</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a00286b87e44b86b96f790a425b68c59b" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>matched_regions</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1aea4e1ce623f3aee6566187572e304a44" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1addf5248d6516eb5858076c231ac261ea" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>operator&gt;</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1ab1598123a9b8e87ed42ba3a16faadc72" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>organization_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a678797cb3fcd85bc233136517fe8efb6" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>region_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1aafe2575533f6a68bdcbc0fb0c0fbfcc4" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a3065e4f28b534ffd54644595a382b3e7" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>semantic_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_capability_match_result_1a6e4d79e9eee497b7a2c6edb039277440" prot="public" virt="non-virtual"><scope>themis::sharding::CapabilityMatchResult</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

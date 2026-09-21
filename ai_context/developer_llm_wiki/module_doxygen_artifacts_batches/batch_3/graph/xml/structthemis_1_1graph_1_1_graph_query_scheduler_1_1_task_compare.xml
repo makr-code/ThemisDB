@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_task_compare" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::GraphQueryScheduler::TaskCompare</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_task_compare_1a44e09ba439354e963199349a32170602" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryScheduler::TaskCompare::operator()</definition>
+        <argsstring>(const QueryTask &amp;a, const QueryTask &amp;b) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::TaskCompare::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_query_task" kindref="compound">QueryTask</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_query_task" kindref="compound">QueryTask</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="163" column="14" bodyfile="include/graph/graph_load_balancer.h" bodystart="163" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_load_balancer.h" line="162" column="5" bodyfile="include/graph/graph_load_balancer.h" bodystart="162" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_task_compare_1a44e09ba439354e963199349a32170602" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler::TaskCompare</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

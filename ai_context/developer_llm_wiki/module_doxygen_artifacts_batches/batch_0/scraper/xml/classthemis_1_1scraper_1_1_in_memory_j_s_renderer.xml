@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::InMemoryJSRenderer</compoundname>
+    <basecompoundref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" prot="public" virt="non-virtual">themis::scraper::IScraperJSRenderer</basecompoundref>
+    <includes refid="scraper__js__renderer_8h" local="no">scraper_js_renderer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a227703d799c6ca70f082f1c06ca3b2a1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref> &gt;</type>
+        <definition>std::vector&lt;JsRenderResult&gt; themis::scraper::InMemoryJSRenderer::injected_</definition>
+        <argsstring></argsstring>
+        <name>injected_</name>
+        <qualifiedname>themis::scraper::InMemoryJSRenderer::injected_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="163" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a480cdb196f38ed5aca103d963dfa772f" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int themis::scraper::InMemoryJSRenderer::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>themis::scraper::InMemoryJSRenderer::call_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="164" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1aa0fb79dcc09dcb38897e5ace36055407" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int themis::scraper::InMemoryJSRenderer::idx_</definition>
+        <argsstring></argsstring>
+        <name>idx_</name>
+        <qualifiedname>themis::scraper::InMemoryJSRenderer::idx_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="165" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a0732ecb974f8c8734b97531c3a39efca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::InMemoryJSRenderer::InMemoryJSRenderer</definition>
+        <argsstring>()=default</argsstring>
+        <name>InMemoryJSRenderer</name>
+        <qualifiedname>themis::scraper::InMemoryJSRenderer::InMemoryJSRenderer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="139" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a857ace86f2a38b48759b405d42246b37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::InMemoryJSRenderer::injectResult</definition>
+        <argsstring>(JsRenderResult result)</argsstring>
+        <name>injectResult</name>
+        <qualifiedname>themis::scraper::InMemoryJSRenderer::injectResult</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref></type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="141" column="10" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1ad14afe93196329d4ebf181318097d6f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::InMemoryJSRenderer::clearInjections</definition>
+        <argsstring>()</argsstring>
+        <name>clearInjections</name>
+        <qualifiedname>themis::scraper::InMemoryJSRenderer::clearInjections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="144" column="10" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="144" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a314dbc1ed2157db178cf48717e3b27ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::scraper::InMemoryJSRenderer::callCount</definition>
+        <argsstring>() const</argsstring>
+        <name>callCount</name>
+        <qualifiedname>themis::scraper::InMemoryJSRenderer::callCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="148" column="9" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a389e4c56e64036ed67dc778163246fa4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::InMemoryJSRenderer::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::scraper::InMemoryJSRenderer::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1abe584bf134f16c721ca06b1894f6d547">isAvailable</reimplements>
+        <briefdescription>
+<para>Returns true when the renderer backend is available and usable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For <ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer" kindref="compound">SubprocessJSRenderer</ref> this means the renderer command is non-empty and its first token resolves to an executable on PATH. Call before <ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a232d9da7392056ec2bb5a9d1355ad2ce" kindref="member">ScraperPlugin::initialize()</ref> to validate JS rendering mode. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="149" column="10" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a906c22b68ffe4542cf33787449cfbfc5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref></type>
+        <definition>JsRenderResult themis::scraper::InMemoryJSRenderer::render</definition>
+        <argsstring>(const JsRenderRequest &amp;) override</argsstring>
+        <name>render</name>
+        <qualifiedname>themis::scraper::InMemoryJSRenderer::render</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1a2a07e25df7d60cfc155637404a794d8d">render</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_js_render_request" kindref="compound">JsRenderRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Render a URL using a headless browser and return the resulting HTML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Render request with URL, timeout, and optional CSS wait selector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref> — success==false with an error message on timeout or subprocess failure. Never throws. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="151" column="20" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="151" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test double that returns pre-injected render results. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::scraper::IScraperJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::InMemoryJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::scraper::IScraperJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::InMemoryJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_js_renderer.h" line="137" column="1" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="137" bodyend="166"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a480cdb196f38ed5aca103d963dfa772f" prot="private" virt="non-virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>call_count_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a314dbc1ed2157db178cf48717e3b27ee" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>callCount</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1ad14afe93196329d4ebf181318097d6f5" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>clearInjections</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1aa0fb79dcc09dcb38897e5ace36055407" prot="private" virt="non-virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>idx_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a227703d799c6ca70f082f1c06ca3b2a1" prot="private" virt="non-virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>injected_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a857ace86f2a38b48759b405d42246b37" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>injectResult</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a0732ecb974f8c8734b97531c3a39efca" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>InMemoryJSRenderer</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a389e4c56e64036ed67dc778163246fa4" prot="public" virt="virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a906c22b68ffe4542cf33787449cfbfc5" prot="public" virt="virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>render</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1aa2e2207fbe85d69ca0b836f75dfb3e39" prot="public" virt="virtual"><scope>themis::scraper::InMemoryJSRenderer</scope><name>~IScraperJSRenderer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

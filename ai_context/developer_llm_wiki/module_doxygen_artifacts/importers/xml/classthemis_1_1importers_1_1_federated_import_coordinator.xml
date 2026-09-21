@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_federated_import_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::FederatedImportCoordinator</compoundname>
+    <includes refid="federated__learning_8h" local="no">federated_learning.h</includes>
+    <innerclass refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator" prot="public">themis::importers::FederatedImportCoordinator::FederatedAggregator</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager" prot="public">themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_secure_aggregation_manager" prot="public">themis::importers::FederatedImportCoordinator::SecureAggregationManager</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_training_coordinator" prot="public">themis::importers::FederatedImportCoordinator::FederatedTrainingCoordinator</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/federated_learning.h" line="24" column="1" bodyfile="include/importers/federated_learning.h" bodystart="24" bodyend="134"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

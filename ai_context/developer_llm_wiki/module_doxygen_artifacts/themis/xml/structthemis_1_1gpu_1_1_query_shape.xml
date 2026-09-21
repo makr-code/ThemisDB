@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_query_shape" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::QueryShape</compoundname>
+    <includes refid="graph__cache_8h" local="no">graph_cache.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>OpType</name>
+        <qualifiedname>themis::gpu::QueryShape::OpType</qualifiedname>
+        <enumvalue id="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954ae0740abfbc61bc2be0bfa78af61106ae" prot="public">
+          <name>SCAN</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954aa7bdfbfac6ba2252b889996b1430abb4" prot="public">
+          <name>SORT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954a361d91ce0f028b6708f607b76b12a318" prot="public">
+          <name>AGGREGATE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954aa6fa1cdf9c1a71978751b35b88763f8f" prot="public">
+          <name>JOIN</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954a819d971172865473d18fc414d1c43989" prot="public">
+          <name>ANN_SEARCH</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Approximate nearest-neighbor vector similarity search. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954a5373c6323c8ba94dc7ab6908ca173769" prot="public">
+          <name>TOPK</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Partial sort — return top-k rows by key (GPU: thrust::partial_sort). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="30" column="5" bodyfile="include/themis/gpu/graph_cache.h" bodystart="30" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_query_shape_1ae7bd79dde77cca7b3194e451b9b36036" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954" kindref="member">OpType</ref></type>
+        <definition>OpType themis::gpu::QueryShape::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::gpu::QueryShape::op</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954ae0740abfbc61bc2be0bfa78af61106ae" kindref="member">OpType::SCAN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="39" column="14" bodyfile="include/themis/gpu/graph_cache.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_query_shape_1aceb654a1081590f7c75fc203e13af887" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::QueryShape::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::gpu::QueryShape::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Primary (or total) row count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="40" column="14" bodyfile="include/themis/gpu/graph_cache.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_query_shape_1a1687430e14ee91bf57c31254a9149201" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::QueryShape::param_hash</definition>
+        <argsstring></argsstring>
+        <name>param_hash</name>
+        <qualifiedname>themis::gpu::QueryShape::param_hash</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>FNV-1a hash of op-specific parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="41" column="14" bodyfile="include/themis/gpu/graph_cache.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_query_shape_1aba091a4f24bf736d7707f35210aeca3c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::QueryShape::operator==</definition>
+        <argsstring>(const QueryShape &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::gpu::QueryShape::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="43" column="10" bodyfile="include/themis/gpu/graph_cache.h" bodystart="43" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/graph_cache.h" line="29" column="1" bodyfile="include/themis/gpu/graph_cache.h" bodystart="29" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_query_shape_1ae7bd79dde77cca7b3194e451b9b36036" prot="public" virt="non-virtual"><scope>themis::gpu::QueryShape</scope><name>op</name></member>
+      <member refid="structthemis_1_1gpu_1_1_query_shape_1aba091a4f24bf736d7707f35210aeca3c" prot="public" virt="non-virtual"><scope>themis::gpu::QueryShape</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954" prot="public" virt="non-virtual"><scope>themis::gpu::QueryShape</scope><name>OpType</name></member>
+      <member refid="structthemis_1_1gpu_1_1_query_shape_1a1687430e14ee91bf57c31254a9149201" prot="public" virt="non-virtual"><scope>themis::gpu::QueryShape</scope><name>param_hash</name></member>
+      <member refid="structthemis_1_1gpu_1_1_query_shape_1aceb654a1081590f7c75fc203e13af887" prot="public" virt="non-virtual"><scope>themis::gpu::QueryShape</scope><name>row_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

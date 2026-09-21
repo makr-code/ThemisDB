@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ldap__authenticator_8h" kind="file" language="C++">
+    <compoundname>ldap_authenticator.h</compoundname>
+    <includes refid="auth__error_8h" local="yes">auth/auth_error.h</includes>
+    <includes refid="auth__worker__thread__pool_8h" local="yes">auth/auth_worker_thread_pool.h</includes>
+    <includes refid="ldap__connection__pool_8h" local="yes">auth/ldap_connection_pool.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">future</includes>
+    <includedby refid="ldap__authenticator_8cpp" local="yes">src/auth/ldap_authenticator.cpp</includedby>
+    <includedby refid="test__wave7__auth__ldap__federated_8cpp" local="yes">tests/auth/test_wave7_auth_ldap_federated.cpp</includedby>
+    <includedby refid="test__wave8__auth__hardening_8cpp" local="yes">tests/auth/test_wave8_auth_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="25">
+        <label>auth/auth_audit_logger.h</label>
+        <link refid="auth__audit__logger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>auth/auth_worker_thread_pool.h</label>
+        <link refid="auth__worker__thread__pool_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/auth/ldap_authenticator.h</label>
+        <link refid="ldap__authenticator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>auth/ldap_connection_pool.h</label>
+        <link refid="ldap__connection__pool_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="24">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>condition_variable</label>
+      </node>
+      <node id="23">
+        <label>deque</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>future</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>queue</label>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>thread</label>
+      </node>
+      <node id="18">
+        <label>tuple</label>
+      </node>
+      <node id="19">
+        <label>type_traits</label>
+      </node>
+      <node id="20">
+        <label>utility</label>
+      </node>
+      <node id="26">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="3">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="21">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/ldap_authenticator.h</label>
+        <link refid="ldap__authenticator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/ldap_authenticator.cpp</label>
+        <link refid="ldap__authenticator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/auth/test_wave7_auth_ldap_federated.cpp</label>
+        <link refid="test__wave7__auth__ldap__federated_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/auth/test_wave8_auth_hardening.cpp</label>
+        <link refid="test__wave8__auth__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1auth_1_1_l_d_a_p_config" prot="public">themis::auth::LDAPConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping" prot="public">themis::auth::LDAPConfig::GroupMapping</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" prot="public">themis::auth::LDAPAuthResult</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator" prot="public">themis::auth::LDAPAuthenticator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__error_8h" kindref="compound">auth/auth_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__worker__thread__pool_8h" kindref="compound">auth/auth_worker_thread_pool.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ldap__connection__pool_8h" kindref="compound">auth/ldap_connection_pool.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;<sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Input<sp/>validation<sp/>limits<sp/>for<sp/>LDAP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1auth_1a8cd9758727e6a470c490e351b047a2a9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1a8cd9758727e6a470c490e351b047a2a9" kindref="member">MAX_LDAP_USERNAME_LENGTH</ref><sp/>=<sp/>256;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1auth_1a3804c7733adde1e4db3209bfc4ed8f83" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1a3804c7733adde1e4db3209bfc4ed8f83" kindref="member">MAX_LDAP_PASSWORD_LENGTH</ref><sp/>=<sp/>512;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1auth_1a05e3e043d586be1ed5d6507b27e413b0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1a05e3e043d586be1ed5d6507b27e413b0" kindref="member">MAX_LDAP_DN_LENGTH</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1024;<sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1auth_1a329110f05f80a9b53dac7a1d9d7361a5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a329110f05f80a9b53dac7a1d9d7361a5" kindref="member">DEFAULT_LDAP_PORT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>389;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1auth_1a8860fc7f5b1bf795dd10dc4c356e9e70" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a8860fc7f5b1bf795dd10dc4c356e9e70" kindref="member">DEFAULT_LDAPS_PORT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>636;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1auth_1a0cc7384647704f8b601bd9fbc00eb414" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth_1a0cc7384647704f8b601bd9fbc00eb414" kindref="member">DEFAULT_LDAP_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>10;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1auth_1_1_l_d_a_p_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1ac70e85c1db42450556fb37f807514ec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1ac70e85c1db42450556fb37f807514ec8" kindref="member">server_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aa067b836dee079c188f24001adb9a0fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aa067b836dee079c188f24001adb9a0fd" kindref="member">server_uri</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1af0d958074f5f28d732fe0a1646955abe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1af0d958074f5f28d732fe0a1646955abe" kindref="member">port</ref>{<ref refid="namespacethemis_1_1auth_1a329110f05f80a9b53dac7a1d9d7361a5" kindref="member">DEFAULT_LDAP_PORT</ref>};<sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a276d9a7ad5f322e0c9c3546384546c1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a276d9a7ad5f322e0c9c3546384546c1a" kindref="member">use_tls</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a2b58804dd4f54925e3e308e42438d446" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a2b58804dd4f54925e3e308e42438d446" kindref="member">connection_timeout_seconds</ref>{<ref refid="namespacethemis_1_1auth_1a0cc7384647704f8b601bd9fbc00eb414" kindref="member">DEFAULT_LDAP_TIMEOUT</ref>};</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a6a14a0d55ac42b3124c40212d8c6632d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a6a14a0d55ac42b3124c40212d8c6632d" kindref="member">search_timeout_seconds</ref>{<ref refid="namespacethemis_1_1auth_1a0cc7384647704f8b601bd9fbc00eb414" kindref="member">DEFAULT_LDAP_TIMEOUT</ref>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a5771f9b92751b79e4521ba75325bada8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a5771f9b92751b79e4521ba75325bada8" kindref="member">bind_dn_template</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a72cf5973b255f8323c8d0b7eb264b8f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a72cf5973b255f8323c8d0b7eb264b8f9" kindref="member">bind_dn</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a5bc4b3d7bdee07256fe0dba6bb7318c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a5bc4b3d7bdee07256fe0dba6bb7318c7" kindref="member">bind_password</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>user-search<sp/>(resolves<sp/>group<sp/>membership)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1add81f92ba8db37b3ead36c58baa7bb0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1add81f92ba8db37b3ead36c58baa7bb0d" kindref="member">enable_group_search</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a39872cec61f19504500c32c5578e959a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a39872cec61f19504500c32c5578e959a" kindref="member">base_dn</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aa1ccf85e1e1f4f2a46591fcab559dc8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aa1ccf85e1e1f4f2a46591fcab559dc8f" kindref="member">user_search_filter</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a3a064d252b0a89e53eabe918da021031" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a3a064d252b0a89e53eabe918da021031" kindref="member">group_search_base</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1ac344fc13084fcceff9189afc0aaf6a13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1ac344fc13084fcceff9189afc0aaf6a13" kindref="member">group_search_filter</ref>;<sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1ae9464d255841156fc52bb6d9483a8611" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1ae9464d255841156fc52bb6d9483a8611" kindref="member">group_attribute</ref>{</highlight><highlight class="stringliteral">&quot;cn&quot;</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Role<sp/>mapping:<sp/>LDAP<sp/>group<sp/>→<sp/>ThemisDB<sp/>role</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping" kindref="compound">GroupMapping</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping_1ab967e597c4e44f94f20d20c9e87d5cb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping_1ab967e597c4e44f94f20d20c9e87d5cb0" kindref="member">group_name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping_1a0a07cb001f6e639d22b93c66d9083c1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1_1_group_mapping_1a0a07cb001f6e639d22b93c66d9083c1c" kindref="member">role</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aad2b48227b7df31eda2740545e5ec69c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GroupMapping&gt;<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aad2b48227b7df31eda2740545e5ec69c" kindref="member">group_mappings</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>role<sp/>assigned<sp/>when<sp/>no<sp/>group<sp/>mapping<sp/>matches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a8bae8bc7dd883b11d3b05d3d06aadea2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a8bae8bc7dd883b11d3b05d3d06aadea2" kindref="member">default_role</ref>{</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>pool<sp/>settings<sp/>(used<sp/>when<sp/>the<sp/>pool<sp/>is<sp/>enabled)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aa1f8d332b15f1641c6f6b6b0254a614b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aa1f8d332b15f1641c6f6b6b0254a614b" kindref="member">pool_enabled</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a5e2b27497e94a2138891d2ee73ce0a5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a5e2b27497e94a2138891d2ee73ce0a5c" kindref="member">pool_min_idle</ref>{2};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aca697e2103de23a6505608fdd1a4e273" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1aca697e2103de23a6505608fdd1a4e273" kindref="member">pool_max_size</ref>{16};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a1fa8813e9e5bafe1168ee05eb396c186" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config_1a1fa8813e9e5bafe1168ee05eb396c186" kindref="member">pool_checkout_timeout_ms</ref>{5000};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Backward-compatible<sp/>alias<sp/>used<sp/>by<sp/>the<sp/>auth<sp/>hardening<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1auth_1a10e96f0c4282502ed3b98fa4a681dcd0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth_1a10e96f0c4282502ed3b98fa4a681dcd0" kindref="member">LDAPAuthenticatorConfig</ref><sp/>=<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a6251ea9bcaa310e53b54e6475c496dff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a6251ea9bcaa310e53b54e6475c496dff" kindref="member">success</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1adbb283972ba3a91501a1c26bbfb47db6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1adbb283972ba3a91501a1c26bbfb47db6" kindref="member">username</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a969c3e3471a3d445a3f233a88a1dcdaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a969c3e3471a3d445a3f233a88a1dcdaa" kindref="member">dn</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1ac495623fc77eb9fab24f49cbe5be2cdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1ac495623fc77eb9fab24f49cbe5be2cdb" kindref="member">roles</ref>;<sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1aef47d0286d15e1368833eb9313e53120" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1aef47d0286d15e1368833eb9313e53120" kindref="member">groups</ref>;<sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a127a8dc41aef9c3b22da7420f93da72c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a127a8dc41aef9c3b22da7420f93da72c" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a3b937b1ef1ac15504010d22c086cdfd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a3b937b1ef1ac15504010d22c086cdfd1" kindref="member">Success</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>distinguished_name,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>mapped_roles,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>ldap_groups<sp/>=<sp/>{})</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a6251ea9bcaa310e53b54e6475c496dff" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1adbb283972ba3a91501a1c26bbfb47db6" kindref="member">username</ref><sp/>=<sp/>user;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a969c3e3471a3d445a3f233a88a1dcdaa" kindref="member">dn</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>distinguished_name;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1ac495623fc77eb9fab24f49cbe5be2cdb" kindref="member">roles</ref><sp/><sp/><sp/>=<sp/>mapped_roles;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1aef47d0286d15e1368833eb9313e53120" kindref="member">groups</ref><sp/><sp/>=<sp/>ldap_groups;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a0ef52c706b08e1775109747d41fa749b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a0ef52c706b08e1775109747d41fa749b" kindref="member">Failed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a6251ea9bcaa310e53b54e6475c496dff" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result_1a127a8dc41aef9c3b22da7420f93da72c" kindref="member">error_message</ref><sp/>=<sp/>error;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref><sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a0a92f02247b2555666943b90bf7653e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a0a92f02247b2555666943b90bf7653e7" kindref="member">LdapBindFn</ref><sp/>=<sp/>std::function&lt;<ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>username,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dn,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>password)&gt;;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adad9ec445e772ce2ea2b3d11c844b8a3" kindref="member">setLdapBindFn</ref>(<ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a0a92f02247b2555666943b90bf7653e7" kindref="member">LdapBindFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a44c486019bf5531de0246728fbc1f38c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a44c486019bf5531de0246728fbc1f38c" kindref="member">LDAPAuthenticator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref>&amp;<sp/>config)<sp/>:<sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad4fbbef4ea00b3f65f8bf5c428714f2f" kindref="member">initialize</ref>(config);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ac7409719eab6cfc68837c17f49a20844" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ac7409719eab6cfc68837c17f49a20844" kindref="member">~LDAPAuthenticator</ref>();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a8c0641f4ccb21f57842f9035fd618c86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a8c0641f4ccb21f57842f9035fd618c86" kindref="member">LDAPAuthenticator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a9895a11a3f2791c5a2de6c1e839fae8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a9895a11a3f2791c5a2de6c1e839fae8e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adae57a3dcad1fea1f6257bdd1cd92ea4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adae57a3dcad1fea1f6257bdd1cd92ea4" kindref="member">LDAPAuthenticator</ref>(<ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a2eadff62b8be1d8f459d33e6308535fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a2eadff62b8be1d8f459d33e6308535fb" kindref="member">operator=</ref>(<ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ada5a4d7f16e4ea4642ede2f25dc7042f" kindref="member">LDAPAuthenticator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad648e3d0ea6a5c88b43dd5e7af0851cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad648e3d0ea6a5c88b43dd5e7af0851cd" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger)<sp/>{<sp/>audit_logger_<sp/>=<sp/>logger;<sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad4fbbef4ea00b3f65f8bf5c428714f2f" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adaea6eb87a5ef213b32496e146f942c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1adaea6eb87a5ef213b32496e146f942c0" kindref="member">isInitialized</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>initialized_;<sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_auth_result" kindref="compound">LDAPAuthResult</ref><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ac759bfe2f377eb5aa01cea6a45255810" kindref="member">authenticate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>username,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>password);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;LDAPAuthResult&gt;<sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a3b5af05f51cb1af00a23b9659a7ad587" kindref="member">authenticateAsync</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>username,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>password);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad1a77cf57499e208143f61009ff252bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_l_d_a_p_config" kindref="compound">LDAPConfig</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1ad1a77cf57499e208143f61009ff252bb" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1af65b9f873563267c705b90ff50fdbc09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_connection_pool" kindref="compound">LDAPConnectionPool</ref>*<sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1af65b9f873563267c705b90ff50fdbc09" kindref="member">connectionPool</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pool_.get();<sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a82470349a5bded9fbacb334d6b93a0f3" kindref="member">buildUserDN</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>username)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a486f867f2c9b97471a6f6fbaa12781d8" kindref="member">buildGroupSearchFilter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dn,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>username<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1auth_1_1_l_d_a_p_authenticator_1a549357a1fe29e7af797485a0b2c6b906" kindref="member">mapGroupsToRoles</ref>(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>groups)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialized_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPConfig<sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/>audit_logger_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LDAPConnectionPool&gt;<sp/>pool_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AuthWorkerThreadPool&gt;<sp/>worker_pool_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>LDAPAuthResult<sp/>performBind(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>username,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dn,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>password);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_HAS_LDAP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>!THEMIS_HAS_LDAP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/ldap_authenticator.h"/>
+  </compounddef>
+</doxygen>

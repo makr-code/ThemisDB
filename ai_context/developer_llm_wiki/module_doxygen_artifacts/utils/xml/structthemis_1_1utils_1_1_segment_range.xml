@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_segment_range" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::SegmentRange</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_segment_range_1ac2290b5982ccdbab710284b34bea8ed6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SegmentRange::fromTxnId</definition>
+        <argsstring></argsstring>
+        <name>fromTxnId</name>
+        <qualifiedname>themis::utils::SegmentRange::fromTxnId</qualifiedname>
+        <briefdescription>
+<para>Start boundary (inclusive). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="444" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_segment_range_1a7be5228c835407bfbee40524e1bcf3b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SegmentRange::toTxnId</definition>
+        <argsstring></argsstring>
+        <name>toTxnId</name>
+        <qualifiedname>themis::utils::SegmentRange::toTxnId</qualifiedname>
+        <briefdescription>
+<para>End boundary (inclusive). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="445" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Identifies a range of SAGA log segments by their boundary transaction IDs. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="443" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="443" bodyend="446"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_segment_range_1ac2290b5982ccdbab710284b34bea8ed6" prot="public" virt="non-virtual"><scope>themis::utils::SegmentRange</scope><name>fromTxnId</name></member>
+      <member refid="structthemis_1_1utils_1_1_segment_range_1a7be5228c835407bfbee40524e1bcf3b9" prot="public" virt="non-virtual"><scope>themis::utils::SegmentRange</scope><name>toTxnId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

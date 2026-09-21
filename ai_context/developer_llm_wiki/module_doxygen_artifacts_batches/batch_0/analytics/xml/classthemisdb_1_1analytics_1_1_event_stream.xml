@@ -1,0 +1,640 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_event_stream" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::EventStream</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_event_stream_1_1_stats" prot="public">themisdb::analytics::EventStream::Stats</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_event_stream_1_1_partition" prot="private">themisdb::analytics::EventStream::Partition</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1analytics_1_1_event_stream_1a994edaa728eef856ac4f791fa4167b2f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PushResult</name>
+        <qualifiedname>themisdb::analytics::EventStream::PushResult</qualifiedname>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_event_stream_1a994edaa728eef856ac4f791fa4167b2fad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_event_stream_1a994edaa728eef856ac4f791fa4167b2fa4f10e3aa20a1f64efc80700f1381b291" prot="public">
+          <name>BACKPRESSURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_event_stream_1a994edaa728eef856ac4f791fa4167b2fac69a1e32a105a29d95e6e7a883188d62" prot="public">
+          <name>DROPPED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1analytics_1_1_event_stream_1a994edaa728eef856ac4f791fa4167b2fabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="411" column="5" bodyfile="include/analytics/cep_engine.h" bodystart="411" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_event_stream_1a46eab1471a0fc996adb330a9a601a9f3" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;)&gt;</type>
+        <definition>using themisdb::analytics::EventStream::EventCallback = std::function&lt;void(const Event&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EventCallback</name>
+        <qualifiedname>themisdb::analytics::EventStream::EventCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="472" column="5" bodyfile="include/analytics/cep_engine.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_event_stream_1a054d8bc82eec45bc173c42f28cc9fef8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_stream_config" kindref="compound">StreamConfig</ref></type>
+        <definition>StreamConfig themisdb::analytics::EventStream::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::analytics::EventStream::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="486" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_event_stream_1a61c52e2977ec3da92216ea97154137c0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; Partition &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;Partition&gt; &gt; themisdb::analytics::EventStream::partitions_</definition>
+        <argsstring></argsstring>
+        <name>partitions_</name>
+        <qualifiedname>themisdb::analytics::EventStream::partitions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="494" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_event_stream_1a7be3884e99f9a15ecaac7cdfe9fd891a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::EventStream::events_pushed_</definition>
+        <argsstring></argsstring>
+        <name>events_pushed_</name>
+        <qualifiedname>themisdb::analytics::EventStream::events_pushed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="497" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="497" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_event_stream_1ab24db1e8feff38c093fabcf06f13eaed" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::EventStream::events_pulled_</definition>
+        <argsstring></argsstring>
+        <name>events_pulled_</name>
+        <qualifiedname>themisdb::analytics::EventStream::events_pulled_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="498" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="498" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_event_stream_1a2cef25d18d39926787a29f8bc37d292e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::EventStream::events_dropped_</definition>
+        <argsstring></argsstring>
+        <name>events_dropped_</name>
+        <qualifiedname>themisdb::analytics::EventStream::events_dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="499" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="499" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_event_stream_1a14a388d481a32da7ca8b8874af824728" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::EventStream::backpressure_count_</definition>
+        <argsstring></argsstring>
+        <name>backpressure_count_</name>
+        <qualifiedname>themisdb::analytics::EventStream::backpressure_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="500" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="500" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_event_stream_1a4d05de14ccff8d3b0aa6e6b0de2a48b2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, <ref refid="classthemisdb_1_1analytics_1_1_event_stream_1a46eab1471a0fc996adb330a9a601a9f3" kindref="member">EventCallback</ref> &gt;</type>
+        <definition>std::map&lt;uint64_t, EventCallback&gt; themisdb::analytics::EventStream::subscribers_</definition>
+        <argsstring></argsstring>
+        <name>subscribers_</name>
+        <qualifiedname>themisdb::analytics::EventStream::subscribers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="503" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_event_stream_1ab20c5ce9293a3fae364aa854accc10a0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::analytics::EventStream::next_subscription_id_</definition>
+        <argsstring></argsstring>
+        <name>next_subscription_id_</name>
+        <qualifiedname>themisdb::analytics::EventStream::next_subscription_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="504" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="504" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_event_stream_1a58bc4fb00b2ae0e1487441c2ea44b926" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::analytics::EventStream::subscribers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>subscribers_mutex_</name>
+        <qualifiedname>themisdb::analytics::EventStream::subscribers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="505" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a02f6359843a9ddb6554aee34678c6f38" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::EventStream::EventStream</definition>
+        <argsstring>(const StreamConfig &amp;config)</argsstring>
+        <name>EventStream</name>
+        <qualifiedname>themisdb::analytics::EventStream::EventStream</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_stream_config" kindref="compound">StreamConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="408" column="14" bodyfile="src/analytics/cep_engine.cpp" bodystart="579" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a3f3bdf931d053a631823c6d53974c243" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::EventStream::~EventStream</definition>
+        <argsstring>()</argsstring>
+        <name>~EventStream</name>
+        <qualifiedname>themisdb::analytics::EventStream::~EventStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="409" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a07f6f11b4bb87a360a0824f87866b228" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_event_stream_1a994edaa728eef856ac4f791fa4167b2f" kindref="member">PushResult</ref></type>
+        <definition>EventStream::PushResult themisdb::analytics::EventStream::push</definition>
+        <argsstring>(Event event)</argsstring>
+        <name>push</name>
+        <qualifiedname>themisdb::analytics::EventStream::push</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Push. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getPartitionId(), size(), load(), lk(), push_back(), std::move(), notifySubscribers(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="422" column="16" bodyfile="src/analytics/cep_engine.cpp" bodystart="622" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a897b5f09400e02d623f79acd2da1eff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::optional&lt; Event &gt; themisdb::analytics::EventStream::pull</definition>
+        <argsstring>(uint32_t partition_id)</argsstring>
+        <name>pull</name>
+        <qualifiedname>themisdb::analytics::EventStream::pull</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Pull. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), lk(), empty(), std::move(), front(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="429" column="19" bodyfile="src/analytics/cep_engine.cpp" bodystart="663" bodyend="677"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a8abfe3f3e3bc90c98bff04361b4834a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::optional&lt; Event &gt; themisdb::analytics::EventStream::peek</definition>
+        <argsstring>(uint32_t partition_id) const</argsstring>
+        <name>peek</name>
+        <qualifiedname>themisdb::analytics::EventStream::peek</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Peek. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="436" column="19" bodyfile="src/analytics/cep_engine.cpp" bodystart="679" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1ac0f4340c90107b8168fa4933fdc394b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::analytics::EventStream::getStreamId</definition>
+        <argsstring>() const</argsstring>
+        <name>getStreamId</name>
+        <qualifiedname>themisdb::analytics::EventStream::getStreamId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="438" column="23" bodyfile="include/analytics/cep_engine.h" bodystart="438" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a8fc032ba1beb48de5f08899adc774f62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themisdb::analytics::EventStream::getFillLevel</definition>
+        <argsstring>(uint32_t partition_id) const</argsstring>
+        <name>getFillLevel</name>
+        <qualifiedname>themisdb::analytics::EventStream::getFillLevel</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Fill Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="445" column="11" bodyfile="src/analytics/cep_engine.cpp" bodystart="691" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a6070a0e7c562023f87726b6a32b57984" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themisdb::analytics::EventStream::getOverallFillLevel</definition>
+        <argsstring>() const</argsstring>
+        <name>getOverallFillLevel</name>
+        <qualifiedname>themisdb::analytics::EventStream::getOverallFillLevel</qualifiedname>
+        <briefdescription>
+<para>Get Overall Fill Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="450" column="11" bodyfile="src/analytics/cep_engine.cpp" bodystart="702" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a2836fd1edb0a73199c391ff1b3ababf1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::EventStream::isUnderBackpressure</definition>
+        <argsstring>() const</argsstring>
+        <name>isUnderBackpressure</name>
+        <qualifiedname>themisdb::analytics::EventStream::isUnderBackpressure</qualifiedname>
+        <briefdescription>
+<para>Is Under Backpressure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="456" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="713" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1af7a753c0fe9ed0c35a5f7a3a02a4ce2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_event_stream_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>EventStream::Stats themisdb::analytics::EventStream::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::analytics::EventStream::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemisdb_1_1analytics_1_1_event_stream_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="470" column="11" bodyfile="src/analytics/cep_engine.cpp" bodystart="717" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1ababe931760d8e6cd4e0f81bb3ef86b74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::EventStream::subscribe</definition>
+        <argsstring>(EventCallback callback)</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themisdb::analytics::EventStream::subscribe</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_event_stream_1a46eab1471a0fc996adb330a9a601a9f3" kindref="member">EventCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="478" column="14" bodyfile="src/analytics/cep_engine.cpp" bodystart="733" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a5b987691b5c044cff81a1c9cf8414b78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::EventStream::unsubscribe</definition>
+        <argsstring>(uint64_t subscription_id)</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themisdb::analytics::EventStream::unsubscribe</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>subscription_id</declname>
+        </param>
+        <briefdescription>
+<para>Unsubscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subscription_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subscription.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">subscription_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subscription.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="483" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="745" bodyend="748"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1ae6bb6ab9304d7c76cf5a424b52453ee7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::EventStream::getPartitionId</definition>
+        <argsstring>(const Event &amp;event) const</argsstring>
+        <name>getPartitionId</name>
+        <qualifiedname>themisdb::analytics::EventStream::getPartitionId</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Get Partition Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="512" column="14" bodyfile="src/analytics/cep_engine.cpp" bodystart="589" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_event_stream_1a0df85d155a7abe0da9a02ad081a7e242" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::EventStream::notifySubscribers</definition>
+        <argsstring>(const Event &amp;event)</argsstring>
+        <name>notifySubscribers</name>
+        <qualifiedname>themisdb::analytics::EventStream::notifySubscribers</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Notify Subscribers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), cb(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="517" column="10" bodyfile="src/analytics/cep_engine.cpp" bodystart="603" bodyend="614"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="401" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="401" bodyend="518"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a14a388d481a32da7ca8b8874af824728" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>backpressure_count_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a054d8bc82eec45bc173c42f28cc9fef8" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a46eab1471a0fc996adb330a9a601a9f3" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>EventCallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a2cef25d18d39926787a29f8bc37d292e" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>events_dropped_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1ab24db1e8feff38c093fabcf06f13eaed" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>events_pulled_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a7be3884e99f9a15ecaac7cdfe9fd891a" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>events_pushed_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a02f6359843a9ddb6554aee34678c6f38" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>EventStream</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a8fc032ba1beb48de5f08899adc774f62" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>getFillLevel</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a6070a0e7c562023f87726b6a32b57984" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>getOverallFillLevel</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1ae6bb6ab9304d7c76cf5a424b52453ee7" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>getPartitionId</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1af7a753c0fe9ed0c35a5f7a3a02a4ce2b" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1ac0f4340c90107b8168fa4933fdc394b9" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>getStreamId</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a2836fd1edb0a73199c391ff1b3ababf1" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>isUnderBackpressure</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1ab20c5ce9293a3fae364aa854accc10a0" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>next_subscription_id_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a0df85d155a7abe0da9a02ad081a7e242" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>notifySubscribers</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a61c52e2977ec3da92216ea97154137c0" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>partitions_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a8abfe3f3e3bc90c98bff04361b4834a5" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>peek</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a897b5f09400e02d623f79acd2da1eff0" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>pull</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a07f6f11b4bb87a360a0824f87866b228" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>push</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a994edaa728eef856ac4f791fa4167b2f" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>PushResult</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1ababe931760d8e6cd4e0f81bb3ef86b74" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>subscribe</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a4d05de14ccff8d3b0aa6e6b0de2a48b2" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>subscribers_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a58bc4fb00b2ae0e1487441c2ea44b926" prot="private" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>subscribers_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a5b987691b5c044cff81a1c9cf8414b78" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>unsubscribe</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_event_stream_1a3f3bdf931d053a631823c6d53974c243" prot="public" virt="non-virtual"><scope>themisdb::analytics::EventStream</scope><name>~EventStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1test_1_1_mock_tensor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::test::MockTensor</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::tensor::test::MockTensor::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::tensor::test::MockTensor::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="90" column="17" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a34d9e35cb5f5658d701bb9a5f9fafb77" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::test::MockTensor::alive</definition>
+        <argsstring></argsstring>
+        <name>alive</name>
+        <qualifiedname>themis::tensor::test::MockTensor::alive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="91" column="24" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::MockTensor::MockTensor</definition>
+        <argsstring>(std::size_t n)</argsstring>
+        <name>MockTensor</name>
+        <qualifiedname>themis::tensor::test::MockTensor::MockTensor</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="93" column="14" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a8fdbeceaa560e9665db20c5b11fdfa0a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::MockTensor::~MockTensor</definition>
+        <argsstring>()</argsstring>
+        <name>~MockTensor</name>
+        <qualifiedname>themis::tensor::test::MockTensor::~MockTensor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="94" column="5" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a93166cbea30a27bc513d8bfcf99b32f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::MockTensor::MockTensor</definition>
+        <argsstring>(const MockTensor &amp;)=delete</argsstring>
+        <name>MockTensor</name>
+        <qualifiedname>themis::tensor::test::MockTensor::MockTensor</qualifiedname>
+        <param>
+          <type>const MockTensor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="97" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1aa7e7e4764c0aa35aaed7dd82327938d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" kindref="member">MockTensor</ref> &amp;</type>
+        <definition>MockTensor &amp; themis::tensor::test::MockTensor::operator=</definition>
+        <argsstring>(const MockTensor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::test::MockTensor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" kindref="member">MockTensor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="98" column="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock owning tensor: wraps a heap-allocated data buffer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="89" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="89" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a34d9e35cb5f5658d701bb9a5f9fafb77" prot="public" virt="non-virtual"><scope>themis::tensor::test::MockTensor</scope><name>alive</name></member>
+      <member refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ab94b7402b5b5f0b4324e85c10d3babe7" prot="public" virt="non-virtual"><scope>themis::tensor::test::MockTensor</scope><name>data</name></member>
+      <member refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1ad95b24a0be4f6ab909bbf86b094b3de7" prot="public" virt="non-virtual"><scope>themis::tensor::test::MockTensor</scope><name>MockTensor</name></member>
+      <member refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a93166cbea30a27bc513d8bfcf99b32f9" prot="public" virt="non-virtual"><scope>themis::tensor::test::MockTensor</scope><name>MockTensor</name></member>
+      <member refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1aa7e7e4764c0aa35aaed7dd82327938d1" prot="public" virt="non-virtual"><scope>themis::tensor::test::MockTensor</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor_1a8fdbeceaa560e9665db20c5b11fdfa0a" prot="public" virt="non-virtual"><scope>themis::tensor::test::MockTensor</scope><name>~MockTensor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

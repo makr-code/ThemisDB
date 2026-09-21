@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_model_loader_async_test" kind="class" language="C++" prot="public">
+    <compoundname>ModelLoaderAsyncTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_model_loader_async_test_1a0b978cf74563d0bab2bfb21c3e8fa049" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config" kindref="compound">LazyModelLoader::Config</ref></type>
+        <definition>LazyModelLoader::Config ModelLoaderAsyncTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>ModelLoaderAsyncTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_async.cpp" line="30" column="29" bodyfile="tests/llm/test_model_loader_async.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_model_loader_async_test_1a0e702fece8197bad2d468068ee873d58" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ModelLoaderAsyncTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ModelLoaderAsyncTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_model_loader_async.cpp" line="23" column="10" bodyfile="tests/llm/test_model_loader_async.cpp" bodystart="23" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ModelLoaderAsyncTest</label>
+        <link refid="class_model_loader_async_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ModelLoaderAsyncTest</label>
+        <link refid="class_model_loader_async_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::LazyModelLoader::Config</label>
+        <link refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_model_loader_async.cpp" line="21" column="1" bodyfile="tests/llm/test_model_loader_async.cpp" bodystart="21" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_model_loader_async_test_1a0b978cf74563d0bab2bfb21c3e8fa049" prot="protected" virt="non-virtual"><scope>ModelLoaderAsyncTest</scope><name>config_</name></member>
+      <member refid="class_model_loader_async_test_1a0e702fece8197bad2d468068ee873d58" prot="protected" virt="non-virtual"><scope>ModelLoaderAsyncTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

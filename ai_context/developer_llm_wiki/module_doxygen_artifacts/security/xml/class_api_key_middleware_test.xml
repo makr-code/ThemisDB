@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_api_key_middleware_test" kind="class" language="C++" prot="public">
+    <compoundname>ApiKeyMiddlewareTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_api_key_middleware_test_1a2641cf0ff5839075b0dbb70cc135f418" prot="protected" static="no" mutable="no">
+        <type>AuthMiddleware</type>
+        <definition>AuthMiddleware ApiKeyMiddlewareTest::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>ApiKeyMiddlewareTest::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_middleware.cpp" line="722" column="20" bodyfile="tests/security/test_auth_middleware.cpp" bodystart="722" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_api_key_middleware_test_1a2fd7232513875a88fb92954313f60f9f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ApiKeyMiddlewareTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ApiKeyMiddlewareTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_middleware.cpp" line="724" column="10" bodyfile="tests/security/test_auth_middleware.cpp" bodystart="724" bodyend="739"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ApiKeyMiddlewareTest</label>
+        <link refid="class_api_key_middleware_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ApiKeyMiddlewareTest</label>
+        <link refid="class_api_key_middleware_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_auth_middleware.cpp" line="720" column="1" bodyfile="tests/security/test_auth_middleware.cpp" bodystart="720" bodyend="740"/>
+    <listofallmembers>
+      <member refid="class_api_key_middleware_test_1a2641cf0ff5839075b0dbb70cc135f418" prot="protected" virt="non-virtual"><scope>ApiKeyMiddlewareTest</scope><name>auth_</name></member>
+      <member refid="class_api_key_middleware_test_1a2fd7232513875a88fb92954313f60f9f" prot="protected" virt="non-virtual"><scope>ApiKeyMiddlewareTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

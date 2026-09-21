@@ -1,0 +1,835 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__governance__compliance__time__window_8cpp" kind="file" language="C++">
+    <compoundname>test_governance_compliance_time_window.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="compliance__reporter_8h" local="yes">governance/compliance_reporter.h</includes>
+    <includes refid="policy__manager_8h" local="yes">governance/policy_manager.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">climits</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="18">
+        <label>governance/ccpa_rules.h</label>
+        <link refid="ccpa__rules_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>governance/compliance_reporter.h</label>
+        <link refid="compliance__reporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>governance_diagnostics.h</label>
+        <link refid="governance__diagnostics_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>governance/policy_manager.h</label>
+        <link refid="policy__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>policy_version_history.h</label>
+        <link refid="policy__version__history_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/governance/test_governance_compliance_time_window.cpp</label>
+        <link refid="test__governance__compliance__time__window_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>climits</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>themis/export.h</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>unordered_set</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_time_window_report_test" prot="public">TimeWindowReportTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a49d5dce35be8b25fc4c2cd287007853b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry" kindref="compound">RuleEvaluationEntry</ref></type>
+        <definition>static RuleEvaluationEntry makeEntry</definition>
+        <argsstring>(int64_t ts_ms, const std::string &amp;route=&quot;/api/data/test&quot;, const std::string &amp;classification=&quot;vs-nfd&quot;, const std::string &amp;mode=&quot;enforce&quot;, bool require_encryption=false, bool ccpa_opted_out=false, bool export_allowed=true, const std::string &amp;user_id=&quot;alice&quot;)</argsstring>
+        <name>makeEntry</name>
+        <param>
+          <type>int64_t</type>
+          <declname>ts_ms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>route</declname>
+          <defval>&quot;/api/data/test&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>classification</declname>
+          <defval>&quot;vs-nfd&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mode</declname>
+          <defval>&quot;enforce&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>require_encryption</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ccpa_opted_out</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>export_allowed</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+          <defval>&quot;alice&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="14" column="28" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="14" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a1d93ed995f6a37ab199ecbc456cef442" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuleEvaluationEntryTest, FromJsonPopulatesAllFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuleEvaluationEntryTest</type>
+        </param>
+        <param>
+          <type>FromJsonPopulatesAllFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="38" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="38" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a93a49b830cd9caa74de947176074387e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuleEvaluationEntryTest, FromJsonEmptyObjectYieldsDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuleEvaluationEntryTest</type>
+        </param>
+        <param>
+          <type>FromJsonEmptyObjectYieldsDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="62" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="62" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a4fbda27356fc1906d03a961e6cceb681" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuleEvaluationEntryTest, FromJsonIgnoresUnknownKeys)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuleEvaluationEntryTest</type>
+        </param>
+        <param>
+          <type>FromJsonIgnoresUnknownKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="75" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="75" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a17b3b28bece4b9847e3edcf27f2c40c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, EmptyEntriesProducesZeroEvaluationCounts)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyEntriesProducesZeroEvaluationCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="110" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="110" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a7dd9f64288a974c09cc422edc3208fa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, AllEntriesCountedWhenNoWindowFilter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>AllEntriesCountedWhenNoWindowFilter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="125" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="125" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a26a95c4124957e2099e3b11a2f2934b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, EntriesOutsideWindowAreExcluded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>EntriesOutsideWindowAreExcluded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="144" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="144" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1ac823ce6a1b995795362b117e94a25f44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, AllEntriesFilteredWhenWindowExcludesAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>AllEntriesFilteredWhenWindowExcludesAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="160" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="160" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a536ccb8b11c6def83873eb499a637ee9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, ClassificationBreakdownCorrect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>ClassificationBreakdownCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="173" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="173" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a9b6f7177de091f0468e873750ae0d4d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, RouteBreakdownCorrect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>RouteBreakdownCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="190" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="190" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1ac298e07ee0717ba745e1447858a1f865" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, FrameworkLabelStoredInReport)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>FrameworkLabelStoredInReport</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="207" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="207" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a3a7e84b332285970b490c8c72e1eed28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, EmptyFrameworkLabelStoredAsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyFrameworkLabelStoredAsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="212" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="212" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a11eff58c7465369e1271c99c97423c6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, ComplianceScoreInRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>ComplianceScoreInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="219" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="219" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1af60ce81b0f6273386ffa5ed92cc2aaf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, GeneratedAtIsPositive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>GeneratedAtIsPositive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="225" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="225" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a26c8c93c4dc4c07eec255bf78bdae21d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, ToJsonContainsAllRequiredKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>ToJsonContainsAllRequiredKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="232" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="232" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1a1401ace844345f0a69c7286337cf50a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, ToJsonValuesMatchReport)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>ToJsonValuesMatchReport</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="255" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="255" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__compliance__time__window_8cpp_1ae0cd29870ca8cba46aa393151c0188d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeWindowReportTest, ToCSVContainsHeaderAndDataRow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref></type>
+        </param>
+        <param>
+          <type>ToCSVContainsHeaderAndDataRow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="273" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="273" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="compliance__reporter_8h" kindref="compound">governance/compliance_reporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="policy__manager_8h" kindref="compound">governance/policy_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;climits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">themis::governance</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__compliance__framework_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>helpers<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry" kindref="compound">RuleEvaluationEntry</ref><sp/>makeEntry(</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>ts_ms,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>route<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/data/test&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>classification<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vs-nfd&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mode<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;enforce&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/>require_encryption<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/>ccpa_opted_out<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/>export_allowed<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry" kindref="compound">RuleEvaluationEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1a4c085eab510c61b111abb821e854b1d3" kindref="member">timestamp_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ts_ms;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1a96a38f3bc7238f6eb640e5811786a5b0" kindref="member">route</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>route;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1a941a686dd001faf8ab76f437572ce6b9" kindref="member">classification</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>classification;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1a7c14f9ce843cf955043ded5565f445a8" kindref="member">mode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>mode;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1a06ae8a4e29a3491bde3d09346486a5ba" kindref="member">require_content_encryption</ref><sp/>=<sp/>require_encryption;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1ab2f8c2aee2bd45ad34bfbb2b68d81c7f" kindref="member">ccpa_opted_out</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ccpa_opted_out;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1af41b38d36b343bf7f9611f96e4769cfd" kindref="member">export_allowed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>export_allowed;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>e.<ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1a21c713d3798550b19dcca6e0c87ccb15" kindref="member">user_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>user_id;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>RuleEvaluationEntry::fromJson<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__governance__compliance__time__window_8cpp_1a1d93ed995f6a37ab199ecbc456cef442" kindref="member">TEST</ref>(RuleEvaluationEntryTest,<sp/>FromJsonPopulatesAllFields)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__compliance__framework_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>j<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1000000LL},</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;route&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/api/query&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;classification&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;mode&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;enforce&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;require_content_encryption&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ccpa_opted_out&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;export_allowed&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/><ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1a309b319c2e7803ac0a78f673ab630406" kindref="member">RuleEvaluationEntry::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.timestamp_ms,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1000000LL);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.route,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/api/query&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.classification,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.mode,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;enforce&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.require_content_encryption);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.ccpa_opted_out);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(e.export_allowed);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.user_id,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__governance__compliance__time__window_8cpp_1a1d93ed995f6a37ab199ecbc456cef442" kindref="member">TEST</ref>(RuleEvaluationEntryTest,<sp/>FromJsonEmptyObjectYieldsDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/><ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1a309b319c2e7803ac0a78f673ab630406" kindref="member">RuleEvaluationEntry::fromJson</ref>(json::object());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.timestamp_ms,<sp/><sp/>0);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.route.empty());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.classification.empty());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.mode.empty());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(e.require_content_encryption);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(e.ccpa_opted_out);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.export_allowed);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.user_id.empty());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__governance__compliance__time__window_8cpp_1a1d93ed995f6a37ab199ecbc456cef442" kindref="member">TEST</ref>(RuleEvaluationEntryTest,<sp/>FromJsonIgnoresUnknownKeys)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__compliance__framework_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>j<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;unknown_key&quot;</highlight><highlight class="normal">,<sp/>42},<sp/>{</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">,<sp/>500LL}};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/><ref refid="structthemis_1_1governance_1_1_rule_evaluation_entry_1a309b319c2e7803ac0a78f673ab630406" kindref="member">RuleEvaluationEntry::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.timestamp_ms,<sp/>500LL);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Test<sp/>fixture<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="class_time_window_report_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_time_window_report_test_1aac8f1dbcc3c584b424104b9a2d50e3d1" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_time_window_report_test_1ac3769f671abd2b85ed37954d2fdf3f35" kindref="member">pm</ref><sp/>=<sp/>std::make_shared&lt;PolicyManager&gt;();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>a<sp/>rule<sp/>with<sp/>required<sp/>controls<sp/>so<sp/>the<sp/>compliance<sp/>score<sp/>is<sp/>not<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref><sp/>r;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_policy_rule_1a8bd6130ce0399611090df940dab7c0d6" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rule-enc-audit&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_policy_rule_1aaa099d7291d9abd7d9bf1ca11d49f321" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Encryption<sp/>+<sp/>Audit<sp/>Rule&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_policy_rule_1ab0018d3b153ea405b8c47c23c376a4e3" kindref="member">enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_policy_rule_1a74f1fd71bd63df2c4990c3b7c9c1c682" kindref="member">resources</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;data/sensitive&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_policy_rule_1adbba467f6502bcc060fcab50fa2ed860" kindref="member">actions</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_policy_rule_1a5c979f28f19204b840efb02d7061ab01" kindref="member">classification_level</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_policy_rule_1a4fd48ce9c438fc35a174596100d3c5ec" kindref="member">require_encryption</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_policy_rule_1a4c4dd69b001466d97cc776ce7e7a975b" kindref="member">audit_access</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_policy_rule_1a05314f0b7f263337886196e92252a69c" kindref="member">retention_days</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>365;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_time_window_report_test_1ac3769f671abd2b85ed37954d2fdf3f35" kindref="member">pm</ref>-&gt;addRule(r);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_time_window_report_test_1aa32c09891d0e1c2a324148c1541d767f" kindref="member">reporter</ref><sp/>=<sp/>std::make_unique&lt;ComplianceReporter&gt;(<ref refid="class_time_window_report_test_1ac3769f671abd2b85ed37954d2fdf3f35" kindref="member">pm</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PolicyManager&gt;<sp/><sp/><sp/><ref refid="class_time_window_report_test_1ac3769f671abd2b85ed37954d2fdf3f35" kindref="member">pm</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ComplianceReporter&gt;<sp/><ref refid="class_time_window_report_test_1aa32c09891d0e1c2a324148c1541d767f" kindref="member">reporter</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>generateTimeWindowReport<sp/>–<sp/>empty<sp/>input<sp/>──────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>EmptyEntriesProducesZeroEvaluationCounts)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport({});</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.total_evaluations,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.enforce_mode_evaluations,<sp/><sp/>0);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.observe_mode_evaluations,<sp/><sp/>0);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.ccpa_opted_out_count,<sp/><sp/><sp/><sp/><sp/><sp/>0);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.encryption_required_count,<sp/>0);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.export_blocked_count,<sp/><sp/><sp/><sp/><sp/><sp/>0);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rpt.evaluations_by_classification.empty());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rpt.evaluations_by_route.empty());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>generateTimeWindowReport<sp/>–<sp/>all<sp/>entries<sp/>in<sp/>window<sp/>────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>AllEntriesCountedWhenNoWindowFilter)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RuleEvaluationEntry&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(1000,<sp/></highlight><highlight class="stringliteral">&quot;/api/a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vs-nfd&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;enforce&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(2000,<sp/></highlight><highlight class="stringliteral">&quot;/api/b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;enforce&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(3000,<sp/></highlight><highlight class="stringliteral">&quot;/api/c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vs-nfd&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;observe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport(entries);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.total_evaluations,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>3);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.enforce_mode_evaluations,<sp/><sp/>2);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.observe_mode_evaluations,<sp/><sp/>1);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.ccpa_opted_out_count,<sp/><sp/><sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.encryption_required_count,<sp/>1);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.export_blocked_count,<sp/><sp/><sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>generateTimeWindowReport<sp/>–<sp/>window<sp/>filtering<sp/>─────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>EntriesOutsideWindowAreExcluded)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RuleEvaluationEntry&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(<sp/><sp/>500),<sp/><sp/></highlight><highlight class="comment">//<sp/>before<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(<sp/>1000),<sp/><sp/></highlight><highlight class="comment">//<sp/>inside<sp/>window<sp/>(start<sp/>boundary)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(<sp/>2000),<sp/><sp/></highlight><highlight class="comment">//<sp/>inside<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(<sp/>3000),<sp/><sp/></highlight><highlight class="comment">//<sp/>inside<sp/>window<sp/>(end<sp/>boundary)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(10000),<sp/><sp/></highlight><highlight class="comment">//<sp/>after<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport(entries,<sp/></highlight><highlight class="comment">/*start=*/</highlight><highlight class="normal">1000,<sp/></highlight><highlight class="comment">/*end=*/</highlight><highlight class="normal">3000);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.total_evaluations,<sp/>3);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.window_start_ms,<sp/><sp/><sp/>1000);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.window_end_ms,<sp/><sp/><sp/><sp/><sp/>3000);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>AllEntriesFilteredWhenWindowExcludesAll)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RuleEvaluationEntry&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(100),</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(200),</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport(entries,<sp/></highlight><highlight class="comment">/*start=*/</highlight><highlight class="normal">5000,<sp/></highlight><highlight class="comment">/*end=*/</highlight><highlight class="normal">9000);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.total_evaluations,<sp/>0);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>generateTimeWindowReport<sp/>–<sp/>classification<sp/>breakdown<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>ClassificationBreakdownCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RuleEvaluationEntry&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(100,<sp/></highlight><highlight class="stringliteral">&quot;/a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vs-nfd&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(200,<sp/></highlight><highlight class="stringliteral">&quot;/b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vs-nfd&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(300,<sp/></highlight><highlight class="stringliteral">&quot;/c&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport(entries);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rpt.evaluations_by_classification.count(</highlight><highlight class="stringliteral">&quot;vs-nfd&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rpt.evaluations_by_classification.count(</highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.evaluations_by_classification.at(</highlight><highlight class="stringliteral">&quot;vs-nfd&quot;</highlight><highlight class="normal">),<sp/>2);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.evaluations_by_classification.at(</highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>generateTimeWindowReport<sp/>–<sp/>route<sp/>breakdown<sp/>──────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>RouteBreakdownCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RuleEvaluationEntry&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(100,<sp/></highlight><highlight class="stringliteral">&quot;/api/data&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(200,<sp/></highlight><highlight class="stringliteral">&quot;/api/data&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(300,<sp/></highlight><highlight class="stringliteral">&quot;/api/admin&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport(entries);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rpt.evaluations_by_route.count(</highlight><highlight class="stringliteral">&quot;/api/data&quot;</highlight><highlight class="normal">),<sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rpt.evaluations_by_route.count(</highlight><highlight class="stringliteral">&quot;/api/admin&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.evaluations_by_route.at(</highlight><highlight class="stringliteral">&quot;/api/data&quot;</highlight><highlight class="normal">),<sp/><sp/>2);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.evaluations_by_route.at(</highlight><highlight class="stringliteral">&quot;/api/admin&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>generateTimeWindowReport<sp/>–<sp/>framework<sp/>label<sp/>──────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>FrameworkLabelStoredInReport)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport({},<sp/>0,<sp/>INT64_MAX,<sp/></highlight><highlight class="stringliteral">&quot;GDPR&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rpt.framework,<sp/></highlight><highlight class="stringliteral">&quot;GDPR&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>EmptyFrameworkLabelStoredAsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport({});</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rpt.framework.empty());</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>generateTimeWindowReport<sp/>–<sp/>compliance<sp/>score<sp/>and<sp/>gaps<sp/>────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>ComplianceScoreInRange)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport({});</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rpt.compliance_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(rpt.compliance_score,<sp/>100.0);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>GeneratedAtIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport({});</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(rpt.generated_at,<sp/>0);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>TimeWindowReport::toJson<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>ToJsonContainsAllRequiredKeys)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RuleEvaluationEntry&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(1000,<sp/></highlight><highlight class="stringliteral">&quot;/api/x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;enforce&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport(entries,<sp/>0,<sp/>INT64_MAX,<sp/></highlight><highlight class="stringliteral">&quot;HIPAA&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>rpt.toJson();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;window_start_ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;window_end_ms&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;generated_at&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;framework&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;total_evaluations&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;enforce_mode_evaluations&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;observe_mode_evaluations&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;ccpa_opted_out_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;encryption_required_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;export_blocked_count&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;compliance_score&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;evaluations_by_classification&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;evaluations_by_route&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;gaps&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>ToJsonValuesMatchReport)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RuleEvaluationEntry&gt;<sp/>entries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEntry(500,<sp/></highlight><highlight class="stringliteral">&quot;/api/q&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;enforce&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport(entries,<sp/>0,<sp/>INT64_MAX,<sp/></highlight><highlight class="stringliteral">&quot;SOC2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>rpt.toJson();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;total_evaluations&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;enforce_mode_evaluations&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/><sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;observe_mode_evaluations&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/><sp/><sp/><sp/><sp/>0);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;ccpa_opted_out_count&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;encryption_required_count&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;export_blocked_count&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;framework&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SOC2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>TimeWindowReport::toCSV<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_time_window_report_test" kindref="compound">TimeWindowReportTest</ref>,<sp/>ToCSVContainsHeaderAndDataRow)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rpt<sp/>=<sp/>reporter-&gt;generateTimeWindowReport({});</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>csv<sp/>=<sp/>rpt.toCSV();</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(csv.find(</highlight><highlight class="stringliteral">&quot;total_evaluations&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(csv.find(</highlight><highlight class="stringliteral">&quot;compliance_score&quot;</highlight><highlight class="normal">),<sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>lines:<sp/>header<sp/>+<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>line_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>csv)</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++line_count;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(line_count,<sp/>2u);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/governance/test_governance_compliance_time_window.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::KVCacheBufferPool::PoolStats</compoundname>
+    <includes refid="kv__cache__buffer_8h" local="no">kv_cache_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1a94d242a71d1213b618a286fa0bd6d405" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBufferPool::PoolStats::total_buffers</definition>
+        <argsstring></argsstring>
+        <name>total_buffers</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::PoolStats::total_buffers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="171" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1ad25eab079216c88af51e0f517ac4e35e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBufferPool::PoolStats::available_buffers</definition>
+        <argsstring></argsstring>
+        <name>available_buffers</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::PoolStats::available_buffers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="172" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1af13d655258eaad0d6f0efd601c0c5451" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::KVCacheBufferPool::PoolStats::acquired_buffers</definition>
+        <argsstring></argsstring>
+        <name>acquired_buffers</name>
+        <qualifiedname>themis::llm::KVCacheBufferPool::PoolStats::acquired_buffers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/kv_cache_buffer.h" line="173" column="16" bodyfile="include/llm/kv_cache_buffer.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/kv_cache_buffer.h" line="170" column="5" bodyfile="include/llm/kv_cache_buffer.h" bodystart="170" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1af13d655258eaad0d6f0efd601c0c5451" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool::PoolStats</scope><name>acquired_buffers</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1ad25eab079216c88af51e0f517ac4e35e" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool::PoolStats</scope><name>available_buffers</name></member>
+      <member refid="structthemis_1_1llm_1_1_k_v_cache_buffer_pool_1_1_pool_stats_1a94d242a71d1213b618a286fa0bd6d405" prot="public" virt="non-virtual"><scope>themis::llm::KVCacheBufferPool::PoolStats</scope><name>total_buffers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

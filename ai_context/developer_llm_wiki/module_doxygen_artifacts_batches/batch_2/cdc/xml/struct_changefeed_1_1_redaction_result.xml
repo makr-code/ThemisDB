@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_changefeed_1_1_redaction_result" kind="struct" language="C++" prot="public">
+    <compoundname>Changefeed::RedactionResult</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_changefeed_1_1_redaction_result_1a330c2b0e92b8d3fa9e065ff488d59a12" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::RedactionResult::events_scanned</definition>
+        <argsstring></argsstring>
+        <name>events_scanned</name>
+        <qualifiedname>Changefeed::RedactionResult::events_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total events examined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="214" column="16" bodyfile="include/cdc/changefeed.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_redaction_result_1a8a5f2b29f3c8f364371408868a2c3345" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::RedactionResult::events_redacted</definition>
+        <argsstring></argsstring>
+        <name>events_redacted</name>
+        <qualifiedname>Changefeed::RedactionResult::events_redacted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Events whose value field was scrubbed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="215" column="16" bodyfile="include/cdc/changefeed.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_changefeed_1_1_redaction_result_1ae0491e8993c2e2d043c0d4775761c1a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::Changefeed::RedactionResult::affected_keys</definition>
+        <argsstring></argsstring>
+        <name>affected_keys</name>
+        <qualifiedname>Changefeed::RedactionResult::affected_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="216" column="21" bodyfile="include/cdc/changefeed.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="213" column="5" bodyfile="include/cdc/changefeed.h" bodystart="213" bodyend="217"/>
+    <listofallmembers>
+      <member refid="struct_changefeed_1_1_redaction_result_1ae0491e8993c2e2d043c0d4775761c1a7" prot="public" virt="non-virtual"><scope>Changefeed::RedactionResult</scope><name>affected_keys</name></member>
+      <member refid="struct_changefeed_1_1_redaction_result_1a8a5f2b29f3c8f364371408868a2c3345" prot="public" virt="non-virtual"><scope>Changefeed::RedactionResult</scope><name>events_redacted</name></member>
+      <member refid="struct_changefeed_1_1_redaction_result_1a330c2b0e92b8d3fa9e065ff488d59a12" prot="public" virt="non-virtual"><scope>Changefeed::RedactionResult</scope><name>events_scanned</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

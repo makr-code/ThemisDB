@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB — German eID Authentication Integrator</para>
+<para>Provides integration with the German electronic identity card (eID) authentication system defined by the Bundesdruckerei and regulated by BSI Technical Guidelines TR-03110 (Advanced Security Mechanisms for Machine Readable Travel Documents) and TR-03130 (eID-Server).</para>
+<para>The eID card (Personalausweis, Aufenthaltstitel, eID-Karte für EU-Bürger) enables secure online authentication with verified identity attributes (ICAO 9303 chip-based) via the Online-Ausweisfunktion (OAF).</para>
+<para>Authentication flow (BSI TR-03130, §5):<orderedlist>
+<listitem><para>Service Provider (SP) redirects user to eID-Server (BSI-certified).</para>
+</listitem><listitem><para>eID-Server initiates PAOS/SAML exchange with the AusweisApp2 client.</para>
+</listitem><listitem><para>AusweisApp2 accesses the chip via NFC or card reader (BSI TR-03127).</para>
+</listitem><listitem><para>PACE protocol establishes a secure channel; Chip Authentication and Terminal Authentication (EAC2) verify the terminal certificate.</para>
+</listitem><listitem><para>eID-Server returns a SAML assertion with verified attributes.</para>
+</listitem><listitem><para>SP validates the SAML assertion signature (eID-Server certificate).</para>
+</listitem></orderedlist>
+</para>
+<para>Implementations shipped in this header-only file:<itemizedlist>
+<listitem><para>EIDAttribute — a verified identity attribute</para>
+</listitem><listitem><para>EIDIdentity — complete eID-verified identity record</para>
+</listitem><listitem><para>EIDAuthConfig — configuration for the eID integration</para>
+</listitem><listitem><para>EIDAuthResult — result of an eID authentication attempt</para>
+</listitem><listitem><para>IEIDAuthenticator — abstract authentication interface</para>
+</listitem><listitem><para>InMemoryEIDAuthenticator — test / simulation implementation</para>
+</listitem></itemizedlist>
+</para>
+<para>Standards references:<itemizedlist>
+<listitem><para>BSI TR-03110 v2.21 — Advanced Security Mechanisms for eMRTD</para>
+</listitem><listitem><para>BSI TR-03127 v1.20 — Architecture eID-Karte</para>
+</listitem><listitem><para>BSI TR-03130 v3.3 — eID-Server</para>
+</listitem><listitem><para>ISO/IEC 7816-4 — Identification cards – ICC with contacts</para>
+</listitem><listitem><para>ICAO Doc 9303 — Machine Readable Travel Documents</para>
+</listitem><listitem><para>eIDAS Regulation (EU) No 910/2014 — Electronic identification</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2026 ThemisDB Contributors SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/auth/api_key_authenticator.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

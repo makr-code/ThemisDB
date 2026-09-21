@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_pii_query_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::PiiQueryFilter</compoundname>
+    <includes refid="pii__api__handler_8h" local="no">pii_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_pii_query_filter_1ac3c7c22ebf509e497ca9a710296acdb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::PiiQueryFilter::original_uuid</definition>
+        <argsstring></argsstring>
+        <name>original_uuid</name>
+        <qualifiedname>themis::server::PiiQueryFilter::original_uuid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="25" column="17" bodyfile="include/server/pii_api_handler.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_pii_query_filter_1a8f7d7aef7c36b3f7de316d49e8a733f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::PiiQueryFilter::pseudonym</definition>
+        <argsstring></argsstring>
+        <name>pseudonym</name>
+        <qualifiedname>themis::server::PiiQueryFilter::pseudonym</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="26" column="17" bodyfile="include/server/pii_api_handler.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_pii_query_filter_1a956463aea2b599eda853be47f848b173" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::PiiQueryFilter::active_only</definition>
+        <argsstring></argsstring>
+        <name>active_only</name>
+        <qualifiedname>themis::server::PiiQueryFilter::active_only</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="27" column="10" bodyfile="include/server/pii_api_handler.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_pii_query_filter_1a977be3c500c8b9141fa522c1c459b56f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::PiiQueryFilter::page</definition>
+        <argsstring></argsstring>
+        <name>page</name>
+        <qualifiedname>themis::server::PiiQueryFilter::page</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="28" column="9" bodyfile="include/server/pii_api_handler.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_pii_query_filter_1a7a46a7a8480bdccd556c6d7106869f49" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::PiiQueryFilter::page_size</definition>
+        <argsstring></argsstring>
+        <name>page_size</name>
+        <qualifiedname>themis::server::PiiQueryFilter::page_size</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pii_api_handler.h" line="29" column="9" bodyfile="include/server/pii_api_handler.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/pii_api_handler.h" line="24" column="1" bodyfile="include/server/pii_api_handler.h" bodystart="24" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_pii_query_filter_1a956463aea2b599eda853be47f848b173" prot="public" virt="non-virtual"><scope>themis::server::PiiQueryFilter</scope><name>active_only</name></member>
+      <member refid="structthemis_1_1server_1_1_pii_query_filter_1ac3c7c22ebf509e497ca9a710296acdb2" prot="public" virt="non-virtual"><scope>themis::server::PiiQueryFilter</scope><name>original_uuid</name></member>
+      <member refid="structthemis_1_1server_1_1_pii_query_filter_1a977be3c500c8b9141fa522c1c459b56f" prot="public" virt="non-virtual"><scope>themis::server::PiiQueryFilter</scope><name>page</name></member>
+      <member refid="structthemis_1_1server_1_1_pii_query_filter_1a7a46a7a8480bdccd556c6d7106869f49" prot="public" virt="non-virtual"><scope>themis::server::PiiQueryFilter</scope><name>page_size</name></member>
+      <member refid="structthemis_1_1server_1_1_pii_query_filter_1a8f7d7aef7c36b3f7de316d49e8a733f2" prot="public" virt="non-virtual"><scope>themis::server::PiiQueryFilter</scope><name>pseudonym</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

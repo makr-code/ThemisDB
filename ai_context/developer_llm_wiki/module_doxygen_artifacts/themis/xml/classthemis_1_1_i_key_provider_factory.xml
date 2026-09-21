@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_key_provider_factory" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::IKeyProviderFactory</compoundname>
+    <includes refid="security__interface_8h" local="no">security_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_key_provider_factory_1adaa751467f022ac78a928aa823de5187" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::IKeyProviderFactory::~IKeyProviderFactory</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IKeyProviderFactory</name>
+        <qualifiedname>themis::IKeyProviderFactory::~IKeyProviderFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="115" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_i_key_provider_factory_1a371a9ade7177f3cdc01669cfab400ec9" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1a881be642a4a274fb00595863eedce0b1" kindref="member">IKeyProviderPtr</ref></type>
+        <definition>virtual IKeyProviderPtr themis::IKeyProviderFactory::create</definition>
+        <argsstring>()=0</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::IKeyProviderFactory::create</qualifiedname>
+        <briefdescription>
+<para>Create a key provider instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to key provider </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="122" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory interface for key provider. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/interfaces/security_interface.h" line="113" column="1" bodyfile="include/themis/base/interfaces/security_interface.h" bodystart="113" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_key_provider_factory_1a371a9ade7177f3cdc01669cfab400ec9" prot="public" virt="pure-virtual"><scope>themis::IKeyProviderFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1_i_key_provider_factory_1adaa751467f022ac78a928aa823de5187" prot="public" virt="virtual"><scope>themis::IKeyProviderFactory</scope><name>~IKeyProviderFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

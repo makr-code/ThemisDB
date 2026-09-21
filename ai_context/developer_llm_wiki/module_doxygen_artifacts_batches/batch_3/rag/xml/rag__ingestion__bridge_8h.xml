@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rag__ingestion__bridge_8h" kind="file" language="C++">
+    <compoundname>rag_ingestion_bridge.h</compoundname>
+    <includes local="yes">toolbox/ingestion_toolbox.h</includes>
+    <includes local="yes">ingestion/base_entity.h</includes>
+    <includes local="yes">ingestion/ingestion_sinks.h</includes>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="loop__orchestration__example_8cpp" local="yes">src/rag/examples/loop_orchestration_example.cpp</includedby>
+    <includedby refid="rag__ingestion__bridge_8cpp" local="yes">src/rag/rag_ingestion_bridge.cpp</includedby>
+    <includedby refid="test__rag__ingestion__bridge_8cpp" local="yes">tests/rag/test_rag_ingestion_bridge.cpp</includedby>
+    <includedby refid="test__rag__ingestion__bridge__hardening__focused_8cpp" local="yes">tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/rag_ingestion_bridge.h</label>
+        <link refid="rag__ingestion__bridge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cmath</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>ingestion/base_entity.h</label>
+      </node>
+      <node id="4">
+        <label>ingestion/ingestion_sinks.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>toolbox/ingestion_toolbox.h</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/rag_ingestion_bridge.h</label>
+        <link refid="rag__ingestion__bridge_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/examples/loop_orchestration_example.cpp</label>
+        <link refid="loop__orchestration__example_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/rag/rag_ingestion_bridge.cpp</label>
+        <link refid="rag__ingestion__bridge_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_rag_ingestion_bridge.cpp</label>
+        <link refid="test__rag__ingestion__bridge_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp</label>
+        <link refid="test__rag__ingestion__bridge__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_index_result" prot="public">themis::rag::IndexResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge" prot="public">themis::rag::RAGIngestionBridge</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;toolbox/ingestion_toolbox.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ingestion/ingestion_sinks.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IndexResult<sp/>—<sp/>return<sp/>type<sp/>of<sp/>RAGIngestionBridge::indexDocument()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1rag_1_1_index_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1rag_1_1_index_result_1a060583b241f295151177e09774d0b196" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_index_result_1a060583b241f295151177e09774d0b196" kindref="member">ok</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1rag_1_1_index_result_1aef531567ec3b25b46a338f905cd8a2a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_index_result_1aef531567ec3b25b46a338f905cd8a2a2" kindref="member">doc_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1_index_result_1a699b43c04a2e475ae3e955c303cc8d14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_index_result_1a699b43c04a2e475ae3e955c303cc8d14" kindref="member">collection</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rag_1_1_index_result_1a3b31cafd388ab8c30466cc370e5e8842" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_index_result_1a3b31cafd388ab8c30466cc370e5e8842" kindref="member">entity_count</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1_index_result_1ad95701adfb6ee902f99bebc95289438d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1rag_1_1_index_result_1ad95701adfb6ee902f99bebc95289438d" kindref="member">vector_count</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1_index_result_1aea08875ceeadff84dac72cbb0468a18c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_index_result_1aea08875ceeadff84dac72cbb0468a18c" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAGIngestionBridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref>(</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;toolbox::IngestionToolbox&gt;<sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7f16c982ed55cbdb724ae9990ec2bead" kindref="member">toolbox</ref>,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IVectorWriter&gt;<sp/><sp/><sp/><sp/><sp/>vector_writer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><sp/><sp/><sp/><sp/><sp/>graph_writer<sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1aaab9162ae669c83b9c2e50beb2e39364" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1aaab9162ae669c83b9c2e50beb2e39364" kindref="member">~RAGIngestionBridge</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a05274fced6c6d6c3885d918f73b62d5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref>(const<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4c345fa833e13ddfd025e57cda2ffa0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a19e98f49751cc1473b7336cf13bfbbe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref>(<ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7628295383d7a460663a26f06e643f4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a4166fc91b0f1a5083291f9d082940661" kindref="member">RAGIngestionBridge</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Core<sp/>operations<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">indexDocument</ref>(</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>mime<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>filename<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;document.txt&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a034eda296a41fd6dc7f3fe000121bc01" kindref="member">indexOptimizerLog</ref>(</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query_id,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>plan_json,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latency_ms,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;optimizer-logs&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a9ca70e872bf2b978ac29d250ec9327e6" kindref="member">enrichRetrievedDocuments</ref>(</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;&amp;<sp/>docs</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ingestion::BaseEntity&gt;<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a561ecef77aab58a1af48e1fd71320856" kindref="member">extractEntitiesForContext</ref>(</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a18687006b56034044e8d397bfb81bb7a" kindref="member">buildEntityContext</ref>(</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;ingestion::BaseEntity&gt;&amp;<sp/>entities</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Accessors<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7f16c982ed55cbdb724ae9990ec2bead" kindref="member">toolbox</ref>::IngestionToolbox&gt;<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7f16c982ed55cbdb724ae9990ec2bead" kindref="member">toolbox</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IVectorWriter&gt;<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a747d79ea70749eb09b6a12b681f43166" kindref="member">vectorWriter</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1ae89b93cfd3500b49308d300ab49971dc" kindref="member">graphWriter</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a7f16c982ed55cbdb724ae9990ec2bead" kindref="member">toolbox</ref>::IngestionToolbox&gt;<sp/>toolbox_;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IVectorWriter&gt;<sp/><sp/>vector_writer_;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ingestion::IGraphWriter&gt;<sp/><sp/><sp/>graph_writer_;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>computeDocHash(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>entityTypeName(ingestion::EntityType<sp/>et);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/rag_ingestion_bridge.h"/>
+  </compounddef>
+</doxygen>

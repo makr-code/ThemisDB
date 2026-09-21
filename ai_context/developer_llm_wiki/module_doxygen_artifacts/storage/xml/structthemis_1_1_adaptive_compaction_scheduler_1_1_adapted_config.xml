@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AdaptiveCompactionScheduler::AdaptedConfig</compoundname>
+    <includes refid="adaptive__compaction_8h" local="no">adaptive_compaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config_1a8c1612b79e5864bcc748a9120e762725" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveCompactionScheduler::AdaptedConfig::tombstone_gc_threshold</definition>
+        <argsstring></argsstring>
+        <name>tombstone_gc_threshold</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::AdaptedConfig::tombstone_gc_threshold</qualifiedname>
+        <initializer>{10&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="185" column="18" bodyfile="include/storage/adaptive_compaction.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config_1a4c48c148a58173d413797c76f979c0a2" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::AdaptiveCompactionScheduler::AdaptedConfig::bg_gc_interval</definition>
+        <argsstring></argsstring>
+        <name>bg_gc_interval</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::AdaptedConfig::bg_gc_interval</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="186" column="30" bodyfile="include/storage/adaptive_compaction.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config_1a338935f2b980f29f92e51e903121a851" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveCompactionScheduler::AdaptedConfig::enable_full_compaction</definition>
+        <argsstring></argsstring>
+        <name>enable_full_compaction</name>
+        <qualifiedname>themis::AdaptiveCompactionScheduler::AdaptedConfig::enable_full_compaction</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/adaptive_compaction.h" line="187" column="14" bodyfile="include/storage/adaptive_compaction.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Dynamically adjusted <ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref> configuration derived from the most recent workload observation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/adaptive_compaction.h" line="184" column="5" bodyfile="include/storage/adaptive_compaction.h" bodystart="184" bodyend="188"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config_1a4c48c148a58173d413797c76f979c0a2" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::AdaptedConfig</scope><name>bg_gc_interval</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config_1a338935f2b980f29f92e51e903121a851" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::AdaptedConfig</scope><name>enable_full_compaction</name></member>
+      <member refid="structthemis_1_1_adaptive_compaction_scheduler_1_1_adapted_config_1a8c1612b79e5864bcc748a9120e762725" prot="public" virt="non-virtual"><scope>themis::AdaptiveCompactionScheduler::AdaptedConfig</scope><name>tombstone_gc_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_index_recommender_persist_test" kind="class" language="C++" prot="public">
+    <compoundname>IndexRecommenderPersistTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_index_recommender_persist_test_1a0bc9a0d97b5d445469901f551000102b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string IndexRecommenderPersistTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>IndexRecommenderPersistTest::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_index_recommender.cpp" line="301" column="17" bodyfile="tests/metadata/test_index_recommender.cpp" bodystart="301" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_index_recommender_persist_test_1afaefaf83e37a36f981f5df42d69996ae" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; IndexRecommenderPersistTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>IndexRecommenderPersistTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_index_recommender.cpp" line="302" column="21" bodyfile="tests/metadata/test_index_recommender.cpp" bodystart="302" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_index_recommender_persist_test_1a44fcf6e6fdc744aa0dd6cece8429958e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IndexRecommenderPersistTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IndexRecommenderPersistTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_index_recommender.cpp" line="289" column="10" bodyfile="tests/metadata/test_index_recommender.cpp" bodystart="289" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="class_index_recommender_persist_test_1af644e43d06ee0db96c199df780237819" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IndexRecommenderPersistTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>IndexRecommenderPersistTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_index_recommender.cpp" line="296" column="10" bodyfile="tests/metadata/test_index_recommender.cpp" bodystart="296" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IndexRecommenderPersistTest</label>
+        <link refid="class_index_recommender_persist_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IndexRecommenderPersistTest</label>
+        <link refid="class_index_recommender_persist_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_index_recommender.cpp" line="287" column="1" bodyfile="tests/metadata/test_index_recommender.cpp" bodystart="287" bodyend="303"/>
+    <listofallmembers>
+      <member refid="class_index_recommender_persist_test_1afaefaf83e37a36f981f5df42d69996ae" prot="protected" virt="non-virtual"><scope>IndexRecommenderPersistTest</scope><name>db_</name></member>
+      <member refid="class_index_recommender_persist_test_1a0bc9a0d97b5d445469901f551000102b" prot="protected" virt="non-virtual"><scope>IndexRecommenderPersistTest</scope><name>db_path_</name></member>
+      <member refid="class_index_recommender_persist_test_1a44fcf6e6fdc744aa0dd6cece8429958e" prot="protected" virt="non-virtual"><scope>IndexRecommenderPersistTest</scope><name>SetUp</name></member>
+      <member refid="class_index_recommender_persist_test_1af644e43d06ee0db96c199df780237819" prot="protected" virt="non-virtual"><scope>IndexRecommenderPersistTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

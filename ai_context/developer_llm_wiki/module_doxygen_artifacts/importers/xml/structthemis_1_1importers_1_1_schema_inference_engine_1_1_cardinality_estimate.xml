@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_cardinality_estimate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SchemaInferenceEngine::CardinalityEstimate</compoundname>
+    <includes refid="schema__inference_8h" local="no">schema_inference.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_cardinality_estimate_1a9bcad3c9af3d3a092a16839ccd75e7b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::SchemaInferenceEngine::CardinalityEstimate::relationship_id</definition>
+        <argsstring></argsstring>
+        <name>relationship_id</name>
+        <qualifiedname>themis::importers::SchemaInferenceEngine::CardinalityEstimate::relationship_id</qualifiedname>
+        <briefdescription>
+<para>&quot;parent_table.col -&gt; child_table.col&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="126" column="21" bodyfile="include/importers/schema_inference.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_cardinality_estimate_1a02164948ab3e69699c61e95c9eb921c4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::SchemaInferenceEngine::CardinalityEstimate::one_to_many_ratio</definition>
+        <argsstring></argsstring>
+        <name>one_to_many_ratio</name>
+        <qualifiedname>themis::importers::SchemaInferenceEngine::CardinalityEstimate::one_to_many_ratio</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+<para>avg children per parent </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="127" column="16" bodyfile="include/importers/schema_inference.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_cardinality_estimate_1a9071685595c25d5df586e02032f67219" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::SchemaInferenceEngine::CardinalityEstimate::selectivity</definition>
+        <argsstring></argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::importers::SchemaInferenceEngine::CardinalityEstimate::selectivity</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+<para>fraction of child rows with a matching parent </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="128" column="16" bodyfile="include/importers/schema_inference.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_schema_inference_engine_1_1_cardinality_estimate_1a41d0a53374bfb9a91e668ae067574b2b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::importers::SchemaInferenceEngine::CardinalityEstimate::confidence_interval</definition>
+        <argsstring></argsstring>
+        <name>confidence_interval</name>
+        <qualifiedname>themis::importers::SchemaInferenceEngine::CardinalityEstimate::confidence_interval</qualifiedname>
+        <briefdescription>
+<para>95 % CI [lower, upper] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/schema_inference.h" line="129" column="21" bodyfile="include/importers/schema_inference.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/schema_inference.h" line="125" column="5" bodyfile="include/importers/schema_inference.h" bodystart="125" bodyend="130"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_engine_1_1_cardinality_estimate_1a41d0a53374bfb9a91e668ae067574b2b" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceEngine::CardinalityEstimate</scope><name>confidence_interval</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_engine_1_1_cardinality_estimate_1a02164948ab3e69699c61e95c9eb921c4" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceEngine::CardinalityEstimate</scope><name>one_to_many_ratio</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_engine_1_1_cardinality_estimate_1a9bcad3c9af3d3a092a16839ccd75e7b1" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceEngine::CardinalityEstimate</scope><name>relationship_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_schema_inference_engine_1_1_cardinality_estimate_1a9071685595c25d5df586e02032f67219" prot="public" virt="non-virtual"><scope>themis::importers::SchemaInferenceEngine::CardinalityEstimate</scope><name>selectivity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

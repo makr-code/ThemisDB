@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__high__cardinality__metrics_8cpp" kind="file" language="C++">
+    <compoundname>test_high_cardinality_metrics.cpp</compoundname>
+    <includes refid="wave__d__high__cardinality__metrics_8h" local="yes">observability/wave_d_high_cardinality_metrics.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>observability/metrics_collector.h</label>
+        <link refid="metrics__collector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>observability/wave_d_high_cardinality_metrics.h</label>
+        <link refid="wave__d__high__cardinality__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/observability/test_high_cardinality_metrics.cpp</label>
+        <link refid="test__high__cardinality__metrics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>shared_mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" prot="public">themis::observability::tests::MetricsCardinalityTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1tests">themis::observability::tests</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>tests/observability/test_high_cardinality_metrics.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wave<sp/>D<sp/>Phase<sp/>2B:<sp/>High-Cardinality<sp/>Metrics<sp/>Collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gate:<sp/>W4A-METRICS-01<sp/>(memory<sp/>bounded,<sp/>no<sp/>OOM<sp/>at<sp/>50k<sp/>dimensions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wave__d__high__cardinality__metrics_8h" kindref="compound">observability/wave_d_high_cardinality_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="namespacethemis_1_1observability_1_1tests" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests" kindref="compound">themis::observability::tests</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>Metrics<sp/>collection<sp/>under<sp/>increasing<sp/>cardinality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>HighCardinalityMetricsEmission(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dimension_count<sp/>=<sp/>state.range(0);<sp/><sp/></highlight><highlight class="comment">//<sp/>100,<sp/>1000,<sp/>10000,<sp/>50000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>metric<sp/>emission<sp/>with<sp/>varying<sp/>cardinality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>dimension_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>mgr.shardLatencies().recordLatency(</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>%<sp/>100),</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>42.5);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1aa55af7e76f94bdbd9eeaea5f371a5c81" kindref="member">BENCHMARK</ref>(HighCardinalityMetricsEmission)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;RangeMultiplier(10)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Range(100,<sp/>50000)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Complexity();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Verify<sp/>cardinality<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test_1aa1b36e21a9f577bc58364457a11f43b1" kindref="member">MAX_SAFE_CARDINALITY</ref><sp/>=<sp/>50000;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test_1a7bd6fb6687ff828f1ec54a97b9640343" kindref="member">MAX_MEMORY_MB</ref><sp/>=<sp/>512.0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test_1ad85f7c173fc370b3585f31592cccc660" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.reset();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref>,<sp/>MetricsMemoryBounded)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Emit<sp/>metrics<sp/>up<sp/>to<sp/>50k<sp/>cardinality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.shardLatencies().recordLatency(</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>/<sp/>50),<sp/><sp/></highlight><highlight class="comment">//<sp/>1000<sp/>unique<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>10.0<sp/>+<sp/>(i<sp/>%<sp/>100));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>cardinality<sp/>is<sp/>bounded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(mgr.isCardinalitySafe());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>memory<sp/>usage<sp/>is<sp/>within<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>uint64_t<sp/>estimated_bytes<sp/>=<sp/>mgr.getEstimatedMemoryBytes();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>estimated_mb<sp/>=<sp/>estimated_bytes<sp/>/<sp/>(1024.0<sp/>*<sp/>1024.0);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/>EXPECT_LT(estimated_mb,<sp/>MAX_MEMORY_MB);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(MetricsCardinalityTest,<sp/>ShardCardinalityBounded)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>emit<sp/>more<sp/>than<sp/>1024<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>2000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.shardLatencies().recordLatency(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>25.0);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>cardinality<sp/>is<sp/>bounded<sp/>at<sp/>1024</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/>EXPECT_LE(mgr.shardLatencies().getCardinality(),<sp/>1024);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref>,<sp/>ReplicaCardinalityBounded)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>emit<sp/>more<sp/>than<sp/>32<sp/>replicas</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.replicaLag().recordLag(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;replica_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>10.0<sp/>+<sp/>(i<sp/>%<sp/>20));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>cardinality<sp/>is<sp/>bounded<sp/>at<sp/>32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/>EXPECT_LE(mgr.replicaLag().getCardinality(),<sp/>32);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref>,<sp/>RetryReasonCardinalityBounded)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Define<sp/>failure<sp/>reasons</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/>reasons<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;connection_reset&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;byzantine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;overload&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;not_found&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;permission_denied&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;invalid_argument&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;internal_error&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unavailable&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>emit<sp/>more<sp/>than<sp/>10<sp/>reasons</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>reasons.size()<sp/>+<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.retryCounter().recordRetry(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>reasons[i<sp/>%<sp/>reasons.size()],</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>cardinality<sp/>is<sp/>bounded<sp/>at<sp/>10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/>EXPECT_LE(mgr.retryCounter().getAllRetries().size(),<sp/>10);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref>,<sp/>QuantileCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>latencies<sp/>for<sp/>a<sp/>specific<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.shardLatencies().recordLatency(</highlight><highlight class="stringliteral">&quot;shard_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,<sp/>i<sp/>*<sp/>1.0);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quantiles<sp/>=<sp/>mgr.shardLatencies().getQuantiles(</highlight><highlight class="stringliteral">&quot;shard_001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>EXPECT_GT(quantiles.p50,<sp/>0.0);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/>EXPECT_GT(quantiles.p95,<sp/>quantiles.p50);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/>EXPECT_GT(quantiles.p99,<sp/>quantiles.p95);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref>,<sp/>ReplicaLagQuantiles)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>lag<sp/>observations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.replicaLag().recordLag(</highlight><highlight class="stringliteral">&quot;replica_001&quot;</highlight><highlight class="normal">,<sp/>i<sp/>*<sp/>2.0);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quantiles<sp/>=<sp/>mgr.replicaLag().getQuantiles(</highlight><highlight class="stringliteral">&quot;replica_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>EXPECT_GT(quantiles.p50,<sp/>0.0);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/>EXPECT_GT(quantiles.p95,<sp/>quantiles.p50);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>EXPECT_GT(quantiles.p99,<sp/>quantiles.p95);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/>EXPECT_GT(quantiles.max,<sp/>quantiles.p99);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref>,<sp/>RetryCounterAggregation)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>retries<sp/>by<sp/>reason</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/>mgr.retryCounter().recordRetry(</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/>mgr.retryCounter().recordRetry(</highlight><highlight class="stringliteral">&quot;connection_reset&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>mgr.retryCounter().recordRetry(</highlight><highlight class="stringliteral">&quot;byzantine&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/>EXPECT_EQ(mgr.retryCounter().getRetryCount(</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">),<sp/>10);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/>EXPECT_EQ(mgr.retryCounter().getRetryCount(</highlight><highlight class="stringliteral">&quot;connection_reset&quot;</highlight><highlight class="normal">),<sp/>5);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/>EXPECT_EQ(mgr.retryCounter().getTotalRetries(),<sp/>18);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref>,<sp/>MemoryBoundedUnderSustainedLoad)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>sustained<sp/>metric<sp/>emission</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iteration<sp/>=<sp/>0;<sp/>iteration<sp/>&lt;<sp/>1000;<sp/>++iteration)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>mgr.shardLatencies().recordLatency(</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>%<sp/>50),</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>20.0<sp/>+<sp/>(iteration<sp/>%<sp/>50));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.replicaLag().recordLag(</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;replica_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(iteration<sp/>%<sp/>10),</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>15.0<sp/>+<sp/>(iteration<sp/>%<sp/>30));</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>system<sp/>is<sp/>still<sp/>stable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(mgr.isCardinalitySafe());</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/>uint64_t<sp/>memory_bytes<sp/>=<sp/>mgr.getEstimatedMemoryBytes();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/>EXPECT_LT(memory_bytes,<sp/>512<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/><sp/></highlight><highlight class="comment">//<sp/>Under<sp/>512<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1tests_1a9eece835308e58fa3662fcc9498f9e5d" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1tests_1_1_metrics_cardinality_test" kindref="compound">MetricsCardinalityTest</ref>,<sp/>CardinalityExceedingLimit)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_high_cardinality_metrics_manager_1ae290bda845c3a79d3f3aac050d98286d" kindref="member">HighCardinalityMetricsManager::getInstance</ref>();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Emit<sp/>to<sp/>near<sp/>the<sp/>limit<sp/>(40k<sp/>cardinality)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>40000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.shardLatencies().recordLatency(</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>/<sp/>40),</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>15.0);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cardinality_before<sp/>=<sp/>mgr.getTotalCardinality();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/>EXPECT_LT(cardinality_before,<sp/>50000);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>exceed<sp/>limit<sp/>(should<sp/>be<sp/>capped)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>40000;<sp/>i<sp/>&lt;<sp/>60000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.shardLatencies().recordLatency(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>/<sp/>40),</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>25.0);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cardinality_after<sp/>=<sp/>mgr.getTotalCardinality();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Cardinality<sp/>should<sp/>grow<sp/>but<sp/>remain<sp/>bounded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/>EXPECT_LE(cardinality_after,<sp/>50000<sp/>+<sp/>100);<sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::observability::tests</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/observability/test_high_cardinality_metrics.cpp"/>
+  </compounddef>
+</doxygen>

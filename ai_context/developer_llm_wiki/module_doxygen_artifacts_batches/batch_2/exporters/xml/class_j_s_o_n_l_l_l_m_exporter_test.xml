@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_j_s_o_n_l_l_l_m_exporter_test" kind="class" language="C++" prot="public">
+    <compoundname>JSONLLLMExporterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_j_s_o_n_l_l_l_m_exporter_test_1ae8b43da2803564eb6e044ba0b4de7025" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string JSONLLLMExporterTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>JSONLLLMExporterTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_jsonl_llm_exporter.cpp" line="68" column="17" bodyfile="tests/exporters/test_jsonl_llm_exporter.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_j_s_o_n_l_l_l_m_exporter_test_1acdaa3b373fe36852b6c2228bc60b8bd9" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt;BaseEntity&gt; JSONLLLMExporterTest::test_entities_</definition>
+        <argsstring></argsstring>
+        <name>test_entities_</name>
+        <qualifiedname>JSONLLLMExporterTest::test_entities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_jsonl_llm_exporter.cpp" line="69" column="17" bodyfile="tests/exporters/test_jsonl_llm_exporter.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_j_s_o_n_l_l_l_m_exporter_test_1a35304127223b4628c3846e90abae8528" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void JSONLLLMExporterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>JSONLLLMExporterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_jsonl_llm_exporter.cpp" line="20" column="10" bodyfile="tests/exporters/test_jsonl_llm_exporter.cpp" bodystart="20" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_j_s_o_n_l_l_l_m_exporter_test_1a574ca621197490d716d8c609979890f2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void JSONLLLMExporterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>JSONLLLMExporterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_jsonl_llm_exporter.cpp" line="30" column="10" bodyfile="tests/exporters/test_jsonl_llm_exporter.cpp" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_j_s_o_n_l_l_l_m_exporter_test_1a1abd8e40510c120be9a59e0b3d681592" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void JSONLLLMExporterTest::createTestEntities</definition>
+        <argsstring>()</argsstring>
+        <name>createTestEntities</name>
+        <qualifiedname>JSONLLLMExporterTest::createTestEntities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_jsonl_llm_exporter.cpp" line="37" column="10" bodyfile="tests/exporters/test_jsonl_llm_exporter.cpp" bodystart="37" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_j_s_o_n_l_l_l_m_exporter_test_1a0a2bb0bb65b02774964a65f6bec1f139" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; JSONLLLMExporterTest::readLinesFromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readLinesFromFile</name>
+        <qualifiedname>JSONLLLMExporterTest::readLinesFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_jsonl_llm_exporter.cpp" line="56" column="17" bodyfile="tests/exporters/test_jsonl_llm_exporter.cpp" bodystart="56" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>JSONLLLMExporterTest</label>
+        <link refid="class_j_s_o_n_l_l_l_m_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>JSONLLLMExporterTest</label>
+        <link refid="class_j_s_o_n_l_l_l_m_exporter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_jsonl_llm_exporter.cpp" line="18" column="1" bodyfile="tests/exporters/test_jsonl_llm_exporter.cpp" bodystart="18" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_j_s_o_n_l_l_l_m_exporter_test_1a1abd8e40510c120be9a59e0b3d681592" prot="protected" virt="non-virtual"><scope>JSONLLLMExporterTest</scope><name>createTestEntities</name></member>
+      <member refid="class_j_s_o_n_l_l_l_m_exporter_test_1a0a2bb0bb65b02774964a65f6bec1f139" prot="protected" virt="non-virtual"><scope>JSONLLLMExporterTest</scope><name>readLinesFromFile</name></member>
+      <member refid="class_j_s_o_n_l_l_l_m_exporter_test_1a35304127223b4628c3846e90abae8528" prot="protected" virt="non-virtual"><scope>JSONLLLMExporterTest</scope><name>SetUp</name></member>
+      <member refid="class_j_s_o_n_l_l_l_m_exporter_test_1a574ca621197490d716d8c609979890f2" prot="protected" virt="non-virtual"><scope>JSONLLLMExporterTest</scope><name>TearDown</name></member>
+      <member refid="class_j_s_o_n_l_l_l_m_exporter_test_1ae8b43da2803564eb6e044ba0b4de7025" prot="protected" virt="non-virtual"><scope>JSONLLLMExporterTest</scope><name>test_dir_</name></member>
+      <member refid="class_j_s_o_n_l_l_l_m_exporter_test_1acdaa3b373fe36852b6c2228bc60b8bd9" prot="protected" virt="non-virtual"><scope>JSONLLLMExporterTest</scope><name>test_entities_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

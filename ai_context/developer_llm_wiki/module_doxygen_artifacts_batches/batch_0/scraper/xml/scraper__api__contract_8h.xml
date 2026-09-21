@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scraper__api__contract_8h" kind="file" language="C++">
+    <compoundname>scraper_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="bench__scraper__pipeline__depth_8cpp" local="yes">benchmarks/scraper/bench_scraper_pipeline_depth.cpp</includedby>
+    <includedby refid="bench__scraper__release__gates_8cpp" local="yes">benchmarks/scraper/bench_scraper_release_gates.cpp</includedby>
+    <includedby refid="scraper__diagnostics_8h" local="yes">include/scraper/scraper_diagnostics.h</includedby>
+    <includedby refid="scraper__render__contract_8h" local="yes">include/scraper/scraper_render_contract.h</includedby>
+    <includedby refid="test__scraper__contract__hardening__focused_8cpp" local="yes">tests/scraper/test_scraper_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_api_contract.h</label>
+        <link refid="scraper__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/scraper/bench_scraper_pipeline_depth.cpp</label>
+        <link refid="bench__scraper__pipeline__depth_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/scraper/bench_scraper_release_gates.cpp</label>
+        <link refid="bench__scraper__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/scraper/scraper_api_contract.h</label>
+        <link refid="scraper__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/scraper/scraper_diagnostics.h</label>
+        <link refid="scraper__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/scraper/scraper_render_contract.h</label>
+        <link refid="scraper__render__contract_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/scraper/scraper_run_summary.h</label>
+        <link refid="scraper__run__summary_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>tests/scraper/test_scraper_contract_hardening_focused.cpp</label>
+        <link refid="test__scraper__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/scraper/test_scraper_phase2_phase3_hardening_focused.cpp</label>
+        <link refid="test__scraper__phase2__phase3__hardening__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/scraper/test_scraper_render_pagination_focused.cpp</label>
+        <link refid="test__scraper__render__pagination__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/scraper/test_scraper_run_summary_focused.cpp</label>
+        <link refid="test__scraper__run__summary__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scraper_1_1_scrape_request" prot="public">themis::scraper::ScrapeRequest</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_scrape_result" prot="public">themis::scraper::ScrapeResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <briefdescription>
+<para>Frozen scraper pipeline and metadata writer API contract for v1.x. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="scraper__api__contract_8h_1autotoc_md0_1s1"><sect2 id="scraper__api__contract_8h_1autotoc_md0">
+<title>§Purpose</title><para>Defines the normative contract for the scraper module covering source seeding, fetch/render operations, content extraction, quality evaluation, and provenance-aware metadata write behaviour.</para>
+</sect2></sect1>
+<sect1 id="scraper__api__contract_8h_1autotoc_md1_1s1"><sect2 id="scraper__api__contract_8h_1autotoc_md1">
+<title>§API Contracts</title><para>Key behavioural invariants:<orderedlist>
+<listitem><para>Fetch failures are always surfaced as kFetchFailed; the scraper never silently returns empty content for a failed fetch.</para>
+</listitem><listitem><para>JS render operations are bounded by kDefaultRenderTimeoutMs; expiry produces kRenderTimeout and the partially-rendered content is discarded.</para>
+</listitem><listitem><para>Parse errors do not abort an entire crawl run; they produce kParseError for the affected page and the run continues.</para>
+</listitem><listitem><para>LLM evaluator failures produce kEvaluationFailed; content is NOT written to the metadata store unless evaluation succeeds (fail-closed on quality).</para>
+</listitem><listitem><para>Metadata writes are atomic; a partial write failure leaves no orphaned records and returns kMetadataWriteFailed.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="scraper__api__contract_8h_1autotoc_md2_1s1"><sect2 id="scraper__api__contract_8h_1autotoc_md2">
+<title>§Error Taxonomy</title><para><table rows="10" cols="3"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Constant  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>0  </para>
+</entry><entry thead="no"><para>kSuccess  </para>
+</entry><entry thead="no"><para>Operation completed without error  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8500  </para>
+</entry><entry thead="no"><para>kFetchFailed  </para>
+</entry><entry thead="no"><para>HTTP/network fetch operation failed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8501  </para>
+</entry><entry thead="no"><para>kRenderTimeout  </para>
+</entry><entry thead="no"><para>JS render exceeded allowed time budget  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8502  </para>
+</entry><entry thead="no"><para>kParseError  </para>
+</entry><entry thead="no"><para>Content parse returned structural error  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8503  </para>
+</entry><entry thead="no"><para>kEvaluationFailed  </para>
+</entry><entry thead="no"><para>LLM quality evaluator returned failure  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8504  </para>
+</entry><entry thead="no"><para>kMetadataWriteFailed  </para>
+</entry><entry thead="no"><para>Provenance/metadata write operation failed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8505  </para>
+</entry><entry thead="no"><para>kSourceNotFound  </para>
+</entry><entry thead="no"><para>Referenced source URL not in catalog  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8506  </para>
+</entry><entry thead="no"><para>kPaginationLimit  </para>
+</entry><entry thead="no"><para>Crawl hit configured pagination depth limit  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8507  </para>
+</entry><entry thead="no"><para>kInternalError  </para>
+</entry><entry thead="no"><para>Unclassified internal error; always deny  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="scraper__api__contract_8h_1autotoc_md3_1s1"><sect2 id="scraper__api__contract_8h_1autotoc_md3">
+<title>§Threading Guarantees</title><para><itemizedlist>
+<listitem><para>Scraper pipeline stages are executed on a bounded thread pool; callers receive results via futures or callbacks.</para>
+</listitem><listitem><para>The metadata writer is thread-safe; concurrent writes from multiple pipeline workers are serialized internally.</para>
+</listitem><listitem><para>The LLM evaluator is stateless per call; concurrent invocations are safe.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="scraper__api__contract_8h_1autotoc_md4_1s1"><sect2 id="scraper__api__contract_8h_1autotoc_md4">
+<title>§Contract Freeze</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/scraper/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">kSuccess</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0adc6900e298ab607bab3a459e1b4447b1" kindref="member">kFetchFailed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8500,<sp/></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0ad2b7c2251055442adfae3bd6a56e4ed2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0ad2b7c2251055442adfae3bd6a56e4ed2" kindref="member">kRenderTimeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8501,<sp/></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a70bc2f6598437e307b2b8d35f1c49a18" kindref="member">kParseError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8502,<sp/></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" kindref="member">kEvaluationFailed</ref><sp/><sp/><sp/><sp/>=<sp/>8503,<sp/></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a2b475da7a0f2961fefc3008a675188c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a2b475da7a0f2961fefc3008a675188c3" kindref="member">kMetadataWriteFailed</ref><sp/>=<sp/>8504,<sp/></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a953073a2ddd96a5fe29bba1006c6e995" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a953073a2ddd96a5fe29bba1006c6e995" kindref="member">kSourceNotFound</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8505,<sp/></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0aae8d786bb215f060cb2f4ac194cc6090" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0aae8d786bb215f060cb2f4ac194cc6090" kindref="member">kPaginationLimit</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>8506,<sp/></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" kindref="member">kInternalError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8507,<sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Pipeline<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1scraper_1ab1084c2896e368f89d1c265419cb44b9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1scraper_1ab1084c2896e368f89d1c265419cb44b9" kindref="member">kDefaultRenderTimeout</ref>{30&apos;000};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1scraper_1ab956988a1a9a606c3bcdcb74423499d8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1scraper_1ab956988a1a9a606c3bcdcb74423499d8" kindref="member">kMaxRenderTimeout</ref>{120&apos;000};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1scraper_1ac7f2ada8d8ddeb37a85e9827d9dbb638" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1scraper_1ac7f2ada8d8ddeb37a85e9827d9dbb638" kindref="member">kDefaultMaxPaginationDepth</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1scraper_1a7905161268e0e86e807183904d0864ac" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1scraper_1a7905161268e0e86e807183904d0864ac" kindref="member">kMaxUrlBytes</ref><sp/>=<sp/>8192;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="namespacethemis_1_1scraper_1a8edffd94917fd1c8713464108a02f851" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1scraper_1a8edffd94917fd1c8713464108a02f851" kindref="member">kMaxPageContentBytes</ref><sp/>=<sp/>10u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Supporting<sp/>structs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1scraper_1_1_scrape_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_scrape_request" kindref="compound">ScrapeRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1scraper_1_1_scrape_request_1ad0d6348dcadc04566c2dd71a39f7bff3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scrape_request_1ad0d6348dcadc04566c2dd71a39f7bff3" kindref="member">source_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1scraper_1_1_scrape_request_1a716059e57f5b34723a5bb3985532ba1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scrape_request_1a716059e57f5b34723a5bb3985532ba1b" kindref="member">enable_js_render</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1scraper_1_1_scrape_request_1ae270621dbac6a707bdf352f45bf1e9fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scrape_request_1ae270621dbac6a707bdf352f45bf1e9fa" kindref="member">max_pagination_depth</ref>{<ref refid="namespacethemis_1_1scraper_1ac7f2ada8d8ddeb37a85e9827d9dbb638" kindref="member">kDefaultMaxPaginationDepth</ref>};</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1scraper_1_1_scrape_request_1a186a18d4dfdedcad38c822f733d543a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1scraper_1_1_scrape_request_1a186a18d4dfdedcad38c822f733d543a6" kindref="member">render_timeout</ref>{<ref refid="namespacethemis_1_1scraper_1ab1084c2896e368f89d1c265419cb44b9" kindref="member">kDefaultRenderTimeout</ref>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1scraper_1_1_scrape_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_scrape_result" kindref="compound">ScrapeResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1scraper_1_1_scrape_result_1a7162b127d24e33e382389aa759489bcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scrape_result_1a7162b127d24e33e382389aa759489bcf" kindref="member">source_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1scraper_1_1_scrape_result_1a24b60ac180fefbbdb0e441e0ad1b23d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scrape_result_1a24b60ac180fefbbdb0e441e0ad1b23d1" kindref="member">success</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1scraper_1_1_scrape_result_1a1805d3b3fcab089700397cccbcb8a8e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/><ref refid="structthemis_1_1scraper_1_1_scrape_result_1a1805d3b3fcab089700397cccbcb8a8e8" kindref="member">error</ref>{<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a8c632159fa131f09d04f94e3cbcd8782" kindref="member">ScraperError::kSuccess</ref>};<sp/></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1scraper_1_1_scrape_result_1acf91b0323148ee9def710706c89c7423" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scrape_result_1acf91b0323148ee9def710706c89c7423" kindref="member">pages_scraped</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1scraper_1_1_scrape_result_1af44e1d5f689532443e4a892cec7a8411" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1scraper_1_1_scrape_result_1af44e1d5f689532443e4a892cec7a8411" kindref="member">metadata_record_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Fail-closed<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1scraper_1af72a7ff23356ab6c4de583284071ac7f" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1scraper_1af72a7ff23356ab6c4de583284071ac7f" kindref="member">isScraperFailClosed</ref>(<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref><sp/>e)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a9c05b595915e5d8ea83f6a21980113b1" kindref="member">ScraperError::kEvaluationFailed</ref></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" kindref="member">ScraperError::kInternalError</ref></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0a2b475da7a0f2961fefc3008a675188c3" kindref="member">ScraperError::kMetadataWriteFailed</ref>;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scraper/scraper_api_contract.h"/>
+  </compounddef>
+</doxygen>

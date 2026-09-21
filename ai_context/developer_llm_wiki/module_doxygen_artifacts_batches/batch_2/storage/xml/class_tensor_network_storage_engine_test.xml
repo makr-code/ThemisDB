@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_tensor_network_storage_engine_test" kind="class" language="C++" prot="public">
+    <compoundname>TensorNetworkStorageEngineTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_tensor_network_storage_engine_test_1aaf41f06da2fd2f2026bb96acb30f5c51" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_in_memory_tensor_backend" kindref="compound">InMemoryTensorBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;InMemoryTensorBackend&gt; TensorNetworkStorageEngineTest::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>TensorNetworkStorageEngineTest::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="323" column="29" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_tensor_network_storage_engine_test_1a95fbb4f062b188a5b8a6138504ed370e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TensorNetworkStorageEngine&gt; TensorNetworkStorageEngineTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>TensorNetworkStorageEngineTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="324" column="25" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_tensor_network_storage_engine_test_1a7d91cdbaab2152f5288221d4a13ce4da" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref></type>
+        <definition>const TensorFieldKey TensorNetworkStorageEngineTest::kKey</definition>
+        <argsstring></argsstring>
+        <name>kKey</name>
+        <qualifiedname>TensorNetworkStorageEngineTest::kKey</qualifiedname>
+        <initializer>{&quot;tenant1&quot;, &quot;col1&quot;, &quot;field1&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="326" column="26" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="326" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_tensor_network_storage_engine_test_1ac0fd83f34a6f43b6712c8584f4be783f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TensorNetworkStorageEngineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TensorNetworkStorageEngineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_tensor_train_decomposer.cpp" line="313" column="10" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="313" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TensorNetworkStorageEngineTest</label>
+        <link refid="class_tensor_network_storage_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TensorNetworkStorageEngineTest</label>
+        <link refid="class_tensor_network_storage_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>kKey</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::storage::TensorFieldKey</label>
+        <link refid="structthemis_1_1storage_1_1_tensor_field_key"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/storage/test_tensor_train_decomposer.cpp" line="311" column="1" bodyfile="tests/storage/test_tensor_train_decomposer.cpp" bodystart="311" bodyend="327"/>
+    <listofallmembers>
+      <member refid="class_tensor_network_storage_engine_test_1aaf41f06da2fd2f2026bb96acb30f5c51" prot="protected" virt="non-virtual"><scope>TensorNetworkStorageEngineTest</scope><name>backend_</name></member>
+      <member refid="class_tensor_network_storage_engine_test_1a95fbb4f062b188a5b8a6138504ed370e" prot="protected" virt="non-virtual"><scope>TensorNetworkStorageEngineTest</scope><name>engine_</name></member>
+      <member refid="class_tensor_network_storage_engine_test_1a7d91cdbaab2152f5288221d4a13ce4da" prot="protected" virt="non-virtual"><scope>TensorNetworkStorageEngineTest</scope><name>kKey</name></member>
+      <member refid="class_tensor_network_storage_engine_test_1ac0fd83f34a6f43b6712c8584f4be783f" prot="protected" virt="non-virtual"><scope>TensorNetworkStorageEngineTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

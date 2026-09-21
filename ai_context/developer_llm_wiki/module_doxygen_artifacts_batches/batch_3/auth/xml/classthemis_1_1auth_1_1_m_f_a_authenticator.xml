@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_m_f_a_authenticator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::MFAAuthenticator</compoundname>
+    <includes refid="mfa__authenticator_8h" local="no">mfa_authenticator.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config" prot="public">themis::auth::MFAAuthenticator::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data" prot="public">themis::auth::MFAAuthenticator::EnrollmentData</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1aeaec6d41ca125eb51a1a56ac9fffc255" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::MFAAuthenticator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="146" column="12" bodyfile="include/auth/mfa_authenticator.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1aa23dd81d48e87138728efe8039b57bc2" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::MFAAuthenticator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::audit_logger_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning, optional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="147" column="24" bodyfile="include/auth/mfa_authenticator.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1aae9fc8dcf0c0f3cc4362d7f95f57928c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> *</type>
+        <definition>AuthAuditLogger* themis::auth::MFAAuthenticator::auth_audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>auth_audit_logger_</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::auth_audit_logger_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning, optional typed logger. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="148" column="21" bodyfile="include/auth/mfa_authenticator.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1a7625b033a3ce4a951eb400f860f6efa9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref> *</type>
+        <definition>AuthMetrics* themis::auth::MFAAuthenticator::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::metrics_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning, optional metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="149" column="17" bodyfile="include/auth/mfa_authenticator.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1ab7c39ab53ace028873ca1630cf5f75e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::MFAAuthenticator::MFAAuthenticator</definition>
+        <argsstring>()</argsstring>
+        <name>MFAAuthenticator</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::MFAAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="71" column="5" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1ad418e7cac2d5d5466032c402626cd589" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::MFAAuthenticator::MFAAuthenticator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>MFAAuthenticator</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::MFAAuthenticator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1auth_1_1_m_f_a_authenticator" kindref="compound">MFAAuthenticator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="77" column="14" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="75" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1a733765c3a5fd302e319be5ba888f0594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::MFAAuthenticator::~MFAAuthenticator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MFAAuthenticator</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::~MFAAuthenticator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1aed23d5a32500ab25fdd2dc1390e82287" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::MFAAuthenticator::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="85" column="10" bodyfile="include/auth/mfa_authenticator.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1af65184115250fc8f981ece196e935837" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::MFAAuthenticator::setAuthAuditLogger</definition>
+        <argsstring>(AuthAuditLogger *logger)</argsstring>
+        <name>setAuthAuditLogger</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::setAuthAuditLogger</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Auth Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuthAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="92" column="10" bodyfile="include/auth/mfa_authenticator.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1ace4c6b9724b303e983ba13c9c4bfe668" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::MFAAuthenticator::setMetrics</definition>
+        <argsstring>(AuthMetrics *metrics)</argsstring>
+        <name>setMetrics</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::setMetrics</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_auth_metrics" kindref="compound">AuthMetrics</ref> *</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Set Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setMetrics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="99" column="10" bodyfile="include/auth/mfa_authenticator.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1a8554dc2f689551127e073628583b61e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data" kindref="compound">EnrollmentData</ref></type>
+        <definition>MFAAuthenticator::EnrollmentData themis::auth::MFAAuthenticator::generateEnrollment</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>generateEnrollment</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::generateEnrollment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Generate Enrollment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateSecret(), <ref refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1aafb839065baad8134c1e980ac5b4ae9f" kindref="member">generateRecoveryCodes()</ref>, std::chrono::system_clock::now(), spdlog::info(), logSecurityEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="106" column="20" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="112" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1af004148aaf8aa9f29565a438aae2ccac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MFAAuthenticator::generateProvisioningURI</definition>
+        <argsstring>(const EnrollmentData &amp;enrollment) const</argsstring>
+        <name>generateProvisioningURI</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::generateProvisioningURI</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data" kindref="compound">EnrollmentData</ref> &amp;</type>
+          <declname>enrollment</declname>
+        </param>
+        <briefdescription>
+<para>Generate Provisioning URI. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enrollment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="113" column="17" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="128" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1ab35e9c9fbec4e8f481004be1751118a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::MFAAuthenticator::validateTOTP</definition>
+        <argsstring>(const std::string &amp;secret_base32, const std::string &amp;code, std::optional&lt; std::chrono::system_clock::time_point &gt; timestamp=std::nullopt, const std::string &amp;subject=&quot;&quot;) const</argsstring>
+        <name>validateTOTP</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::validateTOTP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>secret_base32</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>timestamp</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="115" column="10" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="139" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1a7a10e670384c8be5fe2d639abbd942ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::MFAAuthenticator::validateRecoveryCode</definition>
+        <argsstring>(EnrollmentData &amp;enrollment, const std::string &amp;recovery_code)</argsstring>
+        <name>validateRecoveryCode</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::validateRecoveryCode</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1auth_1_1_m_f_a_authenticator_1_1_enrollment_data" kindref="compound">EnrollmentData</ref> &amp;</type>
+          <declname>enrollment</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recovery_code</declname>
+        </param>
+        <briefdescription>
+<para>Validate Recovery Code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">enrollment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recovery_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">enrollment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">recovery_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), CRYPTO_memcmp(), data(), erase(), begin(), spdlog::info(), logSecurityEvent(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="128" column="10" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="201" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1aafb839065baad8134c1e980ac5b4ae9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::MFAAuthenticator::generateRecoveryCodes</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>generateRecoveryCodes</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::generateRecoveryCodes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Generate Recovery Codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), push_back(), generateRecoveryCode(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="138" column="17" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="250" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1a384664b43c61c83be23bd829eb019e02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MFAAuthenticator::getCurrentTOTP</definition>
+        <argsstring>(const std::string &amp;secret_base32, std::optional&lt; std::chrono::system_clock::time_point &gt; timestamp=std::nullopt) const</argsstring>
+        <name>getCurrentTOTP</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::getCurrentTOTP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>secret_base32</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>timestamp</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="140" column="17" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="263" bodyend="271"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1abc51d7aeb9cfa2044bf72a0c44e53a33" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MFAAuthenticator::generateSecret</definition>
+        <argsstring>() const</argsstring>
+        <name>generateSecret</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::generateSecret</qualifiedname>
+        <briefdescription>
+<para>Generate random secret for TOTP (20 bytes = 160 bits). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="155" column="17" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="277" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1acf9b89ec29cbfd1f5ec3368d29de143d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MFAAuthenticator::generateRecoveryCode</definition>
+        <argsstring>() const</argsstring>
+        <name>generateRecoveryCode</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::generateRecoveryCode</qualifiedname>
+        <briefdescription>
+<para>Generate single recovery code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="161" column="17" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="289" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1ab70e374e663fe6a4ac5da93492a40a71" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MFAAuthenticator::computeTOTP</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;secret, uint64_t time_counter) const</argsstring>
+        <name>computeTOTP</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::computeTOTP</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>secret</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>time_counter</declname>
+        </param>
+        <briefdescription>
+<para>Compute TOTP value for given time counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">secret</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_counter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="169" column="17" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="303" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1a385c0a91cb7d40500c73addd8159aa66" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::MFAAuthenticator::base32Decode</definition>
+        <argsstring>(const std::string &amp;input) const</argsstring>
+        <name>base32Decode</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::base32Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Convert Base32 string to binary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="179" column="17" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="338" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1ad3e3aed27834c681440f9e51f5ebe931" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::MFAAuthenticator::base32Encode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;input) const</argsstring>
+        <name>base32Encode</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::base32Encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Convert binary to Base32 string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="186" column="17" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="367" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1a84939da622c5b2f0b816f01ab1055a35" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::MFAAuthenticator::hmacSHA1</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;key, const std::vector&lt; uint8_t &gt; &amp;message) const</argsstring>
+        <name>hmacSHA1</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::hmacSHA1</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Hmac SHA1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="195" column="17" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="391" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_m_f_a_authenticator_1aefb1798fb2718507914087dad07998b3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::auth::MFAAuthenticator::getTimeCounter</definition>
+        <argsstring>(std::chrono::system_clock::time_point timestamp) const</argsstring>
+        <name>getTimeCounter</name>
+        <qualifiedname>themis::auth::MFAAuthenticator::getTimeCounter</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Get time counter from timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/mfa_authenticator.h" line="205" column="14" bodyfile="src/auth/mfa_authenticator.cpp" bodystart="406" bodyend="411"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/mfa_authenticator.h" line="27" column="1" bodyfile="include/auth/mfa_authenticator.h" bodystart="27" bodyend="206"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1aa23dd81d48e87138728efe8039b57bc2" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1aae9fc8dcf0c0f3cc4362d7f95f57928c" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>auth_audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1a385c0a91cb7d40500c73addd8159aa66" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>base32Decode</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1ad3e3aed27834c681440f9e51f5ebe931" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>base32Encode</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1ab70e374e663fe6a4ac5da93492a40a71" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>computeTOTP</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1aeaec6d41ca125eb51a1a56ac9fffc255" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1a8554dc2f689551127e073628583b61e4" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>generateEnrollment</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1af004148aaf8aa9f29565a438aae2ccac" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>generateProvisioningURI</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1acf9b89ec29cbfd1f5ec3368d29de143d" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>generateRecoveryCode</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1aafb839065baad8134c1e980ac5b4ae9f" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>generateRecoveryCodes</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1abc51d7aeb9cfa2044bf72a0c44e53a33" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>generateSecret</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1a384664b43c61c83be23bd829eb019e02" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>getCurrentTOTP</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1aefb1798fb2718507914087dad07998b3" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>getTimeCounter</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1a84939da622c5b2f0b816f01ab1055a35" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>hmacSHA1</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1a7625b033a3ce4a951eb400f860f6efa9" prot="private" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1ab7c39ab53ace028873ca1630cf5f75e9" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>MFAAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1ad418e7cac2d5d5466032c402626cd589" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>MFAAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1aed23d5a32500ab25fdd2dc1390e82287" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1af65184115250fc8f981ece196e935837" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>setAuthAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1ace4c6b9724b303e983ba13c9c4bfe668" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>setMetrics</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1a7a10e670384c8be5fe2d639abbd942ba" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>validateRecoveryCode</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1ab35e9c9fbec4e8f481004be1751118a1" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>validateTOTP</name></member>
+      <member refid="classthemis_1_1auth_1_1_m_f_a_authenticator_1a733765c3a5fd302e319be5ba888f0594" prot="public" virt="non-virtual"><scope>themis::auth::MFAAuthenticator</scope><name>~MFAAuthenticator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

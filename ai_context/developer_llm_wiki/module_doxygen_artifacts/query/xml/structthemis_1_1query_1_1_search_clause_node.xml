@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_search_clause_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SearchClauseNode</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_search_clause_node_1a4e78eb153da0722c6500b6f18ba3d815" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_fts_predicate_node" kindref="compound">FtsPredicateNode</ref> &gt;</type>
+        <definition>std::vector&lt;FtsPredicateNode&gt; themis::query::SearchClauseNode::predicates</definition>
+        <argsstring></argsstring>
+        <name>predicates</name>
+        <qualifiedname>themis::query::SearchClauseNode::predicates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="735" column="17" bodyfile="include/query/aql_parser.h" bodystart="735" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_search_clause_node_1aee8ddbe11a380bccc3e6dc4f93a8d6a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SearchClauseNode::in_field</definition>
+        <argsstring></argsstring>
+        <name>in_field</name>
+        <qualifiedname>themis::query::SearchClauseNode::in_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="736" column="17" bodyfile="include/query/aql_parser.h" bodystart="736" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_search_clause_node_1a2666b56a6543fd3c6369b6dbf126ac8d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SearchClauseNode::default_analyzer</definition>
+        <argsstring></argsstring>
+        <name>default_analyzer</name>
+        <qualifiedname>themis::query::SearchClauseNode::default_analyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="737" column="17" bodyfile="include/query/aql_parser.h" bodystart="737" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_search_clause_node_1ad419e127494c5c2d1e49206a12b67bbe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::SearchClauseNode::top_boost</definition>
+        <argsstring></argsstring>
+        <name>top_boost</name>
+        <qualifiedname>themis::query::SearchClauseNode::top_boost</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="738" column="12" bodyfile="include/query/aql_parser.h" bodystart="738" bodyend="738"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_search_clause_node_1a94e6716953cc6ac4fd57dd4d20996780" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::SearchClauseNode::getType</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::SearchClauseNode::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="740" column="17" bodyfile="include/query/aql_parser.h" bodystart="740" bodyend="740"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="734" column="1" bodyfile="include/query/aql_parser.h" bodystart="734" bodyend="741"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_search_clause_node_1a2666b56a6543fd3c6369b6dbf126ac8d" prot="public" virt="non-virtual"><scope>themis::query::SearchClauseNode</scope><name>default_analyzer</name></member>
+      <member refid="structthemis_1_1query_1_1_search_clause_node_1a94e6716953cc6ac4fd57dd4d20996780" prot="public" virt="non-virtual"><scope>themis::query::SearchClauseNode</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_search_clause_node_1aee8ddbe11a380bccc3e6dc4f93a8d6a6" prot="public" virt="non-virtual"><scope>themis::query::SearchClauseNode</scope><name>in_field</name></member>
+      <member refid="structthemis_1_1query_1_1_search_clause_node_1a4e78eb153da0722c6500b6f18ba3d815" prot="public" virt="non-virtual"><scope>themis::query::SearchClauseNode</scope><name>predicates</name></member>
+      <member refid="structthemis_1_1query_1_1_search_clause_node_1ad419e127494c5c2d1e49206a12b67bbe" prot="public" virt="non-virtual"><scope>themis::query::SearchClauseNode</scope><name>top_boost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

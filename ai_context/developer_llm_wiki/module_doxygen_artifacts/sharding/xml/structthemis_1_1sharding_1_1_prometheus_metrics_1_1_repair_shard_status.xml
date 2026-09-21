@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_repair_shard_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::PrometheusMetrics::RepairShardStatus</compoundname>
+    <includes refid="prometheus__metrics_8h" local="no">prometheus_metrics.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_repair_shard_status_1a8b6da0e02d52ef23abfc1844073cd9cb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::PrometheusMetrics::RepairShardStatus::HEALTHY</definition>
+        <argsstring></argsstring>
+        <name>HEALTHY</name>
+        <qualifiedname>themis::sharding::PrometheusMetrics::RepairShardStatus::HEALTHY</qualifiedname>
+        <initializer>= &quot;healthy&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/prometheus_metrics.h" line="284" column="37" bodyfile="include/sharding/prometheus_metrics.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_repair_shard_status_1a9615c2d5771ac662c491017e7f53c746" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::PrometheusMetrics::RepairShardStatus::DEGRADED</definition>
+        <argsstring></argsstring>
+        <name>DEGRADED</name>
+        <qualifiedname>themis::sharding::PrometheusMetrics::RepairShardStatus::DEGRADED</qualifiedname>
+        <initializer>= &quot;degraded&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/prometheus_metrics.h" line="285" column="37" bodyfile="include/sharding/prometheus_metrics.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_repair_shard_status_1a44339aad907f4741695c5d55968286c0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::PrometheusMetrics::RepairShardStatus::FAILED</definition>
+        <argsstring></argsstring>
+        <name>FAILED</name>
+        <qualifiedname>themis::sharding::PrometheusMetrics::RepairShardStatus::FAILED</qualifiedname>
+        <initializer>= &quot;failed&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/prometheus_metrics.h" line="286" column="37" bodyfile="include/sharding/prometheus_metrics.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_repair_shard_status_1a4ce08696ca7d5b171a4d93344df24567" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::sharding::PrometheusMetrics::RepairShardStatus::REBUILDING</definition>
+        <argsstring></argsstring>
+        <name>REBUILDING</name>
+        <qualifiedname>themis::sharding::PrometheusMetrics::RepairShardStatus::REBUILDING</qualifiedname>
+        <initializer>= &quot;rebuilding&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/prometheus_metrics.h" line="287" column="37" bodyfile="include/sharding/prometheus_metrics.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Valid shard health status strings for <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics_1a321163f69f528300c28c2f9d6d67a2a2" kindref="member">recordRepairShardStatus()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/prometheus_metrics.h" line="283" column="5" bodyfile="include/sharding/prometheus_metrics.h" bodystart="283" bodyend="288"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_repair_shard_status_1a9615c2d5771ac662c491017e7f53c746" prot="public" virt="non-virtual"><scope>themis::sharding::PrometheusMetrics::RepairShardStatus</scope><name>DEGRADED</name></member>
+      <member refid="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_repair_shard_status_1a44339aad907f4741695c5d55968286c0" prot="public" virt="non-virtual"><scope>themis::sharding::PrometheusMetrics::RepairShardStatus</scope><name>FAILED</name></member>
+      <member refid="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_repair_shard_status_1a8b6da0e02d52ef23abfc1844073cd9cb" prot="public" virt="non-virtual"><scope>themis::sharding::PrometheusMetrics::RepairShardStatus</scope><name>HEALTHY</name></member>
+      <member refid="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_repair_shard_status_1a4ce08696ca7d5b171a4d93344df24567" prot="public" virt="non-virtual"><scope>themis::sharding::PrometheusMetrics::RepairShardStatus</scope><name>REBUILDING</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

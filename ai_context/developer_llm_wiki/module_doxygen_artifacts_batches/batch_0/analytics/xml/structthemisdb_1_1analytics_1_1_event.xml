@@ -1,0 +1,378 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_event" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::Event</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1a59878aa15321db995dcb2cf8143fda8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Event::event_id</definition>
+        <argsstring></argsstring>
+        <name>event_id</name>
+        <qualifiedname>themisdb::analytics::Event::event_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="199" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1af2e5aa12e887a7e89485b4ed15ea9880" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cf" kindref="member">EventType</ref></type>
+        <definition>EventType themisdb::analytics::Event::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::analytics::Event::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1ab29ff0babdf8223b62a1d7195b95f5cfa72baef04098f035e8a320b03ad197818" kindref="member">EventType::CUSTOM</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="200" column="15" bodyfile="include/analytics/cep_engine.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1a0a0ae7637526f526cc6f254bd801bbc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Event::event_name</definition>
+        <argsstring></argsstring>
+        <name>event_name</name>
+        <qualifiedname>themisdb::analytics::Event::event_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="201" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1a8994078f9de5ae9dc512b8f77b8f085d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511c" kindref="member">EventPriority</ref></type>
+        <definition>EventPriority themisdb::analytics::Event::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themisdb::analytics::Event::priority</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a8e6cfe2d643dbb1f8d7c71af79a5511ca1e23852820b9154316c7c06e2b7ba051" kindref="member">EventPriority::NORMAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="202" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1aeb525922de7efa76e5c664fabe15bf8b" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::Event::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::analytics::Event::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="205" column="43" bodyfile="include/analytics/cep_engine.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1a9f737f7f02b7d280b49250b8678dc1b6" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::Event::processing_time</definition>
+        <argsstring></argsstring>
+        <name>processing_time</name>
+        <qualifiedname>themisdb::analytics::Event::processing_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="206" column="43" bodyfile="include/analytics/cep_engine.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1a9a10c33de6d8cafb66b80acb657a015a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Event::source_shard_id</definition>
+        <argsstring></argsstring>
+        <name>source_shard_id</name>
+        <qualifiedname>themisdb::analytics::Event::source_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="209" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1adf1e2459b430dceff5f9636107aa265e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Event::collection_name</definition>
+        <argsstring></argsstring>
+        <name>collection_name</name>
+        <qualifiedname>themisdb::analytics::Event::collection_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="210" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1a513afe090756074c572ebc5091bc6caa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Event::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themisdb::analytics::Event::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="211" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1abedf8b519946788edf7c3976eb6bbbd3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::Event::partition_key</definition>
+        <argsstring></argsstring>
+        <name>partition_key</name>
+        <qualifiedname>themisdb::analytics::Event::partition_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="214" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1a4e76f6f1c710cf56132643e8c23a88c4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::Event::partition_id</definition>
+        <argsstring></argsstring>
+        <name>partition_id</name>
+        <qualifiedname>themisdb::analytics::Event::partition_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="215" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1a09d6dcade17023d06b081651bc9179e4" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1a67926481b5ed676de498c44c9531342b" kindref="member">CepFieldValue</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CepFieldValue&gt; themisdb::analytics::Event::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themisdb::analytics::Event::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="218" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1a54b11c1d1f7b324ee962f9b2d3fc79d2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themisdb::analytics::Event::raw_payload</definition>
+        <argsstring></argsstring>
+        <name>raw_payload</name>
+        <qualifiedname>themisdb::analytics::Event::raw_payload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="219" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1ab50d0132d3a90c89500957292b80d306" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::Event::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themisdb::analytics::Event::sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="222" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_event_1ae7d9cf2297e9625a6852675668498666" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::Event::watermark</definition>
+        <argsstring></argsstring>
+        <name>watermark</name>
+        <qualifiedname>themisdb::analytics::Event::watermark</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="223" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_event_1a5d8d71c5332d785a5f9c6e75aedb4196" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt; T &gt; themisdb::analytics::Event::getField</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getField</name>
+        <qualifiedname>themisdb::analytics::Event::getField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="227" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="227" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_event_1af2bbba9b60f582e763b6dfb3b0cad2a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::Event::setField</definition>
+        <argsstring>(const std::string &amp;name, CepFieldValue value)</argsstring>
+        <name>setField</name>
+        <qualifiedname>themisdb::analytics::Event::setField</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1analytics_1a67926481b5ed676de498c44c9531342b" kindref="member">CepFieldValue</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="244" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="244" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_event_1a09fce700e218c222409ea922923f07f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::analytics::Event::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::analytics::Event::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="252" column="17" bodyfile="src/analytics/cep_engine.cpp" bodystart="484" bodyend="496"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_event_1a5c1cab519c3481e538a43baf976bbd20" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::optional&lt; Event &gt; themisdb::analytics::Event::deserialize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::analytics::Event::deserialize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), s(), begin(), end(), iss(), std::getline(), std::stoul(), std::stoll(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="258" column="26" bodyfile="src/analytics/cep_engine.cpp" bodystart="504" bodyend="573"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="198" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="198" bodyend="259"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1adf1e2459b430dceff5f9636107aa265e" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>collection_name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a5c1cab519c3481e538a43baf976bbd20" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>deserialize</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a513afe090756074c572ebc5091bc6caa" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>document_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a59878aa15321db995dcb2cf8143fda8e" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>event_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a0a0ae7637526f526cc6f254bd801bbc4" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>event_name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a09d6dcade17023d06b081651bc9179e4" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>fields</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a5d8d71c5332d785a5f9c6e75aedb4196" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>getField</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a4e76f6f1c710cf56132643e8c23a88c4" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>partition_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1abedf8b519946788edf7c3976eb6bbbd3" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>partition_key</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a8994078f9de5ae9dc512b8f77b8f085d" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>priority</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a9f737f7f02b7d280b49250b8678dc1b6" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>processing_time</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a54b11c1d1f7b324ee962f9b2d3fc79d2" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>raw_payload</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1ab50d0132d3a90c89500957292b80d306" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>sequence_number</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a09fce700e218c222409ea922923f07f9" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>serialize</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1af2bbba9b60f582e763b6dfb3b0cad2a1" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>setField</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1a9a10c33de6d8cafb66b80acb657a015a" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>source_shard_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1aeb525922de7efa76e5c664fabe15bf8b" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1af2e5aa12e887a7e89485b4ed15ea9880" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_event_1ae7d9cf2297e9625a6852675668498666" prot="public" virt="non-virtual"><scope>themisdb::analytics::Event</scope><name>watermark</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

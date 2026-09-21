@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="resource__pool__manager_8h" kind="file" language="C++">
+    <compoundname>resource_pool_manager.h</compoundname>
+    <includes refid="buffer__pool_8h" local="yes">base/buffer_pool.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="resource__pool__manager_8cpp" local="yes">src/base/resource_pool_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>base/buffer_pool.h</label>
+        <link refid="buffer__pool_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/base/resource_pool_manager.h</label>
+        <link refid="resource__pool__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>array</label>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>cassert</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>condition_variable</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>cstdlib</label>
+      </node>
+      <node id="9">
+        <label>cstring</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>stdexcept</label>
+      </node>
+      <node id="17">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>thread</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/base/resource_pool_manager.h</label>
+        <link refid="resource__pool__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/base/resource_pool_manager.cpp</label>
+        <link refid="resource__pool__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1resource_1_1_adaptive_connection_pool" prot="public">themis::resource::AdaptiveConnectionPool</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config" prot="public">themis::resource::AdaptiveConnectionPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics" prot="public">themis::resource::AdaptiveConnectionPool::Statistics</innerclass>
+    <innerclass refid="classthemis_1_1resource_1_1_resource_pool_manager" prot="public">themis::resource::ResourcePoolManager</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config" prot="public">themis::resource::ResourcePoolManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics" prot="public">themis::resource::ResourcePoolManager::GlobalStatistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1resource">themis::resource</innernamespace>
+    <briefdescription>
+<para>Phase 3 P3-03-A/B: Unified resource pool orchestrator for ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>AdaptiveConnectionPool — pool of generic connection slots with dynamic min/max sizing and acquisition-timeout.</para>
+</listitem><listitem><para>ResourcePoolManager — unified facade over the connection pool, buffer pool (BufferPool), and thread pool (themis::utils::ThreadPoolManager).</para>
+</listitem></itemizedlist>
+</para>
+<para>Design goals (P3-03 acceptance criteria):<itemizedlist>
+<listitem><para>Connection pool: min=5, max=50, scale-up latency &lt; 10 ms.</para>
+</listitem><listitem><para>Leak detection: borrowed resources timed out and reclaimed.</para>
+</listitem><listitem><para>Saturation monitoring: alert threshold at &gt; 80 % utilization.</para>
+</listitem><listitem><para>Unified statistics across all pool types.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Block B P3-03-A/B delivery </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="buffer__pool_8h" kindref="compound">base/buffer_pool.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1resource" kindref="compound">themis::resource</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdaptiveConnectionPool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1resource_1_1_adaptive_connection_pool" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" kindref="member">AdaptiveConnectionPool</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1a370fbf54cc6f6096cee29a0bf21fa855" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1a370fbf54cc6f6096cee29a0bf21fa855" kindref="member">min_size</ref><sp/><sp/><sp/><sp/>=<sp/><sp/>5;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1afa21781d6b110a7542c29ae541cf2319" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1afa21781d6b110a7542c29ae541cf2319" kindref="member">max_size</ref><sp/><sp/><sp/><sp/>=<sp/>50;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1ae4baeec35bd832a18d7a43c395ce6238" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1ae4baeec35bd832a18d7a43c395ce6238" kindref="member">scale_step</ref><sp/><sp/>=<sp/><sp/>5;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1af81e3493e420f5ec5c19124564d334b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1af81e3493e420f5ec5c19124564d334b7" kindref="member">scale_up_threshold_ms</ref><sp/><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1aede3e420174d55176ecc7e398db27c3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config_1aede3e420174d55176ecc7e398db27c3b" kindref="member">idle_shrink_periods</ref><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a3145f944297bf8c4b98c4cfde1ee9125" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a3145f944297bf8c4b98c4cfde1ee9125" kindref="member">pool_size</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1af8f7f8fbfe7430047f7b1fff2226e400" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1af8f7f8fbfe7430047f7b1fff2226e400" kindref="member">available</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a4d30faa355c78d33c0c90ee369b84ef9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a4d30faa355c78d33c0c90ee369b84ef9" kindref="member">in_use</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a54426fe88bc20843d2ce3536d44db6cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a54426fe88bc20843d2ce3536d44db6cb" kindref="member">total_acquires</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a9aa675386f6cefb926967150e6f23dc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a9aa675386f6cefb926967150e6f23dc6" kindref="member">total_timeouts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a44535355523bc639d9b94c35031629ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a44535355523bc639d9b94c35031629ba" kindref="member">scale_up_events</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a0742d06370cec70386ad0204fb246dea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a0742d06370cec70386ad0204fb246dea" kindref="member">scale_down_events</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a839da2334dd73353fc3772170cd661bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics_1a839da2334dd73353fc3772170cd661bb" kindref="member">peak_utilization</ref><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" kindref="member">AdaptiveConnectionPool</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" kindref="member">AdaptiveConnectionPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a9900a6bafd3b303f0af4c051eee7cf46" kindref="member">~AdaptiveConnectionPool</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a8462beb8bf4d162a0f111f4eebe4301a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a8462beb8bf4d162a0f111f4eebe4301a" kindref="member">AdaptiveConnectionPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" kindref="member">AdaptiveConnectionPool</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a55a15f46f042d1e323d40c9a5124ed82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" kindref="member">AdaptiveConnectionPool</ref>&amp;<sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a55a15f46f042d1e323d40c9a5124ed82" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" kindref="member">AdaptiveConnectionPool</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a4efc8a0ff5b718faa0e845faabcc5e09" kindref="member">acquire</ref>(std::chrono::milliseconds<sp/>timeout,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>slot_id);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ad49a988b8561777a511f6d1ae86664b2" kindref="member">release</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>slot_id);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ae15f066dc5d8b7fd112921e52eba488c" kindref="member">size</ref>()<sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1aeebfa5dca3ee9d7f76250acab9513d02" kindref="member">available</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1aebab910641b3042f7640652c65c7dbf4" kindref="member">in_use</ref>()<sp/><sp/><sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a66944dae9ed00a116a69897382a6e258" kindref="member">statistics</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a67a0398ab745630b619f38dbf6154663" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a67a0398ab745630b619f38dbf6154663" kindref="member">is_shutdown</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shutdown_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a2136605303774c94ad871d37406ea9ec" kindref="member">shutdown</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ab572cb5500cf96b1cadf8fb158d14b5c" kindref="member">forceScaleUp</ref>();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1aeacf3de6432a5d51637696c2f5ed19a3" kindref="member">forceScaleDown</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>growLocked(std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);<sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>shrinkLocked(std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);<sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/><sp/><sp/>cv_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>available_slots_;<sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pool_size_<sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>next_id_<sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shutdown_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats<sp/>(protected<sp/>by<sp/>mutex_).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>total_acquires_<sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>total_timeouts_<sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>scale_up_events_<sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>scale_down_events_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>peak_utilization_<sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timing<sp/>for<sp/>adaptive<sp/>scaling.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_wait_start_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>cumulative_wait_ms_<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>wait_samples_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>idle_periods_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ResourcePoolManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1resource_1_1_resource_pool_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" kindref="member">ResourcePoolManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1ac81f2cc2980ee0b66731ce2094ff80b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config" kindref="compound">AdaptiveConnectionPool::Config</ref><sp/><sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1ac81f2cc2980ee0b66731ce2094ff80b0" kindref="member">conn_pool</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1a8b627dcb86feeb4d7ec126379a7b4fa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config" kindref="compound">BufferPool::Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1a8b627dcb86feeb4d7ec126379a7b4fa2" kindref="member">buffer_pool</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1ab3b1dc329279e926447471b15321809d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1ab3b1dc329279e926447471b15321809d" kindref="member">saturation_alert_threshold</ref><sp/>=<sp/>0.80;</highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1a10cd93485765529ee8cb86d650e70479" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1a10cd93485765529ee8cb86d650e70479" kindref="member">leak_timeout</ref>{30};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics" kindref="compound">GlobalStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1adde81517d22987cdb0ef9aca33ccf573" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics" kindref="compound">AdaptiveConnectionPool::Statistics</ref><sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1adde81517d22987cdb0ef9aca33ccf573" kindref="member">conn</ref>;</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1abad3a36d46400c8b9e3417748eba522f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics" kindref="compound">BufferPool::Statistics</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1abad3a36d46400c8b9e3417748eba522f" kindref="member">buffer</ref>;</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1aae39bc21d4283e2ffc820fdb338b998e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1aae39bc21d4283e2ffc820fdb338b998e" kindref="member">saturation_conn</ref><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1a61f8e12de6e90e26b15bfbd0ddc6ea45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1a61f8e12de6e90e26b15bfbd0ddc6ea45" kindref="member">saturation_buffer</ref><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1a1b732aefc2165cd38cf94dff980ae683" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1a1b732aefc2165cd38cf94dff980ae683" kindref="member">saturation_alert</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" kindref="member">ResourcePoolManager</ref>();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" kindref="member">ResourcePoolManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1ac2150c2048b0a153db2907743893423f" kindref="member">~ResourcePoolManager</ref>();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1resource_1_1_resource_pool_manager_1ab3c2657b6c363a4e327fcbae5e54dc1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1ab3c2657b6c363a4e327fcbae5e54dc1d" kindref="member">ResourcePoolManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" kindref="member">ResourcePoolManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1resource_1_1_resource_pool_manager_1a25b281bddd3da860a85a212bb1dcaef6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" kindref="member">ResourcePoolManager</ref>&amp;<sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a25b281bddd3da860a85a212bb1dcaef6" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a3254bcba8e4a2c06d3a286c6b24b1183" kindref="member">ResourcePoolManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1resource_1_1_resource_pool_manager_1a84b16c8e68220748472427405aea60d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool" kindref="compound">AdaptiveConnectionPool</ref>&amp;<sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a84b16c8e68220748472427405aea60d4" kindref="member">connectionPool</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*conn_pool_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1resource_1_1_resource_pool_manager_1af965a74987f783555f666573c676e50e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="classthemis_1_1resource_1_1_buffer_pool" kindref="compound">BufferPool</ref>&amp;<sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1af965a74987f783555f666573c676e50e" kindref="member">bufferPool</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*buf_pool_;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>GlobalStatistics<sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a31602596bfd837b18e6d0a51b5dcc5c7" kindref="member">statistics</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a4f63b4daa2d944d04eba0b0a69750dde" kindref="member">shutdown</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1resource_1_1_resource_pool_manager_1a25e6b27b4fc7d6054ae5ee3a32507b38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1resource_1_1_resource_pool_manager_1a25e6b27b4fc7d6054ae5ee3a32507b38" kindref="member">is_shutdown</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shutdown_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AdaptiveConnectionPool&gt;<sp/><sp/><sp/><sp/>conn_pool_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BufferPool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buf_pool_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shutdown_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::resource</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/base/resource_pool_manager.h"/>
+  </compounddef>
+</doxygen>

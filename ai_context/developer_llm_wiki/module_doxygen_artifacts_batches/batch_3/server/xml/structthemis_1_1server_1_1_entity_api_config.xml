@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_entity_api_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::EntityApiConfig</compoundname>
+    <includes refid="entity__api__handler_8h" local="no">entity_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_entity_api_config_1a47794f9231452f2d833490774cf5db36" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::EntityApiConfig::feature_cdc</definition>
+        <argsstring></argsstring>
+        <name>feature_cdc</name>
+        <qualifiedname>themis::server::EntityApiConfig::feature_cdc</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="58" column="10" bodyfile="include/server/entity_api_handler.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_entity_api_config_1aeb8d56e5126abf22701a25244628896d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::EntityApiConfig::feature_geo</definition>
+        <argsstring></argsstring>
+        <name>feature_geo</name>
+        <qualifiedname>themis::server::EntityApiConfig::feature_geo</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="59" column="10" bodyfile="include/server/entity_api_handler.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_entity_api_config_1a03dc16235b97782def92ba9e3cfe096c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::EntityApiConfig::feature_replication</definition>
+        <argsstring></argsstring>
+        <name>feature_replication</name>
+        <qualifiedname>themis::server::EntityApiConfig::feature_replication</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="60" column="10" bodyfile="include/server/entity_api_handler.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_entity_api_config_1ac606bdda2ef32a2d9bec7b017fd0a6c8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::EntityApiConfig::feature_raid</definition>
+        <argsstring></argsstring>
+        <name>feature_raid</name>
+        <qualifiedname>themis::server::EntityApiConfig::feature_raid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/entity_api_handler.h" line="61" column="10" bodyfile="include/server/entity_api_handler.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/entity_api_handler.h" line="57" column="1" bodyfile="include/server/entity_api_handler.h" bodystart="57" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_entity_api_config_1a47794f9231452f2d833490774cf5db36" prot="public" virt="non-virtual"><scope>themis::server::EntityApiConfig</scope><name>feature_cdc</name></member>
+      <member refid="structthemis_1_1server_1_1_entity_api_config_1aeb8d56e5126abf22701a25244628896d" prot="public" virt="non-virtual"><scope>themis::server::EntityApiConfig</scope><name>feature_geo</name></member>
+      <member refid="structthemis_1_1server_1_1_entity_api_config_1ac606bdda2ef32a2d9bec7b017fd0a6c8" prot="public" virt="non-virtual"><scope>themis::server::EntityApiConfig</scope><name>feature_raid</name></member>
+      <member refid="structthemis_1_1server_1_1_entity_api_config_1a03dc16235b97782def92ba9e3cfe096c" prot="public" virt="non-virtual"><scope>themis::server::EntityApiConfig</scope><name>feature_replication</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

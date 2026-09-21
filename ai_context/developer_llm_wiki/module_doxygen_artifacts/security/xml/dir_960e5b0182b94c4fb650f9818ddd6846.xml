@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_960e5b0182b94c4fb650f9818ddd6846" kind="dir">
+    <compoundname>tests/security/attack-vectors/injection</compoundname>
+    <innerfile refid="test__injection__attack__vectors_8cpp">test_injection_attack_vectors.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/attack-vectors/injection/"/>
+  </compounddef>
+</doxygen>

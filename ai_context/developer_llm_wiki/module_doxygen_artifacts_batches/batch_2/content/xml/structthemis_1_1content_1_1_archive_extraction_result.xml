@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_archive_extraction_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ArchiveExtractionResult</compoundname>
+    <includes refid="archive__processor_8h" local="no">archive_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_extraction_result_1a902762a8d4c00311ab0d5556b38cfc12" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveExtractionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::content::ArchiveExtractionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>CON-019. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="69" column="10" bodyfile="include/content/archive_processor.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_extraction_result_1ac525aea2cac12b0eb081aab0216483e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ArchiveExtractionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::content::ArchiveExtractionResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="70" column="17" bodyfile="include/content/archive_processor.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_extraction_result_1a26c100edea4e1786785a45dad7e7d26f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::ArchiveExtractionResult::extracted_files</definition>
+        <argsstring></argsstring>
+        <name>extracted_files</name>
+        <qualifiedname>themis::content::ArchiveExtractionResult::extracted_files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="71" column="17" bodyfile="include/content/archive_processor.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_extraction_result_1af29fa551a743969d222927ba54c10032" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ArchiveExtractionResult::temp_directory</definition>
+        <argsstring></argsstring>
+        <name>temp_directory</name>
+        <qualifiedname>themis::content::ArchiveExtractionResult::temp_directory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="72" column="17" bodyfile="include/content/archive_processor.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/archive_processor.h" line="68" column="1" bodyfile="include/content/archive_processor.h" bodystart="68" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_archive_extraction_result_1ac525aea2cac12b0eb081aab0216483e4" prot="public" virt="non-virtual"><scope>themis::content::ArchiveExtractionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_extraction_result_1a26c100edea4e1786785a45dad7e7d26f" prot="public" virt="non-virtual"><scope>themis::content::ArchiveExtractionResult</scope><name>extracted_files</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_extraction_result_1a902762a8d4c00311ab0d5556b38cfc12" prot="public" virt="non-virtual"><scope>themis::content::ArchiveExtractionResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_extraction_result_1af29fa551a743969d222927ba54c10032" prot="public" virt="non-virtual"><scope>themis::content::ArchiveExtractionResult</scope><name>temp_directory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

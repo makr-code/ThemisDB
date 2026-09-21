@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1attention_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::llm::attention::test</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" prot="public">themis::llm::attention::test::InfiniAttentionTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1ad5bd8f31c4bb6af77dcca29028bfd33a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, BackendNameIdentification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>BackendNameIdentification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref> name identification</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that backend reports correct SM version. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="95" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="95" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1aceaccaf396f973b13211d78a1791870b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, InitializationSuccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>InitializationSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>Initialization and memory allocation</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies GPU memory allocation succeeds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="112" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1af6fd3040523cd29471a4437a31fa9647" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, MemoryReset)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>Memory reset functionality</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies compressive memory can be reset to zeros. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="125" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="125" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1a223682ccec527fda847d32d938d17179" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, BackwardPassStub)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>BackwardPassStub</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>Backward pass implementation</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies backward pass can be called without errors. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="141" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="141" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1a3474e0f600bced8f37c1546ac9e76dcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, CheckpointRestore)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>CheckpointRestore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>Checkpoint/restore compressive memory</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies memory can be saved and restored for checkpointing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="168" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="168" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1a303de47acfcec990666c9304e6d7b561" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, ForwardPassBasic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>ForwardPassBasic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>Forward pass with valid tensors</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies forward pass can process attention tensors. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="192" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="192" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1a166f849ba78e29b13ffecf6d5885d151" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, MemoryStatistics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>Memory statistics reporting</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies memory statistics are calculated correctly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="230" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="230" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1a7afc805521f20ac22de51aa36b28684c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, P2GATE02NumericConsistency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>P2GATE02NumericConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>P2-GATE-02: Numeric Consistency CPU vs CUDA</para>
+</xrefdescription></xrefsect></para>
+<para>Validates that CUDA kernel outputs match CPU reference implementation. This is the core gate requirement for P2-D02.</para>
+<para>Tolerance: MAPE ≤ 5% (accounting for floating-point precision differences) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="255" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="255" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1a7712261d810443db0630edb775e77bef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, P2GATE04VRAMFootprint)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>P2GATE04VRAMFootprint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>P2-GATE-04: VRAM Footprint Efficiency</para>
+</xrefdescription></xrefsect></para>
+<para>Validates that compressive memory is efficiently stored. Compressive memory: memory_dim x memory_dim matrix (float32) Expected VRAM: ~64KB for 128x128 matrix (+ temporary buffers) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="299" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="299" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1a774259ab0478b26dadaccc19c23b286f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, LongSequenceHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>LongSequenceHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para>Forward pass with large sequence lengths</para>
+</xrefdescription></xrefsect></para>
+<para>Validates that Infini-attention handles long sequences efficiently. This is key to P2 phase goal: unbounded context length. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="329" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="329" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1aa3e5d297c3c5a2a3b0f000ea98147288" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, InvalidTensorHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidTensorHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>Invalid tensor handling</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies proper error handling for invalid inputs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="364" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="364" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1_1test_1a3c0e223e44e4de66773f92859e3b0f08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::attention::test::TEST_F</definition>
+        <argsstring>(InfiniAttentionTest, MemoryAccumulation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::attention::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kindref="compound">InfiniAttentionTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryAccumulation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>Memory update accumulation</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that multiple forward passes accumulate memory updates correctly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="390" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="390" bodyend="432"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_infini_attention.cpp" line="23" column="1"/>
+  </compounddef>
+</doxygen>

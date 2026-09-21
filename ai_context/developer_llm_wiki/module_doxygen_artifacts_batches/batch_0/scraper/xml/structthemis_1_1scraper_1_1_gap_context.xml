@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_gap_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::GapContext</compoundname>
+    <includes refid="scraper__config_8h" local="no">scraper_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gap_context_1a49c5f7a8c953e014f3a8fb44c939cb5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GapContext::gap_id</definition>
+        <argsstring></argsstring>
+        <name>gap_id</name>
+        <qualifiedname>themis::scraper::GapContext::gap_id</qualifiedname>
+        <briefdescription>
+<para>Unique gap identifier, e.g. &quot;GAP-001&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="53" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gap_context_1abe4285b01d8a747307807a991b4d103f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::GapContext::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::scraper::GapContext::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable gap description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="54" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_gap_context_1a51ffd44ea6ea706d1795ef701f5df512" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::GapContext::keywords</definition>
+        <argsstring></argsstring>
+        <name>keywords</name>
+        <qualifiedname>themis::scraper::GapContext::keywords</qualifiedname>
+        <briefdescription>
+<para>Thematic keywords for relevance scoring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="55" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes the data gap that the scraper is trying to fill. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provided to the LLM evaluator so it can score each scraped document against this specific gap rather than performing a generic quality check. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_config.h" line="52" column="1" bodyfile="include/scraper/scraper_config.h" bodystart="52" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_gap_context_1abe4285b01d8a747307807a991b4d103f" prot="public" virt="non-virtual"><scope>themis::scraper::GapContext</scope><name>description</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gap_context_1a49c5f7a8c953e014f3a8fb44c939cb5f" prot="public" virt="non-virtual"><scope>themis::scraper::GapContext</scope><name>gap_id</name></member>
+      <member refid="structthemis_1_1scraper_1_1_gap_context_1a51ffd44ea6ea706d1795ef701f5df512" prot="public" virt="non-virtual"><scope>themis::scraper::GapContext</scope><name>keywords</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,634 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_h_t_t_p_client_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::HTTPClientPool</compoundname>
+    <includes refid="http__client__pool_8h" local="no">http_client_pool.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_config" prot="public">themis::utils::HTTPClientPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats" prot="public">themis::utils::HTTPClientPool::Stats</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_pooled_connection" prot="private">themis::utils::HTTPClientPool::PooledConnection</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_lock_stripe" prot="private">themis::utils::HTTPClientPool::LockStripe</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a77db1c2deb191ca475f97fed6431bc09" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::utils::HTTPClientPool::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="302" column="12" bodyfile="include/utils/http_client_pool.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a5fe32bf4a49ac0add5af25c905aefb46" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; LockStripe &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;LockStripe&gt; &gt; themis::utils::HTTPClientPool::stripes_</definition>
+        <argsstring></argsstring>
+        <name>stripes_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::stripes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="303" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ad936fa224467666860127a321d06fadf" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::utils::HTTPClientPool::io_threads_</definition>
+        <argsstring></argsstring>
+        <name>io_threads_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::io_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="307" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ac6b080f7260bfe3a62500cbd70309967" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::HTTPClientPool::total_connections_</definition>
+        <argsstring></argsstring>
+        <name>total_connections_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::total_connections_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="308" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="308" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1aeaf76b0ab40e5df71647e0d2298e25f5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::HTTPClientPool::requests_served_</definition>
+        <argsstring></argsstring>
+        <name>requests_served_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::requests_served_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="309" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="309" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a23a672f41e9e11954e46c55a8ebfc3ce" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::HTTPClientPool::stale_removed_</definition>
+        <argsstring></argsstring>
+        <name>stale_removed_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::stale_removed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="310" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a59dec40344b1c6984e0556176c0ba0f5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::HTTPClientPool::acquire_timeouts_</definition>
+        <argsstring></argsstring>
+        <name>acquire_timeouts_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::acquire_timeouts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="311" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="311" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1aee2a4c4cbf7023140e1d60c1f0b0ee51" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::HTTPClientPool::connections_created_</definition>
+        <argsstring></argsstring>
+        <name>connections_created_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::connections_created_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="312" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="312" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a4c4c893dc10ccd369df0edbe9d1f68d6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::HTTPClientPool::connections_reused_</definition>
+        <argsstring></argsstring>
+        <name>connections_reused_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::connections_reused_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="313" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a72fcb71812f470e16a2211945ed961cd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::utils::HTTPClientPool::shutdown_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::shutdown_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="314" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="314" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1aef4d4896c9967517ca871381f2421850" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::utils::HTTPClientPool::round_robin_</definition>
+        <argsstring></argsstring>
+        <name>round_robin_</name>
+        <qualifiedname>themis::utils::HTTPClientPool::round_robin_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="315" column="25" bodyfile="include/utils/http_client_pool.h" bodystart="315" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ac45fd3e5839064a67187da4d92be4258" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::HTTPClientPool::HTTPClientPool</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>HTTPClientPool</name>
+        <qualifiedname>themis::utils::HTTPClientPool::HTTPClientPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="124" column="14" bodyfile="src/utils/http_client_pool.cpp" bodystart="65" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a15958ffc395ba38f80b9ff5b087cab1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::HTTPClientPool::~HTTPClientPool</definition>
+        <argsstring>()</argsstring>
+        <name>~HTTPClientPool</name>
+        <qualifiedname>themis::utils::HTTPClientPool::~HTTPClientPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="125" column="5" bodyfile="src/utils/http_client_pool.cpp" bodystart="88" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ac146393b4a9223c7fcb77950771e79fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1utils_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref> &gt;</type>
+        <definition>std::future&lt; HTTPResponse &gt; themis::utils::HTTPClientPool::post</definition>
+        <argsstring>(const std::string &amp;url, const json &amp;body, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers={})</argsstring>
+        <name>post</name>
+        <qualifiedname>themis::utils::HTTPClientPool::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1utils_1ae4db8de75ec73bf0351ca66e78ed8867" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute POST request using pooled connection with graceful degradation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempts to execute POST request using a pooled connection. If the pool is exhausted or connection acquisition times out, the returned future will contain a response with status_code = 0 and body describing the error.</para>
+<para>Graceful degradation strategy:<itemizedlist>
+<listitem><para>If pool is full and acquire_timeout expires: returns connection error response</para>
+</listitem><listitem><para>If network is unreachable: connection fails and is not re-pooled</para>
+</listitem><listitem><para>If server is slow: request_timeout may fire before response arrives</para>
+</listitem><listitem><para>Caller should implement retry logic with exponential backoff</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target URL </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON request body </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional HTTP headers </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future with HTTP response (status_code=0 on acquisition failure)</para>
+</simplesect>
+@error_contract <table rows="5" cols="3"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para>Response  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Pool exhausted  </para>
+</entry><entry thead="no"><para>status_code=0, body=&quot;POOL_EXHAUSTED&quot;  </para>
+</entry><entry thead="no"><para>Wait and retry  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Acquire timeout  </para>
+</entry><entry thead="no"><para>status_code=0, body=&quot;ACQUIRE_TIMEOUT&quot;  </para>
+</entry><entry thead="no"><para>Use fallback service  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Connection timeout  </para>
+</entry><entry thead="no"><para>status_code=0, body=&quot;CONNECT_TIMEOUT&quot;  </para>
+</entry><entry thead="no"><para>Check endpoint health  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Request timeout  </para>
+</entry><entry thead="no"><para>status_code=504, body=&quot;Gateway Timeout&quot;  </para>
+</entry><entry thead="no"><para>Implement retry loop  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="note"><para>Resource Limits (Phase 2.6):<itemizedlist>
+<listitem><para>Max Connections: Default 50 (configured by <ref refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_config_1aa7e08270f7987cfc1ea42030a61fcbeb" kindref="member">Config.max_connections</ref>)</para>
+</listitem><listitem><para>Acquire Timeout: 10 seconds (max wait for available connection)</para>
+</listitem><listitem><para>Connect Timeout: 5 seconds (max time for TCP handshake)</para>
+</listitem><listitem><para>Request Timeout: 30 seconds (max time for complete request/response)</para>
+</listitem><listitem><para>Idle Timeout: 30 seconds (connections closed if idle longer)</para>
+</listitem><listitem><para>I/O Threads: 4 (configured by <ref refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_config_1a410e2fa49e860be5473a52f2712bfea2" kindref="member">Config.io_threads</ref>)</para>
+</listitem><listitem><para>Lock Stripes: 8 (reduces contention; higher = better concurrency) </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Operator Impact: Monitor acquire_timeouts metric; high values indicate pool undersizing. Increase max_connections if needed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="164" column="17" bodyfile="src/utils/http_client_pool.cpp" bodystart="112" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a238cbf45cfdd7ee627e865de3febac2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1utils_1_1_h_t_t_p_response" kindref="compound">HTTPResponse</ref> &gt;</type>
+        <definition>std::future&lt; HTTPResponse &gt; themis::utils::HTTPClientPool::get</definition>
+        <argsstring>(const std::string &amp;url, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers={})</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::utils::HTTPClientPool::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute GET request using pooled connection with graceful degradation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attempts to execute GET request using a pooled connection. If the pool is exhausted or connection acquisition times out, the returned future will contain a response with status_code = 0 and body describing the error.</para>
+<para>Graceful degradation strategy:<itemizedlist>
+<listitem><para>If pool is full and acquire_timeout expires: returns connection error response</para>
+</listitem><listitem><para>If network is unreachable: connection fails and is not re-pooled</para>
+</listitem><listitem><para>If server is slow: request_timeout may fire before response arrives</para>
+</listitem><listitem><para>Caller should implement retry logic with exponential backoff</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target URL </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional HTTP headers </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future with HTTP response (status_code=0 on acquisition failure)</para>
+</simplesect>
+@error_contract <table rows="5" cols="3"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para>Response  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Pool exhausted  </para>
+</entry><entry thead="no"><para>status_code=0, body=&quot;POOL_EXHAUSTED&quot;  </para>
+</entry><entry thead="no"><para>Wait and retry  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Acquire timeout  </para>
+</entry><entry thead="no"><para>status_code=0, body=&quot;ACQUIRE_TIMEOUT&quot;  </para>
+</entry><entry thead="no"><para>Use fallback service  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Connection timeout  </para>
+</entry><entry thead="no"><para>status_code=0, body=&quot;CONNECT_TIMEOUT&quot;  </para>
+</entry><entry thead="no"><para>Check endpoint health  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Request timeout  </para>
+</entry><entry thead="no"><para>status_code=504, body=&quot;Gateway Timeout&quot;  </para>
+</entry><entry thead="no"><para>Implement retry loop  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="note"><para>Resource Limits (Phase 2.6):<itemizedlist>
+<listitem><para>Max Connections: Default 50 (configured by <ref refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_config_1aa7e08270f7987cfc1ea42030a61fcbeb" kindref="member">Config.max_connections</ref>)</para>
+</listitem><listitem><para>Acquire Timeout: 10 seconds (max wait for available connection)</para>
+</listitem><listitem><para>Connect Timeout: 5 seconds (max time for TCP handshake)</para>
+</listitem><listitem><para>Request Timeout: 30 seconds (max time for complete request/response)</para>
+</listitem><listitem><para>Idle Timeout: 30 seconds (connections closed if idle longer)</para>
+</listitem><listitem><para>I/O Threads: 4 (configured by <ref refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_config_1a410e2fa49e860be5473a52f2712bfea2" kindref="member">Config.io_threads</ref>)</para>
+</listitem><listitem><para>Lock Stripes: 8 (reduces contention; higher = better concurrency) </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Operator Impact: Monitor acquire_timeouts metric; high values indicate pool undersizing. Increase max_connections if needed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="206" column="17" bodyfile="src/utils/http_client_pool.cpp" bodystart="157" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a02029d331c98665c3c739a9901a62637" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_h_t_t_p_client_pool_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>HTTPClientPool::Stats themis::utils::HTTPClientPool::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::utils::HTTPClientPool::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="236" column="11" bodyfile="src/utils/http_client_pool.cpp" bodystart="313" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ab27b658ae11f8fbefd430f1b79afa931" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::HTTPClientPool::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::utils::HTTPClientPool::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all pooled connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="241" column="10" bodyfile="src/utils/http_client_pool.cpp" bodystart="342" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ac817fcbb5d2d39d2751c554c3be67caf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::HTTPClientPool::warmup</definition>
+        <argsstring>(size_t num_connections)</argsstring>
+        <name>warmup</name>
+        <qualifiedname>themis::utils::HTTPClientPool::warmup</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_connections</declname>
+        </param>
+        <briefdescription>
+<para>Warm up pool with minimum connections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Warmup.</para>
+<para>Pre-creates connections to reduce cold-start latency. Useful for production deployments.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num_connections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of connections to pre-create</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_connections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), std::min(), size(), lock(), fetch_add(), fetch_sub(), createClient(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="251" column="10" bodyfile="src/utils/http_client_pool.cpp" bodystart="380" bodyend="432"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a8d136f2d631328a81bed6eceddef8ed4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_h_t_t_p_client" kindref="compound">HTTPClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; HTTPClient &gt; themis::utils::HTTPClientPool::acquireConnection</definition>
+        <argsstring>()</argsstring>
+        <name>acquireConnection</name>
+        <qualifiedname>themis::utils::HTTPClientPool::acquireConnection</qualifiedname>
+        <briefdescription>
+<para>Get connection from pool (or create new). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Acquire Connection.</para>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getStripeIndex(), lock(), std::chrono::steady_clock::now(), empty(), front(), isStale(), pop_front(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="280" column="21" bodyfile="src/utils/http_client_pool.cpp" bodystart="206" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a1319ad54322a6e7ca2c069f0f097be10" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::HTTPClientPool::releaseConnection</definition>
+        <argsstring>(std::shared_ptr&lt; HTTPClient &gt; client)</argsstring>
+        <name>releaseConnection</name>
+        <qualifiedname>themis::utils::HTTPClientPool::releaseConnection</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_h_t_t_p_client" kindref="compound">HTTPClient</ref> &gt;</type>
+          <declname>client</declname>
+        </param>
+        <briefdescription>
+<para>Return connection to pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release Connection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="285" column="10" bodyfile="src/utils/http_client_pool.cpp" bodystart="284" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a1f816f7e4082fdbf2dbe2246d6183190" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_h_t_t_p_client" kindref="compound">HTTPClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; HTTPClient &gt; themis::utils::HTTPClientPool::createClient</definition>
+        <argsstring>()</argsstring>
+        <name>createClient</name>
+        <qualifiedname>themis::utils::HTTPClientPool::createClient</qualifiedname>
+        <briefdescription>
+<para>Create new HTTP client instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Client.</para>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements createClient without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="290" column="21" bodyfile="src/utils/http_client_pool.cpp" bodystart="305" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a695367f965ab7f6bf6eb3774addeb1f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::HTTPClientPool::pruneStaleConnections</definition>
+        <argsstring>()</argsstring>
+        <name>pruneStaleConnections</name>
+        <qualifiedname>themis::utils::HTTPClientPool::pruneStaleConnections</qualifiedname>
+        <briefdescription>
+<para>Remove stale connections from pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prune Stale Connections.</para>
+<para>Calls: lock(), begin(), end(), isStale(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="295" column="10" bodyfile="src/utils/http_client_pool.cpp" bodystart="354" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a29c27bfa321196d6ab31b2e8ae291ca2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::HTTPClientPool::getStripeIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getStripeIndex</name>
+        <qualifiedname>themis::utils::HTTPClientPool::getStripeIndex</qualifiedname>
+        <briefdescription>
+<para>Get stripe index for load distribution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="300" column="12" bodyfile="src/utils/http_client_pool.cpp" bodystart="370" bodyend="373"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HTTP Connection Pool for reusing TCP connections. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>Connection pooling (reduce TCP handshake overhead)</para>
+</listitem><listitem><para>Keep-Alive support</para>
+</listitem><listitem><para>Configurable timeouts</para>
+</listitem><listitem><para>Thread-safe access</para>
+</listitem><listitem><para>Optimized for high-concurrency with reduced lock contention </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/http_client_pool.h" line="111" column="1" bodyfile="include/utils/http_client_pool.h" bodystart="111" bodyend="316"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a59dec40344b1c6984e0556176c0ba0f5" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>acquire_timeouts_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a8d136f2d631328a81bed6eceddef8ed4" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>acquireConnection</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ab27b658ae11f8fbefd430f1b79afa931" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>clear</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a77db1c2deb191ca475f97fed6431bc09" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>config_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1aee2a4c4cbf7023140e1d60c1f0b0ee51" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>connections_created_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a4c4c893dc10ccd369df0edbe9d1f68d6" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>connections_reused_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a1f816f7e4082fdbf2dbe2246d6183190" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>createClient</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a238cbf45cfdd7ee627e865de3febac2d" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>get</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a02029d331c98665c3c739a9901a62637" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a29c27bfa321196d6ab31b2e8ae291ca2" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>getStripeIndex</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ac45fd3e5839064a67187da4d92be4258" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>HTTPClientPool</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ad936fa224467666860127a321d06fadf" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>io_threads_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ac146393b4a9223c7fcb77950771e79fa" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>post</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a695367f965ab7f6bf6eb3774addeb1f3" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>pruneStaleConnections</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a1319ad54322a6e7ca2c069f0f097be10" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>releaseConnection</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1aeaf76b0ab40e5df71647e0d2298e25f5" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>requests_served_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1aef4d4896c9967517ca871381f2421850" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>round_robin_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a72fcb71812f470e16a2211945ed961cd" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>shutdown_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a23a672f41e9e11954e46c55a8ebfc3ce" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>stale_removed_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a5fe32bf4a49ac0add5af25c905aefb46" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>stripes_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ac6b080f7260bfe3a62500cbd70309967" prot="private" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>total_connections_</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1ac817fcbb5d2d39d2751c554c3be67caf" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>warmup</name></member>
+      <member refid="classthemis_1_1utils_1_1_h_t_t_p_client_pool_1a15958ffc395ba38f80b9ff5b087cab1f" prot="public" virt="non-virtual"><scope>themis::utils::HTTPClientPool</scope><name>~HTTPClientPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

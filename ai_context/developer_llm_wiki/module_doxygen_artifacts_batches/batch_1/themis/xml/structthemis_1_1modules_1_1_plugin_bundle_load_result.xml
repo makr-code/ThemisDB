@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_plugin_bundle_load_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::PluginBundleLoadResult</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_load_result_1afc37de5df7395f07f7c079e92aac3317" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::PluginBundleLoadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::modules::PluginBundleLoadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1039" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="1039" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a8cd3312be32aee40f785ee416254b95e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleLoadResult::errorMessage</definition>
+        <argsstring></argsstring>
+        <name>errorMessage</name>
+        <qualifiedname>themis::modules::PluginBundleLoadResult::errorMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1040" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1040" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a66a5a2313e317c7055a4f429d7066c1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleLoadResult::resolvedBinaryPath</definition>
+        <argsstring></argsstring>
+        <name>resolvedBinaryPath</name>
+        <qualifiedname>themis::modules::PluginBundleLoadResult::resolvedBinaryPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Full filesystem path to the binary (native .so/.dll/.dylib or .wasm) that was selected and passed to the <ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref>. Populated on both success and the WASM-fallback path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1045" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1045" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a7cc8c602f934c61c5511409987d4c89d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::PluginBundleLoadResult::usedWasmFallback</definition>
+        <argsstring></argsstring>
+        <name>usedWasmFallback</name>
+        <qualifiedname>themis::modules::PluginBundleLoadResult::usedWasmFallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True when no native library was found for the current platform and the WASM fallback was used instead. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1049" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="1049" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a3de0cdb2faadf1b6493f39608272aa26" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_plugin_bundle_manifest" kindref="compound">PluginBundleManifest</ref></type>
+        <definition>PluginBundleManifest themis::modules::PluginBundleLoadResult::manifest</definition>
+        <argsstring></argsstring>
+        <name>manifest</name>
+        <qualifiedname>themis::modules::PluginBundleLoadResult::manifest</qualifiedname>
+        <briefdescription>
+<para>The parsed manifest from the bundle. Populated on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1052" column="26" bodyfile="include/themis/base/module_loader.h" bodystart="1052" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a60a0cd82b9d67e1af0d7cfb6c0ebf9a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleLoadResult::tempDirectory</definition>
+        <argsstring></argsstring>
+        <name>tempDirectory</name>
+        <qualifiedname>themis::modules::PluginBundleLoadResult::tempDirectory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Path to the temporary directory where the bundle was unpacked. The directory persists until the loaded native library is unloaded (dlopen/LoadLibrary hold a reference to files inside it). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1057" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1057" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <ref refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a3b066f81e8fe4221cfcebabd56b5e3ce" kindref="member">PluginBundleLoader::loadBundle()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::modules::PluginBundleLoadResult</label>
+        <link refid="structthemis_1_1modules_1_1_plugin_bundle_load_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>manifest</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::modules::PluginBundleManifest</label>
+        <link refid="structthemis_1_1modules_1_1_plugin_bundle_manifest"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/base/module_loader.h" line="1038" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="1038" bodyend="1058"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a8cd3312be32aee40f785ee416254b95e" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoadResult</scope><name>errorMessage</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a3de0cdb2faadf1b6493f39608272aa26" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoadResult</scope><name>manifest</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a66a5a2313e317c7055a4f429d7066c1a" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoadResult</scope><name>resolvedBinaryPath</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_load_result_1afc37de5df7395f07f7c079e92aac3317" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoadResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a60a0cd82b9d67e1af0d7cfb6c0ebf9a8" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoadResult</scope><name>tempDirectory</name></member>
+      <member refid="structthemis_1_1modules_1_1_plugin_bundle_load_result_1a7cc8c602f934c61c5511409987d4c89d" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoadResult</scope><name>usedWasmFallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

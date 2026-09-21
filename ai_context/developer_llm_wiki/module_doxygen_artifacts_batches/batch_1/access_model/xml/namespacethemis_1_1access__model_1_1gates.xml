@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1access__model_1_1gates" kind="namespace" language="C++">
+    <compoundname>themis::access_model::gates</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1_1gates_1a134d45ac1a0ba97d01a6d46d8c970635" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::gates::kL1ToL2PromotionUs</definition>
+        <argsstring></argsstring>
+        <name>kL1ToL2PromotionUs</name>
+        <qualifiedname>themis::access_model::gates::kL1ToL2PromotionUs</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="47" column="18" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1_1gates_1aa3730516a8970dea56c6f0d90af2eaf8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::gates::kCacheEvictionRoundtripUs</definition>
+        <argsstring></argsstring>
+        <name>kCacheEvictionRoundtripUs</name>
+        <qualifiedname>themis::access_model::gates::kCacheEvictionRoundtripUs</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="48" column="18" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1_1gates_1a4bce54f8b6b0a2ad9380b26363a1228b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::gates::kColdToWarmPromotionMs</definition>
+        <argsstring></argsstring>
+        <name>kColdToWarmPromotionMs</name>
+        <qualifiedname>themis::access_model::gates::kColdToWarmPromotionMs</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="49" column="18" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1_1gates_1a73f11ff5da7b2ad0e447b2ebf65ca391" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::gates::kEventThroughputPerSec</definition>
+        <argsstring></argsstring>
+        <name>kEventThroughputPerSec</name>
+        <qualifiedname>themis::access_model::gates::kEventThroughputPerSec</qualifiedname>
+        <initializer>= 10000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="50" column="18" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1_1gates_1a0c8b66753fc7343be8325d2f26c2066f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::gates::kMemoryOverheadMb</definition>
+        <argsstring></argsstring>
+        <name>kMemoryOverheadMb</name>
+        <qualifiedname>themis::access_model::gates::kMemoryOverheadMb</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="51" column="18" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1_1gates_1a6d0d251aace63eab591b45228eb89ecf" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::gates::kPolicyDecisionOverheadUs</definition>
+        <argsstring></argsstring>
+        <name>kPolicyDecisionOverheadUs</name>
+        <qualifiedname>themis::access_model::gates::kPolicyDecisionOverheadUs</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="52" column="18" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1_1gates_1a96a35a3cea81ff506cf862e13970d80f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::access_model::gates::kRegressionTolerancePct</definition>
+        <argsstring></argsstring>
+        <name>kRegressionTolerancePct</name>
+        <qualifiedname>themis::access_model::gates::kRegressionTolerancePct</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="55" column="18" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1access__model_1_1gates_1a40b2d040d31f2153ff11193b17190c82" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::gates::reportViolation</definition>
+        <argsstring>(const char *gate_name, double measured, double target, const char *unit, bool is_minimum)</argsstring>
+        <name>reportViolation</name>
+        <qualifiedname>themis::access_model::gates::reportViolation</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>gate_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>measured</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>unit</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_minimum</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="57" column="13" bodyfile="benchmarks/access_model/bench_access_coordinator_gates.cpp" bodystart="57" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/access_model/bench_access_coordinator_gates.cpp" line="44" column="1"/>
+  </compounddef>
+</doxygen>

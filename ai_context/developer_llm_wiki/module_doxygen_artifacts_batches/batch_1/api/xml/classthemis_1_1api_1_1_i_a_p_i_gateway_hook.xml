@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_a_p_i_gateway_hook" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::IAPIGatewayHook</compoundname>
+    <includes refid="api__gateway__hook_8h" local="no">api_gateway_hook.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1abb0393a2b37b3d5457113c509b03b877" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::IAPIGatewayHook::~IAPIGatewayHook</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAPIGatewayHook</name>
+        <qualifiedname>themis::api::IAPIGatewayHook::~IAPIGatewayHook</qualifiedname>
+        <briefdescription>
+<para>IAPIGateway Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="72" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1ac659e6c9bea0755449be4f28c42c87a9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::api::IAPIGatewayHook::hookId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>hookId</name>
+        <qualifiedname>themis::api::IAPIGatewayHook::hookId</qualifiedname>
+        <briefdescription>
+<para>Hook Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="79" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a06d7d125ae57110725a6f7ae072d0605" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1api_1ae65977156a3b07e5cc8ae3623a79f87a" kindref="member">GatewayHookPhase</ref></type>
+        <definition>virtual GatewayHookPhase themis::api::IAPIGatewayHook::phase</definition>
+        <argsstring>() const =0</argsstring>
+        <name>phase</name>
+        <qualifiedname>themis::api::IAPIGatewayHook::phase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="81" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a381da03ba3449ca4c86361e6124101c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>int</type>
+        <definition>virtual int themis::api::IAPIGatewayHook::priority</definition>
+        <argsstring>() const</argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::api::IAPIGatewayHook::priority</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="83" column="17" bodyfile="include/api/api_gateway_hook.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5b08fab9d896181615b6a9ba830a624f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1api_1_1_gateway_hook_result" kindref="compound">GatewayHookResult</ref></type>
+        <definition>virtual GatewayHookResult themis::api::IAPIGatewayHook::execute</definition>
+        <argsstring>(GatewayHookContext &amp;ctx)=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::api::IAPIGatewayHook::execute</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1api_1_1_gateway_hook_context" kindref="compound">GatewayHookContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="85" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5f5ee2fd00a1c6ab771fbf97f4cb8d5d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::api::IAPIGatewayHook::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::api::IAPIGatewayHook::isEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="87" column="18" bodyfile="include/api/api_gateway_hook.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_gateway_hook.h" line="66" column="1" bodyfile="include/api/api_gateway_hook.h" bodystart="66" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5b08fab9d896181615b6a9ba830a624f" prot="public" virt="pure-virtual"><scope>themis::api::IAPIGatewayHook</scope><name>execute</name></member>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1ac659e6c9bea0755449be4f28c42c87a9" prot="public" virt="pure-virtual"><scope>themis::api::IAPIGatewayHook</scope><name>hookId</name></member>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a5f5ee2fd00a1c6ab771fbf97f4cb8d5d" prot="public" virt="virtual"><scope>themis::api::IAPIGatewayHook</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a06d7d125ae57110725a6f7ae072d0605" prot="public" virt="pure-virtual"><scope>themis::api::IAPIGatewayHook</scope><name>phase</name></member>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1a381da03ba3449ca4c86361e6124101c0" prot="public" virt="virtual"><scope>themis::api::IAPIGatewayHook</scope><name>priority</name></member>
+      <member refid="classthemis_1_1api_1_1_i_a_p_i_gateway_hook_1abb0393a2b37b3d5457113c509b03b877" prot="public" virt="virtual"><scope>themis::api::IAPIGatewayHook</scope><name>~IAPIGatewayHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

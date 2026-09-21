@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_fips_crypto_mode" kind="class" language="C++" prot="public">
+    <compoundname>themis::FipsCryptoMode</compoundname>
+    <includes refid="fips__crypto__mode_8h" local="no">fips_crypto_mode.h</includes>
+    <innerclass refid="structthemis_1_1_fips_crypto_mode_1_1_impl" prot="public">themis::FipsCryptoMode::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_fips_crypto_mode_1a3d4f0dbd16c11b846dfff3699ceb1e47" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1_fips_crypto_mode_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::FipsCryptoMode::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::FipsCryptoMode::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="102" column="21" bodyfile="include/security/fips_crypto_mode.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_fips_crypto_mode_1a5d647e7ab68c0748243895dd57c94018" kindref="member">FipsCryptoMode</ref> &amp;</type>
+        <definition>FipsCryptoMode &amp; themis::FipsCryptoMode::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::FipsCryptoMode::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="40" column="27" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1a5aa2b65cb95538e5f2879ee86888fa98" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FipsCryptoMode::zeroize</definition>
+        <argsstring>(void *ptr, std::size_t len) noexcept</argsstring>
+        <name>zeroize</name>
+        <qualifiedname>themis::FipsCryptoMode::zeroize</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Zeroize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="89" column="17" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="244" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1ae98e5b426c90b15e1eb8999dcf902333" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::FipsCryptoMode::enable</definition>
+        <argsstring>()</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::FipsCryptoMode::enable</qualifiedname>
+        <briefdescription>
+<para>Enable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(), OSSL_PROVIDER_load(), THEMIS_WARN(), EVP_default_properties_enable_fips(), OSSL_PROVIDER_unload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="46" column="10" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="114" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FipsCryptoMode::disable</definition>
+        <argsstring>()</argsstring>
+        <name>disable</name>
+        <qualifiedname>themis::FipsCryptoMode::disable</qualifiedname>
+        <briefdescription>
+<para>Disable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), EVP_default_properties_enable_fips(), OSSL_PROVIDER_unload(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="51" column="10" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="149" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1ad05fed8bdb5bbc408209a888073c6b26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::FipsCryptoMode::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::FipsCryptoMode::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Is Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="57" column="10" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="171" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1a13b0a9ef17ccc3c7670bc60bd7415b6d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::FipsCryptoMode::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::FipsCryptoMode::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="63" column="10" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="179" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1ad30a981869ec7f3cc662afe7f2a2c1a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::FipsCryptoMode::validateAlgorithm</definition>
+        <argsstring>(const std::string &amp;algorithm) const</argsstring>
+        <name>validateAlgorithm</name>
+        <qualifiedname>themis::FipsCryptoMode::validateAlgorithm</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>algorithm</declname>
+        </param>
+        <briefdescription>
+<para>Validate Algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="69" column="10" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="206" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1a34ec9a1ad9a3b4cd388e13e671a0cc7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+        <definition>const std::unordered_set&lt; std::string &gt; &amp; themis::FipsCryptoMode::approvedAlgorithms</definition>
+        <argsstring>() const</argsstring>
+        <name>approvedAlgorithms</name>
+        <qualifiedname>themis::FipsCryptoMode::approvedAlgorithms</qualifiedname>
+        <briefdescription>
+<para>Approved Algorithms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="75" column="30" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="214" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1a0ab09c199b61f19df83fbd6d07b5a837" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::FipsCryptoMode::runSelfTests</definition>
+        <argsstring>() const</argsstring>
+        <name>runSelfTests</name>
+        <qualifiedname>themis::FipsCryptoMode::runSelfTests</qualifiedname>
+        <briefdescription>
+<para>Run Self Tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="81" column="10" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="222" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1a5d647e7ab68c0748243895dd57c94018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FipsCryptoMode::FipsCryptoMode</definition>
+        <argsstring>(const FipsCryptoMode &amp;)=delete</argsstring>
+        <name>FipsCryptoMode</name>
+        <qualifiedname>themis::FipsCryptoMode::FipsCryptoMode</qualifiedname>
+        <param>
+          <type>const FipsCryptoMode &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1acf3856d04e7da6400def0a9e1113f115" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_fips_crypto_mode_1a5d647e7ab68c0748243895dd57c94018" kindref="member">FipsCryptoMode</ref> &amp;</type>
+        <definition>FipsCryptoMode &amp; themis::FipsCryptoMode::operator=</definition>
+        <argsstring>(const FipsCryptoMode &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::FipsCryptoMode::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_fips_crypto_mode_1a5d647e7ab68c0748243895dd57c94018" kindref="member">FipsCryptoMode</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="93" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1abd98258b03e611d7842b4566cf51f61a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FipsCryptoMode::FipsCryptoMode</definition>
+        <argsstring>(FipsCryptoMode &amp;&amp;)=delete</argsstring>
+        <name>FipsCryptoMode</name>
+        <qualifiedname>themis::FipsCryptoMode::FipsCryptoMode</qualifiedname>
+        <param>
+          <type>FipsCryptoMode &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1a0e9b1b7d34b6824afb111a87d3a36e7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_fips_crypto_mode_1a5d647e7ab68c0748243895dd57c94018" kindref="member">FipsCryptoMode</ref> &amp;</type>
+        <definition>FipsCryptoMode &amp; themis::FipsCryptoMode::operator=</definition>
+        <argsstring>(FipsCryptoMode &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::FipsCryptoMode::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_fips_crypto_mode_1a5d647e7ab68c0748243895dd57c94018" kindref="member">FipsCryptoMode</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="95" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1a6ef4622c4b17f22ba2fd35e3d27bf602" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FipsCryptoMode::FipsCryptoMode</definition>
+        <argsstring>()</argsstring>
+        <name>FipsCryptoMode</name>
+        <qualifiedname>themis::FipsCryptoMode::FipsCryptoMode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="98" column="5" bodyfile="src/security/fips_crypto_mode.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fips_crypto_mode_1a898844a4580b373be9693f615dc656bb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FipsCryptoMode::~FipsCryptoMode</definition>
+        <argsstring>()</argsstring>
+        <name>~FipsCryptoMode</name>
+        <qualifiedname>themis::FipsCryptoMode::~FipsCryptoMode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="99" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/fips_crypto_mode.h" line="34" column="1" bodyfile="include/security/fips_crypto_mode.h" bodystart="34" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_fips_crypto_mode_1a34ec9a1ad9a3b4cd388e13e671a0cc7c" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>approvedAlgorithms</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1aedbd4169da336017c9332c8849f6f127" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>disable</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1ae98e5b426c90b15e1eb8999dcf902333" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>enable</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1a5d647e7ab68c0748243895dd57c94018" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>FipsCryptoMode</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1abd98258b03e611d7842b4566cf51f61a" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>FipsCryptoMode</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1a6ef4622c4b17f22ba2fd35e3d27bf602" prot="private" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>FipsCryptoMode</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1a3d4f0dbd16c11b846dfff3699ceb1e47" prot="private" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1abf897e9f6c9fe4b5f1a85b809b6a4546" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>instance</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1a13b0a9ef17ccc3c7670bc60bd7415b6d" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1ad05fed8bdb5bbc408209a888073c6b26" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1acf3856d04e7da6400def0a9e1113f115" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1a0e9b1b7d34b6824afb111a87d3a36e7e" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1a0ab09c199b61f19df83fbd6d07b5a837" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>runSelfTests</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1ad30a981869ec7f3cc662afe7f2a2c1a3" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>validateAlgorithm</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1a5aa2b65cb95538e5f2879ee86888fa98" prot="public" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>zeroize</name></member>
+      <member refid="classthemis_1_1_fips_crypto_mode_1a898844a4580b373be9693f615dc656bb" prot="private" virt="non-virtual"><scope>themis::FipsCryptoMode</scope><name>~FipsCryptoMode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

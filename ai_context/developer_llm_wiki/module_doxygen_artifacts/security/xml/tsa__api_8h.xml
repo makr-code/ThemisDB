@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tsa__api_8h" kind="file" language="C++">
+    <compoundname>tsa_api.h</compoundname>
+    <includes refid="timestamp__authority_8h" local="yes">security/timestamp_authority.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tsa__api_8cpp" local="yes">src/security/tsa_api.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>security/timestamp_authority.h</label>
+        <link refid="timestamp__authority_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/security/tsa_api.h</label>
+        <link refid="tsa__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/tsa_api.h</label>
+        <link refid="tsa__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/tsa_api.cpp</label>
+        <link refid="tsa__api_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_t_s_a_request" prot="public">themis::security::TSARequest</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_t_s_a_response" prot="public">themis::security::TSAResponse</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_t_s_a_verify_request" prot="public">themis::security::TSAVerifyRequest</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_t_s_a_event_hooks" prot="public">themis::security::TSAEventHooks</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_i_t_s_a_client" prot="public">themis::security::ITSAClient</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_t_s_a_client_wrapper" prot="public">themis::security::TSAClientWrapper</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="timestamp__authority_8h" kindref="compound">security/timestamp_authority.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Request<sp/>/<sp/>Response<sp/>value<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1security_1_1_t_s_a_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_t_s_a_request" kindref="compound">TSARequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1security_1_1_t_s_a_request_1a6fc8b201142b3b28663721121107dc80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_request_1a6fc8b201142b3b28663721121107dc80" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1security_1_1_t_s_a_request_1a689122e244b0196211d6b47b6edb1f1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_request_1a689122e244b0196211d6b47b6edb1f1d" kindref="member">data_is_hash</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1security_1_1_t_s_a_request_1ae9dedd3c2cb11b2d980f43e4de1f1576" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_request_1ae9dedd3c2cb11b2d980f43e4de1f1576" kindref="member">hash_algorithm</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1security_1_1_t_s_a_request_1a3f954b05a2d0a6271c44e7868da5deba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_request_1a3f954b05a2d0a6271c44e7868da5deba" kindref="member">request_cert</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1security_1_1_t_s_a_request_1a25fefcb3361cff29c37ffaa256821d6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_request_1a25fefcb3361cff29c37ffaa256821d6e" kindref="member">policy_oid</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1security_1_1_t_s_a_response" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_t_s_a_response" kindref="compound">TSAResponse</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1security_1_1_t_s_a_response_1a5fdb7eb02157625978ddae0bd76ddef2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a5fdb7eb02157625978ddae0bd76ddef2" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>identification<sp/>(from<sp/>TSTInfo,<sp/>RFC<sp/>3161<sp/>§2.4.2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1security_1_1_t_s_a_response_1ae0e4deb1cbe1e8a0e72d98253d14854f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1ae0e4deb1cbe1e8a0e72d98253d14854f" kindref="member">timestamp_utc</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1security_1_1_t_s_a_response_1ad23058199347ca9a60dd656f1f2ed168" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1ad23058199347ca9a60dd656f1f2ed168" kindref="member">timestamp_unix_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1security_1_1_t_s_a_response_1a89f33bff60d26dab931fb5bfb5f6049f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a89f33bff60d26dab931fb5bfb5f6049f" kindref="member">serial_number</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1security_1_1_t_s_a_response_1a2660701bf35eb6640dc7e9270dad0cdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a2660701bf35eb6640dc7e9270dad0cdf" kindref="member">policy_oid</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1security_1_1_t_s_a_response_1ad4e536a2ebcd5035823cc76154ae7790" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1ad4e536a2ebcd5035823cc76154ae7790" kindref="member">hash_algorithm</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>storage<sp/>(for<sp/>archival<sp/>/<sp/>re-verification)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1security_1_1_t_s_a_response_1a6f0bcb353c8674684787fd8f1272ee14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a6f0bcb353c8674684787fd8f1272ee14" kindref="member">token_der</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1security_1_1_t_s_a_response_1a9cbed877eae7f1f98b94dcb170c6a457" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a9cbed877eae7f1f98b94dcb170c6a457" kindref="member">token_b64</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TSA<sp/>identity<sp/>(populated<sp/>when<sp/>request_cert<sp/>=<sp/>true)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1security_1_1_t_s_a_response_1adf6472256eb25fa5af3b7e77d85a3ef2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1adf6472256eb25fa5af3b7e77d85a3ef2" kindref="member">tsa_name</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1security_1_1_t_s_a_response_1a1c59964d074f6282d3a80ad8b2d3f0d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a1c59964d074f6282d3a80ad8b2d3f0d4" kindref="member">tsa_serial</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1security_1_1_t_s_a_response_1a225c29a0b349a5deb26dd7126ede36d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a225c29a0b349a5deb26dd7126ede36d3" kindref="member">tsa_cert</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RFC<sp/>3161<sp/>optional<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1security_1_1_t_s_a_response_1a70061a8a49da257f231a69e565acb441" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a70061a8a49da257f231a69e565acb441" kindref="member">has_accuracy</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1security_1_1_t_s_a_response_1a54a56c1f89eb3c595a8fe6ed77cb5462" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a54a56c1f89eb3c595a8fe6ed77cb5462" kindref="member">accuracy_seconds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1security_1_1_t_s_a_response_1ac5cf1c2bf9a52e3d7fcaaa39680e37f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1ac5cf1c2bf9a52e3d7fcaaa39680e37f8" kindref="member">accuracy_millis</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1security_1_1_t_s_a_response_1af0cfa81047737c84fe95c20f0af47750" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1af0cfa81047737c84fe95c20f0af47750" kindref="member">accuracy_micros</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1security_1_1_t_s_a_response_1ab28535e73ba3bdfb0c8eb25076e993c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1ab28535e73ba3bdfb0c8eb25076e993c6" kindref="member">ordering</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>/<sp/>diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1security_1_1_t_s_a_response_1a42997f61ccf2b0502cde875537479486" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a42997f61ccf2b0502cde875537479486" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1security_1_1_t_s_a_response_1ac1fed9d2d4654887e13fecbc8a97a039" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1ac1fed9d2d4654887e13fecbc8a97a039" kindref="member">http_status</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1security_1_1_t_s_a_response_1a34eda42f776a2dee9d2e4ac454501b92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1a34eda42f776a2dee9d2e4ac454501b92" kindref="member">pki_status</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1security_1_1_t_s_a_response_1ab6000d58017a05ceee780abac389a5f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1ab6000d58017a05ceee780abac389a5f6" kindref="member">request_latency</ref>{0};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convenience<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response" kindref="compound">TSAResponse</ref><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response_1ac6c01a620a05170b1b224ad17d127f0a" kindref="member">fromToken</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_timestamp_token" kindref="compound">TimestampToken</ref>&amp;<sp/>tok,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>latency<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1security_1_1_t_s_a_verify_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request" kindref="compound">TSAVerifyRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a37ebff9e9dc41b92c8c6b5d1d5647f27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a37ebff9e9dc41b92c8c6b5d1d5647f27" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a3939af27a6f757ebfd5f6bb6bc25bc25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a3939af27a6f757ebfd5f6bb6bc25bc25" kindref="member">data_is_hash</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a466ff84fccebaaccb2122b4e615e0e42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a466ff84fccebaaccb2122b4e615e0e42" kindref="member">token_der</ref>;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a2b4968d2e59b752027c2527bc6798c48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request_1a2b4968d2e59b752027c2527bc6798c48" kindref="member">token_b64</ref>;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>hooks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="structthemis_1_1security_1_1_t_s_a_event_hooks" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks" kindref="compound">TSAEventHooks</ref><sp/>{</highlight></codeline>
+<codeline lineno="247" refid="structthemis_1_1security_1_1_t_s_a_event_hooks_1ad7a8c5acdd9361fc7ab7ed7d99751a4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_request" kindref="compound">TSARequest</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response" kindref="compound">TSAResponse</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks_1ad7a8c5acdd9361fc7ab7ed7d99751a4e" kindref="member">on_timestamp_issued</ref>;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="structthemis_1_1security_1_1_t_s_a_event_hooks_1a3d7ed2ead9b2b919476a842977f85c3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request" kindref="compound">TSAVerifyRequest</ref>&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>valid)&gt;<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks_1a3d7ed2ead9b2b919476a842977f85c3a" kindref="member">on_token_verified</ref>;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="structthemis_1_1security_1_1_t_s_a_event_hooks_1a8f7ea89a3894e4cf81f96419786499cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error)&gt;<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks_1a8f7ea89a3894e4cf81f96419786499cb" kindref="member">on_error</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Abstract<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="classthemis_1_1security_1_1_i_t_s_a_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_i_t_s_a_client" kindref="compound">ITSAClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="282" refid="classthemis_1_1security_1_1_i_t_s_a_client_1a54f4d6257df175bf9cc534eaac2de7f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_i_t_s_a_client_1a54f4d6257df175bf9cc534eaac2de7f7" kindref="member">~ITSAClient</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="classthemis_1_1security_1_1_i_t_s_a_client_1a1139921f8b655f74743a42665dcdd043" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response" kindref="compound">TSAResponse</ref><sp/><ref refid="classthemis_1_1security_1_1_i_t_s_a_client_1a1139921f8b655f74743a42665dcdd043" kindref="member">requestTimestamp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_request" kindref="compound">TSARequest</ref>&amp;<sp/>req)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298" refid="classthemis_1_1security_1_1_i_t_s_a_client_1adea9e7019be873eec9479492ef5ecda7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_i_t_s_a_client_1adea9e7019be873eec9479492ef5ecda7" kindref="member">verifyToken</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request" kindref="compound">TSAVerifyRequest</ref>&amp;<sp/>req)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="classthemis_1_1security_1_1_i_t_s_a_client_1a22128ae86defe01adb342491469cc6f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_i_t_s_a_client_1a22128ae86defe01adb342491469cc6f5" kindref="member">isAvailable</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310" refid="classthemis_1_1security_1_1_i_t_s_a_client_1a106b252c59d7bae156dd1c65e24133ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1security_1_1_i_t_s_a_client_1a106b252c59d7bae156dd1c65e24133ad" kindref="member">getLastError</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concrete<sp/>wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324" refid="classthemis_1_1security_1_1_t_s_a_client_wrapper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_i_t_s_a_client" kindref="compound">ITSAClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref>(std::unique_ptr&lt;TimestampAuthority&gt;<sp/>authority,</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks" kindref="compound">TSAEventHooks</ref><sp/>hooks<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335" refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ad7608de2e3ffba1cb17f4f89f07fa899" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ad7608de2e3ffba1cb17f4f89f07fa899" kindref="member">~TSAClientWrapper</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable<sp/>(TimestampAuthority<sp/>is<sp/>non-copyable).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a5b133eb89a62603a9c7afafa95cd03bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a5b133eb89a62603a9c7afafa95cd03bb" kindref="member">TSAClientWrapper</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339" refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a200959af700208a5513b4173a4256e03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a200959af700208a5513b4173a4256e03" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342" refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a055ae79e85595b8678df1f58b2db7585" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a055ae79e85595b8678df1f58b2db7585" kindref="member">TSAClientWrapper</ref>(<ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="343" refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a6a453ea8ef945b135402e7f559cd0acc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a0ea943eaec84dfc4d867e3435693f628" kindref="member">TSAClientWrapper</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_response" kindref="compound">TSAResponse</ref><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a969e3298df0e553fb21ad45099d3032c" kindref="member">requestTimestamp</ref>(const<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_request" kindref="compound">TSARequest</ref>&amp;<sp/>req)<sp/>override;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae879dd90f5c8243e230a150e9f80f873" kindref="member">verifyToken</ref>(const<sp/><ref refid="structthemis_1_1security_1_1_t_s_a_verify_request" kindref="compound">TSAVerifyRequest</ref>&amp;<sp/>req)<sp/>override;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1a37c9e55087cb3da698333ace8a326c17" kindref="member">isAvailable</ref>()<sp/>override;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper_1ae8fda1dc19d3355e0e5498249fb4d115" kindref="member">getLastError</ref>()<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1security_1_1_timestamp_authority" kindref="compound">TimestampAuthority</ref>&gt;<sp/>authority_;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks" kindref="compound">TSAEventHooks</ref><sp/>hooks_;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>last_error_;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>fireError(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>msg);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal">std::unique_ptr&lt;<ref refid="classthemis_1_1security_1_1_i_t_s_a_client" kindref="compound">ITSAClient</ref>&gt;<sp/><ref refid="namespacethemis_1_1security_1a56f1dbf1678ae2ea986942063fc8c9c2" kindref="member">createTSAClient</ref>(<ref refid="structthemis_1_1security_1_1_t_s_a_config" kindref="compound">TSAConfig</ref><sp/>config,</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks" kindref="compound">TSAEventHooks</ref><sp/>hooks<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/tsa_api.h"/>
+  </compounddef>
+</doxygen>

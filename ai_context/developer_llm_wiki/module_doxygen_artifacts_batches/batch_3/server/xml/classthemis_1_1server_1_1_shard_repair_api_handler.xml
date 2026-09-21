@@ -1,0 +1,506 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_shard_repair_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ShardRepairApiHandler</compoundname>
+    <includes refid="shard__repair__api__handler_8h" local="no">shard_repair_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_shard_repair_api_handler_1abaf0fb8111c9ded06886e0bda1d22397" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ShardRepairEngine &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ShardRepairEngine&gt; themis::server::ShardRepairApiHandler::repair_engine_</definition>
+        <argsstring></argsstring>
+        <name>repair_engine_</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::repair_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="75" column="21" bodyfile="include/server/shard_repair_api_handler.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_shard_repair_api_handler_1a568a6ba16c2f5628985bf76940098614" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::ShardRepairApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="76" column="21" bodyfile="include/server/shard_repair_api_handler.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1a1514cd9bf2b0328393b9cd3453e969cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ShardRepairApiHandler::ShardRepairApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::ShardRepairEngine &gt; repair_engine, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>ShardRepairApiHandler</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::ShardRepairApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardRepairEngine &gt;</type>
+          <declname>repair_engine</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="33" column="5" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="217" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1a50322db6a3267654cbf419b442fd514e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ShardRepairApiHandler::setRepairEngine</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::ShardRepairEngine &gt; repair_engine)</argsstring>
+        <name>setRepairEngine</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::setRepairEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardRepairEngine &gt;</type>
+          <declname>repair_engine</declname>
+        </param>
+        <briefdescription>
+<para>Set Repair Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">repair_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">repair_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="41" column="10" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="228" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1aeeae9b1b31d0f9f9542261f4b6da1a59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ShardRepairApiHandler::handleHealth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleHealth</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::handleHealth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getRepairMetrics(), getShardHealthReports(), getActiveJobs(), isRunning(), metricsToJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="48" column="20" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="281" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1a9d2f982f16708f5d6c2dbcc054b36666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ShardRepairApiHandler::handleTriggerRepair</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleTriggerRepair</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::handleTriggerRepair</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Trigger Repair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), body(), empty(), json::object(), json::parse(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="54" column="20" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="333" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1a7d023cde8ad69d88e785c9345ac41bc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ShardRepairApiHandler::handleTriggerFullScan</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleTriggerFullScan</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::handleTriggerFullScan</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Trigger Full Scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), triggerFullScan(), makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="60" column="20" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="388" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1ad842f86deb69d33ecaca48d7c69f669e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ShardRepairApiHandler::handleJobStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleJobStatus</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::handleJobStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Job Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), extractJobId(), std::string(), target(), empty(), getJobStatus(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="66" column="20" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="415" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1a950fb57bae4b1db57db21af71de40c60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ShardRepairApiHandler::handleDashboard</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleDashboard</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::handleDashboard</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Dashboard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeResponse(), buildDashboardHtml(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="72" column="20" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="445" bodyend="449"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1ad2ca4fe5ab948f72977a7e258cb0dc8e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::ShardRepairApiHandler::checkAuth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;required_scope, http::response&lt; http::string_body &gt; &amp;out) const</argsstring>
+        <name>checkAuth</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::checkAuth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>required_scope</declname>
+        </param>
+        <param>
+          <type>http::response&lt; http::string_body &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Check Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="85" column="10" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="233" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1a5f3e877a307b84947c4202ca57541c28" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ShardRepairApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const std::string &amp;content_type, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="97" column="20" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="451" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_shard_repair_api_handler_1ad62cb0652087aa8216e3156769b0d72e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::ShardRepairApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req) const</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::ShardRepairApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/shard_repair_api_handler.h" line="109" column="20" bodyfile="src/server/shard_repair_api_handler.cpp" bodystart="465" bodyend="475"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/shard_repair_api_handler.h" line="31" column="1" bodyfile="include/server/shard_repair_api_handler.h" bodystart="31" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1a568a6ba16c2f5628985bf76940098614" prot="private" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1ad2ca4fe5ab948f72977a7e258cb0dc8e" prot="private" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>checkAuth</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1a950fb57bae4b1db57db21af71de40c60" prot="public" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>handleDashboard</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1aeeae9b1b31d0f9f9542261f4b6da1a59" prot="public" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>handleHealth</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1ad842f86deb69d33ecaca48d7c69f669e" prot="public" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>handleJobStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1a7d023cde8ad69d88e785c9345ac41bc8" prot="public" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>handleTriggerFullScan</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1a9d2f982f16708f5d6c2dbcc054b36666" prot="public" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>handleTriggerRepair</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1ad62cb0652087aa8216e3156769b0d72e" prot="private" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1a5f3e877a307b84947c4202ca57541c28" prot="private" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1abaf0fb8111c9ded06886e0bda1d22397" prot="private" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>repair_engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1a50322db6a3267654cbf419b442fd514e" prot="public" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>setRepairEngine</name></member>
+      <member refid="classthemis_1_1server_1_1_shard_repair_api_handler_1a1514cd9bf2b0328393b9cd3453e969cd" prot="public" virt="non-virtual"><scope>themis::server::ShardRepairApiHandler</scope><name>ShardRepairApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

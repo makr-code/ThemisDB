@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lo_r_a_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LoRAMetadata</compoundname>
+    <includes refid="lora__metadata__cache_8h" local="no">lora_metadata_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a01b9c354bcb02e54bcb6a3a341afdaef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRAMetadata::lora_id</definition>
+        <argsstring></argsstring>
+        <name>lora_id</name>
+        <qualifiedname>themis::llm::LoRAMetadata::lora_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="28" column="17" bodyfile="include/llm/lora_metadata_cache.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1abfa6b8ac9547040d5762c5a1ea451d8c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRAMetadata::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::llm::LoRAMetadata::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="29" column="17" bodyfile="include/llm/lora_metadata_cache.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a36c3bac357caba6d92caf54248d26bc8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRAMetadata::base_model_id</definition>
+        <argsstring></argsstring>
+        <name>base_model_id</name>
+        <qualifiedname>themis::llm::LoRAMetadata::base_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="30" column="17" bodyfile="include/llm/lora_metadata_cache.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4e4bff351121c52aee37a440b4d1914f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LoRAMetadata::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::llm::LoRAMetadata::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="31" column="12" bodyfile="include/llm/lora_metadata_cache.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a9d5169aca3503cceeda688f6518be11c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LoRAMetadata::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>themis::llm::LoRAMetadata::scale</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="32" column="11" bodyfile="include/llm/lora_metadata_cache.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a083389c8294e21c7ddc1790b3d2fdfcf" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LoRAMetadata::loaded_timestamp</definition>
+        <argsstring></argsstring>
+        <name>loaded_timestamp</name>
+        <qualifiedname>themis::llm::LoRAMetadata::loaded_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="33" column="43" bodyfile="include/llm/lora_metadata_cache.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a918e41328ccb4f5d83982a71648e0997" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LoRAMetadata::last_accessed</definition>
+        <argsstring></argsstring>
+        <name>last_accessed</name>
+        <qualifiedname>themis::llm::LoRAMetadata::last_accessed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="34" column="43" bodyfile="include/llm/lora_metadata_cache.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1ae360dc69075b7acde9e9608e4b396884" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::LoRAMetadata::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::llm::LoRAMetadata::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="35" column="14" bodyfile="include/llm/lora_metadata_cache.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4043525cb4d9d88054aaa239d1d50fc0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRAMetadata::is_loaded</definition>
+        <argsstring></argsstring>
+        <name>is_loaded</name>
+        <qualifiedname>themis::llm::LoRAMetadata::is_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="36" column="10" bodyfile="include/llm/lora_metadata_cache.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a62f40c4aadbd0bbca799ea230ea48945" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LoRAMetadata::slot_id</definition>
+        <argsstring></argsstring>
+        <name>slot_id</name>
+        <qualifiedname>themis::llm::LoRAMetadata::slot_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="37" column="9" bodyfile="include/llm/lora_metadata_cache.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1acb9e5043d15c7cc9dafc043e95bb0390" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LoRAMetadata::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::llm::LoRAMetadata::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="40" column="9" bodyfile="include/llm/lora_metadata_cache.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a6135b24404d30cc2f4725c247de600a0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LoRAMetadata::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themis::llm::LoRAMetadata::alpha</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="41" column="11" bodyfile="include/llm/lora_metadata_cache.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1aaa8bac3660b9217de3752e7a7fdcce31" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::LoRAMetadata::target_modules</definition>
+        <argsstring></argsstring>
+        <name>target_modules</name>
+        <qualifiedname>themis::llm::LoRAMetadata::target_modules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="42" column="17" bodyfile="include/llm/lora_metadata_cache.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_lo_r_a_metadata_1a46d1df99af63dde3b2dc4192608537a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::LoRAMetadata::~LoRAMetadata</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LoRAMetadata</name>
+        <qualifiedname>themis::llm::LoRAMetadata::~LoRAMetadata</qualifiedname>
+        <briefdescription>
+<para>Lo RAMetadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_metadata_cache.h" line="27" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_metadata_cache.h" line="22" column="1" bodyfile="include/llm/lora_metadata_cache.h" bodystart="22" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1ae360dc69075b7acde9e9608e4b396884" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a6135b24404d30cc2f4725c247de600a0" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>alpha</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a36c3bac357caba6d92caf54248d26bc8" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>base_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4043525cb4d9d88054aaa239d1d50fc0" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>is_loaded</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a918e41328ccb4f5d83982a71648e0997" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>last_accessed</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a083389c8294e21c7ddc1790b3d2fdfcf" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>loaded_timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a01b9c354bcb02e54bcb6a3a341afdaef" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>lora_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1abfa6b8ac9547040d5762c5a1ea451d8c" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>path</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1acb9e5043d15c7cc9dafc043e95bb0390" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>rank</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a9d5169aca3503cceeda688f6518be11c" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>scale</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4e4bff351121c52aee37a440b4d1914f" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a62f40c4aadbd0bbca799ea230ea48945" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>slot_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1aaa8bac3660b9217de3752e7a7fdcce31" prot="public" virt="non-virtual"><scope>themis::llm::LoRAMetadata</scope><name>target_modules</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a46d1df99af63dde3b2dc4192608537a6" prot="public" virt="virtual"><scope>themis::llm::LoRAMetadata</scope><name>~LoRAMetadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

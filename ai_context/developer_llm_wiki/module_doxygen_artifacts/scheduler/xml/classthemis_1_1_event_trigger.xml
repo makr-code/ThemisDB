@@ -1,0 +1,902 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_event_trigger" kind="class" language="C++" prot="public">
+    <compoundname>themis::EventTrigger</compoundname>
+    <includes refid="event__trigger_8h" local="no">event_trigger.h</includes>
+    <innerclass refid="structthemis_1_1_event_trigger_1_1_stats" prot="public">themis::EventTrigger::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_event_trigger_1_1_circuit_breaker_config" prot="public">themis::EventTrigger::CircuitBreakerConfig</innerclass>
+    <innerclass refid="structthemis_1_1_event_trigger_1_1_parsed_clause" prot="private">themis::EventTrigger::ParsedClause</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_event_trigger_1ac53e0bf68329b447f0ccd69779c0de53" prot="public" static="no">
+        <type>std::function&lt; void(const Changefeed::ChangeEvent &amp;)&gt;</type>
+        <definition>using themis::EventTrigger::TriggerCallback = std::function&lt;void(const Changefeed::ChangeEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TriggerCallback</name>
+        <qualifiedname>themis::EventTrigger::TriggerCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="63" column="5" bodyfile="include/scheduler/event_trigger.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1aaeb78d1e15c0c2b96ea8a77c6b264091" prot="private" static="no" mutable="no">
+        <type>Changefeed *</type>
+        <definition>Changefeed* themis::EventTrigger::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::EventTrigger::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="109" column="16" bodyfile="include/scheduler/event_trigger.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1ae3e0a528903666ba372ffb41ebe66dc0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_c_d_c_trigger_config" kindref="compound">CDCTriggerConfig</ref></type>
+        <definition>CDCTriggerConfig themis::EventTrigger::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::EventTrigger::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="110" column="22" bodyfile="include/scheduler/event_trigger.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a43e15c09419549d45ac9544f1a160d6f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_event_trigger_1ac53e0bf68329b447f0ccd69779c0de53" kindref="member">TriggerCallback</ref></type>
+        <definition>TriggerCallback themis::EventTrigger::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themis::EventTrigger::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="111" column="21" bodyfile="include/scheduler/event_trigger.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a46a69532da2ef4a70a1de4ea64a77863" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::EventTrigger::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::EventTrigger::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="114" column="17" bodyfile="include/scheduler/event_trigger.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a29619dfb7ede5e591a965ae9290ac1e3" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::EventTrigger::listener_thread_</definition>
+        <argsstring></argsstring>
+        <name>listener_thread_</name>
+        <qualifiedname>themis::EventTrigger::listener_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="115" column="17" bodyfile="include/scheduler/event_trigger.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a6a93905f45a9744b1078b6f4e3229f2f" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::EventTrigger::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::EventTrigger::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="116" column="16" bodyfile="include/scheduler/event_trigger.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1ac8eccf9ee073ff19acbe58238acbd802" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::EventTrigger::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::EventTrigger::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="117" column="29" bodyfile="include/scheduler/event_trigger.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a23a59600159e9c6df42150435c62ebc4" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::EventTrigger::last_trigger_time_</definition>
+        <argsstring></argsstring>
+        <name>last_trigger_time_</name>
+        <qualifiedname>themis::EventTrigger::last_trigger_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="120" column="43" bodyfile="include/scheduler/event_trigger.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1ac93473ddd55e7f210516eec20b8dbd69" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::EventTrigger::debounce_mutex_</definition>
+        <argsstring></argsstring>
+        <name>debounce_mutex_</name>
+        <qualifiedname>themis::EventTrigger::debounce_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="121" column="24" bodyfile="include/scheduler/event_trigger.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a1347dbab9959f82c8397c465cc883357" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EventTrigger::last_fired_event_key_</definition>
+        <argsstring></argsstring>
+        <name>last_fired_event_key_</name>
+        <qualifiedname>themis::EventTrigger::last_fired_event_key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="124" column="17" bodyfile="include/scheduler/event_trigger.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a569ba52d0a4f736204b2a94c8434b609" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EventTrigger::last_fired_event_value_</definition>
+        <argsstring></argsstring>
+        <name>last_fired_event_value_</name>
+        <qualifiedname>themis::EventTrigger::last_fired_event_value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="125" column="17" bodyfile="include/scheduler/event_trigger.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a5508dfef1eb9e298ade501786815aff2" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::EventTrigger::events_received_</definition>
+        <argsstring></argsstring>
+        <name>events_received_</name>
+        <qualifiedname>themis::EventTrigger::events_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="128" column="25" bodyfile="include/scheduler/event_trigger.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a4c863ca746f7960288b535fc00f21de8" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::EventTrigger::events_matched_</definition>
+        <argsstring></argsstring>
+        <name>events_matched_</name>
+        <qualifiedname>themis::EventTrigger::events_matched_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="129" column="25" bodyfile="include/scheduler/event_trigger.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a65cad839c8963066330f648066a33bb0" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::EventTrigger::events_debounced_</definition>
+        <argsstring></argsstring>
+        <name>events_debounced_</name>
+        <qualifiedname>themis::EventTrigger::events_debounced_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="130" column="25" bodyfile="include/scheduler/event_trigger.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1aba567b2d5cac99a48f1da64caf8cdd85" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::EventTrigger::triggers_fired_</definition>
+        <argsstring></argsstring>
+        <name>triggers_fired_</name>
+        <qualifiedname>themis::EventTrigger::triggers_fired_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="131" column="25" bodyfile="include/scheduler/event_trigger.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a3d367f14dbca25e29683fa269951c89f" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::EventTrigger::last_trigger_time_sys_</definition>
+        <argsstring></argsstring>
+        <name>last_trigger_time_sys_</name>
+        <qualifiedname>themis::EventTrigger::last_trigger_time_sys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="132" column="43" bodyfile="include/scheduler/event_trigger.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a90143d49f3dd5af2c191b01a3d20be98" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::EventTrigger::last_sequence_</definition>
+        <argsstring></argsstring>
+        <name>last_sequence_</name>
+        <qualifiedname>themis::EventTrigger::last_sequence_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="135" column="14" bodyfile="include/scheduler/event_trigger.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1abb852b0f88026d52c3966f4ff8895a5f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_event_trigger_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref></type>
+        <definition>CircuitBreakerConfig themis::EventTrigger::cb_config_</definition>
+        <argsstring></argsstring>
+        <name>cb_config_</name>
+        <qualifiedname>themis::EventTrigger::cb_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="138" column="26" bodyfile="include/scheduler/event_trigger.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a161057626ad45a38d7dae7e52dc235c4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::EventTrigger::cb_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cb_mutex_</name>
+        <qualifiedname>themis::EventTrigger::cb_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="139" column="24" bodyfile="include/scheduler/event_trigger.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a260b6aa9da24ed94e69896408a62034f" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::EventTrigger::cb_consecutive_failures_</definition>
+        <argsstring></argsstring>
+        <name>cb_consecutive_failures_</name>
+        <qualifiedname>themis::EventTrigger::cb_consecutive_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="140" column="14" bodyfile="include/scheduler/event_trigger.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1abd5ac4c60956076796641ed86f340db0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::cb_open_</definition>
+        <argsstring></argsstring>
+        <name>cb_open_</name>
+        <qualifiedname>themis::EventTrigger::cb_open_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="141" column="10" bodyfile="include/scheduler/event_trigger.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1afd63c47b09a0fa902eab017d2517a44f" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::EventTrigger::cb_open_since_</definition>
+        <argsstring></argsstring>
+        <name>cb_open_since_</name>
+        <qualifiedname>themis::EventTrigger::cb_open_since_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="142" column="43" bodyfile="include/scheduler/event_trigger.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1ae59e1473c9b71d45d89492efdc407394" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::EventTrigger::callback_failures_</definition>
+        <argsstring></argsstring>
+        <name>callback_failures_</name>
+        <qualifiedname>themis::EventTrigger::callback_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="143" column="17" bodyfile="include/scheduler/event_trigger.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a32c5276988ffbca84bfdc1cbc25f78c1" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; ParsedClause &gt;</type>
+        <definition>std::vector&lt;ParsedClause&gt; themis::EventTrigger::parsed_clauses_</definition>
+        <argsstring></argsstring>
+        <name>parsed_clauses_</name>
+        <qualifiedname>themis::EventTrigger::parsed_clauses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="177" column="25" bodyfile="include/scheduler/event_trigger.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a4280777521bc4a817b9c37ece8b2940e" prot="private" static="no" mutable="yes">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::condition_parsed_</definition>
+        <argsstring></argsstring>
+        <name>condition_parsed_</name>
+        <qualifiedname>themis::EventTrigger::condition_parsed_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="178" column="18" bodyfile="include/scheduler/event_trigger.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_event_trigger_1a64f25789480977a8e5c2fdea471c511c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::EventTrigger::condition_cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>condition_cache_mutex_</name>
+        <qualifiedname>themis::EventTrigger::condition_cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="179" column="24" bodyfile="include/scheduler/event_trigger.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1ab3a93019a3684986fdbf4ddbe9b46cc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::EventTrigger::EventTrigger</definition>
+        <argsstring>(Changefeed *changefeed, const CDCTriggerConfig &amp;config, TriggerCallback callback)</argsstring>
+        <name>EventTrigger</name>
+        <qualifiedname>themis::EventTrigger::EventTrigger</qualifiedname>
+        <param>
+          <type>Changefeed *</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_c_d_c_trigger_config" kindref="compound">CDCTriggerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_event_trigger_1ac53e0bf68329b447f0ccd69779c0de53" kindref="member">TriggerCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Construct an event trigger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Changefeed instance to listen to (not owned, must remain valid) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Trigger configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call when event matches </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if changefeed or callback is null, or config is invalid </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="72" column="5" bodyfile="src/scheduler/event_trigger.cpp" bodystart="100" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a99586fdebcf5e1da880ebab774e5f888" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::EventTrigger::~EventTrigger</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~EventTrigger</name>
+        <qualifiedname>themis::EventTrigger::~EventTrigger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="76" column="5" bodyfile="src/scheduler/event_trigger.cpp" bodystart="149" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1aeedce6d0d43755a8e23f471418bc1df5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EventTrigger::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::EventTrigger::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), load(), THEMIS_WARN(), store(), std::thread(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="79" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="161" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1afb97a3847a45a0afb92143ddf51a84a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EventTrigger::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::EventTrigger::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), load(), store(), notify_all(), joinable(), join(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="80" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="183" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a18ec051e42d0e9521b4006196be3bbc7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::EventTrigger::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="81" column="10" bodyfile="include/scheduler/event_trigger.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a8296cb7f44c3df5231218a0951b2d8c6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_c_d_c_trigger_config" kindref="compound">CDCTriggerConfig</ref> &amp;</type>
+        <definition>const CDCTriggerConfig &amp; themis::EventTrigger::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::EventTrigger::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="84" column="28" bodyfile="include/scheduler/event_trigger.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a1fdea5f6a25e9ec2b9213d4576d7fe70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EventTrigger::updateConfig</definition>
+        <argsstring>(const CDCTriggerConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::EventTrigger::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_c_d_c_trigger_config" kindref="compound">CDCTriggerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValid(), getValidationError(), lock(), clock(), clear(), THEMIS_DEBUG(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="85" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="208" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a76009c8eaa25dad0eb0aca9e7eb373d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_event_trigger_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>EventTrigger::Stats themis::EventTrigger::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::EventTrigger::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Level 3: Acquire circuit breaker lock (safe to acquire last) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="98" column="11" bodyfile="src/scheduler/event_trigger.cpp" bodystart="235" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a79a91f4bc529e40467aaf0fe14cd3b0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EventTrigger::setCircuitBreakerConfig</definition>
+        <argsstring>(const CircuitBreakerConfig &amp;config)</argsstring>
+        <name>setCircuitBreakerConfig</name>
+        <qualifiedname>themis::EventTrigger::setCircuitBreakerConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_event_trigger_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Circuit Breaker Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="106" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="260" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a8e1c434b972330a51d5d498f6eca1eb0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::circuitAllows</definition>
+        <argsstring>()</argsstring>
+        <name>circuitAllows</name>
+        <qualifiedname>themis::EventTrigger::circuitAllows</qualifiedname>
+        <briefdescription>
+<para>Circuit Allows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::chrono::steady_clock::now(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="147" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="271" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a1869a0deeffdaadabfb63ca22ad7452f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EventTrigger::circuitRecordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>circuitRecordSuccess</name>
+        <qualifiedname>themis::EventTrigger::circuitRecordSuccess</qualifiedname>
+        <briefdescription>
+<para>Circuit Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="149" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="290" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1af0275c08ef58c237fe4378252e0d819e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EventTrigger::circuitRecordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>circuitRecordFailure</name>
+        <qualifiedname>themis::EventTrigger::circuitRecordFailure</qualifiedname>
+        <briefdescription>
+<para>Circuit Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::steady_clock::now(), THEMIS_WARN(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="151" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="304" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1aa21e2fe711a147f58710063f5b53c027" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EventTrigger::listenerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>listenerLoop</name>
+        <qualifiedname>themis::EventTrigger::listenerLoop</qualifiedname>
+        <briefdescription>
+<para>Listener Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_DEBUG(), load(), getLatestSequence(), listEvents(), size(), matchesFilter(), shouldDebounce(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="154" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="322" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a3df6ecd12fc0c81746fdb3397ec50ba8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::matchesFilter</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event) const</argsstring>
+        <name>matchesFilter</name>
+        <qualifiedname>themis::EventTrigger::matchesFilter</qualifiedname>
+        <param>
+          <type>const Changefeed::ChangeEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="157" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="421" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a1cfb4a49623b1cde4a12bc9cd215c659" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::matchesKeyPrefix</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>matchesKeyPrefix</name>
+        <qualifiedname>themis::EventTrigger::matchesKeyPrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="158" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="440" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a7c1f67d88ed52ac9f2c56472dff6fa77" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::matchesEventType</definition>
+        <argsstring>(Changefeed::ChangeEventType type) const</argsstring>
+        <name>matchesEventType</name>
+        <qualifiedname>themis::EventTrigger::matchesEventType</qualifiedname>
+        <param>
+          <type>Changefeed::ChangeEventType</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="159" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="458" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a9626d3e3524a3065c389075b631c3d3f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::matchesCondition</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event) const</argsstring>
+        <name>matchesCondition</name>
+        <qualifiedname>themis::EventTrigger::matchesCondition</qualifiedname>
+        <param>
+          <type>const Changefeed::ChangeEvent &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Clock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">condition_cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="160" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="462" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1af43fc6c556f2af036a36fc1afaf733e3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::shouldDebounce</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldDebounce</name>
+        <qualifiedname>themis::EventTrigger::shouldDebounce</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Level 1: Acquire debounce timing lock (can be acquired standalone) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">debounce_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="163" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="610" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1a23f48f55a72624262da00feee2d8d8c1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::EventTrigger::validateNoCircularDependencies</definition>
+        <argsstring>() const</argsstring>
+        <name>validateNoCircularDependencies</name>
+        <qualifiedname>themis::EventTrigger::validateNoCircularDependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="166" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="596" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_event_trigger_1abff5107d5fcaa508d9a578b220949777" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::EventTrigger::rebuildConditionCache_</definition>
+        <argsstring>() const</argsstring>
+        <name>rebuildConditionCache_</name>
+        <qualifiedname>themis::EventTrigger::rebuildConditionCache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="183" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="517" bodyend="593"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Event listener for CDC events with filtering and debouncing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class listens to Changefeed events and determines when to trigger tasks based on configured filters and debouncing rules.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are thread-safe through the lock ordering hierarchy.</para>
+<para><heading level="3">Lock ordering (deadlock prevention)</heading>
+</para>
+<para>MUST acquire locks in this strict order (never reverse): Level 0: mutex_ (global state - acquired first) Level 1: debounce_mutex_ (debounce-specific state) Level 2: condition_cache_mutex_ (condition parsing cache) Level 3: cb_mutex_ (circuit breaker state - acquired last)</para>
+<para>Any method acquiring multiple locks MUST follow this hierarchy. Acquiring in reverse order can cause deadlock. </para>
+    </detaileddescription>
+    <location file="include/scheduler/event_trigger.h" line="61" column="1" bodyfile="include/scheduler/event_trigger.h" bodystart="61" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_event_trigger_1a43e15c09419549d45ac9544f1a160d6f" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>callback_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1ae59e1473c9b71d45d89492efdc407394" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>callback_failures_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1abb852b0f88026d52c3966f4ff8895a5f" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>cb_config_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a260b6aa9da24ed94e69896408a62034f" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>cb_consecutive_failures_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a161057626ad45a38d7dae7e52dc235c4" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>cb_mutex_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1abd5ac4c60956076796641ed86f340db0" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>cb_open_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1afd63c47b09a0fa902eab017d2517a44f" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>cb_open_since_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1aaeb78d1e15c0c2b96ea8a77c6b264091" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a8e1c434b972330a51d5d498f6eca1eb0" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>circuitAllows</name></member>
+      <member refid="classthemis_1_1_event_trigger_1af0275c08ef58c237fe4378252e0d819e" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>circuitRecordFailure</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a1869a0deeffdaadabfb63ca22ad7452f" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>circuitRecordSuccess</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a64f25789480977a8e5c2fdea471c511c" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>condition_cache_mutex_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a4280777521bc4a817b9c37ece8b2940e" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>condition_parsed_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1ae3e0a528903666ba372ffb41ebe66dc0" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1ac8eccf9ee073ff19acbe58238acbd802" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1ac93473ddd55e7f210516eec20b8dbd69" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>debounce_mutex_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a65cad839c8963066330f648066a33bb0" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>events_debounced_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a4c863ca746f7960288b535fc00f21de8" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>events_matched_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a5508dfef1eb9e298ade501786815aff2" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>events_received_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1ab3a93019a3684986fdbf4ddbe9b46cc2" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>EventTrigger</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a8296cb7f44c3df5231218a0951b2d8c6" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a76009c8eaa25dad0eb0aca9e7eb373d1" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a18ec051e42d0e9521b4006196be3bbc7" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a1347dbab9959f82c8397c465cc883357" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>last_fired_event_key_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a569ba52d0a4f736204b2a94c8434b609" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>last_fired_event_value_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a90143d49f3dd5af2c191b01a3d20be98" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>last_sequence_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a23a59600159e9c6df42150435c62ebc4" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>last_trigger_time_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a3d367f14dbca25e29683fa269951c89f" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>last_trigger_time_sys_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a29619dfb7ede5e591a965ae9290ac1e3" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>listener_thread_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1aa21e2fe711a147f58710063f5b53c027" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>listenerLoop</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a9626d3e3524a3065c389075b631c3d3f" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>matchesCondition</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a7c1f67d88ed52ac9f2c56472dff6fa77" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>matchesEventType</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a3df6ecd12fc0c81746fdb3397ec50ba8" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>matchesFilter</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a1cfb4a49623b1cde4a12bc9cd215c659" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>matchesKeyPrefix</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a6a93905f45a9744b1078b6f4e3229f2f" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a32c5276988ffbca84bfdc1cbc25f78c1" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>parsed_clauses_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1abff5107d5fcaa508d9a578b220949777" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>rebuildConditionCache_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a46a69532da2ef4a70a1de4ea64a77863" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>running_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a79a91f4bc529e40467aaf0fe14cd3b0e" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>setCircuitBreakerConfig</name></member>
+      <member refid="classthemis_1_1_event_trigger_1af43fc6c556f2af036a36fc1afaf733e3" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>shouldDebounce</name></member>
+      <member refid="classthemis_1_1_event_trigger_1aeedce6d0d43755a8e23f471418bc1df5" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>start</name></member>
+      <member refid="classthemis_1_1_event_trigger_1afb97a3847a45a0afb92143ddf51a84a3" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>stop</name></member>
+      <member refid="classthemis_1_1_event_trigger_1ac53e0bf68329b447f0ccd69779c0de53" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>TriggerCallback</name></member>
+      <member refid="classthemis_1_1_event_trigger_1aba567b2d5cac99a48f1da64caf8cdd85" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>triggers_fired_</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a1fdea5f6a25e9ec2b9213d4576d7fe70" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a23f48f55a72624262da00feee2d8d8c1" prot="private" virt="non-virtual"><scope>themis::EventTrigger</scope><name>validateNoCircularDependencies</name></member>
+      <member refid="classthemis_1_1_event_trigger_1a99586fdebcf5e1da880ebab774e5f888" prot="public" virt="non-virtual"><scope>themis::EventTrigger</scope><name>~EventTrigger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

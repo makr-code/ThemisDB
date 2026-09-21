@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::res::ConnectionPool::Config</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config_1a9a3cd2c8f88dd01498180ce7b72d19da" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::res::ConnectionPool::Config::min_size</definition>
+        <argsstring></argsstring>
+        <name>min_size</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::Config::min_size</qualifiedname>
+        <initializer>{2}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1261" column="16" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1261" bodyend="1261"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config_1a7d0ddb64b848b5610d72cc2ee0c0fb09" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::graph::test::phase3::res::ConnectionPool::Config::max_size</definition>
+        <argsstring></argsstring>
+        <name>max_size</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::Config::max_size</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1262" column="16" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1262" bodyend="1262"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config_1aef654c7c9b928f30d518cb27498841cb" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::graph::test::phase3::res::ConnectionPool::Config::acquire_timeout</definition>
+        <argsstring></argsstring>
+        <name>acquire_timeout</name>
+        <qualifiedname>themisdb::graph::test::phase3::res::ConnectionPool::Config::acquire_timeout</qualifiedname>
+        <initializer>{100ms}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1263" column="35" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1263" bodyend="1263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1260" column="5" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1260" bodyend="1264"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config_1aef654c7c9b928f30d518cb27498841cb" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool::Config</scope><name>acquire_timeout</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config_1a7d0ddb64b848b5610d72cc2ee0c0fb09" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool::Config</scope><name>max_size</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1res_1_1_connection_pool_1_1_config_1a9a3cd2c8f88dd01498180ce7b72d19da" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::res::ConnectionPool::Config</scope><name>min_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

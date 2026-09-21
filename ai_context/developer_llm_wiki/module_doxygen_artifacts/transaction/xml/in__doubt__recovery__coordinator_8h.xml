@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="in__doubt__recovery__coordinator_8h" kind="file" language="C++">
+    <compoundname>in_doubt_recovery_coordinator.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includedby refid="recoverable__two__phase__coordinator_8h" local="yes">include/transaction/recoverable_two_phase_coordinator.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/transaction/in_doubt_recovery_coordinator.h</label>
+        <link refid="in__doubt__recovery__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>benchmarks/transaction/bench_transaction_phase4.cpp</label>
+        <link refid="bench__transaction__phase4_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/transaction/distributed_transaction_manager.h</label>
+        <link refid="distributed__transaction__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/transaction/global_transaction_manager.h</label>
+        <link refid="global__transaction__manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/transaction/grpc_rpc_adapter.h</label>
+        <link refid="grpc__rpc__adapter_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/transaction/in_doubt_recovery_coordinator.h</label>
+        <link refid="in__doubt__recovery__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/transaction/recoverable_two_phase_coordinator.h</label>
+        <link refid="recoverable__two__phase__coordinator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/transaction/distributed_transaction_manager.cpp</label>
+        <link refid="distributed__transaction__manager_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/transaction/global_transaction_manager.cpp</label>
+        <link refid="global__transaction__manager_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/transaction/grpc_rpc_adapter.cpp</label>
+        <link refid="grpc__rpc__adapter_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/transaction/test_cross_coordinator_wal_recovery.cpp</label>
+        <link refid="test__cross__coordinator__wal__recovery_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/transaction/test_grpc_rpc_adapter.cpp</label>
+        <link refid="test__grpc__rpc__adapter_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/transaction/test_transaction_distributed_2pc.cpp</label>
+        <link refid="test__transaction__distributed__2pc_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/transaction/test_transaction_distributed_phase2.cpp</label>
+        <link refid="test__transaction__distributed__phase2_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator" prot="public">themis::transaction::IInDoubtRecoveryCoordinator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CC-5:<sp/>Shared<sp/>recovery<sp/>interface<sp/>for<sp/>2PC<sp/>coordinators.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enforces<sp/>a<sp/>common<sp/>capability<sp/>across<sp/>independent<sp/>coordinator<sp/>implementations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">themis::transaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator" kindref="compound">IInDoubtRecoveryCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a2bf59187a7b469b2af380a9b45244e1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a2bf59187a7b469b2af380a9b45244e1b" kindref="member">~IInDoubtRecoveryCoordinator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a1508f43768f357c83c88521a440a8194" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a1508f43768f357c83c88521a440a8194" kindref="member">recoverInDoubtTransactions</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::transaction</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/in_doubt_recovery_coordinator.h"/>
+  </compounddef>
+</doxygen>

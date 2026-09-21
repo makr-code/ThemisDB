@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1wire_1_1_v2_server" kind="class" language="C++" prot="public">
+    <compoundname>themis::wire::V2Server</compoundname>
+    <includes refid="wire__protocol__v2_8hpp" local="no">wire_protocol_v2.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_server_1ad77e0952edbbae52e48eaaeec9bfffda" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Impl &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::wire::V2Server::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::wire::V2Server::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="346" column="21" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="346" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1a78fb63724034ba57587c79169616e47e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::wire::V2Server::V2Server</definition>
+        <argsstring>(const V2ConnectionConfig &amp;config)</argsstring>
+        <name>V2Server</name>
+        <qualifiedname>themis::wire::V2Server::V2Server</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1wire_1_1_v2_connection_config" kindref="compound">V2ConnectionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="298" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1a879940732a5155ca0584d2fb6b23e623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::wire::V2Server::~V2Server</definition>
+        <argsstring>()</argsstring>
+        <name>~V2Server</name>
+        <qualifiedname>themis::wire::V2Server::~V2Server</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="299" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1af3efff21f5998bc1a1af3dc29c19c376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::wire::V2Server::V2Server</definition>
+        <argsstring>(const V2Server &amp;)=delete</argsstring>
+        <name>V2Server</name>
+        <qualifiedname>themis::wire::V2Server::V2Server</qualifiedname>
+        <param>
+          <type>const V2Server &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="302" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1aa5ce299ac7a3a0c25cca0c09b771ef11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1wire_1_1_v2_server_1a78fb63724034ba57587c79169616e47e" kindref="member">V2Server</ref> &amp;</type>
+        <definition>V2Server &amp; themis::wire::V2Server::operator=</definition>
+        <argsstring>(const V2Server &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::wire::V2Server::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1wire_1_1_v2_server_1a78fb63724034ba57587c79169616e47e" kindref="member">V2Server</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="303" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1ab7b67a4845c8eecd31c5f72beb8e1bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2Server::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::wire::V2Server::start</qualifiedname>
+        <briefdescription>
+<para>Start accepting connections. Non-blocking; spawns I/O threads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="308" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1a5f10804fa18336780439f64c028681af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2Server::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::wire::V2Server::stop</qualifiedname>
+        <briefdescription>
+<para>Stop accepting connections and wait for in-flight work to finish. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="311" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1aa87a7ad6e0bf70b625ea993fcd0d8e62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::wire::V2Server::is_running</definition>
+        <argsstring>() const</argsstring>
+        <name>is_running</name>
+        <qualifiedname>themis::wire::V2Server::is_running</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="313" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1a8e21e337cead2f5106943d50b4c62115" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2Server::set_data_handler</definition>
+        <argsstring>(V2DataHandler handler)</argsstring>
+        <name>set_data_handler</name>
+        <qualifiedname>themis::wire::V2Server::set_data_handler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1a0b5b3e2ac6d3540e9c5001a9a4729727" kindref="member">V2DataHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="317" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1aa7e022b084a52f9a91565a95433a833c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2Server::set_headers_handler</definition>
+        <argsstring>(V2HeadersHandler handler)</argsstring>
+        <name>set_headers_handler</name>
+        <qualifiedname>themis::wire::V2Server::set_headers_handler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1a20ce419a3c89d7f2b96c5102f620afdb" kindref="member">V2HeadersHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="318" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1a276437bd6c17d758488aa91d2af00e2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2Server::set_rst_stream_handler</definition>
+        <argsstring>(V2RstStreamHandler handler)</argsstring>
+        <name>set_rst_stream_handler</name>
+        <qualifiedname>themis::wire::V2Server::set_rst_stream_handler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1wire_1a808e6c5c214e36f46de83d90b47a3f49" kindref="member">V2RstStreamHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="319" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1a0b71fb0c2fb152baf7a6d718381beb3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::wire::V2Server::push_to_client</definition>
+        <argsstring>(const std::string &amp;connection_id, uint32_t associated_sid, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers, const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>push_to_client</name>
+        <qualifiedname>themis::wire::V2Server::push_to_client</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>associated_sid</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Push data to a connected client on a new server-initiated stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifies the target <ref refid="classthemis_1_1wire_1_1_v2_session" kindref="compound">V2Session</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>associated_sid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Client stream that triggered the push. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Headers for the pushed resource. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Payload to push. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the push was enqueued successfully. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="332" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1a984079969fc1a5553c46b9a4efec8ee8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::wire::V2Server::active_connections</definition>
+        <argsstring>() const</argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::wire::V2Server::active_connections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="339" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1a0ceedb72be0e6ecbde2cb8fdf37f6de8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::wire::V2Server::total_streams_opened</definition>
+        <argsstring>() const</argsstring>
+        <name>total_streams_opened</name>
+        <qualifiedname>themis::wire::V2Server::total_streams_opened</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="340" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1abf591fdc9379957b783b632fb5cc917e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::wire::V2Server::total_frames_sent</definition>
+        <argsstring>() const</argsstring>
+        <name>total_frames_sent</name>
+        <qualifiedname>themis::wire::V2Server::total_frames_sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="341" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_server_1a26521de7bdd474ef27ac65ec5fdde549" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::wire::V2Server::total_frames_received</definition>
+        <argsstring>() const</argsstring>
+        <name>total_frames_received</name>
+        <qualifiedname>themis::wire::V2Server::total_frames_received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/network/wire_protocol_v2.hpp" line="342" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Listens for incoming connections and manages <ref refid="classthemis_1_1wire_1_1_v2_session" kindref="compound">V2Session</ref> instances. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="normal">V2ConnectionConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.port<sp/>=<sp/>7890;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_concurrent_streams<sp/>=<sp/>200;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1wire_1_1_v2_server_1a78fb63724034ba57587c79169616e47e" kindref="member">V2Server</ref><sp/>server(cfg);</highlight></codeline>
+<codeline><highlight class="normal">server.set_data_handler([](uint32_t<sp/>sid,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>payload,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>eos)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>handle<sp/>incoming<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">server.start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>run<sp/>event<sp/>loop<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">server.stop();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/network/wire_protocol_v2.hpp" line="296" column="1" bodyfile="include/themis/network/wire_protocol_v2.hpp" bodystart="296" bodyend="347"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1a984079969fc1a5553c46b9a4efec8ee8" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>active_connections</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1ad77e0952edbbae52e48eaaeec9bfffda" prot="private" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1aa87a7ad6e0bf70b625ea993fcd0d8e62" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>is_running</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1aa5ce299ac7a3a0c25cca0c09b771ef11" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1a0b71fb0c2fb152baf7a6d718381beb3d" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>push_to_client</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1a8e21e337cead2f5106943d50b4c62115" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>set_data_handler</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1aa7e022b084a52f9a91565a95433a833c" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>set_headers_handler</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1a276437bd6c17d758488aa91d2af00e2e" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>set_rst_stream_handler</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1ab7b67a4845c8eecd31c5f72beb8e1bf1" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>start</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1a5f10804fa18336780439f64c028681af" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>stop</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1a26521de7bdd474ef27ac65ec5fdde549" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>total_frames_received</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1abf591fdc9379957b783b632fb5cc917e" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>total_frames_sent</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1a0ceedb72be0e6ecbde2cb8fdf37f6de8" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>total_streams_opened</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1a78fb63724034ba57587c79169616e47e" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>V2Server</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1af3efff21f5998bc1a1af3dc29c19c376" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>V2Server</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_server_1a879940732a5155ca0584d2fb6b23e623" prot="public" virt="non-virtual"><scope>themis::wire::V2Server</scope><name>~V2Server</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_i_conflict_resolution_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::process::IConflictResolutionPlugin</compoundname>
+    <includes refid="conflict__resolution__plugin_8h" local="no">conflict_resolution_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1abc8d9d5330e0fd16b620f4f39d6770b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::process::IConflictResolutionPlugin::~IConflictResolutionPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IConflictResolutionPlugin</name>
+        <qualifiedname>themis::process::IConflictResolutionPlugin::~IConflictResolutionPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="283" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a860109025bab4492290b3bff279495d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref></type>
+        <definition>virtual ConflictResolutionResult themis::process::IConflictResolutionPlugin::resolve</definition>
+        <argsstring>(const ModelVersion &amp;local, const ModelVersion &amp;remote, const ConflictContext &amp;ctx)=0</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::process::IConflictResolutionPlugin::resolve</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_conflict_context" kindref="compound">ConflictContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Resolve a conflict between two model versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called when process module detects a conflict during federation sync or replication. Must complete within &lt; 10 ms; timeout triggers fallback to LWW.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local model version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remote model version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conflict context (includes base version if available) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Conflict resolution result with chosen strategy </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="296" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a9a5353e2f8ee81940677029581772462" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::process::IConflictResolutionPlugin::name</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::process::IConflictResolutionPlugin::name</qualifiedname>
+        <briefdescription>
+<para>Get human-readable name of this plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Plugin name (for logging and debugging) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="306" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a05ef0962dc1e2a875e0cdda52e3f533c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::process::IConflictResolutionPlugin::validateMerge</definition>
+        <argsstring>(const ModelVersion &amp;merged) const noexcept</argsstring>
+        <name>validateMerge</name>
+        <qualifiedname>themis::process::IConflictResolutionPlugin::validateMerge</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &amp;</type>
+          <declname>merged</declname>
+        </param>
+        <briefdescription>
+<para>Validate that a merged model is consistent after merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional; called by process module after merge to ensure result is valid.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>merged</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Merged model to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if model is valid (passes schema, no cycles, etc.) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="316" column="18" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="316" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for conflict resolution plugin implementations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Applications must inherit from this and implement <computeroutput><ref refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a860109025bab4492290b3bff279495d2" kindref="member">resolve()</ref></computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/process/conflict_resolution_plugin.h" line="281" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="281" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a9a5353e2f8ee81940677029581772462" prot="public" virt="pure-virtual"><scope>themis::process::IConflictResolutionPlugin</scope><name>name</name></member>
+      <member refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a860109025bab4492290b3bff279495d2" prot="public" virt="pure-virtual"><scope>themis::process::IConflictResolutionPlugin</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1a05ef0962dc1e2a875e0cdda52e3f533c" prot="public" virt="virtual"><scope>themis::process::IConflictResolutionPlugin</scope><name>validateMerge</name></member>
+      <member refid="classthemis_1_1process_1_1_i_conflict_resolution_plugin_1abc8d9d5330e0fd16b620f4f39d6770b0" prot="public" virt="virtual"><scope>themis::process::IConflictResolutionPlugin</scope><name>~IConflictResolutionPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

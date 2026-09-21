@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_query_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::QueryPlan</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_query_plan_1a95f9db0e998bb3a942b01742bb7cc222" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::QueryPlan::query_text</definition>
+        <argsstring></argsstring>
+        <name>query_text</name>
+        <qualifiedname>themis::sharding::QueryPlan::query_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="314" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_query_plan_1a2af4ac64332a202d8e2e491f6047bd75" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1sharding_1a4127b14f8cdd82002b8da96320a7537f" kindref="member">ShardKey</ref> &gt;</type>
+        <definition>std::vector&lt;ShardKey&gt; themis::sharding::QueryPlan::routing_hints</definition>
+        <argsstring></argsstring>
+        <name>routing_hints</name>
+        <qualifiedname>themis::sharding::QueryPlan::routing_hints</qualifiedname>
+        <briefdescription>
+<para>Optional hints restricting routing to a subset of shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="316" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_query_plan_1aa4808f5164815d2449a754881ce87183" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::sharding::QueryPlan::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::sharding::QueryPlan::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="317" column="24" bodyfile="include/sharding/sharding_interfaces.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A logical query plan that can be routed to one or more shards. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="313" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="313" bodyend="318"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_query_plan_1aa4808f5164815d2449a754881ce87183" prot="public" virt="non-virtual"><scope>themis::sharding::QueryPlan</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1sharding_1_1_query_plan_1a95f9db0e998bb3a942b01742bb7cc222" prot="public" virt="non-virtual"><scope>themis::sharding::QueryPlan</scope><name>query_text</name></member>
+      <member refid="structthemis_1_1sharding_1_1_query_plan_1a2af4ac64332a202d8e2e491f6047bd75" prot="public" virt="non-virtual"><scope>themis::sharding::QueryPlan</scope><name>routing_hints</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

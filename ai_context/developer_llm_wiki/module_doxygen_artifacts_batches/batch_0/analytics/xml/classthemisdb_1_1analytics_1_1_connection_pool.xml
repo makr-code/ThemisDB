@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_connection_pool" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ConnectionPool</compoundname>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_connection_pool_1_1_stats" prot="public">themisdb::analytics::ConnectionPool::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_connection_pool_1ac11bb4d5b836124b0eacfb230db58d6e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="71" column="9" bodyfile="src/analytics/analytics_engine.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_connection_pool_1a5a87ddfba5f3fa8d5f3b427f7c1e29ae" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="72" column="9" bodyfile="src/analytics/analytics_engine.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_connection_pool_1ab27ee1ce682ff5eccc154902864e6040" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::used_</definition>
+        <argsstring></argsstring>
+        <name>used_</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::used_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="73" column="9" bodyfile="src/analytics/analytics_engine.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_connection_pool_1ac2b44cfa6891537cd5076ec5a32f1a96" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::peak_used_</definition>
+        <argsstring></argsstring>
+        <name>peak_used_</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::peak_used_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="74" column="9" bodyfile="src/analytics/analytics_engine.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_connection_pool_1a6004579e95f68fee2f7ff48db8a61ec9" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::next_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="75" column="9" bodyfile="src/analytics/analytics_engine.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_pool_1a52ffd8de8760509f8cd1526dad4055f9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ConnectionPool::ConnectionPool</definition>
+        <argsstring>(int size=10)</argsstring>
+        <name>ConnectionPool</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::ConnectionPool</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="30" column="14" bodyfile="src/analytics/analytics_engine.cpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_pool_1aaf4689d374df8aba2204c315cd38d5c4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::acquire</definition>
+        <argsstring>()</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::acquire</qualifiedname>
+        <briefdescription>
+<para>Acquire. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::max(), spdlog::debug(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="37" column="9" bodyfile="src/analytics/analytics_engine.cpp" bodystart="37" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_pool_1aaae4854c76e59a08ebaa0432745fb9a2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ConnectionPool::release</definition>
+        <argsstring>(int connection_id) noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::release</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="49" column="10" bodyfile="src/analytics/analytics_engine.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_pool_1a726bbb1079a5a6211c4422ff3586c449" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_connection_pool_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themisdb::analytics::ConnectionPool::getStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="62" column="11" bodyfile="src/analytics/analytics_engine.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_pool_1a6b182cc7f70bc553cfa7ca5de7baaef5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ConnectionPool::isExhausted</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isExhausted</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::isExhausted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_engine.cpp" line="66" column="10" bodyfile="src/analytics/analytics_engine.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_pool_1a52ffd8de8760509f8cd1526dad4055f9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ConnectionPool::ConnectionPool</definition>
+        <argsstring>(int size=10)</argsstring>
+        <name>ConnectionPool</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::ConnectionPool</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/result_aggregator.cpp" line="28" column="14" bodyfile="src/analytics/result_aggregator.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_pool_1aaf4689d374df8aba2204c315cd38d5c4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::ConnectionPool::acquire</definition>
+        <argsstring>()</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::acquire</qualifiedname>
+        <briefdescription>
+<para>Acquire. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements acquire without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/result_aggregator.cpp" line="35" column="9" bodyfile="src/analytics/result_aggregator.cpp" bodystart="35" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_pool_1aaae4854c76e59a08ebaa0432745fb9a2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ConnectionPool::release</definition>
+        <argsstring>(int connection_id) noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::release</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/result_aggregator.cpp" line="44" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="44" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_connection_pool_1a632e690b5d703b62132c2329d45c16ca" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ConnectionPool::isHealthy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themisdb::analytics::ConnectionPool::isHealthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/result_aggregator.cpp" line="51" column="10" bodyfile="src/analytics/result_aggregator.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/analytics_engine.cpp" line="28" column="1" bodyfile="src/analytics/analytics_engine.cpp" bodystart="28" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1aaf4689d374df8aba2204c315cd38d5c4" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>acquire</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1aaf4689d374df8aba2204c315cd38d5c4" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>acquire</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1ac11bb4d5b836124b0eacfb230db58d6e" prot="private" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>available_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1a52ffd8de8760509f8cd1526dad4055f9" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>ConnectionPool</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1a52ffd8de8760509f8cd1526dad4055f9" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>ConnectionPool</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1a726bbb1079a5a6211c4422ff3586c449" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1a6b182cc7f70bc553cfa7ca5de7baaef5" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>isExhausted</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1a632e690b5d703b62132c2329d45c16ca" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>isHealthy</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1a6004579e95f68fee2f7ff48db8a61ec9" prot="private" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>next_id_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1ac2b44cfa6891537cd5076ec5a32f1a96" prot="private" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>peak_used_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1aaae4854c76e59a08ebaa0432745fb9a2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>release</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1aaae4854c76e59a08ebaa0432745fb9a2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>release</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1a5a87ddfba5f3fa8d5f3b427f7c1e29ae" prot="private" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>total_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_connection_pool_1ab27ee1ce682ff5eccc154902864e6040" prot="private" virt="non-virtual"><scope>themisdb::analytics::ConnectionPool</scope><name>used_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

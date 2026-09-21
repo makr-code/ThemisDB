@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1ae5fc450a0578ba2eeafe16cf8ff0f301" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_LIFE_01_KeyCreationAndRetrieval)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>K-LIFE-01 — Key creation and retrieval. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1ad68ddf8438a810e032770bccd0919f1e" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_LIFE_02_KeyRotationLifecycle)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>K-LIFE-02 — Key rotation: ACTIVE → ROTATING → ACTIVE. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1adc8fc7b367627066138bc1b74137a411" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_LIFE_03_KeyRevocation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>K-LIFE-03 — Key revocation: ACTIVE → REVOKED. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1a76ebd462eebd5fc864c1201db3056610" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_LIFE_04_KeyRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>K-LIFE-04 — Key recovery (optional, depends on recovery policy). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1a63cf0f986bf1435bea1ea0320ffc37ec" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_ERR_01_EncryptionInvalidKey)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>K-ERR-01 — Encryption failure with invalid key material. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1a8df5d1e73e306eccb437b74117a099de" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_ERR_02_DecryptionCorruptedCiphertext)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>K-ERR-02 — Decryption failure with corrupted ciphertext. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1a713e4220e0daf64fe66b2bd5aa1a814b" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_ERR_03_KeyProviderTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>K-ERR-03 — Key-provider timeout (Vault unavailable). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1a5ad4881588dcdc49b3924048dffe8284" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_ERR_04_HSMSigningNofallback)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>K-ERR-04 — HSM signing failure: no fallback to software. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1af90a4d9c80088247d2c922827589b231" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_PROV_01_VaultValidToken)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>K-PROV-01 — Vault provider: valid token, key fetch succeeds. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1a81b8432d744c644dfcc95c15333a161b" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_PROV_02_VaultInvalidToken)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>K-PROV-02 — Vault provider: expired/missing token → error. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1a8dd6c5f9943a470f15b1bc12ae3a0f16" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_PROV_03_HSMSlotUnavailable)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>K-PROV-03 — HSM provider: slot unavailable → fail-closed. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1aaaed88655e4595280730a690289fbb45" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, K_PROV_04_PKICertRotation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>K-PROV-04 — PKI provider: cert rotation maintains key-pair consistency. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase2__crypto__hardening__focused_8cpp_1aaded8ff7d2ef0e64090a686bc1778ca0" kindref="member">TEST_F</ref>  (<ref refid="class_phase2_crypto_hardening_test" kindref="compound">Phase2CryptoHardeningTest</ref>, Phase2Integration_ConcurrentKeyOps)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>Phase 2 Integration: Multi-key lifecycle under concurrent access. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1a91eb5c90763906bd87d0787d1cb8562d" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_RLS_01_SingleConstraint)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>P-RLS-01 — RLS single constraint: user sees only own rows. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1a636f6aeab9a292d724c311843098b649" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_RLS_02_CascadingConstraints)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>P-RLS-02 — RLS cascading constraints: tenant → org → user. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1ab3510b94f0cdb1e1b4b3b0abcd06c704" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_RLS_03_MixedStaticDynamic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>P-RLS-03 — RLS mixed static/dynamic predicates. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1adc858908c016736dae1cac5d57dc0a44" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_RLS_04_NullHandling)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>P-RLS-04 — RLS with NULL handling in constraint column. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1a25cd93f59896cec3b30d0c75714e35ac" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_MRG_01_DenyPrecedence)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>P-MRG-01 — RBAC deny wins over ABAC allow (explicit deny precedence). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1a5e8d6db2a94b9c2d2b6741ab0a063838" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_MRG_02_MostRestrictiveMatch)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>P-MRG-02 — Multiple RBAC rules: most-restrictive-match. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1ab2fa8487990b573fc2df0749faf438cc" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_MRG_03_ABACConflictingAttributes)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>P-MRG-03 — ABAC with conflicting attributes: deterministic precedence. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1a2f4344400242282406dc6bb26204baca" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_MRG_04_MisconfiguredPolicy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>P-MRG-04 — Policy misconfiguration (invalid syntax) → fail-closed. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1a62f328d56fa3611b05a0a1827f9acf60" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_DENY_01_EmptyPolicySet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>P-DENY-01 — No matching rule (empty policy set) → DENIED. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1ad62e68700b6ec02305986f4a110adbbd" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_DENY_02_AmbiguousRules)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>P-DENY-02 — Ambiguous rule set: defaults to most restrictive. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1a9423615725946e68b8f7eda4e8dfa17c" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_DENY_03_EvaluationTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>P-DENY-03 — Policy evaluation timeout → DENIED (fail-closed). </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1aa471f1824c4e9c96281ffc15753307a9" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_DENY_04_ConcurrentPolicyUpdate)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>P-DENY-04 — Concurrent policy updates do not allow bypass. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1a98e04e01de63c42e99730364f7bafd45" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_MASK_01_PIIRedaction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>P-MASK-01 — PII fields redacted for non-privileged callers. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1ab243213b017675a59be7e33d7f8c492f" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, P_MASK_02_MaskingAuditTrail)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>P-MASK-02 — Masking audit trail captures redaction events. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__security__phase3__policy__hardening__focused_8cpp_1ad0f207d7713ade6f153f494b52bf85b5" kindref="member">TEST_F</ref>  (<ref refid="class_phase3_policy_hardening_test" kindref="compound">Phase3PolicyHardeningTest</ref>, Phase3Integration_ComplexPolicy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>Phase 3 Integration: Complex policy with RLS + masking + audit.</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

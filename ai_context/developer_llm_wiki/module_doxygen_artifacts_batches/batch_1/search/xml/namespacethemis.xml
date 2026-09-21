@@ -1,0 +1,570 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_autocomplete_engine" prot="public">themis::AutocompleteEngine</innerclass>
+    <innerclass refid="structthemis_1_1_click_event" prot="public">themis::ClickEvent</innerclass>
+    <innerclass refid="classthemis_1_1_conversational_search" prot="public">themis::ConversationalSearch</innerclass>
+    <innerclass refid="classthemis_1_1_cross_lingual_search" prot="public">themis::CrossLingualSearch</innerclass>
+    <innerclass refid="classthemis_1_1_distributed_hybrid_search" prot="public">themis::DistributedHybridSearch</innerclass>
+    <innerclass refid="structthemis_1_1_expanded_query" prot="public">themis::ExpandedQuery</innerclass>
+    <innerclass refid="classthemis_1_1_faceted_search" prot="public">themis::FacetedSearch</innerclass>
+    <innerclass refid="structthemis_1_1_facet_result" prot="public">themis::FacetResult</innerclass>
+    <innerclass refid="classthemis_1_1_federated_search" prot="public">themis::FederatedSearch</innerclass>
+    <innerclass refid="structthemis_1_1_fuzzy_match" prot="public">themis::FuzzyMatch</innerclass>
+    <innerclass refid="classthemis_1_1_fuzzy_matcher" prot="public">themis::FuzzyMatcher</innerclass>
+    <innerclass refid="classthemis_1_1_hybrid_search" prot="public">themis::HybridSearch</innerclass>
+    <innerclass refid="classthemis_1_1_learning_to_rank" prot="public">themis::LearningToRank</innerclass>
+    <innerclass refid="classthemis_1_1_llm_query_rewriter" prot="public">themis::LlmQueryRewriter</innerclass>
+    <innerclass refid="structthemis_1_1_llm_rerank_candidate" prot="public">themis::LlmRerankCandidate</innerclass>
+    <innerclass refid="classthemis_1_1_llm_reranker" prot="public">themis::LlmReranker</innerclass>
+    <innerclass refid="structthemis_1_1_llm_rerank_result" prot="public">themis::LlmRerankResult</innerclass>
+    <innerclass refid="structthemis_1_1_modal_query" prot="public">themis::ModalQuery</innerclass>
+    <innerclass refid="classthemis_1_1_multi_field_boosted_search" prot="public">themis::MultiFieldBoostedSearch</innerclass>
+    <innerclass refid="structthemis_1_1_multi_modal_result" prot="public">themis::MultiModalResult</innerclass>
+    <innerclass refid="classthemis_1_1_multi_modal_search" prot="public">themis::MultiModalSearch</innerclass>
+    <innerclass refid="classthemis_1_1_negative_keyword_filter" prot="public">themis::NegativeKeywordFilter</innerclass>
+    <innerclass refid="classthemis_1_1_neural_sparse_retrieval" prot="public">themis::NeuralSparseRetrieval</innerclass>
+    <innerclass refid="classthemis_1_1_personalized_ranker" prot="public">themis::PersonalizedRanker</innerclass>
+    <innerclass refid="classthemis_1_1_query_expander" prot="public">themis::QueryExpander</innerclass>
+    <innerclass refid="structthemis_1_1_ranked_result" prot="public">themis::RankedResult</innerclass>
+    <innerclass refid="structthemis_1_1_ranking_features" prot="public">themis::RankingFeatures</innerclass>
+    <innerclass refid="structthemis_1_1_rewritten_query" prot="public">themis::RewrittenQuery</innerclass>
+    <innerclass refid="classthemis_1_1_search_analytics" prot="public">themis::SearchAnalytics</innerclass>
+    <innerclass refid="structthemis_1_1_search_event" prot="public">themis::SearchEvent</innerclass>
+    <innerclass refid="classthemis_1_1_search_highlighter" prot="public">themis::SearchHighlighter</innerclass>
+    <innerclass refid="structthemis_1_1_search_metrics" prot="public">themis::SearchMetrics</innerclass>
+    <innerclass refid="classthemis_1_1_search_result_stream" prot="public">themis::SearchResultStream</innerclass>
+    <innerclass refid="structthemis_1_1_spelling_correction" prot="public">themis::SpellingCorrection</innerclass>
+    <innerclass refid="structthemis_1_1_suggestion" prot="public">themis::Suggestion</innerclass>
+    <innerclass refid="structthemis_1_1_user_interaction" prot="public">themis::UserInteraction</innerclass>
+    <innernamespace refid="namespacethemis_1_1core">themis::core</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1search">themis::search</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1a04c672cfc338b5fb98f1a59cb77950f4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RewriteQuality</name>
+        <qualifiedname>themis::RewriteQuality</qualifiedname>
+        <enumvalue id="namespacethemis_1a04c672cfc338b5fb98f1a59cb77950f4ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <briefdescription>
+<para>LLM-generated rewrites passed all quality checks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a04c672cfc338b5fb98f1a59cb77950f4af35b388d8d4adeab05bce916c73d7a72" prot="public">
+          <name>FALLBACK</name>
+          <briefdescription>
+<para>All LLM rewrites were discarded (e.g. too low overlap); original used. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Result of an LLM-based query rewrite operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Quality of the rewrites returned by <computeroutput><ref refid="classthemis_1_1_llm_query_rewriter_1a8d44b5c1db836cf2926b96b79d2dc73b" kindref="member">LlmQueryRewriter::rewrite()</ref></computeroutput>. Source: AI_ML_IMPACT_ASSESSMENT.md §7, Gap 2 (search/FUTURE_ENHANCEMENTS.md §Gap 2). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="25" column="1" bodyfile="include/search/llm_query_rewriter.h" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Modality</name>
+        <qualifiedname>themis::Modality</qualifiedname>
+        <enumvalue id="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517a61a96ffcb251bb9bf0abf8fec19d0ea8" prot="public">
+          <name>TEXT</name>
+          <briefdescription>
+<para>BM25 fulltext query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517a23a12f67f614b5518c7f1c2465bf95e3" prot="public">
+          <name>IMAGE</name>
+          <briefdescription>
+<para>Pre-computed image embedding (float vector). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517ae423b8bde9bfbfd7e9409b23b23aed91" prot="public">
+          <name>AUDIO</name>
+          <briefdescription>
+<para>Pre-computed audio embedding (float vector). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Any other modality expressed as a float vector. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para><ref refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517" kindref="member">Modality</ref> type for a multi-modal query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/multi_modal_search.h" line="24" column="1" bodyfile="include/search/multi_modal_search.h" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>InteractionType</name>
+        <qualifiedname>themis::InteractionType</qualifiedname>
+        <enumvalue id="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15fa5824b315fdbb0f42abfe1bb03f78c270" prot="public">
+          <name>VIEW</name>
+          <briefdescription>
+<para>User viewed / opened the document (implicit weak signal). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15fa40600390b96d1c218ae0d475f977e25b" prot="public">
+          <name>CLICK</name>
+          <briefdescription>
+<para>User clicked on the document in a result list. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15fa6a56405ceb50e3bd98d866439ae374ab" prot="public">
+          <name>BOOKMARK</name>
+          <briefdescription>
+<para>User bookmarked / saved the document (strong positive signal). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15faa7598964efa10e649f92662b79e8d4d3" prot="public">
+          <name>LIKE</name>
+          <briefdescription>
+<para>User explicitly liked / rated the document (strong positive signal). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15fae6c5b4ba483da6a89dd7d1f58b62d19b" prot="public">
+          <name>DISLIKE</name>
+          <briefdescription>
+<para>User explicitly disliked the document (negative signal). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of user interaction with a document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/personalized_ranker.h" line="26" column="1" bodyfile="include/search/personalized_ranker.h" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1ed" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>SearchErrorCode</name>
+        <qualifiedname>themis::SearchErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0x0000</initializer>
+          <briefdescription>
+<para>No error; operation succeeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda19f97e6f53e6e387aa51e8ecabff560a" prot="public">
+          <name>BM25_NO_RESULTS</name>
+          <initializer>= 0x0001</initializer>
+          <briefdescription>
+<para>BM25 backend returned no candidates. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edafbc25c4084cf2f1950b32ed8aee5bc8f" prot="public">
+          <name>VECTOR_NO_RESULTS</name>
+          <initializer>= 0x0002</initializer>
+          <briefdescription>
+<para>Vector backend returned no candidates. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda6dc4aaf4cc5dbca27bfc97bc6b84c1eb" prot="public">
+          <name>BOTH_BACKENDS_EMPTY</name>
+          <initializer>= 0x0003</initializer>
+          <briefdescription>
+<para>Both BM25 and vector backends returned no candidates. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda75ba1dc6d1326679b1e19a06c1e243e8" prot="public">
+          <name>BM25_BACKEND_UNAVAILABLE</name>
+          <initializer>= 0x0004</initializer>
+          <briefdescription>
+<para>BM25 backend timed out or became unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda21155176002013a456016f838dfd876d" prot="public">
+          <name>VECTOR_BACKEND_UNAVAILABLE</name>
+          <initializer>= 0x0005</initializer>
+          <briefdescription>
+<para>Vector backend timed out or became unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaa188a4c09abb241f50d3507a28d22fca" prot="public">
+          <name>BM25_PARTIAL_RESULTS</name>
+          <initializer>= 0x0006</initializer>
+          <briefdescription>
+<para>BM25 backend returned fewer candidates than requested (partial). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edae2c8000315dbc4cd37e909957210dccd" prot="public">
+          <name>VECTOR_PARTIAL_RESULTS</name>
+          <initializer>= 0x0007</initializer>
+          <briefdescription>
+<para>Vector backend returned fewer candidates than requested (partial). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaf7b60a1ed8a1404e1dd8e39fd96f4c27" prot="public">
+          <name>RRF_FUSION_FAILED</name>
+          <initializer>= 0x1001</initializer>
+          <briefdescription>
+<para>RRF fusion failed due to rank list corruption or underflow. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda43ae750171f68589114878b8527aa95d" prot="public">
+          <name>SCORE_NORMALIZATION_FAILED</name>
+          <initializer>= 0x1002</initializer>
+          <briefdescription>
+<para>Score normalization encountered invalid/infinite values. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda80e2a1b94e3c92cc33d184ff18eb84e5" prot="public">
+          <name>LINEAR_FUSION_FAILED</name>
+          <initializer>= 0x1003</initializer>
+          <briefdescription>
+<para>Linear combination fusion failed due to weight validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1952a953b30c7dbc00aa364d1c15a0b0" prot="public">
+          <name>FUSION_PRODUCED_EMPTY_SET</name>
+          <initializer>= 0x1004</initializer>
+          <briefdescription>
+<para>Fusion produced no results even with partial candidates. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edae077219d84779101003f401ed461cd18" prot="public">
+          <name>SCORE_NORMALIZATION_FALLBACK</name>
+          <initializer>= 0x1005</initializer>
+          <briefdescription>
+<para>Score normalization fallback to identity (no normalization applied). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda85e8cb24e1d413ef772d0ef903955516" prot="public">
+          <name>SHARD_TIMEOUT</name>
+          <initializer>= 0x2001</initializer>
+          <briefdescription>
+<para>Shard query timed out and was skipped. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda02f4aaba3f2d5d668cb9576c2f999a3e" prot="public">
+          <name>SHARD_HTTP_ERROR</name>
+          <initializer>= 0x2002</initializer>
+          <briefdescription>
+<para>Shard returned HTTP error or malformed response. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda2c9620f6406996a3ff1bc966bde596d2" prot="public">
+          <name>SHARD_UNREACHABLE</name>
+          <initializer>= 0x2003</initializer>
+          <briefdescription>
+<para>Shard was unreachable (network error). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda7dfe93b66d4ba6c2c521c607531c3dfa" prot="public">
+          <name>ALL_SHARDS_FAILED</name>
+          <initializer>= 0x2004</initializer>
+          <briefdescription>
+<para>All shards failed; no results available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda3c9a89be675e3805e283b641217d9eec" prot="public">
+          <name>PARTIAL_SHARD_FAILURE</name>
+          <initializer>= 0x2005</initializer>
+          <briefdescription>
+<para>Some (but not all) shards failed; result is partial. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda63414df40399e0cac01f313c8e2d246f" prot="public">
+          <name>MERGE_CANDIDATE_DEFICIT</name>
+          <initializer>= 0x2006</initializer>
+          <briefdescription>
+<para>Distributed merge resulted in fewer results than k due to shard failures. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edab517c2d5b6337808374cd2984a3d12df" prot="public">
+          <name>HIGH_CARDINALITY_OVERLAP</name>
+          <initializer>= 0x2007</initializer>
+          <briefdescription>
+<para>High-cardinality overlap detected; merge behavior may diverge from expected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda8497857c3cb332712625bbc19e3d44dd" prot="public">
+          <name>SHARD_RANKING_CONFLICT</name>
+          <initializer>= 0x2008</initializer>
+          <briefdescription>
+<para>Shard result ordering conflict detected during merge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda86c95a19043e6034a30b481911bc4f18" prot="public">
+          <name>EXPANSION_LIMIT_EXCEEDED</name>
+          <initializer>= 0x3001</initializer>
+          <briefdescription>
+<para>Query expansion exceeded maximum expansion count. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edabd74348469e20543d2cc60db18430e62" prot="public">
+          <name>FUZZY_MATCHING_FALLBACK</name>
+          <initializer>= 0x3002</initializer>
+          <briefdescription>
+<para>Fuzzy matching failed; reverting to exact match. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaba06e482c857c5ba49421a2a17cca500" prot="public">
+          <name>FACET_CARDINALITY_LIMIT</name>
+          <initializer>= 0x3003</initializer>
+          <briefdescription>
+<para>Faceting aggregation exceeded cardinality limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edafe82abf6ce77ff7c7d5e3d2d1bae1836" prot="public">
+          <name>RERANKER_BACKEND_UNAVAILABLE</name>
+          <initializer>= 0x3004</initializer>
+          <briefdescription>
+<para>LLM reranker backend unavailable; using base ranking. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda204f9e75078ba563b2b160267d1d2713" prot="public">
+          <name>RERANKER_TIMEOUT</name>
+          <initializer>= 0x3005</initializer>
+          <briefdescription>
+<para>LLM reranker timed out; using base ranking. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda006229578129e2d0bfa1aa3c789b3780" prot="public">
+          <name>RERANKER_INVALID_SCORES</name>
+          <initializer>= 0x3006</initializer>
+          <briefdescription>
+<para>LLM reranker returned invalid score format. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1ae1a6b851cb0e116d1e6faa76bdc310" prot="public">
+          <name>QUERY_REWRITER_FAILED</name>
+          <initializer>= 0x3007</initializer>
+          <briefdescription>
+<para>Query rewriter failed; using original query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1b369d4231f9f2e69bd5f6aee4342fec" prot="public">
+          <name>HIGHLIGHTING_PARTIAL_FAILURE</name>
+          <initializer>= 0x3008</initializer>
+          <briefdescription>
+<para>Result highlighting failed for subset of results. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda3a69ec7b88a7af6500d2b6692d8ee080" prot="public">
+          <name>STREAM_CURSOR_OUT_OF_BOUNDS</name>
+          <initializer>= 0x3009</initializer>
+          <briefdescription>
+<para>Streaming cursor exceeded bounds. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda66fd97287f6d3e1d4706a9c5050f7097" prot="public">
+          <name>ANALYTICS_BUFFER_FULL</name>
+          <initializer>= 0x4001</initializer>
+          <briefdescription>
+<para>Analytics event buffer full; discarding old events. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edab766cc89750bf2564e229c87477b774d" prot="public">
+          <name>ANALYTICS_RECORD_FAILED</name>
+          <initializer>= 0x4002</initializer>
+          <briefdescription>
+<para>Analytics recording failed; event not captured. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Explicit error taxonomy for search module failure modes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This enumeration defines all failure classes that can occur during search retrieval, fusion, distributed merge, and utility operations. Each error code maps to a deterministic failure mode and suggests recovery/fallback behavior.</para>
+<para>Error codes are organized by category:<itemizedlist>
+<listitem><para>0x0000-0x0FFF: Retrieval errors (lexical/vector candidate deficits)</para>
+</listitem><listitem><para>0x1000-0x1FFF: Fusion errors (score normalization, RRF failures)</para>
+</listitem><listitem><para>0x2000-0x2FFF: Distributed merge errors (shard failures, merge conflicts)</para>
+</listitem><listitem><para>0x3000-0x3FFF: Utility errors (expansion, reranking, faceting limits)</para>
+</listitem><listitem><para>0x4000-0x4FFF: Analytics and observability errors</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="since"><para>v2.0.0 (Phase 1: Contract Freeze) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_error_codes.h" line="37" column="1" bodyfile="include/search/search_error_codes.h" bodystart="37" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, float &gt;</type>
+        <definition>using themis::SparseVector = std::unordered_map&lt;std::string, float&gt;</definition>
+        <argsstring></argsstring>
+        <name>SparseVector</name>
+        <qualifiedname>themis::SparseVector</qualifiedname>
+        <briefdescription>
+<para>Sparse term-weight vector produced by a neural encoder (e.g. SPLADE). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maps vocabulary term strings to their learned activation weights. Only non-zero terms are stored (sparse representation). Weight values must be non-negative; negative weights are silently clamped to zero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="28" column="1" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a8aa9f5686a38b01b69c36deb4e1b7ce5" prot="public" static="no">
+        <type>std::function&lt; <ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref>(const std::string &amp;)&gt;</type>
+        <definition>using themis::SparseEncoderBackend = std::function&lt;SparseVector(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SparseEncoderBackend</name>
+        <qualifiedname>themis::SparseEncoderBackend</qualifiedname>
+        <briefdescription>
+<para>Callable that encodes a text string into a <ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations should produce non-negative term weights. The backend is injected at runtime, keeping this class free of hard ML-library dependencies (the same pattern used by <ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmReranker::LlmBackend</ref>).</para>
+<para>Example (identity encoder for testing): <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="namespacethemis_1a8aa9f5686a38b01b69c36deb4e1b7ce5" kindref="member">SparseEncoderBackend</ref><sp/>enc<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kindref="member">SparseVector</ref><sp/>sv;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>token<sp/>:<sp/>tokenize(text))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sv[token]<sp/>+=<sp/>1.0f;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sv;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/neural_sparse_retrieval.h" line="47" column="1" bodyfile="include/search/neural_sparse_retrieval.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1a8856cac7af9f34286e873cb0dfb163f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::searchErrorCodeToString</definition>
+        <argsstring>(SearchErrorCode code)</argsstring>
+        <name>searchErrorCodeToString</name>
+        <qualifiedname>themis::searchErrorCodeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1ed" kindref="member">SearchErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1ed" kindref="member">SearchErrorCode</ref> to human-readable string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code to convert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Descriptive string for the error code. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/search_error_codes.h" line="160" column="20" bodyfile="include/search/search_error_codes.h" bodystart="160" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/autocomplete.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fixed_rag_cost_model_service" kind="class" language="C++" prot="public">
+    <compoundname>FixedRagCostModelService</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_rag_cost_model_service" prot="public" virt="non-virtual">themis::llm::IRagCostModelService</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_fixed_rag_cost_model_service_1a9d0110765dca636c72811f5c305567ed" prot="public" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int FixedRagCostModelService::last_tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>last_tokens_generated</name>
+        <qualifiedname>FixedRagCostModelService::last_tokens_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="201" column="17" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_fixed_rag_cost_model_service_1aee87cb2b25d27d5052e2f258f866d65e" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double FixedRagCostModelService::total_cost_</definition>
+        <argsstring></argsstring>
+        <name>total_cost_</name>
+        <qualifiedname>FixedRagCostModelService::total_cost_</qualifiedname>
+        <initializer>= 12.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="204" column="12" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_fixed_rag_cost_model_service_1a415e168d1f25cb53e88a3708e86ddff8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FixedRagCostModelService::FixedRagCostModelService</definition>
+        <argsstring>(double total=12.5)</argsstring>
+        <name>FixedRagCostModelService</name>
+        <qualifiedname>FixedRagCostModelService::FixedRagCostModelService</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>total</declname>
+          <defval>12.5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="184" column="14" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="184" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fixed_rag_cost_model_service_1a471f2e7c0f878c506e9db10888b94cc0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_rag_cost_estimate" kindref="compound">RagCostEstimate</ref> &gt;</type>
+        <definition>std::optional&lt; RagCostEstimate &gt; FixedRagCostModelService::estimate</definition>
+        <argsstring>(const RagCostModelInput &amp;input) const override</argsstring>
+        <name>estimate</name>
+        <qualifiedname>FixedRagCostModelService::estimate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_rag_cost_model_service_1a948df55eeb46e7d7a60929624e687341">estimate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_rag_cost_model_input" kindref="compound">RagCostModelInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="188" column="5" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="188" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FixedRagCostModelService</label>
+        <link refid="class_fixed_rag_cost_model_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IRagCostModelService</label>
+        <link refid="classthemis_1_1llm_1_1_i_rag_cost_model_service"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FixedRagCostModelService</label>
+        <link refid="class_fixed_rag_cost_model_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IRagCostModelService</label>
+        <link refid="classthemis_1_1llm_1_1_i_rag_cost_model_service"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_ai_orchestrator.cpp" line="182" column="1" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="182" bodyend="205"/>
+    <listofallmembers>
+      <member refid="class_fixed_rag_cost_model_service_1a471f2e7c0f878c506e9db10888b94cc0" prot="public" virt="virtual"><scope>FixedRagCostModelService</scope><name>estimate</name></member>
+      <member refid="class_fixed_rag_cost_model_service_1a415e168d1f25cb53e88a3708e86ddff8" prot="public" virt="non-virtual"><scope>FixedRagCostModelService</scope><name>FixedRagCostModelService</name></member>
+      <member refid="class_fixed_rag_cost_model_service_1a9d0110765dca636c72811f5c305567ed" prot="public" virt="non-virtual"><scope>FixedRagCostModelService</scope><name>last_tokens_generated</name></member>
+      <member refid="class_fixed_rag_cost_model_service_1aee87cb2b25d27d5052e2f258f866d65e" prot="private" virt="non-virtual"><scope>FixedRagCostModelService</scope><name>total_cost_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_rag_cost_model_service_1a69acfab3101ac7d0e548a966a52c12f0" prot="public" virt="virtual"><scope>FixedRagCostModelService</scope><name>~IRagCostModelService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

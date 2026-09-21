@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::LLMTimeoutManager::TimeoutConfig</compoundname>
+    <includes refid="llm__timeout__manager_8h" local="no">llm_timeout_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad8f3ba3acee7afc9afdbd84e91237633" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::aql::LLMTimeoutManager::TimeoutConfig::infer_timeout</definition>
+        <argsstring></argsstring>
+        <name>infer_timeout</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::TimeoutConfig::infer_timeout</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+<para>Soft default: 5 minutes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="29" column="30" bodyfile="include/aql/llm_timeout_manager.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1a298570233acbeed0415bd2acfc0b2256" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::aql::LLMTimeoutManager::TimeoutConfig::rag_timeout</definition>
+        <argsstring></argsstring>
+        <name>rag_timeout</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::TimeoutConfig::rag_timeout</qualifiedname>
+        <initializer>{600}</initializer>
+        <briefdescription>
+<para>Soft default: 10 minutes (RAG is slower). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="30" column="30" bodyfile="include/aql/llm_timeout_manager.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1a293fa2f1025e46d69d3c2e1212d1e1a7" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::aql::LLMTimeoutManager::TimeoutConfig::embed_timeout</definition>
+        <argsstring></argsstring>
+        <name>embed_timeout</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::TimeoutConfig::embed_timeout</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Soft default: 1 minute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="31" column="30" bodyfile="include/aql/llm_timeout_manager.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1acb0e4d0653424ba89b83e4035b3ba63c" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::aql::LLMTimeoutManager::TimeoutConfig::model_load_timeout</definition>
+        <argsstring></argsstring>
+        <name>model_load_timeout</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::TimeoutConfig::model_load_timeout</qualifiedname>
+        <initializer>{900}</initializer>
+        <briefdescription>
+<para>Soft default: 15 minutes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="32" column="30" bodyfile="include/aql/llm_timeout_manager.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad87bf593572930cf63eb0c9c90f2ac45" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config" kindref="compound">TimeoutConfig</ref></type>
+        <definition>static TimeoutConfig themis::aql::LLMTimeoutManager::TimeoutConfig::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::aql::LLMTimeoutManager::TimeoutConfig::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_timeout_manager.h" line="38" column="30" bodyfile="include/aql/llm_timeout_manager.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_timeout_manager.h" line="28" column="5" bodyfile="include/aql/llm_timeout_manager.h" bodystart="28" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad87bf593572930cf63eb0c9c90f2ac45" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager::TimeoutConfig</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1a293fa2f1025e46d69d3c2e1212d1e1a7" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager::TimeoutConfig</scope><name>embed_timeout</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1ad8f3ba3acee7afc9afdbd84e91237633" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager::TimeoutConfig</scope><name>infer_timeout</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1acb0e4d0653424ba89b83e4035b3ba63c" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager::TimeoutConfig</scope><name>model_load_timeout</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_timeout_manager_1_1_timeout_config_1a298570233acbeed0415bd2acfc0b2256" prot="public" virt="non-virtual"><scope>themis::aql::LLMTimeoutManager::TimeoutConfig</scope><name>rag_timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

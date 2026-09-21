@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::QueryRateLimiter</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter_1ab077d7746179d31ee9198e43a0ce354c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::GraphQueryOptimizer::QueryRateLimiter::max_qps</definition>
+        <argsstring></argsstring>
+        <name>max_qps</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryRateLimiter::max_qps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = no limit </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="197" column="18" bodyfile="include/graph/graph_query_optimizer.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter_1a4b51aeefd2e2b876b63b5caff23555b2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphQueryOptimizer::QueryRateLimiter::window_epoch_s_</definition>
+        <argsstring></argsstring>
+        <name>window_epoch_s_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryRateLimiter::window_epoch_s_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="234" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter_1a2d53ed677dddcb9cfd9dd8c7341ddb95" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphQueryOptimizer::QueryRateLimiter::query_count_</definition>
+        <argsstring></argsstring>
+        <name>query_count_</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryRateLimiter::query_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="235" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="235" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter_1ae596ccfb3c7fd707c84c3b0264c5d9c6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryOptimizer::QueryRateLimiter::allowQuery</definition>
+        <argsstring>()</argsstring>
+        <name>allowQuery</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::QueryRateLimiter::allowQuery</qualifiedname>
+        <briefdescription>
+<para>Allow Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), load(), compare_exchange_strong(), store(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="204" column="14" bodyfile="include/graph/graph_query_optimizer.h" bodystart="204" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="196" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="196" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter_1ae596ccfb3c7fd707c84c3b0264c5d9c6" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryRateLimiter</scope><name>allowQuery</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter_1ab077d7746179d31ee9198e43a0ce354c" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryRateLimiter</scope><name>max_qps</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter_1a2d53ed677dddcb9cfd9dd8c7341ddb95" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryRateLimiter</scope><name>query_count_</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_rate_limiter_1a4b51aeefd2e2b876b63b5caff23555b2" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::QueryRateLimiter</scope><name>window_epoch_s_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="http3__production__config_8h" kind="file" language="C++">
+    <compoundname>http3_production_config.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="http3__production__config_8cpp" local="yes">src/server/http3_production_config.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/http3_production_config.h</label>
+        <link refid="http3__production__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/http3_production_config.h</label>
+        <link refid="http3__production__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/http3_production_config.cpp</label>
+        <link refid="http3__production__config_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1server_1_1_http3_production_config" prot="public">themis::server::Http3ProductionConfig</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_http3_connection_metrics" prot="public">themis::server::Http3ConnectionMetrics</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot" prot="public">themis::server::Http3ConnectionMetrics::Snapshot</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_http3_fallback_manager" prot="public">themis::server::Http3FallbackManager</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_http3_fallback_manager_1_1_client_state" prot="private">themis::server::Http3FallbackManager::ClientState</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Congestion<sp/>Control<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77c" kindref="member">Http3CongestionAlgorithm</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77caec6b5414eb175379ff9efc9b3eef5814" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77caec6b5414eb175379ff9efc9b3eef5814" kindref="member">Cubic</ref><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77ca77b6e24f5b78b6eb0697aa8994ce15e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77ca77b6e24f5b78b6eb0697aa8994ce15e9" kindref="member">Reno</ref><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77ca75b0454dcb25b99d9336fcd2108f59f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77ca75b0454dcb25b99d9336fcd2108f59f9" kindref="member">Bbr</ref><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1server_1_1_http3_production_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_http3_production_config_1a2c4a78edea62bfdcfe39b36752069ce0" kindref="member">Http3ProductionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Congestion<sp/>control<sp/>------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1server_1_1_http3_production_config_1ab382a4deb382302c499c18c93b850d4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77c" kindref="member">Http3CongestionAlgorithm</ref><sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1ab382a4deb382302c499c18c93b850d4d" kindref="member">cc_algorithm</ref><sp/>=<sp/><ref refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77ca75b0454dcb25b99d9336fcd2108f59f9" kindref="member">Http3CongestionAlgorithm::Bbr</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>0-RTT<sp/>/<sp/>session<sp/>resumption<sp/>----------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1server_1_1_http3_production_config_1ac24d8c62ca4eb593e1589e06e7c4c7f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1ac24d8c62ca4eb593e1589e06e7c4c7f8" kindref="member">enable_0rtt</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1server_1_1_http3_production_config_1ad5b5a6cf4a281922b2c8c1cd514e6ba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1ad5b5a6cf4a281922b2c8c1cd514e6ba6" kindref="member">session_ticket_lifetime_secs</ref><sp/>=<sp/>86400;<sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Connection<sp/>migration<sp/>----------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1server_1_1_http3_production_config_1abbc4754efc2742fe76544961e488b1ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1abbc4754efc2742fe76544961e488b1ae" kindref="member">enable_migration</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1server_1_1_http3_production_config_1a92ab5107f9e46dc5cfab36f79fba14f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1a92ab5107f9e46dc5cfab36f79fba14f7" kindref="member">strict_path_validation</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Fallback<sp/>to<sp/>HTTP/2<sp/>on<sp/>QUIC<sp/>failure<sp/>--------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1server_1_1_http3_production_config_1a8176d1353bb826bd1dbcb2605bbe28b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1a8176d1353bb826bd1dbcb2605bbe28b6" kindref="member">enable_http2_fallback</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1server_1_1_http3_production_config_1a38b2fc5e0295ed86c2d6dca9af0b89f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1a38b2fc5e0295ed86c2d6dca9af0b89f4" kindref="member">fallback_failure_threshold</ref><sp/><sp/><sp/>=<sp/>3;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1server_1_1_http3_production_config_1ab09a16389866614359f4bd1e776e8171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1ab09a16389866614359f4bd1e776e8171" kindref="member">fallback_recovery_secs</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300;<sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Flow-control<sp/>/<sp/>transport<sp/>tuning<sp/>-----------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1server_1_1_http3_production_config_1aa8e20e37acf48c89dc89a5f7edd52f4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1aa8e20e37acf48c89dc89a5f7edd52f4e" kindref="member">initial_max_data</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1server_1_1_http3_production_config_1a76f9602a49f6b3f045d527348fccec62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1a76f9602a49f6b3f045d527348fccec62" kindref="member">initial_max_stream_data_bidi</ref><sp/><sp/><sp/>=<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1server_1_1_http3_production_config_1a9f31118c8a7d802cd989440f43f5bf76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1a9f31118c8a7d802cd989440f43f5bf76" kindref="member">initial_max_stream_data_uni</ref><sp/><sp/><sp/><sp/>=<sp/>512<sp/><sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1server_1_1_http3_production_config_1aaca52c274d0a79113bb87a2371598b23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1aaca52c274d0a79113bb87a2371598b23" kindref="member">initial_max_streams_bidi</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1server_1_1_http3_production_config_1a50bfad2aaf33c46bdc3b9c127339838d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1a50bfad2aaf33c46bdc3b9c127339838d" kindref="member">initial_max_streams_uni</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Metrics<sp/>-----------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1server_1_1_http3_production_config_1aa90b70ad7b2073f6be39a0fc422379c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1aa90b70ad7b2073f6be39a0fc422379c0" kindref="member">enable_performance_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1server_1_1_http3_production_config_1a2c4a78edea62bfdcfe39b36752069ce0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_production_config_1a2c4a78edea62bfdcfe39b36752069ce0" kindref="member">Http3ProductionConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-Connection<sp/>Performance<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1server_1_1_http3_connection_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5c7eab789905dece560d07a7c4003939" kindref="member">Http3ConnectionMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Handshake<sp/>timing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a438b0765e75677656f50b32c46f4eb60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a438b0765e75677656f50b32c46f4eb60" kindref="member">handshake_start_us</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a1ca0c3cc1b5ca0b535306c3cb7154974" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a1ca0c3cc1b5ca0b535306c3cb7154974" kindref="member">handshake_end_us</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5748f52983f53d8a7f5823f4ec05ea16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5748f52983f53d8a7f5823f4ec05ea16" kindref="member">zero_rtt_used</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Traffic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a47d041434f5af8351b63e08fb6de9bfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a47d041434f5af8351b63e08fb6de9bfa" kindref="member">bytes_sent</ref><sp/><sp/><sp/><sp/><sp/>{0};</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5f2da3e67d57d0d84569a575fdba03ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5f2da3e67d57d0d84569a575fdba03ee" kindref="member">bytes_received</ref><sp/>{0};</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a8cda935791c9531e5b7936f46c7b0414" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a8cda935791c9531e5b7936f46c7b0414" kindref="member">requests_total</ref><sp/>{0};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cumulative<sp/>request<sp/>latency<sp/>(microseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a6573c6ec336e1b5b9a1c5dbda6b896fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a6573c6ec336e1b5b9a1c5dbda6b896fb" kindref="member">request_latency_total_us</ref><sp/>{0};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>migration<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a4413e1cc2ed312c6060f9d781defd1e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a4413e1cc2ed312c6060f9d781defd1e1" kindref="member">migration_count</ref><sp/>{0};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5c7eab789905dece560d07a7c4003939" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5c7eab789905dece560d07a7c4003939" kindref="member">Http3ConnectionMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable<sp/>due<sp/>to<sp/>atomics;<sp/>provide<sp/>an<sp/>explicit<sp/>snapshot<sp/>for<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot" kindref="compound">Snapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1aaaa0eb73c79e60b695558c6213a35044" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1aaaa0eb73c79e60b695558c6213a35044" kindref="member">handshake_start_us</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1ad09c53104baa8eefb7ed04fb5445bb5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1ad09c53104baa8eefb7ed04fb5445bb5f" kindref="member">handshake_end_us</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1afc85c568f770e14bd2802c04751c5b45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1afc85c568f770e14bd2802c04751c5b45" kindref="member">handshake_duration_us</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a4c37bf3d3d929c0eb11a6f819bed6957" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a4c37bf3d3d929c0eb11a6f819bed6957" kindref="member">zero_rtt_used</ref>;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1adc16298bdf3fbd3af9f417a945afe851" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1adc16298bdf3fbd3af9f417a945afe851" kindref="member">bytes_sent</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1ab1dc27de9b35d6bb56da8e79e1ef25a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1ab1dc27de9b35d6bb56da8e79e1ef25a6" kindref="member">bytes_received</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a5bbb6f3129740052251f70b9f35feb4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a5bbb6f3129740052251f70b9f35feb4e" kindref="member">requests_total</ref>;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a8bbbf65e26490519c6a393f7561258f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a8bbbf65e26490519c6a393f7561258f5" kindref="member">avg_request_latency_us</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a9cb8d8cf4e6e56eba3da897d7c1a5db1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a9cb8d8cf4e6e56eba3da897d7c1a5db1" kindref="member">migration_count</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1server_1_1_http3_connection_metrics_1a957da35de28b02afd60c28d3cf02ae18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot" kindref="compound">Snapshot</ref><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a957da35de28b02afd60c28d3cf02ae18" kindref="member">snapshot</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot" kindref="compound">Snapshot</ref><sp/>s{};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1aaaa0eb73c79e60b695558c6213a35044" kindref="member">handshake_start_us</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a438b0765e75677656f50b32c46f4eb60" kindref="member">handshake_start_us</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1ad09c53104baa8eefb7ed04fb5445bb5f" kindref="member">handshake_end_us</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a1ca0c3cc1b5ca0b535306c3cb7154974" kindref="member">handshake_end_us</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1afc85c568f770e14bd2802c04751c5b45" kindref="member">handshake_duration_us</ref><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a1ca0c3cc1b5ca0b535306c3cb7154974" kindref="member">handshake_end_us</ref><sp/>-<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a438b0765e75677656f50b32c46f4eb60" kindref="member">handshake_start_us</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a4c37bf3d3d929c0eb11a6f819bed6957" kindref="member">zero_rtt_used</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5748f52983f53d8a7f5823f4ec05ea16" kindref="member">zero_rtt_used</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1adc16298bdf3fbd3af9f417a945afe851" kindref="member">bytes_sent</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a47d041434f5af8351b63e08fb6de9bfa" kindref="member">bytes_sent</ref>.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1ab1dc27de9b35d6bb56da8e79e1ef25a6" kindref="member">bytes_received</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a5f2da3e67d57d0d84569a575fdba03ee" kindref="member">bytes_received</ref>.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a5bbb6f3129740052251f70b9f35feb4e" kindref="member">requests_total</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a8cda935791c9531e5b7936f46c7b0414" kindref="member">requests_total</ref>.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>n<sp/><sp/>=<sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a5bbb6f3129740052251f70b9f35feb4e" kindref="member">requests_total</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>lt<sp/>=<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a6573c6ec336e1b5b9a1c5dbda6b896fb" kindref="member">request_latency_total_us</ref>.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a8bbbf65e26490519c6a393f7561258f5" kindref="member">avg_request_latency_us</ref><sp/><sp/>=<sp/>(n<sp/>&gt;<sp/>0)<sp/>?<sp/>(lt<sp/>/<sp/>n)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1_1_snapshot_1a9cb8d8cf4e6e56eba3da897d7c1a5db1" kindref="member">migration_count</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1server_1_1_http3_connection_metrics_1a4413e1cc2ed312c6060f9d781defd1e1" kindref="member">migration_count</ref>.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HTTP/2<sp/>Fallback<sp/>Manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1server_1_1_http3_fallback_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_http3_fallback_manager_1a777f93c23d849fd14e73c96dfcfebbce" kindref="member">Http3FallbackManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http3_fallback_manager_1a777f93c23d849fd14e73c96dfcfebbce" kindref="member">Http3FallbackManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_http3_production_config" kindref="compound">Http3ProductionConfig</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http3_fallback_manager_1ae2e7073f6ddc68dd866375c2c10bb417" kindref="member">recordQuicFailure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_ip);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http3_fallback_manager_1abb6c21c2b78cbbc6ba61befaef87217b" kindref="member">recordQuicSuccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_ip);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http3_fallback_manager_1acee328c62788277b4acab8d57aec2c36" kindref="member">shouldFallbackToHttp2</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_ip)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1server_1_1_http3_fallback_manager_1a4565f35eeb8f4d096a9605266846fff3" kindref="member">altSvcValue</ref>(uint16_t<sp/>h3_port,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_ip)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http3_fallback_manager_1a7bd29e293ecb44453e2a32e70d34a563" kindref="member">purgeExpired</ref>();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_http3_fallback_manager_1aa73385784e20820d773cf40ef438ec60" kindref="member">fallbackClientCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ClientState<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>failure_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>fallback_until;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>in_fallback<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_http3_production_config" kindref="compound">Http3ProductionConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ClientState&gt;<sp/>clients_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/http3_production_config.h"/>
+  </compounddef>
+</doxygen>

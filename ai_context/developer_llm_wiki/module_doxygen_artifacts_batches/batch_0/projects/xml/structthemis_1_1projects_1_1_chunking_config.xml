@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_chunking_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::ChunkingConfig</compoundname>
+    <includes refid="document__manager_8h" local="no">document_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_chunking_config_1a02f7bb27fb05364b30638a7d9f012abd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::projects::ChunkingConfig::chunk_size_tokens</definition>
+        <argsstring></argsstring>
+        <name>chunk_size_tokens</name>
+        <qualifiedname>themis::projects::ChunkingConfig::chunk_size_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="77" column="9" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_chunking_config_1a15b43a939d8c4da00cc6b5d60fcaa22a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::projects::ChunkingConfig::overlap_tokens</definition>
+        <argsstring></argsstring>
+        <name>overlap_tokens</name>
+        <qualifiedname>themis::projects::ChunkingConfig::overlap_tokens</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="78" column="9" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_chunking_config_1a1a82c44091b398055d131ba66057f5df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::ChunkingConfig::preserve_sentences</definition>
+        <argsstring></argsstring>
+        <name>preserve_sentences</name>
+        <qualifiedname>themis::projects::ChunkingConfig::preserve_sentences</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="79" column="10" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_chunking_config_1ae5f908046f27d8e8c601cf94e10eeb44" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ChunkingConfig::toStrategyString</definition>
+        <argsstring>() const</argsstring>
+        <name>toStrategyString</name>
+        <qualifiedname>themis::projects::ChunkingConfig::toStrategyString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="81" column="17" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="81" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Chunking Configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/DocumentManager/document_manager.h" line="76" column="1" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="76" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_chunking_config_1a02f7bb27fb05364b30638a7d9f012abd" prot="public" virt="non-virtual"><scope>themis::projects::ChunkingConfig</scope><name>chunk_size_tokens</name></member>
+      <member refid="structthemis_1_1projects_1_1_chunking_config_1a15b43a939d8c4da00cc6b5d60fcaa22a" prot="public" virt="non-virtual"><scope>themis::projects::ChunkingConfig</scope><name>overlap_tokens</name></member>
+      <member refid="structthemis_1_1projects_1_1_chunking_config_1a1a82c44091b398055d131ba66057f5df" prot="public" virt="non-virtual"><scope>themis::projects::ChunkingConfig</scope><name>preserve_sentences</name></member>
+      <member refid="structthemis_1_1projects_1_1_chunking_config_1ae5f908046f27d8e8c601cf94e10eeb44" prot="public" virt="non-virtual"><scope>themis::projects::ChunkingConfig</scope><name>toStrategyString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

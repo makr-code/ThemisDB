@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_artifact_integrity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ArtifactIntegrity</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="no">artifact_manifest.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_artifact_integrity_1a4d8bd82af4f5706ae36968f2bd1312c8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::ArtifactIntegrity::crc32</definition>
+        <argsstring></argsstring>
+        <name>crc32</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactIntegrity::crc32</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="216" column="14" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_artifact_integrity_1a5375e56140ccd00b6b717ad9f43e11cf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ArtifactIntegrity::payload_bytes</definition>
+        <argsstring></argsstring>
+        <name>payload_bytes</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactIntegrity::payload_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="218" column="14" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_artifact_integrity_1a1c932a94ce9cb152b1974db3c2490d48" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ArtifactIntegrity::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactIntegrity::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="220" column="11" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/artifact_manifest.h" line="215" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="215" bodyend="221"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_integrity_1a4d8bd82af4f5706ae36968f2bd1312c8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactIntegrity</scope><name>crc32</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_integrity_1a1c932a94ce9cb152b1974db3c2490d48" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactIntegrity</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_artifact_integrity_1a5375e56140ccd00b6b717ad9f43e11cf" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ArtifactIntegrity</scope><name>payload_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

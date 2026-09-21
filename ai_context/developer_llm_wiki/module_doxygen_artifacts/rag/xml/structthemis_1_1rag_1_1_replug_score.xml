@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_replug_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::ReplugScore</compoundname>
+    <includes refid="replug__retriever_8h" local="no">replug_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_score_1a3a3a2477c02e0a77fc74d7fe3070af0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::ReplugScore::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::rag::ReplugScore::document_id</qualifiedname>
+        <briefdescription>
+<para>Matches RetrievedDocument::id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="118" column="17" bodyfile="include/rag/replug_retriever.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_score_1ad5d366667b7ca570c00c7d3ea4581667" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::ReplugScore::retrieval_score</definition>
+        <argsstring></argsstring>
+        <name>retrieval_score</name>
+        <qualifiedname>themis::rag::ReplugScore::retrieval_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Original retrieval score (normalised). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="119" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_score_1ae94536f6a7adca02ee07e50ce45c8143" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::ReplugScore::llm_score</definition>
+        <argsstring></argsstring>
+        <name>llm_score</name>
+        <qualifiedname>themis::rag::ReplugScore::llm_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>LLM scorer output (normalised). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="120" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_score_1acf917f407a7a532995552d7d86aa596d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::ReplugScore::fused_score</definition>
+        <argsstring></argsstring>
+        <name>fused_score</name>
+        <qualifiedname>themis::rag::ReplugScore::fused_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>(1-λ)*retrieval + λ*llm </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="121" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_replug_score_1a4516eca9588e727dd37ee7aaaa0904a1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::ReplugScore::kl_gradient</definition>
+        <argsstring></argsstring>
+        <name>kl_gradient</name>
+        <qualifiedname>themis::rag::ReplugScore::kl_gradient</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>KL-divergence gradient (REPLUG-LSR). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="122" column="12" bodyfile="include/rag/replug_retriever.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-document score breakdown from a REPLUG fusion call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/replug_retriever.h" line="117" column="1" bodyfile="include/rag/replug_retriever.h" bodystart="117" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_replug_score_1a3a3a2477c02e0a77fc74d7fe3070af0c" prot="public" virt="non-virtual"><scope>themis::rag::ReplugScore</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_score_1acf917f407a7a532995552d7d86aa596d" prot="public" virt="non-virtual"><scope>themis::rag::ReplugScore</scope><name>fused_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_score_1a4516eca9588e727dd37ee7aaaa0904a1" prot="public" virt="non-virtual"><scope>themis::rag::ReplugScore</scope><name>kl_gradient</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_score_1ae94536f6a7adca02ee07e50ce45c8143" prot="public" virt="non-virtual"><scope>themis::rag::ReplugScore</scope><name>llm_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_replug_score_1ad5d366667b7ca570c00c7d3ea4581667" prot="public" virt="non-virtual"><scope>themis::rag::ReplugScore</scope><name>retrieval_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

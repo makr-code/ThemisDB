@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_memory_oversubscription_focused_tests" kind="class" language="C++" prot="public">
+    <compoundname>GPUMemoryOversubscriptionFocusedTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_g_p_u_memory_oversubscription_focused_tests_1ad6617bc4062263994dd77ccb5ac83e72" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t GPUMemoryOversubscriptionFocusedTests::kDim</definition>
+        <argsstring></argsstring>
+        <name>kDim</name>
+        <qualifiedname>GPUMemoryOversubscriptionFocusedTests::kDim</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_memory_oversubscription.cpp" line="80" column="29" bodyfile="tests/index/test_gpu_memory_oversubscription.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_memory_oversubscription_focused_tests_1af600fc8a008d11779c2f2b3ab7c1130c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUMemoryOversubscriptionFocusedTests::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUMemoryOversubscriptionFocusedTests::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_memory_oversubscription.cpp" line="82" column="10" bodyfile="tests/index/test_gpu_memory_oversubscription.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_memory_oversubscription_focused_tests_1a42276695681c28ff34e37e86b05d1aa0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUMemoryOversubscriptionFocusedTests::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUMemoryOversubscriptionFocusedTests::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_memory_oversubscription.cpp" line="83" column="10" bodyfile="tests/index/test_gpu_memory_oversubscription.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUMemoryOversubscriptionFocusedTests</label>
+        <link refid="class_g_p_u_memory_oversubscription_focused_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUMemoryOversubscriptionFocusedTests</label>
+        <link refid="class_g_p_u_memory_oversubscription_focused_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_gpu_memory_oversubscription.cpp" line="78" column="1" bodyfile="tests/index/test_gpu_memory_oversubscription.cpp" bodystart="78" bodyend="84"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_memory_oversubscription_focused_tests_1ad6617bc4062263994dd77ccb5ac83e72" prot="protected" virt="non-virtual"><scope>GPUMemoryOversubscriptionFocusedTests</scope><name>kDim</name></member>
+      <member refid="class_g_p_u_memory_oversubscription_focused_tests_1af600fc8a008d11779c2f2b3ab7c1130c" prot="protected" virt="non-virtual"><scope>GPUMemoryOversubscriptionFocusedTests</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_memory_oversubscription_focused_tests_1a42276695681c28ff34e37e86b05d1aa0" prot="protected" virt="non-virtual"><scope>GPUMemoryOversubscriptionFocusedTests</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

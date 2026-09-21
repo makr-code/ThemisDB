@@ -1,0 +1,884 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_zero_trust_policy_enforcer" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::ZeroTrustPolicyEnforcer</compoundname>
+    <includes refid="zero__trust__policy__enforcer_8h" local="no">zero_trust_policy_enforcer.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics" prot="public">themis::security::ZeroTrustPolicyEnforcer::Metrics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0effca6f9adbbd98d91370a058014937" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;token, const std::string &amp;user_id)&gt;</type>
+        <definition>using themis::security::ZeroTrustPolicyEnforcer::TokenVerifier = std::function&lt;bool(const std::string&amp; token,
+                                            const std::string&amp; user_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TokenVerifier</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::TokenVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="89" column="5" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a8fcb9a15f5b70b0aefcfeacee68565b1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::ZeroTrustPolicyEnforcer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="230" column="24" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aef093510591adf58d693c66455fbe0b9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1security_1_1_network_policy" kindref="compound">NetworkPolicy</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, NetworkPolicy&gt; themis::security::ZeroTrustPolicyEnforcer::policies_</definition>
+        <argsstring></argsstring>
+        <name>policies_</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::policies_</qualifiedname>
+        <briefdescription>
+<para>Keyed by policy_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="231" column="24" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a84915b82208611b88e9827277934602d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0effca6f9adbbd98d91370a058014937" kindref="member">TokenVerifier</ref></type>
+        <definition>TokenVerifier themis::security::ZeroTrustPolicyEnforcer::token_verifier_</definition>
+        <argsstring></argsstring>
+        <name>token_verifier_</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::token_verifier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="232" column="19" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ad89b7c901ee4a9174b6d2dd62c684969" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::security::ZeroTrustPolicyEnforcer::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="233" column="21" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a84e0e894e7cb2b88f284680340a98044" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::allow_unverified_token_</definition>
+        <argsstring></argsstring>
+        <name>allow_unverified_token_</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::allow_unverified_token_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="234" column="10" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1af6cede4ac6442b667e14c12d5a25bdf2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::allow_empty_network_policies_</definition>
+        <argsstring></argsstring>
+        <name>allow_empty_network_policies_</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::allow_empty_network_policies_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="235" column="10" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="235" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a78bc62017ebbea2cddba2cdc7eca4998" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::ZeroTrustPolicyEnforcer::ZeroTrustPolicyEnforcer</definition>
+        <argsstring>(TokenVerifier token_verifier=nullptr)</argsstring>
+        <name>ZeroTrustPolicyEnforcer</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::ZeroTrustPolicyEnforcer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0effca6f9adbbd98d91370a058014937" kindref="member">TokenVerifier</ref></type>
+          <declname>token_verifier</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="92" column="14" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="35" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ad9f67e149dbd90bd4eea5af3f1a25056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::ZeroTrustPolicyEnforcer::~ZeroTrustPolicyEnforcer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ZeroTrustPolicyEnforcer</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::~ZeroTrustPolicyEnforcer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a907f85357a60f3ef34c6b680552a1942" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::ZeroTrustPolicyEnforcer::addNetworkPolicy</definition>
+        <argsstring>(const NetworkPolicy &amp;policy)</argsstring>
+        <name>addNetworkPolicy</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::addNetworkPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_network_policy" kindref="compound">NetworkPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Register a network policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Network policy to add.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Network policy to add.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="104" column="10" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a9c92aca0e3d030a8fe4601611a8e124d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::removeNetworkPolicy</definition>
+        <argsstring>(const std::string &amp;policy_id)</argsstring>
+        <name>removeNetworkPolicy</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::removeNetworkPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a network policy by id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the policy to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when a policy was removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the policy to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when a policy was removed.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_INFO(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="111" column="10" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="60" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a6b8727248db2dbdafd5ffd25ac36c5f5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1security_1_1_network_policy" kindref="compound">NetworkPolicy</ref> &gt;</type>
+        <definition>std::vector&lt; NetworkPolicy &gt; themis::security::ZeroTrustPolicyEnforcer::getNetworkPolicies</definition>
+        <argsstring>() const</argsstring>
+        <name>getNetworkPolicies</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::getNetworkPolicies</qualifiedname>
+        <briefdescription>
+<para>Return all currently registered network policies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot of network policies. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="117" column="17" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="71" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ae3ab886a843be72c84c9c40610197d46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VerificationResult themis::security::ZeroTrustPolicyEnforcer::verify</definition>
+        <argsstring>(const ZeroTrustContext &amp;context)</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::verify</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">ZeroTrustContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Verify identity and enforce network policies for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Core: per-request verification ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-trust request context to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-trust request context to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: fetch_add(), lock(), findPolicyForIdentity(), THEMIS_WARN(), <ref refid="structthemis_1_1security_1_1_verification_result_1a06f3faf2cdbc994ba4bd86c5e2237961" kindref="member">VerificationResult::Deny()</ref>, count(), std::chrono::system_clock::now(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="125" column="24" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="94" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a8056e7af9ef0bacf3dffa37c6ca3a3c1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::ZeroTrustPolicyEnforcer::setAllowUnverifiedToken</definition>
+        <argsstring>(bool allow) noexcept</argsstring>
+        <name>setAllowUnverifiedToken</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::setAllowUnverifiedToken</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>allow</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="135" column="10" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1af29da8c5f12325099c38425805974f54" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::ZeroTrustPolicyEnforcer::setAllowEmptyNetworkPolicies</definition>
+        <argsstring>(bool allow) noexcept</argsstring>
+        <name>setAllowEmptyNetworkPolicies</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::setAllowEmptyNetworkPolicies</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>allow</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="137" column="10" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a4738bca4acb52954b7fac718a16ee124" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::verifyToken</definition>
+        <argsstring>(const std::string &amp;token, const std::string &amp;user_id) const</argsstring>
+        <name>verifyToken</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::verifyToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify a bearer token or credential for a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token to verify. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the token is valid. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="146" column="10" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="200" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0ad49c0c42ef79e69ad4f87537ab4ef7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::isIpAllowed</definition>
+        <argsstring>(const std::string &amp;client_ip, const std::string &amp;identity) const</argsstring>
+        <name>isIpAllowed</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::isIpAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>identity</declname>
+        </param>
+        <briefdescription>
+<para>Check whether an IP address is allowed for an identity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Client IP address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">identity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity associated with the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the IP is allowed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="154" column="10" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="219" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aee61b588e5b2431e0d9254e52c7a7d90" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::security::ZeroTrustPolicyEnforcer::computeTrustScore</definition>
+        <argsstring>(const ZeroTrustContext &amp;context, bool identity_verified, bool network_ok) const</argsstring>
+        <name>computeTrustScore</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::computeTrustScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_zero_trust_context" kindref="compound">ZeroTrustContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>identity_verified</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>network_ok</declname>
+        </param>
+        <briefdescription>
+<para>Compute the composite zero-trust score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-trust request context. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">identity_verified</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if identity verification succeeded. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">network_ok</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if network policy checks passed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Composite zero-trust score. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="163" column="12" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="269" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aa298a368a078b05724a2d55f7445b40a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1security_1_1_zero_trust_policy_enforcer_1_1_metrics" kindref="compound">Metrics</ref> &amp;</type>
+        <definition>const Metrics &amp; themis::security::ZeroTrustPolicyEnforcer::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="179" column="19" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aba09493a2aad19cffce07c9c792101f0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::ipMatchesCidr</definition>
+        <argsstring>(const std::string &amp;ip, const std::string &amp;cidr)</argsstring>
+        <name>ipMatchesCidr</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::ipMatchesCidr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cidr</declname>
+        </param>
+        <briefdescription>
+<para>Check whether an IP address matches a CIDR range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IP address to check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cidr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CIDR range to compare against. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the IP matches the CIDR.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IP address to check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cidr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CIDR range to compare against. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the IP matches the CIDR.</para>
+</simplesect>
+Calls: find(), substr(), std::stoi(), THEMIS_WARN(), what(), parseIpv4(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="188" column="17" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="351" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0654dc5d12d34cf48610f00b434a7eea" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::parseIpv4</definition>
+        <argsstring>(const std::string &amp;ip, uint32_t &amp;out)</argsstring>
+        <name>parseIpv4</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::parseIpv4</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>uint32_t &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Parse an IPv4 address into an integer representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IPv4 address string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output numeric IPv4 value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the IPv4 address parsed successfully.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IPv4 address string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output numeric IPv4 value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the IPv4 address parsed successfully.</para>
+</simplesect>
+Calls: std::sscanf(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="196" column="17" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="328" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1af2ea9b4f4110ef2482c6a51abe7eee1f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::parseIpv6</definition>
+        <argsstring>(const std::string &amp;ip, std::array&lt; uint8_t, 16 &gt; &amp;out)</argsstring>
+        <name>parseIpv6</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::parseIpv6</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>std::array&lt; uint8_t, 16 &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="198" column="17" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="399" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ae454b1f7ad2745577d862032722f12ae" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::ipv6MatchesCidr</definition>
+        <argsstring>(const std::string &amp;ip, const std::string &amp;cidr)</argsstring>
+        <name>ipv6MatchesCidr</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::ipv6MatchesCidr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cidr</declname>
+        </param>
+        <briefdescription>
+<para>Check whether an IPv6 address matches a CIDR range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IPv6 address to check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cidr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CIDR range to compare against. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the IP matches the CIDR.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IPv6 address to check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cidr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CIDR range to compare against. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the IP matches the CIDR.</para>
+</simplesect>
+Calls: find(), parseIpv6(), substr(), std::stoi(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="206" column="17" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="414" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a284ad55c836729dbe95b9c35820079c2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::ZeroTrustPolicyEnforcer::normaliseIpv4MappedIpv6</definition>
+        <argsstring>(const std::string &amp;ip)</argsstring>
+        <name>normaliseIpv4MappedIpv6</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::normaliseIpv4MappedIpv6</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+<para>Normalize an IPv4-mapped IPv6 address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IP address to normalize. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Normalized IP string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IP address to normalize. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Normalized IP string.</para>
+</simplesect>
+Calls: size(), substr(), parseIpv4(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="213" column="24" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="475" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1addd24eb3879cb65a5d58991a3dbae4f6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::ZeroTrustPolicyEnforcer::ipMatchesCidrAny</definition>
+        <argsstring>(const std::string &amp;ip, const std::string &amp;cidr)</argsstring>
+        <name>ipMatchesCidrAny</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::ipMatchesCidrAny</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cidr</declname>
+        </param>
+        <briefdescription>
+<para>Check whether an IP matches any CIDR in a policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IP address to check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cidr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CIDR range to compare against. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the IP matches at least one CIDR.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IP address to check. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cidr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CIDR range to compare against. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the IP matches at least one CIDR.</para>
+</simplesect>
+Calls: normaliseIpv4MappedIpv6(), find(), ipv6MatchesCidr(), ipMatchesCidr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="221" column="17" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="496" bodyend="513"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a90c36c376a646476ea57ba9cc0f02ead" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1security_1_1_network_policy" kindref="compound">NetworkPolicy</ref> *</type>
+        <definition>const NetworkPolicy * themis::security::ZeroTrustPolicyEnforcer::findPolicyForIdentity</definition>
+        <argsstring>(const std::string &amp;identity) const</argsstring>
+        <name>findPolicyForIdentity</name>
+        <qualifiedname>themis::security::ZeroTrustPolicyEnforcer::findPolicyForIdentity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>identity</declname>
+        </param>
+        <briefdescription>
+<para>Find the policy that applies to an identity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">identity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity to look up. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Matching network policy or null if none. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/zero_trust_policy_enforcer.h" line="228" column="25" bodyfile="src/security/zero_trust_policy_enforcer.cpp" bodystart="310" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/zero_trust_policy_enforcer.h" line="87" column="1" bodyfile="include/security/zero_trust_policy_enforcer.h" bodystart="87" bodyend="236"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a907f85357a60f3ef34c6b680552a1942" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>addNetworkPolicy</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1af6cede4ac6442b667e14c12d5a25bdf2" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>allow_empty_network_policies_</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a84e0e894e7cb2b88f284680340a98044" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>allow_unverified_token_</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aee61b588e5b2431e0d9254e52c7a7d90" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>computeTrustScore</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a90c36c376a646476ea57ba9cc0f02ead" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>findPolicyForIdentity</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aa298a368a078b05724a2d55f7445b40a" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a6b8727248db2dbdafd5ffd25ac36c5f5" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>getNetworkPolicies</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aba09493a2aad19cffce07c9c792101f0" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>ipMatchesCidr</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1addd24eb3879cb65a5d58991a3dbae4f6" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>ipMatchesCidrAny</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ae454b1f7ad2745577d862032722f12ae" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>ipv6MatchesCidr</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0ad49c0c42ef79e69ad4f87537ab4ef7" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>isIpAllowed</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ad89b7c901ee4a9174b6d2dd62c684969" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a8fcb9a15f5b70b0aefcfeacee68565b1" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a284ad55c836729dbe95b9c35820079c2" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>normaliseIpv4MappedIpv6</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0654dc5d12d34cf48610f00b434a7eea" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>parseIpv4</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1af2ea9b4f4110ef2482c6a51abe7eee1f" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>parseIpv6</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1aef093510591adf58d693c66455fbe0b9" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>policies_</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a9c92aca0e3d030a8fe4601611a8e124d" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>removeNetworkPolicy</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1af29da8c5f12325099c38425805974f54" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>setAllowEmptyNetworkPolicies</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a8056e7af9ef0bacf3dffa37c6ca3a3c1" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>setAllowUnverifiedToken</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a84915b82208611b88e9827277934602d" prot="private" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>token_verifier_</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a0effca6f9adbbd98d91370a058014937" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>TokenVerifier</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ae3ab886a843be72c84c9c40610197d46" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>verify</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a4738bca4acb52954b7fac718a16ee124" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>verifyToken</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1a78bc62017ebbea2cddba2cdc7eca4998" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>ZeroTrustPolicyEnforcer</name></member>
+      <member refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer_1ad9f67e149dbd90bd4eea5af3f1a25056" prot="public" virt="non-virtual"><scope>themis::security::ZeroTrustPolicyEnforcer</scope><name>~ZeroTrustPolicyEnforcer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

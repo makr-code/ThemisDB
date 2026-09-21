@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_correlated_metric" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::CorrelatedMetric</compoundname>
+    <includes refid="root__cause__analyzer_8h" local="no">root_cause_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_correlated_metric_1a6e45d15868e9644483d9c8a14d3a7cdd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::CorrelatedMetric::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::CorrelatedMetric::metric_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="102" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_correlated_metric_1a43126cd5a5a93ee3bcafe8cb136b8ec3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::CorrelatedMetric::correlation_coefficient</definition>
+        <argsstring></argsstring>
+        <name>correlation_coefficient</name>
+        <qualifiedname>themis::observability::CorrelatedMetric::correlation_coefficient</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Pearson correlation coefficient in [-1, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="104" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_correlated_metric_1ac3ae23cc998f1dd8e45fcfb1493ce3f1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::CorrelatedMetric::lag_seconds</definition>
+        <argsstring></argsstring>
+        <name>lag_seconds</name>
+        <qualifiedname>themis::observability::CorrelatedMetric::lag_seconds</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Approximate lag in seconds (positive = metric lags the target). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="106" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_correlated_metric_1a4148187638453ce9a56b1d2c301bb363" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::CorrelatedMetric::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::observability::CorrelatedMetric::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the relationship. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="108" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes the correlation between a target metric and another metric. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/root_cause_analyzer.h" line="101" column="1" bodyfile="include/observability/root_cause_analyzer.h" bodystart="101" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_correlated_metric_1a43126cd5a5a93ee3bcafe8cb136b8ec3" prot="public" virt="non-virtual"><scope>themis::observability::CorrelatedMetric</scope><name>correlation_coefficient</name></member>
+      <member refid="structthemis_1_1observability_1_1_correlated_metric_1a4148187638453ce9a56b1d2c301bb363" prot="public" virt="non-virtual"><scope>themis::observability::CorrelatedMetric</scope><name>description</name></member>
+      <member refid="structthemis_1_1observability_1_1_correlated_metric_1ac3ae23cc998f1dd8e45fcfb1493ce3f1" prot="public" virt="non-virtual"><scope>themis::observability::CorrelatedMetric</scope><name>lag_seconds</name></member>
+      <member refid="structthemis_1_1observability_1_1_correlated_metric_1a6e45d15868e9644483d9c8a14d3a7cdd" prot="public" virt="non-virtual"><scope>themis::observability::CorrelatedMetric</scope><name>metric_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

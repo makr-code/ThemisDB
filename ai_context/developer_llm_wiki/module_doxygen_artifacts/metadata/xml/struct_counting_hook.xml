@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_counting_hook" kind="struct" language="C++" prot="public">
+    <compoundname>CountingHook</compoundname>
+    <basecompoundref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" prot="public" virt="non-virtual">themis::StatisticsCollector::IMetricsHook</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_counting_hook_1a1b694bc64a889b127621859c689f44e9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; CountingHook::collect_count</definition>
+        <argsstring></argsstring>
+        <name>collect_count</name>
+        <qualifiedname>CountingHook::collect_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="142" column="17" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_counting_hook_1a9e0ae868a71fbf159980356f8360ed6b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; CountingHook::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>CountingHook::error_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="143" column="17" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_counting_hook_1a7530ecd03c7902ffb7e888d343e63ce8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; CountingHook::hit_count</definition>
+        <argsstring></argsstring>
+        <name>hit_count</name>
+        <qualifiedname>CountingHook::hit_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="144" column="17" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_counting_hook_1a3b922dcc93b33beda3ec9068469128ab" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; CountingHook::miss_count</definition>
+        <argsstring></argsstring>
+        <name>miss_count</name>
+        <qualifiedname>CountingHook::miss_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="145" column="17" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="145" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_counting_hook_1a0a2f40fd33ce16957adcb2a19b50a66b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void CountingHook::onCollect</definition>
+        <argsstring>(std::string_view, double, size_t, bool success) override</argsstring>
+        <name>onCollect</name>
+        <qualifiedname>CountingHook::onCollect</qualifiedname>
+        <reimplements refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1acc8d6c461561a276e41b2ffb14eb72b5">onCollect</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rows_sampled</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Called after a successful or failed stats collection attempt. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Affected table </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock duration in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rows_sampled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of rows actually scanned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether collection succeeded </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="147" column="10" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="147" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_counting_hook_1aa7fa34ee77ffc4ab9b53a49a143ef5c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void CountingHook::onCacheHit</definition>
+        <argsstring>(std::string_view) override</argsstring>
+        <name>onCacheHit</name>
+        <qualifiedname>CountingHook::onCacheHit</qualifiedname>
+        <reimplements refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1ab33d705fbddc7e950956cbca2a755f49">onCacheHit</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Called whenever in-memory cache satisfies a getStats() request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="154" column="10" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_counting_hook_1a625a3ce7f2a8558c717430dfa25dac48" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void CountingHook::onCacheMiss</definition>
+        <argsstring>(std::string_view) override</argsstring>
+        <name>onCacheMiss</name>
+        <qualifiedname>CountingHook::onCacheMiss</qualifiedname>
+        <reimplements refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a1b95477e11297258b7ced623a2cfc984">onCacheMiss</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Called whenever getStats() results in a cache miss (loads from RocksDB or re-collects). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="155" column="10" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_counting_hook_1a6411c0356ee7bb7981e76c7cf91f9536" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void CountingHook::onError</definition>
+        <argsstring>(std::string_view, int) override</argsstring>
+        <name>onError</name>
+        <qualifiedname>CountingHook::onError</qualifiedname>
+        <reimplements refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a276791adc26a4b4d53eae2f3b5463090">onError</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Called on any internal error (iterator failure, parse error, etc.). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6de" kindref="member">StatsErrorCode</ref> cast to int </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="156" column="10" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="156" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CountingHook</label>
+        <link refid="struct_counting_hook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::StatisticsCollector::IMetricsHook</label>
+        <link refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CountingHook</label>
+        <link refid="struct_counting_hook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::StatisticsCollector::IMetricsHook</label>
+        <link refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="141" column="1" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="141" bodyend="157"/>
+    <listofallmembers>
+      <member refid="struct_counting_hook_1a1b694bc64a889b127621859c689f44e9" prot="public" virt="non-virtual"><scope>CountingHook</scope><name>collect_count</name></member>
+      <member refid="struct_counting_hook_1a9e0ae868a71fbf159980356f8360ed6b" prot="public" virt="non-virtual"><scope>CountingHook</scope><name>error_count</name></member>
+      <member refid="struct_counting_hook_1a7530ecd03c7902ffb7e888d343e63ce8" prot="public" virt="non-virtual"><scope>CountingHook</scope><name>hit_count</name></member>
+      <member refid="struct_counting_hook_1a3b922dcc93b33beda3ec9068469128ab" prot="public" virt="non-virtual"><scope>CountingHook</scope><name>miss_count</name></member>
+      <member refid="struct_counting_hook_1aa7fa34ee77ffc4ab9b53a49a143ef5c2" prot="public" virt="virtual"><scope>CountingHook</scope><name>onCacheHit</name></member>
+      <member refid="struct_counting_hook_1a625a3ce7f2a8558c717430dfa25dac48" prot="public" virt="virtual"><scope>CountingHook</scope><name>onCacheMiss</name></member>
+      <member refid="struct_counting_hook_1a0a2f40fd33ce16957adcb2a19b50a66b" prot="public" virt="virtual"><scope>CountingHook</scope><name>onCollect</name></member>
+      <member refid="struct_counting_hook_1a6411c0356ee7bb7981e76c7cf91f9536" prot="public" virt="virtual"><scope>CountingHook</scope><name>onError</name></member>
+      <member refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a08465128a8a3f6fbace8ca77da796027" prot="public" virt="virtual"><scope>CountingHook</scope><name>~IMetricsHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

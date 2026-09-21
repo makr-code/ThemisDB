@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_stored_tensor_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::StoredTensorRecord</compoundname>
+    <includes refid="tensor__deduplication__manager_8h" local="no">tensor_deduplication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_stored_tensor_record_1a0588e6e1f0640f924f128bd04f4df75d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::StoredTensorRecord::tensor_id</definition>
+        <argsstring></argsstring>
+        <name>tensor_id</name>
+        <qualifiedname>themis::graph::StoredTensorRecord::tensor_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="52" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_stored_tensor_record_1a4f90147fc5d42e94720012b5b38b14e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::StoredTensorRecord::reference_id</definition>
+        <argsstring></argsstring>
+        <name>reference_id</name>
+        <qualifiedname>themis::graph::StoredTensorRecord::reference_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="54" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_stored_tensor_record_1a62804b1dbf03a2fb0b9e9477d9df2ca4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::StoredTensorRecord::is_canonical</definition>
+        <argsstring></argsstring>
+        <name>is_canonical</name>
+        <qualifiedname>themis::graph::StoredTensorRecord::is_canonical</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="56" column="10" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_stored_tensor_record_1afc461aeacd36bd6965e187ab70cff6d4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::StoredTensorRecord::compressed_bytes</definition>
+        <argsstring></argsstring>
+        <name>compressed_bytes</name>
+        <qualifiedname>themis::graph::StoredTensorRecord::compressed_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="58" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_stored_tensor_record_1ab2a670670e66c8bb1d7329fedebea20a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::StoredTensorRecord::saved_bytes</definition>
+        <argsstring></argsstring>
+        <name>saved_bytes</name>
+        <qualifiedname>themis::graph::StoredTensorRecord::saved_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="60" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_stored_tensor_record_1a741261653a9c1fab4bc9e6ccdc762091" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::StoredTensorRecord::similarity_to_reference</definition>
+        <argsstring></argsstring>
+        <name>similarity_to_reference</name>
+        <qualifiedname>themis::graph::StoredTensorRecord::similarity_to_reference</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="62" column="12" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_stored_tensor_record_1a5e214f87ab9338a0dc1dcc103f0946cf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::StoredTensorRecord::tenant</definition>
+        <argsstring></argsstring>
+        <name>tenant</name>
+        <qualifiedname>themis::graph::StoredTensorRecord::tenant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="66" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_stored_tensor_record_1a1bacef3cef152b0af5aa510f0fc27436" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::StoredTensorRecord::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::graph::StoredTensorRecord::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="68" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_stored_tensor_record_1ab6ed107d0f8aede55ffd89c1c2c340ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::StoredTensorRecord::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::graph::StoredTensorRecord::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_deduplication_manager.h" line="70" column="17" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/tensor_deduplication_manager.h" line="51" column="1" bodyfile="include/graph/tensor_deduplication_manager.h" bodystart="51" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_stored_tensor_record_1a1bacef3cef152b0af5aa510f0fc27436" prot="public" virt="non-virtual"><scope>themis::graph::StoredTensorRecord</scope><name>collection</name></member>
+      <member refid="structthemis_1_1graph_1_1_stored_tensor_record_1afc461aeacd36bd6965e187ab70cff6d4" prot="public" virt="non-virtual"><scope>themis::graph::StoredTensorRecord</scope><name>compressed_bytes</name></member>
+      <member refid="structthemis_1_1graph_1_1_stored_tensor_record_1ab6ed107d0f8aede55ffd89c1c2c340ed" prot="public" virt="non-virtual"><scope>themis::graph::StoredTensorRecord</scope><name>field</name></member>
+      <member refid="structthemis_1_1graph_1_1_stored_tensor_record_1a62804b1dbf03a2fb0b9e9477d9df2ca4" prot="public" virt="non-virtual"><scope>themis::graph::StoredTensorRecord</scope><name>is_canonical</name></member>
+      <member refid="structthemis_1_1graph_1_1_stored_tensor_record_1a4f90147fc5d42e94720012b5b38b14e9" prot="public" virt="non-virtual"><scope>themis::graph::StoredTensorRecord</scope><name>reference_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_stored_tensor_record_1ab2a670670e66c8bb1d7329fedebea20a" prot="public" virt="non-virtual"><scope>themis::graph::StoredTensorRecord</scope><name>saved_bytes</name></member>
+      <member refid="structthemis_1_1graph_1_1_stored_tensor_record_1a741261653a9c1fab4bc9e6ccdc762091" prot="public" virt="non-virtual"><scope>themis::graph::StoredTensorRecord</scope><name>similarity_to_reference</name></member>
+      <member refid="structthemis_1_1graph_1_1_stored_tensor_record_1a5e214f87ab9338a0dc1dcc103f0946cf" prot="public" virt="non-virtual"><scope>themis::graph::StoredTensorRecord</scope><name>tenant</name></member>
+      <member refid="structthemis_1_1graph_1_1_stored_tensor_record_1a0588e6e1f0640f924f128bd04f4df75d" prot="public" virt="non-virtual"><scope>themis::graph::StoredTensorRecord</scope><name>tensor_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

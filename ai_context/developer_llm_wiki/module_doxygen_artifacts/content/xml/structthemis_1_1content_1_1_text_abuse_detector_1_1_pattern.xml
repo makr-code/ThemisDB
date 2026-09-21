@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::TextAbuseDetector::Pattern</compoundname>
+    <includes refid="abuse__detector_8h" local="no">abuse_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1a768b11b23f223026d5339547ae69d951" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TextAbuseDetector::Pattern::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::content::TextAbuseDetector::Pattern::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="125" column="21" bodyfile="include/content/abuse_detector.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1a64a67a1d61326987f9658f6cb7c1a51b" prot="public" static="no" mutable="no">
+        <type>std::regex</type>
+        <definition>std::regex themis::content::TextAbuseDetector::Pattern::compiled</definition>
+        <argsstring></argsstring>
+        <name>compiled</name>
+        <qualifiedname>themis::content::TextAbuseDetector::Pattern::compiled</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="126" column="21" bodyfile="include/content/abuse_detector.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1aadf2010716c8b1013a472a6e5593e25d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a8fcb9bcf92892bc4086c74c1440b806c" kindref="member">AbuseAction</ref></type>
+        <definition>AbuseAction themis::content::TextAbuseDetector::Pattern::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::content::TextAbuseDetector::Pattern::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/abuse_detector.h" line="127" column="21" bodyfile="include/content/abuse_detector.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/abuse_detector.h" line="124" column="5" bodyfile="include/content/abuse_detector.h" bodystart="124" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1aadf2010716c8b1013a472a6e5593e25d" prot="public" virt="non-virtual"><scope>themis::content::TextAbuseDetector::Pattern</scope><name>action</name></member>
+      <member refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1a64a67a1d61326987f9658f6cb7c1a51b" prot="public" virt="non-virtual"><scope>themis::content::TextAbuseDetector::Pattern</scope><name>compiled</name></member>
+      <member refid="structthemis_1_1content_1_1_text_abuse_detector_1_1_pattern_1a768b11b23f223026d5339547ae69d951" prot="public" virt="non-virtual"><scope>themis::content::TextAbuseDetector::Pattern</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

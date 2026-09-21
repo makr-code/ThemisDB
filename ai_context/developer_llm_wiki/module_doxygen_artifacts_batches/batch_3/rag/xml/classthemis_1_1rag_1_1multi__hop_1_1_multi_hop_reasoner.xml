@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::multi_hop::MultiHopReasoner</compoundname>
+    <includes refid="multi__hop__reasoner_8h" local="no">multi_hop_reasoner.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a82b0d97c836814f41a139b30b80284f6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kindref="compound">MultiHopConfig</ref></type>
+        <definition>MultiHopConfig themis::rag::multi_hop::MultiHopReasoner::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="261" column="20" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b7e2cc88d5b29131d5d596b4338eeb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::multi_hop::MultiHopReasoner::MultiHopReasoner</definition>
+        <argsstring>()=default</argsstring>
+        <name>MultiHopReasoner</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::MultiHopReasoner</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="196" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1aad6554d4b8e7074aa474faa6fb6bbd7f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::multi_hop::MultiHopReasoner::MultiHopReasoner</definition>
+        <argsstring>(const MultiHopConfig &amp;config)</argsstring>
+        <name>MultiHopReasoner</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::MultiHopReasoner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kindref="compound">MultiHopConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with explicit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="201" column="14" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1ab89d72f3ea61eb7851136e3fa3888998" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result" kindref="compound">MultiHopResult</ref></type>
+        <definition>MultiHopResult themis::rag::multi_hop::MultiHopReasoner::reason</definition>
+        <argsstring>(const std::string &amp;query, RetrievalFn retrieval_fn, InferenceFn inference_fn) const</argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::reason</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1multi__hop_1af1e918a1ab9df5d841a48943c302d56d" kindref="member">RetrievalFn</ref></type>
+          <declname>retrieval_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a9924dcec7cef3cfb9c700463c35205b3" kindref="member">InferenceFn</ref></type>
+          <declname>inference_fn</declname>
+        </param>
+        <briefdescription>
+<para>Run multi-hop reasoning for a complex query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decomposes the query into sub-questions, runs one retrieval + inference hop per sub-question (injecting previous partial answers as context), then composes a final answer from all intermediate results.</para>
+<para>When either <computeroutput>retrieval_fn</computeroutput> or <computeroutput>inference_fn</computeroutput> is null the method returns an empty <ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result" kindref="compound">MultiHopResult</ref> immediately.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original user query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>retrieval_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that retrieves documents for a sub-query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>inference_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that generates text from a prompt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Full multi-hop reasoning result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="218" column="20" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="293" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1ad5424dbc8978986c8b9a190033dcdb89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::multi_hop::MultiHopReasoner::decomposeQuery</definition>
+        <argsstring>(const std::string &amp;query, InferenceFn inference_fn=nullptr) const</argsstring>
+        <name>decomposeQuery</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::decomposeQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a9924dcec7cef3cfb9c700463c35205b3" kindref="member">InferenceFn</ref></type>
+          <declname>inference_fn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Decompose a query into ordered sub-questions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When an inference function is available it is called with the decomposition prompt template; the response is split on newlines. Falls back to heuristic splitting (sentence boundaries and conjunctions) when no inference function is provided.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>inference_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional LLM for decomposition (may be null). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered list of sub-questions. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="234" column="17" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="177" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a17f2095c337257a3be96613175099c8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multi_hop::MultiHopReasoner::buildHopPrompt</definition>
+        <argsstring>(const std::string &amp;sub_query, const std::vector&lt; judge::RetrievedDocument &gt; &amp;documents, const std::vector&lt; std::string &gt; &amp;previous_answers) const</argsstring>
+        <name>buildHopPrompt</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::buildHopPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sub_query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>previous_answers</declname>
+        </param>
+        <briefdescription>
+<para>Build a prompt for one hop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Injects the sub-question plus any previous partial answers into the retrieved context so the model can reason across hops.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sub_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sub-question for this hop. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Documents retrieved for this hop. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>previous_answers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Partial answers from earlier hops. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Assembled prompt string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="249" column="17" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="204" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b36ac7fa63f241f2f7a92ac4398222f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kindref="compound">MultiHopConfig</ref> &amp;</type>
+        <definition>const MultiHopConfig &amp; themis::rag::multi_hop::MultiHopReasoner::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="255" column="26" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a630511fec36128068eeaaed61ff0c861" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::multi_hop::MultiHopReasoner::setConfig</definition>
+        <argsstring>(const MultiHopConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kindref="compound">MultiHopConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="258" column="10" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1ae099df1d943399b3d8af50c2b293338d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::multi_hop::MultiHopReasoner::heuristicDecompose</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>heuristicDecompose</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::heuristicDecompose</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Heuristic sub-query decomposition (fallback when no LLM is available). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="264" column="17" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="131" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a7d2954c0dabcf239ebd854c5c111aa0a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::multi_hop::MultiHopReasoner::parseDecompositionResponse</definition>
+        <argsstring>(const std::string &amp;response) const</argsstring>
+        <name>parseDecompositionResponse</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::parseDecompositionResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Parse LLM decomposition response into sub-question list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="268" column="17" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="97" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a151f5b9f74f55e1bd9a6c170eccc37ef" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multi_hop::MultiHopReasoner::composeAnswer</definition>
+        <argsstring>(const std::string &amp;original_query, const std::vector&lt; HopRecord &gt; &amp;hop_records, InferenceFn inference_fn) const</argsstring>
+        <name>composeAnswer</name>
+        <qualifiedname>themis::rag::multi_hop::MultiHopReasoner::composeAnswer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record" kindref="compound">HopRecord</ref> &gt; &amp;</type>
+          <declname>hop_records</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a9924dcec7cef3cfb9c700463c35205b3" kindref="member">InferenceFn</ref></type>
+          <declname>inference_fn</declname>
+        </param>
+        <briefdescription>
+<para>Compose the final answer from per-hop partial answers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="272" column="17" bodyfile="src/rag/multi_hop_reasoner.cpp" bodystart="242" bodyend="287"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orchestrates multi-hop retrieval and reasoning for complex queries. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="normal">MultiHopConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_hops<sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b7e2cc88d5b29131d5d596b4338eeb5" kindref="member">MultiHopReasoner</ref><sp/>reasoner(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>reasoner.reason(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Who<sp/>won<sp/>the<sp/>Nobel<sp/>Prize<sp/>in<sp/>Physics<sp/>the<sp/>year<sp/>the<sp/>first<sp/>iPhone<sp/>was<sp/>released?&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>retrieval_fn,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>inference_fn);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>hop<sp/>:<sp/>result.hop_records)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Hop<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>hop.hop_index<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>hop.sub_query<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>Answer:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>hop.intermediate_answer<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Final:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.final_answer<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/multi_hop_reasoner.h" line="191" column="1" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="191" bodyend="276"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a17f2095c337257a3be96613175099c8a" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>buildHopPrompt</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a151f5b9f74f55e1bd9a6c170eccc37ef" prot="private" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>composeAnswer</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a82b0d97c836814f41a139b30b80284f6" prot="private" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1ad5424dbc8978986c8b9a190033dcdb89" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>decomposeQuery</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b36ac7fa63f241f2f7a92ac4398222f" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1ae099df1d943399b3d8af50c2b293338d" prot="private" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>heuristicDecompose</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b7e2cc88d5b29131d5d596b4338eeb5" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>MultiHopReasoner</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1aad6554d4b8e7074aa474faa6fb6bbd7f" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>MultiHopReasoner</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a7d2954c0dabcf239ebd854c5c111aa0a" prot="private" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>parseDecompositionResponse</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1ab89d72f3ea61eb7851136e3fa3888998" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>reason</name></member>
+      <member refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a630511fec36128068eeaaed61ff0c861" prot="public" virt="non-virtual"><scope>themis::rag::multi_hop::MultiHopReasoner</scope><name>setConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

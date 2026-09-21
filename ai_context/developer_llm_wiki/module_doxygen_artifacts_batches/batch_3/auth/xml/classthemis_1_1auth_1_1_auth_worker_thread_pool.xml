@@ -1,0 +1,406 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_auth_worker_thread_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::AuthWorkerThreadPool</compoundname>
+    <includes refid="auth__worker__thread__pool_8h" local="no">auth_worker_thread_pool.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1af0535c1d503d6b47a050f2e4109e6b09" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthWorkerThreadPool::kMinThreads</definition>
+        <argsstring></argsstring>
+        <name>kMinThreads</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::kMinThreads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="33" column="29" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a75ed00a8042b6a931e57406ba9c459b2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthWorkerThreadPool::kMaxThreads</definition>
+        <argsstring></argsstring>
+        <name>kMaxThreads</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::kMaxThreads</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="34" column="29" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a76bae14f69d7cae87d5f975d15a1d577" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthWorkerThreadPool::max_threads_</definition>
+        <argsstring></argsstring>
+        <name>max_threads_</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::max_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="131" column="37" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1af680428cad979b92a8aaf490542fba38" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::AuthWorkerThreadPool::stop_</definition>
+        <argsstring></argsstring>
+        <name>stop_</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::stop_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="132" column="37" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a5c05eff3355d113990a19f725f9eaf14" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthWorkerThreadPool::idle_count_</definition>
+        <argsstring></argsstring>
+        <name>idle_count_</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::idle_count_</qualifiedname>
+        <briefdescription>
+<para>Workers currently waiting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="133" column="37" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a1de00f0449711c25c6d092ee56e7f883" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::auth::AuthWorkerThreadPool::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="134" column="24" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a3149a00144ab0b0705813285bb0c4ab4" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::function&lt; void()&gt; &gt;</type>
+        <definition>std::queue&lt;std::function&lt;void()&gt; &gt; themis::auth::AuthWorkerThreadPool::tasks_</definition>
+        <argsstring></argsstring>
+        <name>tasks_</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::tasks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="135" column="16" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a22f1e879c360ebd919c5d3add5c228bc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::AuthWorkerThreadPool::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="136" column="37" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1aa2ebeb6e035559abc0da3c70d0f71d9e" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::auth::AuthWorkerThreadPool::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::cv_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="137" column="37" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a13180b592af7d417072f6eefdd7cfe60" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthWorkerThreadPool::AuthWorkerThreadPool</definition>
+        <argsstring>(size_t min_threads=kMinThreads, size_t max_threads=kMaxThreads)</argsstring>
+        <name>AuthWorkerThreadPool</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::AuthWorkerThreadPool</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>min_threads</declname>
+          <defval><ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1af0535c1d503d6b47a050f2e4109e6b09" kindref="member">kMinThreads</ref></defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_threads</declname>
+          <defval><ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a75ed00a8042b6a931e57406ba9c459b2" kindref="member">kMaxThreads</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="36" column="14" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="36" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1ae6bb9ad69d0fad31d2d606c50a43b151" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthWorkerThreadPool::AuthWorkerThreadPool</definition>
+        <argsstring>(const AuthWorkerThreadPool &amp;)=delete</argsstring>
+        <name>AuthWorkerThreadPool</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::AuthWorkerThreadPool</qualifiedname>
+        <param>
+          <type>const AuthWorkerThreadPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a1053b1ee3d52ccf325ebdeab6ff7c21d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a13180b592af7d417072f6eefdd7cfe60" kindref="member">AuthWorkerThreadPool</ref> &amp;</type>
+        <definition>AuthWorkerThreadPool &amp; themis::auth::AuthWorkerThreadPool::operator=</definition>
+        <argsstring>(const AuthWorkerThreadPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a13180b592af7d417072f6eefdd7cfe60" kindref="member">AuthWorkerThreadPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="51" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1ab33e92e6bcc223c765da6936456c11ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthWorkerThreadPool::AuthWorkerThreadPool</definition>
+        <argsstring>(AuthWorkerThreadPool &amp;&amp;)=delete</argsstring>
+        <name>AuthWorkerThreadPool</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::AuthWorkerThreadPool</qualifiedname>
+        <param>
+          <type>AuthWorkerThreadPool &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a594b43ea691ef2684caf7a081d06a910" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a13180b592af7d417072f6eefdd7cfe60" kindref="member">AuthWorkerThreadPool</ref> &amp;</type>
+        <definition>AuthWorkerThreadPool &amp; themis::auth::AuthWorkerThreadPool::operator=</definition>
+        <argsstring>(AuthWorkerThreadPool &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a13180b592af7d417072f6eefdd7cfe60" kindref="member">AuthWorkerThreadPool</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="53" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a2bf577545e111328873d94bfa9e0aec1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthWorkerThreadPool::~AuthWorkerThreadPool</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~AuthWorkerThreadPool</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::~AuthWorkerThreadPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="55" column="5" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a7e23d27fe33b2b920e7872bf68a8d1c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>std::future&lt; std::invoke_result_t&lt; Func, Args... &gt; &gt;</type>
+        <definition>std::future&lt; std::invoke_result_t&lt; Func, Args... &gt; &gt; themis::auth::AuthWorkerThreadPool::submit</definition>
+        <argsstring>(Func &amp;&amp;f, Args &amp;&amp;... args)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::submit</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="60" column="10" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="60" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a679ad17b8311c9016f2d63cd02c7d92c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthWorkerThreadPool::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="98" column="10" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="98" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a35fb21cb32bfedf5f12707730dcc4140" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AuthWorkerThreadPool::threadCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>threadCount</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::threadCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="120" column="12" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="120" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1ae210bbd7615c21ee419f6921662b69d3" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthWorkerThreadPool::spawnWorker</definition>
+        <argsstring>()</argsstring>
+        <name>spawnWorker</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::spawnWorker</qualifiedname>
+        <briefdescription>
+<para>Spawn one new worker thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be called with queue_mutex_ held. Calls: emplace_back(), void(), lock(), wait(), empty(), std::move(), front(), pop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="143" column="10" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="143" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_worker_thread_pool_1afe5fa052279451271bf3955759d4d2d5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AuthWorkerThreadPool::tryGrow</definition>
+        <argsstring>()</argsstring>
+        <name>tryGrow</name>
+        <qualifiedname>themis::auth::AuthWorkerThreadPool::tryGrow</qualifiedname>
+        <briefdescription>
+<para>Grow the pool by one thread if every current worker is busy and we haven&apos;t hit max_threads_. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be called with queue_mutex_ held. Calls: size(), spawnWorker(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_worker_thread_pool.h" line="167" column="10" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="167" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_worker_thread_pool.h" line="31" column="1" bodyfile="include/auth/auth_worker_thread_pool.h" bodystart="31" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a13180b592af7d417072f6eefdd7cfe60" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>AuthWorkerThreadPool</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1ae6bb9ad69d0fad31d2d606c50a43b151" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>AuthWorkerThreadPool</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1ab33e92e6bcc223c765da6936456c11ca" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>AuthWorkerThreadPool</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1aa2ebeb6e035559abc0da3c70d0f71d9e" prot="private" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a5c05eff3355d113990a19f725f9eaf14" prot="private" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>idle_count_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a75ed00a8042b6a931e57406ba9c459b2" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>kMaxThreads</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1af0535c1d503d6b47a050f2e4109e6b09" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>kMinThreads</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a76bae14f69d7cae87d5f975d15a1d577" prot="private" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>max_threads_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a1053b1ee3d52ccf325ebdeab6ff7c21d" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a594b43ea691ef2684caf7a081d06a910" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a22f1e879c360ebd919c5d3add5c228bc" prot="private" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a679ad17b8311c9016f2d63cd02c7d92c" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1ae210bbd7615c21ee419f6921662b69d3" prot="private" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>spawnWorker</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1af680428cad979b92a8aaf490542fba38" prot="private" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>stop_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a7e23d27fe33b2b920e7872bf68a8d1c1" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>submit</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a3149a00144ab0b0705813285bb0c4ab4" prot="private" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>tasks_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a35fb21cb32bfedf5f12707730dcc4140" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>threadCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1afe5fa052279451271bf3955759d4d2d5" prot="private" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>tryGrow</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a1de00f0449711c25c6d092ee56e7f883" prot="private" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>workers_</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_worker_thread_pool_1a2bf577545e111328873d94bfa9e0aec1" prot="public" virt="non-virtual"><scope>themis::auth::AuthWorkerThreadPool</scope><name>~AuthWorkerThreadPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

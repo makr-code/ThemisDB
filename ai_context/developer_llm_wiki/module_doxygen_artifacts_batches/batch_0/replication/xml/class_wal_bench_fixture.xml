@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wal_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>WalBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string WalBenchFixture::wal_dir_</definition>
+        <argsstring></argsstring>
+        <name>wal_dir_</name>
+        <qualifiedname>WalBenchFixture::wal_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="106" column="34" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wal_bench_fixture_1ae44ee6f37f44fb3a8f076c76c4276449" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref></type>
+        <definition>ReplicationConfig WalBenchFixture::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>WalBenchFixture::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="107" column="34" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wal_bench_fixture_1a1c6f5a08146faa7525d1b63069991484" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WALManager&gt; WalBenchFixture::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>WalBenchFixture::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="108" column="22" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_wal_bench_fixture_1a6ee4f16f739d3182c1390374814439ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WalBenchFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>WalBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="88" column="10" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="88" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wal_bench_fixture_1a5099f812f5bc94c5f984aa8a049945ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WalBenchFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>WalBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_throughput.cpp" line="98" column="10" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="98" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WalBenchFixture</label>
+        <link refid="class_wal_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WalBenchFixture</label>
+        <link refid="class_wal_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::ReplicationConfig</label>
+        <link refid="structthemisdb_1_1replication_1_1_replication_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/replication/bench_replication_throughput.cpp" line="86" column="1" bodyfile="benchmarks/replication/bench_replication_throughput.cpp" bodystart="86" bodyend="109"/>
+    <listofallmembers>
+      <member refid="class_wal_bench_fixture_1ae44ee6f37f44fb3a8f076c76c4276449" prot="protected" virt="non-virtual"><scope>WalBenchFixture</scope><name>cfg_</name></member>
+      <member refid="class_wal_bench_fixture_1a6ee4f16f739d3182c1390374814439ec" prot="public" virt="non-virtual"><scope>WalBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_wal_bench_fixture_1a5099f812f5bc94c5f984aa8a049945ea" prot="public" virt="non-virtual"><scope>WalBenchFixture</scope><name>TearDown</name></member>
+      <member refid="class_wal_bench_fixture_1a1c6f5a08146faa7525d1b63069991484" prot="protected" virt="non-virtual"><scope>WalBenchFixture</scope><name>wal_</name></member>
+      <member refid="class_wal_bench_fixture_1acd07176933fb52c390c9dcc03be2e107" prot="protected" virt="non-virtual"><scope>WalBenchFixture</scope><name>wal_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

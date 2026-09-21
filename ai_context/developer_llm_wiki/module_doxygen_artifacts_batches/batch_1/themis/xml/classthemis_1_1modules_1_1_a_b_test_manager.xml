@@ -1,0 +1,887 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_a_b_test_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ABTestManager</compoundname>
+    <includes refid="ab__test__manager_8h" local="no">ab_test_manager.h</includes>
+    <innerclass refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_variant_data" prot="private">themis::modules::ABTestManager::VariantData</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_test_entry" prot="private">themis::modules::ABTestManager::TestEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_a_b_test_manager_1afcde0bf1ed7b21ec9e1771b47870e5da" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::modules::ABTestManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::modules::ABTestManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="404" column="24" bodyfile="include/themis/base/ab_test_manager.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_a_b_test_manager_1a65b72cf8a72b62134ee3c1f9098f6219" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, TestEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TestEntry&gt; themis::modules::ABTestManager::tests_</definition>
+        <argsstring></argsstring>
+        <name>tests_</name>
+        <qualifiedname>themis::modules::ABTestManager::tests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="405" column="24" bodyfile="include/themis/base/ab_test_manager.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_a_b_test_manager_1a713ad7369daee0ec625654cc444f827b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1modules_1_1_hot_reload_manager" kindref="compound">HotReloadManager</ref> *</type>
+        <definition>HotReloadManager* themis::modules::ABTestManager::reload_manager_</definition>
+        <argsstring></argsstring>
+        <name>reload_manager_</name>
+        <qualifiedname>themis::modules::ABTestManager::reload_manager_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Optional, non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="406" column="37" bodyfile="include/themis/base/ab_test_manager.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_a_b_test_manager_1aaded40da3e153dd843167feea194ed88" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_i_storage_engine" kindref="compound">IStorageEngine</ref> *</type>
+        <definition>IStorageEngine* themis::modules::ABTestManager::storage_engine_</definition>
+        <argsstring></argsstring>
+        <name>storage_engine_</name>
+        <qualifiedname>themis::modules::ABTestManager::storage_engine_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Optional, non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="407" column="37" bodyfile="include/themis/base/ab_test_manager.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_a_b_test_manager_1a5605e7540b1ad5835227fcbaf2ff95f7" prot="private" static="no" mutable="no">
+        <type>observability::MetricsCollector *</type>
+        <definition>observability::MetricsCollector* themis::modules::ABTestManager::metrics_collector_</definition>
+        <argsstring></argsstring>
+        <name>metrics_collector_</name>
+        <qualifiedname>themis::modules::ABTestManager::metrics_collector_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Optional, non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="408" column="37" bodyfile="include/themis/base/ab_test_manager.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a21975f6426d2730f8bdc04387895ef07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ABTestManager::ABTestManager</definition>
+        <argsstring>()</argsstring>
+        <name>ABTestManager</name>
+        <qualifiedname>themis::modules::ABTestManager::ABTestManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="174" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a952de08ab9e2f28196ee6bcf1accf65d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ABTestManager::ABTestManager</definition>
+        <argsstring>(HotReloadManager &amp;reload_manager)</argsstring>
+        <name>ABTestManager</name>
+        <qualifiedname>themis::modules::ABTestManager::ABTestManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_hot_reload_manager" kindref="compound">HotReloadManager</ref> &amp;</type>
+          <declname>reload_manager</declname>
+        </param>
+        <briefdescription>
+<para>Construct with an optional <ref refid="classthemis_1_1modules_1_1_hot_reload_manager" kindref="compound">HotReloadManager</ref> for promotion support. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classthemis_1_1modules_1_1_hot_reload_manager" kindref="compound">HotReloadManager</ref> is provided, <ref refid="classthemis_1_1modules_1_1_a_b_test_manager_1a12702e943bfa6c77f9b79a28b524074e" kindref="member">promoteTest()</ref> will call <ref refid="classthemis_1_1modules_1_1_hot_reload_manager_1a402b3f52fce8ba2070db2accec9f0945" kindref="member">HotReloadManager::reloadModule()</ref> to atomically swap the control binary with the treatment binary without a database restart. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="183" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a2cce187f4928d773ef108879b2e446a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ABTestManager::~ABTestManager</definition>
+        <argsstring>()</argsstring>
+        <name>~ABTestManager</name>
+        <qualifiedname>themis::modules::ABTestManager::~ABTestManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="185" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1ae614818a4b23dcf3daba8bcb20a589c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ABTestManager::ABTestManager</definition>
+        <argsstring>(const ABTestManager &amp;)=delete</argsstring>
+        <name>ABTestManager</name>
+        <qualifiedname>themis::modules::ABTestManager::ABTestManager</qualifiedname>
+        <param>
+          <type>const ABTestManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="187" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a1263736a08f7bd133a41819b9a7015c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_a_b_test_manager_1a21975f6426d2730f8bdc04387895ef07" kindref="member">ABTestManager</ref> &amp;</type>
+        <definition>ABTestManager &amp; themis::modules::ABTestManager::operator=</definition>
+        <argsstring>(const ABTestManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::ABTestManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1modules_1_1_a_b_test_manager_1a21975f6426d2730f8bdc04387895ef07" kindref="member">ABTestManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="188" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1aec28b856b801381306932026e32cedf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ABTestManager::setStorageEngine</definition>
+        <argsstring>(IStorageEngine *engine)</argsstring>
+        <name>setStorageEngine</name>
+        <qualifiedname>themis::modules::ABTestManager::setStorageEngine</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_i_storage_engine" kindref="compound">IStorageEngine</ref> *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Attach a storage engine for RocksDB persistence (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, test configs and metrics are persisted under the key prefix <computeroutput>&quot;ab_test::&quot;</computeroutput> so they survive server restarts. Call before <ref refid="classthemis_1_1modules_1_1_a_b_test_manager_1ab7b2b49ff773ef9ce5e03fc99baa7c05" kindref="member">start()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to an <ref refid="classthemis_1_1_i_storage_engine" kindref="compound">IStorageEngine</ref> implementation. Pass nullptr to disable persistence. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="203" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1ac2a4d1d937435e8e7baf74b6311528e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ABTestManager::setMetricsCollector</definition>
+        <argsstring>(observability::MetricsCollector *metrics)</argsstring>
+        <name>setMetricsCollector</name>
+        <qualifiedname>themis::modules::ABTestManager::setMetricsCollector</qualifiedname>
+        <param>
+          <type>observability::MetricsCollector *</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Attach a MetricsCollector for observability export (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <ref refid="classthemis_1_1modules_1_1_a_b_test_manager_1abd98831e99ff2547a6eadae53543a283" kindref="member">recordOutcome()</ref> emits per-variant counters and gauges to the collector <emphasis>outside</emphasis> the internal mutex so the hot-path is not blocked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a MetricsCollector instance. Pass nullptr to disable metrics emission. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="214" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1ab7b2b49ff773ef9ce5e03fc99baa7c05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ABTestManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::modules::ABTestManager::start</qualifiedname>
+        <briefdescription>
+<para>Load previously persisted test entries from storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scans the <computeroutput>&quot;ab_test::&quot;</computeroutput> key prefix in the attached storage engine and restores config and accumulated metrics for each entry. Active tests are restored with <computeroutput>treatment_loaded</computeroutput> = false; callers should re-call <ref refid="classthemis_1_1modules_1_1_a_b_test_manager_1af55dbe02604bb40f264986c6824793be" kindref="member">startTest()</ref> with the same test_id to re-attach a module loader and reload the treatment binary while preserving the accumulated metrics.</para>
+<para>No-op when no storage engine has been set. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="227" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1af55dbe02604bb40f264986c6824793be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ABTestManager::startTest</definition>
+        <argsstring>(const ABModuleTestConfig &amp;config, ModuleLoader &amp;loader)</argsstring>
+        <name>startTest</name>
+        <qualifiedname>themis::modules::ABTestManager::startTest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_a_b_module_test_config" kindref="compound">ABModuleTestConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> &amp;</type>
+          <declname>loader</declname>
+        </param>
+        <briefdescription>
+<para>Register and start an A/B test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Loads the treatment binary under treatmentKey(config.module_name) so both variants are simultaneously resident. If the treatment binary cannot be loaded (e.g. file not found), the test is still registered and routing will always fall back to control until the binary becomes available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>loader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> to use for loading the treatment binary. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the test was registered; false if a test with the same test_id already exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="247" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a12702e943bfa6c77f9b79a28b524074e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ABTestManager::promoteTest</definition>
+        <argsstring>(const std::string &amp;test_id)</argsstring>
+        <name>promoteTest</name>
+        <qualifiedname>themis::modules::ABTestManager::promoteTest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Promote the treatment variant to production via hot-reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If a <ref refid="classthemis_1_1modules_1_1_hot_reload_manager" kindref="compound">HotReloadManager</ref> was provided at construction, calls HotReloadManager::reloadModule(module_name, treatment_path) to atomically replace the running control binary with the treatment binary. The treatment slot is then unloaded and the test status becomes PROMOTED.</para>
+<para>If no <ref refid="classthemis_1_1modules_1_1_hot_reload_manager" kindref="compound">HotReloadManager</ref> was configured, the status is still set to PROMOTED (useful for tests that manage module lifetimes externally).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if the test was not found or not ACTIVE. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="263" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a4731ab5670d497b3bca3b1befa789a09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ABTestManager::rollbackTest</definition>
+        <argsstring>(const std::string &amp;test_id)</argsstring>
+        <name>rollbackTest</name>
+        <qualifiedname>themis::modules::ABTestManager::rollbackTest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Roll back: unload the treatment module and keep the control. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unloads the treatment binary and transitions the test to ROLLED_BACK. The control module remains running undisturbed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if the test was not found or not ACTIVE. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="274" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a4247866ee73238780f065c4ca8334484" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ABTestManager::cancelTest</definition>
+        <argsstring>(const std::string &amp;test_id)</argsstring>
+        <name>cancelTest</name>
+        <qualifiedname>themis::modules::ABTestManager::cancelTest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel a test without making a promote/rollback decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unloads the treatment module if it was loaded and marks the test CANCELLED. No-op if the test is not currently ACTIVE.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="284" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1afa68689c70c087dbdaedb34b422b52b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ABTestManager::shouldUseTreatment</definition>
+        <argsstring>(const std::string &amp;test_id, const std::string &amp;request_key) const</argsstring>
+        <name>shouldUseTreatment</name>
+        <qualifiedname>themis::modules::ABTestManager::shouldUseTreatment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_key</declname>
+        </param>
+        <briefdescription>
+<para>Determine which variant a request should be routed to. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses a stable hash of <computeroutput>request_key</computeroutput> so a given key is always assigned to the same variant (deterministic routing).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>request_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Any string (user ID, session ID, query hash, …). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true → route to treatment, false → route to control (also returned when the test is not ACTIVE or not found). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="302" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a992e76433fd748708eb9572208ea3c6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ABTestManager::isTreatmentLoaded</definition>
+        <argsstring>(const std::string &amp;test_id) const</argsstring>
+        <name>isTreatmentLoaded</name>
+        <qualifiedname>themis::modules::ABTestManager::isTreatmentLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Check whether the treatment binary was successfully loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the treatment is loaded, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="310" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1abd98831e99ff2547a6eadae53543a283" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ABTestManager::recordOutcome</definition>
+        <argsstring>(const std::string &amp;test_id, bool is_treatment, bool success, double latency_ms=0.0)</argsstring>
+        <name>recordOutcome</name>
+        <qualifiedname>themis::modules::ABTestManager::recordOutcome</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_treatment</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Record the outcome of a single dispatched request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_treatment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true = outcome belongs to treatment group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the request completed successfully. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional observed latency in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="324" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a52ac55ee587257c1e8b8526360839e9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_a_b_module_test_result" kindref="compound">ABModuleTestResult</ref></type>
+        <definition>ABModuleTestResult themis::modules::ABTestManager::evaluateTest</definition>
+        <argsstring>(const std::string &amp;test_id) const</argsstring>
+        <name>evaluateTest</name>
+        <qualifiedname>themis::modules::ABTestManager::evaluateTest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Compute a statistical evaluation snapshot for the test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs a two-proportion z-test on the success rates once both groups have reached min_samples. Returns an empty result if the test is not found.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Statistical result including p-value and significance flag. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="343" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a46b9a2144e2f42000fe3b0aa194070ee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0b" kindref="member">ABTestStatus</ref></type>
+        <definition>ABTestStatus themis::modules::ABTestManager::getTestStatus</definition>
+        <argsstring>(const std::string &amp;test_id) const</argsstring>
+        <name>getTestStatus</name>
+        <qualifiedname>themis::modules::ABTestManager::getTestStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="349" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1ab119d73ace9203e29ef85015613d4955" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::modules::ABTestManager::getActiveTests</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveTests</name>
+        <qualifiedname>themis::modules::ABTestManager::getActiveTests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="350" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a0352424d1a890536e80dd549480c79e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_a_b_variant_metrics" kindref="compound">ABVariantMetrics</ref></type>
+        <definition>ABVariantMetrics themis::modules::ABTestManager::getControlMetrics</definition>
+        <argsstring>(const std::string &amp;test_id) const</argsstring>
+        <name>getControlMetrics</name>
+        <qualifiedname>themis::modules::ABTestManager::getControlMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="351" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1ae3d9c862cda0530924893ea1d6cbcdc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_a_b_variant_metrics" kindref="compound">ABVariantMetrics</ref></type>
+        <definition>ABVariantMetrics themis::modules::ABTestManager::getTreatmentMetrics</definition>
+        <argsstring>(const std::string &amp;test_id) const</argsstring>
+        <name>getTreatmentMetrics</name>
+        <qualifiedname>themis::modules::ABTestManager::getTreatmentMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="352" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a664d59ccdfe09e4ac52b3c3232af9692" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_a_b_test_metric_row" kindref="compound">ABTestMetricRow</ref> &gt;</type>
+        <definition>std::vector&lt; ABTestMetricRow &gt; themis::modules::ABTestManager::exportMetricsSnapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>exportMetricsSnapshot</name>
+        <qualifiedname>themis::modules::ABTestManager::exportMetricsSnapshot</qualifiedname>
+        <briefdescription>
+<para>Export a flat metric snapshot for all known tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns two rows per test (control + treatment) with request/conversion counts, success rates, mean latency and estimated p99. Intended for the admin API.</para>
+<para><simplesect kind="return"><para>One <ref refid="structthemis_1_1modules_1_1_a_b_test_metric_row" kindref="compound">ABTestMetricRow</ref> per variant per test. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="363" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a3dda4b114a8887bd0d948de5a8eda544" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::modules::ABTestManager::treatmentKey</definition>
+        <argsstring>(const std::string &amp;module_name)</argsstring>
+        <name>treatmentKey</name>
+        <qualifiedname>themis::modules::ABTestManager::treatmentKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+<para>Internal module key used to register the treatment binary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The treatment binary is loaded under this derived name so it can coexist with the control binary in the same <ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical module name (e.g. &quot;themis_storage&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Derived key (e.g. &quot;themis_storage__ab_treatment__&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="378" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a0cd77670caffb5f45fdd60f397ae2843" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::modules::ABTestManager::calculateZStatistic</definition>
+        <argsstring>(const ABVariantMetrics &amp;ctrl, const ABVariantMetrics &amp;trt)</argsstring>
+        <name>calculateZStatistic</name>
+        <qualifiedname>themis::modules::ABTestManager::calculateZStatistic</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_a_b_variant_metrics" kindref="compound">ABVariantMetrics</ref> &amp;</type>
+          <declname>ctrl</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_a_b_variant_metrics" kindref="compound">ABVariantMetrics</ref> &amp;</type>
+          <declname>trt</declname>
+        </param>
+        <briefdescription>
+<para>Two-proportion z-test statistic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="415" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a4f86a27174f1339ec26f23476f6a578c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::modules::ABTestManager::calculatePValue</definition>
+        <argsstring>(double z_statistic)</argsstring>
+        <name>calculatePValue</name>
+        <qualifiedname>themis::modules::ABTestManager::calculatePValue</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>z_statistic</declname>
+        </param>
+        <briefdescription>
+<para>Approximate two-tailed p-value from z-statistic (A&amp;S 26.2.17). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="419" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a48ff4b722ab7862e1ebf18d3b3962fc0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::modules::ABTestManager::hashRequestKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>hashRequestKey</name>
+        <qualifiedname>themis::modules::ABTestManager::hashRequestKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Stable hash for deterministic request routing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="422" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1af6fe13b6194ab21f80dc1e4ff1919334" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::modules::ABTestManager::thompsonProbTreatmentWins</definition>
+        <argsstring>(size_t ctrl_success, size_t ctrl_failure, size_t trt_success, size_t trt_failure)</argsstring>
+        <name>thompsonProbTreatmentWins</name>
+        <qualifiedname>themis::modules::ABTestManager::thompsonProbTreatmentWins</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>ctrl_success</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ctrl_failure</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>trt_success</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>trt_failure</declname>
+        </param>
+        <briefdescription>
+<para>Estimate P(treatment_success_rate &gt; control_success_rate) via the normal approximation of the Beta-Binomial posterior. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses uniform Beta(1,1) priors. Returns a value in [0, 1].</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctrl_success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Control successes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctrl_failure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Control failures. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trt_success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Treatment successes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trt_failure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Treatment failures. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="450" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a605e38b8c2155ec75766e33a71f2cb45" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ABTestManager::unloadTreatment</definition>
+        <argsstring>(TestEntry &amp;entry)</argsstring>
+        <name>unloadTreatment</name>
+        <qualifiedname>themis::modules::ABTestManager::unloadTreatment</qualifiedname>
+        <param>
+          <type>TestEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Unload the treatment binary for a test entry (caller must hold mutex_). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="425" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_a_b_test_manager_1a7513e910cbd16f7f45904a1a31fc8c53" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ABTestManager::persistTestEntry</definition>
+        <argsstring>(const std::string &amp;test_id, const TestEntry &amp;entry) const</argsstring>
+        <name>persistTestEntry</name>
+        <qualifiedname>themis::modules::ABTestManager::persistTestEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <param>
+          <type>const TestEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Serialize and write <computeroutput>entry</computeroutput> to storage under key <computeroutput>&quot;ab_test::&lt;test_id&gt;&quot;</computeroutput>. No-op when storage_engine_ is null. Must NOT be called while holding mutex_. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="433" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages A/B tests where each test runs two variants of a module binary simultaneously and routes requests between them. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/themis/base/ab_test_manager.h" line="168" column="1" bodyfile="include/themis/base/ab_test_manager.h" bodystart="168" bodyend="452"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a21975f6426d2730f8bdc04387895ef07" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>ABTestManager</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a952de08ab9e2f28196ee6bcf1accf65d" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>ABTestManager</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1ae614818a4b23dcf3daba8bcb20a589c0" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>ABTestManager</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a4f86a27174f1339ec26f23476f6a578c" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>calculatePValue</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a0cd77670caffb5f45fdd60f397ae2843" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>calculateZStatistic</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a4247866ee73238780f065c4ca8334484" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>cancelTest</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a52ac55ee587257c1e8b8526360839e9f" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>evaluateTest</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a664d59ccdfe09e4ac52b3c3232af9692" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>exportMetricsSnapshot</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1ab119d73ace9203e29ef85015613d4955" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>getActiveTests</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a0352424d1a890536e80dd549480c79e3" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>getControlMetrics</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a46b9a2144e2f42000fe3b0aa194070ee" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>getTestStatus</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1ae3d9c862cda0530924893ea1d6cbcdc5" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>getTreatmentMetrics</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a48ff4b722ab7862e1ebf18d3b3962fc0" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>hashRequestKey</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a992e76433fd748708eb9572208ea3c6a" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>isTreatmentLoaded</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a5605e7540b1ad5835227fcbaf2ff95f7" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>metrics_collector_</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1afcde0bf1ed7b21ec9e1771b47870e5da" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a1263736a08f7bd133a41819b9a7015c7" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a7513e910cbd16f7f45904a1a31fc8c53" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>persistTestEntry</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a12702e943bfa6c77f9b79a28b524074e" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>promoteTest</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1abd98831e99ff2547a6eadae53543a283" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>recordOutcome</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a713ad7369daee0ec625654cc444f827b" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>reload_manager_</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a4731ab5670d497b3bca3b1befa789a09" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>rollbackTest</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1ac2a4d1d937435e8e7baf74b6311528e8" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>setMetricsCollector</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1aec28b856b801381306932026e32cedf9" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>setStorageEngine</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1afa68689c70c087dbdaedb34b422b52b0" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>shouldUseTreatment</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1ab7b2b49ff773ef9ce5e03fc99baa7c05" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>start</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1af55dbe02604bb40f264986c6824793be" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>startTest</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1aaded40da3e153dd843167feea194ed88" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>storage_engine_</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a65b72cf8a72b62134ee3c1f9098f6219" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>tests_</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1af6fe13b6194ab21f80dc1e4ff1919334" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>thompsonProbTreatmentWins</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a3dda4b114a8887bd0d948de5a8eda544" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>treatmentKey</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a605e38b8c2155ec75766e33a71f2cb45" prot="private" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>unloadTreatment</name></member>
+      <member refid="classthemis_1_1modules_1_1_a_b_test_manager_1a2cce187f4928d773ef108879b2e446a9" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager</scope><name>~ABTestManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

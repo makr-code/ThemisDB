@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_improvement_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ImprovementEvent</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a2c42cf466c02f1436bc3710d0f502394" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::learning::ImprovementEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::learning::ImprovementEvent::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="95" column="43" bodyfile="include/rag/learning_metrics.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a10c7e941ca797711f34ea57cfac20ae4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ImprovementEvent::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::rag::learning::ImprovementEvent::component</qualifiedname>
+        <briefdescription>
+<para>Which component improved (LoRA, Prompt, Retrieval). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="96" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_improvement_event_1acd889bb991e3a1a33b0c5da37b16a4eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ImprovementEvent::improvement_type</definition>
+        <argsstring></argsstring>
+        <name>improvement_type</name>
+        <qualifiedname>themis::rag::learning::ImprovementEvent::improvement_type</qualifiedname>
+        <briefdescription>
+<para>Type of improvement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="97" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a173e75c109e93c05ac19854831d91c47" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ImprovementEvent::metric_before</definition>
+        <argsstring></argsstring>
+        <name>metric_before</name>
+        <qualifiedname>themis::rag::learning::ImprovementEvent::metric_before</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="98" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a78e4b4ace1b37e764852bd5600d64e68" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ImprovementEvent::metric_after</definition>
+        <argsstring></argsstring>
+        <name>metric_after</name>
+        <qualifiedname>themis::rag::learning::ImprovementEvent::metric_after</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="99" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_improvement_event_1ab1a69ea8ff43a9a8b7dde4d11a47ec10" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ImprovementEvent::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::rag::learning::ImprovementEvent::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="100" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Information about an improvement event. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="94" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="94" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a10c7e941ca797711f34ea57cfac20ae4" prot="public" virt="non-virtual"><scope>themis::rag::learning::ImprovementEvent</scope><name>component</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1ab1a69ea8ff43a9a8b7dde4d11a47ec10" prot="public" virt="non-virtual"><scope>themis::rag::learning::ImprovementEvent</scope><name>description</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1acd889bb991e3a1a33b0c5da37b16a4eb" prot="public" virt="non-virtual"><scope>themis::rag::learning::ImprovementEvent</scope><name>improvement_type</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a78e4b4ace1b37e764852bd5600d64e68" prot="public" virt="non-virtual"><scope>themis::rag::learning::ImprovementEvent</scope><name>metric_after</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a173e75c109e93c05ac19854831d91c47" prot="public" virt="non-virtual"><scope>themis::rag::learning::ImprovementEvent</scope><name>metric_before</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_improvement_event_1a2c42cf466c02f1436bc3710d0f502394" prot="public" virt="non-virtual"><scope>themis::rag::learning::ImprovementEvent</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PagedKVCache::Config</compoundname>
+    <includes refid="paged__kv__cache_8h" local="no">paged_kv_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1ac3d5ca5e9b8d3b1c191a062dc2e04a64" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCache::Config::block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::llm::PagedKVCache::Config::block_size</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="35" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a17977788ae5075186bc571913c9b8463" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCache::Config::num_blocks</definition>
+        <argsstring></argsstring>
+        <name>num_blocks</name>
+        <qualifiedname>themis::llm::PagedKVCache::Config::num_blocks</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="36" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a286d7340d8508b9c84c77c525963601d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCache::Config::num_layers</definition>
+        <argsstring></argsstring>
+        <name>num_layers</name>
+        <qualifiedname>themis::llm::PagedKVCache::Config::num_layers</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="37" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1ac980b8a66ceba536f9c92b67f979434f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCache::Config::head_dim</definition>
+        <argsstring></argsstring>
+        <name>head_dim</name>
+        <qualifiedname>themis::llm::PagedKVCache::Config::head_dim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="38" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a047852e980d2e0df3058d30abb3f228a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCache::Config::num_kv_heads</definition>
+        <argsstring></argsstring>
+        <name>num_kv_heads</name>
+        <qualifiedname>themis::llm::PagedKVCache::Config::num_kv_heads</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="39" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a444114840f649e1f027b9d96e6a9350b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fb" kindref="member">KVQuantizationType</ref></type>
+        <definition>KVQuantizationType themis::llm::PagedKVCache::Config::kv_quantization</definition>
+        <argsstring></argsstring>
+        <name>kv_quantization</name>
+        <qualifiedname>themis::llm::PagedKVCache::Config::kv_quantization</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaa4bf99d6945c25077fd6660d536af8a0" kindref="member">KVQuantizationType::FP16</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="40" column="28" bodyfile="include/llm/paged_kv_cache.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a1ab9b67414fba5e7990a26f7192dbebf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::PagedKVCache::Config::kv_quantization_bits</definition>
+        <argsstring></argsstring>
+        <name>kv_quantization_bits</name>
+        <qualifiedname>themis::llm::PagedKVCache::Config::kv_quantization_bits</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="41" column="13" bodyfile="include/llm/paged_kv_cache.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a5feb4d7d4d67563fca69074b2c3c990a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PagedKVCache::Config::enable_prefix_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_prefix_caching</name>
+        <qualifiedname>themis::llm::PagedKVCache::Config::enable_prefix_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="42" column="14" bodyfile="include/llm/paged_kv_cache.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1ad0e4887d4cf947ac257769264eac995f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::PagedKVCache::Config::enable_kv_quantization_runtime</definition>
+        <argsstring></argsstring>
+        <name>enable_kv_quantization_runtime</name>
+        <qualifiedname>themis::llm::PagedKVCache::Config::enable_kv_quantization_runtime</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="43" column="14" bodyfile="include/llm/paged_kv_cache.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/paged_kv_cache.h" line="34" column="5" bodyfile="include/llm/paged_kv_cache.h" bodystart="34" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1ac3d5ca5e9b8d3b1c191a062dc2e04a64" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Config</scope><name>block_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1ad0e4887d4cf947ac257769264eac995f" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Config</scope><name>enable_kv_quantization_runtime</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a5feb4d7d4d67563fca69074b2c3c990a" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Config</scope><name>enable_prefix_caching</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1ac980b8a66ceba536f9c92b67f979434f" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Config</scope><name>head_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a444114840f649e1f027b9d96e6a9350b" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Config</scope><name>kv_quantization</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a1ab9b67414fba5e7990a26f7192dbebf" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Config</scope><name>kv_quantization_bits</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a17977788ae5075186bc571913c9b8463" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Config</scope><name>num_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a047852e980d2e0df3058d30abb3f228a" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Config</scope><name>num_kv_heads</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config_1a286d7340d8508b9c84c77c525963601d" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Config</scope><name>num_layers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

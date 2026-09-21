@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1memory_1_1_cpu_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::memory::CpuDeleter</compoundname>
+    <includes refid="memory__utils_8h" local="no">memory_utils.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1memory_1_1_cpu_deleter_1a268727245c25aee8fb778bdcb1f55b62" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::memory::CpuDeleter::operator()</definition>
+        <argsstring>(void *ptr) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::utils::memory::CpuDeleter::operator()</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/memory_utils.h" line="271" column="10" bodyfile="include/utils/memory_utils.h" bodystart="271" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>CPU fallback deleter using std::free. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/memory_utils.h" line="270" column="1" bodyfile="include/utils/memory_utils.h" bodystart="270" bodyend="276"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1memory_1_1_cpu_deleter_1a268727245c25aee8fb778bdcb1f55b62" prot="public" virt="non-virtual"><scope>themis::utils::memory::CpuDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

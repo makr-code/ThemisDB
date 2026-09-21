@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_write_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::WriteGuard</compoundname>
+    <includes refid="concurrent__write__controller_8h" local="no">concurrent_write_controller.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1storage_1_1_write_guard_1a50bc7e5897cb553ee35c77ea9a43eb53" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class ConcurrentWriteController</definition>
+        <argsstring></argsstring>
+        <name>ConcurrentWriteController</name>
+        <qualifiedname>themis::storage::WriteGuard::ConcurrentWriteController</qualifiedname>
+        <param>
+          <type>ConcurrentWriteController</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="102" column="18" bodyfile="include/storage/concurrent_write_controller.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_write_guard_1a56c64e01fd5bb4cad8da1b0ef9d2a954" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_write_guard_1a50bc7e5897cb553ee35c77ea9a43eb53" kindref="member">ConcurrentWriteController</ref> *</type>
+        <definition>ConcurrentWriteController* themis::storage::WriteGuard::controller_</definition>
+        <argsstring></argsstring>
+        <name>controller_</name>
+        <qualifiedname>themis::storage::WriteGuard::controller_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="105" column="31" bodyfile="include/storage/concurrent_write_controller.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_write_guard_1aef6f503cdea9ddaffe6fde21781eb6df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::WriteGuard::WriteGuard</definition>
+        <argsstring>()=default</argsstring>
+        <name>WriteGuard</name>
+        <qualifiedname>themis::storage::WriteGuard::WriteGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="86" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_write_guard_1a9afed0c3aad19002850dbefb7901bfc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::WriteGuard::~WriteGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~WriteGuard</name>
+        <qualifiedname>themis::storage::WriteGuard::~WriteGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="87" column="5" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_write_guard_1aaa4a9a64bd0139ab14282db27d7ade39" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::WriteGuard::WriteGuard</definition>
+        <argsstring>(WriteGuard &amp;&amp;other) noexcept</argsstring>
+        <name>WriteGuard</name>
+        <qualifiedname>themis::storage::WriteGuard::WriteGuard</qualifiedname>
+        <param>
+          <type>WriteGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="89" column="5" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_write_guard_1abb192b3036ce8df5c5368d65d50678e6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_write_guard_1aef6f503cdea9ddaffe6fde21781eb6df" kindref="member">WriteGuard</ref> &amp;</type>
+        <definition>WriteGuard &amp; themis::storage::WriteGuard::operator=</definition>
+        <argsstring>(WriteGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::WriteGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_write_guard_1aef6f503cdea9ddaffe6fde21781eb6df" kindref="member">WriteGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="90" column="16" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="43" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_write_guard_1ae489288b2e1e2248f127d8a4780a0da7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::WriteGuard::WriteGuard</definition>
+        <argsstring>(const WriteGuard &amp;)=delete</argsstring>
+        <name>WriteGuard</name>
+        <qualifiedname>themis::storage::WriteGuard::WriteGuard</qualifiedname>
+        <param>
+          <type>const WriteGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_write_guard_1a122a6c9eedfb3e5ce4e0ac7b73b71a94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_write_guard_1aef6f503cdea9ddaffe6fde21781eb6df" kindref="member">WriteGuard</ref> &amp;</type>
+        <definition>WriteGuard &amp; themis::storage::WriteGuard::operator=</definition>
+        <argsstring>(const WriteGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::WriteGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_write_guard_1aef6f503cdea9ddaffe6fde21781eb6df" kindref="member">WriteGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="93" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_write_guard_1a082a55b7d85e522551055680c1cc0472" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::WriteGuard::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::storage::WriteGuard::operator bool</qualifiedname>
+        <briefdescription>
+<para>Returns true when the guard actually holds a slot (not default-constructed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="96" column="14" bodyfile="include/storage/concurrent_write_controller.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_write_guard_1a63150837a1c94ff992b739c35af82bed" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::WriteGuard::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::storage::WriteGuard::release</qualifiedname>
+        <briefdescription>
+<para>Manually release the slot before the guard is destroyed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="99" column="10" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_write_guard_1aa73f566c5eca363a8589537fdde269b4" prot="private" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::WriteGuard::WriteGuard</definition>
+        <argsstring>(ConcurrentWriteController *ctrl) noexcept</argsstring>
+        <name>WriteGuard</name>
+        <qualifiedname>themis::storage::WriteGuard::WriteGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_write_guard_1a50bc7e5897cb553ee35c77ea9a43eb53" kindref="member">ConcurrentWriteController</ref> *</type>
+          <declname>ctrl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/concurrent_write_controller.h" line="103" column="14" bodyfile="src/storage/concurrent_write_controller.cpp" bodystart="31" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard that holds a write slot. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The slot is released (and the next FIFO waiter woken) when the guard goes out of scope. Guards are move-only. </para>
+    </detaileddescription>
+    <location file="include/storage/concurrent_write_controller.h" line="84" column="1" bodyfile="include/storage/concurrent_write_controller.h" bodystart="84" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1a50bc7e5897cb553ee35c77ea9a43eb53" prot="private" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>ConcurrentWriteController</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1a56c64e01fd5bb4cad8da1b0ef9d2a954" prot="private" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>controller_</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1a082a55b7d85e522551055680c1cc0472" prot="public" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1abb192b3036ce8df5c5368d65d50678e6" prot="public" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1a122a6c9eedfb3e5ce4e0ac7b73b71a94" prot="public" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1a63150837a1c94ff992b739c35af82bed" prot="public" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>release</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1aef6f503cdea9ddaffe6fde21781eb6df" prot="public" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>WriteGuard</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1aaa4a9a64bd0139ab14282db27d7ade39" prot="public" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>WriteGuard</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1ae489288b2e1e2248f127d8a4780a0da7" prot="public" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>WriteGuard</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1aa73f566c5eca363a8589537fdde269b4" prot="private" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>WriteGuard</name></member>
+      <member refid="classthemis_1_1storage_1_1_write_guard_1a9afed0c3aad19002850dbefb7901bfc6" prot="public" virt="non-virtual"><scope>themis::storage::WriteGuard</scope><name>~WriteGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

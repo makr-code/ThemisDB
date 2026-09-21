@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::PrometheusMetrics::Config</compoundname>
+    <includes refid="prometheus__metrics_8h" local="no">prometheus_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_config_1ae9d14305a36261b13ff47dc3bd82a020" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::PrometheusMetrics::Config::http_port</definition>
+        <argsstring></argsstring>
+        <name>http_port</name>
+        <qualifiedname>themis::sharding::PrometheusMetrics::Config::http_port</qualifiedname>
+        <initializer>= 8080</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/prometheus_metrics.h" line="34" column="13" bodyfile="include/sharding/prometheus_metrics.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_config_1aa99fb972b9cda026d54f88645dd0d6a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PrometheusMetrics::Config::http_path</definition>
+        <argsstring></argsstring>
+        <name>http_path</name>
+        <qualifiedname>themis::sharding::PrometheusMetrics::Config::http_path</qualifiedname>
+        <initializer>= &quot;/metrics&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/prometheus_metrics.h" line="35" column="21" bodyfile="include/sharding/prometheus_metrics.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_config_1a583e17522cb045887523bf9ae8d9ca62" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::PrometheusMetrics::Config::enable_histograms</definition>
+        <argsstring></argsstring>
+        <name>enable_histograms</name>
+        <qualifiedname>themis::sharding::PrometheusMetrics::Config::enable_histograms</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/prometheus_metrics.h" line="36" column="14" bodyfile="include/sharding/prometheus_metrics.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_config_1a365127f4c694eadf98d8b13f0ab34593" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::PrometheusMetrics::Config::histogram_buckets</definition>
+        <argsstring></argsstring>
+        <name>histogram_buckets</name>
+        <qualifiedname>themis::sharding::PrometheusMetrics::Config::histogram_buckets</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/prometheus_metrics.h" line="37" column="13" bodyfile="include/sharding/prometheus_metrics.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/prometheus_metrics.h" line="33" column="5" bodyfile="include/sharding/prometheus_metrics.h" bodystart="33" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_config_1a583e17522cb045887523bf9ae8d9ca62" prot="public" virt="non-virtual"><scope>themis::sharding::PrometheusMetrics::Config</scope><name>enable_histograms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_config_1a365127f4c694eadf98d8b13f0ab34593" prot="public" virt="non-virtual"><scope>themis::sharding::PrometheusMetrics::Config</scope><name>histogram_buckets</name></member>
+      <member refid="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_config_1aa99fb972b9cda026d54f88645dd0d6a4" prot="public" virt="non-virtual"><scope>themis::sharding::PrometheusMetrics::Config</scope><name>http_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_prometheus_metrics_1_1_config_1ae9d14305a36261b13ff47dc3bd82a020" prot="public" virt="non-virtual"><scope>themis::sharding::PrometheusMetrics::Config</scope><name>http_port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_validation_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ValidationResponse</compoundname>
+    <includes refid="i__feedback__plugin_8h" local="no">i_feedback_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_response_1a103f43aaba8dff32b742ffc7eddeda51" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a2cbb66d9af64359060b96cf3a5412f75" kindref="member">FeedbackValidationResult</ref></type>
+        <definition>FeedbackValidationResult themis::llm::ValidationResponse::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::llm::ValidationResponse::result</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a2cbb66d9af64359060b96cf3a5412f75a1fd72e016e8fbf2cf1f0c918dcd9bad3" kindref="member">FeedbackValidationResult::ACCEPT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="36" column="30" bodyfile="include/llm/i_feedback_plugin.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_response_1a7e3ebfb58046863d077c88ea5cbfc350" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::ValidationResponse::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::ValidationResponse::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="37" column="19" bodyfile="include/llm/i_feedback_plugin.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_response_1adc2324e06bd54903b72f847640e36e4e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &gt;</type>
+        <definition>std::optional&lt;json&gt; themis::llm::ValidationResponse::modified_metadata</definition>
+        <argsstring></argsstring>
+        <name>modified_metadata</name>
+        <qualifiedname>themis::llm::ValidationResponse::modified_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="38" column="19" bodyfile="include/llm/i_feedback_plugin.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_response_1ac4d546d7c963d3187431bb96a9b5ed7c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::ValidationResponse::modified_comment</definition>
+        <argsstring></argsstring>
+        <name>modified_comment</name>
+        <qualifiedname>themis::llm::ValidationResponse::modified_comment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="39" column="19" bodyfile="include/llm/i_feedback_plugin.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_response_1ad7de815eb7dbb1d07bc4aa987c875821" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ValidationResponse::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::llm::ValidationResponse::confidence_score</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="40" column="11" bodyfile="include/llm/i_feedback_plugin.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_validation_response_1a590f00e7be3230b44792969d05275927" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::ValidationResponse::plugin_data</definition>
+        <argsstring></argsstring>
+        <name>plugin_data</name>
+        <qualifiedname>themis::llm::ValidationResponse::plugin_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_feedback_plugin.h" line="41" column="10" bodyfile="include/llm/i_feedback_plugin.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/i_feedback_plugin.h" line="35" column="1" bodyfile="include/llm/i_feedback_plugin.h" bodystart="35" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_validation_response_1ad7de815eb7dbb1d07bc4aa987c875821" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResponse</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_response_1ac4d546d7c963d3187431bb96a9b5ed7c" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResponse</scope><name>modified_comment</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_response_1adc2324e06bd54903b72f847640e36e4e" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResponse</scope><name>modified_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_response_1a590f00e7be3230b44792969d05275927" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResponse</scope><name>plugin_data</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_response_1a7e3ebfb58046863d077c88ea5cbfc350" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResponse</scope><name>reason</name></member>
+      <member refid="structthemis_1_1llm_1_1_validation_response_1a103f43aaba8dff32b742ffc7eddeda51" prot="public" virt="non-virtual"><scope>themis::llm::ValidationResponse</scope><name>result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

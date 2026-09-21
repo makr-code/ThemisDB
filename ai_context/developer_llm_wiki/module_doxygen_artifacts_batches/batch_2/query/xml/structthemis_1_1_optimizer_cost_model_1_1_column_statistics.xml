@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::OptimizerCostModel::ColumnStatistics</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a8638a5bb9248994364da0bc2c4a2e228" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::OptimizerCostModel::ColumnStatistics::columnName</definition>
+        <argsstring></argsstring>
+        <name>columnName</name>
+        <qualifiedname>themis::OptimizerCostModel::ColumnStatistics::columnName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="51" column="21" bodyfile="include/query/optimizer_cost_model.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a5855dd409f3390eb3c302b409d9fd889" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::ColumnStatistics::distinctValues</definition>
+        <argsstring></argsstring>
+        <name>distinctValues</name>
+        <qualifiedname>themis::OptimizerCostModel::ColumnStatistics::distinctValues</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="52" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a120647ff00af7ba080b92506c1203902" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::ColumnStatistics::nullFraction</definition>
+        <argsstring></argsstring>
+        <name>nullFraction</name>
+        <qualifiedname>themis::OptimizerCostModel::ColumnStatistics::nullFraction</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="53" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1ab85c4c3e750bab3e625353baf66d5201" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::OptimizerCostModel::ColumnStatistics::minValue</definition>
+        <argsstring></argsstring>
+        <name>minValue</name>
+        <qualifiedname>themis::OptimizerCostModel::ColumnStatistics::minValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="54" column="21" bodyfile="include/query/optimizer_cost_model.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a4f0adec711f5114b2e874f7574aff0f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::OptimizerCostModel::ColumnStatistics::maxValue</definition>
+        <argsstring></argsstring>
+        <name>maxValue</name>
+        <qualifiedname>themis::OptimizerCostModel::ColumnStatistics::maxValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="55" column="21" bodyfile="include/query/optimizer_cost_model.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a56d4dc29497221cf0ed29732aa5a2dfa" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::OptimizerCostModel::ColumnStatistics::valueDistribution</definition>
+        <argsstring></argsstring>
+        <name>valueDistribution</name>
+        <qualifiedname>themis::OptimizerCostModel::ColumnStatistics::valueDistribution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="56" column="18" bodyfile="include/query/optimizer_cost_model.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="50" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="50" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a8638a5bb9248994364da0bc2c4a2e228" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ColumnStatistics</scope><name>columnName</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a5855dd409f3390eb3c302b409d9fd889" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ColumnStatistics</scope><name>distinctValues</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a4f0adec711f5114b2e874f7574aff0f3" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ColumnStatistics</scope><name>maxValue</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1ab85c4c3e750bab3e625353baf66d5201" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ColumnStatistics</scope><name>minValue</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a120647ff00af7ba080b92506c1203902" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ColumnStatistics</scope><name>nullFraction</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a56d4dc29497221cf0ed29732aa5a2dfa" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::ColumnStatistics</scope><name>valueDistribution</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

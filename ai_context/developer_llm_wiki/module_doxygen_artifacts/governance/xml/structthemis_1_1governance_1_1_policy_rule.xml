@@ -1,0 +1,512 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyRule</compoundname>
+    <includes refid="policy__manager_8h" local="no">policy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a8bd6130ce0399611090df940dab7c0d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRule::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::PolicyRule::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="61" column="17" bodyfile="include/governance/policy_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1aaa099d7291d9abd7d9bf1ca11d49f321" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRule::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::governance::PolicyRule::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="62" column="17" bodyfile="include/governance/policy_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1aab8ff019cbbd6e65b52be874d9cb61aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRule::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::PolicyRule::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="63" column="17" bodyfile="include/governance/policy_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a5c979f28f19204b840efb02d7061ab01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRule::classification_level</definition>
+        <argsstring></argsstring>
+        <name>classification_level</name>
+        <qualifiedname>themis::governance::PolicyRule::classification_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="64" column="17" bodyfile="include/governance/policy_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1ab0018d3b153ea405b8c47c23c376a4e3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyRule::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::governance::PolicyRule::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="65" column="10" bodyfile="include/governance/policy_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a74f1fd71bd63df2c4990c3b7c9c1c682" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PolicyRule::resources</definition>
+        <argsstring></argsstring>
+        <name>resources</name>
+        <qualifiedname>themis::governance::PolicyRule::resources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="68" column="17" bodyfile="include/governance/policy_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1adbba467f6502bcc060fcab50fa2ed860" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PolicyRule::actions</definition>
+        <argsstring></argsstring>
+        <name>actions</name>
+        <qualifiedname>themis::governance::PolicyRule::actions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="69" column="17" bodyfile="include/governance/policy_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1acaf95c9585faf71f4206b41371d77602" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PolicyRule::required_roles</definition>
+        <argsstring></argsstring>
+        <name>required_roles</name>
+        <qualifiedname>themis::governance::PolicyRule::required_roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="70" column="17" bodyfile="include/governance/policy_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a4fd48ce9c438fc35a174596100d3c5ec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyRule::require_encryption</definition>
+        <argsstring></argsstring>
+        <name>require_encryption</name>
+        <qualifiedname>themis::governance::PolicyRule::require_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="73" column="10" bodyfile="include/governance/policy_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a2ab9a5debb7989d7595aaaed465ff209" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyRule::require_signature</definition>
+        <argsstring></argsstring>
+        <name>require_signature</name>
+        <qualifiedname>themis::governance::PolicyRule::require_signature</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="74" column="10" bodyfile="include/governance/policy_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a328960c4200ed7686c19230155a10e79" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyRule::allow_export</definition>
+        <argsstring></argsstring>
+        <name>allow_export</name>
+        <qualifiedname>themis::governance::PolicyRule::allow_export</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="75" column="10" bodyfile="include/governance/policy_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a11a3601bbdfca1fefac30ef0a137d7ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyRule::allow_cache</definition>
+        <argsstring></argsstring>
+        <name>allow_cache</name>
+        <qualifiedname>themis::governance::PolicyRule::allow_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="76" column="10" bodyfile="include/governance/policy_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a05314f0b7f263337886196e92252a69c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyRule::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>themis::governance::PolicyRule::retention_days</qualifiedname>
+        <initializer>= 365</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="77" column="9" bodyfile="include/governance/policy_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a2e553991d67aea24eb2d013334881929" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRule::redaction_level</definition>
+        <argsstring></argsstring>
+        <name>redaction_level</name>
+        <qualifiedname>themis::governance::PolicyRule::redaction_level</qualifiedname>
+        <initializer>= &quot;standard&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="78" column="17" bodyfile="include/governance/policy_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a4c4dd69b001466d97cc776ce7e7a975b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyRule::audit_access</definition>
+        <argsstring></argsstring>
+        <name>audit_access</name>
+        <qualifiedname>themis::governance::PolicyRule::audit_access</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="81" column="10" bodyfile="include/governance/policy_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a3cdfb2001e2a3ec24872b1edc27aa495" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyRule::audit_changes</definition>
+        <argsstring></argsstring>
+        <name>audit_changes</name>
+        <qualifiedname>themis::governance::PolicyRule::audit_changes</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="82" column="10" bodyfile="include/governance/policy_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1ab47e2c690d9615d25e71de219c648869" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyRule::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::governance::PolicyRule::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="85" column="9" bodyfile="include/governance/policy_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a620ef6df1cf3f461b2e7cfd270b1cf33" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRule::created_by</definition>
+        <argsstring></argsstring>
+        <name>created_by</name>
+        <qualifiedname>themis::governance::PolicyRule::created_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="86" column="17" bodyfile="include/governance/policy_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a2c4e4305321607593e39fdda5d40bc12" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyRule::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::governance::PolicyRule::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="87" column="13" bodyfile="include/governance/policy_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a8fc6d6a74c6f7dcceb10d4ae4581e6e3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::PolicyRule::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::governance::PolicyRule::updated_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="88" column="13" bodyfile="include/governance/policy_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a7c73c7fcca22175c583e3bfdfa9ffaec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRule::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::governance::PolicyRule::version</qualifiedname>
+        <initializer>= &quot;1.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="91" column="17" bodyfile="include/governance/policy_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1ae66c0d0ec9b2d5ddab1c4c3060061837" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRule::last_modified_by</definition>
+        <argsstring></argsstring>
+        <name>last_modified_by</name>
+        <qualifiedname>themis::governance::PolicyRule::last_modified_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="92" column="17" bodyfile="include/governance/policy_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1af34edffb1669146cdffb7ce8c6e5ec2a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyRule::change_description</definition>
+        <argsstring></argsstring>
+        <name>change_description</name>
+        <qualifiedname>themis::governance::PolicyRule::change_description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="93" column="17" bodyfile="include/governance/policy_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_rule_1a629de2d27426199b7830261b8094ca84" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_lifecycle" kindref="compound">PolicyLifecycle</ref></type>
+        <definition>PolicyLifecycle themis::governance::PolicyRule::lifecycle</definition>
+        <argsstring></argsstring>
+        <name>lifecycle</name>
+        <qualifiedname>themis::governance::PolicyRule::lifecycle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="96" column="21" bodyfile="include/governance/policy_manager.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_rule_1ab27a44c3d6f11f563c8b06f8f1b5f857" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyRule::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyRule::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="102" column="20" bodyfile="src/governance/policy_manager.cpp" bodystart="68" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_rule_1a909e238bea9b5c5297ca41ef1cb40ecc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyRule::appliesTo</definition>
+        <argsstring>(const std::string &amp;resource, const std::string &amp;action) const</argsstring>
+        <name>appliesTo</name>
+        <qualifiedname>themis::governance::PolicyRule::appliesTo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Applies To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="116" column="10" bodyfile="src/governance/policy_manager.cpp" bodystart="176" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_rule_1a9b173da99ec926c8848f9575d34b8ba9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref></type>
+        <definition>PolicyRule themis::governance::PolicyRule::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::PolicyRule::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="108" column="23" bodyfile="src/governance/policy_manager.cpp" bodystart="102" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::governance::PolicyLifecycle</label>
+        <link refid="structthemis_1_1governance_1_1_policy_lifecycle"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::PolicyRule</label>
+        <link refid="structthemis_1_1governance_1_1_policy_rule"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lifecycle</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/policy_manager.h" line="60" column="1" bodyfile="include/governance/policy_manager.h" bodystart="60" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1adbba467f6502bcc060fcab50fa2ed860" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>actions</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a11a3601bbdfca1fefac30ef0a137d7ac" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>allow_cache</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a328960c4200ed7686c19230155a10e79" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>allow_export</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a909e238bea9b5c5297ca41ef1cb40ecc" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>appliesTo</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a4c4dd69b001466d97cc776ce7e7a975b" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>audit_access</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a3cdfb2001e2a3ec24872b1edc27aa495" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>audit_changes</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1af34edffb1669146cdffb7ce8c6e5ec2a" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>change_description</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a5c979f28f19204b840efb02d7061ab01" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>classification_level</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a2c4e4305321607593e39fdda5d40bc12" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a620ef6df1cf3f461b2e7cfd270b1cf33" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>created_by</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1aab8ff019cbbd6e65b52be874d9cb61aa" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1ab0018d3b153ea405b8c47c23c376a4e3" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a9b173da99ec926c8848f9575d34b8ba9" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a8bd6130ce0399611090df940dab7c0d6" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>id</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1ae66c0d0ec9b2d5ddab1c4c3060061837" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>last_modified_by</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a629de2d27426199b7830261b8094ca84" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>lifecycle</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1aaa099d7291d9abd7d9bf1ca11d49f321" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>name</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1ab47e2c690d9615d25e71de219c648869" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>priority</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a2e553991d67aea24eb2d013334881929" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>redaction_level</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a4fd48ce9c438fc35a174596100d3c5ec" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>require_encryption</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a2ab9a5debb7989d7595aaaed465ff209" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>require_signature</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1acaf95c9585faf71f4206b41371d77602" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>required_roles</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a74f1fd71bd63df2c4990c3b7c9c1c682" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>resources</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a05314f0b7f263337886196e92252a69c" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>retention_days</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1ab27a44c3d6f11f563c8b06f8f1b5f857" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a8fc6d6a74c6f7dcceb10d4ae4581e6e3" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>updated_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_rule_1a7c73c7fcca22175c583e3bfdfa9ffaec" prot="public" virt="non-virtual"><scope>themis::governance::PolicyRule</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

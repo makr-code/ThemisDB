@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__judge__is__mock_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_judge_is_mock.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">rag/llm_judge_integration.h</includes>
+    <includes local="yes">rag/response_parser.h</includes>
+    <includes local="yes">rag/prompt_templates.h</includes>
+    <includes local="yes">rag/rag_judge.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_judge_is_mock.cpp</label>
+        <link refid="test__llm__judge__is__mock_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>rag/llm_judge_integration.h</label>
+      </node>
+      <node id="5">
+        <label>rag/prompt_templates.h</label>
+      </node>
+      <node id="6">
+        <label>rag/rag_judge.h</label>
+      </node>
+      <node id="4">
+        <label>rag/response_parser.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__judge__is__mock_8cpp_1a1959b70ffaff49424ef81eee9b0a0579" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JGI_MOCK, JGI_MOCK_01_ParsedResponseIsMockDefaultsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JGI_MOCK</type>
+        </param>
+        <param>
+          <type>JGI_MOCK_01_ParsedResponseIsMockDefaultsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_is_mock.cpp" line="43" column="1" bodyfile="tests/llm/test_llm_judge_is_mock.cpp" bodystart="43" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__is__mock_8cpp_1ae31b9e132b8ffbac95f1b50d0c465c20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JGI_MOCK, JGI_MOCK_02_RealEngineLeavesMockFlagFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JGI_MOCK</type>
+        </param>
+        <param>
+          <type>JGI_MOCK_02_RealEngineLeavesMockFlagFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_is_mock.cpp" line="48" column="1" bodyfile="tests/llm/test_llm_judge_is_mock.cpp" bodystart="48" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__is__mock_8cpp_1ae9fe47628def4b9c866bf801be2144f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JGI_MOCK, JGI_MOCK_03_UnavailablePathLeavesMockFlagFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JGI_MOCK</type>
+        </param>
+        <param>
+          <type>JGI_MOCK_03_UnavailablePathLeavesMockFlagFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_is_mock.cpp" line="59" column="1" bodyfile="tests/llm/test_llm_judge_is_mock.cpp" bodystart="59" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__is__mock_8cpp_1a9742a71a1d11375cef543e435415138d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JGI_MOCK, JGI_MOCK_04_GateDisabledLeavesMockFlagFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JGI_MOCK</type>
+        </param>
+        <param>
+          <type>JGI_MOCK_04_GateDisabledLeavesMockFlagFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_is_mock.cpp" line="71" column="1" bodyfile="tests/llm/test_llm_judge_is_mock.cpp" bodystart="71" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__judge__is__mock_8cpp_1a2fff95019a32570531dd91b37734cfbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(JGI_MOCK, JGI_MOCK_05_InjectedFunctionLeavesMockFlagFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>JGI_MOCK</type>
+        </param>
+        <param>
+          <type>JGI_MOCK_05_InjectedFunctionLeavesMockFlagFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_judge_is_mock.cpp" line="85" column="1" bodyfile="tests/llm/test_llm_judge_is_mock.cpp" bodystart="85" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compatibility tests for ParsedResponse::is_mock after mock removal. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/llm_judge_integration.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/response_parser.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/prompt_templates.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/rag_judge.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::rag::judge;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">FakeEngine<sp/>:<sp/>ILLMInferenceEngine<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*prompt*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;score&quot;:3.5,&quot;confidence&quot;:0.9,&quot;reasoning&quot;:&quot;test-ok&quot;})&quot;;</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">};</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral">PromptTemplateManager<sp/>makeTemplateManager()<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mgr<sp/>=<sp/>PromptTemplateManager::createDefault();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTemplate(EvaluationDimension::FAITHFULNESS,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Evaluate:<sp/>{answer}<sp/>vs<sp/>{context}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mgr;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">EvaluationInput<sp/>makeInput()<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EvaluationInput<sp/>in;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>in.query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>X?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>in.generated_answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;X<sp/>is<sp/>Y.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>RetrievedDocument<sp/>d;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>d.id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;doc-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>d.content<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;X<sp/>equals<sp/>Y.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>d.similarity_score<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>in.documents.push_back(std::move(d));</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>in;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__llm__judge__is__mock_8cpp_1a1959b70ffaff49424ef81eee9b0a0579" kindref="member">TEST</ref>(JGI_MOCK,<sp/>JGI_MOCK_01_ParsedResponseIsMockDefaultsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ParsedResponse<sp/>r{};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.is_mock);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__llm__judge__is__mock_8cpp_1a1959b70ffaff49424ef81eee9b0a0579" kindref="member">TEST</ref>(JGI_MOCK,<sp/>JGI_MOCK_02_RealEngineLeavesMockFlagFalse)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>FakeEngine<sp/>engine;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration(&amp;engine);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(integration.isMockMode());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,<sp/>makeInput(),<sp/>makeTemplateManager());</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_mock);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="test__llm__judge__is__mock_8cpp_1a1959b70ffaff49424ef81eee9b0a0579" kindref="member">TEST</ref>(JGI_MOCK,<sp/>JGI_MOCK_03_UnavailablePathLeavesMockFlagFalse)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(integration.isMockMode());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,<sp/>makeInput(),<sp/>makeTemplateManager());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_mock);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.reasoning,<sp/></highlight><highlight class="stringliteral">&quot;llm_unavailable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__llm__judge__is__mock_8cpp_1a1959b70ffaff49424ef81eee9b0a0579" kindref="member">TEST</ref>(JGI_MOCK,<sp/>JGI_MOCK_04_GateDisabledLeavesMockFlagFalse)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>FakeEngine<sp/>engine;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_llm_judge<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration(&amp;engine,<sp/>cfg);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,<sp/>makeInput(),<sp/>makeTemplateManager());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_mock);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.reasoning,<sp/></highlight><highlight class="stringliteral">&quot;llm_unavailable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__llm__judge__is__mock_8cpp_1a1959b70ffaff49424ef81eee9b0a0579" kindref="member">TEST</ref>(JGI_MOCK,<sp/>JGI_MOCK_05_InjectedFunctionLeavesMockFlagFalse)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>LLMJudgeIntegration<sp/>integration;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>integration.setInferenceFunction([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;score&quot;:4.0,&quot;confidence&quot;:0.8,&quot;reasoning&quot;:&quot;ok&quot;})&quot;;</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>integration.evaluateWithLLM(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EvaluationDimension::FAITHFULNESS,<sp/>makeInput(),<sp/>makeTemplateManager());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(integration.isMockMode());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_mock);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.success);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_judge_is_mock.cpp"/>
+  </compounddef>
+</doxygen>

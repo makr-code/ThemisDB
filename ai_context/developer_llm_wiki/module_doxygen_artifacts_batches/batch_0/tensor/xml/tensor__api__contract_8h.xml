@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__api__contract_8h" kind="file" language="C++">
+    <compoundname>tensor_api_contract.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="bench__tensor__release__gates_8cpp" local="yes">benchmarks/tensor/bench_tensor_release_gates.cpp</includedby>
+    <includedby refid="test__tensor__contract__hardening__focused_8cpp" local="yes">tests/tensor/test_tensor_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/tensor/tensor_api_contract.h</label>
+        <link refid="tensor__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/tensor/bench_tensor_release_gates.cpp</label>
+        <link refid="bench__tensor__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_api_contract.h</label>
+        <link refid="tensor__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/tensor/test_tensor_contract_hardening_focused.cpp</label>
+        <link refid="test__tensor__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Frozen tensor runtime contract semantics for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the tensor module covering shape immutability, CPU/GPU device dispatch consistency, batch dimension conventions, memory ownership rules (owning vs non-owning views), and the canonical error taxonomy.</para>
+<sect1 id="tensor__api__contract_8h_1autotoc_md0_1s1"><sect2 id="tensor__api__contract_8h_1autotoc_md0">
+<title>Contract Scope</title><para>The contracts below are binding for all components in the ThemisDB tensor pipeline:<itemizedlist>
+<listitem><para>Tensor creation and reshape operations</para>
+</listitem><listitem><para>CPU / GPU device dispatch (consistent numerical results)</para>
+</listitem><listitem><para>Batch processing (NCHW layout, batch-first convention)</para>
+</listitem><listitem><para>Memory ownership (owning tensor vs non-owning slice/view)</para>
+</listitem><listitem><para>Dtype operations (compatible casts, incompatible cast detection)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="tensor__api__contract_8h_1autotoc_md1_1s1"><sect2 id="tensor__api__contract_8h_1autotoc_md1">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/tensor/ROADMAP.md — Phase 1 contract item </para>
+</simplesect>
+<simplesect kind="see"><para>include/tensor/ROADMAP.md — Phase 6 documentation item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Shape<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Immutability<sp/>after<sp/>creation:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>tensor&apos;s<sp/>shape<sp/>is<sp/>fixed<sp/>at<sp/>construction<sp/>time.<sp/><sp/>In-place<sp/>reshape<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>prohibited;<sp/>reshape()<sp/>returns<sp/>a<sp/>NEW<sp/>tensor<sp/>with<sp/>a<sp/>copied<sp/>(or<sp/>re-referenced)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>data<sp/>buffer.<sp/><sp/>The<sp/>original<sp/>tensor<sp/>is<sp/>unmodified.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Element<sp/>count<sp/>invariant:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>reshape<sp/>operation<sp/>is<sp/>valid<sp/>only<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>product(new_shape)<sp/>==<sp/>product(original_shape).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Attempting<sp/>a<sp/>reshape<sp/>that<sp/>changes<sp/>the<sp/>element<sp/>count<sp/>raises<sp/>SHAPE_MISMATCH.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Empty<sp/>tensors:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>tensor<sp/>with<sp/>any<sp/>dimension<sp/>equal<sp/>to<sp/>0<sp/>is<sp/>a<sp/>valid<sp/>empty<sp/>tensor.<sp/><sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>on<sp/>empty<sp/>tensors<sp/>return<sp/>empty<sp/>tensors;<sp/>they<sp/>do<sp/>not<sp/>raise<sp/>errors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1tensor_1a74b1a3e631cbbd6b1f6cfdcbfa8dc705" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1tensor_1a74b1a3e631cbbd6b1f6cfdcbfa8dc705" kindref="member">kMaxTensorRank</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1tensor_1a12725f7e9a863a2c497d5b18c4b7c74d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1tensor_1a12725f7e9a863a2c497d5b18c4b7c74d" kindref="member">kMaxTensorElements</ref><sp/>=<sp/>1&apos;000&apos;000&apos;000u;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>Giga-elements</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Device<sp/>dispatch<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Numerical<sp/>consistency:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>CPU<sp/>and<sp/>GPU<sp/>implementations<sp/>of<sp/>the<sp/>same<sp/>operation<sp/>MUST<sp/>produce<sp/>results<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>agree<sp/>to<sp/>within<sp/>a<sp/>relative<sp/>tolerance<sp/>of<sp/>1e-6<sp/>for<sp/>float32<sp/>and<sp/>1e-10<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>float64.<sp/><sp/>Results<sp/>that<sp/>diverge<sp/>beyond<sp/>this<sp/>tolerance<sp/>indicate<sp/>a<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>violation<sp/>in<sp/>the<sp/>GPU<sp/>kernel.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPU<sp/>unavailability<sp/>fallback:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>When<sp/>the<sp/>requested<sp/>GPU<sp/>device<sp/>is<sp/>unavailable<sp/>(not<sp/>present,<sp/>driver<sp/>error,<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>memory<sp/>exhausted),<sp/>the<sp/>dispatch<sp/>layer<sp/>MUST<sp/>fall<sp/>back<sp/>to<sp/>the<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>implementation<sp/>transparently.<sp/><sp/>DEVICE_UNAVAILABLE<sp/>is<sp/>returned<sp/>only<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>both<sp/>GPU<sp/>and<sp/>CPU<sp/>paths<sp/>are<sp/>unavailable<sp/>simultaneously.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Device<sp/>selection<sp/>latency:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>The<sp/>device<sp/>selection<sp/>decision<sp/>(CPU<sp/>vs<sp/>GPU,<sp/>which<sp/>GPU)<sp/>must<sp/>complete<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>O(1)<sp/>with<sp/>p99<sp/>≤<sp/>10<sp/>µs<sp/>excluding<sp/>any<sp/>hardware<sp/>initialisation<sp/>that<sp/>occurs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>at<sp/>process<sp/>start.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1tensor_1a761ad940c7fb7c43100e32c0e6cb0f17" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1a761ad940c7fb7c43100e32c0e6cb0f17" kindref="member">kDeviceDispatchToleranceF32</ref><sp/>=<sp/>1e-6;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1tensor_1a74af1ec1be06f8f47ec0ed4cfc62e97f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1a74af1ec1be06f8f47ec0ed4cfc62e97f" kindref="member">kDeviceDispatchToleranceF64</ref><sp/>=<sp/>1e-10;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Batch<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Batch<sp/>dimension:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>The<sp/>batch<sp/>dimension<sp/>is<sp/>ALWAYS<sp/>dimension<sp/>0<sp/>(N<sp/>in<sp/>NCHW<sp/>notation).<sp/><sp/>No</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>operation<sp/>may<sp/>reinterpret<sp/>the<sp/>batch<sp/>dimension<sp/>as<sp/>a<sp/>spatial<sp/>or<sp/>channel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>dimension.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCHW<sp/>layout<sp/>for<sp/>image<sp/>tensors:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Image<sp/>tensors<sp/>use<sp/>NCHW<sp/>layout:<sp/>[batch,<sp/>channels,<sp/>height,<sp/>width].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>NHWC<sp/>layout<sp/>is<sp/>supported<sp/>as<sp/>an<sp/>explicit<sp/>opt-in<sp/>via<sp/>a<sp/>layout<sp/>tag<sp/>but<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>never<sp/>the<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Memory<sp/>ownership<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Owning<sp/>tensor:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>tensor<sp/>created<sp/>via<sp/>Tensor::create()<sp/>or<sp/>Tensor::zeros()<sp/>owns<sp/>its<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>buffer.<sp/><sp/>The<sp/>buffer<sp/>is<sp/>freed<sp/>when<sp/>the<sp/>tensor<sp/>is<sp/>destroyed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Non-owning<sp/>slice<sp/>/<sp/>view:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>slice<sp/>or<sp/>view<sp/>created<sp/>via<sp/>Tensor::slice()<sp/>/<sp/>Tensor::view()<sp/>does<sp/>NOT<sp/>own</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>the<sp/>underlying<sp/>data.<sp/><sp/>Its<sp/>lifetime<sp/>is<sp/>bounded<sp/>by<sp/>the<sp/>parent<sp/>tensor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Accessing<sp/>a<sp/>view<sp/>after<sp/>the<sp/>parent<sp/>tensor<sp/>has<sp/>been<sp/>destroyed<sp/>is<sp/>undefined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>behaviour<sp/>(checked<sp/>in<sp/>debug<sp/>builds).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>No<sp/>implicit<sp/>copy<sp/>on<sp/>slice:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Slice<sp/>and<sp/>view<sp/>operations<sp/>MUST<sp/>NOT<sp/>copy<sp/>the<sp/>underlying<sp/>data.<sp/><sp/>The<sp/>entire</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>purpose<sp/>of<sp/>a<sp/>view<sp/>is<sp/>zero-copy<sp/>access<sp/>into<sp/>the<sp/>parent<sp/>buffer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Dtype<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compatible<sp/>operations:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Binary<sp/>operations<sp/>(add,<sp/>mul,<sp/>matmul,<sp/>…)<sp/>on<sp/>two<sp/>tensors<sp/>of<sp/>the<sp/>same<sp/>dtype</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>always<sp/>produce<sp/>a<sp/>result<sp/>of<sp/>the<sp/>same<sp/>dtype.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Incompatible<sp/>operations:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Combining<sp/>tensors<sp/>of<sp/>incompatible<sp/>dtypes<sp/>(e.g.,<sp/>float32<sp/>+<sp/>int8)<sp/>raises</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>DTYPE_INCOMPATIBLE.<sp/><sp/>Implicit<sp/>dtype<sp/>promotion<sp/>is<sp/>PROHIBITED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Explicit<sp/>mixed<sp/>precision:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Mixed-precision<sp/>operations<sp/>(e.g.,<sp/>float16<sp/>accumulation<sp/>into<sp/>float32)<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>permitted<sp/>only<sp/>when<sp/>the<sp/>caller<sp/>explicitly<sp/>specifies<sp/>the<sp/>output<sp/>dtype<sp/>via</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>the<sp/>accumulation_dtype<sp/>parameter.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cc" kindref="member">TensorErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="148" refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca20f5dfee199086d7b0914746683ecc0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca20f5dfee199086d7b0914746683ecc0f" kindref="member">SHAPE_MISMATCH</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>500,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccae05dbc8cfe9626ae56e78bde5ba196a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccae05dbc8cfe9626ae56e78bde5ba196a6" kindref="member">DEVICE_UNAVAILABLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>501,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccac56ddb8056b120c9d5fee05981f219c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccac56ddb8056b120c9d5fee05981f219c6" kindref="member">OUT_OF_MEMORY</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>502,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccaecfd1e700099afce2fdab6b9c5b4a34b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccaecfd1e700099afce2fdab6b9c5b4a34b" kindref="member">DTYPE_INCOMPATIBLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>503,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca5a2ff7a2f2c3b40268e57995408f8e9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca5a2ff7a2f2c3b40268e57995408f8e9d" kindref="member">UNSUPPORTED_OPERATION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>504,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca2b543e38651ed5fb8c494d6acf4fd5df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca2b543e38651ed5fb8c494d6acf4fd5df" kindref="member">VIEW_LIFETIME_VIOLATION</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>505,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca325cb35403e53158c3aa098c0f5b2c95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca325cb35403e53158c3aa098c0f5b2c95" kindref="member">RANK_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>506,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>599,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="namespacethemis_1_1tensor_1a293aa2e6c9bc5770df46271a3fc0a1f1" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1a293aa2e6c9bc5770df46271a3fc0a1f1" kindref="member">isHardTensorError</ref>(<ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cc" kindref="member">TensorErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca20f5dfee199086d7b0914746683ecc0f" kindref="member">TensorErrorCode::SHAPE_MISMATCH</ref></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccaecfd1e700099afce2fdab6b9c5b4a34b" kindref="member">TensorErrorCode::DTYPE_INCOMPATIBLE</ref></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca2b543e38651ed5fb8c494d6acf4fd5df" kindref="member">TensorErrorCode::VIEW_LIFETIME_VIOLATION</ref></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cca325cb35403e53158c3aa098c0f5b2c95" kindref="member">TensorErrorCode::RANK_EXCEEDED</ref></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccae8c0c70879b5895c615677261d64a1ee" kindref="member">TensorErrorCode::INTERNAL_ERROR</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="namespacethemis_1_1tensor_1a70af4754811df763d23415c2f7709716" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1a70af4754811df763d23415c2f7709716" kindref="member">isResourceError</ref>(<ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cc" kindref="member">TensorErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccae05dbc8cfe9626ae56e78bde5ba196a6" kindref="member">TensorErrorCode::DEVICE_UNAVAILABLE</ref></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5ccac56ddb8056b120c9d5fee05981f219c6" kindref="member">TensorErrorCode::OUT_OF_MEMORY</ref>;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Supported<sp/>dtypes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="200" refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a26e6ed77470c6f2f830ecf874e6c0d55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a26e6ed77470c6f2f830ecf874e6c0d55" kindref="member">Float16</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="201" refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a166495adc0d0f53bee6baecc577f5204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a166495adc0d0f53bee6baecc577f5204" kindref="member">Float32</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="202" refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ad2b556d8a8f5c8ac323f51a4b82e79a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ad2b556d8a8f5c8ac323f51a4b82e79a0" kindref="member">Float64</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="203" refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a7d839b2c12bfd40ac121b4cc9e81c539" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a7d839b2c12bfd40ac121b4cc9e81c539" kindref="member">Int8</ref><sp/><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="204" refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a39bc2ae44b184207f560ff8619823208" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a39bc2ae44b184207f560ff8619823208" kindref="member">Int16</ref><sp/><sp/><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="205" refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac06129f6e6e15c09328365e553f1dc31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac06129f6e6e15c09328365e553f1dc31" kindref="member">Int32</ref><sp/><sp/><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="206" refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678afbde23b11d7e59af7828e81144c8b487" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678afbde23b11d7e59af7828e81144c8b487" kindref="member">Int64</ref><sp/><sp/><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="207" refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac26f15e86e3de4c398a8273272aba034" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac26f15e86e3de4c398a8273272aba034" kindref="member">Bool</ref><sp/><sp/><sp/><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1tensor_1a0b76eeb59f0244331c2ca5f24499912b" kindref="member">dtypeByteSize</ref>(<ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref><sp/>dtype)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(dtype)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac26f15e86e3de4c398a8273272aba034" kindref="member">TensorDtype::Bool</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a7d839b2c12bfd40ac121b4cc9e81c539" kindref="member">TensorDtype::Int8</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a26e6ed77470c6f2f830ecf874e6c0d55" kindref="member">TensorDtype::Float16</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>2;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a39bc2ae44b184207f560ff8619823208" kindref="member">TensorDtype::Int16</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>2;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678a166495adc0d0f53bee6baecc577f5204" kindref="member">TensorDtype::Float32</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>4;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ac06129f6e6e15c09328365e553f1dc31" kindref="member">TensorDtype::Int32</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>4;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678ad2b556d8a8f5c8ac323f51a4b82e79a0" kindref="member">TensorDtype::Float64</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>8;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678afbde23b11d7e59af7828e81144c8b487" kindref="member">TensorDtype::Int64</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>8;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/></highlight><highlight class="comment">//<sp/>unreachable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="namespacethemis_1_1tensor_1aa32d666506f1af049c6b2a8da6c530e2" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1aa32d666506f1af049c6b2a8da6c530e2" kindref="member">areDtypesCompatible</ref>(</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref><sp/>a,<sp/><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref><sp/>b)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a<sp/>==<sp/>b;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/tensor_api_contract.h"/>
+  </compounddef>
+</doxygen>

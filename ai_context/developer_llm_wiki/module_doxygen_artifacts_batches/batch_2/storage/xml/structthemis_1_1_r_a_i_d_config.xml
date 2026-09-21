@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_r_a_i_d_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RAIDConfig</compoundname>
+    <includes refid="backup__manager_8h" local="no">backup_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_r_a_i_d_config_1a775f93481be672f157445a01133da104" prot="public" static="no" mutable="no">
+        <type><ref refid="group__storage_1gaa7796885f64c867cdf3f892812672149" kindref="member">RAIDMode</ref></type>
+        <definition>RAIDMode themis::RAIDConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::RAIDConfig::mode</qualifiedname>
+        <initializer>= <ref refid="group__storage_1ggaa7796885f64c867cdf3f892812672149ab50339a10e1de285ac99d4c3990b8693" kindref="member">RAIDMode::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="60" column="14" bodyfile="include/storage/backup_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_r_a_i_d_config_1a4a24b0efc25780fc5adc9aded027eddc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RAIDConfig::raid_group</definition>
+        <argsstring></argsstring>
+        <name>raid_group</name>
+        <qualifiedname>themis::RAIDConfig::raid_group</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="61" column="17" bodyfile="include/storage/backup_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_r_a_i_d_config_1a25f91fadfc6a39d00775ef48047e1e2a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ShardInfo&gt; themis::RAIDConfig::shards</definition>
+        <argsstring></argsstring>
+        <name>shards</name>
+        <qualifiedname>themis::RAIDConfig::shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="62" column="17" bodyfile="include/storage/backup_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_r_a_i_d_config_1af8ba0081b5023b83ac1e54548e25c644" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::RAIDConfig::data_shards</definition>
+        <argsstring></argsstring>
+        <name>data_shards</name>
+        <qualifiedname>themis::RAIDConfig::data_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="63" column="14" bodyfile="include/storage/backup_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_r_a_i_d_config_1afbd6bea683555b3994c9e4a45b88a1c4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::RAIDConfig::parity_shards</definition>
+        <argsstring></argsstring>
+        <name>parity_shards</name>
+        <qualifiedname>themis::RAIDConfig::parity_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="64" column="14" bodyfile="include/storage/backup_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_r_a_i_d_config_1a25fbd4ad792e33dd834db99d144ba859" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RAIDConfig::is_coordinated</definition>
+        <argsstring></argsstring>
+        <name>is_coordinated</name>
+        <qualifiedname>themis::RAIDConfig::is_coordinated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="65" column="10" bodyfile="include/storage/backup_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAID topology detected from the runtime environment. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/backup_manager.h" line="59" column="1" bodyfile="include/storage/backup_manager.h" bodystart="59" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_r_a_i_d_config_1af8ba0081b5023b83ac1e54548e25c644" prot="public" virt="non-virtual"><scope>themis::RAIDConfig</scope><name>data_shards</name></member>
+      <member refid="structthemis_1_1_r_a_i_d_config_1a25fbd4ad792e33dd834db99d144ba859" prot="public" virt="non-virtual"><scope>themis::RAIDConfig</scope><name>is_coordinated</name></member>
+      <member refid="structthemis_1_1_r_a_i_d_config_1a775f93481be672f157445a01133da104" prot="public" virt="non-virtual"><scope>themis::RAIDConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1_r_a_i_d_config_1afbd6bea683555b3994c9e4a45b88a1c4" prot="public" virt="non-virtual"><scope>themis::RAIDConfig</scope><name>parity_shards</name></member>
+      <member refid="structthemis_1_1_r_a_i_d_config_1a4a24b0efc25780fc5adc9aded027eddc" prot="public" virt="non-virtual"><scope>themis::RAIDConfig</scope><name>raid_group</name></member>
+      <member refid="structthemis_1_1_r_a_i_d_config_1a25f91fadfc6a39d00775ef48047e1e2a" prot="public" virt="non-virtual"><scope>themis::RAIDConfig</scope><name>shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

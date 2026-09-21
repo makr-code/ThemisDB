@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MultiIndexOptimizer::IndexCandidate</compoundname>
+    <includes refid="adaptive__optimizer_8h" local="no">adaptive_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a0a3e8331cb70a283d8ddbdc5ab8e12aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MultiIndexOptimizer::IndexCandidate::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::query::MultiIndexOptimizer::IndexCandidate::index_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="213" column="21" bodyfile="include/query/adaptive_optimizer.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1ac1e545c7b9fe7b73ad1066cb5a9f623a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::MultiIndexOptimizer::IndexCandidate::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::query::MultiIndexOptimizer::IndexCandidate::column</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="214" column="21" bodyfile="include/query/adaptive_optimizer.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a82271cdd1edd8b2d6e41be808ab50169" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::MultiIndexOptimizer::IndexCandidate::estimated_selectivity</definition>
+        <argsstring></argsstring>
+        <name>estimated_selectivity</name>
+        <qualifiedname>themis::query::MultiIndexOptimizer::IndexCandidate::estimated_selectivity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="215" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a6c85001834d8635a8241ea91314c8735" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::MultiIndexOptimizer::IndexCandidate::access_cost</definition>
+        <argsstring></argsstring>
+        <name>access_cost</name>
+        <qualifiedname>themis::query::MultiIndexOptimizer::IndexCandidate::access_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="216" column="16" bodyfile="include/query/adaptive_optimizer.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1ae7d733d885b1fd923c4e0487b31f951b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::MultiIndexOptimizer::IndexCandidate::is_covering</definition>
+        <argsstring></argsstring>
+        <name>is_covering</name>
+        <qualifiedname>themis::query::MultiIndexOptimizer::IndexCandidate::is_covering</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_optimizer.h" line="217" column="14" bodyfile="include/query/adaptive_optimizer.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_optimizer.h" line="212" column="5" bodyfile="include/query/adaptive_optimizer.h" bodystart="212" bodyend="218"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a6c85001834d8635a8241ea91314c8735" prot="public" virt="non-virtual"><scope>themis::query::MultiIndexOptimizer::IndexCandidate</scope><name>access_cost</name></member>
+      <member refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1ac1e545c7b9fe7b73ad1066cb5a9f623a" prot="public" virt="non-virtual"><scope>themis::query::MultiIndexOptimizer::IndexCandidate</scope><name>column</name></member>
+      <member refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a82271cdd1edd8b2d6e41be808ab50169" prot="public" virt="non-virtual"><scope>themis::query::MultiIndexOptimizer::IndexCandidate</scope><name>estimated_selectivity</name></member>
+      <member refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1a0a3e8331cb70a283d8ddbdc5ab8e12aa" prot="public" virt="non-virtual"><scope>themis::query::MultiIndexOptimizer::IndexCandidate</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1query_1_1_multi_index_optimizer_1_1_index_candidate_1ae7d733d885b1fd923c4e0487b31f951b" prot="public" virt="non-virtual"><scope>themis::query::MultiIndexOptimizer::IndexCandidate</scope><name>is_covering</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

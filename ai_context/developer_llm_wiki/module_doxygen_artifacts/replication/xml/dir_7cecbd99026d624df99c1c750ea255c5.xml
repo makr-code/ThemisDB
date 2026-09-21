@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7cecbd99026d624df99c1c750ea255c5" kind="dir">
+    <compoundname>include/replication</compoundname>
+    <innerfile refid="async__wal__shipper_8h">async_wal_shipper.h</innerfile>
+    <innerfile refid="conflict__resolution_8h">conflict_resolution.h</innerfile>
+    <innerfile refid="crdt__types_8h">crdt_types.h</innerfile>
+    <innerfile refid="event__stream_8h">event_stream.h</innerfile>
+    <innerfile refid="geo__placement_8h">geo_placement.h</innerfile>
+    <innerfile refid="kafka__change__stream_8h">kafka_change_stream.h</innerfile>
+    <innerfile refid="lag__alert__manager_8h">lag_alert_manager.h</innerfile>
+    <innerfile refid="logical__replication_8h">logical_replication.h</innerfile>
+    <innerfile refid="multi__master__replication_8h">multi_master_replication.h</innerfile>
+    <innerfile refid="multi__tier__replication_8h">multi_tier_replication.h</innerfile>
+    <innerfile refid="observability_8h">observability.h</innerfile>
+    <innerfile refid="policy_8h">policy.h</innerfile>
+    <innerfile refid="raft__v2_8h">raft_v2.h</innerfile>
+    <innerfile refid="replication__api__contract_8h">replication_api_contract.h</innerfile>
+    <innerfile refid="replication__failover__diagnostics_8h">replication_failover_diagnostics.h</innerfile>
+    <innerfile refid="replication__manager_8h">replication_manager.h</innerfile>
+    <innerfile refid="replication__slot_8h">replication_slot.h</innerfile>
+    <innerfile refid="schema__cdc_8h">schema_cdc.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/"/>
+  </compounddef>
+</doxygen>

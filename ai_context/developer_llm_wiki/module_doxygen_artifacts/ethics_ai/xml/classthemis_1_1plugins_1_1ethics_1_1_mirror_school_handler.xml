@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::MirrorSchoolHandler</compoundname>
+    <includes refid="mirror__school__handler_8h" local="no">mirror_school_handler.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a9ecbffb16228ee2d179a2775243ccb18" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref>(const std::string &amp;school_id, const std::string &amp;dilemma_text)&gt;</type>
+        <definition>using themis::plugins::ethics::MirrorSchoolHandler::LLMInferenceFn = std::function&lt;
+       DiscourseRoundOutput(const std::string&amp; school_id,
+                            const std::string&amp; dilemma_text)&gt;</definition>
+        <argsstring></argsstring>
+        <name>LLMInferenceFn</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::LLMInferenceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="46" column="5" bodyfile="include/ethics_ai/mirror_school_handler.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1ae99f0c8d94887f0558a745a8aa125c99" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a9ecbffb16228ee2d179a2775243ccb18" kindref="member">LLMInferenceFn</ref></type>
+        <definition>LLMInferenceFn themis::plugins::ethics::MirrorSchoolHandler::inference_fn_</definition>
+        <argsstring></argsstring>
+        <name>inference_fn_</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::inference_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="78" column="20" bodyfile="include/ethics_ai/mirror_school_handler.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a46591cdbc1ff83f5d98c7021d23c4655" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::MirrorSchoolHandler::timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms_</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::timeout_ms_</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="79" column="20" bodyfile="include/ethics_ai/mirror_school_handler.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::MirrorSchoolHandler::MirrorSchoolHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>MirrorSchoolHandler</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::MirrorSchoolHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a02451698dee1216c544d48a5fad8abd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::MirrorSchoolHandler::~MirrorSchoolHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MirrorSchoolHandler</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::~MirrorSchoolHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1aacdc8bf4f62a0b4ac273d4cbaea1e26b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::MirrorSchoolHandler::MirrorSchoolHandler</definition>
+        <argsstring>(const MirrorSchoolHandler &amp;)=delete</argsstring>
+        <name>MirrorSchoolHandler</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::MirrorSchoolHandler</qualifiedname>
+        <param>
+          <type>const MirrorSchoolHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1ad8b7dfe5e39e967c7198f3f2e5b62755" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref> &amp;</type>
+        <definition>MirrorSchoolHandler &amp; themis::plugins::ethics::MirrorSchoolHandler::operator=</definition>
+        <argsstring>(const MirrorSchoolHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="55" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1abe31530ad511ec1fe8cc6f23d184d1d1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::MirrorSchoolHandler::MirrorSchoolHandler</definition>
+        <argsstring>(MirrorSchoolHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>MirrorSchoolHandler</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::MirrorSchoolHandler</qualifiedname>
+        <param>
+          <type>MirrorSchoolHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a6568067c55324b13d8d1622070d73207" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref> &amp;</type>
+        <definition>MirrorSchoolHandler &amp; themis::plugins::ethics::MirrorSchoolHandler::operator=</definition>
+        <argsstring>(MirrorSchoolHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kindref="member">MirrorSchoolHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="57" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1aa8cd36618257d0b604eef189c0937790" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::MirrorSchoolHandler::setLLMInferenceFn</definition>
+        <argsstring>(LLMInferenceFn fn)</argsstring>
+        <name>setLLMInferenceFn</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::setLLMInferenceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a9ecbffb16228ee2d179a2775243ccb18" kindref="member">LLMInferenceFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set LLMInference Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="63" column="10" bodyfile="src/ethics_ai/mirror_school_handler.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1abb1a6520a2c04c19dcde0604613ed762" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::MirrorSchoolHandler::setSchoolTimeoutMs</definition>
+        <argsstring>(int timeout_ms) noexcept</argsstring>
+        <name>setSchoolTimeoutMs</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::setSchoolTimeoutMs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Set School Timeout Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="70" column="10" bodyfile="src/ethics_ai/mirror_school_handler.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a6607ea27ed297cda838fd32b67541c69" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kindref="compound">DiscourseRoundOutput</ref> &gt;</type>
+        <definition>std::vector&lt; DiscourseRoundOutput &gt; themis::plugins::ethics::MirrorSchoolHandler::runMirror</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;mirror_school_ids, const std::string &amp;dilemma_text, const std::string &amp;domain)</argsstring>
+        <name>runMirror</name>
+        <qualifiedname>themis::plugins::ethics::MirrorSchoolHandler::runMirror</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>mirror_school_ids</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Run Mirror. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mirror_school_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dilemma_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/mirror_school_handler.h" line="72" column="18" bodyfile="src/ethics_ai/mirror_school_handler.cpp" bodystart="91" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/mirror_school_handler.h" line="44" column="1" bodyfile="include/ethics_ai/mirror_school_handler.h" bodystart="44" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1ae99f0c8d94887f0558a745a8aa125c99" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>inference_fn_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a9ecbffb16228ee2d179a2775243ccb18" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>LLMInferenceFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>MirrorSchoolHandler</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1aacdc8bf4f62a0b4ac273d4cbaea1e26b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>MirrorSchoolHandler</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1abe31530ad511ec1fe8cc6f23d184d1d1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>MirrorSchoolHandler</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1ad8b7dfe5e39e967c7198f3f2e5b62755" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a6568067c55324b13d8d1622070d73207" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a6607ea27ed297cda838fd32b67541c69" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>runMirror</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1aa8cd36618257d0b604eef189c0937790" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>setLLMInferenceFn</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1abb1a6520a2c04c19dcde0604613ed762" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>setSchoolTimeoutMs</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a46591cdbc1ff83f5d98c7021d23c4655" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>timeout_ms_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a02451698dee1216c544d48a5fad8abd1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::MirrorSchoolHandler</scope><name>~MirrorSchoolHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

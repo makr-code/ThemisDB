@@ -1,0 +1,827 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_c_d_c_admin" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::CDCAdmin</compoundname>
+    <includes refid="cdc__admin_8h" local="no">cdc_admin.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a1918913fe39a14e197f5b3aa9be8a804" prot="private" static="no" mutable="no">
+        <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+        <definition>Changefeed* themis::cdc::CDCAdmin::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::cdc::CDCAdmin::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="274" column="16" bodyfile="include/cdc/cdc_admin.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a55ab7fb0b9ca0f8aba7d276b98dded56" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager" kindref="compound">TenantBufferManager</ref> *</type>
+        <definition>TenantBufferManager* themis::cdc::CDCAdmin::tenant_manager_</definition>
+        <argsstring></argsstring>
+        <name>tenant_manager_</name>
+        <qualifiedname>themis::cdc::CDCAdmin::tenant_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="275" column="25" bodyfile="include/cdc/cdc_admin.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_c_d_c_admin_1af0381dc617864fefc47ebcdac307afa9" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::cdc::CDCAdmin::creation_time_</definition>
+        <argsstring></argsstring>
+        <name>creation_time_</name>
+        <qualifiedname>themis::cdc::CDCAdmin::creation_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="276" column="43" bodyfile="include/cdc/cdc_admin.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a410917da505b31c97b56c2b32e944e52" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::cdc::CDCAdmin::audit_storage_</definition>
+        <argsstring></argsstring>
+        <name>audit_storage_</name>
+        <qualifiedname>themis::cdc::CDCAdmin::audit_storage_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="278" column="20" bodyfile="include/cdc/cdc_admin.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a9695b6f008d50422d5800ebe27598300" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" kindref="compound">ICDCTransport</ref> *</type>
+        <definition>ICDCTransport* themis::cdc::CDCAdmin::transport_</definition>
+        <argsstring></argsstring>
+        <name>transport_</name>
+        <qualifiedname>themis::cdc::CDCAdmin::transport_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="279" column="19" bodyfile="include/cdc/cdc_admin.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a7bdd9b66d1c0fad7755542b5c59f3be8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CDCAdmin::CDCAdmin</definition>
+        <argsstring>(Changefeed *changefeed)</argsstring>
+        <name>CDCAdmin</name>
+        <qualifiedname>themis::cdc::CDCAdmin::CDCAdmin</qualifiedname>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+          <declname>changefeed</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin" kindref="compound">CDCAdmin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="178" column="14" bodyfile="src/cdc/cdc_admin.cpp" bodystart="27" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a01ebb573eedc2ef1774825ca89c34730" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CDCAdmin::CDCAdmin</definition>
+        <argsstring>(TenantBufferManager *tenant_manager)</argsstring>
+        <name>CDCAdmin</name>
+        <qualifiedname>themis::cdc::CDCAdmin::CDCAdmin</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager" kindref="compound">TenantBufferManager</ref> *</type>
+          <declname>tenant_manager</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1cdc_1_1_c_d_c_admin" kindref="compound">CDCAdmin</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tenant_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="185" column="14" bodyfile="src/cdc/cdc_admin.cpp" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a35ee3956ec8b4d31da78cee6372f40ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CDCAdmin::~CDCAdmin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CDCAdmin</name>
+        <qualifiedname>themis::cdc::CDCAdmin::~CDCAdmin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="187" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a421b255c41d76ee6a1aabf6db9278efc" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::CDCAdmin::setAuditStorage</definition>
+        <argsstring>(RocksDBWrapper *storage) noexcept</argsstring>
+        <name>setAuditStorage</name>
+        <qualifiedname>themis::cdc::CDCAdmin::setAuditStorage</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="189" column="10" bodyfile="include/cdc/cdc_admin.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1ab26fb73d08f7b3444c32a9a55779d2f3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::CDCAdmin::setTransport</definition>
+        <argsstring>(ICDCTransport *transport) noexcept</argsstring>
+        <name>setTransport</name>
+        <qualifiedname>themis::cdc::CDCAdmin::setTransport</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" kindref="compound">ICDCTransport</ref> *</type>
+          <declname>transport</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="191" column="10" bodyfile="include/cdc/cdc_admin.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1adfde71275af5eee1197291fbf946243d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref></type>
+        <definition>PurgeResult themis::cdc::CDCAdmin::purgeAll</definition>
+        <argsstring>()</argsstring>
+        <name>purgeAll</name>
+        <qualifiedname>themis::cdc::CDCAdmin::purgeAll</qualifiedname>
+        <briefdescription>
+<para>Purge All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::internalError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(), steady_clock::now(), getWatermarks(), deleteOldEvents(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="199" column="17" bodyfile="src/cdc/cdc_admin.cpp" bodystart="53" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a9aabfca8474c2c31c57e22f84829fd06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref></type>
+        <definition>PurgeResult themis::cdc::CDCAdmin::purgeBySequenceRange</definition>
+        <argsstring>(uint64_t start_sequence, uint64_t end_sequence)</argsstring>
+        <name>purgeBySequenceRange</name>
+        <qualifiedname>themis::cdc::CDCAdmin::purgeBySequenceRange</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>start_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>end_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Purge By Sequence Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::internalError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(), validateSequenceRange(), steady_clock::now(), deleteOldEvents(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="207" column="17" bodyfile="src/cdc/cdc_admin.cpp" bodystart="89" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a314966b88070c7bfcc4355af728f37c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref></type>
+        <definition>PurgeResult themis::cdc::CDCAdmin::purgeByTimestamp</definition>
+        <argsstring>(uint64_t before_timestamp_ms)</argsstring>
+        <name>purgeByTimestamp</name>
+        <qualifiedname>themis::cdc::CDCAdmin::purgeByTimestamp</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>before_timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Purge By Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::internalError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(), steady_clock::now(), deleteOldEventsByTimestamp(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="214" column="17" bodyfile="src/cdc/cdc_admin.cpp" bodystart="123" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a93760d534f46962f5e037fca9c0bc3a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref></type>
+        <definition>PurgeResult themis::cdc::CDCAdmin::purgeOlderThan</definition>
+        <argsstring>(int64_t before_timestamp_ms)</argsstring>
+        <name>purgeOlderThan</name>
+        <qualifiedname>themis::cdc::CDCAdmin::purgeOlderThan</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>before_timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Purge Older Than. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(), <ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a314966b88070c7bfcc4355af728f37c4" kindref="member">purgeByTimestamp()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="221" column="17" bodyfile="src/cdc/cdc_admin.cpp" bodystart="351" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1ab47cdf8a12b738a1237e72f49bb88f28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_purge_result" kindref="compound">PurgeResult</ref></type>
+        <definition>PurgeResult themis::cdc::CDCAdmin::purgeTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>purgeTenant</name>
+        <qualifiedname>themis::cdc::CDCAdmin::purgeTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Purge Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::internalError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(), empty(), steady_clock::now(), getTenantStats(), flushTenant(), removeTenant(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="228" column="17" bodyfile="src/cdc/cdc_admin.cpp" bodystart="150" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a5274fcf0cc1e8c5fb8c3af04d443ba4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::cdc::CDCAdmin::replayFromSequence</definition>
+        <argsstring>(uint64_t from_sequence, uint64_t limit=0, const std::set&lt; Changefeed::ChangeEventType &gt; &amp;event_types={})</argsstring>
+        <name>replayFromSequence</name>
+        <qualifiedname>themis::cdc::CDCAdmin::replayFromSequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>from_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>limit</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::set&lt; <ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref> &gt; &amp;</type>
+          <declname>event_types</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Replay From Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="232" column="17" bodyfile="src/cdc/cdc_admin.cpp" bodystart="200" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a5f7001d1b2f7bace36e5f1334eeeaba0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1ae9d91c3c0ac066458494fd2bb61299a3" kindref="member">CompactionResult</ref></type>
+        <definition>CompactionResult themis::cdc::CDCAdmin::compactLog</definition>
+        <argsstring>()</argsstring>
+        <name>compactLog</name>
+        <qualifiedname>themis::cdc::CDCAdmin::compactLog</qualifiedname>
+        <briefdescription>
+<para>Compact Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::internalError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(), steady_clock::now(), compactByKey(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="243" column="22" bodyfile="src/cdc/cdc_admin.cpp" bodystart="366" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1ac040105f6451b448b8820a93abb89af8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result" kindref="compound">GDPRRedactionResult</ref></type>
+        <definition>GDPRRedactionResult themis::cdc::CDCAdmin::redactByKeyPrefix</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;key_prefix, const std::string &amp;operator_id=&quot;&quot;)</argsstring>
+        <name>redactByKeyPrefix</name>
+        <qualifiedname>themis::cdc::CDCAdmin::redactByKeyPrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_prefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operator_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Redact By Key Prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">operator_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the operator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="247" column="25" bodyfile="src/cdc/cdc_admin.cpp" bodystart="390" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a0accfa1d9b87eb75a25627a87a0ee4eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_retention_status" kindref="compound">RetentionStatus</ref></type>
+        <definition>RetentionStatus themis::cdc::CDCAdmin::getRetentionStatus</definition>
+        <argsstring>()</argsstring>
+        <name>getRetentionStatus</name>
+        <qualifiedname>themis::cdc::CDCAdmin::getRetentionStatus</qualifiedname>
+        <briefdescription>
+<para>Get Retention Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::internalError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(), getStats(), system_clock::now(), time_since_epoch(), count(), getRetentionPolicy(), isRetentionCleanupRunning(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="257" column="21" bodyfile="src/cdc/cdc_admin.cpp" bodystart="500" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a375e1866385fb7760460971389951183" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+        <definition>HealthStatus themis::cdc::CDCAdmin::healthCheck</definition>
+        <argsstring>()</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::cdc::CDCAdmin::healthCheck</qualifiedname>
+        <briefdescription>
+<para>Health Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getWatermarks(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="265" column="18" bodyfile="src/cdc/cdc_admin.cpp" bodystart="231" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a1f665e1d09b0506f6d736059f78c54f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_diagnostics_info" kindref="compound">DiagnosticsInfo</ref></type>
+        <definition>DiagnosticsInfo themis::cdc::CDCAdmin::getDiagnostics</definition>
+        <argsstring>()</argsstring>
+        <name>getDiagnostics</name>
+        <qualifiedname>themis::cdc::CDCAdmin::getDiagnostics</qualifiedname>
+        <briefdescription>
+<para>Get Diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), getWatermarks(), <ref refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a375e1866385fb7760460971389951183" kindref="member">healthCheck()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="271" column="21" bodyfile="src/cdc/cdc_admin.cpp" bodystart="279" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1ae112b78bae5a5153d111753bb0604ffc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::CDCAdmin::countEventsInRange</definition>
+        <argsstring>(uint64_t start, uint64_t end)</argsstring>
+        <name>countEventsInRange</name>
+        <qualifiedname>themis::cdc::CDCAdmin::countEventsInRange</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Count Events In Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements countEventsInRange without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="288" column="14" bodyfile="src/cdc/cdc_admin.cpp" bodystart="322" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_c_d_c_admin_1a530e08bb8877193d1ab17291363d9cf3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::CDCAdmin::validateSequenceRange</definition>
+        <argsstring>(uint64_t start, uint64_t end)</argsstring>
+        <name>validateSequenceRange</name>
+        <qualifiedname>themis::cdc::CDCAdmin::validateSequenceRange</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Validate Sequence Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="294" column="10" bodyfile="src/cdc/cdc_admin.cpp" bodystart="336" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_admin.h" line="171" column="1" bodyfile="include/cdc/cdc_admin.h" bodystart="171" bodyend="295"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a410917da505b31c97b56c2b32e944e52" prot="private" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>audit_storage_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a7bdd9b66d1c0fad7755542b5c59f3be8" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>CDCAdmin</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a01ebb573eedc2ef1774825ca89c34730" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>CDCAdmin</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a1918913fe39a14e197f5b3aa9be8a804" prot="private" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a5f7001d1b2f7bace36e5f1334eeeaba0" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>compactLog</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1ae112b78bae5a5153d111753bb0604ffc" prot="private" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>countEventsInRange</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1af0381dc617864fefc47ebcdac307afa9" prot="private" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>creation_time_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a1f665e1d09b0506f6d736059f78c54f6" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>getDiagnostics</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a0accfa1d9b87eb75a25627a87a0ee4eb" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>getRetentionStatus</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a375e1866385fb7760460971389951183" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1adfde71275af5eee1197291fbf946243d" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>purgeAll</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a9aabfca8474c2c31c57e22f84829fd06" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>purgeBySequenceRange</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a314966b88070c7bfcc4355af728f37c4" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>purgeByTimestamp</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a93760d534f46962f5e037fca9c0bc3a4" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>purgeOlderThan</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1ab47cdf8a12b738a1237e72f49bb88f28" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>purgeTenant</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1ac040105f6451b448b8820a93abb89af8" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>redactByKeyPrefix</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a5274fcf0cc1e8c5fb8c3af04d443ba4b" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>replayFromSequence</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a421b255c41d76ee6a1aabf6db9278efc" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>setAuditStorage</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1ab26fb73d08f7b3444c32a9a55779d2f3" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>setTransport</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a55ab7fb0b9ca0f8aba7d276b98dded56" prot="private" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>tenant_manager_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a9695b6f008d50422d5800ebe27598300" prot="private" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>transport_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a530e08bb8877193d1ab17291363d9cf3" prot="private" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>validateSequenceRange</name></member>
+      <member refid="classthemis_1_1cdc_1_1_c_d_c_admin_1a35ee3956ec8b4d31da78cee6372f40ad" prot="public" virt="non-virtual"><scope>themis::cdc::CDCAdmin</scope><name>~CDCAdmin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

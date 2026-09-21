@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::Stats</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_stats_1ac36f573dfa2815e36882a725f0cc2953" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::Stats::total_begun</definition>
+        <argsstring></argsstring>
+        <name>total_begun</name>
+        <qualifiedname>themis::TransactionManager::Stats::total_begun</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="546" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_stats_1a5881e2571946b0e7b76904534b5096ad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::Stats::total_committed</definition>
+        <argsstring></argsstring>
+        <name>total_committed</name>
+        <qualifiedname>themis::TransactionManager::Stats::total_committed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="547" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="547" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_stats_1ac16323961c42f3331a069ea9326b4209" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::Stats::total_aborted</definition>
+        <argsstring></argsstring>
+        <name>total_aborted</name>
+        <qualifiedname>themis::TransactionManager::Stats::total_aborted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="548" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="548" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_stats_1abae40cc785f77df00de69548ba476910" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::Stats::total_timed_out</definition>
+        <argsstring></argsstring>
+        <name>total_timed_out</name>
+        <qualifiedname>themis::TransactionManager::Stats::total_timed_out</qualifiedname>
+        <briefdescription>
+<para>Transactions rolled back due to timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="549" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="549" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_stats_1a50d492a6fe994323dd1a7fbbf2329e68" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::Stats::active_count</definition>
+        <argsstring></argsstring>
+        <name>active_count</name>
+        <qualifiedname>themis::TransactionManager::Stats::active_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="550" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_stats_1a863cb276480c3f1b99520dc3bff8648e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::Stats::avg_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_duration_ms</name>
+        <qualifiedname>themis::TransactionManager::Stats::avg_duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="551" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="551" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_stats_1aeb7ccc835dbc5a3254542c86139322ad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TransactionManager::Stats::max_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>max_duration_ms</name>
+        <qualifiedname>themis::TransactionManager::Stats::max_duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="552" column="18" bodyfile="include/transaction/transaction_manager.h" bodystart="552" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="545" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="545" bodyend="553"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_stats_1a50d492a6fe994323dd1a7fbbf2329e68" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Stats</scope><name>active_count</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_stats_1a863cb276480c3f1b99520dc3bff8648e" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Stats</scope><name>avg_duration_ms</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_stats_1aeb7ccc835dbc5a3254542c86139322ad" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Stats</scope><name>max_duration_ms</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_stats_1ac16323961c42f3331a069ea9326b4209" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Stats</scope><name>total_aborted</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_stats_1ac36f573dfa2815e36882a725f0cc2953" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Stats</scope><name>total_begun</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_stats_1a5881e2571946b0e7b76904534b5096ad" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Stats</scope><name>total_committed</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_stats_1abae40cc785f77df00de69548ba476910" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Stats</scope><name>total_timed_out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_p_i_i_match" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::PIIMatch</compoundname>
+    <includes refid="pii__redactor_8h" local="no">pii_redactor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_match_1aca588ae86fa3a728125d7b24cc209f55" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aad" kindref="member">PIIType</ref></type>
+        <definition>PIIType themis::content::PIIMatch::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::content::PIIMatch::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="47" column="17" bodyfile="include/content/pii_redactor.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_match_1a1eb9d189d22db94fc373f9548fc5e37e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::PIIMatch::start_offset</definition>
+        <argsstring></argsstring>
+        <name>start_offset</name>
+        <qualifiedname>themis::content::PIIMatch::start_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="48" column="17" bodyfile="include/content/pii_redactor.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_match_1a39c8fb9bdbd53b13c7b552008462c1f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::PIIMatch::end_offset</definition>
+        <argsstring></argsstring>
+        <name>end_offset</name>
+        <qualifiedname>themis::content::PIIMatch::end_offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="49" column="17" bodyfile="include/content/pii_redactor.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_match_1a4dac929f5d0565885cadc0d10f560f2c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PIIMatch::original_value</definition>
+        <argsstring></argsstring>
+        <name>original_value</name>
+        <qualifiedname>themis::content::PIIMatch::original_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="50" column="17" bodyfile="include/content/pii_redactor.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_match_1a0993881565bc2a4278d67c1727f7769a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::PIIMatch::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::content::PIIMatch::confidence</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="51" column="17" bodyfile="include/content/pii_redactor.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pii_redactor.h" line="46" column="1" bodyfile="include/content/pii_redactor.h" bodystart="46" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_p_i_i_match_1a0993881565bc2a4278d67c1727f7769a" prot="public" virt="non-virtual"><scope>themis::content::PIIMatch</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1content_1_1_p_i_i_match_1a39c8fb9bdbd53b13c7b552008462c1f9" prot="public" virt="non-virtual"><scope>themis::content::PIIMatch</scope><name>end_offset</name></member>
+      <member refid="structthemis_1_1content_1_1_p_i_i_match_1a4dac929f5d0565885cadc0d10f560f2c" prot="public" virt="non-virtual"><scope>themis::content::PIIMatch</scope><name>original_value</name></member>
+      <member refid="structthemis_1_1content_1_1_p_i_i_match_1a1eb9d189d22db94fc373f9548fc5e37e" prot="public" virt="non-virtual"><scope>themis::content::PIIMatch</scope><name>start_offset</name></member>
+      <member refid="structthemis_1_1content_1_1_p_i_i_match_1aca588ae86fa3a728125d7b24cc209f55" prot="public" virt="non-virtual"><scope>themis::content::PIIMatch</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

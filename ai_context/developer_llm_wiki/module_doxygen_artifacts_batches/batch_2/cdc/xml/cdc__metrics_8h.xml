@@ -1,0 +1,553 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cdc__metrics_8h" kind="file" language="C++">
+    <compoundname>cdc_metrics.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__changefeed__throughput_8cpp" local="yes">benchmarks/cdc/bench_changefeed_throughput.cpp</includedby>
+    <includedby refid="cdc__admin_8h" local="yes">include/cdc/cdc_admin.h</includedby>
+    <includedby refid="changefeed__buffer_8h" local="yes">include/cdc/changefeed_buffer.h</includedby>
+    <includedby refid="kafka__cdc__producer_8h" local="yes">include/cdc/kafka_cdc_producer.h</includedby>
+    <includedby refid="tenant__buffer__manager_8h" local="yes">include/cdc/tenant_buffer_manager.h</includedby>
+    <includedby refid="test__cdc__diagnostics__hardening_8cpp" local="yes">tests/cdc/test_cdc_diagnostics_hardening.cpp</includedby>
+    <includedby refid="test__cdc__metrics_8cpp" local="yes">tests/cdc/test_cdc_metrics.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cdc/cdc_metrics.h</label>
+        <link refid="cdc__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/cdc/bench_changefeed_throughput.cpp</label>
+        <link refid="bench__changefeed__throughput_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/cdc/cdc_admin.h</label>
+        <link refid="cdc__admin_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/cdc/cdc_metrics.h</label>
+        <link refid="cdc__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/cdc/changefeed_buffer.h</label>
+        <link refid="changefeed__buffer_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/cdc/kafka_cdc_producer.h</label>
+        <link refid="kafka__cdc__producer_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/cdc/tenant_buffer_manager.h</label>
+        <link refid="tenant__buffer__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/cdc/cdc_admin.cpp</label>
+        <link refid="cdc__admin_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/cdc/changefeed_buffer.cpp</label>
+        <link refid="changefeed__buffer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/cdc/tenant_buffer_manager.cpp</label>
+        <link refid="tenant__buffer__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/cdc/test_cdc_admin.cpp</label>
+        <link refid="test__cdc__admin_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/cdc/test_cdc_changefeed_buffer.cpp</label>
+        <link refid="test__cdc__changefeed__buffer_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/cdc/test_cdc_dead_letter_queue.cpp</label>
+        <link refid="test__cdc__dead__letter__queue_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/cdc/test_cdc_diagnostics_hardening.cpp</label>
+        <link refid="test__cdc__diagnostics__hardening_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/cdc/test_cdc_gdpr_redaction.cpp</label>
+        <link refid="test__cdc__gdpr__redaction_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/cdc/test_cdc_kafka_producer.cpp</label>
+        <link refid="test__cdc__kafka__producer_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/cdc/test_cdc_metrics.cpp</label>
+        <link refid="test__cdc__metrics_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/cdc/test_cdc_production_fixes.cpp</label>
+        <link refid="test__cdc__production__fixes_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/cdc/test_cdc_retention.cpp</label>
+        <link refid="test__cdc__retention_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1cdc_1_1_latency_histogram" prot="public">themis::cdc::LatencyHistogram</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_throughput_tracker" prot="public">themis::cdc::ThroughputTracker</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_c_d_c_metrics" prot="public">themis::cdc::CDCMetrics</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_scoped_timer" prot="public">themis::cdc::ScopedTimer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cdc">themis::cdc</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="cdc__metrics_8h_1a941e88f84576def1610edeb78fbc8935" prot="public" static="no">
+        <name>CDC_CONCAT_INNER</name>
+        <param><defname>a</defname></param>
+        <param><defname>b</defname></param>
+        <initializer>a##b</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="337" column="9" bodyfile="include/cdc/cdc_metrics.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cdc__metrics_8h_1a04cf234e2b495cfa02489d0e090c21ff" prot="public" static="no">
+        <name>CDC_CONCAT</name>
+        <param><defname>a</defname></param>
+        <param><defname>b</defname></param>
+        <initializer><ref refid="cdc__metrics_8h_1a941e88f84576def1610edeb78fbc8935" kindref="member">CDC_CONCAT_INNER</ref>(a, b)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="338" column="9" bodyfile="include/cdc/cdc_metrics.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="cdc__metrics_8h_1aca6cf80891dbb38e55c6a4b3b4453448" prot="public" static="no">
+        <name>CDC_MEASURE_LATENCY_IMPL</name>
+        <param><defname>histogram</defname></param>
+        <param><defname>line</defname></param>
+        <initializer>ScopedTimer <ref refid="cdc__metrics_8h_1a04cf234e2b495cfa02489d0e090c21ff" kindref="member">CDC_CONCAT</ref>(CDC_timer_, line)(histogram)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="339" column="9" bodyfile="include/cdc/cdc_metrics.h" bodystart="339" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="define" id="cdc__metrics_8h_1a724e378219c97e003dbcc2f4f4fc1857" prot="public" static="no">
+        <name>CDC_MEASURE_LATENCY</name>
+        <param><defname>histogram</defname></param>
+        <initializer><ref refid="cdc__metrics_8h_1aca6cf80891dbb38e55c6a4b3b4453448" kindref="member">CDC_MEASURE_LATENCY_IMPL</ref>(histogram, __LINE__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="341" column="9" bodyfile="include/cdc/cdc_metrics.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">cdc</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1cdc_1_1_latency_histogram" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a4242cd7ebc6f3e1c8fc85fdbf810fcf2" kindref="member">LatencyHistogram</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1cdc_1_1_latency_histogram_1a4242cd7ebc6f3e1c8fc85fdbf810fcf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a4242cd7ebc6f3e1c8fc85fdbf810fcf2" kindref="member">LatencyHistogram</ref>()<sp/>:<sp/>count_(0),<sp/>sum_micros_(0)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>bucket<sp/>:<sp/>buckets_)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bucket.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1cdc_1_1_latency_histogram_1a3ec0cf0fea7872d345a04eb9f583cc57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a3ec0cf0fea7872d345a04eb9f583cc57" kindref="member">record</ref>(uint64_t<sp/>latency_micros)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count_++;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum_micros_<sp/>+=<sp/>latency_micros;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>appropriate<sp/>bucket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bucket<sp/>=<sp/>bucketIndex(latency_micros);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buckets_[bucket]++;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1cdc_1_1_latency_histogram_1a8eafd497e79d3bded25f9e156aaa64a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a8eafd497e79d3bded25f9e156aaa64a5" kindref="member">count</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count_.load();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1cdc_1_1_latency_histogram_1ae70ef16bb78a2a0851189845e5bd25b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1ae70ef16bb78a2a0851189845e5bd25b8" kindref="member">average</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>cnt<sp/>=<sp/>count_.load();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cnt<sp/>&gt;<sp/>0<sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sum_micros_.load())<sp/>/<sp/>cnt<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1cdc_1_1_latency_histogram_1a7143b2184dc917003e3472553bd3d710" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a7143b2184dc917003e3472553bd3d710" kindref="member">p50</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a0a94f5b5befceff976de0b2469916af5" kindref="member">percentile</ref>(0.50);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1cdc_1_1_latency_histogram_1a3db33855bcb53f9e0c86899c54f75dff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a3db33855bcb53f9e0c86899c54f75dff" kindref="member">p95</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a0a94f5b5befceff976de0b2469916af5" kindref="member">percentile</ref>(0.95);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1cdc_1_1_latency_histogram_1a61b873ffb74b785802a78c654508d2c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a61b873ffb74b785802a78c654508d2c8" kindref="member">p99</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a0a94f5b5befceff976de0b2469916af5" kindref="member">percentile</ref>(0.99);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1cdc_1_1_latency_histogram_1a0a94f5b5befceff976de0b2469916af5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a0a94f5b5befceff976de0b2469916af5" kindref="member">percentile</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total<sp/>=<sp/>count_.load();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(total<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>target<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(total<sp/>*<sp/>p);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>accumulated<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>buckets_.size();<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accumulated<sp/>+=<sp/>buckets_[i].load();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(accumulated<sp/>&gt;=<sp/>target)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bucketMidpoint(i);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bucketMidpoint(buckets_.size()<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1cdc_1_1_latency_histogram_1a129d69779563a56bd2c5a89401a1151f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a129d69779563a56bd2c5a89401a1151f" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">,<sp/>count_.load()},</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;average_us&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1ae70ef16bb78a2a0851189845e5bd25b8" kindref="member">average</ref>()},</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;p50_us&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a7143b2184dc917003e3472553bd3d710" kindref="member">p50</ref>()},</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;p95_us&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a3db33855bcb53f9e0c86899c54f75dff" kindref="member">p95</ref>()},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;p99_us&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a61b873ffb74b785802a78c654508d2c8" kindref="member">p99</ref>()},</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_us&quot;</highlight><highlight class="normal">,<sp/>bucketMidpoint(buckets_.size()<sp/>-<sp/>1)}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1cdc_1_1_latency_histogram_1a52886c2f6d63099343fc825f9b89ed95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram_1a52886c2f6d63099343fc825f9b89ed95" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count_.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum_micros_.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>bucket<sp/>:<sp/>buckets_)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bucket.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Histogram<sp/>buckets<sp/>in<sp/>microseconds:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0-100us,<sp/>100-250us,<sp/>250-500us,<sp/>500-1ms,<sp/>1-2.5ms,<sp/>2.5-5ms,<sp/>5-10ms,<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10-25ms,<sp/>25-50ms,<sp/>50-100ms,<sp/>100-250ms,<sp/>250-500ms,<sp/>500ms-1s,<sp/>1s+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>NUM_BUCKETS<sp/>=<sp/>14;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::array&lt;std::atomic&lt;uint64_t&gt;,<sp/>NUM_BUCKETS&gt;<sp/>buckets_;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>count_;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>sum_micros_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bucketIndex(uint64_t<sp/>latency_micros)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>100)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>250)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>500)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>2;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>1000)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>3;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>2500)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>4;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>5000)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>5;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>10000)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>6;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>25000)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>7;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>50000)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>8;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>100000)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>9;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>250000)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>10;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>500000)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>11;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(latency_micros<sp/>&lt;<sp/>1000000)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>12;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>13;<sp/><sp/></highlight><highlight class="comment">//<sp/>1s+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>bucketMidpoint(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bucket)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>midpoints[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>50,<sp/>175,<sp/>375,<sp/>750,<sp/>1750,<sp/>3750,<sp/>7500,<sp/>17500,<sp/>37500,<sp/>75000,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>175000,<sp/>375000,<sp/>750000,<sp/>1500000</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>midpoints[bucket];</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1cdc_1_1_throughput_tracker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a3e3a807f5e9e9371ca4e7b525ff7cee0" kindref="member">ThroughputTracker</ref><sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1cdc_1_1_throughput_tracker_1a3e3a807f5e9e9371ca4e7b525ff7cee0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a3e3a807f5e9e9371ca4e7b525ff7cee0" kindref="member">ThroughputTracker</ref>()<sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>window_start_(std::chrono::steady_clock::now()),</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events_in_window_(0),</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bytes_in_window_(0)<sp/>{}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1cdc_1_1_throughput_tracker_1a81f9c38f5fedef7a2bf8193b050f088f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a81f9c38f5fedef7a2bf8193b050f088f" kindref="member">recordEvent</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes<sp/>=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resetWindowIfNeeded();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events_in_window_++;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bytes_in_window_<sp/>+=<sp/>bytes;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1cdc_1_1_throughput_tracker_1a2184b7bf0bf6c3fac19e3ebc8acd0d33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a2184b7bf0bf6c3fac19e3ebc8acd0d33" kindref="member">eventsPerSecond</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>window_start_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>seconds<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(elapsed).count()<sp/>/<sp/>1000.0;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>seconds<sp/>&gt;<sp/>0<sp/>?<sp/>events_in_window_.load()<sp/>/<sp/>seconds<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1cdc_1_1_throughput_tracker_1a795d6d7735541ee6e251f5a23c487024" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a795d6d7735541ee6e251f5a23c487024" kindref="member">bytesPerSecond</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>window_start_;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>seconds<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(elapsed).count()<sp/>/<sp/>1000.0;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>seconds<sp/>&gt;<sp/>0<sp/>?<sp/>bytes_in_window_.load()<sp/>/<sp/>seconds<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1cdc_1_1_throughput_tracker_1ad0891e1f497159224b6d25ee0a15e857" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1ad0891e1f497159224b6d25ee0a15e857" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_per_second&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a2184b7bf0bf6c3fac19e3ebc8acd0d33" kindref="member">eventsPerSecond</ref>()},</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bytes_per_second&quot;</highlight><highlight class="normal">,<sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a795d6d7735541ee6e251f5a23c487024" kindref="member">bytesPerSecond</ref>()},</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_in_window&quot;</highlight><highlight class="normal">,<sp/>events_in_window_.load()},</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;bytes_in_window&quot;</highlight><highlight class="normal">,<sp/>bytes_in_window_.load()}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1cdc_1_1_throughput_tracker_1a22712245abf7d82d0148fabc90376b18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a22712245abf7d82d0148fabc90376b18" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>window_start_<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events_in_window_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bytes_in_window_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>WINDOW_DURATION<sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>window_start_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>events_in_window_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>bytes_in_window_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>resetWindowIfNeeded()<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>window_start_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(elapsed<sp/>&gt;=<sp/>WINDOW_DURATION)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a22712245abf7d82d0148fabc90376b18" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1cdc_1_1_c_d_c_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>histograms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0024ae2e90fb633f2a1e74acc44c9b86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0024ae2e90fb633f2a1e74acc44c9b86" kindref="member">record_event_latency</ref>;</highlight></codeline>
+<codeline lineno="246" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad0f966305b2e3d2e61ff7fffce54efa9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad0f966305b2e3d2e61ff7fffce54efa9" kindref="member">flush_latency</ref>;</highlight></codeline>
+<codeline lineno="247" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7b6475c5c0c64a875a17407e6f296a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7b6475c5c0c64a875a17407e6f296a9" kindref="member">compression_latency</ref>;</highlight></codeline>
+<codeline lineno="248" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a54a97c3156ea420931dc34198b80ddab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a54a97c3156ea420931dc34198b80ddab" kindref="member">decompression_latency</ref>;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Throughput<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ae28dc3fe060fd3e4b54d85127b5cf723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_throughput_tracker" kindref="compound">ThroughputTracker</ref><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ae28dc3fe060fd3e4b54d85127b5cf723" kindref="member">throughput</ref>;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Counters<sp/>(existing<sp/>metrics<sp/>from<sp/>previous<sp/>implementation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a416137fc48b5b81bdeba5c3783df2443" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a416137fc48b5b81bdeba5c3783df2443" kindref="member">events_recorded</ref>{0};</highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1abbc195c4293836c32b0fb597cca9ff1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1abbc195c4293836c32b0fb597cca9ff1b" kindref="member">events_flushed</ref>{0};</highlight></codeline>
+<codeline lineno="256" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1acf462b4a9fcedf1091dc5ded7ed7577b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1acf462b4a9fcedf1091dc5ded7ed7577b" kindref="member">flush_count</ref>{0};</highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a21fd34ffe4c24fdbf31a4c1aba73baa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a21fd34ffe4c24fdbf31a4c1aba73baa5" kindref="member">compression_count</ref>{0};</highlight></codeline>
+<codeline lineno="258" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac59bc753d6541ae031fb8dbe67066785" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac59bc753d6541ae031fb8dbe67066785" kindref="member">decompression_count</ref>{0};</highlight></codeline>
+<codeline lineno="259" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1f21dd420f37b2bbcf0d58db64b00965" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1f21dd420f37b2bbcf0d58db64b00965" kindref="member">errors</ref>{0};</highlight></codeline>
+<codeline lineno="260" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a80baf72b53c1e87d54187b06b7357931" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a80baf72b53c1e87d54187b06b7357931" kindref="member">retries</ref>{0};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WebSocket<sp/>transport<sp/>counters<sp/>(cdc_ws_*<sp/>Prometheus<sp/>metric<sp/>names)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0b1a6cff0f25e07692f07d74f608ba46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0b1a6cff0f25e07692f07d74f608ba46" kindref="member">ws_events_delivered</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7f73d371c5fc40bcf0ad6f2ec9b72d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7f73d371c5fc40bcf0ad6f2ec9b72d9" kindref="member">ws_overflow_total</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Kafka<sp/>producer<sp/>counters<sp/>(cdc_kafka_*<sp/>Prometheus<sp/>metric<sp/>names)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" kindref="member">kafka_delivered_total</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="268" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" kindref="member">kafka_error_total</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1add98021533f8dfb4c14f5e2d4e9ff5bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1add98021533f8dfb4c14f5e2d4e9ff5bf" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;latency&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;record_event&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0024ae2e90fb633f2a1e74acc44c9b86" kindref="member">record_event_latency</ref>.toJson()},</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;flush&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad0f966305b2e3d2e61ff7fffce54efa9" kindref="member">flush_latency</ref>.toJson()},</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;compression&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7b6475c5c0c64a875a17407e6f296a9" kindref="member">compression_latency</ref>.toJson()},</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;decompression&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a54a97c3156ea420931dc34198b80ddab" kindref="member">decompression_latency</ref>.toJson()}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;throughput&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ae28dc3fe060fd3e4b54d85127b5cf723" kindref="member">throughput</ref>.toJson()},</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;counters&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_recorded&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a416137fc48b5b81bdeba5c3783df2443" kindref="member">events_recorded</ref>.load()},</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_flushed&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1abbc195c4293836c32b0fb597cca9ff1b" kindref="member">events_flushed</ref>.load()},</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;flush_count&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1acf462b4a9fcedf1091dc5ded7ed7577b" kindref="member">flush_count</ref>.load()},</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;compression_count&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a21fd34ffe4c24fdbf31a4c1aba73baa5" kindref="member">compression_count</ref>.load()},</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;decompression_count&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac59bc753d6541ae031fb8dbe67066785" kindref="member">decompression_count</ref>.load()},</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1f21dd420f37b2bbcf0d58db64b00965" kindref="member">errors</ref>.load()},</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;retries&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a80baf72b53c1e87d54187b06b7357931" kindref="member">retries</ref>.load()},</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ws_events_delivered&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0b1a6cff0f25e07692f07d74f608ba46" kindref="member">ws_events_delivered</ref>.load()},</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ws_overflow_total&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7f73d371c5fc40bcf0ad6f2ec9b72d9" kindref="member">ws_overflow_total</ref>.load()},</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kafka_delivered_total&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" kindref="member">kafka_delivered_total</ref>.load()},</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kafka_error_total&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" kindref="member">kafka_error_total</ref>.load()}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299" refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0f01057dd8b84b03626a95b1a5d10b1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0f01057dd8b84b03626a95b1a5d10b1e" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0024ae2e90fb633f2a1e74acc44c9b86" kindref="member">record_event_latency</ref>.reset();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad0f966305b2e3d2e61ff7fffce54efa9" kindref="member">flush_latency</ref>.reset();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7b6475c5c0c64a875a17407e6f296a9" kindref="member">compression_latency</ref>.reset();</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a54a97c3156ea420931dc34198b80ddab" kindref="member">decompression_latency</ref>.reset();</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ae28dc3fe060fd3e4b54d85127b5cf723" kindref="member">throughput</ref>.reset();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a416137fc48b5b81bdeba5c3783df2443" kindref="member">events_recorded</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1abbc195c4293836c32b0fb597cca9ff1b" kindref="member">events_flushed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1acf462b4a9fcedf1091dc5ded7ed7577b" kindref="member">flush_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a21fd34ffe4c24fdbf31a4c1aba73baa5" kindref="member">compression_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac59bc753d6541ae031fb8dbe67066785" kindref="member">decompression_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1f21dd420f37b2bbcf0d58db64b00965" kindref="member">errors</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a80baf72b53c1e87d54187b06b7357931" kindref="member">retries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0b1a6cff0f25e07692f07d74f608ba46" kindref="member">ws_events_delivered</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ad7f73d371c5fc40bcf0ad6f2ec9b72d9" kindref="member">ws_overflow_total</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" kindref="member">kafka_delivered_total</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" kindref="member">kafka_error_total</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320" refid="classthemis_1_1cdc_1_1_scoped_timer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_scoped_timer_1acecfa5181398aa10605f0c0445374ac0" kindref="member">ScopedTimer</ref><sp/>{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="322" refid="classthemis_1_1cdc_1_1_scoped_timer_1acecfa5181398aa10605f0c0445374ac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_scoped_timer_1acecfa5181398aa10605f0c0445374ac0" kindref="member">ScopedTimer</ref>(<ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref>&amp;<sp/>histogram)</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>histogram_(histogram),</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start_(std::chrono::steady_clock::now())<sp/>{}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="326" refid="classthemis_1_1cdc_1_1_scoped_timer_1a1c2d8096d1f24d67a4d4c2430943e4d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_scoped_timer_1a1c2d8096d1f24d67a4d4c2430943e4d8" kindref="member">~ScopedTimer</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start_);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>histogram_.record(duration.count());</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_latency_histogram" kindref="compound">LatencyHistogram</ref>&amp;<sp/>histogram_;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>start_;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337" refid="cdc__metrics_8h_1a941e88f84576def1610edeb78fbc8935" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CDC_CONCAT_INNER(a,<sp/>b)<sp/>a##b</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="cdc__metrics_8h_1a04cf234e2b495cfa02489d0e090c21ff" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CDC_CONCAT(a,<sp/>b)<sp/>CDC_CONCAT_INNER(a,<sp/>b)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339" refid="cdc__metrics_8h_1aca6cf80891dbb38e55c6a4b3b4453448" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CDC_MEASURE_LATENCY_IMPL(histogram,<sp/>line)<sp/>\</highlight></codeline>
+<codeline lineno="340"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>ScopedTimer<sp/>CDC_CONCAT(CDC_timer_,<sp/>line)(histogram)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341" refid="cdc__metrics_8h_1a724e378219c97e003dbcc2f4f4fc1857" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CDC_MEASURE_LATENCY(histogram)<sp/>CDC_MEASURE_LATENCY_IMPL(histogram,<sp/>__LINE__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cdc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cdc/cdc_metrics.h"/>
+  </compounddef>
+</doxygen>

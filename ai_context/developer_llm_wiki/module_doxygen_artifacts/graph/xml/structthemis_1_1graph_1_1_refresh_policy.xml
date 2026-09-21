@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_refresh_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::RefreshPolicy</compoundname>
+    <includes refid="scheduled__edge__refresh_8h" local="no">scheduled_edge_refresh.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1a2f5251244da6bb13288cc0a84e5ccd10" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::graph::RefreshPolicy::refresh_interval</definition>
+        <argsstring></argsstring>
+        <name>refresh_interval</name>
+        <qualifiedname>themis::graph::RefreshPolicy::refresh_interval</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="46" column="26" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1a4b848dd3c6acb9a4637eb0e3eda1c549" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702f" kindref="member">SimilarityMetric</ref></type>
+        <definition>SimilarityMetric themis::graph::RefreshPolicy::similarity_metric</definition>
+        <argsstring></argsstring>
+        <name>similarity_metric</name>
+        <qualifiedname>themis::graph::RefreshPolicy::similarity_metric</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1graph_1a66ca174611276aee1d7d96c302ef702fae66ba018ef96aa5c78c8fba787f43717" kindref="member">SimilarityMetric::COSINE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="49" column="22" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1a8989b466b888e917dfc63f411996abd2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::RefreshPolicy::relevance_threshold</definition>
+        <argsstring></argsstring>
+        <name>relevance_threshold</name>
+        <qualifiedname>themis::graph::RefreshPolicy::relevance_threshold</qualifiedname>
+        <initializer>{0.5f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="51" column="11" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1ae994a5bd418ef1dd5475fbb083d5eca7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::RefreshPolicy::add_threshold</definition>
+        <argsstring></argsstring>
+        <name>add_threshold</name>
+        <qualifiedname>themis::graph::RefreshPolicy::add_threshold</qualifiedname>
+        <initializer>{0.7f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="53" column="11" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1aabb5d930306b80f0282b1268d7b0da09" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::RefreshPolicy::top_k_candidates</definition>
+        <argsstring></argsstring>
+        <name>top_k_candidates</name>
+        <qualifiedname>themis::graph::RefreshPolicy::top_k_candidates</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="55" column="14" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1a96d4e8ebd5b58d38491dd4b181d80f64" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::RefreshPolicy::decay_half_life_seconds</definition>
+        <argsstring></argsstring>
+        <name>decay_half_life_seconds</name>
+        <qualifiedname>themis::graph::RefreshPolicy::decay_half_life_seconds</qualifiedname>
+        <initializer>{86400.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="58" column="12" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1acae66f68f2adb21b6c4ba36829c35c39" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::RefreshPolicy::max_removal_fraction</definition>
+        <argsstring></argsstring>
+        <name>max_removal_fraction</name>
+        <qualifiedname>themis::graph::RefreshPolicy::max_removal_fraction</qualifiedname>
+        <initializer>{0.10f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="61" column="11" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1a5f3d8b0a66dc7703efa0a0683e7c3800" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::RefreshPolicy::max_edges_to_add</definition>
+        <argsstring></argsstring>
+        <name>max_edges_to_add</name>
+        <qualifiedname>themis::graph::RefreshPolicy::max_edges_to_add</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="63" column="14" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1a97be56898190abfa597766bc9afcc4a8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::RefreshPolicy::max_edges_to_remove</definition>
+        <argsstring></argsstring>
+        <name>max_edges_to_remove</name>
+        <qualifiedname>themis::graph::RefreshPolicy::max_edges_to_remove</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="65" column="14" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1a70276eea1753fe10ed037f4e817a1633" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::RefreshPolicy::graph_id</definition>
+        <argsstring></argsstring>
+        <name>graph_id</name>
+        <qualifiedname>themis::graph::RefreshPolicy::graph_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="68" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1a156f63a750c565a82006b288dacc1f42" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::RefreshPolicy::anomaly_threshold_removal_rate</definition>
+        <argsstring></argsstring>
+        <name>anomaly_threshold_removal_rate</name>
+        <qualifiedname>themis::graph::RefreshPolicy::anomaly_threshold_removal_rate</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="71" column="11" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_policy_1a6d6af1a421e37bbe90fb41f85a297f71" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RefreshPolicy::ann_min_vertices</definition>
+        <argsstring></argsstring>
+        <name>ann_min_vertices</name>
+        <qualifiedname>themis::graph::RefreshPolicy::ann_min_vertices</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="74" column="12" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_refresh_policy_1a52bb72c6cf15f82ef22effb24005884d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::RefreshPolicy::RefreshPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>RefreshPolicy</name>
+        <qualifiedname>themis::graph::RefreshPolicy::RefreshPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="76" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/scheduled_edge_refresh.h" line="44" column="1" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="44" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1ae994a5bd418ef1dd5475fbb083d5eca7" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>add_threshold</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a6d6af1a421e37bbe90fb41f85a297f71" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>ann_min_vertices</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a156f63a750c565a82006b288dacc1f42" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>anomaly_threshold_removal_rate</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a96d4e8ebd5b58d38491dd4b181d80f64" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>decay_half_life_seconds</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a70276eea1753fe10ed037f4e817a1633" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>graph_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a5f3d8b0a66dc7703efa0a0683e7c3800" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>max_edges_to_add</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a97be56898190abfa597766bc9afcc4a8" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>max_edges_to_remove</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1acae66f68f2adb21b6c4ba36829c35c39" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>max_removal_fraction</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a2f5251244da6bb13288cc0a84e5ccd10" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>refresh_interval</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a52bb72c6cf15f82ef22effb24005884d" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>RefreshPolicy</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a8989b466b888e917dfc63f411996abd2" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>relevance_threshold</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1a4b848dd3c6acb9a4637eb0e3eda1c549" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>similarity_metric</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_policy_1aabb5d930306b80f0282b1268d7b0da09" prot="public" virt="non-virtual"><scope>themis::graph::RefreshPolicy</scope><name>top_k_candidates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

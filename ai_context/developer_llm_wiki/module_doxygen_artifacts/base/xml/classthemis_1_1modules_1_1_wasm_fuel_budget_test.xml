@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_wasm_fuel_budget_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::WasmFuelBudgetTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_fuel_budget_test_1a626d7c3f090bc80e3ce244174044b416" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::modules::WasmFuelBudgetTest::minimalWasm</definition>
+        <argsstring>()</argsstring>
+        <name>minimalWasm</name>
+        <qualifiedname>themis::modules::WasmFuelBudgetTest::minimalWasm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_future_enhancements.cpp" line="292" column="24" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="292" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::WasmFuelBudgetTest</label>
+        <link refid="classthemis_1_1modules_1_1_wasm_fuel_budget_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::WasmFuelBudgetTest</label>
+        <link refid="classthemis_1_1modules_1_1_wasm_fuel_budget_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_future_enhancements.cpp" line="290" column="1" bodyfile="tests/base/test_base_future_enhancements.cpp" bodystart="290" bodyend="295"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_wasm_fuel_budget_test_1a626d7c3f090bc80e3ce244174044b416" prot="protected" virt="non-virtual"><scope>themis::modules::WasmFuelBudgetTest</scope><name>minimalWasm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

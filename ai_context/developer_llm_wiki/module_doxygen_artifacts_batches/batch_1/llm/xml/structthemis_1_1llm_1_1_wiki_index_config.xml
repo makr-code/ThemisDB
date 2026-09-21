@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_wiki_index_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::WikiIndexConfig</compoundname>
+    <includes refid="wiki__index__store_8h" local="no">wiki_index_store.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a97803be3bf1f208c05f018f86febc79c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiIndexConfig::kDefaultPhaseBEnabled</definition>
+        <argsstring></argsstring>
+        <name>kDefaultPhaseBEnabled</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::kDefaultPhaseBEnabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="105" column="27" bodyfile="include/llm/wiki_index_store.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1adf53f121b9c65822001a7329f55f5108" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiIndexConfig::enable_phase_b</definition>
+        <argsstring></argsstring>
+        <name>enable_phase_b</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::enable_phase_b</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_wiki_index_config_1a97803be3bf1f208c05f018f86febc79c" kindref="member">kDefaultPhaseBEnabled</ref></initializer>
+        <briefdescription>
+<para>Gate for <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> Phase B runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="108" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a27766312b30b92ba261e48bac9a06a22" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiIndexConfig::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::table_name</qualifiedname>
+        <initializer>= &quot;wiki_chunks&quot;</initializer>
+        <briefdescription>
+<para>RocksDB table / namespace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="109" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a6aca296e8a33bbb72f272e89c6ac7e5f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WikiIndexConfig::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::embedding_dim</qualifiedname>
+        <initializer>= 384</initializer>
+        <briefdescription>
+<para>Expected embedding dimensionality (overridden when auto_probe_dim=true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="110" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a71b2ea5b4b720261527429ea407d990d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WikiIndexConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::top_k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Default retrieval limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="111" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1addf92a33b1ac63450e75f37553f1ced3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::WikiIndexConfig::min_score</definition>
+        <argsstring></argsstring>
+        <name>min_score</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::min_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Minimum score threshold for results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="112" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1ae3453cd689da9c7a5aac646202f886ff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiIndexConfig::enable_bm25</definition>
+        <argsstring></argsstring>
+        <name>enable_bm25</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::enable_bm25</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include BM25 candidates in fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="113" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a36e26b7570b3d1fe9d1b868a20e387af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiIndexConfig::enable_vector</definition>
+        <argsstring></argsstring>
+        <name>enable_vector</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::enable_vector</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include KNN candidates in fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="114" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a2dd82f5fffdc9ef534560ee270fd7916" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiIndexConfig::rrf_k</definition>
+        <argsstring></argsstring>
+        <name>rrf_k</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::rrf_k</qualifiedname>
+        <initializer>= 60.0</initializer>
+        <briefdescription>
+<para>Reciprocal Rank Fusion smoothing constant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="115" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a975d7dfff36aec563d18b28cfa491f7b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiIndexConfig::bm25_k1</definition>
+        <argsstring></argsstring>
+        <name>bm25_k1</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::bm25_k1</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+<para>BM25+ k1 parameter (Robertson &amp; Zaragoza). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="116" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a17b88c680523d6b50514a419e7fa73b2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiIndexConfig::bm25_b</definition>
+        <argsstring></argsstring>
+        <name>bm25_b</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::bm25_b</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>BM25+ b parameter (Robertson &amp; Zaragoza). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="117" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1afe22ffdfd365b4f30c1e2e38902d3c55" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiIndexConfig::bm25_delta</definition>
+        <argsstring></argsstring>
+        <name>bm25_delta</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::bm25_delta</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>BM25+ lower-bound term frequency delta. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="118" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a268e0e2c93823a0dc201a7186fa2c3e2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WikiIndexConfig::hnsw_m</definition>
+        <argsstring></argsstring>
+        <name>hnsw_m</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::hnsw_m</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>HNSW graph degree (M). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="119" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a0e439ea0fe0ffe44252165638a72ce8e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WikiIndexConfig::hnsw_ef_construction</definition>
+        <argsstring></argsstring>
+        <name>hnsw_ef_construction</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::hnsw_ef_construction</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>HNSW ef_construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="120" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1aa4c8633891175115b13b45659b663c6e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WikiIndexConfig::hnsw_ef_search</definition>
+        <argsstring></argsstring>
+        <name>hnsw_ef_search</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::hnsw_ef_search</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>HNSW ef_search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="121" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1abfbd7e96b5f59822b60906360db867df" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WikiIndexConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="125" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1aae9eee55027db978bf1e7658dd004361" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiIndexConfig::auto_probe_dim</definition>
+        <argsstring></argsstring>
+        <name>auto_probe_dim</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::auto_probe_dim</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="127" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1aee5beb381cbd0f0351c41fd82f8d6e30" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiIndexConfig::enable_persistent_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_persistent_cache</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::enable_persistent_cache</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="129" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1ada7792c7b05da28ae0885dce546bfc3c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiIndexConfig::embedding_cache_table</definition>
+        <argsstring></argsstring>
+        <name>embedding_cache_table</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::embedding_cache_table</qualifiedname>
+        <initializer>= &quot;embedding_cache&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="131" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1a39fb074a9212d32ee1e0edee9cc7da59" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiIndexConfig::embedding_cache_max_bytes</definition>
+        <argsstring></argsstring>
+        <name>embedding_cache_max_bytes</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::embedding_cache_max_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="133" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_index_config_1afba0f5cef2f76d970ca7619f1bedbdae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiIndexConfig::enable_phase_a_cache_migration</definition>
+        <argsstring></argsstring>
+        <name>enable_phase_a_cache_migration</name>
+        <qualifiedname>themis::llm::WikiIndexConfig::enable_phase_a_cache_migration</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="135" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/wiki_index_store.h" line="101" column="1" bodyfile="include/llm/wiki_index_store.h" bodystart="101" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1aae9eee55027db978bf1e7658dd004361" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>auto_probe_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1abfbd7e96b5f59822b60906360db867df" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a17b88c680523d6b50514a419e7fa73b2" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>bm25_b</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1afe22ffdfd365b4f30c1e2e38902d3c55" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>bm25_delta</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a975d7dfff36aec563d18b28cfa491f7b" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>bm25_k1</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a39fb074a9212d32ee1e0edee9cc7da59" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>embedding_cache_max_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1ada7792c7b05da28ae0885dce546bfc3c" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>embedding_cache_table</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a6aca296e8a33bbb72f272e89c6ac7e5f" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1ae3453cd689da9c7a5aac646202f886ff" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>enable_bm25</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1aee5beb381cbd0f0351c41fd82f8d6e30" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>enable_persistent_cache</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1afba0f5cef2f76d970ca7619f1bedbdae" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>enable_phase_a_cache_migration</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1adf53f121b9c65822001a7329f55f5108" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>enable_phase_b</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a36e26b7570b3d1fe9d1b868a20e387af" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>enable_vector</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a0e439ea0fe0ffe44252165638a72ce8e" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>hnsw_ef_construction</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1aa4c8633891175115b13b45659b663c6e" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>hnsw_ef_search</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a268e0e2c93823a0dc201a7186fa2c3e2" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>hnsw_m</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a97803be3bf1f208c05f018f86febc79c" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>kDefaultPhaseBEnabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1addf92a33b1ac63450e75f37553f1ced3" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>min_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a2dd82f5fffdc9ef534560ee270fd7916" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>rrf_k</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a27766312b30b92ba261e48bac9a06a22" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_index_config_1a71b2ea5b4b720261527429ea407d990d" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexConfig</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

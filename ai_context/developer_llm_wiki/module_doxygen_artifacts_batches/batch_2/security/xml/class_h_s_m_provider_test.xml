@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_h_s_m_provider_test" kind="class" language="C++" prot="public">
+    <compoundname>HSMProviderTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_h_s_m_provider_test_1a5ecda1787007872730f44a9a709e0801" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HSMProviderTest::hsm_library_path</definition>
+        <argsstring></argsstring>
+        <name>hsm_library_path</name>
+        <qualifiedname>HSMProviderTest::hsm_library_path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="38" column="17" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_h_s_m_provider_test_1a1f4a6fe8ff9f2da1e43d26c86aee35c4" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HSMProviderTest::hsm_pin</definition>
+        <argsstring></argsstring>
+        <name>hsm_pin</name>
+        <qualifiedname>HSMProviderTest::hsm_pin</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="39" column="17" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_h_s_m_provider_test_1a0e96d4adcbe0599f18868306b4a9e15f" prot="protected" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t HSMProviderTest::hsm_slot</definition>
+        <argsstring></argsstring>
+        <name>hsm_slot</name>
+        <qualifiedname>HSMProviderTest::hsm_slot</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="40" column="14" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_h_s_m_provider_test_1a0123144d65c06ef52095094976107fa7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HSMProviderTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HSMProviderTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="42" column="10" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="42" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_h_s_m_provider_test_1a210622e47b42b3876c01bd731e4cbe44" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool HSMProviderTest::isHSMAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isHSMAvailable</name>
+        <qualifiedname>HSMProviderTest::isHSMAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="69" column="10" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_h_s_m_provider_test_1a198159f2ba75a5b38e7281eaf6ff6f0e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref></type>
+        <definition>HSMConfig HSMProviderTest::createTestConfig</definition>
+        <argsstring>()</argsstring>
+        <name>createTestConfig</name>
+        <qualifiedname>HSMProviderTest::createTestConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="74" column="15" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="74" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HSM Provider Tests</para>
+<para>These tests require SoftHSM2 to be installed:</para>
+<para>Installation:<itemizedlist>
+<listitem><para>Ubuntu/Debian: sudo apt-get install softhsm2</para>
+</listitem><listitem><para>macOS: brew install softhsm</para>
+</listitem><listitem><para>Windows: Download from <ulink url="https://github.com/opendnssec/SoftHSMv2/releases">https://github.com/opendnssec/SoftHSMv2/releases</ulink></para>
+</listitem></itemizedlist>
+</para>
+<para>Configuration (one-time setup): <programlisting filename=".bash"><codeline><highlight class="normal">#<sp/>Initialize<sp/>token</highlight></codeline>
+<codeline><highlight class="normal">softhsm2-util<sp/>--init-token<sp/>--slot<sp/>0<sp/>--label<sp/>&quot;themis-test&quot;<sp/>--pin<sp/>1234<sp/>--so-pin<sp/>5678</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Generate<sp/>test<sp/>key</highlight></codeline>
+<codeline><highlight class="normal">pkcs11-tool<sp/>--module<sp/>/usr/lib/softhsm/libsofthsm2.so<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>--login<sp/>--pin<sp/>1234<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>--keypairgen<sp/>--key-type<sp/>RSA:2048<sp/>\</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>--label<sp/>&quot;themis-signing-key&quot;</highlight></codeline>
+</programlisting></para>
+<para>Environment Variables:<itemizedlist>
+<listitem><para>THEMIS_TEST_HSM_LIBRARY: Path to PKCS#11 library (default: /usr/lib/softhsm/libsofthsm2.so)</para>
+</listitem><listitem><para>THEMIS_TEST_HSM_PIN: HSM PIN (default: 1234) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HSMProviderTest</label>
+        <link refid="class_h_s_m_provider_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HSMProviderTest</label>
+        <link refid="class_h_s_m_provider_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_hsm_provider.cpp" line="36" column="1" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="36" bodyend="84"/>
+    <listofallmembers>
+      <member refid="class_h_s_m_provider_test_1a198159f2ba75a5b38e7281eaf6ff6f0e" prot="protected" virt="non-virtual"><scope>HSMProviderTest</scope><name>createTestConfig</name></member>
+      <member refid="class_h_s_m_provider_test_1a5ecda1787007872730f44a9a709e0801" prot="protected" virt="non-virtual"><scope>HSMProviderTest</scope><name>hsm_library_path</name></member>
+      <member refid="class_h_s_m_provider_test_1a1f4a6fe8ff9f2da1e43d26c86aee35c4" prot="protected" virt="non-virtual"><scope>HSMProviderTest</scope><name>hsm_pin</name></member>
+      <member refid="class_h_s_m_provider_test_1a0e96d4adcbe0599f18868306b4a9e15f" prot="protected" virt="non-virtual"><scope>HSMProviderTest</scope><name>hsm_slot</name></member>
+      <member refid="class_h_s_m_provider_test_1a210622e47b42b3876c01bd731e4cbe44" prot="protected" virt="non-virtual"><scope>HSMProviderTest</scope><name>isHSMAvailable</name></member>
+      <member refid="class_h_s_m_provider_test_1a0123144d65c06ef52095094976107fa7" prot="protected" virt="non-virtual"><scope>HSMProviderTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

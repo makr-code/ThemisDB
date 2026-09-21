@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f329dc1f1f2857bf7c9fb0bd5db3e40e" kind="dir">
+    <compoundname>benchmarks/ingestion</compoundname>
+    <innerfile refid="bench__ingestion__dedicated__gates_8cpp">bench_ingestion_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__ingestion__extraction_8cpp">bench_ingestion_extraction.cpp</innerfile>
+    <innerfile refid="bench__ingestion__kv_8cpp">bench_ingestion_kv.cpp</innerfile>
+    <innerfile refid="bench__ingestion__quality__judge_8cpp">bench_ingestion_quality_judge.cpp</innerfile>
+    <innerfile refid="bench__ingestion__release__gates_8cpp">bench_ingestion_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/ingestion/"/>
+  </compounddef>
+</doxygen>

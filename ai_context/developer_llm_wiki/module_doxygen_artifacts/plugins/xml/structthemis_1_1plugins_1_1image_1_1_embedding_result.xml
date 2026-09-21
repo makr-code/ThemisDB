@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_embedding_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::EmbeddingResult</compoundname>
+    <includes refid="image__analysis__interface_8h" local="no">image_analysis_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a49cf6bd4826df2f6f004f9dd3bfd9a5c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::EmbeddingResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::plugins::image::EmbeddingResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="96" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_embedding_result_1ab599c2191ce019bb879fdff97725319f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::EmbeddingResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::plugins::image::EmbeddingResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="97" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a39c6da17576ee4b2e65a32a41081c753" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::plugins::image::EmbeddingResult::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::plugins::image::EmbeddingResult::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="99" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a44079872d33be5dd2a36bce06f80e307" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::image::EmbeddingResult::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::plugins::image::EmbeddingResult::dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="100" column="9" bodyfile="include/plugins/image_analysis_interface.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a160c06ebc5dce27e7d1973554944905c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::EmbeddingResult::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::plugins::image::EmbeddingResult::model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="101" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a713e65a890f46b9f203e59c18f27ce5c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::image::EmbeddingResult::inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>inference_time_ms</name>
+        <qualifiedname>themis::plugins::image::EmbeddingResult::inference_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="103" column="13" bodyfile="include/plugins/image_analysis_interface.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Image Embedding Result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/image_analysis_interface.h" line="95" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="95" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a44079872d33be5dd2a36bce06f80e307" prot="public" virt="non-virtual"><scope>themis::plugins::image::EmbeddingResult</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a39c6da17576ee4b2e65a32a41081c753" prot="public" virt="non-virtual"><scope>themis::plugins::image::EmbeddingResult</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_embedding_result_1ab599c2191ce019bb879fdff97725319f" prot="public" virt="non-virtual"><scope>themis::plugins::image::EmbeddingResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a713e65a890f46b9f203e59c18f27ce5c" prot="public" virt="non-virtual"><scope>themis::plugins::image::EmbeddingResult</scope><name>inference_time_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a160c06ebc5dce27e7d1973554944905c" prot="public" virt="non-virtual"><scope>themis::plugins::image::EmbeddingResult</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_embedding_result_1a49cf6bd4826df2f6f004f9dd3bfd9a5c" prot="public" virt="non-virtual"><scope>themis::plugins::image::EmbeddingResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

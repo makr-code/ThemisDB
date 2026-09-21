@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</compoundname>
+    <includes refid="infini__attention__vulkan_8h" local="no">infini_attention_vulkan.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a53dde39319e1625e0bc6762efda153c4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::memory_dim</definition>
+        <argsstring></argsstring>
+        <name>memory_dim</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::memory_dim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+<para>Compressive memory dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="27" column="16" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1ab1020e407401024137a7908222a7dc95" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::update_rate</definition>
+        <argsstring></argsstring>
+        <name>update_rate</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::update_rate</qualifiedname>
+        <initializer>= 0.1f</initializer>
+        <briefdescription>
+<para>Contrastive learning rate α </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="28" column="15" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aa8d85dbcb1b066ec2aa95608a1f6d74d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::low_rank</definition>
+        <argsstring></argsstring>
+        <name>low_rank</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::low_rank</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Low-rank projection dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="29" column="13" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aeaba2d9a54fe970ac32d6d701241d84e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::enable_fused_ops</definition>
+        <argsstring></argsstring>
+        <name>enable_fused_ops</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::enable_fused_ops</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Fuse kernels for efficiency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="30" column="14" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a803aba343bb42673d587c20da9821e81" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::max_seq_len</definition>
+        <argsstring></argsstring>
+        <name>max_seq_len</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::max_seq_len</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum sequence length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="31" column="16" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aa554818fb54d456f9d00611bf7e2d7d7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::num_heads</definition>
+        <argsstring></argsstring>
+        <name>num_heads</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::num_heads</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Number of attention heads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="32" column="13" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a4a1fea35b7eb6243642078cb0b03ca6b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::head_dim</definition>
+        <argsstring></argsstring>
+        <name>head_dim</name>
+        <qualifiedname>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config::head_dim</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Dimension per head. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="33" column="16" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/vulkan/infini_attention_vulkan.h" line="26" column="5" bodyfile="include/llm/attention/vulkan/infini_attention_vulkan.h" bodystart="26" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aeaba2d9a54fe970ac32d6d701241d84e" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</scope><name>enable_fused_ops</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a4a1fea35b7eb6243642078cb0b03ca6b" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</scope><name>head_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aa8d85dbcb1b066ec2aa95608a1f6d74d" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</scope><name>low_rank</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a803aba343bb42673d587c20da9821e81" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</scope><name>max_seq_len</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1a53dde39319e1625e0bc6762efda153c4" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</scope><name>memory_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1aa554818fb54d456f9d00611bf7e2d7d7" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</scope><name>num_heads</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1vulkan_1_1_infini_attention_vulkan_1_1_config_1ab1020e407401024137a7908222a7dc95" prot="public" virt="non-virtual"><scope>themis::llm::attention::vulkan::InfiniAttentionVulkan::Config</scope><name>update_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

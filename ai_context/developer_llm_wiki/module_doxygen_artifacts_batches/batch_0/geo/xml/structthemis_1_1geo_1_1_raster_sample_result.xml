@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_raster_sample_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::RasterSampleResult</compoundname>
+    <includes refid="raster_8h" local="no">raster.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_raster_sample_result_1a3c8e4bd19d03e3ebf5b4fc3d74fa3103" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::geo::RasterSampleResult::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::geo::RasterSampleResult::value</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Interpolated (or nearest-neighbour) value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster.h" line="81" column="11" bodyfile="include/geo/raster.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_raster_sample_result_1a59b057349843aee38bec48cd516fc1a3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::RasterSampleResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::geo::RasterSampleResult::valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>False when the query point is outside the grid or. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster.h" line="82" column="11" bodyfile="include/geo/raster.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/raster.h" line="80" column="1" bodyfile="include/geo/raster.h" bodystart="80" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_raster_sample_result_1a59b057349843aee38bec48cd516fc1a3" prot="public" virt="non-virtual"><scope>themis::geo::RasterSampleResult</scope><name>valid</name></member>
+      <member refid="structthemis_1_1geo_1_1_raster_sample_result_1a3c8e4bd19d03e3ebf5b4fc3d74fa3103" prot="public" virt="non-virtual"><scope>themis::geo::RasterSampleResult</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

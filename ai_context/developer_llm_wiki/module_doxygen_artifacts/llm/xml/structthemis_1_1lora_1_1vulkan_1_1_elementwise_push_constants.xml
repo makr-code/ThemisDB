@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants" kind="struct" language="C++" prot="public">
+    <compoundname>themis::lora::vulkan::ElementwisePushConstants</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1aeb2b105509acf14a76d8fc9a09cd1c6c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::lora::vulkan::ElementwisePushConstants::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::lora::vulkan::ElementwisePushConstants::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="327" column="14" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1a87276379e80189daeda99d178e955ea8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::lora::vulkan::ElementwisePushConstants::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::lora::vulkan::ElementwisePushConstants::op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="328" column="14" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1a06484b9ab2051871d510b12eb8466c84" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::lora::vulkan::ElementwisePushConstants::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::lora::vulkan::ElementwisePushConstants::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="329" column="14" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1a086d2ca4bc67341d925850a0bcd55534" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::lora::vulkan::ElementwisePushConstants::cols</definition>
+        <argsstring></argsstring>
+        <name>cols</name>
+        <qualifiedname>themis::lora::vulkan::ElementwisePushConstants::cols</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="330" column="14" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1aa9a4e61156d46fa294f8adbadbe8d274" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::lora::vulkan::ElementwisePushConstants::scalar_bits</definition>
+        <argsstring></argsstring>
+        <name>scalar_bits</name>
+        <qualifiedname>themis::lora::vulkan::ElementwisePushConstants::scalar_bits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="331" column="14" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="331" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="326" column="1" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="326" bodyend="332"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1a086d2ca4bc67341d925850a0bcd55534" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::ElementwisePushConstants</scope><name>cols</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1a87276379e80189daeda99d178e955ea8" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::ElementwisePushConstants</scope><name>op</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1a06484b9ab2051871d510b12eb8466c84" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::ElementwisePushConstants</scope><name>rows</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1aa9a4e61156d46fa294f8adbadbe8d274" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::ElementwisePushConstants</scope><name>scalar_bits</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_elementwise_push_constants_1aeb2b105509acf14a76d8fc9a09cd1c6c" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::ElementwisePushConstants</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

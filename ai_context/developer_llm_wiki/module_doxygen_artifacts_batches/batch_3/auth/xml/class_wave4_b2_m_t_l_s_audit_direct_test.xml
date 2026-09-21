@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wave4_b2_m_t_l_s_audit_direct_test" kind="class" language="C++" prot="public">
+    <compoundname>Wave4B2MTLSAuditDirectTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wave4_b2_m_t_l_s_audit_direct_test_1a8f4452108d438ed968f99f10a9d575ec" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path Wave4B2MTLSAuditDirectTest::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>Wave4B2MTLSAuditDirectTest::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="264" column="27" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b2_m_t_l_s_audit_direct_test_1a9f27028e53c4ce67d847e298ac4f1565" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AuditLogger &gt;</type>
+        <definition>std::unique_ptr&lt;AuditLogger&gt; Wave4B2MTLSAuditDirectTest::ul_</definition>
+        <argsstring></argsstring>
+        <name>ul_</name>
+        <qualifiedname>Wave4B2MTLSAuditDirectTest::ul_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="265" column="25" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b2_m_t_l_s_audit_direct_test_1aa60e4d295d88b6c3c2663b884f59bf66" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthAuditLogger&gt; Wave4B2MTLSAuditDirectTest::al_</definition>
+        <argsstring></argsstring>
+        <name>al_</name>
+        <qualifiedname>Wave4B2MTLSAuditDirectTest::al_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="266" column="21" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_wave4_b2_m_t_l_s_audit_direct_test_1aa8e8250436707db1d4fad93645e9e908" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4B2MTLSAuditDirectTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Wave4B2MTLSAuditDirectTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="268" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="268" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wave4_b2_m_t_l_s_audit_direct_test_1a475f93b5cffcf72e76abe693d83b5d46" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4B2MTLSAuditDirectTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Wave4B2MTLSAuditDirectTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="274" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="274" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Wave4B2MTLSAuditDirectTest</label>
+        <link refid="class_wave4_b2_m_t_l_s_audit_direct_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Wave4B2MTLSAuditDirectTest</label>
+        <link refid="class_wave4_b2_m_t_l_s_audit_direct_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="262" column="1" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="262" bodyend="277"/>
+    <listofallmembers>
+      <member refid="class_wave4_b2_m_t_l_s_audit_direct_test_1aa60e4d295d88b6c3c2663b884f59bf66" prot="protected" virt="non-virtual"><scope>Wave4B2MTLSAuditDirectTest</scope><name>al_</name></member>
+      <member refid="class_wave4_b2_m_t_l_s_audit_direct_test_1a8f4452108d438ed968f99f10a9d575ec" prot="protected" virt="non-virtual"><scope>Wave4B2MTLSAuditDirectTest</scope><name>log_path_</name></member>
+      <member refid="class_wave4_b2_m_t_l_s_audit_direct_test_1aa8e8250436707db1d4fad93645e9e908" prot="protected" virt="non-virtual"><scope>Wave4B2MTLSAuditDirectTest</scope><name>SetUp</name></member>
+      <member refid="class_wave4_b2_m_t_l_s_audit_direct_test_1a475f93b5cffcf72e76abe693d83b5d46" prot="protected" virt="non-virtual"><scope>Wave4B2MTLSAuditDirectTest</scope><name>TearDown</name></member>
+      <member refid="class_wave4_b2_m_t_l_s_audit_direct_test_1a9f27028e53c4ce67d847e298ac4f1565" prot="protected" virt="non-virtual"><scope>Wave4B2MTLSAuditDirectTest</scope><name>ul_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

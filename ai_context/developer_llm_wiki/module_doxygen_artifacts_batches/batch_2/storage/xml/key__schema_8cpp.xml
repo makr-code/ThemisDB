@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="key__schema_8cpp" kind="file" language="C++">
+    <compoundname>key_schema.cpp</compoundname>
+    <includes refid="key__schema_8h" local="yes">storage/key_schema.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>storage/key_schema.h</label>
+        <link refid="key__schema_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/storage/key_schema.cpp</label>
+        <link refid="key__schema_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="key__schema_8h" kindref="compound">storage/key_schema.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1_key_schema_1a4fdc22480cb605af3131b9f00e4c7696" kindref="member">KeySchema::makeRelationalKey</ref>(std::string_view<sp/>table,<sp/>std::string_view<sp/>pk)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>key.reserve(4<sp/>+<sp/>table.size()<sp/>+<sp/>pk.size()<sp/>);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;rel&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>table;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1_key_schema_1a20445a3d7613b548ace397751d0fe65d" kindref="member">KeySchema::makeDocumentKey</ref>(std::string_view<sp/>collection,<sp/>std::string_view<sp/>pk)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>key.reserve(4<sp/>+<sp/>collection.size()<sp/>+<sp/>pk.size()<sp/>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;doc&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>collection;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1_key_schema_1a9742bd66657bcdb11ced4bc239f306b2" kindref="member">KeySchema::makeGraphNodeKey</ref>(std::string_view<sp/>pk)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>key.reserve(5<sp/>+<sp/>pk.size()<sp/>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;node&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1_key_schema_1a8886eab46a4bf4292e67a103d4aa4396" kindref="member">KeySchema::makeGraphEdgeKey</ref>(std::string_view<sp/>pk)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>key.reserve(5<sp/>+<sp/>pk.size()<sp/>);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;edge&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1_key_schema_1aabd1041bca8b45a1d665da3ad96367b5" kindref="member">KeySchema::makeVectorKey</ref>(std::string_view<sp/>object_name,<sp/>std::string_view<sp/>pk)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>key.reserve(4<sp/>+<sp/>object_name.size()<sp/>+<sp/>pk.size()<sp/>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;vec&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>object_name;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1_key_schema_1a5852d9a050e3b8595ff374eb845a9a9e" kindref="member">KeySchema::makeSecondaryIndexKey</ref>(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/>table,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/>column,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/>value,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string_view<sp/>pk</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>key.reserve(5<sp/>+<sp/>table.size()<sp/>+<sp/>column.size()<sp/>+<sp/>value.size()<sp/>+<sp/>pk.size()<sp/>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;idx&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>table;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>column;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>value;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1_key_schema_1a0d0e2bf4a255178f9d8f02583ebf782d" kindref="member">KeySchema::makeGraphOutdexKey</ref>(std::string_view<sp/>pk_start,<sp/>std::string_view<sp/>pk_edge)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>key.reserve(10<sp/>+<sp/>pk_start.size()<sp/>+<sp/>pk_edge.size()<sp/>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;graph&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;out&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk_start;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk_edge;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1_key_schema_1abc296ce2e60a33cc1dda2ebe57f0cef7" kindref="member">KeySchema::makeGraphIndexKey</ref>(std::string_view<sp/>pk_target,<sp/>std::string_view<sp/>pk_edge)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>key.reserve(9<sp/>+<sp/>pk_target.size()<sp/>+<sp/>pk_edge.size()<sp/>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;graph&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;in&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk_target;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>SEPARATOR;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>key<sp/>+=<sp/>pk_edge;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>key;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6" kindref="member">KeySchema::KeyType</ref><sp/><ref refid="classthemis_1_1_key_schema_1a5c653478e4bcdfee0de4b41b78457b80" kindref="member">KeySchema::parseKeyType</ref>(std::string_view<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>specific<sp/>prefixed<sp/>key<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.starts_with(</highlight><highlight class="stringliteral">&quot;idx:&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6ac49e626040e475f9ef797877357dc40e" kindref="member">KeyType::SECONDARY_INDEX</ref>;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.starts_with(</highlight><highlight class="stringliteral">&quot;graph:out:&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a611ec0e2aec39f5c191e8f4dc0709061" kindref="member">KeyType::GRAPH_OUTDEX</ref>;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.starts_with(</highlight><highlight class="stringliteral">&quot;graph:in:&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a75a8ccec29136136b671c20ee746531c" kindref="member">KeyType::GRAPH_INDEX</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.starts_with(</highlight><highlight class="stringliteral">&quot;node:&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a5f412d9440ef5619d3a997ad4b4d833f" kindref="member">KeyType::GRAPH_NODE</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.starts_with(</highlight><highlight class="stringliteral">&quot;edge:&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a82d4fab05a5a6c86e7b5d9167900ec89" kindref="member">KeyType::GRAPH_EDGE</ref>;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.starts_with(</highlight><highlight class="stringliteral">&quot;rel:&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a179518da8867f0b4237259ea3241a2ec" kindref="member">KeyType::RELATIONAL</ref>;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.starts_with(</highlight><highlight class="stringliteral">&quot;doc:&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6ac231fa48df3ee393c92dccac4dba5e7d" kindref="member">KeyType::DOCUMENT</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(key.starts_with(</highlight><highlight class="stringliteral">&quot;vec:&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6a87752381b583740610f1dfeb07fdad7e" kindref="member">KeyType::VECTOR</ref>;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>legacy_duplication<sp/>scanner<sp/>alert:<sp/>the<sp/>following<sp/>fallback<sp/>is<sp/>an<sp/>intentional</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>backward-compatibility<sp/>path<sp/>for<sp/>pre-prefix<sp/>keys<sp/>written<sp/>by<sp/>older<sp/>versions;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>removal<sp/>would<sp/>break<sp/>existing<sp/>data<sp/>—<sp/>this<sp/>path<sp/>must<sp/>remain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>for<sp/>legacy<sp/>keys<sp/>without<sp/>prefixes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Assume<sp/>DOCUMENT<sp/>for<sp/>backward<sp/>compatibility<sp/>(was<sp/>more<sp/>common<sp/>in<sp/>early<sp/>versions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_key_schema_1af34a2f9fe7dfbce5e7bcaec34119edc6ac231fa48df3ee393c92dccac4dba5e7d" kindref="member">KeyType::DOCUMENT</ref>;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">std::string<sp/><ref refid="classthemis_1_1_key_schema_1a9f3eb42ab9144551668a966feefbddbf" kindref="member">KeySchema::extractPrimaryKey</ref>(std::string_view<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>keys<sp/>with<sp/>prefixes<sp/>(rel:,<sp/>doc:,<sp/>vec:,<sp/>node:,<sp/>edge:,<sp/>idx:,<sp/>graph:),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>PK<sp/>is<sp/>always<sp/>the<sp/>last<sp/>component<sp/>after<sp/>the<sp/>final<sp/>separator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>last_sep<sp/>=<sp/>key.rfind(SEPARATOR);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(last_sep<sp/>!=<sp/>std::string_view::npos)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(key.substr(last_sep<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>legacy_duplication<sp/>scanner<sp/>alert:<sp/>same<sp/>backward-compatibility<sp/>rationale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>as<sp/>above<sp/>—<sp/>the<sp/>separator-less<sp/>path<sp/>handles<sp/>pre-prefix<sp/>legacy<sp/>keys.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>no<sp/>separator,<sp/>return<sp/>the<sp/>entire<sp/>key<sp/>(edge<sp/>case/legacy)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(key);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/storage/key_schema.cpp"/>
+  </compounddef>
+</doxygen>

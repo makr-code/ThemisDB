@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::Status</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_status_1a71cf45dc678f072c08ede4a1c624e63b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::plugins::ethics::Status::ok</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="173" column="10" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_status_1a2a1aef377273f797fca074477d6cab4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::plugins::ethics::Status::message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="174" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_status_1a15ab60d06613a861bc0340f8abeb1e76" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::Status::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::plugins::ethics::Status::code</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="175" column="9" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_status_1a59782bc01d8f7a6c954b431db73bed15" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::Status::Status</definition>
+        <argsstring>()</argsstring>
+        <name>Status</name>
+        <qualifiedname>themis::plugins::ethics::Status::Status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="177" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_status_1af0eaf893362595d6990fda33cecd83b9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::Status::Status</definition>
+        <argsstring>(bool ok_, const std::string &amp;msg=&quot;&quot;, int code_=0)</argsstring>
+        <name>Status</name>
+        <qualifiedname>themis::plugins::ethics::Status::Status</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>ok_</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>code_</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="178" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="178" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_status_1afd4df6537e66c53957242a5dd53f57bc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::Status::isOK</definition>
+        <argsstring>() const</argsstring>
+        <name>isOK</name>
+        <qualifiedname>themis::plugins::ethics::Status::isOK</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="191" column="10" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_status_1ad8d7d41a2794c55c6219dc076d984d4e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::Status::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::plugins::ethics::Status::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="192" column="5" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_status_1a59ce9a86ec536bc694f70f68a41fa114" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59782bc01d8f7a6c954b431db73bed15" kindref="member">Status</ref></type>
+        <definition>static Status themis::plugins::ethics::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::plugins::ethics::Status::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59782bc01d8f7a6c954b431db73bed15" kindref="member">Status()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="186" column="19" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_status_1ae5a60049fab1c1d00c077485f78adc5d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59782bc01d8f7a6c954b431db73bed15" kindref="member">Status</ref></type>
+        <definition>static Status themis::plugins::ethics::Status::Error</definition>
+        <argsstring>(const std::string &amp;msg, int code=-1)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::plugins::ethics::Status::Error</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>code</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="187" column="19" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="187" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="172" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="172" bodyend="193"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a15ab60d06613a861bc0340f8abeb1e76" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::Status</scope><name>code</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1ae5a60049fab1c1d00c077485f78adc5d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1afd4df6537e66c53957242a5dd53f57bc" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::Status</scope><name>isOK</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a2a1aef377273f797fca074477d6cab4e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59ce9a86ec536bc694f70f68a41fa114" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a71cf45dc678f072c08ede4a1c624e63b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::Status</scope><name>ok</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1ad8d7d41a2794c55c6219dc076d984d4e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::Status</scope><name>operator bool</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59782bc01d8f7a6c954b431db73bed15" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::Status</scope><name>Status</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1af0eaf893362595d6990fda33cecd83b9" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::Status</scope><name>Status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

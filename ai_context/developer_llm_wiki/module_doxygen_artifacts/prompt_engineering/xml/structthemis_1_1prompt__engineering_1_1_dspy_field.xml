@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_dspy_field" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::DspyField</compoundname>
+    <includes refid="dspy__module_8h" local="no">dspy_module.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_dspy_field_1a8e555a837da155210861e420d50774bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DspyField::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::DspyField::name</qualifiedname>
+        <briefdescription>
+<para>Identifier used in prompts and context maps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="48" column="18" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_dspy_field_1ad047fb5772b283f88ed04b0628f0b505" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DspyField::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::prompt_engineering::DspyField::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description shown to the model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="49" column="18" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_dspy_field_1a3065eccda9e44c18f101bcbdda8b2fff" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8" kindref="member">DspyFieldType</ref></type>
+        <definition>DspyFieldType themis::prompt_engineering::DspyField::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::prompt_engineering::DspyField::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a63b588d5559f64f89a416e656880b949" kindref="member">DspyFieldType::STRING</ref></initializer>
+        <briefdescription>
+<para>Expected value type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="50" column="19" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_dspy_field_1a58dbe05bf088121f1d7727b89256cbbd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::DspyField::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::prompt_engineering::DspyField::required</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether the field must be present. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="51" column="18" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_dspy_field_1ad05288fe256f45bf1b14e1ff4b5c4a2e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DspyField::default_value</definition>
+        <argsstring></argsstring>
+        <name>default_value</name>
+        <qualifiedname>themis::prompt_engineering::DspyField::default_value</qualifiedname>
+        <briefdescription>
+<para>Default used when field is absent and not required. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="52" column="18" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_dspy_field_1a9baf863c1b3349a0ad4986adbd6162f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::DspyField::DspyField</definition>
+        <argsstring>(std::string nm, std::string desc, DspyFieldType t=DspyFieldType::STRING, bool req=true, std::string def_val=&quot;&quot;)</argsstring>
+        <name>DspyField</name>
+        <qualifiedname>themis::prompt_engineering::DspyField::DspyField</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>nm</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>desc</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8" kindref="member">DspyFieldType</ref></type>
+          <declname>t</declname>
+          <defval><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a63b588d5559f64f89a416e656880b949" kindref="member">DspyFieldType::STRING</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>req</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>def_val</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Convenience constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="57" column="5" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="25" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single declared field in a DSPy signature. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/dspy_module.h" line="47" column="1" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="47" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1ad05288fe256f45bf1b14e1ff4b5c4a2e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyField</scope><name>default_value</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1ad047fb5772b283f88ed04b0628f0b505" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyField</scope><name>description</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a9baf863c1b3349a0ad4986adbd6162f8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyField</scope><name>DspyField</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a8e555a837da155210861e420d50774bb" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyField</scope><name>name</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a58dbe05bf088121f1d7727b89256cbbd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyField</scope><name>required</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a3065eccda9e44c18f101bcbdda8b2fff" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyField</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

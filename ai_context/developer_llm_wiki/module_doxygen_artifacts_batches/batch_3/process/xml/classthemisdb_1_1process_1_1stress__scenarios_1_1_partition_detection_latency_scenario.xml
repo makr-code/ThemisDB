@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::process::stress_scenarios::PartitionDetectionLatencyScenario</compoundname>
+    <includes refid="process__federation__stress__scenarios_8h" local="no">process_federation_stress_scenarios.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario_1afdb5c3782fd8eaae2f730ddedb7768f5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::PartitionDetectionLatencyScenario::Name</definition>
+        <argsstring>()</argsstring>
+        <name>Name</name>
+        <qualifiedname>themisdb::process::stress_scenarios::PartitionDetectionLatencyScenario::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="360" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="360" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario_1a4d31e20013dfcbd09795df7725a29d97" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::process::stress_scenarios::PartitionDetectionLatencyScenario::Description</definition>
+        <argsstring>()</argsstring>
+        <name>Description</name>
+        <qualifiedname>themisdb::process::stress_scenarios::PartitionDetectionLatencyScenario::Description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_stress_scenarios.h" line="361" column="22" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="361" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Network Failure Scenario 9: Partition Detection Latency. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests time to detect network partition from normal operation.</para>
+<para><bold>Setup:</bold><itemizedlist>
+<listitem><para>5-node cluster running steady state</para>
+</listitem><listitem><para>At T=0, introduce message loss from leader to follower node</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Execution:</bold><itemizedlist>
+<listitem><para>Leader sends heartbeat every 50ms (normally)</para>
+</listitem><listitem><para>At T=0: follower stops receiving heartbeats</para>
+</listitem><listitem><para>Measure time until follower detects partition</para>
+</listitem><listitem><para>Should trigger after heartbeat_timeout (configurable)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Verification:</bold><itemizedlist>
+<listitem><para>Partition detected within consensus_timeout_ms</para>
+</listitem><listitem><para>Follower transitions to degraded mode (read-only)</para>
+</listitem><listitem><para>Leader may detect follower unresponsive and remove from quorum</para>
+</listitem><listitem><para>No false positives (transient delays do not trigger detection)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Expected P95:</bold> &lt;1 second detection time </para>
+    </detaileddescription>
+    <location file="include/process/process_federation_stress_scenarios.h" line="358" column="1" bodyfile="include/process/process_federation_stress_scenarios.h" bodystart="358" bodyend="364"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario_1a4d31e20013dfcbd09795df7725a29d97" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::PartitionDetectionLatencyScenario</scope><name>Description</name></member>
+      <member refid="classthemisdb_1_1process_1_1stress__scenarios_1_1_partition_detection_latency_scenario_1afdb5c3782fd8eaae2f730ddedb7768f5" prot="public" virt="non-virtual"><scope>themisdb::process::stress_scenarios::PartitionDetectionLatencyScenario</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

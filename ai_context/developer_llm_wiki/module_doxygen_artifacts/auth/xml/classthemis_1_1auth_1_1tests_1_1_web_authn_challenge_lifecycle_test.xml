@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::WebAuthnChallengeLifecycleTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test_1a4f534a32d57d69fac6e2f612aaa5e32d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_web_authn_authenticator" kindref="compound">WebAuthnAuthenticator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WebAuthnAuthenticator&gt; themis::auth::tests::WebAuthnChallengeLifecycleTest::wa_</definition>
+        <argsstring></argsstring>
+        <name>wa_</name>
+        <qualifiedname>themis::auth::tests::WebAuthnChallengeLifecycleTest::wa_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_webauthn_authenticator_focused.cpp" line="123" column="21" bodyfile="tests/auth/test_webauthn_authenticator_focused.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test_1a356bcdfa247d7fdf3da1342c34d5a82e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::tests::WebAuthnChallengeLifecycleTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::auth::tests::WebAuthnChallengeLifecycleTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_webauthn_authenticator_focused.cpp" line="125" column="10" bodyfile="tests/auth/test_webauthn_authenticator_focused.cpp" bodystart="125" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::WebAuthnChallengeLifecycleTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::WebAuthnChallengeLifecycleTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_webauthn_authenticator_focused.cpp" line="121" column="1" bodyfile="tests/auth/test_webauthn_authenticator_focused.cpp" bodystart="121" bodyend="129"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test_1a356bcdfa247d7fdf3da1342c34d5a82e" prot="protected" virt="non-virtual"><scope>themis::auth::tests::WebAuthnChallengeLifecycleTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_web_authn_challenge_lifecycle_test_1a4f534a32d57d69fac6e2f612aaa5e32d" prot="protected" virt="non-virtual"><scope>themis::auth::tests::WebAuthnChallengeLifecycleTest</scope><name>wa_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

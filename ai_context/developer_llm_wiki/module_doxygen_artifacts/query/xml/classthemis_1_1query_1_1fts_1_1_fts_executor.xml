@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1fts_1_1_fts_executor" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::fts::FtsExecutor</compoundname>
+    <includes refid="fts__executor_8h" local="no">fts_executor.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats" prot="public">themis::query::fts::FtsExecutor::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_execution_metrics" prot="private">themis::query::fts::FtsExecutor::ExecutionMetrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1a58fdfd57fb8ffe10bba1f73fcb8f2b46" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::query::fts::FtsExecutor::index_lock_</definition>
+        <argsstring></argsstring>
+        <name>index_lock_</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::index_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="145" column="29" bodyfile="include/query/fts_executor.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1a4c885d5952bafcbd861a9a0fd0bee646" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1fts_1_1_index_cache" kindref="compound">IndexCache</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IndexCache&gt; themis::query::fts::FtsExecutor::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="147" column="19" bodyfile="include/query/fts_executor.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1a31408dbef14e0125e8b77822f3451ed6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1fts_1_1_fts_index" kindref="compound">FtsIndex</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FtsIndex&gt; themis::query::fts::FtsExecutor::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="149" column="19" bodyfile="include/query/fts_executor.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1ac7d85ca5fba7ecf0f3bf92c9cfc81d24" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer" kindref="compound">BM25Scorer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;BM25Scorer&gt; themis::query::fts::FtsExecutor::scorer_</definition>
+        <argsstring></argsstring>
+        <name>scorer_</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::scorer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="151" column="19" bodyfile="include/query/fts_executor.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1ad5ba0b10d2dfa066dd5d6cd6039401f6" prot="private" static="no" mutable="no">
+        <type>struct themis::query::fts::FtsExecutor::ExecutionMetrics</type>
+        <definition>struct themis::query::fts::FtsExecutor::ExecutionMetrics themis::query::fts::FtsExecutor::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="157" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1ae5537b357ea40f2180103e5ec6b459fa" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::fts::FtsExecutor::FtsExecutor</definition>
+        <argsstring>(const std::string &amp;index_path)</argsstring>
+        <name>FtsExecutor</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::FtsExecutor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_path</declname>
+        </param>
+        <briefdescription>
+<para>Fts Executor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="84" column="12" bodyfile="src/query/fts_executor.cpp" bodystart="595" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1a5bbfd9abe4f5cccb79f2e4ccdc42ebbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::fts::FtsExecutor::FtsExecutor</definition>
+        <argsstring>(const std::string &amp;index_path, const IndexCache::Config &amp;cache_config)</argsstring>
+        <name>FtsExecutor</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::FtsExecutor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_config" kindref="compound">IndexCache::Config</ref> &amp;</type>
+          <declname>cache_config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="86" column="3" bodyfile="src/query/fts_executor.cpp" bodystart="598" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1a122d9abd69badb9811eb28dcfc761f2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::fts::FtsExecutor::~FtsExecutor</definition>
+        <argsstring>()</argsstring>
+        <name>~FtsExecutor</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::~FtsExecutor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="88" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1afb2870656a568512ca241104cdc8d366" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" kindref="member">Result</ref>&lt; std::vector&lt; <ref refid="structthemis_1_1query_1_1fts_1_1_search_result" kindref="compound">SearchResult</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; SearchResult &gt; &gt; themis::query::fts::FtsExecutor::execute</definition>
+        <argsstring>(const SearchNode &amp;query, const ExecutionOptions &amp;options=ExecutionOptions{})</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::execute</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), traverseAndScore(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="94" column="10" bodyfile="src/query/fts_executor.cpp" bodystart="613" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1adb3ef658b6516488196a68f033b8a34f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" kindref="member">Result</ref>&lt; std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1query_1_1fts_1_1_search_result" kindref="compound">SearchResult</ref> &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::vector&lt; SearchResult &gt; &gt; &gt; themis::query::fts::FtsExecutor::executeBatch</definition>
+        <argsstring>(const std::vector&lt; SearchNode &gt; &amp;queries, const ExecutionOptions &amp;options=ExecutionOptions{})</argsstring>
+        <name>executeBatch</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::executeBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref> &gt; &amp;</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), tl::unexpected(), isHealthy(), reserve(), size(), traverseAndScore(), error(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="98" column="10" bodyfile="src/query/fts_executor.cpp" bodystart="626" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1afe036bec89a6e16e9513eb1eb3293c30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" kindref="member">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::query::fts::FtsExecutor::updateIndex</definition>
+        <argsstring>(const IndexUpdateBatch &amp;updates)</argsstring>
+        <name>updateIndex</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::updateIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_index_update_batch" kindref="compound">IndexUpdateBatch</ref> &amp;</type>
+          <declname>updates</declname>
+        </param>
+        <briefdescription>
+<para>======================================================================== Index Update API (Exclusive lock required) ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">updates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">updates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Clock::now(), std::chrono::milliseconds(), lock(), try_lock(), tl::unexpected(), std::this_thread::sleep_for(), empty(), removeDocuments(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="108" column="10" bodyfile="src/query/fts_executor.cpp" bodystart="654" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1ae87c5b244c0857f31925dbb0a0029664" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics" kindref="compound">IndexStatistics</ref></type>
+        <definition>IndexStatistics themis::query::fts::FtsExecutor::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::getStatistics</qualifiedname>
+        <briefdescription>
+<para>======================================================================== Diagnostic API (Read-only, thread-safe) ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="115" column="19" bodyfile="src/query/fts_executor.cpp" bodystart="682" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1a70c8fa164d094207983a951856dc25a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::fts::FtsExecutor::isIndexHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isIndexHealthy</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::isIndexHealthy</qualifiedname>
+        <briefdescription>
+<para>Is Index Healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_lock_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="121" column="8" bodyfile="src/query/fts_executor.cpp" bodystart="696" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1a25dff276c80c76215cd3f0e4c7e0b781" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>FtsExecutor::CacheStats themis::query::fts::FtsExecutor::getCacheStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheStats</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::getCacheStats</qualifiedname>
+        <briefdescription>
+<para>Get Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="138" column="14" bodyfile="src/query/fts_executor.cpp" bodystart="706" bodyend="716"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1fts_1_1_fts_executor_1abb400994f3359e557d31beaa7d6a4275" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" kindref="member">Result</ref>&lt; std::vector&lt; <ref refid="structthemis_1_1query_1_1fts_1_1_search_result" kindref="compound">SearchResult</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; SearchResult &gt; &gt; themis::query::fts::FtsExecutor::traverseAndScore</definition>
+        <argsstring>(const SearchNode &amp;query, const ExecutionOptions &amp;options)</argsstring>
+        <name>traverseAndScore</name>
+        <qualifiedname>themis::query::fts::FtsExecutor::traverseAndScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Internal helper methods (implementation detail). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Traverse And Score.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), tl::unexpected(), isHealthy(), std::chrono::milliseconds(), Clock::now(), collectTerms(), normalizeTerm(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="165" column="10" bodyfile="src/query/fts_executor.cpp" bodystart="725" bodyend="827"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_executor.h" line="77" column="1" bodyfile="include/query/fts_executor.h" bodystart="77" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a4c885d5952bafcbd861a9a0fd0bee646" prot="private" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1afb2870656a568512ca241104cdc8d366" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1adb3ef658b6516488196a68f033b8a34f" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>executeBatch</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1ae5537b357ea40f2180103e5ec6b459fa" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>FtsExecutor</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a5bbfd9abe4f5cccb79f2e4ccdc42ebbf" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>FtsExecutor</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a25dff276c80c76215cd3f0e4c7e0b781" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>getCacheStats</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1ae87c5b244c0857f31925dbb0a0029664" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a31408dbef14e0125e8b77822f3451ed6" prot="private" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>index_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a58fdfd57fb8ffe10bba1f73fcb8f2b46" prot="private" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>index_lock_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a70c8fa164d094207983a951856dc25a6" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>isIndexHealthy</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1ad5ba0b10d2dfa066dd5d6cd6039401f6" prot="private" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1ac7d85ca5fba7ecf0f3bf92c9cfc81d24" prot="private" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>scorer_</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1abb400994f3359e557d31beaa7d6a4275" prot="private" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>traverseAndScore</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1afe036bec89a6e16e9513eb1eb3293c30" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>updateIndex</name></member>
+      <member refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a122d9abd69badb9811eb28dcfc761f2c" prot="public" virt="non-virtual"><scope>themis::query::fts::FtsExecutor</scope><name>~FtsExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

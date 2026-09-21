@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1replication" kind="namespace" language="C++">
+    <compoundname>themis::replication</compoundname>
+    <innerclass refid="structthemis_1_1replication_1_1_kafka_producer_config" prot="public">themis::replication::KafkaProducerConfig</innerclass>
+    <innerclass refid="structthemis_1_1replication_1_1_kafka_change_stream_config" prot="public">themis::replication::KafkaChangeStreamConfig</innerclass>
+    <innerclass refid="structthemis_1_1replication_1_1_kafka_stream_stats" prot="public">themis::replication::KafkaStreamStats</innerclass>
+    <innerclass refid="classthemis_1_1replication_1_1_i_kafka_change_stream_exporter" prot="public">themis::replication::IKafkaChangeStreamExporter</innerclass>
+    <innernamespace refid="namespacethemis_1_1replication_1_1test">themis::replication::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1replication_1aef881c9d4de4a9789b71c226a36f9abb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChangeEventFormat</name>
+        <qualifiedname>themis::replication::ChangeEventFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1replication_1aef881c9d4de4a9789b71c226a36f9abba0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1aef881c9d4de4a9789b71c226a36f9abbaa532199ab6ec85848874430070002ccb" prot="public">
+          <name>AVRO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1aef881c9d4de4a9789b71c226a36f9abbab8f30bc1199f55b09953e34c6d1fde8a" prot="public">
+          <name>DEBEZIUM_JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1aef881c9d4de4a9789b71c226a36f9abbad938347008a2e932aaa4a568a3c3f2e7" prot="public">
+          <name>PROTOBUF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="36" column="1" bodyfile="include/replication/kafka_change_stream.h" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>ReplicationErrorCode</name>
+        <qualifiedname>themis::replication::ReplicationErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa12804f95a24349bb240f8a4fa37a1043" prot="public">
+          <name>REPLICATION_LAG_EXCEEDED</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+<para>Replica lag has exceeded the configured maximum threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa7f2ba9f1d809839e5f1365966a074a61" prot="public">
+          <name>CONFLICT_UNRESOLVABLE</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+<para>A conflict between two versions cannot be resolved deterministically. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa9285e9f6e47556cdfec9d6518a6734e3" prot="public">
+          <name>CRDT_TYPE_MISMATCH</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+<para>CRDT merge attempted on two instances of incompatible types. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faebb58019a2cda331fbfe89c980c45292" prot="public">
+          <name>STREAM_OFFSET_ERROR</name>
+          <initializer>= 203</initializer>
+          <briefdescription>
+<para>Change stream partition offset is invalid or behind the current commit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa1b38fa0e143ea5a9020f7b528e422856" prot="public">
+          <name>APPLY_FAILED</name>
+          <initializer>= 204</initializer>
+          <briefdescription>
+<para>WAL event apply failed (wrong LSN order or malformed event). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa344178161dbf485993ffe1fb6a87a529" prot="public">
+          <name>KAFKA_BROKER_ERROR</name>
+          <initializer>= 205</initializer>
+          <briefdescription>
+<para>Kafka producer or consumer encountered a broker-level error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faed0b266cab538e8e9c18c12757f3ba93" prot="public">
+          <name>SLOT_INVALIDATED</name>
+          <initializer>= 206</initializer>
+          <briefdescription>
+<para>Replication slot has been invalidated and cannot be resumed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 299</initializer>
+          <briefdescription>
+<para>Unclassified replication internal error; always fail-safe. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical replication error codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Codes in range [200, 299] are replication-specific. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_api_contract.h" line="136" column="1" bodyfile="include/replication/replication_api_contract.h" bodystart="136" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1replication_1a7a401299a3fa72e037aedbc7a401e911" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::replication::kMaxReplicationLagBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxReplicationLagBytes</name>
+        <qualifiedname>themis::replication::kMaxReplicationLagBytes</qualifiedname>
+        <initializer>= 512LL * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum acceptable replication lag in bytes before REPLICATION_LAG_EXCEEDED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_api_contract.h" line="56" column="31" bodyfile="include/replication/replication_api_contract.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1replication_1aa4ab49edffd005128d0653efd58ec7b3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::replication::kMaxPendingWalEvents</definition>
+        <argsstring></argsstring>
+        <name>kMaxPendingWalEvents</name>
+        <qualifiedname>themis::replication::kMaxPendingWalEvents</qualifiedname>
+        <initializer>= 100&apos;000u</initializer>
+        <briefdescription>
+<para>Maximum number of in-flight unapplied WAL events before backpressure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_api_contract.h" line="59" column="30" bodyfile="include/replication/replication_api_contract.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1replication_1a601e490ccda63db8dcbaf0a4ada9ca84" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::replication::kKafkaRequiredAcks</definition>
+        <argsstring></argsstring>
+        <name>kKafkaRequiredAcks</name>
+        <qualifiedname>themis::replication::kKafkaRequiredAcks</qualifiedname>
+        <initializer>= &quot;all&quot;</initializer>
+        <briefdescription>
+<para>Default Kafka producer acknowledgement level (all replicas). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_api_contract.h" line="125" column="35" bodyfile="include/replication/replication_api_contract.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1replication_1ad36a20aff8f7d0cda1c43ba7b2de6368" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::replication::kMaxNodeIdBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxNodeIdBytes</name>
+        <qualifiedname>themis::replication::kMaxNodeIdBytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum byte length of a replication node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_api_contract.h" line="194" column="30" bodyfile="include/replication/replication_api_contract.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1replication_1a50b7430f3830a974472edf3fa9368786" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::replication::kMaxReplicaCount</definition>
+        <argsstring></argsstring>
+        <name>kMaxReplicaCount</name>
+        <qualifiedname>themis::replication::kMaxReplicaCount</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum number of replica nodes supported in a single replication group. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_api_contract.h" line="197" column="30" bodyfile="include/replication/replication_api_contract.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1replication_1afdaa07c6f40670121a7f888e35cd3d62" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::replication::isHardReplicationError</definition>
+        <argsstring>(ReplicationErrorCode code) noexcept</argsstring>
+        <name>isHardReplicationError</name>
+        <qualifiedname>themis::replication::isHardReplicationError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" kindref="member">ReplicationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code indicates a non-retryable hard error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Hard replication errors must be reported to the operator immediately; the pipeline must not silently continue in a degraded state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_api_contract.h" line="168" column="24" bodyfile="include/replication/replication_api_contract.h" bodystart="168" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1replication_1a63f4c206777cfb66d1238f69e0711822" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::replication::isLagError</definition>
+        <argsstring>(ReplicationErrorCode code) noexcept</argsstring>
+        <name>isLagError</name>
+        <qualifiedname>themis::replication::isLagError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" kindref="member">ReplicationErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code indicates a recoverable lag / flow control condition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_api_contract.h" line="180" column="24" bodyfile="include/replication/replication_api_contract.h" bodystart="180" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/kafka_change_stream.h" line="18" column="16"/>
+  </compounddef>
+</doxygen>

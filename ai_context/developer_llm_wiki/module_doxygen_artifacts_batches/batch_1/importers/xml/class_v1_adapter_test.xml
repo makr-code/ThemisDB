@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_v1_adapter_test" kind="class" language="C++" prot="public">
+    <compoundname>V1AdapterTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_v1_adapter_test_1a611dd196d20f071c6496837f7f7ddf6b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void V1AdapterTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>V1AdapterTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="689" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="689" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="class_v1_adapter_test_1ae107f3c7e09c8186f580f3917760b17c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void V1AdapterTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>V1AdapterTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_plugin_api.cpp" line="692" column="10" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="692" bodyend="694"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>V1AdapterTest</label>
+        <link refid="class_v1_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>V1AdapterTest</label>
+        <link refid="class_v1_adapter_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_plugin_api.cpp" line="687" column="1" bodyfile="tests/importers/test_importer_plugin_api.cpp" bodystart="687" bodyend="695"/>
+    <listofallmembers>
+      <member refid="class_v1_adapter_test_1a611dd196d20f071c6496837f7f7ddf6b" prot="protected" virt="non-virtual"><scope>V1AdapterTest</scope><name>SetUp</name></member>
+      <member refid="class_v1_adapter_test_1ae107f3c7e09c8186f580f3917760b17c" prot="protected" virt="non-virtual"><scope>V1AdapterTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

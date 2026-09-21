@@ -1,0 +1,1332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_storage_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::StorageEngine</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IStorageEngine</basecompoundref>
+    <includes refid="storage__engine_8h" local="no">storage_engine.h</includes>
+    <innerclass refid="structthemis_1_1_storage_engine_1_1_scan_counters" prot="public">themis::StorageEngine::ScanCounters</innerclass>
+    <innerclass refid="structthemis_1_1_storage_engine_1_1_i_o_metrics" prot="public">themis::StorageEngine::IOMetrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a9de116cbe1860b24608cfd27c315cb5f" prot="private" static="no" mutable="no">
+        <type>IExpressionEvaluatorPtr</type>
+        <definition>IExpressionEvaluatorPtr themis::StorageEngine::evaluator_</definition>
+        <argsstring></argsstring>
+        <name>evaluator_</name>
+        <qualifiedname>themis::StorageEngine::evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="340" column="29" bodyfile="include/storage/storage_engine.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a4ec72a2f002306ac2bbfee392611a532" prot="private" static="no" mutable="no">
+        <type>IFieldEncryptionPtr</type>
+        <definition>IFieldEncryptionPtr themis::StorageEngine::encryption_</definition>
+        <argsstring></argsstring>
+        <name>encryption_</name>
+        <qualifiedname>themis::StorageEngine::encryption_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="341" column="25" bodyfile="include/storage/storage_engine.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1af5c9bbb6eca78ccf48883226f15b7189" prot="private" static="no" mutable="no">
+        <type>IKeyProviderPtr</type>
+        <definition>IKeyProviderPtr themis::StorageEngine::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>themis::StorageEngine::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="342" column="21" bodyfile="include/storage/storage_engine.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a8016e0f36124f40dab23e4321ac41d25" prot="private" static="no" mutable="no">
+        <type>IIndexManagerPtr</type>
+        <definition>IIndexManagerPtr themis::StorageEngine::index_manager_</definition>
+        <argsstring></argsstring>
+        <name>index_manager_</name>
+        <qualifiedname>themis::StorageEngine::index_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="343" column="22" bodyfile="include/storage/storage_engine.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a0c4da559bdf75e15aca06f7f252d490a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::StorageEngine::rocksdb_</definition>
+        <argsstring></argsstring>
+        <name>rocksdb_</name>
+        <qualifiedname>themis::StorageEngine::rocksdb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="346" column="21" bodyfile="include/storage/storage_engine.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1ab33b262dda253370148742ff3a86cd35" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::StorageEngine::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>themis::StorageEngine::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="349" column="17" bodyfile="include/storage/storage_engine.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a85e7119fe6f981e5818b0aa36a1435b0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::StorageEngine::is_open_</definition>
+        <argsstring></argsstring>
+        <name>is_open_</name>
+        <qualifiedname>themis::StorageEngine::is_open_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="350" column="10" bodyfile="include/storage/storage_engine.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a5d1408bddb04c4d1ae292a7202b0d584" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::sc_calls_</definition>
+        <argsstring></argsstring>
+        <name>sc_calls_</name>
+        <qualifiedname>themis::StorageEngine::sc_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="353" column="25" bodyfile="include/storage/storage_engine.h" bodystart="353" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1ab452734b1a30f360dcdcafbbd1f40a42" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::sc_examined_</definition>
+        <argsstring></argsstring>
+        <name>sc_examined_</name>
+        <qualifiedname>themis::StorageEngine::sc_examined_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="354" column="25" bodyfile="include/storage/storage_engine.h" bodystart="354" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1abc04dc3a12a0e7d526fd33956e472c1d" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::sc_returned_</definition>
+        <argsstring></argsstring>
+        <name>sc_returned_</name>
+        <qualifiedname>themis::StorageEngine::sc_returned_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="355" column="25" bodyfile="include/storage/storage_engine.h" bodystart="355" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1af4b8b98bab6b4f22daae3d8a51e3d86a" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::sc_early_stops_</definition>
+        <argsstring></argsstring>
+        <name>sc_early_stops_</name>
+        <qualifiedname>themis::StorageEngine::sc_early_stops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="356" column="25" bodyfile="include/storage/storage_engine.h" bodystart="356" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1ab98a48fa7373d43c60f3ab7049be4992" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_put_ops_</definition>
+        <argsstring></argsstring>
+        <name>io_put_ops_</name>
+        <qualifiedname>themis::StorageEngine::io_put_ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="359" column="25" bodyfile="include/storage/storage_engine.h" bodystart="359" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a869977622b214206f70530c46ab43069" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_put_errors_</definition>
+        <argsstring></argsstring>
+        <name>io_put_errors_</name>
+        <qualifiedname>themis::StorageEngine::io_put_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="360" column="25" bodyfile="include/storage/storage_engine.h" bodystart="360" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a5ce2d30cbe156c71b46b4fac067482b8" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_put_latency_</definition>
+        <argsstring></argsstring>
+        <name>io_put_latency_</name>
+        <qualifiedname>themis::StorageEngine::io_put_latency_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="361" column="25" bodyfile="include/storage/storage_engine.h" bodystart="361" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1aa7c6053a1d8e68cf6b3f3d69caf897de" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_put_min_</definition>
+        <argsstring></argsstring>
+        <name>io_put_min_</name>
+        <qualifiedname>themis::StorageEngine::io_put_min_</qualifiedname>
+        <initializer>{UINT64_MAX}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="362" column="25" bodyfile="include/storage/storage_engine.h" bodystart="362" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a8bcdf49d490454d139a6c96ce3f1cd73" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_put_max_</definition>
+        <argsstring></argsstring>
+        <name>io_put_max_</name>
+        <qualifiedname>themis::StorageEngine::io_put_max_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="363" column="25" bodyfile="include/storage/storage_engine.h" bodystart="363" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a68fdd82451e7bcb5de729aeed0544d5c" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_get_ops_</definition>
+        <argsstring></argsstring>
+        <name>io_get_ops_</name>
+        <qualifiedname>themis::StorageEngine::io_get_ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="365" column="25" bodyfile="include/storage/storage_engine.h" bodystart="365" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a7002b0e636a9678591b55afca872e927" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_get_errors_</definition>
+        <argsstring></argsstring>
+        <name>io_get_errors_</name>
+        <qualifiedname>themis::StorageEngine::io_get_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="366" column="25" bodyfile="include/storage/storage_engine.h" bodystart="366" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a774ea5f221ead9165d81562e6d60ed97" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_get_latency_</definition>
+        <argsstring></argsstring>
+        <name>io_get_latency_</name>
+        <qualifiedname>themis::StorageEngine::io_get_latency_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="367" column="25" bodyfile="include/storage/storage_engine.h" bodystart="367" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1ad1254dfb1fcb307d7e6df6dc15db98fe" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_get_min_</definition>
+        <argsstring></argsstring>
+        <name>io_get_min_</name>
+        <qualifiedname>themis::StorageEngine::io_get_min_</qualifiedname>
+        <initializer>{UINT64_MAX}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="368" column="25" bodyfile="include/storage/storage_engine.h" bodystart="368" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a35933eff9f31e47a12e1607dc10d16c5" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_get_max_</definition>
+        <argsstring></argsstring>
+        <name>io_get_max_</name>
+        <qualifiedname>themis::StorageEngine::io_get_max_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="369" column="25" bodyfile="include/storage/storage_engine.h" bodystart="369" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a7066e7f318efd55df6bb74b8ed4469ff" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_del_ops_</definition>
+        <argsstring></argsstring>
+        <name>io_del_ops_</name>
+        <qualifiedname>themis::StorageEngine::io_del_ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="371" column="25" bodyfile="include/storage/storage_engine.h" bodystart="371" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a469bc11a73705d53c72e627f0ef9e581" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_del_errors_</definition>
+        <argsstring></argsstring>
+        <name>io_del_errors_</name>
+        <qualifiedname>themis::StorageEngine::io_del_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="372" column="25" bodyfile="include/storage/storage_engine.h" bodystart="372" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1acf8e823b2ecbb5da092d349d2ce0b89f" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_del_latency_</definition>
+        <argsstring></argsstring>
+        <name>io_del_latency_</name>
+        <qualifiedname>themis::StorageEngine::io_del_latency_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="373" column="25" bodyfile="include/storage/storage_engine.h" bodystart="373" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a993ade98be50476a5183256102b65053" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_del_min_</definition>
+        <argsstring></argsstring>
+        <name>io_del_min_</name>
+        <qualifiedname>themis::StorageEngine::io_del_min_</qualifiedname>
+        <initializer>{UINT64_MAX}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="374" column="25" bodyfile="include/storage/storage_engine.h" bodystart="374" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_storage_engine_1a5f9385a075c87a6dd9df278259c99673" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::StorageEngine::io_del_max_</definition>
+        <argsstring></argsstring>
+        <name>io_del_max_</name>
+        <qualifiedname>themis::StorageEngine::io_del_max_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="375" column="25" bodyfile="include/storage/storage_engine.h" bodystart="375" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StorageEngine::StorageEngine</definition>
+        <argsstring>(IExpressionEvaluatorPtr evaluator, IFieldEncryptionPtr encryption, IKeyProviderPtr key_provider, IIndexManagerPtr index_manager=nullptr)</argsstring>
+        <name>StorageEngine</name>
+        <qualifiedname>themis::StorageEngine::StorageEngine</qualifiedname>
+        <param>
+          <type>IExpressionEvaluatorPtr</type>
+          <declname>evaluator</declname>
+        </param>
+        <param>
+          <type>IFieldEncryptionPtr</type>
+          <declname>encryption</declname>
+        </param>
+        <param>
+          <type>IKeyProviderPtr</type>
+          <declname>key_provider</declname>
+        </param>
+        <param>
+          <type>IIndexManagerPtr</type>
+          <declname>index_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructor with Dependency Injection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expression evaluator for WHERE clauses </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>encryption</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field-level encryption provider </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key management provider </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index management provider (optional) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if required dependencies are null </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="138" column="5" bodyfile="src/storage/storage_engine.cpp" bodystart="272" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1af01a9de0fc0e21d4cfcb0431d5ed1bea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::StorageEngine::StorageEngine</definition>
+        <argsstring>(const StorageEngine &amp;)=delete</argsstring>
+        <name>StorageEngine</name>
+        <qualifiedname>themis::StorageEngine::StorageEngine</qualifiedname>
+        <param>
+          <type>const StorageEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="147" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1af9380c3dbc088495e45fcd88bd9eb0c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref> &amp;</type>
+        <definition>StorageEngine &amp; themis::StorageEngine::operator=</definition>
+        <argsstring>(const StorageEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::StorageEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="148" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a6ef81ab54eaa2b1847df46dae2c58240" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::StorageEngine::StorageEngine</definition>
+        <argsstring>(StorageEngine &amp;&amp;other) noexcept=delete</argsstring>
+        <name>StorageEngine</name>
+        <qualifiedname>themis::StorageEngine::StorageEngine</qualifiedname>
+        <param>
+          <type>StorageEngine &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="149" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1add5410ee256560b5f23b37fb97785abf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref> &amp;</type>
+        <definition>StorageEngine &amp; themis::StorageEngine::operator=</definition>
+        <argsstring>(StorageEngine &amp;&amp;other) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::StorageEngine::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="150" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1aef06908aae7f8426a9361d5a9c8aac1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageEngine::open</definition>
+        <argsstring>(const std::string &amp;db_path) override</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::StorageEngine::open</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>db_path</declname>
+        </param>
+        <briefdescription>
+<para>Open. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">db_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the db. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ErrVoid(), reset(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="163" column="12" bodyfile="src/storage/storage_engine.cpp" bodystart="322" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a297a3d4abbba4ce7ea024aefbed078de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StorageEngine::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::StorageEngine::close</qualifiedname>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="164" column="10" bodyfile="src/storage/storage_engine.cpp" bodystart="352" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a70d15024623c43df79a3a47b2824b16a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageEngine::put</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::StorageEngine::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: span(), setAttribute(), size(), setStatus(), fetch_add(), ErrVoid(), std::chrono::steady_clock::now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="165" column="12" bodyfile="src/storage/storage_engine.cpp" bodystart="398" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a482e13ed33da6f2d35daa064c7eec65d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::StorageEngine::get</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::StorageEngine::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: span(), setAttribute(), size(), setStatus(), fetch_add(), std::chrono::steady_clock::now(), count(), atomicUpdateMin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="166" column="12" bodyfile="src/storage/storage_engine.cpp" bodystart="437" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a1548d54a7ee80203c83df63cb1131df7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageEngine::del</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::StorageEngine::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Del. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: span(), setAttribute(), size(), setStatus(), fetch_add(), ErrVoid(), std::chrono::steady_clock::now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="167" column="12" bodyfile="src/storage/storage_engine.cpp" bodystart="476" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a76b958b59da33acb748434dac7f3d1ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageEngine::scanRange</definition>
+        <argsstring>(std::string_view start_key, std::string_view end_key, std::function&lt; bool(std::string_view key, std::string_view value)&gt; callback) override</argsstring>
+        <name>scanRange</name>
+        <qualifiedname>themis::StorageEngine::scanRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_key</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(std::string_view key, std::string_view value)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan a key range [start_key, end_key) in sorted order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterates all keys ≥ start_key and &lt; end_key (pass empty strings for open-ended bounds) and calls <computeroutput>callback</computeroutput> for each key-value pair. Returning false from the callback stops iteration early.</para>
+<para>Updates <ref refid="structthemis_1_1_storage_engine_1_1_scan_counters" kindref="compound">ScanCounters</ref> atomically.</para>
+<para><simplesect kind="return"><para>Result&lt;void&gt; – ok on success, error on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="180" column="12" bodyfile="src/storage/storage_engine.cpp" bodystart="558" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a427b5539a87e2331e2a00dbde60d091d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageEngine::scanPrefix</definition>
+        <argsstring>(std::string_view prefix, std::function&lt; bool(std::string_view key, std::string_view value)&gt; callback) override</argsstring>
+        <name>scanPrefix</name>
+        <qualifiedname>themis::StorageEngine::scanPrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(std::string_view key, std::string_view value)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan all keys with a given prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates <ref refid="structthemis_1_1_storage_engine_1_1_scan_counters" kindref="compound">ScanCounters</ref> atomically.</para>
+<para><simplesect kind="return"><para>Result&lt;void&gt; – ok on success, error on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="193" column="12" bodyfile="src/storage/storage_engine.cpp" bodystart="586" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a3df7bc14ed08d2341075aaea12b5adba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::StorageEngine::scanPredicate</definition>
+        <argsstring>(std::string_view start_key, std::string_view end_key, std::function&lt; bool(std::string_view key, std::string_view value)&gt; predicate, std::function&lt; bool(std::string_view key, std::string_view value)&gt; callback)</argsstring>
+        <name>scanPredicate</name>
+        <qualifiedname>themis::StorageEngine::scanPredicate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_key</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(std::string_view key, std::string_view value)&gt;</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(std::string_view key, std::string_view value)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan a key range with an inline predicate filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Like <ref refid="classthemis_1_1_storage_engine_1a76b958b59da33acb748434dac7f3d1ed" kindref="member">scanRange()</ref> but only delivers key-value pairs for which <computeroutput>predicate</computeroutput> returns true. The predicate is evaluated for every key visited; if it returns false the entry is counted as &quot;examined but not returned&quot; (keys_examined++ only).</para>
+<para>Updates <ref refid="structthemis_1_1_storage_engine_1_1_scan_counters" kindref="compound">ScanCounters</ref> atomically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inclusive lower bound (empty = beginning). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exclusive upper bound (empty = end). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns true if the entry should be delivered. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called only for entries that pass the predicate. Return false to stop iteration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; – ok on success, error on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="215" column="12" bodyfile="src/storage/storage_engine.cpp" bodystart="616" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a70892bf72cbdf0fdf4a6444ac4568abc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_storage_engine_1_1_scan_counters" kindref="compound">ScanCounters</ref></type>
+        <definition>StorageEngine::ScanCounters themis::StorageEngine::scanCounters</definition>
+        <argsstring>() const</argsstring>
+        <name>scanCounters</name>
+        <qualifiedname>themis::StorageEngine::scanCounters</qualifiedname>
+        <briefdescription>
+<para>Return a copy of the current scan performance counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe: reads are sequentially consistent.</para>
+<para><bold>Move Semantics</bold>: Returned <ref refid="structthemis_1_1_storage_engine_1_1_scan_counters" kindref="compound">ScanCounters</ref> struct uses move semantics to enable Return <ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> Optimization (RVO) and avoid unnecessary copies (CWE-457 remediation).</para>
+<para><simplesect kind="return"><para>Snapshot of the cumulative scan counters. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="232" column="18" bodyfile="src/storage/storage_engine.cpp" bodystart="646" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a6e814a5afb82fc42153d57406f2d2917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StorageEngine::resetScanCounters</definition>
+        <argsstring>()</argsstring>
+        <name>resetScanCounters</name>
+        <qualifiedname>themis::StorageEngine::resetScanCounters</qualifiedname>
+        <briefdescription>
+<para>Reset all scan performance counters to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Scan Counters.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="237" column="10" bodyfile="src/storage/storage_engine.cpp" bodystart="660" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1af82aa826781b07c4d16ff3e5895c5364" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics" kindref="compound">IOMetrics</ref></type>
+        <definition>StorageEngine::IOMetrics themis::StorageEngine::ioMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>ioMetrics</name>
+        <qualifiedname>themis::StorageEngine::ioMetrics</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of cumulative I/O metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe: fields are read with relaxed atomics (consistent per-field, not a cross-field snapshot).</para>
+<para><bold>Move Semantics</bold>: Returned <ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics" kindref="compound">IOMetrics</ref> struct uses move semantics to enable Return <ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> Optimization (RVO) and avoid unnecessary copies (CWE-457 remediation).</para>
+<para><simplesect kind="return"><para>Snapshot of the cumulative storage I/O metrics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="250" column="15" bodyfile="src/storage/storage_engine.cpp" bodystart="511" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a93176e330dbbd32be49a3b8e5779fc83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::StorageEngine::resetIOMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>resetIOMetrics</name>
+        <qualifiedname>themis::StorageEngine::resetIOMetrics</qualifiedname>
+        <briefdescription>
+<para>Reset all I/O metrics to zero / initial state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset <ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics" kindref="compound">IOMetrics</ref>.</para>
+<para>Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="255" column="10" bodyfile="src/storage/storage_engine.cpp" bodystart="538" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1af97e23f8dbdae1b736fc79da69ed9aac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::StorageEngine::apply_filter</definition>
+        <argsstring>(const std::string &amp;filter_expr, const void *context)</argsstring>
+        <name>apply_filter</name>
+        <qualifiedname>themis::StorageEngine::apply_filter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filter_expr</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Apply a filter expression to stored data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply filter.</para>
+<para>Uses the injected expression evaluator to filter documents.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filter_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter expression string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Context for evaluation (e.g., current document) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if filter matches, false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter_expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: evaluate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="266" column="10" bodyfile="src/storage/storage_engine.cpp" bodystart="674" bodyend="677"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a11fae151fe2a4dc86e9b50e07d5451e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::StorageEngine::encrypt_field</definition>
+        <argsstring>(const std::string &amp;field_name, const std::vector&lt; uint8_t &gt; &amp;plaintext)</argsstring>
+        <name>encrypt_field</name>
+        <qualifiedname>themis::StorageEngine::encrypt_field</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt a field before storing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encrypt field.</para>
+<para>Uses the injected field encryption provider.</para>
+<para><bold>Move Semantics</bold>: Returned vector uses move semantics to avoid unnecessary copying of encrypted data (CWE-457 remediation).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field to encrypt </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plaintext data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Encrypted data (moved to caller, no copy)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements encrypt_field without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="280" column="17" bodyfile="src/storage/storage_engine.cpp" bodystart="686" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a9efc1c1c9cdf25ba7db1913d6701037d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::StorageEngine::decrypt_field</definition>
+        <argsstring>(const std::string &amp;field_name, const std::vector&lt; uint8_t &gt; &amp;ciphertext)</argsstring>
+        <name>decrypt_field</name>
+        <qualifiedname>themis::StorageEngine::decrypt_field</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ciphertext</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt a field after retrieving. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decrypt field.</para>
+<para>Uses the injected field encryption provider.</para>
+<para><bold>Move Semantics</bold>: Returned vector uses move semantics to avoid unnecessary copying of decrypted data (CWE-457 remediation).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field to decrypt </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ciphertext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Encrypted data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decrypted plaintext (moved to caller, no copy)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ciphertext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements decrypt_field without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="296" column="17" bodyfile="src/storage/storage_engine.cpp" bodystart="701" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a5718ae584aeb41605de09d966eb10166" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> *</type>
+        <definition>RocksDBWrapper * themis::StorageEngine::rawDB</definition>
+        <argsstring>()</argsstring>
+        <name>rawDB</name>
+        <qualifiedname>themis::StorageEngine::rawDB</qualifiedname>
+        <briefdescription>
+<para>Expose the mutable underlying RocksDB wrapper for advanced operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Non-owning pointer to the live RocksDB wrapper, or nullptr if unopened. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="331" column="20" bodyfile="include/storage/storage_engine.h" bodystart="331" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1afd7d6ce9048d22e15a82a1c84cee1ddb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> *</type>
+        <definition>const RocksDBWrapper * themis::StorageEngine::rawDB</definition>
+        <argsstring>() const</argsstring>
+        <name>rawDB</name>
+        <qualifiedname>themis::StorageEngine::rawDB</qualifiedname>
+        <briefdescription>
+<para>Expose the underlying RocksDB wrapper for read-only advanced operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Non-owning pointer to the live RocksDB wrapper, or nullptr if unopened. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="336" column="26" bodyfile="include/storage/storage_engine.h" bodystart="336" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" kindref="member">StorageEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; StorageEngine &gt; themis::StorageEngine::createDefault</definition>
+        <argsstring>()</argsstring>
+        <name>createDefault</name>
+        <qualifiedname>themis::StorageEngine::createDefault</qualifiedname>
+        <briefdescription>
+<para>Static factory method for backward compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Default.</para>
+<para>Creates a <ref refid="classthemis_1_1_storage_engine" kindref="compound">StorageEngine</ref> with default implementations of all dependencies. Use this for simple scenarios or when migrating existing code.</para>
+<para><simplesect kind="return"><para>Shared pointer to <ref refid="classthemis_1_1_storage_engine" kindref="compound">StorageEngine</ref> with default dependencies</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_storage_engine_1ae8f61f3d980527b21cf3bd110b54988c" kindref="member">createDefaultEvaluator()</ref>, <ref refid="classthemis_1_1_storage_engine_1a2279c7cda3328f51138971f73fe1308c" kindref="member">createDefaultEncryption()</ref>, <ref refid="classthemis_1_1_storage_engine_1a0bf73edb8c58a28f2db5b5c3f9719a71" kindref="member">createDefaultKeyProvider()</ref>, <ref refid="classthemis_1_1_storage_engine_1abbb97363374889df96bbf8c512457ff7" kindref="member">createDefaultIndexManager()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="160" column="28" bodyfile="src/storage/storage_engine.cpp" bodystart="306" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1ae8f61f3d980527b21cf3bd110b54988c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>IExpressionEvaluatorPtr</type>
+        <definition>IExpressionEvaluatorPtr themis::StorageEngine::createDefaultEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>createDefaultEvaluator</name>
+        <qualifiedname>themis::StorageEngine::createDefaultEvaluator</qualifiedname>
+        <briefdescription>
+<para>Create default implementations (for testing and builder). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Factory methods for default implementations.</para>
+<para>These factory methods create default implementations of interfaces. Used by <ref refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" kindref="member">createDefault()</ref> factory and StorageEngineBuilder::standard()</para>
+<para>Create the default expression evaluator implementation. <simplesect kind="return"><para>Shared pointer to the default evaluator.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefaultEvaluator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="310" column="36" bodyfile="src/storage/storage_engine.cpp" bodystart="241" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a2279c7cda3328f51138971f73fe1308c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>IFieldEncryptionPtr</type>
+        <definition>IFieldEncryptionPtr themis::StorageEngine::createDefaultEncryption</definition>
+        <argsstring>()</argsstring>
+        <name>createDefaultEncryption</name>
+        <qualifiedname>themis::StorageEngine::createDefaultEncryption</qualifiedname>
+        <briefdescription>
+<para>Create the default field-encryption implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Default Encryption.</para>
+<para><simplesect kind="return"><para>Shared pointer to the default encryption provider.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefaultEncryption without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="315" column="32" bodyfile="src/storage/storage_engine.cpp" bodystart="250" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1a0bf73edb8c58a28f2db5b5c3f9719a71" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>IKeyProviderPtr</type>
+        <definition>IKeyProviderPtr themis::StorageEngine::createDefaultKeyProvider</definition>
+        <argsstring>()</argsstring>
+        <name>createDefaultKeyProvider</name>
+        <qualifiedname>themis::StorageEngine::createDefaultKeyProvider</qualifiedname>
+        <briefdescription>
+<para>Create the default key-provider implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Default Key Provider.</para>
+<para><simplesect kind="return"><para>Shared pointer to the default key provider.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefaultKeyProvider without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="320" column="28" bodyfile="src/storage/storage_engine.cpp" bodystart="259" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_storage_engine_1abbb97363374889df96bbf8c512457ff7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>IIndexManagerPtr</type>
+        <definition>IIndexManagerPtr themis::StorageEngine::createDefaultIndexManager</definition>
+        <argsstring>()</argsstring>
+        <name>createDefaultIndexManager</name>
+        <qualifiedname>themis::StorageEngine::createDefaultIndexManager</qualifiedname>
+        <briefdescription>
+<para>Create the default index-manager implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Default Index Manager.</para>
+<para><simplesect kind="return"><para>Shared pointer to the default index manager.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefaultIndexManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="325" column="29" bodyfile="src/storage/storage_engine.cpp" bodystart="268" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Storage Engine implementation with Dependency Injection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class demonstrates the Dependency Inversion Principle by:<itemizedlist>
+<listitem><para>Depending on abstractions (interfaces) instead of concrete implementations</para>
+</listitem><listitem><para>Allowing injection of query evaluation, encryption, and key management</para>
+</listitem><listitem><para>Breaking circular dependencies between Storage, Query, and Security layers</para>
+</listitem></itemizedlist>
+</para>
+<para>Benefits:<itemizedlist>
+<listitem><para>Testable: Can inject mocks for unit testing</para>
+</listitem><listitem><para>Flexible: Can swap implementations without recompiling</para>
+</listitem><listitem><para>Explicit: Dependencies are clearly documented in constructor</para>
+</listitem><listitem><para>Decoupled: No concrete dependencies on QueryEngine or FieldEncryption </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IStorageEngine</label>
+      </node>
+      <node id="1">
+        <label>themis::StorageEngine</label>
+        <link refid="classthemis_1_1_storage_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IStorageEngine</label>
+      </node>
+      <node id="1">
+        <label>themis::StorageEngine</label>
+        <link refid="classthemis_1_1_storage_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/storage_engine.h" line="43" column="1" bodyfile="include/storage/storage_engine.h" bodystart="43" bodyend="376"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_storage_engine_1af97e23f8dbdae1b736fc79da69ed9aac" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>apply_filter</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a297a3d4abbba4ce7ea024aefbed078de" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>close</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a0693d09f31d001e06bee6d1dae94f527" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>createDefault</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a2279c7cda3328f51138971f73fe1308c" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>createDefaultEncryption</name></member>
+      <member refid="classthemis_1_1_storage_engine_1ae8f61f3d980527b21cf3bd110b54988c" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>createDefaultEvaluator</name></member>
+      <member refid="classthemis_1_1_storage_engine_1abbb97363374889df96bbf8c512457ff7" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>createDefaultIndexManager</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a0bf73edb8c58a28f2db5b5c3f9719a71" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>createDefaultKeyProvider</name></member>
+      <member refid="classthemis_1_1_storage_engine_1ab33b262dda253370148742ff3a86cd35" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>db_path_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a9efc1c1c9cdf25ba7db1913d6701037d" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>decrypt_field</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a1548d54a7ee80203c83df63cb1131df7" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>del</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a11fae151fe2a4dc86e9b50e07d5451e6" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>encrypt_field</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a4ec72a2f002306ac2bbfee392611a532" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>encryption_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a9de116cbe1860b24608cfd27c315cb5f" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>evaluator_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a482e13ed33da6f2d35daa064c7eec65d" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>get</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a8016e0f36124f40dab23e4321ac41d25" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>index_manager_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a469bc11a73705d53c72e627f0ef9e581" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_del_errors_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1acf8e823b2ecbb5da092d349d2ce0b89f" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_del_latency_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a5f9385a075c87a6dd9df278259c99673" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_del_max_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a993ade98be50476a5183256102b65053" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_del_min_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a7066e7f318efd55df6bb74b8ed4469ff" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_del_ops_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a7002b0e636a9678591b55afca872e927" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_get_errors_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a774ea5f221ead9165d81562e6d60ed97" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_get_latency_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a35933eff9f31e47a12e1607dc10d16c5" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_get_max_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1ad1254dfb1fcb307d7e6df6dc15db98fe" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_get_min_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a68fdd82451e7bcb5de729aeed0544d5c" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_get_ops_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a869977622b214206f70530c46ab43069" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_put_errors_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a5ce2d30cbe156c71b46b4fac067482b8" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_put_latency_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a8bcdf49d490454d139a6c96ce3f1cd73" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_put_max_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1aa7c6053a1d8e68cf6b3f3d69caf897de" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_put_min_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1ab98a48fa7373d43c60f3ab7049be4992" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>io_put_ops_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1af82aa826781b07c4d16ff3e5895c5364" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>ioMetrics</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a85e7119fe6f981e5818b0aa36a1435b0" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>is_open_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1af5c9bbb6eca78ccf48883226f15b7189" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>key_provider_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1aef06908aae7f8426a9361d5a9c8aac1c" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>open</name></member>
+      <member refid="classthemis_1_1_storage_engine_1af9380c3dbc088495e45fcd88bd9eb0c3" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_storage_engine_1add5410ee256560b5f23b37fb97785abf" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a70d15024623c43df79a3a47b2824b16a" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>put</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a5718ae584aeb41605de09d966eb10166" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>rawDB</name></member>
+      <member refid="classthemis_1_1_storage_engine_1afd7d6ce9048d22e15a82a1c84cee1ddb" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>rawDB</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a93176e330dbbd32be49a3b8e5779fc83" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>resetIOMetrics</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a6e814a5afb82fc42153d57406f2d2917" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>resetScanCounters</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a0c4da559bdf75e15aca06f7f252d490a" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>rocksdb_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a5d1408bddb04c4d1ae292a7202b0d584" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>sc_calls_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1af4b8b98bab6b4f22daae3d8a51e3d86a" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>sc_early_stops_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1ab452734b1a30f360dcdcafbbd1f40a42" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>sc_examined_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1abc04dc3a12a0e7d526fd33956e472c1d" prot="private" virt="non-virtual"><scope>themis::StorageEngine</scope><name>sc_returned_</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a70892bf72cbdf0fdf4a6444ac4568abc" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>scanCounters</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a3df7bc14ed08d2341075aaea12b5adba" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>scanPredicate</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a427b5539a87e2331e2a00dbde60d091d" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>scanPrefix</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a76b958b59da33acb748434dac7f3d1ed" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>scanRange</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a9f48ad383b5ab13bad037f53a8cc3dc3" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>StorageEngine</name></member>
+      <member refid="classthemis_1_1_storage_engine_1af01a9de0fc0e21d4cfcb0431d5ed1bea" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>StorageEngine</name></member>
+      <member refid="classthemis_1_1_storage_engine_1a6ef81ab54eaa2b1847df46dae2c58240" prot="public" virt="non-virtual"><scope>themis::StorageEngine</scope><name>StorageEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::BwTreePage</compoundname>
+    <derivedcompoundref refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete" prot="public" virt="non-virtual">themis::performance::phase3::DeltaDelete</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert" prot="public" virt="non-virtual">themis::performance::phase3::DeltaInsert</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page" prot="public" virt="non-virtual">themis::performance::phase3::LeafPage</derivedcompoundref>
+    <includes refid="bwtree_8h" local="no">bwtree.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1aeec03f1eff0c095cd82537e347a29ca1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1_1phase3_1a397e55bde06a781fa8dc3e826c5fbbfc" kindref="member">PageType</ref></type>
+        <definition>PageType themis::performance::phase3::BwTreePage::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::performance::phase3::BwTreePage::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="46" column="14" bodyfile="include/performance/phase3/bwtree.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1a13de474a8c14a74b77b97f682c460f14" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page" kindref="compound">BwTreePage</ref> * &gt;</type>
+        <definition>std::atomic&lt;BwTreePage*&gt; themis::performance::phase3::BwTreePage::next_delta</definition>
+        <argsstring></argsstring>
+        <name>next_delta</name>
+        <qualifiedname>themis::performance::phase3::BwTreePage::next_delta</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="47" column="17" bodyfile="include/performance/phase3/bwtree.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1ad26ef19c726f5c3571e41b329bda93e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::performance::phase3::BwTreePage::~BwTreePage</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BwTreePage</name>
+        <qualifiedname>themis::performance::phase3::BwTreePage::~BwTreePage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bwtree.h" line="49" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base page structure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::performance::phase3::BwTreePage</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page"/>
+      </node>
+      <node id="2">
+        <label>themis::performance::phase3::DeltaDelete</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_delta_delete"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::performance::phase3::DeltaInsert</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_delta_insert"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::performance::phase3::LeafPage</label>
+        <link refid="structthemis_1_1performance_1_1phase3_1_1_leaf_page"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/performance/phase3/bwtree.h" line="45" column="1" bodyfile="include/performance/phase3/bwtree.h" bodystart="45" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1a13de474a8c14a74b77b97f682c460f14" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BwTreePage</scope><name>next_delta</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1aeec03f1eff0c095cd82537e347a29ca1" prot="public" virt="non-virtual"><scope>themis::performance::phase3::BwTreePage</scope><name>type</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_bw_tree_page_1ad26ef19c726f5c3571e41b329bda93e8" prot="public" virt="virtual"><scope>themis::performance::phase3::BwTreePage</scope><name>~BwTreePage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

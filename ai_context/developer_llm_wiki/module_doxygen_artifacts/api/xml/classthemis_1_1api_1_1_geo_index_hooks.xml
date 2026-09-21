@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_geo_index_hooks" kind="class" language="C++" prot="public">
+    <compoundname>themis::api::GeoIndexHooks</compoundname>
+    <includes refid="geo__index__hooks_8h" local="no">geo_index_hooks.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_geo_index_hooks_1ac535b53ab4ba533a42362d6780814345" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::api::GeoIndexHooks::onEntityPut</definition>
+        <argsstring>(RocksDBWrapper &amp;db, index::SpatialIndexManager *spatial_mgr, const std::string &amp;table, const std::string &amp;pk, const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>onEntityPut</name>
+        <qualifiedname>themis::api::GeoIndexHooks::onEntityPut</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>index::SpatialIndexManager *</type>
+          <declname>spatial_mgr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>On Entity Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">spatial_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">spatial_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: hasSpatialIndex(), empty(), blob_str(), data(), size(), nlohmann::json::parse(), BaseEntity::deserialize(), toJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/geo_index_hooks.h" line="38" column="17" bodyfile="src/api/geo_index_hooks.cpp" bodystart="111" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_geo_index_hooks_1a51160eb34717d30ea61556669b0b2322" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::api::GeoIndexHooks::onEntityPutAtomic</definition>
+        <argsstring>(RocksDBWrapper::WriteBatchWrapper &amp;batch, index::SpatialIndexManager *spatial_mgr, const std::string &amp;table, const std::string &amp;pk, const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>onEntityPutAtomic</name>
+        <qualifiedname>themis::api::GeoIndexHooks::onEntityPutAtomic</qualifiedname>
+        <param>
+          <type>RocksDBWrapper::WriteBatchWrapper &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>index::SpatialIndexManager *</type>
+          <declname>spatial_mgr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>On Entity Put Atomic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 2: Atomic entity PUT with spatial index update via WriteBatch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">spatial_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">spatial_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: hasSpatialIndex(), blob_str(), data(), size(), json::parse(), contains(), is_string(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/geo_index_hooks.h" line="55" column="17" bodyfile="src/api/geo_index_hooks.cpp" bodystart="301" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_geo_index_hooks_1a09a6fe9fb636bd04491cd49e4b6e6020" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::api::GeoIndexHooks::onEntityDeleteAtomic</definition>
+        <argsstring>(RocksDBWrapper::WriteBatchWrapper &amp;batch, index::SpatialIndexManager *spatial_mgr, const std::string &amp;table, const std::string &amp;pk, const std::vector&lt; uint8_t &gt; &amp;old_blob)</argsstring>
+        <name>onEntityDeleteAtomic</name>
+        <qualifiedname>themis::api::GeoIndexHooks::onEntityDeleteAtomic</qualifiedname>
+        <param>
+          <type>RocksDBWrapper::WriteBatchWrapper &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>index::SpatialIndexManager *</type>
+          <declname>spatial_mgr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>old_blob</declname>
+        </param>
+        <briefdescription>
+<para>On Entity Delete Atomic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 2: Atomic entity DELETE with spatial index update via WriteBatch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">spatial_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">spatial_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: hasSpatialIndex(), blob_str(), data(), size(), json::parse(), contains(), is_string(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/geo_index_hooks.h" line="72" column="17" bodyfile="src/api/geo_index_hooks.cpp" bodystart="422" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_geo_index_hooks_1ab1ad7a00a9cb1ed320f6aa4418df1681" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::api::GeoIndexHooks::onEntityDelete</definition>
+        <argsstring>(RocksDBWrapper &amp;db, index::SpatialIndexManager *spatial_mgr, const std::string &amp;table, const std::string &amp;pk, const std::vector&lt; uint8_t &gt; &amp;old_blob)</argsstring>
+        <name>onEntityDelete</name>
+        <qualifiedname>themis::api::GeoIndexHooks::onEntityDelete</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>index::SpatialIndexManager *</type>
+          <declname>spatial_mgr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>old_blob</declname>
+        </param>
+        <briefdescription>
+<para>On Entity Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">spatial_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">spatial_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: hasSpatialIndex(), blob_str(), data(), size(), json::parse(), contains(), is_string(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/geo_index_hooks.h" line="88" column="17" bodyfile="src/api/geo_index_hooks.cpp" bodystart="538" bodyend="605"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/geo_index_hooks.h" line="28" column="1" bodyfile="include/api/geo_index_hooks.h" bodystart="28" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_geo_index_hooks_1ab1ad7a00a9cb1ed320f6aa4418df1681" prot="public" virt="non-virtual"><scope>themis::api::GeoIndexHooks</scope><name>onEntityDelete</name></member>
+      <member refid="classthemis_1_1api_1_1_geo_index_hooks_1a09a6fe9fb636bd04491cd49e4b6e6020" prot="public" virt="non-virtual"><scope>themis::api::GeoIndexHooks</scope><name>onEntityDeleteAtomic</name></member>
+      <member refid="classthemis_1_1api_1_1_geo_index_hooks_1ac535b53ab4ba533a42362d6780814345" prot="public" virt="non-virtual"><scope>themis::api::GeoIndexHooks</scope><name>onEntityPut</name></member>
+      <member refid="classthemis_1_1api_1_1_geo_index_hooks_1a51160eb34717d30ea61556669b0b2322" prot="public" virt="non-virtual"><scope>themis::api::GeoIndexHooks</scope><name>onEntityPutAtomic</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

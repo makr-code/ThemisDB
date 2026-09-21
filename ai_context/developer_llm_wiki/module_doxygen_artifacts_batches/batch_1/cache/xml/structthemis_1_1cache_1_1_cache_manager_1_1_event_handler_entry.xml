@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_manager_1_1_event_handler_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cache::CacheManager::EventHandlerEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_event_handler_entry_1a01edc4a56037fb6156113c436c57a1cd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CacheManager::EventHandlerEntry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::cache::CacheManager::EventHandlerEntry::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="172" column="18" bodyfile="include/cache/cache_manager.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_manager_1_1_event_handler_entry_1aaff579a97bf77830c8bdd7beb6da90e2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1cache_1_1_cache_manager_1a0bc94349a70dfa1192e99d4ae7e2c8cd" kindref="member">EventHandler</ref></type>
+        <definition>EventHandler themis::cache::CacheManager::EventHandlerEntry::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>themis::cache::CacheManager::EventHandlerEntry::handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="173" column="22" bodyfile="include/cache/cache_manager.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_manager.h" line="171" column="5" bodyfile="include/cache/cache_manager.h" bodystart="171" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_event_handler_entry_1aaff579a97bf77830c8bdd7beb6da90e2" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::EventHandlerEntry</scope><name>handler</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_manager_1_1_event_handler_entry_1a01edc4a56037fb6156113c436c57a1cd" prot="public" virt="non-virtual"><scope>themis::cache::CacheManager::EventHandlerEntry</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

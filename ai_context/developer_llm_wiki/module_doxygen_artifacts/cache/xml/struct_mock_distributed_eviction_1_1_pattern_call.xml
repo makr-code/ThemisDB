@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mock_distributed_eviction_1_1_pattern_call" kind="struct" language="C++" prot="public">
+    <compoundname>MockDistributedEviction::PatternCall</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mock_distributed_eviction_1_1_pattern_call_1aef95f7b80f6f07ab27d75a3563e7093c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockDistributedEviction::PatternCall::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>MockDistributedEviction::PatternCall::pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="47" column="21" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_distributed_eviction_1_1_pattern_call_1aff88bc0c016bacfe3885967ac6159058" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockDistributedEviction::PatternCall::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>MockDistributedEviction::PatternCall::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="48" column="21" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="46" column="5" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="46" bodyend="49"/>
+    <listofallmembers>
+      <member refid="struct_mock_distributed_eviction_1_1_pattern_call_1aef95f7b80f6f07ab27d75a3563e7093c" prot="public" virt="non-virtual"><scope>MockDistributedEviction::PatternCall</scope><name>pattern</name></member>
+      <member refid="struct_mock_distributed_eviction_1_1_pattern_call_1aff88bc0c016bacfe3885967ac6159058" prot="public" virt="non-virtual"><scope>MockDistributedEviction::PatternCall</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

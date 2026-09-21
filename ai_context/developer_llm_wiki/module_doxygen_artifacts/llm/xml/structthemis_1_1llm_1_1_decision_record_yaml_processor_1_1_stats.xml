@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DecisionRecordYamlProcessor::Stats</compoundname>
+    <includes refid="decision__record__yaml__processor_8h" local="no">decision_record_yaml_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats_1aea1911d541dd9df2512379c527161e36" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DecisionRecordYamlProcessor::Stats::submitted</definition>
+        <argsstring></argsstring>
+        <name>submitted</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::Stats::submitted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total records handed to <ref refid="classthemis_1_1llm_1_1_decision_record_yaml_processor_1aa590e0ba7b47a3a19271ab03391eca4a" kindref="member">submit()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="108" column="16" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats_1a88565f1d1ee4b5f2db3794a754274aa1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DecisionRecordYamlProcessor::Stats::written</definition>
+        <argsstring></argsstring>
+        <name>written</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::Stats::written</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Records successfully written to disk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="109" column="16" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats_1a60f338335c5a93eb92843d8062915e3d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DecisionRecordYamlProcessor::Stats::dropped</definition>
+        <argsstring></argsstring>
+        <name>dropped</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::Stats::dropped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Records dropped due to full queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="110" column="16" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats_1ae9ef076ebd36e59da56a5850203c7301" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::DecisionRecordYamlProcessor::Stats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::llm::DecisionRecordYamlProcessor::Stats::errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Records that failed to write (I/O error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/decision_record_yaml_processor.h" line="111" column="16" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/decision_record_yaml_processor.h" line="107" column="5" bodyfile="include/llm/decision_record_yaml_processor.h" bodystart="107" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats_1a60f338335c5a93eb92843d8062915e3d" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor::Stats</scope><name>dropped</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats_1ae9ef076ebd36e59da56a5850203c7301" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor::Stats</scope><name>errors</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats_1aea1911d541dd9df2512379c527161e36" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor::Stats</scope><name>submitted</name></member>
+      <member refid="structthemis_1_1llm_1_1_decision_record_yaml_processor_1_1_stats_1a88565f1d1ee4b5f2db3794a754274aa1" prot="public" virt="non-virtual"><scope>themis::llm::DecisionRecordYamlProcessor::Stats</scope><name>written</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

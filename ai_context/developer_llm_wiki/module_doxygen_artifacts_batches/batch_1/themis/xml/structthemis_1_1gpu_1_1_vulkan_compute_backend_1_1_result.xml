@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::VulkanComputeBackend::Result</compoundname>
+    <includes refid="vulkan__backend_8h" local="no">vulkan_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_result_1aa90bd22ff808ea46e5843bea88dd3466" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::VulkanComputeBackend::Result::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::Result::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="58" column="21" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_result_1a38352de81a2ef0aa28207e9c0f181e81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::VulkanComputeBackend::Result::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::Result::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="59" column="21" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/vulkan_backend.h" line="57" column="5" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="57" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_result_1a38352de81a2ef0aa28207e9c0f181e81" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend::Result</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_result_1aa90bd22ff808ea46e5843bea88dd3466" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend::Result</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

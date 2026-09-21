@@ -1,0 +1,740 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1streaming_1_1_stream_session" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamSession</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a433b0bc2e2b3ea540aaae4d3d0e6a2fc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1streaming_1_1_stream_session_config" kindref="compound">StreamSessionConfig</ref></type>
+        <definition>StreamSessionConfig themisdb::streaming::StreamSession::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="630" column="25" bodyfile="include/sharding/stream_protocol.h" bodystart="630" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a11ccba64243e741b20c52778a48b20e4" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamSession::session_id_</definition>
+        <argsstring></argsstring>
+        <name>session_id_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::session_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="631" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="631" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a6a2283d77f65eadd256d9691010c45b1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4" kindref="member">StreamSessionState</ref> &gt;</type>
+        <definition>std::atomic&lt;StreamSessionState&gt; themisdb::streaming::StreamSession::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4adee5f03c2c4e73657824e028494b18c0" kindref="member">StreamSessionState::INITIALIZED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="632" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="632" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a9e1dbcafc8d80b1ced05f05c45e1a6a3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1streaming_1_1_stream_file_info" kindref="compound">StreamFileInfo</ref> &gt;</type>
+        <definition>std::vector&lt;StreamFileInfo&gt; themisdb::streaming::StreamSession::files_</definition>
+        <argsstring></argsstring>
+        <name>files_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::files_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="635" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="635" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a3186691e8595149b32dc94b0d7ea5647" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemisdb_1_1streaming_1_1_stream_transfer_task" kindref="compound">StreamTransferTask</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;StreamTransferTask&gt; &gt; themisdb::streaming::StreamSession::transfer_tasks_</definition>
+        <argsstring></argsstring>
+        <name>transfer_tasks_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::transfer_tasks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="636" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="636" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1af4261528b6a2eea34429004bd9b9fac0" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemisdb_1_1streaming_1_1_stream_receive_task" kindref="compound">StreamReceiveTask</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;StreamReceiveTask&gt; &gt; themisdb::streaming::StreamSession::receive_tasks_</definition>
+        <argsstring></argsstring>
+        <name>receive_tasks_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::receive_tasks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="637" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="637" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a2883eaf8124584839a7203309dc8bf47" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter" kindref="compound">StreamRateLimiter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;StreamRateLimiter&gt; themisdb::streaming::StreamSession::rate_limiter_</definition>
+        <argsstring></argsstring>
+        <name>rate_limiter_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::rate_limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="640" column="21" bodyfile="include/sharding/stream_protocol.h" bodystart="640" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a9c6e9062e9dfd4fecb05f252a9e6a6d9" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1streaming_1ab104a46f32eaa74ccfcd92cf88862edf" kindref="member">StreamProgressCallback</ref></type>
+        <definition>StreamProgressCallback themisdb::streaming::StreamSession::progress_callback_</definition>
+        <argsstring></argsstring>
+        <name>progress_callback_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::progress_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="643" column="28" bodyfile="include/sharding/stream_protocol.h" bodystart="643" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a9575ac1ce9b7f3894d5ab22311566ee5" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1streaming_1ac72eff23b9517c410ac6c3f0a573988e" kindref="member">StreamCompletionCallback</ref></type>
+        <definition>StreamCompletionCallback themisdb::streaming::StreamSession::completion_callback_</definition>
+        <argsstring></argsstring>
+        <name>completion_callback_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::completion_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="644" column="30" bodyfile="include/sharding/stream_protocol.h" bodystart="644" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1ad88bf2b0edc4624e7ee5f3db16c76a1c" prot="private" static="no" mutable="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>std::function&lt;bool()&gt; themisdb::streaming::StreamSession::prepare_callback_</definition>
+        <argsstring></argsstring>
+        <name>prepare_callback_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::prepare_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="646" column="19" bodyfile="include/sharding/stream_protocol.h" bodystart="646" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a143d21d93cd1cf2029f9887974609549" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::streaming::StreamSession::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="649" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="649" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1aef29013a92e0a2a4eb7f6f130c3d18cf" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::streaming::StreamSession::session_thread_</definition>
+        <argsstring></argsstring>
+        <name>session_thread_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::session_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="650" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="650" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a556a5eb56fd393ee682d842c69291dbb" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::streaming::StreamSession::heartbeat_thread_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_thread_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::heartbeat_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="651" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="651" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1a6c72a647617d95279aa5348548033a13" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::streaming::StreamSession::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="652" column="16" bodyfile="include/sharding/stream_protocol.h" bodystart="652" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1streaming_1_1_stream_session_1ad17ffa4b1fe527da1953da6c6a4d59c5" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::streaming::StreamSession::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themisdb::streaming::StreamSession::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="653" column="29" bodyfile="include/sharding/stream_protocol.h" bodystart="653" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a7bc8bb53f65e2d1051eb9213edc73214" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::streaming::StreamSession::StreamSession</definition>
+        <argsstring>(const StreamSessionConfig &amp;config)</argsstring>
+        <name>StreamSession</name>
+        <qualifiedname>themisdb::streaming::StreamSession::StreamSession</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1streaming_1_1_stream_session_config" kindref="compound">StreamSessionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct one stream session endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="562" column="14" bodyfile="src/sharding/stream_protocol.cpp" bodystart="643" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1aa3a874733ae56d52cafa21b4d2a381d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::streaming::StreamSession::~StreamSession</definition>
+        <argsstring>()</argsstring>
+        <name>~StreamSession</name>
+        <qualifiedname>themisdb::streaming::StreamSession::~StreamSession</qualifiedname>
+        <briefdescription>
+<para>Destructor ensures session background threads are stopped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="565" column="5" bodyfile="src/sharding/stream_protocol.cpp" bodystart="654" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a354634434dfd5e0ee2f45e3ec156a6e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamSession::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::streaming::StreamSession::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize protocol handshake and session metadata exchange. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), transitionState(), empty(), bool(), lock(), prepare_callback(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="568" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="663" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a18f7ffcd193e780a6c82143eca1c5945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::addFile</definition>
+        <argsstring>(const StreamFileInfo &amp;file)</argsstring>
+        <name>addFile</name>
+        <qualifiedname>themisdb::streaming::StreamSession::addFile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1streaming_1_1_stream_file_info" kindref="compound">StreamFileInfo</ref> &amp;</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+<para>Add one file descriptor to this session transfer queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), spdlog::error(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="571" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="718" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a132cc79146c3383790c6d359ff4ed403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamSession::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::streaming::StreamSession::start</qualifiedname>
+        <briefdescription>
+<para>Start session execution and worker threads. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: load(), transitionState(), store(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="574" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="740" bodyend="753"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1ab79a402a3cd2e3c3e93a4637d37a699b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::pause</definition>
+        <argsstring>()</argsstring>
+        <name>pause</name>
+        <qualifiedname>themisdb::streaming::StreamSession::pause</qualifiedname>
+        <briefdescription>
+<para>Pause active stream tasks in this session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pause.</para>
+<para>Calls: lock(), reserve(), size(), push_back(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="577" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="759" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a16273d9d6bce72a6a7636a847c469063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::resume</definition>
+        <argsstring>()</argsstring>
+        <name>resume</name>
+        <qualifiedname>themisdb::streaming::StreamSession::resume</qualifiedname>
+        <briefdescription>
+<para>Resume stream tasks after pause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resume.</para>
+<para>Calls: lock(), reserve(), size(), push_back(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="580" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="780" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a882954a6ce6a6a57660b787ceb8ee367" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::abort</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>abort</name>
+        <qualifiedname>themisdb::streaming::StreamSession::abort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Abort session and transition into terminal aborted state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Abort.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: exchange(), transitionState(), lock(), reserve(), size(), push_back(), get(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="583" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="802" bodyend="854"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a1026a28cddc57053cadfe6180a958c27" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamSession::getSessionId</definition>
+        <argsstring>() const</argsstring>
+        <name>getSessionId</name>
+        <qualifiedname>themisdb::streaming::StreamSession::getSessionId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get session ID </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="588" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="588" bodyend="588"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a1df2f7fb30f1aa92b4c0348f47f5c2c2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4" kindref="member">StreamSessionState</ref></type>
+        <definition>StreamSessionState themisdb::streaming::StreamSession::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themisdb::streaming::StreamSession::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current state </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="593" column="24" bodyfile="include/sharding/stream_protocol.h" bodystart="593" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1aea90b1a0bb9a3a3b843bd66845779874" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1streaming_1_1_stream_session_progress" kindref="compound">StreamSessionProgress</ref></type>
+        <definition>StreamSessionProgress themisdb::streaming::StreamSession::getProgress</definition>
+        <argsstring>() const</argsstring>
+        <name>getProgress</name>
+        <qualifiedname>themisdb::streaming::StreamSession::getProgress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get progress </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="598" column="27" bodyfile="src/sharding/stream_protocol.cpp" bodystart="856" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a68c3a3200b13fa94f1ff30e4efce3927" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::setProgressCallback</definition>
+        <argsstring>(StreamProgressCallback callback)</argsstring>
+        <name>setProgressCallback</name>
+        <qualifiedname>themisdb::streaming::StreamSession::setProgressCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1streaming_1ab104a46f32eaa74ccfcd92cf88862edf" kindref="member">StreamProgressCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set Progress Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set progress callback</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="603" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="897" bodyend="900"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1ae1646f80e20b7bbf3a409376e46baa88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::setCompletionCallback</definition>
+        <argsstring>(StreamCompletionCallback callback)</argsstring>
+        <name>setCompletionCallback</name>
+        <qualifiedname>themisdb::streaming::StreamSession::setCompletionCallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1streaming_1ac72eff23b9517c410ac6c3f0a573988e" kindref="member">StreamCompletionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set Completion Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set completion callback</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="608" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="907" bodyend="910"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1af58a555f5ef588fffd1b0fbd098ae13e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::setPrepareTransferCallback</definition>
+        <argsstring>(std::function&lt; bool()&gt; cb)</argsstring>
+        <name>setPrepareTransferCallback</name>
+        <qualifiedname>themisdb::streaming::StreamSession::setPrepareTransferCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; bool()&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Inject a preparation callback for the mTLS PREPARE_REQUEST/ACK handshake. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <computeroutput><ref refid="classthemisdb_1_1streaming_1_1_stream_session_1a354634434dfd5e0ee2f45e3ec156a6e5" kindref="member">initialize()</ref></computeroutput> calls this function instead of unconditionally returning true. The callback should establish a real mTLS connection to <computeroutput>config_.remote_endpoint</computeroutput>, exchange PREPARE_REQUEST/PREPARE_ACK messages, and return true on success.</para>
+<para>Production code should inject a real transport handler here. Tests may leave the callback unset (fallback: validate that <computeroutput>remote_endpoint</computeroutput> is non-empty and return true so the state machine can proceed).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable returning bool — true means prepared successfully </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="624" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="912" bodyend="920"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a00f158f94e6c4ad37fcabf1a09fd04f5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamSession::isActive</definition>
+        <argsstring>() const</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themisdb::streaming::StreamSession::isActive</qualifiedname>
+        <briefdescription>
+<para>Return true while session is running in non-terminal state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="627" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="922" bodyend="926"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1ac782c78790360d34095192766d8ef05e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::sessionLoop</definition>
+        <argsstring>()</argsstring>
+        <name>sessionLoop</name>
+        <qualifiedname>themisdb::streaming::StreamSession::sessionLoop</qualifiedname>
+        <briefdescription>
+<para>Session Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), empty(), isComplete(), isFailed(), transitionState(), store(), completion_callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="658" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="932" bodyend="1001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a5368a5c96d81601dc719659cd3080dff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::heartbeatLoop</definition>
+        <argsstring>()</argsstring>
+        <name>heartbeatLoop</name>
+        <qualifiedname>themisdb::streaming::StreamSession::heartbeatLoop</qualifiedname>
+        <briefdescription>
+<para>Heartbeat Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), sendMessage(), lock(), wait_for(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="659" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1007" bodyend="1018"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1af5bbf43ef17365b1f3e506ca613e39b7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::processMessage</definition>
+        <argsstring>(const StreamMessageHeader &amp;header, const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>processMessage</name>
+        <qualifiedname>themisdb::streaming::StreamSession::processMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1streaming_1_1_stream_message_header" kindref="compound">StreamMessageHeader</ref> &amp;</type>
+          <declname>header</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="660" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a6b9a884e37d99c6f9e011f73b7a0efea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::streaming::StreamSession::sendMessage</definition>
+        <argsstring>(StreamMessageType type, const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>sendMessage</name>
+        <qualifiedname>themisdb::streaming::StreamSession::sendMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbd" kindref="member">StreamMessageType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Send Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements sendMessage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="661" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1051" bodyend="1069"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a5ed3b9d1eb04998927242defe46b042d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::notifyProgress</definition>
+        <argsstring>()</argsstring>
+        <name>notifyProgress</name>
+        <qualifiedname>themisdb::streaming::StreamSession::notifyProgress</qualifiedname>
+        <briefdescription>
+<para>Notify Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), progress_callback(), <ref refid="classthemisdb_1_1streaming_1_1_stream_session_1aea90b1a0bb9a3a3b843bd66845779874" kindref="member">getProgress()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="662" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1024" bodyend="1033"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1streaming_1_1_stream_session_1a788685bea5d9397de9db380e28b23dd6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::streaming::StreamSession::transitionState</definition>
+        <argsstring>(StreamSessionState new_state)</argsstring>
+        <name>transitionState</name>
+        <qualifiedname>themisdb::streaming::StreamSession::transitionState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4" kindref="member">StreamSessionState</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <briefdescription>
+<para>Transition State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="663" column="10" bodyfile="src/sharding/stream_protocol.cpp" bodystart="1040" bodyend="1042"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateful sender/receiver session between two shard endpoints. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="559" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="559" bodyend="664"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a882954a6ce6a6a57660b787ceb8ee367" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>abort</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a18f7ffcd193e780a6c82143eca1c5945" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>addFile</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a9575ac1ce9b7f3894d5ab22311566ee5" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>completion_callback_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a433b0bc2e2b3ea540aaae4d3d0e6a2fc" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1ad17ffa4b1fe527da1953da6c6a4d59c5" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>cv_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a9e1dbcafc8d80b1ced05f05c45e1a6a3" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>files_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1aea90b1a0bb9a3a3b843bd66845779874" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>getProgress</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a1026a28cddc57053cadfe6180a958c27" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>getSessionId</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a1df2f7fb30f1aa92b4c0348f47f5c2c2" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>getState</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a556a5eb56fd393ee682d842c69291dbb" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>heartbeat_thread_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a5368a5c96d81601dc719659cd3080dff" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>heartbeatLoop</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a354634434dfd5e0ee2f45e3ec156a6e5" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a00f158f94e6c4ad37fcabf1a09fd04f5" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>isActive</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a6c72a647617d95279aa5348548033a13" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a5ed3b9d1eb04998927242defe46b042d" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>notifyProgress</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1ab79a402a3cd2e3c3e93a4637d37a699b" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>pause</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1ad88bf2b0edc4624e7ee5f3db16c76a1c" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>prepare_callback_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1af5bbf43ef17365b1f3e506ca613e39b7" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>processMessage</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a9c6e9062e9dfd4fecb05f252a9e6a6d9" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>progress_callback_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a2883eaf8124584839a7203309dc8bf47" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>rate_limiter_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1af4261528b6a2eea34429004bd9b9fac0" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>receive_tasks_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a16273d9d6bce72a6a7636a847c469063" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>resume</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a143d21d93cd1cf2029f9887974609549" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a6b9a884e37d99c6f9e011f73b7a0efea" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>sendMessage</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a11ccba64243e741b20c52778a48b20e4" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>session_id_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1aef29013a92e0a2a4eb7f6f130c3d18cf" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>session_thread_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1ac782c78790360d34095192766d8ef05e" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>sessionLoop</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1ae1646f80e20b7bbf3a409376e46baa88" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>setCompletionCallback</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1af58a555f5ef588fffd1b0fbd098ae13e" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>setPrepareTransferCallback</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a68c3a3200b13fa94f1ff30e4efce3927" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>setProgressCallback</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a132cc79146c3383790c6d359ff4ed403" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a6a2283d77f65eadd256d9691010c45b1" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a7bc8bb53f65e2d1051eb9213edc73214" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>StreamSession</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a3186691e8595149b32dc94b0d7ea5647" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>transfer_tasks_</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1a788685bea5d9397de9db380e28b23dd6" prot="private" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>transitionState</name></member>
+      <member refid="classthemisdb_1_1streaming_1_1_stream_session_1aa3a874733ae56d52cafa21b4d2a381d5" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamSession</scope><name>~StreamSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

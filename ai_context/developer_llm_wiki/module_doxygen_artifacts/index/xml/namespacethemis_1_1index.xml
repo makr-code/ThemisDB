@@ -1,0 +1,892 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1index" kind="namespace" language="C++">
+    <compoundname>themis::index</compoundname>
+    <innerclass refid="classthemis_1_1index_1_1_ann_frontdoor" prot="public">themis::index::AnnFrontdoor</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_ann_frontdoor_result" prot="public">themis::index::AnnFrontdoorResult</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_ann_query_context" prot="public">themis::index::AnnQueryContext</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_ann_retrieval_plan" prot="public">themis::index::AnnRetrievalPlan</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_ann_search_result" prot="public">themis::index::AnnSearchResult</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_bloom_filter" prot="public">themis::index::BloomFilter</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_connection_guard" prot="public">themis::index::ConnectionGuard</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_delta_block" prot="public">themis::index::DeltaBlock</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_delta_encoder" prot="public">themis::index::DeltaEncoder</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_dictionary_codec" prot="public">themis::index::DictionaryCodec</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_distributed_shard_stats" prot="public">themis::index::DistributedShardStats</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_distributed_vector_index" prot="public">themis::index::DistributedVectorIndex</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_distributed_vector_index_config" prot="public">themis::index::DistributedVectorIndexConfig</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_distributed_vector_index_stats" prot="public">themis::index::DistributedVectorIndexStats</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager" prot="public">themis::index::GPUMemoryOversubscriptionManager</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_g_p_u_vector_index" prot="public">themis::index::GPUVectorIndex</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_hnsw_memory_optimizer" prot="public">themis::index::HnswMemoryOptimizer</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_hnsw_parameter_tuner" prot="public">themis::index::HnswParameterTuner</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_hnsw_production_defaults" prot="public">themis::index::HnswProductionDefaults</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_hnsw_runtime_adapter" prot="public">themis::index::HnswRuntimeAdapter</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_i_ann_index" prot="public">themis::index::IAnnIndex</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_index_compression_codec" prot="public">themis::index::IndexCompressionCodec</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_index_error" prot="public">themis::index::IndexError</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_index_tier_meta" prot="public">themis::index::IndexTierMeta</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_learned_index" prot="public">themis::index::LearnedIndex</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_learned_index_config" prot="public">themis::index::LearnedIndexConfig</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_linear_model" prot="public">themis::index::LinearModel</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_matryoshka_truncated_index" prot="public">themis::index::MatryoshkaTruncatedIndex</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_matryoshka_truncation" prot="public">themis::index::MatryoshkaTruncation</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_migration_result" prot="public">themis::index::MigrationResult</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_morton_encoder" prot="public">themis::index::MortonEncoder</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index" prot="public">themis::index::MultiGPUVectorIndex</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_prefix_block" prot="public">themis::index::PrefixBlock</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_prefix_compressor" prot="public">themis::index::PrefixCompressor</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_r_tree_config" prot="public">themis::index::RTreeConfig</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_run_length_block" prot="public">themis::index::RunLengthBlock</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_run_length_encoder" prot="public">themis::index::RunLengthEncoder</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_sca_n_n" prot="public">themis::index::ScaNN</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_sca_n_n_config" prot="public">themis::index::ScaNNConfig</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_shard_metadata" prot="public">themis::index::ShardMetadata</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_spatial_index_manager" prot="public">themis::index::SpatialIndexManager</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_spatial_result" prot="public">themis::index::SpatialResult</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_tiered_index_manager" prot="public">themis::index::TieredIndexManager</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_tier_migration_policy" prot="public">themis::index::TierMigrationPolicy</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_vulkan_vector_index_backend" prot="public">themis::index::VulkanVectorIndexBackend</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_workload_classifier" prot="public">themis::index::WorkloadClassifier</innerclass>
+    <innernamespace refid="namespacethemis_1_1index_1_1tests">themis::index::tests</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>AnnStrategy</name>
+        <qualifiedname>themis::index::AnnStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aeddfb2a2864a735ae508076a555c5075" prot="public">
+          <name>HNSW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a385de3137cb58d1ee721f975dfd81b33" prot="public">
+          <name>SCANN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aa254198e98bc183414ff01924b04343a" prot="public">
+          <name>DISKANN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89aabd866add2ca5a884a9ea8cc58e8ca73" prot="public">
+          <name>DISTRIBUTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89a04c98307d4984db79645011e79cba449" prot="public">
+          <name>FLAT_BRUTE_FORCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="53" column="1" bodyfile="include/index/ann_frontdoor.h" bodystart="53" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>AnnScopeKind</name>
+        <qualifiedname>themis::index::AnnScopeKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8045a0a6c688b0635e3caccc408a1446" prot="public">
+          <name>Generic</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca8601c10b2797050a900697daac0c0001" prot="public">
+          <name>Adapter</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca209802fb858e2c83205027dbbb5d9e6c" prot="public">
+          <name>Package</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca7ef9473d9fc5a4ee368e734a585ca9b7" prot="public">
+          <name>ShardSummary</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca0945359809dad1fbf3dea1c95a0da951" prot="public">
+          <name>Document</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca88255d7e6104ae03101ff725ce36cbb6" prot="public">
+          <name>Chunk</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90ca1a434befae3f49ae09347ded52032f6f" prot="public">
+          <name>Entity</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="65" column="1" bodyfile="include/index/ann_frontdoor.h" bodystart="65" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1index_1a5ea358063f1ecd1233e58c9ac6f6f312" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ShardingStrategy</name>
+        <qualifiedname>themis::index::ShardingStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1index_1a5ea358063f1ecd1233e58c9ac6f6f312a50b7748612b28db487d115f220bb77ab" prot="public">
+          <name>HASH</name>
+          <briefdescription>
+<para>shard = hash(pk) % num_shards </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a5ea358063f1ecd1233e58c9ac6f6f312a01036ddcc971d02f6c32c3da31a119f2" prot="public">
+          <name>RANGE</name>
+          <briefdescription>
+<para>Hash-based bucket assignment (alias for HASH). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a5ea358063f1ecd1233e58c9ac6f6f312a3f264b3a93f2cd24190ddd73ab192e26" prot="public">
+          <name>CONSISTENT_HASH</name>
+          <briefdescription>
+<para>consistent-hashing ring for minimal rehashing </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/distributed_vector_index.h" line="46" column="1" bodyfile="include/index/distributed_vector_index.h" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PrefetchStrategy</name>
+        <qualifiedname>themis::index::PrefetchStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>On-demand loading only; no background prefetch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2a875ecb34f6d21d13d4b9fd4980a8b5af" prot="public">
+          <name>LRU</name>
+          <briefdescription>
+<para>Prefetch cold partition closest to becoming hot (LRU heuristic). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2ad1e1549939d3bdc1caa10f65876dba6c" prot="public">
+          <name>MRU</name>
+          <briefdescription>
+<para>Prefetch cold partition that was most recently accessed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2a39403cd282d944abcd4f14996cb71bcb" prot="public">
+          <name>SEQUENTIAL</name>
+          <briefdescription>
+<para>Prefetch next partition by insertion-order ID. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="24" column="1" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionAlgorithm</name>
+        <qualifiedname>themis::index::CompressionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No byte-level compression (structural encodings only). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3aca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <briefdescription>
+<para>LZ4 fast compression. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3a8406cc2302e19183037b61249546b234" prot="public">
+          <name>ZSTD</name>
+          <briefdescription>
+<para>Zstandard — best ratio/speed balance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3a2069e5c0aea54224dcd6b9b6c78c4902" prot="public">
+          <name>SNAPPY</name>
+          <briefdescription>
+<para>Snappy — fastest decompression. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Byte-level compression algorithm applied on top of structural encodings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="25" column="1" bodyfile="include/index/index_compression.h" bodystart="25" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>IndexErrorCode</name>
+        <qualifiedname>themis::index::IndexErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40ac6aff12e3b97d7fa2996b5d64212e640" prot="public">
+          <name>BACKEND_EMPTY_RESULT</name>
+          <initializer>= 1100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ANN backend search returned no results when results were expected. May indicate an empty or unbuilt index. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a4f3be9ade199ec33518c565018f52032" prot="public">
+          <name>BACKEND_SEARCH_FAILED</name>
+          <initializer>= 1101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ANN backend search failed with an internal error. Non-retryable without investigation; check logs for backend details. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a91f0f92c2cd9986336e2e0829dcdc3ec" prot="public">
+          <name>BACKEND_BUILD_FAILED</name>
+          <initializer>= 1102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ANN backend index build or add operation failed. Rebuild will be required before further searches succeed. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a867885c7e0b9a8aa55296a02caee6bf2" prot="public">
+          <name>BACKEND_NOT_READY</name>
+          <initializer>= 1103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>ANN backend is not initialised or has been reset. Callers must rebuild or re-register the backend before use. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a278545174145ab292d9b64d1d264a9a4" prot="public">
+          <name>BACKEND_STRATEGY_UNAVAILABLE</name>
+          <initializer>= 1104</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The requested ANN strategy is unavailable (no backend registered for the strategy, or all backends for the strategy failed health checks). </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a00a0ff33b33969c391416f4a7f3c0219" prot="public">
+          <name>BACKEND_DIM_MISMATCH</name>
+          <initializer>= 1105</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The backend rejected the input dimension: the query dimension does not match the dimension the index was built with. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a00d3f66d3354b7c45dc0d167b61993e1" prot="public">
+          <name>BACKEND_INVALID_RESULT</name>
+          <initializer>= 1106</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The backend returned a result with invalid distances (NaN, negative). These were filtered by the <ref refid="classthemis_1_1index_1_1_ann_frontdoor" kindref="compound">AnnFrontdoor</ref> validation layer. <simplesect kind="see"><para><ref refid="ann__frontdoor_8cpp" kindref="compound">src/index/ann_frontdoor.cpp</ref> — Phase B gate validation block </para>
+</simplesect>
+</para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40add7ddd9c7d03ffc151b5d3b22631c81b" prot="public">
+          <name>BACKEND_RESOURCE_EXHAUSTED</name>
+          <initializer>= 1107</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>The backend reported a resource exhaustion condition (memory, file descriptors, GPU VRAM). </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40aa8614f93f918222d19727fd0957eab62" prot="public">
+          <name>REBUILD_ALREADY_IN_PROGRESS</name>
+          <initializer>= 1150</initializer>
+          <briefdescription>
+<para>Rebuild request rejected because a rebuild is already in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a6143043783302dfa2966f5d48035a256" prot="public">
+          <name>REBUILD_INGEST_FAILED</name>
+          <initializer>= 1151</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Rebuild failed during vector ingestion phase. Partial index state: do not serve queries until rebuild completes. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a6c6094fa6224b5e3da3859bd703e0ca5" prot="public">
+          <name>REBUILD_COMPACTION_FAILED</name>
+          <initializer>= 1152</initializer>
+          <briefdescription>
+<para>Rebuild failed during index compaction phase. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a864a1ff45935bd3b8b740a60fd3ea713" prot="public">
+          <name>REBUILD_CANCELLED</name>
+          <initializer>= 1153</initializer>
+          <briefdescription>
+<para>Rebuild aborted by a cancellation signal. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a0615606e25a796c0fcdc8873bb386f1e" prot="public">
+          <name>REBUILD_SOURCE_UNAVAILABLE</name>
+          <initializer>= 1154</initializer>
+          <briefdescription>
+<para>Rebuild failed because the source data store is unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a8b1414fef57bde8a569132f1119925c9" prot="public">
+          <name>REBUILD_TIMEOUT</name>
+          <initializer>= 1155</initializer>
+          <briefdescription>
+<para>Rebuild exceeded the configured time budget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40aef2276f9b2f7e6e8c87933f681af37e5" prot="public">
+          <name>DISTRIBUTION_ALL_SHARDS_FAILED</name>
+          <initializer>= 1175</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>All shard backends for a distributed query failed. No results available; the query cannot be satisfied in degraded mode. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a0b574ed9f5bf1d7bbd9a511ea84cb068" prot="public">
+          <name>DISTRIBUTION_PARTIAL_FAILURE</name>
+          <initializer>= 1176</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>A quorum of shard backends failed; results are marked as partial (<computeroutput><ref refid="structthemis_1_1index_1_1_ann_frontdoor_result_1ac89d9fd4d2520b4b3d0e7c507e11bd8c" kindref="member">AnnFrontdoorResult::is_distributed</ref> == true</computeroutput>, <computeroutput>shards_succeeded &lt; shards_attempted</computeroutput>). </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a2409f39a61cde3a4f70a1ab9a735ec49" prot="public">
+          <name>DISTRIBUTION_TIMEOUT</name>
+          <initializer>= 1177</initializer>
+          <briefdescription>
+<para>Distributed fan-out timed out waiting for shard responses. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40afd58d3f1419066408af556e79b424b8a" prot="public">
+          <name>DISTRIBUTION_NO_SHARDS</name>
+          <initializer>= 1178</initializer>
+          <briefdescription>
+<para>The shard registry is empty or contains no usable shard backends. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a5d4d1d65ba3e2153cdaf27899e4aa8fc" prot="public">
+          <name>DISTRIBUTION_REBALANCING</name>
+          <initializer>= 1179</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Shard rebalancing is in progress; results may be inconsistent. The caller should retry after rebalancing completes. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Frozen error taxonomy for all Index module failure classes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ranges:<itemizedlist>
+<listitem><para>1100–1149: backend (ANN, HNSW, <ref refid="classthemis_1_1index_1_1_sca_n_n" kindref="compound">ScaNN</ref>, DiskANN, flat) errors</para>
+</listitem><listitem><para>1150–1174: rebuild / compaction / migration errors</para>
+</listitem><listitem><para>1175–1199: distributed / shard / fan-out errors </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_error_codes.h" line="46" column="1" bodyfile="include/index/index_error_codes.h" bodystart="46" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MigrationDiagnosticCode</name>
+        <qualifiedname>themis::index::MigrationDiagnosticCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817a5598b849e4723dd4b18c43b0cb5e1ec1" prot="public">
+          <name>INDEX_NOT_FOUND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817a070fc2a27c84023d378ac999c74bacc7" prot="public">
+          <name>TIER_MISMATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817a64ceb838f8aba611131e7afd5ac9311c" prot="public">
+          <name>EXPORT_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1index_1a0d249c2213bc681631512468ed658817ab638e29a26ee65ab75fcd1204577a723" prot="public">
+          <name>IMPORT_FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/tiered_index_manager.h" line="115" column="1" bodyfile="include/index/tiered_index_manager.h" bodystart="115" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1index_1abe336478058d5a112cd606a326725c18" prot="public" static="no">
+        <type><ref refid="classthemis_1_1index_1_1_learned_index" kindref="compound">LearnedIndex</ref>&lt; int64_t &gt;</type>
+        <definition>using themis::index::LearnedIndexI64 = LearnedIndex&lt;int64_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>LearnedIndexI64</name>
+        <qualifiedname>themis::index::LearnedIndexI64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="615" column="1" bodyfile="include/index/learned_index.h" bodystart="615" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1index_1a7649651e29995e1ec0cab11cc659d187" prot="public" static="no">
+        <type><ref refid="classthemis_1_1index_1_1_learned_index" kindref="compound">LearnedIndex</ref>&lt; uint64_t &gt;</type>
+        <definition>using themis::index::LearnedIndexU64 = LearnedIndex&lt;uint64_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>LearnedIndexU64</name>
+        <qualifiedname>themis::index::LearnedIndexU64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="616" column="1" bodyfile="include/index/learned_index.h" bodystart="616" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1index_1a55db74a0290f31e224dbb01428fb38af" prot="public" static="no">
+        <type><ref refid="classthemis_1_1index_1_1_learned_index" kindref="compound">LearnedIndex</ref>&lt; double &gt;</type>
+        <definition>using themis::index::LearnedIndexF64 = LearnedIndex&lt;double&gt;</definition>
+        <argsstring></argsstring>
+        <name>LearnedIndexF64</name>
+        <qualifiedname>themis::index::LearnedIndexF64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="617" column="1" bodyfile="include/index/learned_index.h" bodystart="617" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1index_1ab63b7b656ce8a05b58f28c6d9dd347fc" prot="public" static="no">
+        <type><ref refid="classthemis_1_1index_1_1_learned_index" kindref="compound">LearnedIndex</ref>&lt; float &gt;</type>
+        <definition>using themis::index::LearnedIndexF32 = LearnedIndex&lt;float&gt;</definition>
+        <argsstring></argsstring>
+        <name>LearnedIndexF32</name>
+        <qualifiedname>themis::index::LearnedIndexF32</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="618" column="1" bodyfile="include/index/learned_index.h" bodystart="618" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1index_1a791d2bcc388fe590ebee2a6b341be509" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::index::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::index::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/spatial_index.cpp" line="25" column="1" bodyfile="src/index/spatial_index.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1index_1abb5056a58ec5c0389898f1856c9683b5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::kMRL_64</definition>
+        <argsstring></argsstring>
+        <name>kMRL_64</name>
+        <qualifiedname>themis::index::kMRL_64</qualifiedname>
+        <initializer>=   64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="63" column="25" bodyfile="include/index/matryoshka_truncation.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1index_1a85258e7657dfec3cfb574e88b94e717e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::kMRL_128</definition>
+        <argsstring></argsstring>
+        <name>kMRL_128</name>
+        <qualifiedname>themis::index::kMRL_128</qualifiedname>
+        <initializer>=  128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="64" column="25" bodyfile="include/index/matryoshka_truncation.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1index_1a92fb909cffe48008374a60036f8ef5a3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::kMRL_256</definition>
+        <argsstring></argsstring>
+        <name>kMRL_256</name>
+        <qualifiedname>themis::index::kMRL_256</qualifiedname>
+        <initializer>=  256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="65" column="25" bodyfile="include/index/matryoshka_truncation.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1index_1ae7e0f2991e1f31c8050eb45f2ff7b75f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::kMRL_512</definition>
+        <argsstring></argsstring>
+        <name>kMRL_512</name>
+        <qualifiedname>themis::index::kMRL_512</qualifiedname>
+        <initializer>=  512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="66" column="25" bodyfile="include/index/matryoshka_truncation.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1index_1a84f6bda15bef568441e172ef24ae7fd9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::kMRL_768</definition>
+        <argsstring></argsstring>
+        <name>kMRL_768</name>
+        <qualifiedname>themis::index::kMRL_768</qualifiedname>
+        <initializer>=  768</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="67" column="25" bodyfile="include/index/matryoshka_truncation.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1index_1a8e42428a423e14d8bdc17a873bbf4e21" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::kMRL_1024</definition>
+        <argsstring></argsstring>
+        <name>kMRL_1024</name>
+        <qualifiedname>themis::index::kMRL_1024</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="68" column="25" bodyfile="include/index/matryoshka_truncation.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1index_1aa5d84e93789f4c2f90aeee5d4a6fb281" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::kMRL_1536</definition>
+        <argsstring></argsstring>
+        <name>kMRL_1536</name>
+        <qualifiedname>themis::index::kMRL_1536</qualifiedname>
+        <initializer>= 1536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/matryoshka_truncation.h" line="69" column="25" bodyfile="include/index/matryoshka_truncation.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1index_1a2d15b71d4ce3684bde7f4d9a29915545" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::Z_BUCKET_SIZE</definition>
+        <argsstring></argsstring>
+        <name>Z_BUCKET_SIZE</name>
+        <qualifiedname>themis::index::Z_BUCKET_SIZE</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/spatial_index.cpp" line="28" column="18" bodyfile="src/index/spatial_index.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1index_1acd8d35f1928eb5c01fefa1234d75f87a" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::index::annStrategyName</definition>
+        <argsstring>(AnnStrategy s) noexcept</argsstring>
+        <name>annStrategyName</name>
+        <qualifiedname>themis::index::annStrategyName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1index_1a3d279dcaedf17d5ab76ea5e78ea61a89" kindref="member">AnnStrategy</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="321" column="23" bodyfile="include/index/ann_frontdoor.h" bodystart="321" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1a740ccfbc3f5c285aa7a26975bba30bc1" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::index::annScopeKindName</definition>
+        <argsstring>(AnnScopeKind k) noexcept</argsstring>
+        <name>annScopeKindName</name>
+        <qualifiedname>themis::index::annScopeKindName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1index_1a0448eb97bf478e96f2a708bbf0e3f90c" kindref="member">AnnScopeKind</ref></type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_frontdoor.h" line="332" column="23" bodyfile="include/index/ann_frontdoor.h" bodystart="332" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1a0dde061255abf06c330901e79f19756c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1index_1_1_connection_guard" kindref="compound">ConnectionGuard</ref></type>
+        <definition>ConnectionGuard themis::index::makeConnectionGuard</definition>
+        <argsstring>(Func &amp;&amp;cleanup) noexcept</argsstring>
+        <name>makeConnectionGuard</name>
+        <qualifiedname>themis::index::makeConnectionGuard</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>cleanup</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Factory helper for creating <ref refid="classthemis_1_1index_1_1_connection_guard" kindref="compound">ConnectionGuard</ref> with type-safe cleanup</para>
+<para>Usage: <programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>guard<sp/>=<sp/><ref refid="namespacethemis_1_1index_1a0dde061255abf06c330901e79f19756c" kindref="member">makeConnectionGuard</ref>([&amp;conn]<sp/>{<sp/>db_-&gt;releaseConnection(conn);<sp/>});</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="190" column="24" bodyfile="include/index/connection_guard.h" bodystart="190" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1a5f16ce7db895c9a404ddff06c4379ec8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1index_1_1_connection_guard" kindref="compound">ConnectionGuard</ref></type>
+        <definition>ConnectionGuard themis::index::makeConnectionGuard</definition>
+        <argsstring>(Func &amp;&amp;cleanup, int conn_id) noexcept</argsstring>
+        <name>makeConnectionGuard</name>
+        <qualifiedname>themis::index::makeConnectionGuard</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>cleanup</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>conn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Factory helper with connection ID for logging </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/connection_guard.h" line="198" column="24" bodyfile="include/index/connection_guard.h" bodystart="198" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1ad6855f6d1f916ff402f2a89a4bf39316" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::encodeKey</definition>
+        <argsstring>(double v)</argsstring>
+        <name>encodeKey</name>
+        <qualifiedname>themis::index::encodeKey</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode any numeric key type to a monotone double for CDF modelling. The encoding must preserve the total order of the original type. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="72" column="15" bodyfile="include/index/learned_index.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1a15dac591254234ac5ec7acb859ba7cff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::encodeKey</definition>
+        <argsstring>(float v)</argsstring>
+        <name>encodeKey</name>
+        <qualifiedname>themis::index::encodeKey</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="73" column="15" bodyfile="include/index/learned_index.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1a8ac90a1e961301d39230af755bdd79f9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::encodeKey</definition>
+        <argsstring>(int64_t v)</argsstring>
+        <name>encodeKey</name>
+        <qualifiedname>themis::index::encodeKey</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="74" column="15" bodyfile="include/index/learned_index.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1index_1a1c22307d573a979221c5980ec1774d03" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::encodeKey</definition>
+        <argsstring>(uint64_t v)</argsstring>
+        <name>encodeKey</name>
+        <qualifiedname>themis::index::encodeKey</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/learned_index.h" line="75" column="15" bodyfile="include/index/learned_index.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/ann_frontdoor.h" line="47" column="1"/>
+  </compounddef>
+</doxygen>

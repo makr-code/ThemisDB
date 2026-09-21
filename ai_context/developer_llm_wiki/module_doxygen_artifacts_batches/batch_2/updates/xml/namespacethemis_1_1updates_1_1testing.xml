@@ -1,0 +1,538 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1updates_1_1testing" kind="namespace" language="C++">
+    <compoundname>themis::updates::testing</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1af017ea1f51d319cd7a5a40ecd70027fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_01_StringConcatPerformance)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_01_StringConcatPerformance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-01: String concatenation with ostringstream (not +=) Verifies that string building in loops uses O(n) complexity </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="51" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="51" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1af1456a03b46f9633af20ee2f25172770" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_02_WebhookStringBuilding)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_02_WebhookStringBuilding</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-02: String building in notification webhook Verifies files_str is built efficiently without += in loop </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="97" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="97" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1ac044366a27b51ca28161e70588183198" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_03_LargeStringConcat)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_03_LargeStringConcat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-03: Large string concatenation performance Verifies no O(n²) behavior with large datasets </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="123" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="123" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a81a99700034660878eea1885748230e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_04_MessageBuilding)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_04_MessageBuilding</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-04: Message string building efficiency Tests the pattern used in in_place_schema_migrator for version messages </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="155" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="155" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a1b5761f2bb94441a37e161efc7f35cd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_05_ColumnListBuilding)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_05_ColumnListBuilding</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-05: Column list building Tests the pattern used for listing added columns </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="172" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="172" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a743cb545d55f4a5df369d8fc3ace8580" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_06_NoRegression)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_06_NoRegression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-06: Performance regression check Verifies ostringstream is not significantly slower than direct += (it should be the same or faster for reasonable data sizes) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="192" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="192" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a8e3de8d71136b2de29b857126dfacdcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_07_UnorderedMapLookup)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_07_UnorderedMapLookup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-07: Unordered map usage for O(1) lookup </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="221" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="221" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a8c0a02514ce7e560a6d2d8eb19e6c33e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_08_UnorderedSetMembership)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_08_UnorderedSetMembership</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-08: Unordered set for membership testing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="239" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="239" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a0d1c7e360db71f8111b8ac7ba0292141" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_09_SchemaPropMapPerf)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_09_SchemaPropMapPerf</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-09: Property map performance for schema comparison </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="253" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="253" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1abe0d910b4e670c7746fea9f3e78ba8f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_10_MixedLookupPatterns)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_10_MixedLookupPatterns</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-10: Mixed lookup patterns </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="275" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="275" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a99732c94904f13ed4f09a77820991e42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_11_PreAllocationEfficiency)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_11_PreAllocationEfficiency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-11: Reserve and capacity for pre-allocation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="296" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="296" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1ae690e2e8ebcdf111673954abba80e88d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_12_FileIOTimeoutPattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_12_FileIOTimeoutPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-12: File I/O timeout mechanism Verifies timeout pattern is available </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="316" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="316" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1ad2ae6412d50536b0eb270816e1f7aa89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_13_CurlTimeoutSettings)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_13_CurlTimeoutSettings</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-13: CURL timeout settings Verifies timeout constants are defined </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="333" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="333" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1aca9ee566340b61d75475c9ba55f7f5ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_14_CondVarTimeout)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_14_CondVarTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-14: Condition variable timeout Verifies cv.wait_for pattern with timeout </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="347" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="347" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a99b62d560d131d8bb2109004b7d98cad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_15_TimeoutDoesNotBlock)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_15_TimeoutDoesNotBlock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-15: Non-blocking timeout verification </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="368" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="368" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a43cc16cfb0d9ad0173622ff1eddebcbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_16_CallbackExceptionSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_16_CallbackExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-16: Exception safety for callbacks Verifies catch(...) protects callback execution </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="387" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="387" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1ae63c8b4e45701a830aa7b3b8f577325c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_17_StageCompleteCallbackSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_17_StageCompleteCallbackSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-17: Stage complete callback pattern Simulates the pattern in <ref refid="canary__rollout_8cpp" kindref="compound">canary_rollout.cpp</ref> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="410" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="410" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1acc876c9dfb2e83ca7a0805d91ee4db8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_18_RollbackCallbackSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_18_RollbackCallbackSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-18: Rollback callback exception handling Tests rollback callback safety pattern </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="433" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="433" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a94c97ca372701e01741ec4002ac0e72b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_19_StateChangeCallbackSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_19_StateChangeCallbackSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-19: State change callback safety Simulates update_state_machine pattern </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="453" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="453" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1afc442d25caff107cb324b9aac0f8fe24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_20_GenericCatchRationale)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_20_GenericCatchRationale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-20: Generic exception catching pattern Documents the rationale for catch(...) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="484" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="484" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1aff8e39df6bd3e7128a7589c3899e3a23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_21_ExceptionLoggingPattern)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_21_ExceptionLoggingPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-21: Exception logging pattern Verifies exceptions can be captured and logged </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="503" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="503" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1a5c17628df39a7dc58b4b65372b6ac02b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_22_StructuredLogging)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_22_StructuredLogging</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-22: Structured logging instead of printf Verifies structured output pattern </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="527" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="527" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1adc6a7824ab12e1ff6495d33c624c7a29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_23_VersionFormatting)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_23_VersionFormatting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-23: <ref refid="structthemis_1_1updates_1_1_dependency" kindref="compound">Dependency</ref> resolver output formatting Verifies version output can be formatted correctly </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="541" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="541" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1ab47142c68bc645981efdcd0a1e992a62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_24_MultiFieldLogging)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_24_MultiFieldLogging</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-24: Logging with multiple fields </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="556" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="556" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1_1testing_1af138a47c39d8e2a5aca82d12f848b05e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::testing::TEST</definition>
+        <argsstring>(UpdatesPerformanceBatch4, UP_PER_25_IntegrationNoRegression)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::updates::testing::TEST</qualifiedname>
+        <param>
+          <type>UpdatesPerformanceBatch4</type>
+        </param>
+        <param>
+          <type>UP_PER_25_IntegrationNoRegression</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test UP-PER-25: Comprehensive integration - no performance regression Final verification that all changes work together without slowdown </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_performance_batch4.cpp" line="573" column="1" bodyfile="tests/updates/test_updates_performance_batch4.cpp" bodystart="573" bodyend="599"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/updates/test_updates_performance_batch4.cpp" line="41" column="1"/>
+  </compounddef>
+</doxygen>

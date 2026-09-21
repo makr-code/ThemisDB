@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_r_u_d_fixture" kind="class" language="C++" prot="public">
+    <compoundname>CRUDFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_r_u_d_fixture_1adb0639741f2f12d66471d75620f913f9" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CRUDFixture::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>CRUDFixture::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="78" column="17" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_r_u_d_fixture_1a759470e429cb57049725386e12e2d1c8" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">themis::RocksDBWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; CRUDFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>CRUDFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="79" column="21" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::SecondaryIndexManager&gt; CRUDFixture::secondary_</definition>
+        <argsstring></argsstring>
+        <name>secondary_</name>
+        <qualifiedname>CRUDFixture::secondary_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="80" column="21" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_c_r_u_d_fixture_1a91099447a065bfadc5284eb51ec9c4aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CRUDFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CRUDFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="32" column="10" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="32" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_r_u_d_fixture_1a60525e3d833dec321b936ae5b1b83bee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CRUDFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CRUDFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_crud.cpp" line="71" column="10" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="71" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CRUDFixture</label>
+        <link refid="class_c_r_u_d_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CRUDFixture</label>
+        <link refid="class_c_r_u_d_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/storage/bench_crud.cpp" line="30" column="1" bodyfile="benchmarks/storage/bench_crud.cpp" bodystart="30" bodyend="81"/>
+    <listofallmembers>
+      <member refid="class_c_r_u_d_fixture_1a759470e429cb57049725386e12e2d1c8" prot="protected" virt="non-virtual"><scope>CRUDFixture</scope><name>db_</name></member>
+      <member refid="class_c_r_u_d_fixture_1adb0639741f2f12d66471d75620f913f9" prot="protected" virt="non-virtual"><scope>CRUDFixture</scope><name>db_path_</name></member>
+      <member refid="class_c_r_u_d_fixture_1ac9381d1efcd798a68129e204cfed6be4" prot="protected" virt="non-virtual"><scope>CRUDFixture</scope><name>secondary_</name></member>
+      <member refid="class_c_r_u_d_fixture_1a91099447a065bfadc5284eb51ec9c4aa" prot="public" virt="non-virtual"><scope>CRUDFixture</scope><name>SetUp</name></member>
+      <member refid="class_c_r_u_d_fixture_1a60525e3d833dec321b936ae5b1b83bee" prot="public" virt="non-virtual"><scope>CRUDFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_index_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::IndexEntry</compoundname>
+    <includes refid="index__analyzer_8h" local="no">index_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_index_entry_1aa8532ee824447ecd1200881674c7177a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::IndexEntry::name</qualifiedname>
+        <briefdescription>
+<para>Index identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="90" column="17" bodyfile="include/storage/index_analyzer.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_entry_1a55dd4b264d5db715e219d0706f1156e9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56ee" kindref="member">storage::StorageTierLevel</ref></type>
+        <definition>storage::StorageTierLevel themis::IndexEntry::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themis::IndexEntry::tier</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1a3c530ac7dba036fbcb9a1094749b56eeac429fde8b1b986d42f84ba63dbfef6ac" kindref="member">storage::StorageTierLevel::HOT</ref></initializer>
+        <briefdescription>
+<para>&lt; Current storage tier </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="91" column="31" bodyfile="include/storage/index_analyzer.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_entry_1a69672daa9d5773a25c7d6b1207db0fb7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::IndexEntry::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::IndexEntry::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include in scheduled analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="93" column="10" bodyfile="include/storage/index_analyzer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_entry_1afb44c09ff69ad4de0a648d9705412e18" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_tier_thresholds" kindref="compound">TierThresholds</ref> &gt;</type>
+        <definition>std::optional&lt;TierThresholds&gt; themis::IndexEntry::overrides</definition>
+        <argsstring></argsstring>
+        <name>overrides</name>
+        <qualifiedname>themis::IndexEntry::overrides</qualifiedname>
+        <briefdescription>
+<para>Per-index threshold overrides (nullopt = use tier defaults). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/index_analyzer.h" line="94" column="19" bodyfile="include/storage/index_analyzer.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration entry for a single managed index. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/index_analyzer.h" line="89" column="1" bodyfile="include/storage/index_analyzer.h" bodystart="89" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_index_entry_1a69672daa9d5773a25c7d6b1207db0fb7" prot="public" virt="non-virtual"><scope>themis::IndexEntry</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_index_entry_1aa8532ee824447ecd1200881674c7177a" prot="public" virt="non-virtual"><scope>themis::IndexEntry</scope><name>name</name></member>
+      <member refid="structthemis_1_1_index_entry_1afb44c09ff69ad4de0a648d9705412e18" prot="public" virt="non-virtual"><scope>themis::IndexEntry</scope><name>overrides</name></member>
+      <member refid="structthemis_1_1_index_entry_1a55dd4b264d5db715e219d0706f1156e9" prot="public" virt="non-virtual"><scope>themis::IndexEntry</scope><name>tier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

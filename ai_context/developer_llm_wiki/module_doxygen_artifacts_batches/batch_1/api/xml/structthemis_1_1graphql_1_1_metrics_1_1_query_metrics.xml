@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::Metrics::QueryMetrics</compoundname>
+    <includes refid="graphql__metrics_8h" local="no">graphql_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a4f160f07c2ad0f4694cd5d196403879c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graphql::Metrics::QueryMetrics::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::total_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="63" column="21" bodyfile="include/api/graphql_metrics.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a810e1ffdb8a2b3aa30ab631907582764" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graphql::Metrics::QueryMetrics::failed_queries</definition>
+        <argsstring></argsstring>
+        <name>failed_queries</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::failed_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="64" column="21" bodyfile="include/api/graphql_metrics.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ac85eb55c8cbe70c0cabbc0f2abbb05b9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graphql::Metrics::QueryMetrics::total_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_execution_time_ms</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::total_execution_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="65" column="21" bodyfile="include/api/graphql_metrics.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a02f96475379426da36a3d0b789ac898b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graphql::Metrics::QueryMetrics::max_execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_execution_time_ms</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::max_execution_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="66" column="21" bodyfile="include/api/graphql_metrics.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a8c7ed615fd78cef8671067cb0c678f4f" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graphql::Metrics::QueryMetrics::query_depth_sum</definition>
+        <argsstring></argsstring>
+        <name>query_depth_sum</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::query_depth_sum</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="67" column="21" bodyfile="include/api/graphql_metrics.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ad9413a92f11a92b5c8d25150b343ba2d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graphql::Metrics::QueryMetrics::field_count_sum</definition>
+        <argsstring></argsstring>
+        <name>field_count_sum</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::field_count_sum</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="68" column="21" bodyfile="include/api/graphql_metrics.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a16b5b394381f4e059531ebf0cce80c53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::Metrics::QueryMetrics::QueryMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>QueryMetrics</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::QueryMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="70" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ab8e69e06e92c9731b550b459d275eb97" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::Metrics::QueryMetrics::QueryMetrics</definition>
+        <argsstring>(const QueryMetrics &amp;other)</argsstring>
+        <name>QueryMetrics</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::QueryMetrics</qualifiedname>
+        <param>
+          <type>const QueryMetrics &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="72" column="9" bodyfile="include/api/graphql_metrics.h" bodystart="72" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a9fe79d9cd96cdcfdce2cbdd4c41c2ef9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a16b5b394381f4e059531ebf0cce80c53" kindref="member">QueryMetrics</ref> &amp;</type>
+        <definition>QueryMetrics &amp; themis::graphql::Metrics::QueryMetrics::operator=</definition>
+        <argsstring>(const QueryMetrics &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a16b5b394381f4e059531ebf0cce80c53" kindref="member">QueryMetrics</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="81" column="22" bodyfile="include/api/graphql_metrics.h" bodystart="81" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a0ed00f648ce5ffb9ecd0b06ee40d0a9c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graphql::Metrics::QueryMetrics::avgExecutionTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>avgExecutionTimeMs</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::avgExecutionTimeMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="94" column="16" bodyfile="include/api/graphql_metrics.h" bodystart="94" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a8dd36ebe680edb72cb7cb61b0b561d5b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graphql::Metrics::QueryMetrics::avgQueryDepth</definition>
+        <argsstring>() const</argsstring>
+        <name>avgQueryDepth</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::avgQueryDepth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="100" column="16" bodyfile="include/api/graphql_metrics.h" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ae887f8b7ae2b045bb94f4ed0678dd38b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graphql::Metrics::QueryMetrics::avgFieldCount</definition>
+        <argsstring>() const</argsstring>
+        <name>avgFieldCount</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::avgFieldCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="106" column="16" bodyfile="include/api/graphql_metrics.h" bodystart="106" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a338ae943f1332eaa1cd93511f90c9a0c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graphql::Metrics::QueryMetrics::errorRate</definition>
+        <argsstring>() const</argsstring>
+        <name>errorRate</name>
+        <qualifiedname>themis::graphql::Metrics::QueryMetrics::errorRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_metrics.h" line="112" column="16" bodyfile="include/api/graphql_metrics.h" bodystart="112" bodyend="115"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_metrics.h" line="62" column="5" bodyfile="include/api/graphql_metrics.h" bodystart="62" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a0ed00f648ce5ffb9ecd0b06ee40d0a9c" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>avgExecutionTimeMs</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ae887f8b7ae2b045bb94f4ed0678dd38b" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>avgFieldCount</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a8dd36ebe680edb72cb7cb61b0b561d5b" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>avgQueryDepth</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a338ae943f1332eaa1cd93511f90c9a0c" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>errorRate</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a810e1ffdb8a2b3aa30ab631907582764" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>failed_queries</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ad9413a92f11a92b5c8d25150b343ba2d" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>field_count_sum</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a02f96475379426da36a3d0b789ac898b" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>max_execution_time_ms</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a9fe79d9cd96cdcfdce2cbdd4c41c2ef9" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a8c7ed615fd78cef8671067cb0c678f4f" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>query_depth_sum</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a16b5b394381f4e059531ebf0cce80c53" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>QueryMetrics</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ab8e69e06e92c9731b550b459d275eb97" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>QueryMetrics</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1ac85eb55c8cbe70c0cabbc0f2abbb05b9" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>total_execution_time_ms</name></member>
+      <member refid="structthemis_1_1graphql_1_1_metrics_1_1_query_metrics_1a4f160f07c2ad0f4694cd5d196403879c" prot="public" virt="non-virtual"><scope>themis::graphql::Metrics::QueryMetrics</scope><name>total_queries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

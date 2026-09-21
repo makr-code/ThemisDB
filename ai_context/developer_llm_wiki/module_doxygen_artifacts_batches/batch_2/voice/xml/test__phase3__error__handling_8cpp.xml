@@ -1,0 +1,475 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__phase3__error__handling_8cpp" kind="file" language="C++">
+    <compoundname>test_phase3_error_handling.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="audio__preprocessing_8h" local="yes">voice/audio_preprocessing.h</includes>
+    <includes refid="voice__session__manager_8h" local="yes">voice/voice_session_manager.h</includes>
+    <includes refid="voice__error__handler_8h" local="yes">voice/voice_error_handler.h</includes>
+    <includes refid="voice__security_8h" local="yes">voice/voice_security.h</includes>
+    <includes refid="emotion__analyzer_8h" local="yes">voice/emotion_analyzer.h</includes>
+    <includes refid="wake__word__detector_8h" local="yes">voice/wake_word_detector.h</includes>
+    <includes refid="voice__intent__detector_8h" local="yes">voice/voice_intent_detector.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>voice/audio_preprocessing.h</label>
+        <link refid="audio__preprocessing_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>voice/emotion_analyzer.h</label>
+        <link refid="emotion__analyzer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>voice/voice_error_handler.h</label>
+        <link refid="voice__error__handler_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>voice/voice_intent_detector.h</label>
+        <link refid="voice__intent__detector_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>voice/voice_security.h</label>
+        <link refid="voice__security_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>voice/voice_session_manager.h</label>
+        <link refid="voice__session__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>voice/wake_word_detector.h</label>
+        <link refid="wake__word__detector_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/voice/test_phase3_error_handling.cpp</label>
+        <link refid="test__phase3__error__handling_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>algorithm</label>
+      </node>
+      <node id="17">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1voice_1_1_audio_validation_test" prot="public">themis::voice::AudioValidationTest</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_session_guard_test" prot="public">themis::voice::SessionGuardTest</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_error_context_test" prot="public">themis::voice::ErrorContextTest</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_security_audit_test" prot="public">themis::voice::SecurityAuditTest</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_emotion_edge_case_test" prot="public">themis::voice::EmotionEdgeCaseTest</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_wake_word_edge_case_test" prot="public">themis::voice::WakeWordEdgeCaseTest</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_intent_edge_case_test" prot="public">themis::voice::IntentEdgeCaseTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Phase 3: Error Handling and Edge Cases - Unit Tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Tests for input validation, session guards, security audit, and edge cases </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="audio__preprocessing_8h" kindref="compound">voice/audio_preprocessing.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__session__manager_8h" kindref="compound">voice/voice_session_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__error__handler_8h" kindref="compound">voice/voice_error_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__security_8h" kindref="compound">voice/voice_security.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="emotion__analyzer_8h" kindref="compound">voice/emotion_analyzer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wake__word__detector_8h" kindref="compound">voice/wake_word_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__intent__detector_8h" kindref="compound">voice/voice_intent_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Task<sp/>3.1:<sp/>Input<sp/>Validation<sp/>Hardening<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="classthemis_1_1voice_1_1_audio_validation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_audio_validation_test" kindref="compound">AudioValidationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_audio_preprocessing_pipeline" kindref="compound">AudioPreprocessingPipeline</ref><sp/><ref refid="classthemis_1_1voice_1_1_audio_validation_test_1a05756602d2d4ecd99bdeefc31970cedd" kindref="member">pipeline</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_audio_validation_test" kindref="compound">AudioValidationTest</ref>,<sp/>RejectEmptyAudioPayload)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>empty;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>pipeline.validateAudioPayload(empty,<sp/>16000,<sp/>1,<sp/>16);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.error_message.find(</highlight><highlight class="stringliteral">&quot;too<sp/>small&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(AudioValidationTest,<sp/>RejectOversizeAudioPayload)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>oversized(<ref refid="audio__preprocessing_8h_1aef1625c56536a4a00cd8f9354fb48f4f" kindref="member">MAX_AUDIO_SIZE_BYTES</ref><sp/>+<sp/>1,<sp/>0xFF);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>pipeline.validateAudioPayload(oversized,<sp/>16000,<sp/>1,<sp/>16);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.is_overflow_attempt);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(AudioValidationTest,<sp/>RejectInvalidSampleRate)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>valid_size(1000,<sp/>0x00);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>pipeline.validateAudioPayload(valid_size,<sp/>5000,<sp/>1,<sp/>16);<sp/><sp/></highlight><highlight class="comment">//<sp/>Too<sp/>low</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.error_message.find(</highlight><highlight class="stringliteral">&quot;sample<sp/>rate&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_audio_validation_test" kindref="compound">AudioValidationTest</ref>,<sp/>RejectInvalidChannelCount)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>valid_size(1000,<sp/>0x00);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>pipeline.validateAudioPayload(valid_size,<sp/>16000,<sp/>10,<sp/>16);<sp/><sp/></highlight><highlight class="comment">//<sp/>Too<sp/>many</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.error_message.find(</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_audio_validation_test" kindref="compound">AudioValidationTest</ref>,<sp/>AcceptValidPayload)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>valid(1000,<sp/>0x00);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>pipeline.validateAudioPayload(valid,<sp/>16000,<sp/>1,<sp/>16);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.valid);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_audio_validation_test" kindref="compound">AudioValidationTest</ref>,<sp/>CodecWhitelistValidation)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pipeline.isCodecSupported(<ref refid="namespacethemis_1_1voice_1a12df9265b79368d5b81b950e55bbc6f7a1674e5751ee747c73262d1479e828d15" kindref="member">DetectedAudioCodec::PCM16</ref>));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pipeline.isCodecSupported(<ref refid="namespacethemis_1_1voice_1a12df9265b79368d5b81b950e55bbc6f7a4c2223596711a6a941bc19e8067ceef9" kindref="member">DetectedAudioCodec::OPUS</ref>));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pipeline.isCodecSupported(<ref refid="namespacethemis_1_1voice_1a12df9265b79368d5b81b950e55bbc6f7aa417ad68c0d44a64cc77fcbba552fd6e" kindref="member">DetectedAudioCodec::FLAC</ref>));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(pipeline.isCodecSupported(<ref refid="namespacethemis_1_1voice_1a12df9265b79368d5b81b950e55bbc6f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">DetectedAudioCodec::UNKNOWN</ref>));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Task<sp/>3.2:<sp/>Session<sp/>State<sp/>Guard<sp/>Violations<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1voice_1_1_session_guard_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_session_guard_test" kindref="compound">SessionGuardTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager" kindref="compound">VoiceSessionManager</ref><sp/><ref refid="classthemis_1_1voice_1_1_session_guard_test_1a39a85f764a621382180f27730fb0f7c2" kindref="member">manager</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_session_guard_test" kindref="compound">SessionGuardTest</ref>,<sp/>ValidStateTransitions)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/>manager.createSession(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;device1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(session.session_id.empty());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(session.state,<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a18ff74f43da410c5529f7d6fca84f115" kindref="member">SessionState::ACTIVE</ref>);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ACTIVE<sp/>-&gt;<sp/>TERMINATED<sp/>is<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.validateStateTransition(session.session_id,<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">SessionState::TERMINATED</ref>));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(SessionGuardTest,<sp/>RejectDoubleClose)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/>manager.createSession(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;device1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.terminateSession(session.session_id));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Double-close<sp/>attempt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.isDoubleCloseAttempt(session.session_id));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(SessionGuardTest,<sp/>DetectUseAfterFreeExpired)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/>manager.createSession(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;device1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>This<sp/>would<sp/>require<sp/>manipulating<sp/>timeout<sp/>to<sp/>fully<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>now,<sp/>check<sp/>the<sp/>method<sp/>exists<sp/>and<sp/>doesn&apos;t<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_after_free<sp/>=<sp/>manager.isUseAfterFreeAttempt(session.session_id);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(use_after_free);<sp/><sp/></highlight><highlight class="comment">//<sp/>Session<sp/>is<sp/>active,<sp/>not<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_session_guard_test" kindref="compound">SessionGuardTest</ref>,<sp/>DetectSessionCollision)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session1<sp/>=<sp/>manager.createSession(</highlight><highlight class="stringliteral">&quot;user1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;device1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(session1.session_id.empty());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(manager.sessionIdExists(session1.session_id));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-existent<sp/>session</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.sessionIdExists(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_session_guard_test" kindref="compound">SessionGuardTest</ref>,<sp/>EmptyUserIdRejectedFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/>manager.createSession(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;device1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(session.session_id.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Fail-closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ad791733d0293c8af300f31d43479614e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_session_guard_test" kindref="compound">SessionGuardTest</ref>,<sp/>TerminatedSessionRejectsFurtherWrites)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/>manager.createSession(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;device1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(manager.terminateSession(session.session_id));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.touchSession(session.session_id));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.updateSession(session.session_id,<sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref>{{</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(manager.addConversationTurn(session.session_id,<sp/></highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(SessionGuardTest,<sp/>MissingSessionStateDefaultsToTerminated)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(manager.getSessionState(</highlight><highlight class="stringliteral">&quot;missing-session&quot;</highlight><highlight class="normal">),<sp/>SessionState::TERMINATED);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Task<sp/>3.3:<sp/>Error<sp/>Context<sp/>and<sp/>Diagnostics<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1voice_1_1_error_context_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_error_context_test" kindref="compound">ErrorContextTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_error_handler" kindref="compound">VoiceErrorHandler</ref><sp/><ref refid="classthemis_1_1voice_1_1_error_context_test_1a0421cd9741059414554f3095f5a9a20d" kindref="member">error_handler</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_error_context_test" kindref="compound">ErrorContextTest</ref>,<sp/>ErrorContextCreation)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1voice_1_1_error_context_1a4e77d895e801f952a717042dee526419" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1ad1f4aadee0cfe8dcaea1d1fcbee82ca0afca4b0ac046d5fbb5009a5dda46f93c9" kindref="member">VoiceErrorCode::STT_FAILED</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1voice_1_1_error_context_1ad6f4d662c7c96737564889aa69df9dd7" kindref="member">timestamp_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1voice_1_1_error_context_1a47256d1b7fbb82720f692ec026b51ba6" kindref="member">cause</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;STT<sp/>timeout<sp/>after<sp/>30s&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1voice_1_1_error_context_1adc6de3eb1abf893c4634d24740618e6b" kindref="member">recovery_action</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;please<sp/>try<sp/>again&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1voice_1_1_error_context_1a844f257a851ef1708401dc5f7bba99b9" kindref="member">user_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1voice_1_1_error_context_1a098075b621c55d81bb748f08c7081484" kindref="member">session_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sess_123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json_ctx<sp/>=<sp/>error_handler.createErrorContext(ctx);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json_ctx.contains(</highlight><highlight class="stringliteral">&quot;error_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json_ctx.contains(</highlight><highlight class="stringliteral">&quot;cause&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json_ctx.contains(</highlight><highlight class="stringliteral">&quot;recovery_action&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(ErrorContextTest,<sp/>SensitiveDataNotLogged)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ErrorContext<sp/>ctx;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1voice_1_1_error_context_1a4e77d895e801f952a717042dee526419" kindref="member">error_code</ref><sp/>=<sp/>VoiceErrorCode::SECURITY_VIOLATION;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.auth_token_masked<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;actual_token_123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>json_ctx<sp/>=<sp/>error_handler.createErrorContext(ctx);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>token<sp/>is<sp/>present<sp/>(it&apos;s<sp/>the<sp/>caller&apos;s<sp/>responsibility<sp/>to<sp/>mask)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(json_ctx.contains(</highlight><highlight class="stringliteral">&quot;auth_token_masked&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Task<sp/>3.5:<sp/>Security<sp/>Denial<sp/>Audit<sp/>Trail<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1voice_1_1_security_audit_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_security_audit_test" kindref="compound">SecurityAuditTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_security_manager" kindref="compound">VoiceSecurityManager</ref><sp/><ref refid="classthemis_1_1voice_1_1_security_audit_test_1a3c0044e92fff1ef6c395422acab28027" kindref="member">security</ref>;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_security_audit_test" kindref="compound">SecurityAuditTest</ref>,<sp/>RecordAuthFailure)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>failure<sp/>should<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(security.recordAuthFailure(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiter<sp/>enabled<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(security.isRateLimited(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(SecurityAuditTest,<sp/>DenyOperationWithAudit)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>security.denyOperationWithAudit(</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sess_123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;escalate_privileges&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin_panel&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;privilege_escalation_attempt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);<sp/><sp/></highlight><highlight class="comment">//<sp/>Always<sp/>denies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>denials<sp/>=<sp/>security.getSecurityDenials(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(denials.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(SecurityAuditTest,<sp/>RateLimiterReset)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>security.recordAuthFailure(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>security.resetRateLimiter(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(security.isRateLimited(</highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Task<sp/>3.6:<sp/>Emotion/Detection<sp/>Edge<sp/>Cases<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1voice_1_1_emotion_edge_case_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_emotion_edge_case_test" kindref="compound">EmotionEdgeCaseTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_emotion_analyzer" kindref="compound">EmotionAnalyzer</ref><sp/><ref refid="classthemis_1_1voice_1_1_emotion_edge_case_test_1a11a2677c5aec215f11449b0d2d4e9014" kindref="member">analyzer</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_emotion_edge_case_test" kindref="compound">EmotionEdgeCaseTest</ref>,<sp/>AnalyzerAvailability)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(analyzer.isAvailable());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(EmotionEdgeCaseTest,<sp/>TimeoutDefaultSafety)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EmotionConfig<sp/>config;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>config.skip_on_unavailable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>audio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>analyzer.analyzeWithTimeout({},<sp/>config);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>either<sp/>return<sp/>analysis<sp/>or<sp/>safe<sp/>default<sp/>(not<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Just<sp/>ensuring<sp/>no<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1voice_1_1_wake_word_edge_case_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_wake_word_edge_case_test" kindref="compound">WakeWordEdgeCaseTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_detector" kindref="compound">WakeWordDetector</ref><sp/><ref refid="classthemis_1_1voice_1_1_wake_word_edge_case_test_1ace53622c62d418f6b0c1fc4776480595" kindref="member">detector</ref>;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_wake_word_edge_case_test" kindref="compound">WakeWordEdgeCaseTest</ref>,<sp/>ConfidenceThresholdCheck)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector.meetsConfidenceThreshold(0.7f));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector.meetsConfidenceThreshold(0.4f));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(WakeWordEdgeCaseTest,<sp/>TimeoutDefaultResult)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector.getTimeoutDefault();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.detected);<sp/><sp/></highlight><highlight class="comment">//<sp/>Safe:<sp/>no<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1voice_1_1_intent_edge_case_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_intent_edge_case_test" kindref="compound">IntentEdgeCaseTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector" kindref="compound">VoiceIntentDetector</ref><sp/><ref refid="classthemis_1_1voice_1_1_intent_edge_case_test_1a7dc51d3bb3f81ae96eb203afad78faa0" kindref="member">detector</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1_intent_edge_case_test" kindref="compound">IntentEdgeCaseTest</ref>,<sp/>LowConfidenceDetection)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(detector.isConfidenceTooLow(0.3f));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(detector.isConfidenceTooLow(0.6f));</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(IntentEdgeCaseTest,<sp/>TimeoutSafeDefault)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>detector.getTimeoutDefault();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.intent,<sp/>IntentCategory::UNKNOWN);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/voice/test_phase3_error_handling.cpp"/>
+  </compounddef>
+</doxygen>

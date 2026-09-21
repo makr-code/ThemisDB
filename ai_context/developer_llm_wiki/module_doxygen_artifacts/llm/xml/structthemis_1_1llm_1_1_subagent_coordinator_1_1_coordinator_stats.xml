@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentCoordinator::CoordinatorStats</compoundname>
+    <includes refid="subagent__coordinator_8h" local="no">subagent_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a4f7f3ffd88e0bc797cca4d3a28a86866" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentCoordinator::CoordinatorStats::total_coordinations</definition>
+        <argsstring></argsstring>
+        <name>total_coordinations</name>
+        <qualifiedname>themis::llm::SubagentCoordinator::CoordinatorStats::total_coordinations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total coordination operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="216" column="18" bodyfile="include/llm/subagent_coordinator.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a4f7f16d7f68a6d02e460fd53465c99c6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentCoordinator::CoordinatorStats::successful_coordinations</definition>
+        <argsstring></argsstring>
+        <name>successful_coordinations</name>
+        <qualifiedname>themis::llm::SubagentCoordinator::CoordinatorStats::successful_coordinations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="217" column="18" bodyfile="include/llm/subagent_coordinator.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a766588bb08f85d07bc38b59e7e7e8637" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentCoordinator::CoordinatorStats::failed_coordinations</definition>
+        <argsstring></argsstring>
+        <name>failed_coordinations</name>
+        <qualifiedname>themis::llm::SubagentCoordinator::CoordinatorStats::failed_coordinations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Failed operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="218" column="18" bodyfile="include/llm/subagent_coordinator.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1aae534576df7781b8d193edfcccbfc71d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentCoordinator::CoordinatorStats::total_subagent_requests</definition>
+        <argsstring></argsstring>
+        <name>total_subagent_requests</name>
+        <qualifiedname>themis::llm::SubagentCoordinator::CoordinatorStats::total_subagent_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total requests submitted to subagents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="219" column="18" bodyfile="include/llm/subagent_coordinator.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a7c88a4af26e310990627b892c89b9bca" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentCoordinator::CoordinatorStats::total_subagent_successes</definition>
+        <argsstring></argsstring>
+        <name>total_subagent_successes</name>
+        <qualifiedname>themis::llm::SubagentCoordinator::CoordinatorStats::total_subagent_successes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful subagent responses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="220" column="18" bodyfile="include/llm/subagent_coordinator.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a460287472e7056e1ef180e0581888158" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SubagentCoordinator::CoordinatorStats::total_subagent_failures</definition>
+        <argsstring></argsstring>
+        <name>total_subagent_failures</name>
+        <qualifiedname>themis::llm::SubagentCoordinator::CoordinatorStats::total_subagent_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Failed subagent responses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_coordinator.h" line="221" column="18" bodyfile="include/llm/subagent_coordinator.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_coordinator.h" line="215" column="5" bodyfile="include/llm/subagent_coordinator.h" bodystart="215" bodyend="222"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a766588bb08f85d07bc38b59e7e7e8637" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinator::CoordinatorStats</scope><name>failed_coordinations</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a4f7f16d7f68a6d02e460fd53465c99c6" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinator::CoordinatorStats</scope><name>successful_coordinations</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a4f7f3ffd88e0bc797cca4d3a28a86866" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinator::CoordinatorStats</scope><name>total_coordinations</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a460287472e7056e1ef180e0581888158" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinator::CoordinatorStats</scope><name>total_subagent_failures</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1aae534576df7781b8d193edfcccbfc71d" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinator::CoordinatorStats</scope><name>total_subagent_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats_1a7c88a4af26e310990627b892c89b9bca" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinator::CoordinatorStats</scope><name>total_subagent_successes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

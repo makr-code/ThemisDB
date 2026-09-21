@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1720de7bfda72824579529f83b8adc87" kind="dir">
+    <compoundname>src/access_model</compoundname>
+    <innerfile refid="access__coordinator_8cpp">access_coordinator.cpp</innerfile>
+    <innerfile refid="access__metrics_8cpp">access_metrics.cpp</innerfile>
+    <innerfile refid="access__model__logging_8cpp">access_model_logging.cpp</innerfile>
+    <innerfile refid="access__model__trace_8cpp">access_model_trace.cpp</innerfile>
+    <innerfile refid="age__based__policy_8cpp">age_based_policy.cpp</innerfile>
+    <innerfile refid="promotion__demotion_8cpp">promotion_demotion.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/access_model/"/>
+  </compounddef>
+</doxygen>

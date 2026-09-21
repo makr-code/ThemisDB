@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_resource_exhaustion_test" kind="class" language="C++" prot="public">
+    <compoundname>ResourceExhaustionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_resource_exhaustion_test_1a065e4ad23ec07c46b9f6d2b9225e30e6" prot="protected" static="no" mutable="no">
+        <type>FailureRecoveryLog</type>
+        <definition>FailureRecoveryLog ResourceExhaustionTest::recovery_log</definition>
+        <argsstring></argsstring>
+        <name>recovery_log</name>
+        <qualifiedname>ResourceExhaustionTest::recovery_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="358" column="24" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="358" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_resource_exhaustion_test_1ad64a7065be55b40a2540515064ed2761" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ResourceExhaustionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ResourceExhaustionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="360" column="10" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="360" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ResourceExhaustionTest</label>
+        <link refid="class_resource_exhaustion_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ResourceExhaustionTest</label>
+        <link refid="class_resource_exhaustion_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>recovery_log</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:recovery_log</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="356" column="1" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="356" bodyend="363"/>
+    <listofallmembers>
+      <member refid="class_resource_exhaustion_test_1a065e4ad23ec07c46b9f6d2b9225e30e6" prot="protected" virt="non-virtual"><scope>ResourceExhaustionTest</scope><name>recovery_log</name></member>
+      <member refid="class_resource_exhaustion_test_1ad64a7065be55b40a2540515064ed2761" prot="protected" virt="non-virtual"><scope>ResourceExhaustionTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

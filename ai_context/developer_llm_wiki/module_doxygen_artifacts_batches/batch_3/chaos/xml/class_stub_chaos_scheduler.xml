@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_chaos_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>StubChaosScheduler</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_stub_chaos_scheduler_1af11fb93b94f0db937690d9af71cc0269" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>StubChaosScheduler::State</qualifiedname>
+        <enumvalue id="class_stub_chaos_scheduler_1af11fb93b94f0db937690d9af71cc0269a09d4d696b4e935115b9313e3c412509a" prot="public">
+          <name>STOPPED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_stub_chaos_scheduler_1af11fb93b94f0db937690d9af71cc0269a43491564ebcfd38568918efbd6e840fd" prot="public">
+          <name>RUNNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="102" column="5" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="102" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_chaos_scheduler_1a0624164db3b998b0eba4e63d5128aa9f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubChaosScheduler::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubChaosScheduler::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="128" column="27" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_chaos_scheduler_1a32c7de56092314958090973fdb469f94" prot="private" static="no" mutable="no">
+        <type><ref refid="class_stub_chaos_scheduler_1af11fb93b94f0db937690d9af71cc0269" kindref="member">State</ref></type>
+        <definition>State StubChaosScheduler::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>StubChaosScheduler::state_</qualifiedname>
+        <initializer>{<ref refid="class_stub_chaos_scheduler_1af11fb93b94f0db937690d9af71cc0269a09d4d696b4e935115b9313e3c412509a" kindref="member">State::STOPPED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="129" column="27" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_chaos_scheduler_1af1c086b44ccde1e07855c87e23801be2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubChaosScheduler::schedule_count_</definition>
+        <argsstring></argsstring>
+        <name>schedule_count_</name>
+        <qualifiedname>StubChaosScheduler::schedule_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="130" column="17" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="130" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_chaos_scheduler_1a5248e04044ecfbd109b57ffe461df7bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubChaosScheduler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>StubChaosScheduler::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="104" column="10" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="104" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_chaos_scheduler_1add67e0591f68702bb8e9a40b69c8300d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubChaosScheduler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>StubChaosScheduler::stop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="109" column="10" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_chaos_scheduler_1aed9e8dd6c76885d3af81a52243924ac3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_stub_chaos_scheduler_1af11fb93b94f0db937690d9af71cc0269" kindref="member">State</ref></type>
+        <definition>State StubChaosScheduler::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>StubChaosScheduler::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="114" column="11" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="114" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_chaos_scheduler_1a26e0bd035c084f8994c10959bd67af1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubChaosScheduler::schedule</definition>
+        <argsstring>(const std::string &amp;node_id, std::chrono::milliseconds)</argsstring>
+        <name>schedule</name>
+        <qualifiedname>StubChaosScheduler::schedule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="119" column="10" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="119" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_chaos_scheduler_1a3468760bd39a40a81a67b7783558dc77" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubChaosScheduler::scheduleCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>scheduleCount</name>
+        <qualifiedname>StubChaosScheduler::scheduleCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="125" column="14" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="125" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/chaos/test_chaos_highcardinality_stress.cpp" line="100" column="1" bodyfile="tests/chaos/test_chaos_highcardinality_stress.cpp" bodystart="100" bodyend="131"/>
+    <listofallmembers>
+      <member refid="class_stub_chaos_scheduler_1a0624164db3b998b0eba4e63d5128aa9f" prot="private" virt="non-virtual"><scope>StubChaosScheduler</scope><name>mu_</name></member>
+      <member refid="class_stub_chaos_scheduler_1a26e0bd035c084f8994c10959bd67af1d" prot="public" virt="non-virtual"><scope>StubChaosScheduler</scope><name>schedule</name></member>
+      <member refid="class_stub_chaos_scheduler_1af1c086b44ccde1e07855c87e23801be2" prot="private" virt="non-virtual"><scope>StubChaosScheduler</scope><name>schedule_count_</name></member>
+      <member refid="class_stub_chaos_scheduler_1a3468760bd39a40a81a67b7783558dc77" prot="public" virt="non-virtual"><scope>StubChaosScheduler</scope><name>scheduleCount</name></member>
+      <member refid="class_stub_chaos_scheduler_1a5248e04044ecfbd109b57ffe461df7bd" prot="public" virt="non-virtual"><scope>StubChaosScheduler</scope><name>start</name></member>
+      <member refid="class_stub_chaos_scheduler_1af11fb93b94f0db937690d9af71cc0269" prot="public" virt="non-virtual"><scope>StubChaosScheduler</scope><name>State</name></member>
+      <member refid="class_stub_chaos_scheduler_1aed9e8dd6c76885d3af81a52243924ac3" prot="public" virt="non-virtual"><scope>StubChaosScheduler</scope><name>state</name></member>
+      <member refid="class_stub_chaos_scheduler_1a32c7de56092314958090973fdb469f94" prot="private" virt="non-virtual"><scope>StubChaosScheduler</scope><name>state_</name></member>
+      <member refid="class_stub_chaos_scheduler_1add67e0591f68702bb8e9a40b69c8300d" prot="public" virt="non-virtual"><scope>StubChaosScheduler</scope><name>stop</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

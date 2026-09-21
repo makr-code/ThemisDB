@@ -1,0 +1,703 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::backpressure::AdaptiveHandshakeSession</compoundname>
+    <includes refid="backpressure__protocol_8h" local="no">backpressure_protocol.h</includes>
+    <innerclass refid="structthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1_1_sync_request" prot="public">themisdb::backpressure::AdaptiveHandshakeSession::SyncRequest</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a114e6db0af62e3e0b63865e9d61ab997" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SyncResult</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::SyncResult</qualifiedname>
+        <enumvalue id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a114e6db0af62e3e0b63865e9d61ab997aa806f1d2c42338ef5fa6497b66153e79" prot="public">
+          <name>ACCEPTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a114e6db0af62e3e0b63865e9d61ab997ad56f03cea4fb854fa3000896bfd66fe3" prot="public">
+          <name>THROTTLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a114e6db0af62e3e0b63865e9d61ab997ae3d9a2ed4146353ae729818f8bcc329d" prot="public">
+          <name>DEFERRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a114e6db0af62e3e0b63865e9d61ab997a9cc8ad3d99798c6726d4af0bd14e49d2" prot="public">
+          <name>REJECTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a114e6db0af62e3e0b63865e9d61ab997abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="608" column="5" bodyfile="include/sharding/backpressure_protocol.h" bodystart="608" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a16928e93fdca178fcf9c009cd782ad23" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5" kindref="member">HandshakeState</ref>, <ref refid="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5" kindref="member">HandshakeState</ref>)&gt;</type>
+        <definition>using themisdb::backpressure::AdaptiveHandshakeSession::StateChangeCallback = std::function&lt;void(HandshakeState, HandshakeState)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StateChangeCallback</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::StateChangeCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set callback for state changes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="666" column="5" bodyfile="include/sharding/backpressure_protocol.h" bodystart="666" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a8409103159effde88806912f2c909eb3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::backpressure::AdaptiveHandshakeSession::local_shard_id_</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::local_shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="670" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="670" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a409d038b89a6b062e9b16ca51b430890" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::backpressure::AdaptiveHandshakeSession::remote_shard_id_</definition>
+        <argsstring></argsstring>
+        <name>remote_shard_id_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::remote_shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="671" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="671" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0ecff1b02c47a4601b2766c5f201e0b4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_backpressure_config" kindref="compound">BackpressureConfig</ref></type>
+        <definition>BackpressureConfig themisdb::backpressure::AdaptiveHandshakeSession::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="672" column="24" bodyfile="include/sharding/backpressure_protocol.h" bodystart="672" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a6a0214b025d16940209c523558e24104" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue" kindref="compound">DeferredSyncQueue</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DeferredSyncQueue&gt; themisdb::backpressure::AdaptiveHandshakeSession::deferred_queue_</definition>
+        <argsstring></argsstring>
+        <name>deferred_queue_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::deferred_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="673" column="21" bodyfile="include/sharding/backpressure_protocol.h" bodystart="673" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ab1e6f721ba831faa0834b604e662fe03" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::AdaptiveHandshakeSession::session_id_</definition>
+        <argsstring></argsstring>
+        <name>session_id_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::session_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="675" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="675" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1adb0ac06a4de7bba8ca887a297f2e1a4c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5" kindref="member">HandshakeState</ref> &gt;</type>
+        <definition>std::atomic&lt;HandshakeState&gt; themisdb::backpressure::AdaptiveHandshakeSession::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5a99c8ce56e7ab246445d3b134724428f3" kindref="member">HandshakeState::DISCONNECTED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="676" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="676" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a2bb676ec4c94b4a87040b1974784f841" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9" kindref="member">SyncStrategy</ref> &gt;</type>
+        <definition>std::atomic&lt;SyncStrategy&gt; themisdb::backpressure::AdaptiveHandshakeSession::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::strategy_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9ae35884a2445bc4ae2df52f188763273c" kindref="member">SyncStrategy::IMMEDIATE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="677" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="677" bodyend="677"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a8624217b4e6dcc3bd95aa45e3b74c204" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::backpressure::AdaptiveHandshakeSession::throttle_rate_</definition>
+        <argsstring></argsstring>
+        <name>throttle_rate_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::throttle_rate_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="678" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="678" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a04c3206b39601f320f872b2682de1e18" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref></type>
+        <definition>SystemLoadMetrics themisdb::backpressure::AdaptiveHandshakeSession::local_load_</definition>
+        <argsstring></argsstring>
+        <name>local_load_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::local_load_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="680" column="23" bodyfile="include/sharding/backpressure_protocol.h" bodystart="680" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1acfb800524760b3c215a9c1f099161982" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref></type>
+        <definition>SystemLoadMetrics themisdb::backpressure::AdaptiveHandshakeSession::remote_load_</definition>
+        <argsstring></argsstring>
+        <name>remote_load_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::remote_load_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="681" column="23" bodyfile="include/sharding/backpressure_protocol.h" bodystart="681" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a1f56d82f74a9b29a4cc5f958374e35d5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a16928e93fdca178fcf9c009cd782ad23" kindref="member">StateChangeCallback</ref></type>
+        <definition>StateChangeCallback themisdb::backpressure::AdaptiveHandshakeSession::state_callback_</definition>
+        <argsstring></argsstring>
+        <name>state_callback_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::state_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="683" column="25" bodyfile="include/sharding/backpressure_protocol.h" bodystart="683" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ae04d312640823d97b2820851574ae99b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::backpressure::AdaptiveHandshakeSession::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="685" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="685" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1aa9155845b1ea017a9a9309955b099f18" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::backpressure::AdaptiveHandshakeSession::heartbeat_thread_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_thread_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::heartbeat_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="686" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="686" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a1108448c26db291c949721751ec6076b" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::backpressure::AdaptiveHandshakeSession::load_report_thread_</definition>
+        <argsstring></argsstring>
+        <name>load_report_thread_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::load_report_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="687" column="17" bodyfile="include/sharding/backpressure_protocol.h" bodystart="687" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0d611407b1925be3c7383fcabd47a4be" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::backpressure::AdaptiveHandshakeSession::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="688" column="16" bodyfile="include/sharding/backpressure_protocol.h" bodystart="688" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0648bbfabec2cb363e6a20b0635284a6" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::backpressure::AdaptiveHandshakeSession::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="689" column="29" bodyfile="include/sharding/backpressure_protocol.h" bodystart="689" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1af6c131ea34b5309db81b9436fcc8cd3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::backpressure::AdaptiveHandshakeSession::AdaptiveHandshakeSession</definition>
+        <argsstring>(const std::string &amp;local_shard_id, const std::string &amp;remote_shard_id, const BackpressureConfig &amp;config, std::shared_ptr&lt; DeferredSyncQueue &gt; deferred_queue)</argsstring>
+        <name>AdaptiveHandshakeSession</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::AdaptiveHandshakeSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_backpressure_config" kindref="compound">BackpressureConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1backpressure_1_1_deferred_sync_queue" kindref="compound">DeferredSyncQueue</ref> &gt;</type>
+          <declname>deferred_queue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="579" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a1d6a415827cdd5ca3daea745a085d087" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::backpressure::AdaptiveHandshakeSession::~AdaptiveHandshakeSession</definition>
+        <argsstring>()</argsstring>
+        <name>~AdaptiveHandshakeSession</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::~AdaptiveHandshakeSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="585" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0b331c17b22d12d38efcf7b92b132d45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::AdaptiveHandshakeSession::connect</definition>
+        <argsstring>(const std::string &amp;remote_endpoint)</argsstring>
+        <name>connect</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::connect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_endpoint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Initiate handshake with remote shard </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="590" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ac31ed0d118822f7a6b1b42a547703944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::AdaptiveHandshakeSession::accept</definition>
+        <argsstring>()</argsstring>
+        <name>accept</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::accept</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Accept incoming handshake </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="595" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ae4b3c93d9e38f32e1fed2dbee546ee6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a114e6db0af62e3e0b63865e9d61ab997" kindref="member">SyncResult</ref></type>
+        <definition>SyncResult themisdb::backpressure::AdaptiveHandshakeSession::requestSync</definition>
+        <argsstring>(const SyncRequest &amp;request)</argsstring>
+        <name>requestSync</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::requestSync</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1_1_sync_request" kindref="compound">SyncRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="616" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0562c4d44044e987673f5fd3e10e63de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::AdaptiveHandshakeSession::reportLoad</definition>
+        <argsstring>(const SystemLoadMetrics &amp;metrics)</argsstring>
+        <name>reportLoad</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::reportLoad</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Report local load to remote </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="621" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1af8c30eafb2c80c8512995e114a3c0f03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9" kindref="member">SyncStrategy</ref></type>
+        <definition>SyncStrategy themisdb::backpressure::AdaptiveHandshakeSession::getNegotiatedStrategy</definition>
+        <argsstring>() const</argsstring>
+        <name>getNegotiatedStrategy</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::getNegotiatedStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get negotiated sync strategy </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="626" column="18" bodyfile="include/sharding/backpressure_protocol.h" bodystart="626" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a7b3d1accd3940cd2f20ac4169bf95011" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::backpressure::AdaptiveHandshakeSession::getThrottleRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getThrottleRate</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::getThrottleRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current throttle rate (bytes/sec) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="631" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="631" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ab66700219e0fafbe0b7b3c49a593d7b8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5" kindref="member">HandshakeState</ref></type>
+        <definition>HandshakeState themisdb::backpressure::AdaptiveHandshakeSession::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get session state </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="636" column="20" bodyfile="include/sharding/backpressure_protocol.h" bodystart="636" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ad70ad5d43c39dadad35aa7f9e935dd29" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::backpressure::AdaptiveHandshakeSession::getSessionId</definition>
+        <argsstring>() const</argsstring>
+        <name>getSessionId</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::getSessionId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get session ID </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="641" column="14" bodyfile="include/sharding/backpressure_protocol.h" bodystart="641" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ad01fb659f8aa703151dacc4c0b6f5264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::AdaptiveHandshakeSession::pause</definition>
+        <argsstring>()</argsstring>
+        <name>pause</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::pause</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pause sync operations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="646" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1acb14441ea5792d2e1e6608f752b9efc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::AdaptiveHandshakeSession::resume</definition>
+        <argsstring>()</argsstring>
+        <name>resume</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::resume</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Resume sync operations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="651" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1aaf0e1c4ed55901363c511dbc95c3ead3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::AdaptiveHandshakeSession::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Close session </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="656" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1accf96564a30787c0fa9b7e8bbb6f0916" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::AdaptiveHandshakeSession::isActive</definition>
+        <argsstring>() const</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::isActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if session is active </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="661" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1af4be89e722118e4db656aa5f48d8b58d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::AdaptiveHandshakeSession::setStateChangeCallback</definition>
+        <argsstring>(StateChangeCallback callback)</argsstring>
+        <name>setStateChangeCallback</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::setStateChangeCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a16928e93fdca178fcf9c009cd782ad23" kindref="member">StateChangeCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="667" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1aef18316458c54a76319bfe99fdf16754" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::AdaptiveHandshakeSession::transitionState</definition>
+        <argsstring>(HandshakeState new_state)</argsstring>
+        <name>transitionState</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::transitionState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1backpressure_1a0f0def7e26c7b6298107cd479842eaa5" kindref="member">HandshakeState</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="694" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1afe8a1e1b49708d0c78f1ff4553f61b8f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::backpressure::AdaptiveHandshakeSession::sendMessage</definition>
+        <argsstring>(const HandshakeMessage &amp;msg)</argsstring>
+        <name>sendMessage</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::sendMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_handshake_message" kindref="compound">HandshakeMessage</ref> &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="695" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a2a7980d1d933051f36ddc293d4122412" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1backpressure_1_1_handshake_message" kindref="compound">HandshakeMessage</ref> &gt;</type>
+        <definition>std::optional&lt; HandshakeMessage &gt; themisdb::backpressure::AdaptiveHandshakeSession::receiveMessage</definition>
+        <argsstring>()</argsstring>
+        <name>receiveMessage</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::receiveMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="696" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ac03387680e9f42ead2c076641f1600ae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::AdaptiveHandshakeSession::heartbeatLoop</definition>
+        <argsstring>()</argsstring>
+        <name>heartbeatLoop</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::heartbeatLoop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="697" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a5c7b364cbc4612e7fdbe0dc299904c8a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::backpressure::AdaptiveHandshakeSession::loadReportLoop</definition>
+        <argsstring>()</argsstring>
+        <name>loadReportLoop</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::loadReportLoop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="698" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a211b7fba4cb04b43c8f38097bba343e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1backpressure_1a3f28bd43c127c787264ce778078022a9" kindref="member">SyncStrategy</ref></type>
+        <definition>SyncStrategy themisdb::backpressure::AdaptiveHandshakeSession::negotiateStrategy</definition>
+        <argsstring>(const SystemLoadMetrics &amp;remote)</argsstring>
+        <name>negotiateStrategy</name>
+        <qualifiedname>themisdb::backpressure::AdaptiveHandshakeSession::negotiateStrategy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1backpressure_1_1_system_load_metrics" kindref="compound">SystemLoadMetrics</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/backpressure_protocol.h" line="700" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages a backpressure-aware synchronization session </para>
+    </detaileddescription>
+    <location file="include/sharding/backpressure_protocol.h" line="577" column="1" bodyfile="include/sharding/backpressure_protocol.h" bodystart="577" bodyend="701"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ac31ed0d118822f7a6b1b42a547703944" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>accept</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1af6c131ea34b5309db81b9436fcc8cd3c" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>AdaptiveHandshakeSession</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1aaf0e1c4ed55901363c511dbc95c3ead3" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>close</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0ecff1b02c47a4601b2766c5f201e0b4" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0b331c17b22d12d38efcf7b92b132d45" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>connect</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0648bbfabec2cb363e6a20b0635284a6" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>cv_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a6a0214b025d16940209c523558e24104" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>deferred_queue_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1af8c30eafb2c80c8512995e114a3c0f03" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>getNegotiatedStrategy</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ad70ad5d43c39dadad35aa7f9e935dd29" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>getSessionId</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ab66700219e0fafbe0b7b3c49a593d7b8" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>getState</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a7b3d1accd3940cd2f20ac4169bf95011" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>getThrottleRate</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1aa9155845b1ea017a9a9309955b099f18" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>heartbeat_thread_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ac03387680e9f42ead2c076641f1600ae" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>heartbeatLoop</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1accf96564a30787c0fa9b7e8bbb6f0916" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>isActive</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a1108448c26db291c949721751ec6076b" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>load_report_thread_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a5c7b364cbc4612e7fdbe0dc299904c8a" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>loadReportLoop</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a04c3206b39601f320f872b2682de1e18" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>local_load_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a8409103159effde88806912f2c909eb3" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>local_shard_id_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0d611407b1925be3c7383fcabd47a4be" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a211b7fba4cb04b43c8f38097bba343e4" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>negotiateStrategy</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ad01fb659f8aa703151dacc4c0b6f5264" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>pause</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a2a7980d1d933051f36ddc293d4122412" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>receiveMessage</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1acfb800524760b3c215a9c1f099161982" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>remote_load_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a409d038b89a6b062e9b16ca51b430890" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>remote_shard_id_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a0562c4d44044e987673f5fd3e10e63de" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>reportLoad</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ae4b3c93d9e38f32e1fed2dbee546ee6b" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>requestSync</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1acb14441ea5792d2e1e6608f752b9efc3" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>resume</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ae04d312640823d97b2820851574ae99b" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1afe8a1e1b49708d0c78f1ff4553f61b8f" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>sendMessage</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1ab1e6f721ba831faa0834b604e662fe03" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>session_id_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1af4be89e722118e4db656aa5f48d8b58d" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>setStateChangeCallback</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1adb0ac06a4de7bba8ca887a297f2e1a4c" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a1f56d82f74a9b29a4cc5f958374e35d5" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>state_callback_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a16928e93fdca178fcf9c009cd782ad23" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>StateChangeCallback</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a2bb676ec4c94b4a87040b1974784f841" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>strategy_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a114e6db0af62e3e0b63865e9d61ab997" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>SyncResult</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a8624217b4e6dcc3bd95aa45e3b74c204" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>throttle_rate_</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1aef18316458c54a76319bfe99fdf16754" prot="private" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>transitionState</name></member>
+      <member refid="classthemisdb_1_1backpressure_1_1_adaptive_handshake_session_1a1d6a415827cdd5ca3daea745a085d087" prot="public" virt="non-virtual"><scope>themisdb::backpressure::AdaptiveHandshakeSession</scope><name>~AdaptiveHandshakeSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

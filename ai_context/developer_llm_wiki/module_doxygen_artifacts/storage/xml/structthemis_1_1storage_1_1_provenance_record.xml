@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_provenance_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ProvenanceRecord</compoundname>
+    <includes refid="gguf__metadata_8h" local="no">gguf_metadata.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_provenance_record_1a481f3c45ab311bb8728af3569f910b48" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ProvenanceRecord::source_filename</definition>
+        <argsstring></argsstring>
+        <name>source_filename</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::source_filename</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;contract_2025_q4.pdf&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="41" column="17" bodyfile="include/storage/gguf_metadata.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_provenance_record_1a9f9ab1207da29f5c1b9894733a8f8792" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::storage::ProvenanceRecord::source_page</definition>
+        <argsstring></argsstring>
+        <name>source_page</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::source_page</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>0-based page number; -1 = unknown </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="42" column="17" bodyfile="include/storage/gguf_metadata.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_provenance_record_1ab6d6507f2a695b3f9c904bea351200e8" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::storage::ProvenanceRecord::source_line</definition>
+        <argsstring></argsstring>
+        <name>source_line</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::source_line</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>0-based line number; -1 = unknown </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="43" column="17" bodyfile="include/storage/gguf_metadata.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_provenance_record_1a3aee0fbe06e1e6e2d25edf698f4b85be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ProvenanceRecord::source_doc_id</definition>
+        <argsstring></argsstring>
+        <name>source_doc_id</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::source_doc_id</qualifiedname>
+        <briefdescription>
+<para>Stable document identifier (UUID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="44" column="17" bodyfile="include/storage/gguf_metadata.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_provenance_record_1a41c7b87ed8eb16bbd21ea3986e56daa5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ProvenanceRecord::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Owning tenant namespace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="45" column="17" bodyfile="include/storage/gguf_metadata.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_provenance_record_1a7b495ae84d149bae992ab9878c29d538" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ProvenanceRecord::ingest_timestamp</definition>
+        <argsstring></argsstring>
+        <name>ingest_timestamp</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::ingest_timestamp</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 ingestion timestamp (e.g. &quot;2026-05-06T19:30:44Z&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="48" column="17" bodyfile="include/storage/gguf_metadata.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_provenance_record_1a3e1733c549d6d40df79470b482bd3726" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ProvenanceRecord::hmac_signature</definition>
+        <argsstring></argsstring>
+        <name>hmac_signature</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::hmac_signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Hex-encoded HMAC-SHA256 signature over the canonical field set. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="54" column="17" bodyfile="include/storage/gguf_metadata.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_provenance_record_1a1c0557395711868a20b9c3549156e495" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ProvenanceRecord::isComplete</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isComplete</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::isComplete</qualifiedname>
+        <briefdescription>
+<para>True if all mandatory fields are non-empty / valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="59" column="11" bodyfile="include/storage/gguf_metadata.h" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_provenance_record_1ab95a58efe8e4efaed349229cd30f6dee" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::ProvenanceRecord::canonicalBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>canonicalBytes</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::canonicalBytes</qualifiedname>
+        <briefdescription>
+<para>Produce the canonical byte string that is signed / verified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="67" column="18" bodyfile="src/storage/gguf_metadata.cpp" bodystart="37" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_provenance_record_1a7b64584d5d1659b07261a5a8a89703cd" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ProvenanceRecord::operator==</definition>
+        <argsstring>(const ProvenanceRecord &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="69" column="10" bodyfile="include/storage/gguf_metadata.h" bodystart="69" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_provenance_record_1ad41c28a563b662bc6e2a2bcd6a0dff5a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ProvenanceRecord::operator!=</definition>
+        <argsstring>(const ProvenanceRecord &amp;o) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::storage::ProvenanceRecord::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_provenance_record" kindref="compound">ProvenanceRecord</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gguf_metadata.h" line="78" column="10" bodyfile="include/storage/gguf_metadata.h" bodystart="78" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GGUF v3 provenance fields attached to a stored TT-core. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All string fields are UTF-8. The <computeroutput><ref refid="structthemis_1_1storage_1_1_provenance_record_1a3e1733c549d6d40df79470b482bd3726" kindref="member">hmac_signature</ref></computeroutput> is a hex-encoded HMAC-SHA256 tag computed over the canonical fields (source.filename + page + line + doc_id + tenant_id + ingest_ts).</para>
+<para>When <computeroutput><ref refid="structthemis_1_1storage_1_1_provenance_record_1a3e1733c549d6d40df79470b482bd3726" kindref="member">hmac_signature</ref></computeroutput> is empty the record has not yet been signed. </para>
+    </detaileddescription>
+    <location file="include/storage/gguf_metadata.h" line="39" column="1" bodyfile="include/storage/gguf_metadata.h" bodystart="39" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1ab95a58efe8e4efaed349229cd30f6dee" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>canonicalBytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1a3e1733c549d6d40df79470b482bd3726" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>hmac_signature</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1a7b495ae84d149bae992ab9878c29d538" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>ingest_timestamp</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1a1c0557395711868a20b9c3549156e495" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>isComplete</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1ad41c28a563b662bc6e2a2bcd6a0dff5a" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1a7b64584d5d1659b07261a5a8a89703cd" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1a3aee0fbe06e1e6e2d25edf698f4b85be" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>source_doc_id</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1a481f3c45ab311bb8728af3569f910b48" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>source_filename</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1ab6d6507f2a695b3f9c904bea351200e8" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>source_line</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1a9f9ab1207da29f5c1b9894733a8f8792" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>source_page</name></member>
+      <member refid="structthemis_1_1storage_1_1_provenance_record_1a41c7b87ed8eb16bbd21ea3986e56daa5" prot="public" virt="non-virtual"><scope>themis::storage::ProvenanceRecord</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

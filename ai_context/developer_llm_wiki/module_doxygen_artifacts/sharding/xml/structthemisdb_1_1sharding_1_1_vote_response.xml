@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_vote_response" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::VoteResponse</compoundname>
+    <includes refid="consensus__module_8h" local="no">consensus_module.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_vote_response_1a9de067a9557d568d6fcbc9368ca69512" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::VoteResponse::voter_id</definition>
+        <argsstring></argsstring>
+        <name>voter_id</name>
+        <qualifiedname>themisdb::sharding::VoteResponse::voter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="86" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_vote_response_1a370d1722d95267b630c51024afb0938e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::VoteResponse::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::sharding::VoteResponse::term</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="87" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_vote_response_1a72aec83cdd7906444b429af8c2cd3fca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::VoteResponse::vote_granted</definition>
+        <argsstring></argsstring>
+        <name>vote_granted</name>
+        <qualifiedname>themisdb::sharding::VoteResponse::vote_granted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="88" column="10" bodyfile="include/sharding/consensus_module.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_vote_response_1aacb1fa6a5887a692470d0ebde3c4a277" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::VoteResponse::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themisdb::sharding::VoteResponse::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="89" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Vote response. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/consensus_module.h" line="85" column="1" bodyfile="include/sharding/consensus_module.h" bodystart="85" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_vote_response_1aacb1fa6a5887a692470d0ebde3c4a277" prot="public" virt="non-virtual"><scope>themisdb::sharding::VoteResponse</scope><name>reason</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_vote_response_1a370d1722d95267b630c51024afb0938e" prot="public" virt="non-virtual"><scope>themisdb::sharding::VoteResponse</scope><name>term</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_vote_response_1a72aec83cdd7906444b429af8c2cd3fca" prot="public" virt="non-virtual"><scope>themisdb::sharding::VoteResponse</scope><name>vote_granted</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_vote_response_1a9de067a9557d568d6fcbc9368ca69512" prot="public" virt="non-virtual"><scope>themisdb::sharding::VoteResponse</scope><name>voter_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

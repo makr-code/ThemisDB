@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1replication" kind="namespace" language="C++">
+    <compoundname>themisdb::replication</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB – Geo-Replication with Consistency Levels</para>
+<para>Unit tests for GeoReplicationManager (v1.7.0). Covers all acceptance criteria: AC-1 Per-request consistency level AC-2 Consistency levels: STRONG, BOUNDED_STALENESS, SESSION, EVENTUAL AC-3 Automatic routing based on consistency requirements AC-4 Session tokens for read-your-writes guarantee AC-5 STRONG: Linearizable, up-to-date reads AC-6 BOUNDED_STALENESS: Stale by at most N seconds/versions AC-7 SESSION: Read-your-writes within session AC-8 EVENTUAL: No guarantee, best performance</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="tests/geo/test_geo_replication_consistency.cpp" line="28" column="1"/>
+  </compounddef>
+</doxygen>

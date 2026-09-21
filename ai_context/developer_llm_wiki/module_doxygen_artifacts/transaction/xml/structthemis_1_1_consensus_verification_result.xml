@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_consensus_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ConsensusVerificationResult</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_consensus_verification_result_1a6b1f59137c468112b84e6a1d57a19b96" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ConsensusVerificationResult::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::ConsensusVerificationResult::verified</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="207" column="10" bodyfile="include/transaction/distributed_saga.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_consensus_verification_result_1a06275040357bc55d832249d8685ff805" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ConsensusVerificationResult::quorum_size</definition>
+        <argsstring></argsstring>
+        <name>quorum_size</name>
+        <qualifiedname>themis::ConsensusVerificationResult::quorum_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="209" column="9" bodyfile="include/transaction/distributed_saga.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_consensus_verification_result_1afcb9a059d3fe4bb6518d7bb6dbd77150" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ConsensusVerificationResult::ack_count</definition>
+        <argsstring></argsstring>
+        <name>ack_count</name>
+        <qualifiedname>themis::ConsensusVerificationResult::ack_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="211" column="9" bodyfile="include/transaction/distributed_saga.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_consensus_verification_result_1ad9d260190893561c8e69440f5d5866b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ConsensusVerificationResult::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::ConsensusVerificationResult::detail</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="213" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="206" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="206" bodyend="214"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_consensus_verification_result_1afcb9a059d3fe4bb6518d7bb6dbd77150" prot="public" virt="non-virtual"><scope>themis::ConsensusVerificationResult</scope><name>ack_count</name></member>
+      <member refid="structthemis_1_1_consensus_verification_result_1ad9d260190893561c8e69440f5d5866b4" prot="public" virt="non-virtual"><scope>themis::ConsensusVerificationResult</scope><name>detail</name></member>
+      <member refid="structthemis_1_1_consensus_verification_result_1a06275040357bc55d832249d8685ff805" prot="public" virt="non-virtual"><scope>themis::ConsensusVerificationResult</scope><name>quorum_size</name></member>
+      <member refid="structthemis_1_1_consensus_verification_result_1a6b1f59137c468112b84e6a1d57a19b96" prot="public" virt="non-virtual"><scope>themis::ConsensusVerificationResult</scope><name>verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

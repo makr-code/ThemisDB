@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_request_result" kind="struct" language="C++" prot="public">
+    <compoundname>RequestResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_request_result_1a7596204c8fe393dcd5ce27d0be60cd09" prot="public" static="no" mutable="no">
+        <type><ref refid="test__server__phase5__hardening_8cpp_1aef4cfd36b319654db8eedabae842d282" kindref="member">WireErrorCode</ref></type>
+        <definition>WireErrorCode RequestResult::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>RequestResult::code</qualifiedname>
+        <initializer>{<ref refid="test__server__phase5__hardening_8cpp_1aef4cfd36b319654db8eedabae842d282ae69fa9a656f76dd8a4d89f21992b2d3a" kindref="member">WireErrorCode::kOk</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="243" column="19" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="243" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_request_result_1ab432e46ec63593afa214a1cdc9a86eb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string RequestResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>RequestResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="244" column="19" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_request_result_1a9fdb92f47a79cea84e4ac2f81a9be0be" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool RequestResult::connection_recycled</definition>
+        <argsstring></argsstring>
+        <name>connection_recycled</name>
+        <qualifiedname>RequestResult::connection_recycled</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when keepalive or idle timeout recycled the connection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="245" column="19" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="245" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a request dispatched through the <ref refid="class_server_stub" kindref="compound">ServerStub</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase5_hardening.cpp" line="242" column="1" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="242" bodyend="246"/>
+    <listofallmembers>
+      <member refid="struct_request_result_1a7596204c8fe393dcd5ce27d0be60cd09" prot="public" virt="non-virtual"><scope>RequestResult</scope><name>code</name></member>
+      <member refid="struct_request_result_1a9fdb92f47a79cea84e4ac2f81a9be0be" prot="public" virt="non-virtual"><scope>RequestResult</scope><name>connection_recycled</name></member>
+      <member refid="struct_request_result_1ab432e46ec63593afa214a1cdc9a86eb8" prot="public" virt="non-virtual"><scope>RequestResult</scope><name>message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_registry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::RegistryConfig</compoundname>
+    <includes refid="remote__registry__client_8h" local="no">remote_registry_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1a2b89760eabaa413067b28eaed7a4ecce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::RegistryConfig::registry_url</definition>
+        <argsstring></argsstring>
+        <name>registry_url</name>
+        <qualifiedname>themis::modules::RegistryConfig::registry_url</qualifiedname>
+        <briefdescription>
+<para>Base URL of the registry (e.g., &quot;https://registry.example.com/api/v1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="46" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1a26ced8bafacda25faad74262d2b5fbd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::RegistryConfig::auth_token</definition>
+        <argsstring></argsstring>
+        <name>auth_token</name>
+        <qualifiedname>themis::modules::RegistryConfig::auth_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bearer token sent as &quot;Authorization: Bearer &lt;token&gt;&quot;. Takes precedence over api_key when both are set. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="50" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1a9b8e7cbe27246d265efa15886b0a81b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::RegistryConfig::api_key</definition>
+        <argsstring></argsstring>
+        <name>api_key</name>
+        <qualifiedname>themis::modules::RegistryConfig::api_key</qualifiedname>
+        <briefdescription>
+<para>API key sent as &quot;X-API-Key: &lt;key&gt;&quot; header. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="53" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1aaa36f977c72390b7c7ecd933e3029ca2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::RegistryConfig::download_dir</definition>
+        <argsstring></argsstring>
+        <name>download_dir</name>
+        <qualifiedname>themis::modules::RegistryConfig::download_dir</qualifiedname>
+        <initializer>= &quot;/tmp/themis_plugins&quot;</initializer>
+        <briefdescription>
+<para>Directory where downloaded plugin binaries are stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="56" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1af9a7056f54b8e81cda1e5db1cc6546da" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::RegistryConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::modules::RegistryConfig::timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>HTTP request timeout in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="59" column="9" bodyfile="include/themis/base/remote_registry_client.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1a24a083919fc851f259be38d96679946b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::RegistryConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::modules::RegistryConfig::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum number of retry attempts on transient HTTP errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="62" column="9" bodyfile="include/themis/base/remote_registry_client.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1a74e5fb1ceb3d22f93cb2d1cf913d78a4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::RegistryConfig::max_total_retry_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_total_retry_time_ms</name>
+        <qualifiedname>themis::modules::RegistryConfig::max_total_retry_time_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total wall-clock budget (ms) across all retry attempts for a single request. The retry loop is aborted when this limit is reached, even if max_retries has not been exhausted. Default: 30 000 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="67" column="9" bodyfile="include/themis/base/remote_registry_client.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1ae00c01f2ea3ffd65af22c78852a9979d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::RegistryConfig::verify_ssl</definition>
+        <argsstring></argsstring>
+        <name>verify_ssl</name>
+        <qualifiedname>themis::modules::RegistryConfig::verify_ssl</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Verify SSL/TLS certificates (set to false only in test environments). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="70" column="10" bodyfile="include/themis/base/remote_registry_client.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1a2602e72a324da6682ef4e909fd8f3e9c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::RegistryConfig::ca_bundle_path</definition>
+        <argsstring></argsstring>
+        <name>ca_bundle_path</name>
+        <qualifiedname>themis::modules::RegistryConfig::ca_bundle_path</qualifiedname>
+        <briefdescription>
+<para>Optional custom CA bundle path (empty = use system default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="73" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_registry_config_1a8dce0df7205db57b785633a1155fbeac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::RegistryConfig::pinned_public_key</definition>
+        <argsstring></argsstring>
+        <name>pinned_public_key</name>
+        <qualifiedname>themis::modules::RegistryConfig::pinned_public_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional TLS public-key pin expressed as a SHA-256 fingerprint in the format accepted by libcurl&apos;s CURLOPT_PINNEDPUBLICKEY: &quot;sha256//&lt;base64-encoded-SHA256-of-SubjectPublicKeyInfo-DER&gt;&quot;</para>
+<para>When non-empty the TLS handshake is rejected unless the server presents a certificate whose public key matches this pin — regardless of the CA chain. This prevents MITM attacks even when a CA is compromised.</para>
+<para>Example: cfg.pinned_public_key = &quot;sha256//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=&quot;;</para>
+<para>Obtain the pin with: openssl s_client -connect registry.example.com:443 openssl x509 -pubkey -noout | openssl pkey -pubin -outform DER | openssl dgst -sha256 -binary | base64</para>
+<para>Leave empty to rely solely on CA-based certificate verification. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="91" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the remote plugin registry client. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/remote_registry_client.h" line="44" column="1" bodyfile="include/themis/base/remote_registry_client.h" bodystart="44" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1a9b8e7cbe27246d265efa15886b0a81b2" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>api_key</name></member>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1a26ced8bafacda25faad74262d2b5fbd5" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>auth_token</name></member>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1a2602e72a324da6682ef4e909fd8f3e9c" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>ca_bundle_path</name></member>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1aaa36f977c72390b7c7ecd933e3029ca2" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>download_dir</name></member>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1a24a083919fc851f259be38d96679946b" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1a74e5fb1ceb3d22f93cb2d1cf913d78a4" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>max_total_retry_time_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1a8dce0df7205db57b785633a1155fbeac" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>pinned_public_key</name></member>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1a2b89760eabaa413067b28eaed7a4ecce" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>registry_url</name></member>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1af9a7056f54b8e81cda1e5db1cc6546da" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_registry_config_1ae00c01f2ea3ffd65af22c78852a9979d" prot="public" virt="non-virtual"><scope>themis::modules::RegistryConfig</scope><name>verify_ssl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

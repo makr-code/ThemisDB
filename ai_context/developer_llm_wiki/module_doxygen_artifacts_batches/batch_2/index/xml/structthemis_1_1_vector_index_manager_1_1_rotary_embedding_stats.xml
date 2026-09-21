@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_index_manager_1_1_rotary_embedding_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VectorIndexManager::RotaryEmbeddingStats</compoundname>
+    <includes refid="vector__index_8h" local="no">vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_rotary_embedding_stats_1a073dcf54a89054241565b0fab5160581" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::VectorIndexManager::RotaryEmbeddingStats::total_rotated_entities</definition>
+        <argsstring></argsstring>
+        <name>total_rotated_entities</name>
+        <qualifiedname>themis::VectorIndexManager::RotaryEmbeddingStats::total_rotated_entities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="545" column="18" bodyfile="include/index/vector_index.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_rotary_embedding_stats_1a01c3b227c07e34ac11aa07e00909693a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::VectorIndexManager::RotaryEmbeddingStats::total_relational_rotations</definition>
+        <argsstring></argsstring>
+        <name>total_relational_rotations</name>
+        <qualifiedname>themis::VectorIndexManager::RotaryEmbeddingStats::total_relational_rotations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="546" column="18" bodyfile="include/index/vector_index.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_rotary_embedding_stats_1aa1478ec67b2247ae7ed7195bb3230489" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::VectorIndexManager::RotaryEmbeddingStats::avg_rotation_time_us</definition>
+        <argsstring></argsstring>
+        <name>avg_rotation_time_us</name>
+        <qualifiedname>themis::VectorIndexManager::RotaryEmbeddingStats::avg_rotation_time_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="547" column="16" bodyfile="include/index/vector_index.h" bodystart="547" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/vector_index.h" line="544" column="5" bodyfile="include/index/vector_index.h" bodystart="544" bodyend="548"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_rotary_embedding_stats_1aa1478ec67b2247ae7ed7195bb3230489" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::RotaryEmbeddingStats</scope><name>avg_rotation_time_us</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_rotary_embedding_stats_1a01c3b227c07e34ac11aa07e00909693a" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::RotaryEmbeddingStats</scope><name>total_relational_rotations</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_rotary_embedding_stats_1a073dcf54a89054241565b0fab5160581" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::RotaryEmbeddingStats</scope><name>total_rotated_entities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

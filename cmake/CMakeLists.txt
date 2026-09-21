@@ -64,6 +64,15 @@ if(WIN32 AND MSVC AND NOT CMAKE_LIBRARY_PATH)
     if(NOT _themis_windows_sdk_lib_version)
         set(_themis_windows_sdk_lib_version "$ENV{WindowsSDKVersion}")
     endif()
+    if(NOT _themis_windows_sdk_dir AND _themis_program_files_x86)
+        foreach(_VER ${_WIN_SDK_VERSIONS})
+            if(EXISTS "${_themis_program_files_x86}/Windows Kits/10/Lib/${_VER}")
+                set(_themis_windows_sdk_dir "${_themis_program_files_x86}/Windows Kits/10")
+                set(_themis_windows_sdk_lib_version "${_VER}")
+                break()
+            endif()
+        endforeach()
+    endif()
     if(_themis_windows_sdk_dir AND _themis_windows_sdk_lib_version)
         set(_SDK_UM_PATH "${_themis_windows_sdk_dir}/Lib/${_themis_windows_sdk_lib_version}/um/x64")
         set(_SDK_UCRT_PATH "${_themis_windows_sdk_dir}/Lib/${_themis_windows_sdk_lib_version}/ucrt/x64")
@@ -165,9 +174,10 @@ endif()
 # GPU backend auto-discovery (no preset branching required).
 # Semantics: THEMIS_ENABLE_GPU=ON means "probe all supported frameworks and
 # enable what is available", with CPU fallback always present at runtime.
-# Default: CPU-only baseline. Explicit enablement is required for GPU builds.
+# Standard target default is GPU-enabled to keep the default build aligned with
+# the active accelerator stack and the runtime fallback policy.
 if(NOT DEFINED THEMIS_ENABLE_GPU)
-    set(THEMIS_ENABLE_GPU OFF CACHE BOOL "Enable GPU acceleration for vector search (default OFF)")
+    set(THEMIS_ENABLE_GPU ON CACHE BOOL "Enable GPU acceleration for vector search (default ON)")
 endif()
 option(THEMIS_GPU_AUTO_DETECT "Auto-detect CUDA/HIP/Vulkan backends when THEMIS_ENABLE_GPU=ON" ON)
 
@@ -178,7 +188,7 @@ if(NOT DEFINED THEMIS_ENABLE_HIP)
     set(THEMIS_ENABLE_HIP OFF CACHE BOOL "Enable AMD HIP acceleration" FORCE)
 endif()
 if(NOT DEFINED THEMIS_ENABLE_VULKAN)
-    set(THEMIS_ENABLE_VULKAN OFF CACHE BOOL "Enable Vulkan Compute acceleration (opt-in)" FORCE)
+    set(THEMIS_ENABLE_VULKAN ON CACHE BOOL "Enable Vulkan Compute acceleration (standard target default)" FORCE)
 endif()
 
 if(THEMIS_ENABLE_GPU AND THEMIS_GPU_AUTO_DETECT)

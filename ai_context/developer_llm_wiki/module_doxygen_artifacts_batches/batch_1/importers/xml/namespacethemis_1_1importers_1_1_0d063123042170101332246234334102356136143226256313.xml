@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1importers_1_1_0d063123042170101332246234334102356136143226256313" kind="namespace" language="C++">
+    <compoundname>themis::importers::@063123042170101332246234334102356136143226256313</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/importers/wikipedia_transform.cpp" line="21" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,934 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__mtls__authenticator_8cpp" kind="file" language="C++">
+    <compoundname>test_mtls_authenticator.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/mtls_authenticator.h</includes>
+    <includes local="yes">auth/auth_error.h</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_mtls_authenticator.cpp</label>
+        <link refid="test__mtls__authenticator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>auth/auth_error.h</label>
+      </node>
+      <node id="3">
+        <label>auth/mtls_authenticator.h</label>
+      </node>
+      <node id="5">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>sstream</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Construction_DefaultConfig_NoCAThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Construction_DefaultConfig_NoCAThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="50" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1aa4354569b120c8de24f055f1f3dcc4d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Construction_NoCARaisesNoThrowWhenVerifyChainFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Construction_NoCARaisesNoThrowWhenVerifyChainFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="57" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a53fc8ad650bc3f2f57398896b614be0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Construction_ValidCACertSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Construction_ValidCACertSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="64" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="64" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1ab1b44cb063fa3ce4af6226a6c2ce85fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Construction_InvalidCAThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Construction_InvalidCAThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="75" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="75" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a802ae73e1bc2cfabfb1bbd0949586585" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Authenticate_ValidChain_ReturnsClaims)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_ValidChain_ReturnsClaims</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="85" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="85" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1af16b222d88f96894a47d7daf777416c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Authenticate_NoChainVerify_ParsesIdentity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_NoChainVerify_ParsesIdentity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="109" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="109" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a35f569618f82e82d034a6286da2167fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Authenticate_EmptyPEM_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_EmptyPEM_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="129" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="129" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a7d8cbef3406d0d3eb34e00fa8a407f57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Authenticate_GarbagePEM_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_GarbagePEM_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="136" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="136" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a0c596bb83f46083ef72a33bcb58f06b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Authenticate_RevokedSerial_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_RevokedSerial_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="147" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="147" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a6e4574292f5d7f008ed7798caeffcd09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Authenticate_UnrevokedSerial_Succeeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_UnrevokedSerial_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="162" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="162" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1aaed8cfef8f8b821b7553bd9de4041406" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Authenticate_RevocationDisabled_DoesNotCheck)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Authenticate_RevocationDisabled_DoesNotCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="180" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="180" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a6f9153bc648b16f40a58a02c17032f09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Revocation_EmptySerialThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Revocation_EmptySerialThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="200" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="200" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1ac838baec1a2ced90779f134d40c660e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Revocation_AddAndQuery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Revocation_AddAndQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="207" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="207" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a3199fa2f2acd1b7495ecaef7394f7868" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Revocation_UnrevokeRemovesEntry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Revocation_UnrevokeRemovesEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="223" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="223" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a299a19e92ab0ab5bb8ef835b7094996c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Revocation_UnrevokeUnknownIsNoop)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Revocation_UnrevokeUnknownIsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="236" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="236" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a99a350c5537d6a24ff147f822413f28a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, Revocation_DuplicateAddIsNoop)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>Revocation_DuplicateAddIsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="243" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="243" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a5a58c7c23a7638650587588deef8ec93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, CertFingerprint_ValidCert_Returns64HexChars)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>CertFingerprint_ValidCert_Returns64HexChars</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="257" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="257" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a8de3e4af61c81f124cdc941a2f517b5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, CertFingerprint_Deterministic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>CertFingerprint_Deterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="273" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="273" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a363ae833365e690c81742bd905941896" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, CertFingerprint_InvalidPEM_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>CertFingerprint_InvalidPEM_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="284" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="284" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a5ab965e4c8a07596932468410beaf134" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, ExtractSubjectCN_ReturnsTestClient)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>ExtractSubjectCN_ReturnsTestClient</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="292" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="292" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a0ff64ef3d06ac517abc34334557b9823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, ExtractSubjectCN_InvalidPEM_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>ExtractSubjectCN_InvalidPEM_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="303" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="303" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a62a7cffcafa414a5c5e4fcb3731aa0c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, AuthenticateDER_ValidCert_ReturnsClaims)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AuthenticateDER_ValidCert_ReturnsClaims</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="311" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="311" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a74ee8298c91a1dc5b883fbb280ebeb63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSAuthenticatorTest, AuthenticateDER_EmptyBytes_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSAuthenticatorTest</type>
+        </param>
+        <param>
+          <type>AuthenticateDER_EmptyBytes_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="341" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="341" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1ac5e0d3e78f0456a5f16a170a3f0a0f22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClaimsTest, IsExpired_NotExpiredCert)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClaimsTest</type>
+        </param>
+        <param>
+          <type>IsExpired_NotExpiredCert</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="352" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="352" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1a8a343db6c4cf4f80a0b04b71c4cc520f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClaimsTest, IsExpired_ManuallyExpiredClaims)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClaimsTest</type>
+        </param>
+        <param>
+          <type>IsExpired_ManuallyExpiredClaims</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="367" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="367" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="test__mtls__authenticator_8cpp_1ad579d65134e23f1dcf876b0e0c527760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MTLSClaimsTest, IsExpired_FutureClaims)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MTLSClaimsTest</type>
+        </param>
+        <param>
+          <type>IsExpired_FutureClaims</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_mtls_authenticator.cpp" line="373" column="1" bodyfile="tests/security/test_mtls_authenticator.cpp" bodystart="373" bodyend="377"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/mtls_authenticator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/auth_error.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers<sp/>to<sp/>load<sp/>test<sp/>certificates<sp/>(from<sp/>certs/test/wire_protocol/)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">std::string<sp/>loadFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>f(path);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!f.is_open())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>ss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>ss<sp/>&lt;&lt;<sp/>f.rdbuf();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ss.str();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Returns<sp/>the<sp/>path<sp/>relative<sp/>to<sp/>the<sp/>repository<sp/>root.<sp/><sp/>Tests<sp/>are<sp/>run<sp/>from<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>build<sp/>directory,<sp/>which<sp/>is<sp/>typically<sp/>a<sp/>subdirectory<sp/>of<sp/>the<sp/>repository<sp/>root.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>THEMIS_REPO_ROOT<sp/>cmake<sp/>variable<sp/>is<sp/>passed<sp/>as<sp/>a<sp/>compile<sp/>definition<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMakeLists.txt;<sp/>fall<sp/>back<sp/>to<sp/>a<sp/>relative<sp/>path<sp/>otherwise.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">std::string<sp/>certPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_TEST_CERT_DIR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(THEMIS_TEST_CERT_DIR)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;/&quot;</highlight><highlight class="normal"><sp/>+<sp/>name;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;../certs/test/wire_protocol/&quot;</highlight><highlight class="normal">)<sp/>+<sp/>name;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">std::string<sp/>clientCertPEM()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>loadFile(certPath(</highlight><highlight class="stringliteral">&quot;client-cert.pem&quot;</highlight><highlight class="normal">));<sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">std::string<sp/>caCertPEM()<sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>loadFile(certPath(</highlight><highlight class="stringliteral">&quot;ca-cert.pem&quot;</highlight><highlight class="normal">));<sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Serial<sp/>of<sp/>client-cert.pem<sp/>(lowercase<sp/>hex)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kClientSerial<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;277692ae096db4926f515d122ee49769eee13fd2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>/<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Construction_DefaultConfig_NoCAThrows)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.ca_cert_pem<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Construction_NoCARaisesNoThrowWhenVerifyChainFalse)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.ca_cert_pem<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Construction_ValidCACertSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ca<sp/>=<sp/>caCertPEM();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ca.empty())<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CA<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.ca_cert_pem<sp/>=<sp/>ca;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Construction_InvalidCAThrows)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.ca_cert_pem<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;not<sp/>a<sp/>valid<sp/>PEM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>authenticate<sp/>–<sp/>valid<sp/>certificate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Authenticate_ValidChain_ReturnsClaims)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ca<sp/><sp/>=<sp/>caCertPEM();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cli<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ca.empty()<sp/>||<sp/>cli.empty())<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>certs<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.ca_cert_pem<sp/><sp/>=<sp/>ca;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(claims<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(cli));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Subject:<sp/>CN=test-client,<sp/>O=ThemisDB<sp/>Test,<sp/>C=US</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.principal,<sp/></highlight><highlight class="stringliteral">&quot;test-client&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.subject_dn.empty());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.issuer_dn.empty());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.fingerprint_sha256.empty());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.fingerprint_sha256.size(),<sp/>64u);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.isExpired());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Authenticate_NoChainVerify_ParsesIdentity)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cli<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cli.empty())<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(claims<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(cli));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.principal,<sp/></highlight><highlight class="stringliteral">&quot;test-client&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.serial_number,<sp/>kClientSerial);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>authenticate<sp/>–<sp/>invalid<sp/>/<sp/>missing<sp/>PEM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Authenticate_EmptyPEM_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Authenticate_GarbagePEM_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(</highlight><highlight class="stringliteral">&quot;not-a-cert&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>authenticate<sp/>–<sp/>revocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Authenticate_RevokedSerial_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cli<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cli.empty())<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.check_revocation<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokeCertificate(kClientSerial);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(cli),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Authenticate_UnrevokedSerial_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cli<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cli.empty())<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.check_revocation<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokeCertificate(kClientSerial);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(cli),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.unrevokeCertificate(kClientSerial);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(cli));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Authenticate_RevocationDisabled_DoesNotCheck)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>cli<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cli.empty())<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.check_revocation<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokeCertificate(kClientSerial);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>though<sp/>serial<sp/>is<sp/>in<sp/>the<sp/>set,<sp/>check_revocation=false<sp/>skips<sp/>the<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(cli));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>revokeCertificate<sp/>/<sp/>unrevokeCertificate<sp/>/<sp/>isRevoked<sp/>/<sp/>revokedCount</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Revocation_EmptySerialThrows)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokeCertificate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Revocation_AddAndQuery)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.isRevoked(</highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokedCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokeCertificate(</highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.isRevoked(</highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokedCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokeCertificate(</highlight><highlight class="stringliteral">&quot;def456&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokedCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Revocation_UnrevokeRemovesEntry)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokeCertificate(</highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.isRevoked(</highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.unrevokeCertificate(</highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.isRevoked(</highlight><highlight class="stringliteral">&quot;abc123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokedCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Revocation_UnrevokeUnknownIsNoop)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.unrevokeCertificate(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>Revocation_DuplicateAddIsNoop)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokeCertificate(</highlight><highlight class="stringliteral">&quot;abc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokeCertificate(</highlight><highlight class="stringliteral">&quot;abc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.revokedCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Static<sp/>helpers<sp/>–<sp/>certFingerprint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>CertFingerprint_ValidCert_Returns64HexChars)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>pem<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pem.empty())<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>fp<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(fp<sp/>=<sp/>MTLSAuthenticator::certFingerprint(pem));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fp.size(),<sp/>64u);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>lowercase<sp/>hex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>fp)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE((c<sp/>&gt;=<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>c<sp/>&lt;=<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">)<sp/>||<sp/>(c<sp/>&gt;=<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>c<sp/>&lt;=<sp/></highlight><highlight class="charliteral">&apos;f&apos;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Non-hex<sp/>char:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>c;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>CertFingerprint_Deterministic)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>pem<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pem.empty())<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp1<sp/>=<sp/>MTLSAuthenticator::certFingerprint(pem);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp2<sp/>=<sp/>MTLSAuthenticator::certFingerprint(pem);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fp1,<sp/>fp2);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>CertFingerprint_InvalidPEM_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(MTLSAuthenticator::certFingerprint(</highlight><highlight class="stringliteral">&quot;garbage&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Static<sp/>helpers<sp/>–<sp/>extractSubjectCN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>ExtractSubjectCN_ReturnsTestClient)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>pem<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pem.empty())<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>cn<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(cn<sp/>=<sp/>MTLSAuthenticator::extractSubjectCN(pem));</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cn,<sp/></highlight><highlight class="stringliteral">&quot;test-client&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>ExtractSubjectCN_InvalidPEM_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(MTLSAuthenticator::extractSubjectCN(</highlight><highlight class="stringliteral">&quot;not-a-cert&quot;</highlight><highlight class="normal">),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>authenticateDER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>AuthenticateDER_ValidCert_ReturnsClaims)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>pem<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pem.empty())<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>PEM<sp/>to<sp/>DER<sp/>via<sp/>openssl<sp/>BIO<sp/>(just<sp/>read<sp/>the<sp/>DER<sp/>file<sp/>if<sp/>available,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>or<sp/>convert<sp/>here<sp/>using<sp/>standard<sp/>base64<sp/>decode).<sp/><sp/>For<sp/>simplicity,<sp/>re-use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>PEM<sp/>authenticate<sp/>path<sp/>to<sp/>confirm<sp/>DER<sp/>gives<sp/>equivalent<sp/>results.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>DER<sp/>bytes<sp/>using<sp/>OpenSSL<sp/>manually<sp/>via<sp/>system<sp/>call<sp/>for<sp/>test<sp/>setup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(we<sp/>use<sp/>the<sp/>file<sp/>path<sp/>directly<sp/>since<sp/>it<sp/>is<sp/>simpler<sp/>in<sp/>test<sp/>context)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>der_path<sp/>=<sp/>certPath(</highlight><highlight class="stringliteral">&quot;client-cert.pem&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>f(der_path,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!f.is_open())<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>file<sp/>not<sp/>accessible;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>the<sp/>PEM<sp/>authenticate<sp/>to<sp/>verify<sp/>the<sp/>DER<sp/>authenticate<sp/>gives<sp/>same<sp/>principal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClaims<sp/>pem_claims;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(pem_claims<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(pem));</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>DER<sp/>test,<sp/>read<sp/>DER-converted<sp/>bytes.<sp/><sp/>Since<sp/>we<sp/>only<sp/>have<sp/>PEM<sp/>files,<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>authenticateDER<sp/>with<sp/>empty<sp/>bytes<sp/>to<sp/>verify<sp/>the<sp/>error<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticateDER({}),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSAuthenticatorTest,<sp/>AuthenticateDER_EmptyBytes_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticateDER({}),<sp/>AuthException);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MTLSClaims<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSClaimsTest,<sp/>IsExpired_NotExpiredCert)<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>pem<sp/>=<sp/>clientCertPEM();</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pem.empty())<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Client<sp/>cert<sp/>not<sp/>found;<sp/>skipping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.verify_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>(cfg);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(claims<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticate(pem));</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.isExpired());</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSClaimsTest,<sp/>IsExpired_ManuallyExpiredClaims)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.not_after<sp/>=<sp/>std::chrono::system_clock::now()<sp/>-<sp/>std::chrono::hours(1);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.isExpired());</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><ref refid="test__mtls__authenticator_8cpp_1a6ec0a7623c92eac0ceede5303f037e01" kindref="member">TEST</ref>(MTLSClaimsTest,<sp/>IsExpired_FutureClaims)<sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>MTLSClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.not_after<sp/>=<sp/>std::chrono::system_clock::now()<sp/>+<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.isExpired());</highlight></codeline>
+<codeline lineno="377"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_mtls_authenticator.cpp"/>
+  </compounddef>
+</doxygen>

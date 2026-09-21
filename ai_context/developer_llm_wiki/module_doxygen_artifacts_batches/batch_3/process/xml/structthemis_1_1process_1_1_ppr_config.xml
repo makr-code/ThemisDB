@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_ppr_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::PprConfig</compoundname>
+    <includes refid="process__graph__rag_8h" local="no">process_graph_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_ppr_config_1a3e323765f63abb1e4117df52536fd05b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::process::PprConfig::damping</definition>
+        <argsstring></argsstring>
+        <name>damping</name>
+        <qualifiedname>themis::process::PprConfig::damping</qualifiedname>
+        <initializer>{0.85f}</initializer>
+        <briefdescription>
+<para>Damping factor α (standard PageRank default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="77" column="11" bodyfile="include/process/process_graph_rag.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_ppr_config_1a58b1546b8f34d591317eaf7e50d8f15c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::PprConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::process::PprConfig::max_iterations</qualifiedname>
+        <initializer>{50}</initializer>
+        <briefdescription>
+<para>Maximum power-iteration steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="78" column="11" bodyfile="include/process/process_graph_rag.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_ppr_config_1a8cb91adab254347f2c82e675e5d2c6fa" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::process::PprConfig::convergence_epsilon</definition>
+        <argsstring></argsstring>
+        <name>convergence_epsilon</name>
+        <qualifiedname>themis::process::PprConfig::convergence_epsilon</qualifiedname>
+        <initializer>{1e-6f}</initializer>
+        <briefdescription>
+<para>Stop when ||r_new - r_old||_1 &lt; epsilon. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="79" column="11" bodyfile="include/process/process_graph_rag.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_ppr_config_1aa072e1ce56badc51e7182107c89b10c6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::PprConfig::top_k_nodes</definition>
+        <argsstring></argsstring>
+        <name>top_k_nodes</name>
+        <qualifiedname>themis::process::PprConfig::top_k_nodes</qualifiedname>
+        <initializer>{20}</initializer>
+        <briefdescription>
+<para>Return only the top-k nodes by PPR score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="80" column="11" bodyfile="include/process/process_graph_rag.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tuning parameters for Personalized PageRank (PPR) subgraph scoring. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>PPR replaces BFS for multi-hop query resolution when <computeroutput><ref refid="structthemis_1_1process_1_1_process_rag_config_1a052967179857fba7fd4e1ed307b8c380" kindref="member">ProcessRagConfig::use_ppr</ref></computeroutput> is true.</para>
+<para>Scientific basis: Gutierrez et al. (2024). <emphasis>HippoRAG: Neurobiologically Inspired Long-Term Memory for Large Language Models.</emphasis> NeurIPS 2024. </para>
+    </detaileddescription>
+    <location file="include/process/process_graph_rag.h" line="76" column="1" bodyfile="include/process/process_graph_rag.h" bodystart="76" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_ppr_config_1a8cb91adab254347f2c82e675e5d2c6fa" prot="public" virt="non-virtual"><scope>themis::process::PprConfig</scope><name>convergence_epsilon</name></member>
+      <member refid="structthemis_1_1process_1_1_ppr_config_1a3e323765f63abb1e4117df52536fd05b" prot="public" virt="non-virtual"><scope>themis::process::PprConfig</scope><name>damping</name></member>
+      <member refid="structthemis_1_1process_1_1_ppr_config_1a58b1546b8f34d591317eaf7e50d8f15c" prot="public" virt="non-virtual"><scope>themis::process::PprConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1process_1_1_ppr_config_1aa072e1ce56badc51e7182107c89b10c6" prot="public" virt="non-virtual"><scope>themis::process::PprConfig</scope><name>top_k_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

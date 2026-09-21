@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1failover_1_1_quorum_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::failover::QuorumLog</compoundname>
+    <includes refid="quorum__log_8h" local="no">quorum_log.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1failover_1_1_quorum_log_1a9b47f8a04079d3b8988d3d9e45e1e1ff" prot="private" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::failover::QuorumLog::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>themis::failover::QuorumLog::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="71" column="27" bodyfile="include/failover/quorum_log.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::QuorumLog::QuorumLog</definition>
+        <argsstring>(std::filesystem::path log_path)</argsstring>
+        <name>QuorumLog</name>
+        <qualifiedname>themis::failover::QuorumLog::QuorumLog</qualifiedname>
+        <param>
+          <type>std::filesystem::path</type>
+          <declname>log_path</declname>
+        </param>
+        <briefdescription>
+<para>Quorum Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the log. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="35" column="14" bodyfile="src/failover/quorum_log.cpp" bodystart="57" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_quorum_log_1a260e33b323a3afbc7f11b43957c5ebba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::QuorumLog::~QuorumLog</definition>
+        <argsstring>()=default</argsstring>
+        <name>~QuorumLog</name>
+        <qualifiedname>themis::failover::QuorumLog::~QuorumLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_quorum_log_1a6e1fce2d43e7f457d2b1fa9c39ef27ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::failover::QuorumLog::QuorumLog</definition>
+        <argsstring>(const QuorumLog &amp;)=delete</argsstring>
+        <name>QuorumLog</name>
+        <qualifiedname>themis::failover::QuorumLog::QuorumLog</qualifiedname>
+        <param>
+          <type>const QuorumLog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_quorum_log_1aaa5602952b43b43c52ef37f7a9114b2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" kindref="member">QuorumLog</ref> &amp;</type>
+        <definition>QuorumLog &amp; themis::failover::QuorumLog::operator=</definition>
+        <argsstring>(const QuorumLog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::failover::QuorumLog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" kindref="member">QuorumLog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="39" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_quorum_log_1ac219d6d85bea2fce91cbe41e078d4a3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::QuorumLog::append</definition>
+        <argsstring>(uint64_t epoch, const std::string &amp;node_id, const std::string &amp;decision)</argsstring>
+        <name>append</name>
+        <qualifiedname>themis::failover::QuorumLog::append</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+<para>Append. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), computeCrc32(), find(), spdlog::error(), ofs(), string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="48" column="10" bodyfile="src/failover/quorum_log.cpp" bodystart="78" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_quorum_log_1aa9e261c599e751f794c4a200f11bdc4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1failover_1_1_quorum_state" kindref="compound">QuorumState</ref></type>
+        <definition>QuorumState themis::failover::QuorumLog::recover</definition>
+        <argsstring>() const</argsstring>
+        <name>recover</name>
+        <qualifiedname>themis::failover::QuorumLog::recover</qualifiedname>
+        <briefdescription>
+<para>Recover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ifs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="54" column="17" bodyfile="src/failover/quorum_log.cpp" bodystart="110" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_quorum_log_1a958f8ecd6630e6f7139c44882971c96a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::filesystem::path &amp;</type>
+        <definition>const std::filesystem::path &amp; themis::failover::QuorumLog::path</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>path</name>
+        <qualifiedname>themis::failover::QuorumLog::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="56" column="33" bodyfile="include/failover/quorum_log.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1failover_1_1_quorum_log_1a0dfe8dea135b39e44ad0c5cf49a7b7d0" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::failover::QuorumLog::computeCrc32</definition>
+        <argsstring>(uint64_t epoch, const std::string &amp;node_id, const std::string &amp;decision, int64_t ts_ms) noexcept</argsstring>
+        <name>computeCrc32</name>
+        <qualifiedname>themis::failover::QuorumLog::computeCrc32</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ts_ms</declname>
+        </param>
+        <briefdescription>
+<para>Compute Crc32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="68" column="21" bodyfile="src/failover/quorum_log.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/quorum_log.h" line="28" column="1" bodyfile="include/failover/quorum_log.h" bodystart="28" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1failover_1_1_quorum_log_1ac219d6d85bea2fce91cbe41e078d4a3d" prot="public" virt="non-virtual"><scope>themis::failover::QuorumLog</scope><name>append</name></member>
+      <member refid="classthemis_1_1failover_1_1_quorum_log_1a0dfe8dea135b39e44ad0c5cf49a7b7d0" prot="private" virt="non-virtual"><scope>themis::failover::QuorumLog</scope><name>computeCrc32</name></member>
+      <member refid="classthemis_1_1failover_1_1_quorum_log_1a9b47f8a04079d3b8988d3d9e45e1e1ff" prot="private" virt="non-virtual"><scope>themis::failover::QuorumLog</scope><name>log_path_</name></member>
+      <member refid="classthemis_1_1failover_1_1_quorum_log_1aaa5602952b43b43c52ef37f7a9114b2c" prot="public" virt="non-virtual"><scope>themis::failover::QuorumLog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1failover_1_1_quorum_log_1a958f8ecd6630e6f7139c44882971c96a" prot="public" virt="non-virtual"><scope>themis::failover::QuorumLog</scope><name>path</name></member>
+      <member refid="classthemis_1_1failover_1_1_quorum_log_1ae56705f139300f7361f02c563ce77952" prot="public" virt="non-virtual"><scope>themis::failover::QuorumLog</scope><name>QuorumLog</name></member>
+      <member refid="classthemis_1_1failover_1_1_quorum_log_1a6e1fce2d43e7f457d2b1fa9c39ef27ec" prot="public" virt="non-virtual"><scope>themis::failover::QuorumLog</scope><name>QuorumLog</name></member>
+      <member refid="classthemis_1_1failover_1_1_quorum_log_1aa9e261c599e751f794c4a200f11bdc4f" prot="public" virt="non-virtual"><scope>themis::failover::QuorumLog</scope><name>recover</name></member>
+      <member refid="classthemis_1_1failover_1_1_quorum_log_1a260e33b323a3afbc7f11b43957c5ebba" prot="public" virt="non-virtual"><scope>themis::failover::QuorumLog</scope><name>~QuorumLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

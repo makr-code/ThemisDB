@@ -1,0 +1,386 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_consistent_hash_ring" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::ConsistentHashRing</compoundname>
+    <includes refid="consistent__hash_8h" local="no">consistent_hash.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_consistent_hash_ring_1a488d70c4592c816d0068d75ab47abe07" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ConsistentHashRing::virtual_nodes_</definition>
+        <argsstring></argsstring>
+        <name>virtual_nodes_</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::virtual_nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="86" column="12" bodyfile="include/utils/consistent_hash.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_consistent_hash_ring_1af619844c13580273b5d6a8346342422f" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::utils::ConsistentHashRing::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="87" column="31" bodyfile="include/utils/consistent_hash.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_consistent_hash_ring_1a20e6d5e0db60d3191f1894153c4d879f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, std::string &gt;</type>
+        <definition>std::map&lt;uint64_t, std::string&gt; themis::utils::ConsistentHashRing::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::ring_</qualifiedname>
+        <briefdescription>
+<para>hash → physical node </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="88" column="16" bodyfile="include/utils/consistent_hash.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_consistent_hash_ring_1adf9aa673f1d8303bf24b6223aa5a9a90" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::utils::ConsistentHashRing::nodes_</definition>
+        <argsstring></argsstring>
+        <name>nodes_</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::nodes_</qualifiedname>
+        <briefdescription>
+<para>set of physical nodes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="89" column="26" bodyfile="include/utils/consistent_hash.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_consistent_hash_ring_1a65ea53a4cd9bd28fc1996565b82bf6a6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ConsistentHashRing::ConsistentHashRing</definition>
+        <argsstring>(size_t virtual_nodes=150)</argsstring>
+        <name>ConsistentHashRing</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::ConsistentHashRing</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>virtual_nodes</declname>
+          <defval>150</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>virtual_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of virtual replicas per physical node. Higher values improve distribution at the cost of memory. 150 is a reasonable default. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="42" column="14" bodyfile="src/utils/consistent_hash.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_consistent_hash_ring_1ab24800f1ea9ae02df5d74ce82fc1e7de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::ConsistentHashRing::addNode</definition>
+        <argsstring>(const std::string &amp;node)</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::addNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Add a physical node to the ring. No-op if the node is already present. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), insert(), emplace(), virtualKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="48" column="10" bodyfile="src/utils/consistent_hash.cpp" bodystart="73" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_consistent_hash_ring_1a4a67157952cb61b74f4f4fcc894e51d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::ConsistentHashRing::removeNode</definition>
+        <argsstring>(const std::string &amp;node)</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::removeNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Remove a physical node and all its virtual replicas. No-op if the node is not present. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), erase(), virtualKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="54" column="10" bodyfile="src/utils/consistent_hash.cpp" bodystart="89" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_consistent_hash_ring_1ae7f9d5d0d2217ffeb682e7042739cad7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ConsistentHashRing::getNode</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getNode</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::getNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get the node responsible for <computeroutput>key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Node name, or empty string if the ring is empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="60" column="17" bodyfile="src/utils/consistent_hash.cpp" bodystart="104" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_consistent_hash_ring_1ab91a74c5722eb282639a0f0a23fc967c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::utils::ConsistentHashRing::getNodes</definition>
+        <argsstring>(const std::string &amp;key, size_t n) const</argsstring>
+        <name>getNodes</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::getNodes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Get up to <computeroutput>n</computeroutput> distinct successor nodes for replication. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Walks the ring clockwise starting from the hash of <computeroutput>key</computeroutput> and collects distinct physical nodes until <computeroutput>n</computeroutput> are found or the ring is exhausted.</para>
+<para><simplesect kind="return"><para>Vector of up to min(n, nodeCount()) distinct node names. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="71" column="17" bodyfile="src/utils/consistent_hash.cpp" bodystart="121" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_consistent_hash_ring_1a1a93571d47bbcb373accae95bb2c3fb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ConsistentHashRing::nodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::nodeCount</qualifiedname>
+        <briefdescription>
+<para>Number of physical nodes in the ring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="74" column="12" bodyfile="src/utils/consistent_hash.cpp" bodystart="165" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_consistent_hash_ring_1a96533f08aa149eccd78634211136ec3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::ConsistentHashRing::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::empty</qualifiedname>
+        <briefdescription>
+<para>True when no physical nodes have been added. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="77" column="10" bodyfile="src/utils/consistent_hash.cpp" bodystart="175" bodyend="183"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_consistent_hash_ring_1ad48aff334b712257bd5fd3b4e439d5ee" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::ConsistentHashRing::fnv1a64</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>fnv1a64</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::fnv1a64</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>FNV-1a 64-bit hash of an arbitrary string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fnv1a64.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: mix64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="81" column="21" bodyfile="src/utils/consistent_hash.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_consistent_hash_ring_1aad371d4e716e39ea0b7261f50ad53545" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::ConsistentHashRing::virtualKey</definition>
+        <argsstring>(const std::string &amp;node, size_t idx)</argsstring>
+        <name>virtualKey</name>
+        <qualifiedname>themis::utils::ConsistentHashRing::virtualKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Hash used for virtual-node slots: &quot;&lt;node&gt;#&lt;idx&gt;&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Virtual Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fnv1a64(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/consistent_hash.h" line="84" column="21" bodyfile="src/utils/consistent_hash.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Consistent hash ring for distributed key-to-node routing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each physical node is expanded into <computeroutput>virtual_nodes</computeroutput> virtual replicas so that load is distributed evenly even with small cluster sizes. Keys are mapped to nodes via clockwise lookup on the hash ring.</para>
+<para>Hashing: FNV-1a 64-bit (no external dependencies). Thread-safety: std::shared_mutex (concurrent reads, exclusive writes). </para>
+    </detaileddescription>
+    <location file="include/utils/consistent_hash.h" line="35" column="1" bodyfile="include/utils/consistent_hash.h" bodystart="35" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1ab24800f1ea9ae02df5d74ce82fc1e7de" prot="public" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>addNode</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1a65ea53a4cd9bd28fc1996565b82bf6a6" prot="public" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>ConsistentHashRing</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1a96533f08aa149eccd78634211136ec3e" prot="public" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>empty</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1ad48aff334b712257bd5fd3b4e439d5ee" prot="private" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>fnv1a64</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1ae7f9d5d0d2217ffeb682e7042739cad7" prot="public" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>getNode</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1ab91a74c5722eb282639a0f0a23fc967c" prot="public" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>getNodes</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1af619844c13580273b5d6a8346342422f" prot="private" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1a1a93571d47bbcb373accae95bb2c3fb7" prot="public" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1adf9aa673f1d8303bf24b6223aa5a9a90" prot="private" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>nodes_</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1a4a67157952cb61b74f4f4fcc894e51d6" prot="public" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>removeNode</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1a20e6d5e0db60d3191f1894153c4d879f" prot="private" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1a488d70c4592c816d0068d75ab47abe07" prot="private" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>virtual_nodes_</name></member>
+      <member refid="classthemis_1_1utils_1_1_consistent_hash_ring_1aad371d4e716e39ea0b7261f50ad53545" prot="private" virt="non-virtual"><scope>themis::utils::ConsistentHashRing</scope><name>virtualKey</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

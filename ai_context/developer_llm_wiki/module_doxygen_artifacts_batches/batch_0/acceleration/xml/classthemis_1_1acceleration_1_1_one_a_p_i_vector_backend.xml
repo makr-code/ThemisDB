@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::OneAPIVectorBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_vector_backend" prot="public" virt="non-virtual">themis::acceleration::IVectorBackend</basecompoundref>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a83515d6e8ce9329c24a3fa42335c1542" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;( const float *query, size_t query_count, size_t dim, const float *db, size_t db_count, bool use_l2)&gt;</type>
+        <definition>using themis::acceleration::OneAPIVectorBackend::ComputeDistancesFn = std::function&lt;std::vector&lt;float&gt;(
+       const float* query, size_t query_count, size_t dim,
+       const float* db, size_t db_count, bool use_l2)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ComputeDistancesFn</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::ComputeDistancesFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="285" column="5" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a58a06e92f7197ad18546772ff8d4c221" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::OneAPIVectorBackend::setComputeDistancesFn</definition>
+        <argsstring>(ComputeDistancesFn fn)</argsstring>
+        <name>setComputeDistancesFn</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::setComputeDistancesFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a83515d6e8ce9329c24a3fa42335c1542" kindref="member">ComputeDistancesFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Compute Distances Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="293" column="17" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="320" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1ac040a41f653a2aed343e6e38eeedcd87" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::OneAPIVectorBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="295" column="17" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="295" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1aa874438687aa232e352bea4c4b4fc864" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::OneAPIVectorBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="296" column="16" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="296" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a479c99b6705bffb44504213bd6adb76f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OneAPIVectorBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="297" column="10" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="297" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1aaf0d47ac290317cc100c9ec10062b7a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::OneAPIVectorBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="298" column="25" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="298" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1abed9a8d16403d4d95fae258fce29b48b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::OneAPIVectorBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="299" column="10" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="299" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1abef2524f873ac6d1ce3826ab8f7a037c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::OneAPIVectorBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="300" column="10" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="300" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1ab9a4394902b48fc8be470c06da87ff2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::OneAPIVectorBackend::computeDistances</definition>
+        <argsstring>(const float *queries, size_t numQueries, size_t dimension, const float *vectors, size_t numVectors, bool useL2) override</argsstring>
+        <name>computeDistances</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::computeDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a56cc8ea7f1d8a7f2c8bb77025403f8e2">computeDistances</reimplements>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useL2</declname>
+        </param>
+        <briefdescription>
+<para>Compute Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numQueries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">useL2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), fn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="302" column="17" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="337" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a31353fbaaa6172d51540d571de783117" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt; themis::acceleration::OneAPIVectorBackend::batchKnnSearch</definition>
+        <argsstring>(const float *, size_t, size_t, const float *, size_t, size_t, bool) override</argsstring>
+        <name>batchKnnSearch</name>
+        <qualifiedname>themis::acceleration::OneAPIVectorBackend::batchKnnSearch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a7f0c7e6ce9e71f79406f2de2fa627008">batchKnnSearch</reimplements>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>const float *</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>size_t</type>
+        </param>
+        <param>
+          <type>bool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/oneapi_backend.cpp" line="306" column="17" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="306" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::OneAPIVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::OneAPIVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/acceleration/oneapi_backend.cpp" line="282" column="1" bodyfile="src/acceleration/oneapi_backend.cpp" bodystart="282" bodyend="310"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a31353fbaaa6172d51540d571de783117" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>batchKnnSearch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a2143e8e963e3190e8bc602b329abeb82" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>batchKnnSearchSafe</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1ab9a4394902b48fc8be470c06da87ff2a" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>computeDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a83515d6e8ce9329c24a3fa42335c1542" prot="public" virt="non-virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>ComputeDistancesFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1aaf0d47ac290317cc100c9ec10062b7a8" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1abed9a8d16403d4d95fae258fce29b48b" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a479c99b6705bffb44504213bd6adb76f" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1aa874438687aa232e352bea4c4b4fc864" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1afe7b6b9c94e550943146ae6dd2633573" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>populateANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1a58a06e92f7197ad18546772ff8d4c221" prot="public" virt="non-virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>setComputeDistancesFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1abef2524f873ac6d1ce3826ab8f7a037c" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_one_a_p_i_vector_backend_1ac040a41f653a2aed343e6e38eeedcd87" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_vector_backend_1a80795a79f28f4f5dab65de8acd2af35f" prot="public" virt="virtual"><scope>themis::acceleration::OneAPIVectorBackend</scope><name>~IVectorBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

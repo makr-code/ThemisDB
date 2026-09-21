@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::multimodal::MultiModalRAG::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1a93487cb7e2c02c6d8c1659181ea7a024" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" kindref="compound">MultiModalRAGConfig</ref></type>
+        <definition>MultiModalRAGConfig themis::rag::multimodal::MultiModalRAG::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/multimodal_rag.cpp" line="66" column="25" bodyfile="src/rag/multimodal_rag.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1ac3208d9fd14760ff7ef32904d6e3ae36" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1multimodal_1aced67b0ff237a36bbdf69d7710a203db" kindref="member">TextRetrievalFn</ref></type>
+        <definition>TextRetrievalFn themis::rag::multimodal::MultiModalRAG::Impl::text_retriever</definition>
+        <argsstring></argsstring>
+        <name>text_retriever</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::Impl::text_retriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/multimodal_rag.cpp" line="67" column="25" bodyfile="src/rag/multimodal_rag.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1a7be8dcedf020b07b2b071ca05249d129" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1multimodal_1add039d84424b72e8489ee0b27d00d596" kindref="member">ImageRetrievalFn</ref></type>
+        <definition>ImageRetrievalFn themis::rag::multimodal::MultiModalRAG::Impl::image_retriever</definition>
+        <argsstring></argsstring>
+        <name>image_retriever</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::Impl::image_retriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/multimodal_rag.cpp" line="68" column="25" bodyfile="src/rag/multimodal_rag.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1a2c1593602e1b4ef003ae8db303a5e71c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1multimodal_1a8a121875d30235288874351629dd7a5a" kindref="member">ImageCaptionFn</ref></type>
+        <definition>ImageCaptionFn themis::rag::multimodal::MultiModalRAG::Impl::image_captioner</definition>
+        <argsstring></argsstring>
+        <name>image_captioner</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::Impl::image_captioner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/multimodal_rag.cpp" line="69" column="25" bodyfile="src/rag/multimodal_rag.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1a0e92ffd8233aaa5e0f5f920793045fad" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::multimodal::MultiModalRAG::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAG::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/multimodal_rag.cpp" line="70" column="24" bodyfile="src/rag/multimodal_rag.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::multimodal::MultiModalRAG::Impl</label>
+        <link refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::multimodal::MultiModalRAGConfig</label>
+        <link refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/multimodal_rag.cpp" line="65" column="1" bodyfile="src/rag/multimodal_rag.cpp" bodystart="65" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1a93487cb7e2c02c6d8c1659181ea7a024" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1a2c1593602e1b4ef003ae8db303a5e71c" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG::Impl</scope><name>image_captioner</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1a7be8dcedf020b07b2b071ca05249d129" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG::Impl</scope><name>image_retriever</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1a0e92ffd8233aaa5e0f5f920793045fad" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG::Impl</scope><name>state_mutex</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl_1ac3208d9fd14760ff7ef32904d6e3ae36" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAG::Impl</scope><name>text_retriever</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_advanced_cost_model" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphAdvancedCostModel</compoundname>
+    <includes refid="graph__plan__cache_8h" local="no">graph_plan_cache.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a2d6c27efd4b1e01022b3139a092c344e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::kDefaultAlpha</definition>
+        <argsstring></argsstring>
+        <name>kDefaultAlpha</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::kDefaultAlpha</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Default EMA learning rate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="336" column="29" bodyfile="include/graph/graph_plan_cache.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ae39f2073b871afc3be50ba010b12fd66" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::GraphAdvancedCostModel::kMaxConfidenceObs</definition>
+        <argsstring></argsstring>
+        <name>kMaxConfidenceObs</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::kMaxConfidenceObs</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="387" column="31" bodyfile="include/graph/graph_plan_cache.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1afe3aa290ea9474ee8c9927570ef27ae7" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::alpha_</definition>
+        <argsstring></argsstring>
+        <name>alpha_</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::alpha_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="389" column="14" bodyfile="include/graph/graph_plan_cache.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1afe9234f500e22b8177b377546fa89bae" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::ema_cost_ms_</definition>
+        <argsstring></argsstring>
+        <name>ema_cost_ms_</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::ema_cost_ms_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="390" column="14" bodyfile="include/graph/graph_plan_cache.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a796c6d11c06dd2b8fdcd48c098915a30" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::GraphAdvancedCostModel::exec_count_</definition>
+        <argsstring></argsstring>
+        <name>exec_count_</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::exec_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="391" column="14" bodyfile="include/graph/graph_plan_cache.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ad4aa3b254004894fd26221a4fa3fc98c" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::confidence_</definition>
+        <argsstring></argsstring>
+        <name>confidence_</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::confidence_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="392" column="14" bodyfile="include/graph/graph_plan_cache.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a1d5ec2d89290d066661cad4cf13598c0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_cost_histogram" kindref="compound">GraphCostHistogram</ref></type>
+        <definition>GraphCostHistogram themis::graph::GraphAdvancedCostModel::histogram_</definition>
+        <argsstring></argsstring>
+        <name>histogram_</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::histogram_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="393" column="24" bodyfile="include/graph/graph_plan_cache.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ae0ac0580322e3360fed2a42fdff941a3" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphAdvancedCostModel::GraphAdvancedCostModel</definition>
+        <argsstring>(double alpha=kDefaultAlpha)</argsstring>
+        <name>GraphAdvancedCostModel</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::GraphAdvancedCostModel</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>alpha</declname>
+          <defval><ref refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a2d6c27efd4b1e01022b3139a092c344e" kindref="member">kDefaultAlpha</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="338" column="14" bodyfile="include/graph/graph_plan_cache.h" bodystart="338" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a6c797ac8f442dd4a76af4d5a40f34ae5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphAdvancedCostModel::observe</definition>
+        <argsstring>(double observed_ms)</argsstring>
+        <name>observe</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::observe</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>observed_ms</declname>
+        </param>
+        <briefdescription>
+<para>Observe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">observed_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::min(), record(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="346" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="346" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a8c7b9b4cd4dc34822ba51fbd8f87da31" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::emaCostMs</definition>
+        <argsstring>() const</argsstring>
+        <name>emaCostMs</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::emaCostMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="357" column="12" bodyfile="include/graph/graph_plan_cache.h" bodystart="357" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a0018b95a06ca38aeaafb775406242b07" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::confidence</definition>
+        <argsstring>() const</argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="359" column="12" bodyfile="include/graph/graph_plan_cache.h" bodystart="359" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1afee330891186aff6d4cb044c10cd50cb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::GraphAdvancedCostModel::execCount</definition>
+        <argsstring>() const</argsstring>
+        <name>execCount</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::execCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="361" column="14" bodyfile="include/graph/graph_plan_cache.h" bodystart="361" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1af222910dcc0ed7034bd800fe07246e6d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::p99Ms</definition>
+        <argsstring>() const</argsstring>
+        <name>p99Ms</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::p99Ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="363" column="12" bodyfile="include/graph/graph_plan_cache.h" bodystart="363" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a70de3a85e183ebe3211e270485ebd7f3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::p95Ms</definition>
+        <argsstring>() const</argsstring>
+        <name>p95Ms</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::p95Ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="365" column="12" bodyfile="include/graph/graph_plan_cache.h" bodystart="365" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ae3940c27350c0e7723d303bf6b8d1f1d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::p50Ms</definition>
+        <argsstring>() const</argsstring>
+        <name>p50Ms</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::p50Ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="367" column="12" bodyfile="include/graph/graph_plan_cache.h" bodystart="367" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a5c55cee49643a9b9987fe40fcdef955d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graph::GraphAdvancedCostModel::blendedEstimate</definition>
+        <argsstring>(double theoretical_ms) const</argsstring>
+        <name>blendedEstimate</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::blendedEstimate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>theoretical_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="369" column="12" bodyfile="include/graph/graph_plan_cache.h" bodystart="369" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ad5bb326778079459725bb8ce2b8ad6b8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphAdvancedCostModel::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="377" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="377" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_advanced_cost_model_1af2c12db86d5a4327b80e538438fec959" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1graph_1_1_graph_cost_histogram" kindref="compound">GraphCostHistogram</ref> &amp;</type>
+        <definition>const GraphCostHistogram &amp; themis::graph::GraphAdvancedCostModel::histogram</definition>
+        <argsstring>() const</argsstring>
+        <name>histogram</name>
+        <qualifiedname>themis::graph::GraphAdvancedCostModel::histogram</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="384" column="30" bodyfile="include/graph/graph_plan_cache.h" bodystart="384" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_plan_cache.h" line="334" column="1" bodyfile="include/graph/graph_plan_cache.h" bodystart="334" bodyend="394"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1afe3aa290ea9474ee8c9927570ef27ae7" prot="private" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>alpha_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a5c55cee49643a9b9987fe40fcdef955d" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>blendedEstimate</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a0018b95a06ca38aeaafb775406242b07" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>confidence</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ad4aa3b254004894fd26221a4fa3fc98c" prot="private" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>confidence_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1afe9234f500e22b8177b377546fa89bae" prot="private" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>ema_cost_ms_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a8c7b9b4cd4dc34822ba51fbd8f87da31" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>emaCostMs</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a796c6d11c06dd2b8fdcd48c098915a30" prot="private" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>exec_count_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1afee330891186aff6d4cb044c10cd50cb" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>execCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ae0ac0580322e3360fed2a42fdff941a3" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>GraphAdvancedCostModel</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1af2c12db86d5a4327b80e538438fec959" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>histogram</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a1d5ec2d89290d066661cad4cf13598c0" prot="private" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>histogram_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a2d6c27efd4b1e01022b3139a092c344e" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>kDefaultAlpha</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ae39f2073b871afc3be50ba010b12fd66" prot="private" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>kMaxConfidenceObs</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a6c797ac8f442dd4a76af4d5a40f34ae5" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>observe</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ae3940c27350c0e7723d303bf6b8d1f1d" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>p50Ms</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1a70de3a85e183ebe3211e270485ebd7f3" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>p95Ms</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1af222910dcc0ed7034bd800fe07246e6d" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>p99Ms</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_advanced_cost_model_1ad5bb326778079459725bb8ce2b8ad6b8" prot="public" virt="non-virtual"><scope>themis::graph::GraphAdvancedCostModel</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

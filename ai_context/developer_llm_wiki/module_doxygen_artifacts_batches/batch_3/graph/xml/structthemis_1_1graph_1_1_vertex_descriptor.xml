@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_vertex_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::VertexDescriptor</compoundname>
+    <includes refid="adjacency__list_8h" local="no">adjacency_list.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_vertex_descriptor_1a57a1eceaa140602cbed9e3879bd9b3a0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+        <definition>VertexId themis::graph::VertexDescriptor::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::graph::VertexDescriptor::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="61" column="17" bodyfile="include/graph/adjacency_list.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_vertex_descriptor_1af33e378c61f2473df7eef60b5d893cc8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::VertexDescriptor::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::graph::VertexDescriptor::label</qualifiedname>
+        <briefdescription>
+<para>Human-readable label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="62" column="17" bodyfile="include/graph/adjacency_list.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/adjacency_list.h" line="60" column="1" bodyfile="include/graph/adjacency_list.h" bodystart="60" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_vertex_descriptor_1a57a1eceaa140602cbed9e3879bd9b3a0" prot="public" virt="non-virtual"><scope>themis::graph::VertexDescriptor</scope><name>id</name></member>
+      <member refid="structthemis_1_1graph_1_1_vertex_descriptor_1af33e378c61f2473df7eef60b5d893cc8" prot="public" virt="non-virtual"><scope>themis::graph::VertexDescriptor</scope><name>label</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1streaming_1_1_stream_file_progress" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::streaming::StreamFileProgress</compoundname>
+    <includes refid="stream__protocol_8h" local="no">stream_protocol.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1a20c9b94c676fda6b4422f95c2934fefd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::streaming::StreamFileProgress::file_id</definition>
+        <argsstring></argsstring>
+        <name>file_id</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::file_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="270" column="17" bodyfile="include/sharding/stream_protocol.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1aa25c58e9933d4ff66dab7ad5ea7c2d8e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamFileProgress::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="271" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1ac4f96f7d5bfbe55e4fe07959abfc6c51" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::streaming::StreamFileProgress::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::total_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="272" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1ac0ecea20c44bd9a495163c36c3e78674" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamFileProgress::chunks_transferred</definition>
+        <argsstring></argsstring>
+        <name>chunks_transferred</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::chunks_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="273" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1a929c34a5e36c5322c87290f1d21ed8e6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamFileProgress::total_chunks</definition>
+        <argsstring></argsstring>
+        <name>total_chunks</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::total_chunks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="274" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1af0bd4a52e9f67a70dd95de1d428cf5d1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::StreamFileProgress::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="275" column="14" bodyfile="include/sharding/stream_protocol.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1a9cf848c2c15a6fe445058231f381083a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::streaming::StreamFileProgress::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::compression_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="276" column="12" bodyfile="include/sharding/stream_protocol.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1a3644ef15a5e620aae25cea3abdc3d2c5" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::streaming::StreamFileProgress::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="277" column="43" bodyfile="include/sharding/stream_protocol.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1a78e38e0846ad9ebba2bd9f9e5ea745f2" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::streaming::StreamFileProgress::last_activity</definition>
+        <argsstring></argsstring>
+        <name>last_activity</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::last_activity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="278" column="43" bodyfile="include/sharding/stream_protocol.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1aaba62c40148fe055353b67e9a8fe4e44" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::streaming::StreamFileProgress::getProgressPercent</definition>
+        <argsstring>() const</argsstring>
+        <name>getProgressPercent</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::getProgressPercent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="280" column="12" bodyfile="include/sharding/stream_protocol.h" bodystart="280" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1streaming_1_1_stream_file_progress_1ac6efae3690dba653c8683fbd54cb3148" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::streaming::StreamFileProgress::getThroughputBytesPerSecond</definition>
+        <argsstring>() const</argsstring>
+        <name>getThroughputBytesPerSecond</name>
+        <qualifiedname>themisdb::streaming::StreamFileProgress::getThroughputBytesPerSecond</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="284" column="12" bodyfile="src/sharding/stream_protocol.cpp" bodystart="384" bodyend="393"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Progress for a single file transfer </para>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="269" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="269" bodyend="285"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1aa25c58e9933d4ff66dab7ad5ea7c2d8e" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>bytes_transferred</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1ac0ecea20c44bd9a495163c36c3e78674" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>chunks_transferred</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1a9cf848c2c15a6fe445058231f381083a" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>compression_ratio</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1a20c9b94c676fda6b4422f95c2934fefd" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>file_id</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1aaba62c40148fe055353b67e9a8fe4e44" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>getProgressPercent</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1ac6efae3690dba653c8683fbd54cb3148" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>getThroughputBytesPerSecond</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1a78e38e0846ad9ebba2bd9f9e5ea745f2" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>last_activity</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1af0bd4a52e9f67a70dd95de1d428cf5d1" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>retry_count</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1a3644ef15a5e620aae25cea3abdc3d2c5" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>start_time</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1ac4f96f7d5bfbe55e4fe07959abfc6c51" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>total_bytes</name></member>
+      <member refid="structthemisdb_1_1streaming_1_1_stream_file_progress_1a929c34a5e36c5322c87290f1d21ed8e6" prot="public" virt="non-virtual"><scope>themisdb::streaming::StreamFileProgress</scope><name>total_chunks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

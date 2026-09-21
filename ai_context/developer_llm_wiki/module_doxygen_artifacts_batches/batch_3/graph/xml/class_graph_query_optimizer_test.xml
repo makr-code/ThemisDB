@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_query_optimizer_test" kind="class" language="C++" prot="public">
+    <compoundname>GraphQueryOptimizerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_query_optimizer_test_1afc896410901b3f7c61f648b0fd796430" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GraphQueryOptimizerTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GraphQueryOptimizerTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="84" column="17" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_optimizer_test_1ab1f5cd1de1452363ff77e1a95691fc71" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; GraphQueryOptimizerTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphQueryOptimizerTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="85" column="21" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_optimizer_test_1a53d7f486ef83af6ec06f72c77f3dc1e1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; GraphQueryOptimizerTest::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>GraphQueryOptimizerTest::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="86" column="21" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_optimizer_test_1ab045d09fe91d3247738dc9e04dd0b5fc" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">themis::graph::GraphQueryOptimizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::graph::GraphQueryOptimizer&gt; GraphQueryOptimizerTest::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>GraphQueryOptimizerTest::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="87" column="21" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_graph_query_optimizer_test_1af2267534edda61553ff92e281b1d83f2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryOptimizerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphQueryOptimizerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="19" column="10" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="19" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_optimizer_test_1a6ab0c3dfaafb282a05ac89673342a5af" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryOptimizerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphQueryOptimizerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="44" column="10" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="44" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_optimizer_test_1a9820c950bc13bd47aace5b23724bdf80" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryOptimizerTest::createTestGraph</definition>
+        <argsstring>()</argsstring>
+        <name>createTestGraph</name>
+        <qualifiedname>GraphQueryOptimizerTest::createTestGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_query_optimizer.cpp" line="52" column="10" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="52" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphQueryOptimizerTest</label>
+        <link refid="class_graph_query_optimizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphQueryOptimizerTest</label>
+        <link refid="class_graph_query_optimizer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_graph_query_optimizer.cpp" line="17" column="1" bodyfile="tests/graph/test_graph_query_optimizer.cpp" bodystart="17" bodyend="88"/>
+    <listofallmembers>
+      <member refid="class_graph_query_optimizer_test_1a9820c950bc13bd47aace5b23724bdf80" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerTest</scope><name>createTestGraph</name></member>
+      <member refid="class_graph_query_optimizer_test_1ab1f5cd1de1452363ff77e1a95691fc71" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerTest</scope><name>db_</name></member>
+      <member refid="class_graph_query_optimizer_test_1a53d7f486ef83af6ec06f72c77f3dc1e1" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerTest</scope><name>graph_mgr_</name></member>
+      <member refid="class_graph_query_optimizer_test_1ab045d09fe91d3247738dc9e04dd0b5fc" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerTest</scope><name>optimizer_</name></member>
+      <member refid="class_graph_query_optimizer_test_1af2267534edda61553ff92e281b1d83f2" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerTest</scope><name>SetUp</name></member>
+      <member refid="class_graph_query_optimizer_test_1a6ab0c3dfaafb282a05ac89673342a5af" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerTest</scope><name>TearDown</name></member>
+      <member refid="class_graph_query_optimizer_test_1afc896410901b3f7c61f648b0fd796430" prot="protected" virt="non-virtual"><scope>GraphQueryOptimizerTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ContinuousQueryDDL::CreateSpec</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1a9ffbaa499d1ae5b7190396fa42b44a70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContinuousQueryDDL::CreateSpec::source_collection</definition>
+        <argsstring></argsstring>
+        <name>source_collection</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::CreateSpec::source_collection</qualifiedname>
+        <briefdescription>
+<para>ON COLLECTION. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="893" column="21" bodyfile="include/query/aql_parser.h" bodystart="893" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1abcf321b43d2d632bfb549cd0b549f952" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContinuousQueryDDL::CreateSpec::window_type</definition>
+        <argsstring></argsstring>
+        <name>window_type</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::CreateSpec::window_type</qualifiedname>
+        <briefdescription>
+<para>&quot;TIME&quot; | &quot;COUNT&quot; | &quot;TUMBLING&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="894" column="21" bodyfile="include/query/aql_parser.h" bodystart="894" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1aa95da99d4d918ab245306827ac018e89" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::ContinuousQueryDDL::CreateSpec::range_ms</definition>
+        <argsstring></argsstring>
+        <name>range_ms</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::CreateSpec::range_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>TIME/TUMBLING: window width ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="895" column="21" bodyfile="include/query/aql_parser.h" bodystart="895" bodyend="895"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1a47a5e761432f21e92c74e887c34b64d5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::ContinuousQueryDDL::CreateSpec::slide_ms</definition>
+        <argsstring></argsstring>
+        <name>slide_ms</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::CreateSpec::slide_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>TIME: slide interval ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="896" column="21" bodyfile="include/query/aql_parser.h" bodystart="896" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1aef6160d0f5b058d006edbaff40cd75ac" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::ContinuousQueryDDL::CreateSpec::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::CreateSpec::rows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>COUNT: window width in tuples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="897" column="21" bodyfile="include/query/aql_parser.h" bodystart="897" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1a205ad19445f508e696dc1f97439aeb2a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::ContinuousQueryDDL::CreateSpec::slide_rows</definition>
+        <argsstring></argsstring>
+        <name>slide_rows</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::CreateSpec::slide_rows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>COUNT: slide step in tuples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="898" column="21" bodyfile="include/query/aql_parser.h" bodystart="898" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1ad0c8030ab4c20c9376019ada16804ac1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContinuousQueryDDL::CreateSpec::aql_body</definition>
+        <argsstring></argsstring>
+        <name>aql_body</name>
+        <qualifiedname>themis::query::ContinuousQueryDDL::CreateSpec::aql_body</qualifiedname>
+        <briefdescription>
+<para>AQL expression after RETURN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="899" column="21" bodyfile="include/query/aql_parser.h" bodystart="899" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="892" column="5" bodyfile="include/query/aql_parser.h" bodystart="892" bodyend="900"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1ad0c8030ab4c20c9376019ada16804ac1" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL::CreateSpec</scope><name>aql_body</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1aa95da99d4d918ab245306827ac018e89" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL::CreateSpec</scope><name>range_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1aef6160d0f5b058d006edbaff40cd75ac" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL::CreateSpec</scope><name>rows</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1a47a5e761432f21e92c74e887c34b64d5" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL::CreateSpec</scope><name>slide_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1a205ad19445f508e696dc1f97439aeb2a" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL::CreateSpec</scope><name>slide_rows</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1a9ffbaa499d1ae5b7190396fa42b44a70" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL::CreateSpec</scope><name>source_collection</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_query_d_d_l_1_1_create_spec_1abcf321b43d2d632bfb549cd0b549f952" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryDDL::CreateSpec</scope><name>window_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

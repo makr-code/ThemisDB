@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_route_registry_1_1_drift_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RouteRegistry::DriftReport</compoundname>
+    <includes refid="openapi__route__registry_8h" local="no">openapi_route_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_registry_1_1_drift_report_1ae6981660dcb75dc0dd8f6d7d08f01475" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::RouteRegistry::DriftReport::added</definition>
+        <argsstring></argsstring>
+        <name>added</name>
+        <qualifiedname>themis::server::RouteRegistry::DriftReport::added</qualifiedname>
+        <briefdescription>
+<para>New routes not in baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="87" column="21" bodyfile="include/server/openapi_route_registry.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_registry_1_1_drift_report_1a6c1a27d9da5df414ede8f74fd1bf9e18" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::RouteRegistry::DriftReport::removed</definition>
+        <argsstring></argsstring>
+        <name>removed</name>
+        <qualifiedname>themis::server::RouteRegistry::DriftReport::removed</qualifiedname>
+        <briefdescription>
+<para>Routes removed since baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="88" column="21" bodyfile="include/server/openapi_route_registry.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_route_registry_1_1_drift_report_1afd21d670deb3dc518a31280b0571f1fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::RouteRegistry::DriftReport::changed</definition>
+        <argsstring></argsstring>
+        <name>changed</name>
+        <qualifiedname>themis::server::RouteRegistry::DriftReport::changed</qualifiedname>
+        <briefdescription>
+<para>Routes modified since baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="89" column="21" bodyfile="include/server/openapi_route_registry.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_route_registry_1_1_drift_report_1ace009c48544aaf057d0c685b7c6824ae" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::RouteRegistry::DriftReport::hasDrift</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasDrift</name>
+        <qualifiedname>themis::server::RouteRegistry::DriftReport::hasDrift</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/openapi_route_registry.h" line="91" column="15" bodyfile="include/server/openapi_route_registry.h" bodystart="91" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/openapi_route_registry.h" line="86" column="5" bodyfile="include/server/openapi_route_registry.h" bodystart="86" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_route_registry_1_1_drift_report_1ae6981660dcb75dc0dd8f6d7d08f01475" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry::DriftReport</scope><name>added</name></member>
+      <member refid="structthemis_1_1server_1_1_route_registry_1_1_drift_report_1afd21d670deb3dc518a31280b0571f1fa" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry::DriftReport</scope><name>changed</name></member>
+      <member refid="structthemis_1_1server_1_1_route_registry_1_1_drift_report_1ace009c48544aaf057d0c685b7c6824ae" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry::DriftReport</scope><name>hasDrift</name></member>
+      <member refid="structthemis_1_1server_1_1_route_registry_1_1_drift_report_1a6c1a27d9da5df414ede8f74fd1bf9e18" prot="public" virt="non-virtual"><scope>themis::server::RouteRegistry::DriftReport</scope><name>removed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

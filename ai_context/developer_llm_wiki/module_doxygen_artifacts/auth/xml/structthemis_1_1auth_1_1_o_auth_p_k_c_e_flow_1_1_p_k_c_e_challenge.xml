@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::OAuthPKCEFlow::PKCEChallenge</compoundname>
+    <includes refid="oauth__pkce__flow_8h" local="no">oauth_pkce_flow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge_1aa20f9996d7459b8026b9e1c2ffc0103e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::PKCEChallenge::code_verifier</definition>
+        <argsstring></argsstring>
+        <name>code_verifier</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::PKCEChallenge::code_verifier</qualifiedname>
+        <briefdescription>
+<para>Keep secret; used at token exchange. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="28" column="21" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge_1addb4c2aea390b2915cdaa5eb12bdddfc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::PKCEChallenge::code_challenge</definition>
+        <argsstring></argsstring>
+        <name>code_challenge</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::PKCEChallenge::code_challenge</qualifiedname>
+        <briefdescription>
+<para>Sent to authorization endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="29" column="21" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge_1ace6df4072389f88ae5441ee637e4bf2f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OAuthPKCEFlow::PKCEChallenge::challenge_method</definition>
+        <argsstring></argsstring>
+        <name>challenge_method</name>
+        <qualifiedname>themis::auth::OAuthPKCEFlow::PKCEChallenge::challenge_method</qualifiedname>
+        <initializer>{&quot;S256&quot;}</initializer>
+        <briefdescription>
+<para>Hash method (always S256). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oauth_pkce_flow.h" line="30" column="21" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oauth_pkce_flow.h" line="27" column="5" bodyfile="include/auth/oauth_pkce_flow.h" bodystart="27" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge_1ace6df4072389f88ae5441ee637e4bf2f" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::PKCEChallenge</scope><name>challenge_method</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge_1addb4c2aea390b2915cdaa5eb12bdddfc" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::PKCEChallenge</scope><name>code_challenge</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_auth_p_k_c_e_flow_1_1_p_k_c_e_challenge_1aa20f9996d7459b8026b9e1c2ffc0103e" prot="public" virt="non-virtual"><scope>themis::auth::OAuthPKCEFlow::PKCEChallenge</scope><name>code_verifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

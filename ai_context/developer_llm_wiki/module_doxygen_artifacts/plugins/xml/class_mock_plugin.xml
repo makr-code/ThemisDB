@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_plugin" kind="class" language="C++" prot="public">
+    <compoundname>MockPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_themis_plugin" prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_plugin_1a2cf759c8745a31ab2ed296b847f9ed10" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockPlugin::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>MockPlugin::name_</qualifiedname>
+        <initializer>{&quot;test_plugin&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="20" column="17" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_plugin_1a879c4ab86c8a48ef5988718595007170" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockPlugin::version_</definition>
+        <argsstring></argsstring>
+        <name>version_</name>
+        <qualifiedname>MockPlugin::version_</qualifiedname>
+        <initializer>{&quot;1.0.0&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="21" column="17" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_plugin_1ada708d3ced19f8de948a576e9878fb35" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>PluginCapabilities MockPlugin::caps_</definition>
+        <argsstring></argsstring>
+        <name>caps_</name>
+        <qualifiedname>MockPlugin::caps_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="22" column="24" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_plugin_1a6c8c0bbb616a9f1d149fd300ce7aa8ed" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * MockPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>MockPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba">getName</reimplements>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="24" column="16" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_plugin_1a93336572c645a3df78d5f1a7de819204" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * MockPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>MockPlugin::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f">getVersion</reimplements>
+        <briefdescription>
+<para>Get plugin version (semantic versioning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="25" column="16" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_plugin_1ae06f5566502ff34e23f144d288f7f776" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+        <definition>PluginType MockPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>MockPlugin::getType</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209">getType</reimplements>
+        <briefdescription>
+<para>Get plugin type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="26" column="16" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_plugin_1a90cc4761760dc0f6910a1f7e2c5ac1b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>PluginCapabilities MockPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>MockPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31">getCapabilities</reimplements>
+        <briefdescription>
+<para>Get plugin capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="27" column="24" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_plugin_1a12534497f346c9d1cb61901c948ba736" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockPlugin::initialize</definition>
+        <argsstring>(const char *) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>MockPlugin::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035">initialize</reimplements>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize plugin with configuration JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration as JSON string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialized successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="28" column="10" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_plugin_1a4a853ae85f79d6081f28acfaf7015d9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>MockPlugin::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown plugin and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="29" column="10" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_plugin_1a404b56e2f1487551170d087748e5e255" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void *</type>
+        <definition>void * MockPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>MockPlugin::getInstance</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc">getInstance</reimplements>
+        <briefdescription>
+<para>Get plugin instance (type-specific). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to plugin implementation (must be cast to specific type)</para>
+</simplesect>
+For COMPUTE_BACKEND: Cast to acceleration::BackendPlugin* For BLOB_STORAGE: Cast to storage::IBlobStorageBackend* For IMPORTER: Cast to importers::IImporter* </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="30" column="10" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockPlugin</label>
+        <link refid="class_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockPlugin</label>
+        <link refid="class_mock_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>caps_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginCapabilities</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_capabilities"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_capability_negotiation.cpp" line="18" column="1" bodyfile="tests/plugins/test_plugin_capability_negotiation.cpp" bodystart="18" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_mock_plugin_1ada708d3ced19f8de948a576e9878fb35" prot="public" virt="non-virtual"><scope>MockPlugin</scope><name>caps_</name></member>
+      <member refid="class_mock_plugin_1a90cc4761760dc0f6910a1f7e2c5ac1b5" prot="public" virt="virtual"><scope>MockPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_mock_plugin_1a404b56e2f1487551170d087748e5e255" prot="public" virt="virtual"><scope>MockPlugin</scope><name>getInstance</name></member>
+      <member refid="class_mock_plugin_1a6c8c0bbb616a9f1d149fd300ce7aa8ed" prot="public" virt="virtual"><scope>MockPlugin</scope><name>getName</name></member>
+      <member refid="class_mock_plugin_1ae06f5566502ff34e23f144d288f7f776" prot="public" virt="virtual"><scope>MockPlugin</scope><name>getType</name></member>
+      <member refid="class_mock_plugin_1a93336572c645a3df78d5f1a7de819204" prot="public" virt="virtual"><scope>MockPlugin</scope><name>getVersion</name></member>
+      <member refid="class_mock_plugin_1a12534497f346c9d1cb61901c948ba736" prot="public" virt="virtual"><scope>MockPlugin</scope><name>initialize</name></member>
+      <member refid="class_mock_plugin_1a2cf759c8745a31ab2ed296b847f9ed10" prot="public" virt="non-virtual"><scope>MockPlugin</scope><name>name_</name></member>
+      <member refid="class_mock_plugin_1a4a853ae85f79d6081f28acfaf7015d9b" prot="public" virt="virtual"><scope>MockPlugin</scope><name>shutdown</name></member>
+      <member refid="class_mock_plugin_1a879c4ab86c8a48ef5988718595007170" prot="public" virt="non-virtual"><scope>MockPlugin</scope><name>version_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" virt="virtual"><scope>MockPlugin</scope><name>~IThemisPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

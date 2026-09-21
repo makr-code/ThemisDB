@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_diagnostic_incident" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::DiagnosticIncident</compoundname>
+    <includes refid="ingestion__diagnostic__emitter_8h" local="no">ingestion_diagnostic_emitter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1ad5c908ee87c9cf56bae58f8492d64f39" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285" kindref="member">IncidentCategory</ref></type>
+        <definition>IncidentCategory themis::ingestion::DiagnosticIncident::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="93" column="22" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1ac7e4e830b12627cc1b2173cfcdd558b0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1a995ea25701009e934f28ad5e8777f983" kindref="member">DiagnosticSeverity</ref></type>
+        <definition>DiagnosticSeverity themis::ingestion::DiagnosticIncident::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::severity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1a995ea25701009e934f28ad5e8777f983a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">DiagnosticSeverity::INFO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="94" column="24" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1a4f608599f92222805b6963981df30505" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticIncident::incident_id</definition>
+        <argsstring></argsstring>
+        <name>incident_id</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::incident_id</qualifiedname>
+        <briefdescription>
+<para>Unique incident identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="95" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1ae001cfcf93e5eccf384d0e7cded72074" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticIncident::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::title</qualifiedname>
+        <briefdescription>
+<para>Short description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="96" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1a23c5d2ef5d2ebadc3834a1705ee46974" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticIncident::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::description</qualifiedname>
+        <briefdescription>
+<para>Detailed description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="97" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1a8788f79bd838339e741d8f318be326e7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::ingestion::DiagnosticIncident::error_context</definition>
+        <argsstring></argsstring>
+        <name>error_context</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::error_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="99" column="18" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1aaa09f9c5e8dc8b183b2a2abf02f61787" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::ingestion::DiagnosticIncident::detected_at</definition>
+        <argsstring></argsstring>
+        <name>detected_at</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::detected_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="102" column="43" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1a4fd61053714cd246124965cd02ff2350" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::DiagnosticIncident::affected_items</definition>
+        <argsstring></argsstring>
+        <name>affected_items</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::affected_items</qualifiedname>
+        <briefdescription>
+<para>Items/documents affected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="103" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1a5b51370563bcd75cfad8e0920dbb9f11" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::DiagnosticIncident::occurrence_count</definition>
+        <argsstring></argsstring>
+        <name>occurrence_count</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::occurrence_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>How many times seen recently. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="104" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1affb387e9d9a347f1cdd1eb443a8e602a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticIncident::remediation_hint</definition>
+        <argsstring></argsstring>
+        <name>remediation_hint</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::remediation_hint</qualifiedname>
+        <briefdescription>
+<para>Suggested operator action. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="107" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1afa5e8dd4e30db303ff3ec56247c817c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticIncident::runbook_link</definition>
+        <argsstring></argsstring>
+        <name>runbook_link</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::runbook_link</qualifiedname>
+        <briefdescription>
+<para>Link to operational runbook. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="108" column="17" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1a35ef377c737075355aa87e34be4f5b79" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::ingestion::DiagnosticIncident::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::metrics</qualifiedname>
+        <briefdescription>
+<para>Key metrics (e.g., &quot;latency_ms&quot;, &quot;queue_depth&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="111" column="14" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_diagnostic_incident_1a4559f9556134fcce3f5eeb5832d951a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DiagnosticIncident::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::ingestion::DiagnosticIncident::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize incident to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="116" column="17" bodyfile="src/ingestion/ingestion_diagnostic_emitter.cpp" bodystart="20" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detailed diagnostic information about an incident. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::DiagnosticIncident</label>
+        <link refid="structthemis_1_1ingestion_1_1_diagnostic_incident"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>error_context</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::ErrorContext</label>
+        <link refid="structthemis_1_1ingestion_1_1_error_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/ingestion_diagnostic_emitter.h" line="92" column="1" bodyfile="include/ingestion/ingestion_diagnostic_emitter.h" bodystart="92" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1a4fd61053714cd246124965cd02ff2350" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>affected_items</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1ad5c908ee87c9cf56bae58f8492d64f39" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>category</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1a23c5d2ef5d2ebadc3834a1705ee46974" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>description</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1aaa09f9c5e8dc8b183b2a2abf02f61787" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>detected_at</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1a8788f79bd838339e741d8f318be326e7" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>error_context</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1a4f608599f92222805b6963981df30505" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>incident_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1a35ef377c737075355aa87e34be4f5b79" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1a5b51370563bcd75cfad8e0920dbb9f11" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>occurrence_count</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1affb387e9d9a347f1cdd1eb443a8e602a" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>remediation_hint</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1afa5e8dd4e30db303ff3ec56247c817c4" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>runbook_link</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1ac7e4e830b12627cc1b2173cfcdd558b0" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>severity</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1ae001cfcf93e5eccf384d0e7cded72074" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>title</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1a4559f9556134fcce3f5eeb5832d951a0" prot="public" virt="non-virtual"><scope>themis::ingestion::DiagnosticIncident</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

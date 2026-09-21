@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1toolbox_1_1_content_fingerprinter" kind="class" language="C++" prot="public">
+    <compoundname>themis::toolbox::ContentFingerprinter</compoundname>
+    <includes refid="content__fingerprinter_8h" local="no">content_fingerprinter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ContentFingerprinter::ContentFingerprinter</definition>
+        <argsstring>()=default</argsstring>
+        <name>ContentFingerprinter</name>
+        <qualifiedname>themis::toolbox::ContentFingerprinter::ContentFingerprinter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_fingerprinter.h" line="72" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_fingerprinter_1a7f7b6ca2f4fe72b18c70907e55ec1c51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ContentFingerprinter::~ContentFingerprinter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ContentFingerprinter</name>
+        <qualifiedname>themis::toolbox::ContentFingerprinter::~ContentFingerprinter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_fingerprinter.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_fingerprinter_1a5a50d676c20fcdc6e476dc20b92c6c83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::toolbox::ContentFingerprinter::ContentFingerprinter</definition>
+        <argsstring>(const ContentFingerprinter &amp;)=default</argsstring>
+        <name>ContentFingerprinter</name>
+        <qualifiedname>themis::toolbox::ContentFingerprinter::ContentFingerprinter</qualifiedname>
+        <param>
+          <type>const ContentFingerprinter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_fingerprinter.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_fingerprinter_1ad890b062dfddd350ae495e66c17da809" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" kindref="member">ContentFingerprinter</ref> &amp;</type>
+        <definition>ContentFingerprinter &amp; themis::toolbox::ContentFingerprinter::operator=</definition>
+        <argsstring>(const ContentFingerprinter &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::toolbox::ContentFingerprinter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" kindref="member">ContentFingerprinter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_fingerprinter.h" line="76" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_fingerprinter_1af9f44ff174554cf6d6fa4d9137acdc41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref></type>
+        <definition>ContentFingerprint themis::toolbox::ContentFingerprinter::compute</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>compute</name>
+        <qualifiedname>themis::toolbox::ContentFingerprinter::compute</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute a <computeroutput><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref></computeroutput> for the given UTF-8 text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UTF-8 text or raw byte content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated fingerprint. <computeroutput>sha256_hex</computeroutput> is empty only when <computeroutput>text</computeroutput> is empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_fingerprinter.h" line="85" column="24" bodyfile="src/toolbox/content_fingerprinter.cpp" bodystart="52" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1toolbox_1_1_content_fingerprinter_1a9205aa800efe6a0447585310501b4bac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref></type>
+        <definition>ContentFingerprint themis::toolbox::ContentFingerprinter::compute</definition>
+        <argsstring>(const unsigned char *data, std::size_t len) const</argsstring>
+        <name>compute</name>
+        <qualifiedname>themis::toolbox::ContentFingerprinter::compute</qualifiedname>
+        <param>
+          <type>const unsigned char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Compute a <computeroutput><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref></computeroutput> for the given raw bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the first byte. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated fingerprint. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_fingerprinter.h" line="94" column="24" bodyfile="src/toolbox/content_fingerprinter.cpp" bodystart="74" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Computes a <computeroutput><ref refid="structthemis_1_1toolbox_1_1_content_fingerprint" kindref="compound">ContentFingerprint</ref></computeroutput> from raw bytes or UTF-8 text. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Internally uses OpenSSL <computeroutput>SHA256()</computeroutput> for the cryptographic digest. Token estimation uses the same 4 chars-per-token heuristic as <computeroutput>rag::DocumentSplitter</computeroutput>.</para>
+<para>Thread-safety: all methods are stateless; an instance may be shared across threads. </para>
+    </detaileddescription>
+    <location file="include/toolbox/content_fingerprinter.h" line="70" column="1" bodyfile="include/toolbox/content_fingerprinter.h" bodystart="70" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1af9f44ff174554cf6d6fa4d9137acdc41" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentFingerprinter</scope><name>compute</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a9205aa800efe6a0447585310501b4bac" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentFingerprinter</scope><name>compute</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a029c612de899928a5d52ca989ff84e66" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentFingerprinter</scope><name>ContentFingerprinter</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a5a50d676c20fcdc6e476dc20b92c6c83" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentFingerprinter</scope><name>ContentFingerprinter</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1ad890b062dfddd350ae495e66c17da809" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentFingerprinter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1toolbox_1_1_content_fingerprinter_1a7f7b6ca2f4fe72b18c70907e55ec1c51" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentFingerprinter</scope><name>~ContentFingerprinter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

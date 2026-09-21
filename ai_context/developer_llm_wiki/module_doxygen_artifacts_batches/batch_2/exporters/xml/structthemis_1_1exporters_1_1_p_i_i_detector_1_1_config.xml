@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::PIIDetector::Config</compoundname>
+    <includes refid="pii__detector_8h" local="no">pii_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a701383a7ebbf2b571e81ce6b2fb92c64" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::PIIDetector::Config::detect_email</definition>
+        <argsstring></argsstring>
+        <name>detect_email</name>
+        <qualifiedname>themis::exporters::PIIDetector::Config::detect_email</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="48" column="14" bodyfile="include/exporters/pii_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1aca822ddee7ab562790aaa7cd985f5b3b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::PIIDetector::Config::detect_phone</definition>
+        <argsstring></argsstring>
+        <name>detect_phone</name>
+        <qualifiedname>themis::exporters::PIIDetector::Config::detect_phone</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="49" column="14" bodyfile="include/exporters/pii_detector.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a027a5d92ed7bda245ab1c497fa3df184" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::PIIDetector::Config::detect_ssn</definition>
+        <argsstring></argsstring>
+        <name>detect_ssn</name>
+        <qualifiedname>themis::exporters::PIIDetector::Config::detect_ssn</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="50" column="14" bodyfile="include/exporters/pii_detector.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a1342d552acf00dbb95ae733f690dffcc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::PIIDetector::Config::detect_credit_card</definition>
+        <argsstring></argsstring>
+        <name>detect_credit_card</name>
+        <qualifiedname>themis::exporters::PIIDetector::Config::detect_credit_card</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="51" column="14" bodyfile="include/exporters/pii_detector.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a52900594fededc55ff64381b370aac0b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::PIIDetector::Config::detect_ip_address</definition>
+        <argsstring></argsstring>
+        <name>detect_ip_address</name>
+        <qualifiedname>themis::exporters::PIIDetector::Config::detect_ip_address</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="52" column="14" bodyfile="include/exporters/pii_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a6f91a8d9e43c8c8cac9a506abd2a6bec" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7" kindref="member">RedactionStrategy</ref></type>
+        <definition>RedactionStrategy themis::exporters::PIIDetector::Config::default_strategy</definition>
+        <argsstring></argsstring>
+        <name>default_strategy</name>
+        <qualifiedname>themis::exporters::PIIDetector::Config::default_strategy</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7a0a9501840acacfc8efe7522f5340000c" kindref="member">RedactionStrategy::MASK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="54" column="27" bodyfile="include/exporters/pii_detector.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a29921f01957c5db405ffe88f587b8467" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446" kindref="member">PIIType</ref>, <ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7" kindref="member">RedactionStrategy</ref> &gt;</type>
+        <definition>std::map&lt;PIIType, RedactionStrategy&gt; themis::exporters::PIIDetector::Config::strategy_per_type</definition>
+        <argsstring></argsstring>
+        <name>strategy_per_type</name>
+        <qualifiedname>themis::exporters::PIIDetector::Config::strategy_per_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="55" column="18" bodyfile="include/exporters/pii_detector.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a4180459b8dc1044180f86cfcdc2db2d8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::PIIDetector::Config::partial_keep_prefix</definition>
+        <argsstring></argsstring>
+        <name>partial_keep_prefix</name>
+        <qualifiedname>themis::exporters::PIIDetector::Config::partial_keep_prefix</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="58" column="16" bodyfile="include/exporters/pii_detector.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a42679627d0955bc4f1e252d5a7209c30" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::PIIDetector::Config::partial_keep_suffix</definition>
+        <argsstring></argsstring>
+        <name>partial_keep_suffix</name>
+        <qualifiedname>themis::exporters::PIIDetector::Config::partial_keep_suffix</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="59" column="16" bodyfile="include/exporters/pii_detector.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/pii_detector.h" line="47" column="5" bodyfile="include/exporters/pii_detector.h" bodystart="47" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a6f91a8d9e43c8c8cac9a506abd2a6bec" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::Config</scope><name>default_strategy</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a1342d552acf00dbb95ae733f690dffcc" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::Config</scope><name>detect_credit_card</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a701383a7ebbf2b571e81ce6b2fb92c64" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::Config</scope><name>detect_email</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a52900594fededc55ff64381b370aac0b" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::Config</scope><name>detect_ip_address</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1aca822ddee7ab562790aaa7cd985f5b3b" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::Config</scope><name>detect_phone</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a027a5d92ed7bda245ab1c497fa3df184" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::Config</scope><name>detect_ssn</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a4180459b8dc1044180f86cfcdc2db2d8" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::Config</scope><name>partial_keep_prefix</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a42679627d0955bc4f1e252d5a7209c30" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::Config</scope><name>partial_keep_suffix</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config_1a29921f01957c5db405ffe88f587b8467" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::Config</scope><name>strategy_per_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

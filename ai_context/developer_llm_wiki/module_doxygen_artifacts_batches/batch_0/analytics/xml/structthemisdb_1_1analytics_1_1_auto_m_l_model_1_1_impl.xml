@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AutoMLModel::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a18d49ebafc6ab65627633343e6531b09" prot="public" static="no" mutable="yes">
+        <type>std::recursive_mutex</type>
+        <definition>std::recursive_mutex themisdb::analytics::AutoMLModel::Impl::access_mutex</definition>
+        <argsstring></argsstring>
+        <name>access_mutex</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::access_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1745" column="34" bodyfile="src/analytics/automl.cpp" bodystart="1745" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a764116ac3d8a8e132ea7b739a918e915" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029" kindref="member">AutoMLTask</ref></type>
+        <definition>AutoMLTask themisdb::analytics::AutoMLModel::Impl::task</definition>
+        <argsstring></argsstring>
+        <name>task</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::task</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1af6afc7787e1073b79d3daed1b1b27029a7a249cdff24e60e2ee42699a02026a89" kindref="member">AutoMLTask::CLASSIFICATION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1746" column="16" bodyfile="src/analytics/automl.cpp" bodystart="1746" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a585e67aa12d8356304a9b09299ba7368" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref></type>
+        <definition>ModelAlgorithm themisdb::analytics::AutoMLModel::Impl::algo</definition>
+        <argsstring></argsstring>
+        <name>algo</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::algo</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a50951d8269614400bb32419b705bc3ca" kindref="member">ModelAlgorithm::DECISION_TREE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1747" column="20" bodyfile="src/analytics/automl.cpp" bodystart="1747" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a11dfa27d9bd93b3ab596617bd6ed34e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AutoMLModel::Impl::name_str</definition>
+        <argsstring></argsstring>
+        <name>name_str</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::name_str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1748" column="17" bodyfile="src/analytics/automl.cpp" bodystart="1748" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a3f5b232bdf33b23a9a504333199a5288" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics" kindref="compound">EvalMetrics</ref></type>
+        <definition>EvalMetrics themisdb::analytics::AutoMLModel::Impl::metrics_val</definition>
+        <argsstring></argsstring>
+        <name>metrics_val</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::metrics_val</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1749" column="17" bodyfile="src/analytics/automl.cpp" bodystart="1749" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a614885e4f19b3937a81c542e0686f86d" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ModelBase &gt;</type>
+        <definition>std::unique_ptr&lt;ModelBase&gt; themisdb::analytics::AutoMLModel::Impl::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1750" column="21" bodyfile="src/analytics/automl.cpp" bodystart="1750" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a1773e3be266e404df589ab5c037f9ed2" prot="public" static="no" mutable="no">
+        <type>Scaler</type>
+        <definition>Scaler themisdb::analytics::AutoMLModel::Impl::scaler</definition>
+        <argsstring></argsstring>
+        <name>scaler</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::scaler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1751" column="12" bodyfile="src/analytics/automl.cpp" bodystart="1751" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1ae4781d3d5e32a7f87b0ddcfa12901a36" prot="public" static="no" mutable="no">
+        <type>LabelEncoder</type>
+        <definition>LabelEncoder themisdb::analytics::AutoMLModel::Impl::label_enc</definition>
+        <argsstring></argsstring>
+        <name>label_enc</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::label_enc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1752" column="18" bodyfile="src/analytics/automl.cpp" bodystart="1752" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a67a9dd61915932532077dd3fa37dd35a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::AutoMLModel::Impl::use_poly</definition>
+        <argsstring></argsstring>
+        <name>use_poly</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::use_poly</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1753" column="10" bodyfile="src/analytics/automl.cpp" bodystart="1753" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1ab9551d1c44106019eea71a3c35593b4d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::AutoMLModel::Impl::feat_names</definition>
+        <argsstring></argsstring>
+        <name>feat_names</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::feat_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1754" column="17" bodyfile="src/analytics/automl.cpp" bodystart="1754" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a654bf8c13f0fe7442a232f94ff0228ee" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_candidate_model_info" kindref="compound">CandidateModelInfo</ref> &gt;</type>
+        <definition>std::vector&lt;CandidateModelInfo&gt; themisdb::analytics::AutoMLModel::Impl::candidates</definition>
+        <argsstring></argsstring>
+        <name>candidates</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1755" column="17" bodyfile="src/analytics/automl.cpp" bodystart="1755" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a3c8257e2cf13eef78c565fcaa9f57d44" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themisdb::analytics::AutoMLModel::Impl::feat_importance</definition>
+        <argsstring></argsstring>
+        <name>feat_importance</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::feat_importance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1756" column="14" bodyfile="src/analytics/automl.cpp" bodystart="1756" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a04d752547429b785b78f248e6a5d42ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themisdb::analytics::AutoMLModel::Impl::prepareRow</definition>
+        <argsstring>(const DataPoint &amp;p) const</argsstring>
+        <name>prepareRow</name>
+        <qualifiedname>themisdb::analytics::AutoMLModel::Impl::prepareRow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/automl.cpp" line="1758" column="17" bodyfile="src/analytics/automl.cpp" bodystart="1758" bodyend="1782"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>anonymous:label_enc</label>
+      </node>
+      <node id="3">
+        <label>anonymous:scaler</label>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::AutoMLModel::Impl</label>
+        <link refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics_val</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>scaler</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>label_enc</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::EvalMetrics</label>
+        <link refid="structthemisdb_1_1analytics_1_1_eval_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/automl.cpp" line="1744" column="1" bodyfile="src/analytics/automl.cpp" bodystart="1744" bodyend="1783"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a18d49ebafc6ab65627633343e6531b09" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>access_mutex</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a585e67aa12d8356304a9b09299ba7368" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>algo</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a654bf8c13f0fe7442a232f94ff0228ee" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>candidates</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a3c8257e2cf13eef78c565fcaa9f57d44" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>feat_importance</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1ab9551d1c44106019eea71a3c35593b4d" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>feat_names</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1ae4781d3d5e32a7f87b0ddcfa12901a36" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>label_enc</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a3f5b232bdf33b23a9a504333199a5288" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>metrics_val</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a614885e4f19b3937a81c542e0686f86d" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>model</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a11dfa27d9bd93b3ab596617bd6ed34e9" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>name_str</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a04d752547429b785b78f248e6a5d42ee" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>prepareRow</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a1773e3be266e404df589ab5c037f9ed2" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>scaler</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a764116ac3d8a8e132ea7b739a918e915" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>task</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_auto_m_l_model_1_1_impl_1a67a9dd61915932532077dd3fa37dd35a" prot="public" virt="non-virtual"><scope>themisdb::analytics::AutoMLModel::Impl</scope><name>use_poly</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

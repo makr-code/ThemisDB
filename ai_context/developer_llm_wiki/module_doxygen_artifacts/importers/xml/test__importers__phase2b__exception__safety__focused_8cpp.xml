@@ -1,0 +1,584 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__importers__phase2b__exception__safety__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_importers_phase2b_exception_safety_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes refid="kafka__importer_8h" local="yes">importers/kafka_importer.h</includes>
+    <includes refid="canonical__resolver_8h" local="yes">importers/canonical_resolver.h</includes>
+    <includes refid="mdm__engine_8h" local="yes">importers/mdm_engine.h</includes>
+    <includes refid="audit__trail_8h" local="yes">importers/audit_trail.h</includes>
+    <includes refid="postgres__importer__mdm_8h" local="yes">importers/postgres_importer_mdm.h</includes>
+    <includes refid="s3__importer_8h" local="yes">importers/s3_importer.h</includes>
+    <incdepgraph>
+      <node id="24">
+        <label>importers/audit_trail.h</label>
+        <link refid="audit__trail_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>importers/canonical_resolver.h</label>
+        <link refid="canonical__resolver_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>importers/conflict_resolver.h</label>
+        <link refid="conflict__resolver_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>importers/entity_linker.h</label>
+        <link refid="entity__linker_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>importers/entity_matcher.h</label>
+        <link refid="entity__matcher_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>importers/flatfile_importer.h</label>
+        <link refid="flatfile__importer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>importers/importer_interface.h</label>
+        <link refid="importer__interface_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>importers/kafka_importer.h</label>
+        <link refid="kafka__importer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>importers/mdm_audit_trail.h</label>
+        <link refid="mdm__audit__trail_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>importers/mdm_engine.h</label>
+        <link refid="mdm__engine_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>importers/mdm_metrics.h</label>
+        <link refid="mdm__metrics_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>importers/postgres_importer.h</label>
+        <link refid="postgres__importer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>importers/postgres_importer_mdm.h</label>
+        <link refid="postgres__importer__mdm_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>importers/relationship_mapper.h</label>
+        <link refid="relationship__mapper_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>importers/s3_importer.h</label>
+        <link refid="s3__importer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>importers/schema_validator.h</label>
+        <link refid="schema__validator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/importers/test_importers_phase2b_exception_safety_focused.cpp</label>
+        <link refid="test__importers__phase2b__exception__safety__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="32">
+        <label>regex</label>
+      </node>
+      <node id="30">
+        <label>set</label>
+      </node>
+      <node id="3">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="28">
+        <label>unordered_map</label>
+      </node>
+      <node id="33">
+        <label>unordered_set</label>
+      </node>
+      <node id="17">
+        <label>utility</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test" prot="public">themis::importers::test::KafkaImporterExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test" prot="public">themis::importers::test::CanonicalResolverExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test" prot="public">themis::importers::test::MDMEngineExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_audit_trail_exception_safety_test" prot="public">themis::importers::test::AuditTrailExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test" prot="public">themis::importers::test::PostgreSQLImporterMDMExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test" prot="public">themis::importers::test::S3ImporterExceptionSafetyTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers_1_1test">themis::importers::test</innernamespace>
+    <briefdescription>
+<para>Phase 2B: Resource leak exception safety gap fixes (13 focused tests). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+Tests for proper resource cleanup in exception paths for importer classes. Each test verifies that resource allocations are exception-safe using std::make_unique&lt;T&gt;. LSAN verifies 0 bytes leaked in exception scenarios.</para>
+<para>Gap Categories:<itemizedlist>
+<listitem><para>kafka_importer: 4 gaps (IMPI-2B-KA-01..04)</para>
+</listitem><listitem><para>canonical_resolver: 3 gaps (IMPI-2B-CR-01..03)</para>
+</listitem><listitem><para>mdm_engine: 1 gap (IMPI-2B-MD-01)</para>
+</listitem><listitem><para>audit_trail: 1 gap (IMPI-2B-AT-01)</para>
+</listitem><listitem><para>postgres_importer_mdm: 2 gaps (IMPI-2B-PM-01..02)</para>
+</listitem><listitem><para>s3_importer: 1 gap (IMPI-2B-S3-01) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kafka__importer_8h" kindref="compound">importers/kafka_importer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="canonical__resolver_8h" kindref="compound">importers/canonical_resolver.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="mdm__engine_8h" kindref="compound">importers/mdm_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="audit__trail_8h" kindref="compound">importers/audit_trail.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="postgres__importer__mdm_8h" kindref="compound">importers/postgres_importer_mdm.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="s3__importer_8h" kindref="compound">importers/s3_importer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants<sp/>for<sp/>exception<sp/>safety<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1_1test_1a22473c1be96ebbf5a9bcc807baaa7df5" kindref="member">kExceptionTestTimeout_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1_1test_1aa5c6b6b9bb32a3168e801ce20cac0ef7" kindref="member">kAllocationRetries</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Kafka<sp/>Importer<sp/>Exception<sp/>Safety<sp/>Fixes<sp/>(4<sp/>gaps)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test" kindref="compound">KafkaImporterExceptionSafetyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test_1a329ff8f641cf9ad469c5a8d10cf6a86b" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test_1ab499494d8aec2ac290cb861cc962a44e" kindref="member">importer_</ref><sp/>=<sp/>std::make_unique&lt;KafkaImporter&gt;();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;KafkaImporter&gt;<sp/><ref refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test_1ab499494d8aec2ac290cb861cc962a44e" kindref="member">importer_</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1importers_1_1test_1_1_kafka_importer_exception_safety_test" kindref="compound">KafkaImporterExceptionSafetyTest</ref>,<sp/>IMPI_2B_KA_01_ConsumerInitExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>consumer<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up<sp/>on<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(importer_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>fix<sp/>ensures<sp/>unique_ptr<sp/>auto-destructs<sp/>on<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>explicit<sp/>delete<sp/>needed<sp/>-<sp/>exception<sp/>safety<sp/>guaranteed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(KafkaImporterExceptionSafetyTest,<sp/>IMPI_2B_KA_02_OffsetStateExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>offset<sp/>state<sp/>is<sp/>properly<sp/>cleaned<sp/>up<sp/>on<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;<sp/>with<sp/>try-catch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(importer_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(KafkaImporterExceptionSafetyTest,<sp/>IMPI_2B_KA_03_MessageBufferExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>message<sp/>buffer<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new[]`<sp/>→<sp/>std::make_unique&lt;T[]&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(importer_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(KafkaImporterExceptionSafetyTest,<sp/>IMPI_2B_KA_04_ConnectionPoolExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>connection<sp/>pool<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>std::make_unique&lt;ConnectionPool&gt;<sp/>+<sp/>try-catch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(importer_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Canonical<sp/>Resolver<sp/>Exception<sp/>Safety<sp/>Fixes<sp/>(3<sp/>gaps)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test" kindref="compound">CanonicalResolverExceptionSafetyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test_1a26b201a550487091bf112d8fa1f3b598" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test_1ab6f30ef1a80b3f72dde6b3381327d113" kindref="member">resolver_</ref><sp/>=<sp/>std::make_unique&lt;CanonicalEntityResolver&gt;();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;CanonicalEntityResolver&gt;<sp/><ref refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test_1ab6f30ef1a80b3f72dde6b3381327d113" kindref="member">resolver_</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1importers_1_1test_1_1_canonical_resolver_exception_safety_test" kindref="compound">CanonicalResolverExceptionSafetyTest</ref>,<sp/>IMPI_2B_CR_01_EntityResolverExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>EntityResolver<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resolver_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(CanonicalResolverExceptionSafetyTest,<sp/>IMPI_2B_CR_02_TypeResolverExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>TypeResolver<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resolver_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(CanonicalResolverExceptionSafetyTest,<sp/>IMPI_2B_CR_03_NamespaceResolverExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>NamespaceResolver<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(resolver_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>MDM<sp/>Engine<sp/>Exception<sp/>Safety<sp/>Fixes<sp/>(1<sp/>gap)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test" kindref="compound">MDMEngineExceptionSafetyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test_1ae9ccdbae9738e3dc392f091e873afea6" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test_1a275edfa1f97cb1e2f649b0131095ee2d" kindref="member">engine_</ref><sp/>=<sp/>std::make_unique&lt;MDMEngine&gt;();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MDMEngine&gt;<sp/><ref refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test_1a275edfa1f97cb1e2f649b0131095ee2d" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1importers_1_1test_1_1_m_d_m_engine_exception_safety_test" kindref="compound">MDMEngineExceptionSafetyTest</ref>,<sp/>IMPI_2B_MD_01_EntitySnapshotMergeExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>entity<sp/>snapshot<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;<sp/>with<sp/>RAII</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(engine_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Audit<sp/>Trail<sp/>Exception<sp/>Safety<sp/>Fixes<sp/>(1<sp/>gap)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1importers_1_1test_1_1_audit_trail_exception_safety_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1test_1_1_audit_trail_exception_safety_test" kindref="compound">AuditTrailExceptionSafetyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_audit_trail_exception_safety_test_1af74f617ca63b7cb320e6301b381e7a9e" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_audit_trail_exception_safety_test_1a962638c3f472268a864e6e76bb98b211" kindref="member">trail_</ref><sp/>=<sp/>std::make_unique&lt;AuditTrail&gt;();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AuditTrail&gt;<sp/><ref refid="classthemis_1_1importers_1_1test_1_1_audit_trail_exception_safety_test_1a962638c3f472268a864e6e76bb98b211" kindref="member">trail_</ref>;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1importers_1_1test_1_1_audit_trail_exception_safety_test" kindref="compound">AuditTrailExceptionSafetyTest</ref>,<sp/>IMPI_2B_AT_01_AuditRecordSigningExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>audit<sp/>record<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(trail_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>PostgreSQL<sp/>Importer<sp/>MDM<sp/>Exception<sp/>Safety<sp/>Fixes<sp/>(2<sp/>gaps)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test" kindref="compound">PostgreSQLImporterMDMExceptionSafetyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test_1a164fa7825cfa89cca32be4de855dec2c" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test_1a787845b305293f87e13c65b8b42e89c0" kindref="member">importer_</ref><sp/>=<sp/>std::make_unique&lt;PostgreSQLImporterMDM&gt;();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;PostgreSQLImporterMDM&gt;<sp/><ref refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test_1a787845b305293f87e13c65b8b42e89c0" kindref="member">importer_</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1importers_1_1test_1_1_postgre_s_q_l_importer_m_d_m_exception_safety_test" kindref="compound">PostgreSQLImporterMDMExceptionSafetyTest</ref>,<sp/>IMPI_2B_PM_01_MDMMetadataResolverExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>metadata<sp/>resolver<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;<sp/>+<sp/>try-catch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(importer_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(PostgreSQLImporterMDMExceptionSafetyTest,<sp/>IMPI_2B_PM_02_LineageTrackerExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>lineage<sp/>tracker<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;<sp/>+<sp/>try-catch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(importer_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>S3<sp/>Importer<sp/>Exception<sp/>Safety<sp/>Fixes<sp/>(1<sp/>gap)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test" kindref="compound">S3ImporterExceptionSafetyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test_1a32a4b1108e0d60f8bfc908de9d0666f7" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test_1aa9c340eabbd6f09692f32f6820cdd919" kindref="member">importer_</ref><sp/>=<sp/>std::make_unique&lt;S3Importer&gt;();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;S3Importer&gt;<sp/><ref refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test_1aa9c340eabbd6f09692f32f6820cdd919" kindref="member">importer_</ref>;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="namespacethemis_1_1importers_1_1test_1a6558240df4dbf30b009d49623a77623f" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test" kindref="compound">S3ImporterExceptionSafetyTest</ref>,<sp/>IMPI_2B_S3_01_S3ObjectStreamExceptionSafety)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>S3<sp/>object<sp/>stream<sp/>resources<sp/>are<sp/>properly<sp/>cleaned<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>fix:<sp/>raw<sp/>`new`<sp/>→<sp/>std::make_unique&lt;&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LSAN<sp/>should<sp/>report<sp/>0<sp/>bytes<sp/>leaked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(importer_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>importers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LSAN<sp/>Configuration<sp/>for<sp/>Exception<sp/>Safety<sp/>Testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Run<sp/>with:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LSAN_OPTIONS=verbosity=2:log_pointers=1<sp/>ctest<sp/>-R<sp/>&quot;importers.*2b.*&quot;<sp/>-V</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>output:<sp/>&quot;SUMMARY:<sp/>LeakSanitizer:<sp/>0<sp/>bytes<sp/>leaked&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp"/>
+  </compounddef>
+</doxygen>

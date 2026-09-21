@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_455122868d15634e49694e61139537b9" kind="dir">
+    <compoundname>tests/importers</compoundname>
+    <innerfile refid="test__importer__async__api_8cpp">test_importer_async_api.cpp</innerfile>
+    <innerfile refid="test__importer__conflict__resolver_8cpp">test_importer_conflict_resolver.cpp</innerfile>
+    <innerfile refid="test__importer__interfaces_8cpp">test_importer_interfaces.cpp</innerfile>
+    <innerfile refid="test__importer__plugin__api_8cpp">test_importer_plugin_api.cpp</innerfile>
+    <innerfile refid="test__importers__contract__hardening__focused_8cpp">test_importers_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__importers__new__connectors__focused_8cpp">test_importers_new_connectors_focused.cpp</innerfile>
+    <innerfile refid="test__importers__phase2__phase3__integration__focused_8cpp">test_importers_phase2_phase3_integration_focused.cpp</innerfile>
+    <innerfile refid="test__importers__phase2__t2__3__conflict__quality__audit_8cpp">test_importers_phase2_t2_3_conflict_quality_audit.cpp</innerfile>
+    <innerfile refid="test__importers__phase2a__data__race__focused_8cpp">test_importers_phase2a_data_race_focused.cpp</innerfile>
+    <innerfile refid="test__importers__phase2b__exception__safety__focused_8cpp">test_importers_phase2b_exception_safety_focused.cpp</innerfile>
+    <innerfile refid="test__phase4__importer__hardening_8cpp">test_phase4_importer_hardening.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/importers/"/>
+  </compounddef>
+</doxygen>

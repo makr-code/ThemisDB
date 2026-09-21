@@ -1,0 +1,514 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::sharding::InMemoryAdapterDistributionStore</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store" prot="public" virt="non-virtual">themis::sharding::IAdapterDistributionStore</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a54c376c6ccfc14465deb01e2aa1de89d" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::sharding::InMemoryAdapterDistributionStore::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="248" column="31" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a1d651effd834f5859c70308dd2d8c2e2" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref>, <ref refid="structthemis_1_1sharding_1_1_adapter_distribution_receipt" kindref="compound">AdapterDistributionReceipt</ref> &gt;</type>
+        <definition>std::unordered_map&lt;DistributionEventId, AdapterDistributionReceipt&gt; themis::sharding::InMemoryAdapterDistributionStore::receipts_</definition>
+        <argsstring></argsstring>
+        <name>receipts_</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::receipts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="249" column="24" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a237369caedc111dba4021cc7e9037c1a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref>, std::vector&lt; <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;DistributionShardId, std::vector&lt;DistributionEventId&gt; &gt; themis::sharding::InMemoryAdapterDistributionStore::shard_event_index_</definition>
+        <argsstring></argsstring>
+        <name>shard_event_index_</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::shard_event_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="250" column="24" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1ab0225563b3fe7dd7f75c1915f16315e7" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1sharding_1a8871598e27c2995fa73682e06f93781f" kindref="member">DistributionSnapshotId</ref>, <ref refid="structthemis_1_1sharding_1_1_shard_distribution_snapshot" kindref="compound">ShardDistributionSnapshot</ref> &gt;</type>
+        <definition>std::unordered_map&lt;DistributionSnapshotId, ShardDistributionSnapshot&gt; themis::sharding::InMemoryAdapterDistributionStore::snapshots_</definition>
+        <argsstring></argsstring>
+        <name>snapshots_</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::snapshots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="251" column="24" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1ae6162711b018296f4474dc77fca07131" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref>, std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_shard_distribution_snapshot" kindref="compound">ShardDistributionSnapshot</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;DistributionShardId, std::optional&lt;ShardDistributionSnapshot&gt; &gt; themis::sharding::InMemoryAdapterDistributionStore::latest_snapshot_per_shard_</definition>
+        <argsstring></argsstring>
+        <name>latest_snapshot_per_shard_</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::latest_snapshot_per_shard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="253" column="9" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a57db9388d4341c360c873af404875fa6" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::InMemoryAdapterDistributionStore::storeReceipt</definition>
+        <argsstring>(const AdapterDistributionReceipt &amp;receipt) override</argsstring>
+        <name>storeReceipt</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::storeReceipt</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store_1a2025d22ad6827d51c0131818ac1bf01e">storeReceipt</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_adapter_distribution_receipt" kindref="compound">AdapterDistributionReceipt</ref> &amp;</type>
+          <declname>receipt</declname>
+        </param>
+        <briefdescription>
+<para>Persist a distribution receipt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>receipt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully populated receipt (receipt_hash must be set). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if the event_id already exists (idempotent). </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if receipt.event_id is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="97" column="11" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="97" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1aecd356db6d25c9464d804c1d264bf37a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_adapter_distribution_receipt" kindref="compound">AdapterDistributionReceipt</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterDistributionReceipt &gt; themis::sharding::InMemoryAdapterDistributionStore::getReceipt</definition>
+        <argsstring>(const DistributionEventId &amp;event_id) const override</argsstring>
+        <name>getReceipt</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::getReceipt</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store_1abcaa47eaba0a8502d1c9ce5c4bf3b8b1">getReceipt</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &amp;</type>
+          <declname>event_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a receipt by its event identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The distribution event identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The receipt, or nullopt if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="115" column="20" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="115" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a918efbb66343e5e21bbb2539537565b3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::InMemoryAdapterDistributionStore::updateReceiptStatus</definition>
+        <argsstring>(const DistributionEventId &amp;event_id, ArtifactDistributionStatus new_status, const std::string &amp;target_signature={}, const std::string &amp;error_message={}) override</argsstring>
+        <name>updateReceiptStatus</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::updateReceiptStatus</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store_1add6662cff8adb4e46cbd2ee426c81253">updateReceiptStatus</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a2987bd8888f97c7339224c6e58c6c322" kindref="member">DistributionEventId</ref> &amp;</type>
+          <declname>event_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1sharding_1a42f503e5cd42700fe8d72564a2f89730" kindref="member">ArtifactDistributionStatus</ref></type>
+          <declname>new_status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_signature</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Update the status and confirmation fields of an existing receipt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target event. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new distribution status. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional signature provided by the target shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable error message (persisted when <computeroutput>new_status</computeroutput> is Failed; ignored otherwise). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the receipt was found and updated; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="130" column="11" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="130" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1acbe03231451276abbedfcf08d5750921" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_adapter_distribution_receipt" kindref="compound">AdapterDistributionReceipt</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterDistributionReceipt &gt; themis::sharding::InMemoryAdapterDistributionStore::listReceiptsForShard</definition>
+        <argsstring>(const DistributionShardId &amp;shard_id, std::optional&lt; ArtifactDistributionStatus &gt; status) const override</argsstring>
+        <name>listReceiptsForShard</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::listReceiptsForShard</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store_1a82890ffac689a3c4a1b99db72fe1195b">listReceiptsForShard</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref> &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1sharding_1a42f503e5cd42700fe8d72564a2f89730" kindref="member">ArtifactDistributionStatus</ref> &gt;</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>List all receipts for a given target shard, optionally filtered by status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If provided, return only receipts with this status. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered list of matching receipts (oldest first). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="158" column="18" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="158" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a93f08ae0a479909ab556498fbc8ce93c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::InMemoryAdapterDistributionStore::storeSnapshot</definition>
+        <argsstring>(const ShardDistributionSnapshot &amp;snapshot) override</argsstring>
+        <name>storeSnapshot</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::storeSnapshot</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store_1a6bb534c068402a360cb6f2924c141db9">storeSnapshot</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_distribution_snapshot" kindref="compound">ShardDistributionSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Persist a shard distribution snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully populated snapshot (snapshot_hash must be set). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if snapshot_id already exists. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if snapshot.snapshot_id is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="185" column="11" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="185" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a1f909b90bab5af7fecf1eb95eac4f089" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_shard_distribution_snapshot" kindref="compound">ShardDistributionSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; ShardDistributionSnapshot &gt; themis::sharding::InMemoryAdapterDistributionStore::getLatestSnapshot</definition>
+        <argsstring>(const DistributionShardId &amp;shard_id) const override</argsstring>
+        <name>getLatestSnapshot</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::getLatestSnapshot</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store_1a58c136ba4cb24926009738c5509184a4">getLatestSnapshot</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref> &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the most recent snapshot for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The latest snapshot, or nullopt if none exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="208" column="20" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="208" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a268d5429d71089629ab471e67f75dcb1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::InMemoryAdapterDistributionStore::countReceiptsSinceSnapshot</definition>
+        <argsstring>(const DistributionShardId &amp;shard_id, uint64_t after_count) const override</argsstring>
+        <name>countReceiptsSinceSnapshot</name>
+        <qualifiedname>themis::sharding::InMemoryAdapterDistributionStore::countReceiptsSinceSnapshot</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store_1a3dc1c149967597d0e1996ef8ca80d3f7">countReceiptsSinceSnapshot</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1aeb2a366e4eb4ca280b7330e24bc0ba54" kindref="member">DistributionShardId</ref> &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>after_count</declname>
+        </param>
+        <briefdescription>
+<para>Count confirmed receipts for a shard since a given snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used during recovery to determine which receipts need replay.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>after_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start counting from receipts with index &gt; after_count. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of confirmed receipts after the given count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/sharding/lora_artifact_distribution.cpp" line="223" column="15" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="223" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::sharding::IAdapterDistributionStore</label>
+        <link refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::InMemoryAdapterDistributionStore</label>
+        <link refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::IAdapterDistributionStore</label>
+        <link refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::InMemoryAdapterDistributionStore</label>
+        <link refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/sharding/lora_artifact_distribution.cpp" line="95" column="1" bodyfile="src/sharding/lora_artifact_distribution.cpp" bodystart="95" bodyend="254"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a268d5429d71089629ab471e67f75dcb1" prot="public" virt="virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>countReceiptsSinceSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a1f909b90bab5af7fecf1eb95eac4f089" prot="public" virt="virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>getLatestSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1aecd356db6d25c9464d804c1d264bf37a" prot="public" virt="virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>getReceipt</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1ae6162711b018296f4474dc77fca07131" prot="private" virt="non-virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>latest_snapshot_per_shard_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1acbe03231451276abbedfcf08d5750921" prot="public" virt="virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>listReceiptsForShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a54c376c6ccfc14465deb01e2aa1de89d" prot="private" virt="non-virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a1d651effd834f5859c70308dd2d8c2e2" prot="private" virt="non-virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>receipts_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a237369caedc111dba4021cc7e9037c1a" prot="private" virt="non-virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>shard_event_index_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1ab0225563b3fe7dd7f75c1915f16315e7" prot="private" virt="non-virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>snapshots_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a57db9388d4341c360c873af404875fa6" prot="public" virt="virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>storeReceipt</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a93f08ae0a479909ab556498fbc8ce93c" prot="public" virt="virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>storeSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_in_memory_adapter_distribution_store_1a918efbb66343e5e21bbb2539537565b3" prot="public" virt="virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>updateReceiptStatus</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_adapter_distribution_store_1aac1bd0ee76bf72654fd1ec5998ec58c2" prot="public" virt="virtual"><scope>themis::sharding::InMemoryAdapterDistributionStore</scope><name>~IAdapterDistributionStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

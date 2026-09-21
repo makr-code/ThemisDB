@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_assembled_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::AssembledContext</compoundname>
+    <includes refid="rag__context__assembler_8h" local="no">rag_context_assembler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_assembled_context_1a06c3d2953df1aac89ed233b7263c6940" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; RetrievedChunk &gt;</type>
+        <definition>std::vector&lt;RetrievedChunk&gt; themis::rag::AssembledContext::chunks_used</definition>
+        <argsstring></argsstring>
+        <name>chunks_used</name>
+        <qualifiedname>themis::rag::AssembledContext::chunks_used</qualifiedname>
+        <briefdescription>
+<para>Chunks that fit within the context token budget (in relevance order). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="37" column="17" bodyfile="include/rag/rag_context_assembler.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_assembled_context_1a31c9d38f5030644d0ffd302e6baa5fa8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::AssembledContext::tokens_used</definition>
+        <argsstring></argsstring>
+        <name>tokens_used</name>
+        <qualifiedname>themis::rag::AssembledContext::tokens_used</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+<para>Estimated tokens consumed by the assembled chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="40" column="12" bodyfile="include/rag/rag_context_assembler.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_assembled_context_1a2134ebb7d52bcdb0894b5ae71c884d8e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::AssembledContext::tokens_remaining_for_response</definition>
+        <argsstring></argsstring>
+        <name>tokens_remaining_for_response</name>
+        <qualifiedname>themis::rag::AssembledContext::tokens_remaining_for_response</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+<para>Tokens still available for the model&apos;s response after context fill. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="43" column="12" bodyfile="include/rag/rag_context_assembler.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_assembled_context_1a2012e44c2d609c16bf91cfaf194c2c04" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::AssembledContext::was_truncated</definition>
+        <argsstring></argsstring>
+        <name>was_truncated</name>
+        <qualifiedname>themis::rag::AssembledContext::was_truncated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the last chunk was truncated to fit the remaining budget. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_context_assembler.h" line="46" column="10" bodyfile="include/rag/rag_context_assembler.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a context assembly pass. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries the selected (and possibly truncated) chunks together with token accounting data that allows the caller to set InferenceRequest::max_tokens precisely. </para>
+    </detaileddescription>
+    <location file="include/rag/rag_context_assembler.h" line="35" column="1" bodyfile="include/rag/rag_context_assembler.h" bodystart="35" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_assembled_context_1a06c3d2953df1aac89ed233b7263c6940" prot="public" virt="non-virtual"><scope>themis::rag::AssembledContext</scope><name>chunks_used</name></member>
+      <member refid="structthemis_1_1rag_1_1_assembled_context_1a2134ebb7d52bcdb0894b5ae71c884d8e" prot="public" virt="non-virtual"><scope>themis::rag::AssembledContext</scope><name>tokens_remaining_for_response</name></member>
+      <member refid="structthemis_1_1rag_1_1_assembled_context_1a31c9d38f5030644d0ffd302e6baa5fa8" prot="public" virt="non-virtual"><scope>themis::rag::AssembledContext</scope><name>tokens_used</name></member>
+      <member refid="structthemis_1_1rag_1_1_assembled_context_1a2012e44c2d609c16bf91cfaf194c2c04" prot="public" virt="non-virtual"><scope>themis::rag::AssembledContext</scope><name>was_truncated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

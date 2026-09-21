@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_deployment_plugin_source_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMDeploymentPluginSourceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_deployment_plugin_source_test_1a6fbe5015147907a66609c1f8fc4b9553" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LLMDeploymentPluginSourceTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>LLMDeploymentPluginSourceTest::test_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_deployment_plugin.cpp" line="549" column="17" bodyfile="tests/llm/test_llm_deployment_plugin.cpp" bodystart="549" bodyend="549"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_deployment_plugin_source_test_1a1f517316cf5d5b8fb3014798d1fa8c07" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMDeploymentPluginSourceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMDeploymentPluginSourceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_deployment_plugin.cpp" line="535" column="10" bodyfile="tests/llm/test_llm_deployment_plugin.cpp" bodystart="535" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_deployment_plugin_source_test_1aef10932256e621d20ea57aeab817ec80" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMDeploymentPluginSourceTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMDeploymentPluginSourceTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_deployment_plugin.cpp" line="543" column="10" bodyfile="tests/llm/test_llm_deployment_plugin.cpp" bodystart="543" bodyend="547"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMDeploymentPluginSourceTest</label>
+        <link refid="class_l_l_m_deployment_plugin_source_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMDeploymentPluginSourceTest</label>
+        <link refid="class_l_l_m_deployment_plugin_source_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_deployment_plugin.cpp" line="533" column="1" bodyfile="tests/llm/test_llm_deployment_plugin.cpp" bodystart="533" bodyend="550"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_deployment_plugin_source_test_1a1f517316cf5d5b8fb3014798d1fa8c07" prot="protected" virt="non-virtual"><scope>LLMDeploymentPluginSourceTest</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_deployment_plugin_source_test_1aef10932256e621d20ea57aeab817ec80" prot="protected" virt="non-virtual"><scope>LLMDeploymentPluginSourceTest</scope><name>TearDown</name></member>
+      <member refid="class_l_l_m_deployment_plugin_source_test_1a6fbe5015147907a66609c1f8fc4b9553" prot="protected" virt="non-virtual"><scope>LLMDeploymentPluginSourceTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

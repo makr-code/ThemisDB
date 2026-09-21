@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="approximation__rules_8h" kind="file" language="C++">
+    <compoundname>approximation_rules.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes refid="query__planner_8h" local="yes">query_planner.h</includes>
+    <includedby refid="approximation__rules_8cc" local="yes">src/evaluation/src/approximation_rules.cc</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>src/evaluation/include/approximation_rules.h</label>
+        <link refid="approximation__rules_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>query_planner.h</label>
+        <link refid="query__planner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>src/evaluation/include/approximation_rules.h</label>
+        <link refid="approximation__rules_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/evaluation/src/approximation_rules.cc</label>
+        <link refid="approximation__rules_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1evaluation_1_1_approximation_boundary" prot="public">themis::evaluation::ApproximationBoundary</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_approximation_policy" prot="public">themis::evaluation::ApproximationPolicy</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_boundary_check_result" prot="public">themis::evaluation::BoundaryCheckResult</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_approximation_rule_engine" prot="public">themis::evaluation::ApproximationRuleEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1evaluation">themis::evaluation</innernamespace>
+    <briefdescription>
+<para>Approximation boundary and governance rules for layered retrieval (EPIC 2.4). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the typed contract for approximation zones per retrieval layer, governance decisions, exactness violations, and the rule-engine interface used by the hybrid query planner to enforce policy at runtime.</para>
+<sect1 id="approximation__rules_8h_1autotoc_md4_1s1"><sect2 id="approximation__rules_8h_1autotoc_md4">
+<title>Layer → Zone mapping (canonical)</title><para><table rows="5" cols="5"><row>
+<entry thead="yes"><para>Layer  </para>
+</entry><entry thead="yes"><para>Default Zone  </para>
+</entry><entry thead="yes"><para>Truth-bearing  </para>
+</entry><entry thead="yes"><para>GPU-eligible  </para>
+</entry><entry thead="yes"><para>Fail-closed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Ann  </para>
+</entry><entry thead="no"><para>Approximate  </para>
+</entry><entry thead="no"><para>No  </para>
+</entry><entry thead="no"><para>Cat A / B  </para>
+</entry><entry thead="no"><para>No  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>TensorSummary  </para>
+</entry><entry thead="no"><para>Bounded  </para>
+</entry><entry thead="no"><para>No (advisory)  </para>
+</entry><entry thead="no"><para>Cat A / B  </para>
+</entry><entry thead="no"><para>No  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ExactGraph  </para>
+</entry><entry thead="no"><para>Exact  </para>
+</entry><entry thead="no"><para>Yes  </para>
+</entry><entry thead="no"><para>Never  </para>
+</entry><entry thead="no"><para>Yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>DistributedShard  </para>
+</entry><entry thead="no"><para>Dynamic  </para>
+</entry><entry thead="no"><para>Depends  </para>
+</entry><entry thead="no"><para>Cat A / B  </para>
+</entry><entry thead="no"><para>Depends  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="approximation__rules_8h_1autotoc_md5_1s1"><sect2 id="approximation__rules_8h_1autotoc_md5">
+<title>Governance invariants</title><para><orderedlist>
+<listitem><para>Category C operations (ACL, provenance, transactions) are always ApproximationZone::Exact. Any routing attempt to Approximate or Bounded is fail-closed (GovernanceDecision::Deny).</para>
+</listitem><listitem><para>Truth-bearing queries must use RetrievalLayer::ExactGraph or RetrievalLayer::DistributedShard with exact-on-demand active.</para>
+</listitem><listitem><para>Advisory queries may use any zone; the cheapest eligible zone is preferred.</para>
+</listitem><listitem><para>The policy version is attached to every decision for provenance tracing.</para>
+</listitem><listitem><para>Bypass is only permitted when ApproximationPolicy::allow_bypass is true and is propagated as an audit note in BoundaryCheckResult.</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="note"><para>Status: Phases 1-7 complete (contract, implementation, error handling, tests, performance, documentation, integration).</para>
+</simplesect>
+<simplesect kind="see"><para>docs/EPIC2_APPROXIMATION_GOVERNANCE.md </para>
+</simplesect>
+<simplesect kind="see"><para>docs/adr/adr-e2-004-approximation-governance-rules.md </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="query__planner_8h" kindref="compound">src/evaluation/include/query_planner.h</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__planner_8h" kindref="compound">query_planner.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1evaluation" kindref="compound">evaluation</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Approximation<sp/>zones</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4" kindref="member">ApproximationZone</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab81a30c12698563b79179ec37d43629b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab81a30c12698563b79179ec37d43629b" kindref="member">Approximate</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab6369be4060d10dd19fce02048a7b304" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab6369be4060d10dd19fce02048a7b304" kindref="member">Bounded</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4a1649aed298f99d587e2eb30c1db5946b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4a1649aed298f99d587e2eb30c1db5946b" kindref="member">Exact</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retrieval<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" kindref="member">RetrievalLayer</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca82e335f7ac0e0e412b2ae15abe662110" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca82e335f7ac0e0e412b2ae15abe662110" kindref="member">Ann</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca394db8ff39ea04432ee87ef30f156958" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca394db8ff39ea04432ee87ef30f156958" kindref="member">TensorSummary</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117cad37c39b27db98d9282658cc19099967f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117cad37c39b27db98d9282658cc19099967f" kindref="member">ExactGraph</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca7bd46c646101021cf4b172812926575e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca7bd46c646101021cf4b172812926575e" kindref="member">DistributedShard</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Governance<sp/>decisions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daae" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daae" kindref="member">GovernanceDecision</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea45f0fb72a0defdfdb01de4b5a5a6876b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea45f0fb72a0defdfdb01de4b5a5a6876b" kindref="member">Allow</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea3682d1665cf331373000c20680732d3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea3682d1665cf331373000c20680732d3a" kindref="member">Deny</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaead031c6077533a83e8ef9c1f180484912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaead031c6077533a83e8ef9c1f180484912" kindref="member">EscalateToExact</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea5ce88c4d66118388a69c6fd4262ca3a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea5ce88c4d66118388a69c6fd4262ca3a1" kindref="member">Bypass</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Exactness<sp/>violation<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675f" kindref="member">ExactnessViolation</ref><sp/>:<sp/>uint16_t<sp/>{</highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zone<sp/>mismatches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa69b037b46eeb02ab2f3bb61bcce41941" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa69b037b46eeb02ab2f3bb61bcce41941" kindref="member">ApproximateForTruthBearing</ref><sp/><sp/><sp/>=<sp/>100,</highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa2cd3c88004a83f389b86d7743d5431e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa2cd3c88004a83f389b86d7743d5431e6" kindref="member">BoundedForTruthBearing</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>101,</highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6e63e7794fd9328dce2e3a04a8cb916a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6e63e7794fd9328dce2e3a04a8cb916a" kindref="member">RequestedZoneBelowCanonicalMinimum</ref><sp/>=<sp/>102,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Category<sp/>C<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675facbbd2082c49f2bc89c28d0b20402c26c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675facbbd2082c49f2bc89c28d0b20402c26c" kindref="member">CategoryCOnNonExactLayer</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>200,</highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa303614724233738e20b9085ea31a5916" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa303614724233738e20b9085ea31a5916" kindref="member">CategoryCGpuAttempt</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>201,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Artifact<sp/>quality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa483faf71bb22d660ca20930e4f1979e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa483faf71bb22d660ca20930e4f1979e7" kindref="member">StaleArtifactForFreshnessGate</ref><sp/>=<sp/>300,</highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fab0e5510a5e92be5da7b2619756dc9d8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fab0e5510a5e92be5da7b2619756dc9d8c" kindref="member">ConfidenceBelowThreshold</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>301,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fade91009326c29955bdf1c36a08e7fc19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fade91009326c29955bdf1c36a08e7fc19" kindref="member">PolicyVersionMismatch</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>400,</highlight></codeline>
+<codeline lineno="111" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675facbaa02a5090716731070d716f782c527" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675facbaa02a5090716731070d716f782c527" kindref="member">FallbackNotPermitted</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>401,</highlight></codeline>
+<codeline lineno="112" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa293978564768b201fad5348a8949f806" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa293978564768b201fad5348a8949f806" kindref="member">UnknownLayer</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>402,</highlight></codeline>
+<codeline lineno="113" refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa0fce1bb8327d611ed4327993879a9d13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa0fce1bb8327d611ed4327993879a9d13" kindref="member">UnknownZone</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>403,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>boundary<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1evaluation_1_1_approximation_boundary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_approximation_boundary" kindref="compound">ApproximationBoundary</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a710675896c58013b7ad1e28823fa1cd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" kindref="member">RetrievalLayer</ref><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a710675896c58013b7ad1e28823fa1cd5" kindref="member">layer</ref>{<ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca82e335f7ac0e0e412b2ae15abe662110" kindref="member">RetrievalLayer::Ann</ref>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a44b6379f9f1e4f80bee600a1f6ef456d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4" kindref="member">ApproximationZone</ref><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a44b6379f9f1e4f80bee600a1f6ef456d" kindref="member">zone</ref>{<ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab81a30c12698563b79179ec37d43629b" kindref="member">ApproximationZone::Approximate</ref>};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a764f2ac8fc04cc501e63f04eba922d07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170a" kindref="member">KernelCategory</ref><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a764f2ac8fc04cc501e63f04eba922d07" kindref="member">max_kernel_category</ref>{<ref refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170aa7fc56270e7a70fa81a5935b72eacbe29" kindref="member">KernelCategory::A</ref>};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1evaluation_1_1_approximation_boundary_1af73bda1073af83b53aec5558f0d3bcc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_boundary_1af73bda1073af83b53aec5558f0d3bcc4" kindref="member">truth_bearing</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a16451cb9c30f13d34f87af27b981fcdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a16451cb9c30f13d34f87af27b981fcdd" kindref="member">gpu_eligible</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a9214128a031f2416401543de2b378a24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_boundary_1a9214128a031f2416401543de2b378a24" kindref="member">fail_closed</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Dynamic<sp/>approximation<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1evaluation_1_1_approximation_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_approximation_policy" kindref="compound">ApproximationPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zone<sp/>permissions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1evaluation_1_1_approximation_policy_1a34a5ea3e1e2e82d4cdfa50e7045ad869" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy_1a34a5ea3e1e2e82d4cdfa50e7045ad869" kindref="member">allow_approx_for_advisory</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Category<sp/>C<sp/>enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1evaluation_1_1_approximation_policy_1ab66f732636ca9ae91006e8eacf1e8ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy_1ab66f732636ca9ae91006e8eacf1e8ccd" kindref="member">require_exact_for_acl</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1evaluation_1_1_approximation_policy_1aaa28b668e1120f13d9e2c9b95bf0310f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy_1aaa28b668e1120f13d9e2c9b95bf0310f" kindref="member">require_exact_for_provenance</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1evaluation_1_1_approximation_policy_1a0a3331f3465692e2f760cb1ca6d5af7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy_1a0a3331f3465692e2f760cb1ca6d5af7a" kindref="member">require_exact_for_transactions</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Confidence<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1evaluation_1_1_approximation_policy_1a33ff5b893ff08533dc471c33cce23057" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy_1a33ff5b893ff08533dc471c33cce23057" kindref="member">min_confidence_approx</ref>{0.0};</highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1evaluation_1_1_approximation_policy_1a1caa3096e245a76911fa12f93675036d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy_1a1caa3096e245a76911fa12f93675036d" kindref="member">min_confidence_bounded</ref>{0.80};</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1evaluation_1_1_approximation_policy_1acbee1412901640466e61be0b112d5b0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy_1acbee1412901640466e61be0b112d5b0a" kindref="member">min_confidence_exact</ref>{1.0};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Policy<sp/>override</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1evaluation_1_1_approximation_policy_1a4aee313a7951d31dd5b486eb38e61a50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy_1a4aee313a7951d31dd5b486eb38e61a50" kindref="member">allow_bypass</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1evaluation_1_1_approximation_policy_1a57f664209a8fbe6f1cfa540303d7c4f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy_1a57f664209a8fbe6f1cfa540303d7c4f2" kindref="member">policy_version</ref>{</highlight><highlight class="stringliteral">&quot;v0&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Boundary<sp/>check<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1evaluation_1_1_boundary_check_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result" kindref="compound">BoundaryCheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1evaluation_1_1_boundary_check_result_1abbb5385feba2d12231e06a2f540e0f69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daae" kindref="member">GovernanceDecision</ref><sp/><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result_1abbb5385feba2d12231e06a2f540e0f69" kindref="member">decision</ref>{<ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea45f0fb72a0defdfdb01de4b5a5a6876b" kindref="member">GovernanceDecision::Allow</ref>};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1evaluation_1_1_boundary_check_result_1aaf802d539739958ab89590b7cae43165" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675f" kindref="member">ExactnessViolation</ref><sp/><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result_1aaf802d539739958ab89590b7cae43165" kindref="member">violation</ref>{<ref refid="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6adf97f83acf6453d4a6a4b1070f3754" kindref="member">ExactnessViolation::None</ref>};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1evaluation_1_1_boundary_check_result_1a6bf312bfcca7e0eab6687d7841a80cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result_1a6bf312bfcca7e0eab6687d7841a80cce" kindref="member">explanation</ref>;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1evaluation_1_1_boundary_check_result_1ac63079f50d97da205ab2949fef5d1488" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result_1ac63079f50d97da205ab2949fef5d1488" kindref="member">policy_version</ref>;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1evaluation_1_1_boundary_check_result_1a5f3a457e27063e97a2e93cddd722a7be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result_1a5f3a457e27063e97a2e93cddd722a7be" kindref="member">isAllowed</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result_1abbb5385feba2d12231e06a2f540e0f69" kindref="member">decision</ref><sp/>==<sp/><ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea45f0fb72a0defdfdb01de4b5a5a6876b" kindref="member">GovernanceDecision::Allow</ref><sp/>||</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result_1abbb5385feba2d12231e06a2f540e0f69" kindref="member">decision</ref><sp/>==<sp/><ref refid="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea5ce88c4d66118388a69c6fd4262ca3a1" kindref="member">GovernanceDecision::Bypass</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ApproximationRuleEngine<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kindref="member">ApproximationRuleEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kindref="member">ApproximationRuleEngine</ref>()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a415e1bc2aa02d5fe895011341fa520d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a415e1bc2aa02d5fe895011341fa520d9" kindref="member">~ApproximationRuleEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1aa920935ff0f6d21d2cc9bc151fe521a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1aa920935ff0f6d21d2cc9bc151fe521a4" kindref="member">ApproximationRuleEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kindref="member">ApproximationRuleEngine</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a75ba4f7f058768e6a1a3e4766b047ad3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kindref="member">ApproximationRuleEngine</ref>&amp;<sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a75ba4f7f058768e6a1a3e4766b047ad3" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kindref="member">ApproximationRuleEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a3df18eb9928d6e774e0349c3e1312f3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a3df18eb9928d6e774e0349c3e1312f3b" kindref="member">ApproximationRuleEngine</ref>(<ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kindref="member">ApproximationRuleEngine</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1afd18663c226ec40f45044909b7d1f7d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kindref="member">ApproximationRuleEngine</ref>&amp;<sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1afd18663c226ec40f45044909b7d1f7d0" kindref="member">operator=</ref>(<ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kindref="member">ApproximationRuleEngine</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1aeb9824edd2f790307d4488f2ae6a943d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result" kindref="compound">BoundaryCheckResult</ref><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1aeb9824edd2f790307d4488f2ae6a943d" kindref="member">checkBoundary</ref>(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" kindref="member">RetrievalLayer</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>layer,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4" kindref="member">ApproximationZone</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>zone,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170a" kindref="member">KernelCategory</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>category,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy" kindref="compound">ApproximationPolicy</ref>&amp;<sp/>policy,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>confidence,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uses_gpu<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a07bf8c632495ba4215b29e80a4fba7af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="structthemis_1_1evaluation_1_1_boundary_check_result" kindref="compound">BoundaryCheckResult</ref><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a07bf8c632495ba4215b29e80a4fba7af" kindref="member">validatePlannedPath</ref>(</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1evaluation_1_1_planner_decision" kindref="compound">PlannerDecision</ref>&amp;<sp/><sp/><sp/><sp/><sp/>decision,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_policy" kindref="compound">ApproximationPolicy</ref>&amp;<sp/>policy)<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a488a08aa67fbed31b9e6a059c77c0c04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="structthemis_1_1evaluation_1_1_approximation_boundary" kindref="compound">ApproximationBoundary</ref><sp/><ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1a488a08aa67fbed31b9e6a059c77c0c04" kindref="member">canonicalBoundary</ref>(</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" kindref="member">RetrievalLayer</ref><sp/>layer)<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">[[nodiscard]]<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine_1ac5e6a6e2af4e8b928069a55046ad4d75" kindref="member">ApproximationRuleEngine</ref>&gt;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="namespacethemis_1_1evaluation_1a64f0d5505b0bde72fbe51f6b3a1c47b5" kindref="member">makeDefaultApproximationRuleEngine</ref>();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/evaluation/include/approximation_rules.h"/>
+  </compounddef>
+</doxygen>

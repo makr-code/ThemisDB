@@ -1,0 +1,1018 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_aggregate_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::AggregateScheduler</compoundname>
+    <includes refid="aggregate__scheduler_8h" local="no">aggregate_scheduler.h</includes>
+    <innerclass refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" prot="public">themis::AggregateScheduler::ScheduledAggregate</innerclass>
+    <innerclass refid="structthemis_1_1_aggregate_scheduler_1_1_config" prot="public">themis::AggregateScheduler::Config</innerclass>
+    <innerclass refid="structthemis_1_1_aggregate_scheduler_1_1_stats" prot="public">themis::AggregateScheduler::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1a6b47f62d1c961cfac34780170c62b22b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+        <definition>TSStore* themis::AggregateScheduler::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::AggregateScheduler::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="191" column="13" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1adc64bc0700b600a971f412266b58d3d6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_aggregate_scheduler_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::AggregateScheduler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::AggregateScheduler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="192" column="12" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1afc3810f6fcd797bac26335785ee9b3d8" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_continuous_aggregate_manager" kindref="compound">ContinuousAggregateManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ContinuousAggregateManager&gt; themis::AggregateScheduler::agg_manager_</definition>
+        <argsstring></argsstring>
+        <name>agg_manager_</name>
+        <qualifiedname>themis::AggregateScheduler::agg_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="193" column="21" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1a161fc0cd75f1d7e09e5fbed11ca119d3" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_continuous_agg_watermark_store" kindref="compound">ContinuousAggWatermarkStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ContinuousAggWatermarkStore&gt; themis::AggregateScheduler::wm_store_</definition>
+        <argsstring></argsstring>
+        <name>wm_store_</name>
+        <qualifiedname>themis::AggregateScheduler::wm_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="194" column="21" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1aca215bc429cd105fecedf93de3f6884c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TimeSeriesMetrics&gt; themis::AggregateScheduler::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::AggregateScheduler::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="195" column="21" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1a4f267f5a12fe49946d693796622d173e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::AggregateScheduler::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::AggregateScheduler::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="198" column="17" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1a422c3e3a97a86320a512161a01e4bf3f" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::AggregateScheduler::scheduler_thread_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_thread_</name>
+        <qualifiedname>themis::AggregateScheduler::scheduler_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="199" column="17" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1ab1d1afdbb1ac4ca928da5eea82f5c751" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AggregateScheduler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::AggregateScheduler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="200" column="24" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1a784026c1e30ebcfe23ef9846e45b18ff" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::AggregateScheduler::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::AggregateScheduler::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="201" column="29" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1a2207510ef4a4275eeefcdc0c98a154c7" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ScheduledAggregate&gt; themis::AggregateScheduler::aggregates_</definition>
+        <argsstring></argsstring>
+        <name>aggregates_</name>
+        <qualifiedname>themis::AggregateScheduler::aggregates_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="204" column="14" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1a60855ea2db83a90e334a4ffdf3de2fe6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::AggregateScheduler::total_refreshes_</definition>
+        <argsstring></argsstring>
+        <name>total_refreshes_</name>
+        <qualifiedname>themis::AggregateScheduler::total_refreshes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="207" column="17" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1aa28a322c1bcf7be9bc57a701b9aa04e0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::AggregateScheduler::failed_refreshes_</definition>
+        <argsstring></argsstring>
+        <name>failed_refreshes_</name>
+        <qualifiedname>themis::AggregateScheduler::failed_refreshes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="208" column="17" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_aggregate_scheduler_1a988d5f56050d1eb9e61cbdf7c7333395" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::AggregateScheduler::last_run_</definition>
+        <argsstring></argsstring>
+        <name>last_run_</name>
+        <qualifiedname>themis::AggregateScheduler::last_run_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="209" column="43" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1af27fefe0d2ce87c0a68283f0e62eeb4b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AggregateScheduler::AggregateScheduler</definition>
+        <argsstring>(TSStore *store)</argsstring>
+        <name>AggregateScheduler</name>
+        <qualifiedname>themis::AggregateScheduler::AggregateScheduler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate Scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="90" column="14" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="22" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a6f8af9674ac02847f4d5ce40dc5cf87c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AggregateScheduler::AggregateScheduler</definition>
+        <argsstring>(TSStore *store, const Config &amp;config)</argsstring>
+        <name>AggregateScheduler</name>
+        <qualifiedname>themis::AggregateScheduler::AggregateScheduler</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_aggregate_scheduler_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="91" column="5" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="25" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a8d9b8c435c2507e567ace06eaab1f797" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AggregateScheduler::~AggregateScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>~AggregateScheduler</name>
+        <qualifiedname>themis::AggregateScheduler::~AggregateScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="92" column="5" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1acb52bcc3161ceb9ef7e788112c55ce9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::AggregateScheduler::start</qualifiedname>
+        <briefdescription>
+<para>Lifecycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Lifecycle =====</para>
+<para>Calls: lock(), load(), THEMIS_WARN(), store(), std::thread(), THEMIS_INFO(), size(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="97" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="45" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a16e5993bb44a1ccc04f119a20407cdef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::AggregateScheduler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), load(), store(), notify_all(), joinable(), join(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="101" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="65" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a2841ca915dea5a190d862dab590ef0e4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AggregateScheduler::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::AggregateScheduler::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="102" column="10" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a07e92ee857be5c5dfb3c9971d2b67aa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::registerAggregate</definition>
+        <argsstring>(const ScheduledAggregate &amp;agg)</argsstring>
+        <name>registerAggregate</name>
+        <qualifiedname>themis::AggregateScheduler::registerAggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref> &amp;</type>
+          <declname>agg</declname>
+        </param>
+        <briefdescription>
+<para>Register Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Aggregate Management =====</para>
+<para>Register a continuous aggregate for automatic refresh <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>agg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scheduled aggregate configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">agg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), generateAggregateId(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="110" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="90" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a5900e9af6d25ca50c18e2a96d10590d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::AggregateScheduler::registerAggregate</definition>
+        <argsstring>(const AggConfig &amp;config, std::chrono::milliseconds refresh_interval=std::chrono::minutes(5))</argsstring>
+        <name>registerAggregate</name>
+        <qualifiedname>themis::AggregateScheduler::registerAggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_agg_config" kindref="compound">AggConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>refresh_interval</declname>
+          <defval>std::chrono::minutes(5)</defval>
+        </param>
+        <briefdescription>
+<para>Register Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a continuous aggregate from basic config <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aggregate configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>refresh_interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How often to refresh (default: 5 minutes) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregate ID</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">refresh_interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), generateAggregateId(), std::move(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="118" column="17" bodyfile="src/timeseries/aggregate_scheduler_helper.cpp" bodystart="28" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a50b9a5906e46461dfb16dc44308625fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::unregisterAggregate</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>unregisterAggregate</name>
+        <qualifiedname>themis::AggregateScheduler::unregisterAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_INFO(), deleteWatermark(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="124" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="110" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1ab36aa7d87c1760e54bb8463ce921a93e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::enableAggregate</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>enableAggregate</name>
+        <qualifiedname>themis::AggregateScheduler::enableAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Enable Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="129" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="129" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1abca43fe23f934fa2dee88e3e3eb3c109" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::disableAggregate</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>disableAggregate</name>
+        <qualifiedname>themis::AggregateScheduler::disableAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Disable Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="134" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="144" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a0b73dbdc235121175e93f53aa12ad683" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::refreshNow</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>refreshNow</name>
+        <qualifiedname>themis::AggregateScheduler::refreshNow</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Manual operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Manual Operations =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), setAttribute(), lock(), find(), end(), THEMIS_WARN(), recordError(), refreshAggregate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="140" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="160" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1ae8b49e35f24de91bd12d7394ecbeec32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::refreshAll</definition>
+        <argsstring>()</argsstring>
+        <name>refreshAll</name>
+        <qualifiedname>themis::AggregateScheduler::refreshAll</qualifiedname>
+        <briefdescription>
+<para>Refresh All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: Tracer::startSpan(), lock(), refreshAggregate(), setAttribute(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="144" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="180" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a88dd463e80cefa3218759390f9c14564" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>AggregateScheduler::Stats themis::AggregateScheduler::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::AggregateScheduler::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_aggregate_scheduler_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="160" column="11" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="199" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1ab84a21ef93d052833ece7a75f66c7ddf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref> &gt;</type>
+        <definition>std::vector&lt; AggregateScheduler::ScheduledAggregate &gt; themis::AggregateScheduler::listAggregates</definition>
+        <argsstring>() const</argsstring>
+        <name>listAggregates</name>
+        <qualifiedname>themis::AggregateScheduler::listAggregates</qualifiedname>
+        <briefdescription>
+<para>List Aggregates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="165" column="17" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="219" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1aa3c1384fe0abb65b93090117a7b8ddff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::setMetrics</definition>
+        <argsstring>(std::shared_ptr&lt; TimeSeriesMetrics &gt; metrics)</argsstring>
+        <name>setMetrics</name>
+        <qualifiedname>themis::AggregateScheduler::setMetrics</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Attach a <ref refid="classthemis_1_1_time_series_metrics" kindref="compound">TimeSeriesMetrics</ref> collector to receive per-aggregate refresh latency and lag measurements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Metrics.</para>
+<para>Must be called before <ref refid="classthemis_1_1_aggregate_scheduler_1acb52bcc3161ceb9ef7e788112c55ce9c" kindref="member">start()</ref> to ensure all refreshes are recorded. Passing nullptr disables metric recording.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the metrics collector (may be null)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="176" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="243" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1add53646d894c229eea6110b4ace5f1ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::backfill_range</definition>
+        <argsstring>(const std::string &amp;agg_id, int64_t start_ms, int64_t end_ms)</argsstring>
+        <name>backfill_range</name>
+        <qualifiedname>themis::AggregateScheduler::backfill_range</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>agg_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ms</declname>
+        </param>
+        <briefdescription>
+<para>Backfill a specific time range for a registered aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Backfill range.</para>
+<para>Processes the range [start_ms, end_ms) without touching the watermark, so this can be used to recover from gaps in watermark history.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aggregate ID as returned by <ref refid="classthemis_1_1_aggregate_scheduler_1a07e92ee857be5c5dfb3c9971d2b67aa2" kindref="member">registerAggregate()</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range start (ms since epoch, inclusive) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range end (ms since epoch, exclusive)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the agg. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_WARN(), Tracer::startSpan(), setAttribute(), lock(), find(), end(), recordError(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="188" column="10" bodyfile="src/timeseries/aggregate_scheduler_helper.cpp" bodystart="58" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a2aabe40263919b1b0bde143507f11800" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::schedulerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>schedulerLoop</name>
+        <qualifiedname>themis::AggregateScheduler::schedulerLoop</qualifiedname>
+        <briefdescription>
+<para>Scheduler loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Scheduler Loop =====</para>
+<para>Calls: THEMIS_INFO(), load(), Tracer::startSpan(), getCurrentTimeMs(), lock(), std::chrono::system_clock::now(), needsRefresh(), catchUpMissedWindows(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="214" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="253" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a9df3f85b6be3c848008017efd8bcad09" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::refreshAggregate</definition>
+        <argsstring>(ScheduledAggregate &amp;agg)</argsstring>
+        <name>refreshAggregate</name>
+        <qualifiedname>themis::AggregateScheduler::refreshAggregate</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref> &amp;</type>
+          <declname>agg</declname>
+        </param>
+        <briefdescription>
+<para>Refresh Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">agg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">agg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), setAttribute(), std::chrono::steady_clock::now(), getCurrentTimeMs(), count(), getWatermark(), refreshIncremental(), recordAggRefreshLag(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="219" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="302" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a829416e12f0df00081774a95acf50a41" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AggregateScheduler::needsRefresh</definition>
+        <argsstring>(const ScheduledAggregate &amp;agg, int64_t current_time_ms) const</argsstring>
+        <name>needsRefresh</name>
+        <qualifiedname>themis::AggregateScheduler::needsRefresh</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref> &amp;</type>
+          <declname>agg</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>current_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Needs Refresh. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">agg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="226" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="367" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1a562bf238ca945df4c733fb54e58d54b6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AggregateScheduler::catchUpMissedWindows</definition>
+        <argsstring>(ScheduledAggregate &amp;agg, int64_t current_time_ms)</argsstring>
+        <name>catchUpMissedWindows</name>
+        <qualifiedname>themis::AggregateScheduler::catchUpMissedWindows</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_aggregate_scheduler_1_1_scheduled_aggregate" kindref="compound">ScheduledAggregate</ref> &amp;</type>
+          <declname>agg</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>current_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Catch Up Missed Windows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">agg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">agg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(), std::min(), THEMIS_INFO(), Tracer::startSpan(), setAttribute(), refresh(), THEMIS_DEBUG(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="232" column="10" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="382" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1ad532e0d6bfa2d1dfa01ec72a8d904b6e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::AggregateScheduler::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::AggregateScheduler::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Helpers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="238" column="13" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="420" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_aggregate_scheduler_1ac1bc98430cc26cb72181dc7fbe21eee6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::AggregateScheduler::generateAggregateId</definition>
+        <argsstring>(const AggConfig &amp;config) const</argsstring>
+        <name>generateAggregateId</name>
+        <qualifiedname>themis::AggregateScheduler::generateAggregateId</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_agg_config" kindref="compound">AggConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Generate Aggregate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregate_scheduler.h" line="244" column="17" bodyfile="src/timeseries/aggregate_scheduler.cpp" bodystart="426" bodyend="434"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatic scheduler for continuous aggregates.</para>
+<para>Runs background thread that periodically refreshes pre-configured continuous aggregates (rollups) for time-series data.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Configurable refresh intervals per aggregate</para>
+</listitem><listitem><para>Automatic catch-up for missed windows</para>
+</listitem><listitem><para>Parallel refresh for independent metrics</para>
+</listitem><listitem><para>Graceful shutdown with flush</para>
+</listitem><listitem><para>Health monitoring and error tracking</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <ref refid="classthemis_1_1_aggregate_scheduler" kindref="compound">AggregateScheduler</ref> scheduler(tsstore);</para>
+<para>// Register aggregates scheduler.registerAggregate({ .metric = &quot;cpu_usage&quot;, .entity = &quot;server01&quot;, .window = {std::chrono::minutes(1)}, .refresh_interval = std::chrono::minutes(5) });</para>
+<para>scheduler.start(); // ... scheduler runs in background ... scheduler.stop(); </para>
+    </detaileddescription>
+    <location file="include/timeseries/aggregate_scheduler.h" line="59" column="1" bodyfile="include/timeseries/aggregate_scheduler.h" bodystart="59" bodyend="245"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_aggregate_scheduler_1afc3810f6fcd797bac26335785ee9b3d8" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>agg_manager_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a2207510ef4a4275eeefcdc0c98a154c7" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>aggregates_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1af27fefe0d2ce87c0a68283f0e62eeb4b" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>AggregateScheduler</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a6f8af9674ac02847f4d5ce40dc5cf87c" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>AggregateScheduler</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1add53646d894c229eea6110b4ace5f1ad" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>backfill_range</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a562bf238ca945df4c733fb54e58d54b6" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>catchUpMissedWindows</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1adc64bc0700b600a971f412266b58d3d6" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a784026c1e30ebcfe23ef9846e45b18ff" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1abca43fe23f934fa2dee88e3e3eb3c109" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>disableAggregate</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1ab36aa7d87c1760e54bb8463ce921a93e" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>enableAggregate</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1aa28a322c1bcf7be9bc57a701b9aa04e0" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>failed_refreshes_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1ac1bc98430cc26cb72181dc7fbe21eee6" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>generateAggregateId</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1ad532e0d6bfa2d1dfa01ec72a8d904b6e" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a88dd463e80cefa3218759390f9c14564" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a2841ca915dea5a190d862dab590ef0e4" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a988d5f56050d1eb9e61cbdf7c7333395" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>last_run_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1ab84a21ef93d052833ece7a75f66c7ddf" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>listAggregates</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1aca215bc429cd105fecedf93de3f6884c" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1ab1d1afdbb1ac4ca928da5eea82f5c751" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a829416e12f0df00081774a95acf50a41" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>needsRefresh</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a9df3f85b6be3c848008017efd8bcad09" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>refreshAggregate</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1ae8b49e35f24de91bd12d7394ecbeec32" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>refreshAll</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a0b73dbdc235121175e93f53aa12ad683" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>refreshNow</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a07e92ee857be5c5dfb3c9971d2b67aa2" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>registerAggregate</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a5900e9af6d25ca50c18e2a96d10590d8" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>registerAggregate</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a4f267f5a12fe49946d693796622d173e" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>running_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a422c3e3a97a86320a512161a01e4bf3f" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>scheduler_thread_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a2aabe40263919b1b0bde143507f11800" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>schedulerLoop</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1aa3c1384fe0abb65b93090117a7b8ddff" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>setMetrics</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1acb52bcc3161ceb9ef7e788112c55ce9c" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>start</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a16e5993bb44a1ccc04f119a20407cdef" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>stop</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a6b47f62d1c961cfac34780170c62b22b" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>store_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a60855ea2db83a90e334a4ffdf3de2fe6" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>total_refreshes_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a50b9a5906e46461dfb16dc44308625fa" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>unregisterAggregate</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a161fc0cd75f1d7e09e5fbed11ca119d3" prot="private" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>wm_store_</name></member>
+      <member refid="classthemis_1_1_aggregate_scheduler_1a8d9b8c435c2507e567ace06eaab1f797" prot="public" virt="non-virtual"><scope>themis::AggregateScheduler</scope><name>~AggregateScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

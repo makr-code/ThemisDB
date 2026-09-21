@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_i_auth_event_subscriber" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::auth::IAuthEventSubscriber</compoundname>
+    <includes refid="auth__event__bus_8h" local="no">auth_event_bus.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_auth_event_subscriber_1ab1d954a015f16697843efb0ef8978999" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::auth::IAuthEventSubscriber::~IAuthEventSubscriber</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAuthEventSubscriber</name>
+        <qualifiedname>themis::auth::IAuthEventSubscriber::~IAuthEventSubscriber</qualifiedname>
+        <briefdescription>
+<para>IAuth Event Subscriber. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_event_bus.h" line="72" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_auth_event_subscriber_1a26cd7623157ee3ae99b2be747095fb39" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::auth::IAuthEventSubscriber::onAuthEvent</definition>
+        <argsstring>(const AuthEvent &amp;event)=0</argsstring>
+        <name>onAuthEvent</name>
+        <qualifiedname>themis::auth::IAuthEventSubscriber::onAuthEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_auth_event" kindref="compound">AuthEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>On Auth Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_event_bus.h" line="78" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_i_auth_event_subscriber_1a0122c44da8b9f8e4e8ae5cf173ac464c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::auth::IAuthEventSubscriber::subscriberId</definition>
+        <argsstring>() const =0</argsstring>
+        <name>subscriberId</name>
+        <qualifiedname>themis::auth::IAuthEventSubscriber::subscriberId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_event_bus.h" line="80" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_event_bus.h" line="66" column="1" bodyfile="include/auth/auth_event_bus.h" bodystart="66" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_i_auth_event_subscriber_1a26cd7623157ee3ae99b2be747095fb39" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthEventSubscriber</scope><name>onAuthEvent</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_auth_event_subscriber_1a0122c44da8b9f8e4e8ae5cf173ac464c" prot="public" virt="pure-virtual"><scope>themis::auth::IAuthEventSubscriber</scope><name>subscriberId</name></member>
+      <member refid="classthemis_1_1auth_1_1_i_auth_event_subscriber_1ab1d954a015f16697843efb0ef8978999" prot="public" virt="virtual"><scope>themis::auth::IAuthEventSubscriber</scope><name>~IAuthEventSubscriber</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

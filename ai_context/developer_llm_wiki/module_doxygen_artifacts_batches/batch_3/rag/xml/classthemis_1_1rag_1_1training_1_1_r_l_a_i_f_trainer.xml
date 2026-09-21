@@ -1,0 +1,982 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::training::RLAIFTrainer</compoundname>
+    <includes refid="rlaif__trainer_8h" local="no">rlaif_trainer.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_cross_shard_stats" prot="public">themis::rag::training::RLAIFTrainer::CrossShardStats</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_impl" prot="public">themis::rag::training::RLAIFTrainer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ac37f7f060a85cd60227cca25e9ea01e4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::training::RLAIFTrainer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="502" column="21" bodyfile="include/rag/rlaif_trainer.h" bodystart="502" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1abf01ee0056decb93c3b99a06c3d2640b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::training::RLAIFTrainer::RLAIFTrainer</definition>
+        <argsstring>()</argsstring>
+        <name>RLAIFTrainer</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::RLAIFTrainer</qualifiedname>
+        <briefdescription>
+<para>Construct with default config and heuristic judge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="283" column="5" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="199" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1af80c74e518cd9f077ab67fd56aa8927a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::training::RLAIFTrainer::RLAIFTrainer</definition>
+        <argsstring>(const RLAIFConfig &amp;config, std::shared_ptr&lt; IAIJudge &gt; judge=nullptr)</argsstring>
+        <name>RLAIFTrainer</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::RLAIFTrainer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config" kindref="compound">RLAIFConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge" kindref="compound">IAIJudge</ref> &gt;</type>
+          <declname>judge</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct with custom config and optional judge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Training configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional AI judge; if nullptr, uses <ref refid="classthemis_1_1rag_1_1training_1_1_heuristic_a_i_judge" kindref="compound">HeuristicAIJudge</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid config parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="291" column="14" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="206" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1aac0cb67042dacd2c7aafb2ca86aae677" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::training::RLAIFTrainer::~RLAIFTrainer</definition>
+        <argsstring>()</argsstring>
+        <name>~RLAIFTrainer</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::~RLAIFTrainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="294" column="5" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="186" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a16a8ab35f3176406e01bc45593c42dbd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::training::RLAIFTrainer::RLAIFTrainer</definition>
+        <argsstring>(RLAIFTrainer &amp;&amp;) noexcept=default</argsstring>
+        <name>RLAIFTrainer</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::RLAIFTrainer</qualifiedname>
+        <param>
+          <type>RLAIFTrainer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="297" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ade59f03dc6a4923d4b4a44b4ceb1e320" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1abf01ee0056decb93c3b99a06c3d2640b" kindref="member">RLAIFTrainer</ref> &amp;</type>
+        <definition>RLAIFTrainer &amp; themis::rag::training::RLAIFTrainer::operator=</definition>
+        <argsstring>(RLAIFTrainer &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1abf01ee0056decb93c3b99a06c3d2640b" kindref="member">RLAIFTrainer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="298" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a3d47896f345fdffb4b2f64a6bb249e1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::training::RLAIFTrainer::RLAIFTrainer</definition>
+        <argsstring>(const RLAIFTrainer &amp;)=delete</argsstring>
+        <name>RLAIFTrainer</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::RLAIFTrainer</qualifiedname>
+        <param>
+          <type>const RLAIFTrainer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="300" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ad80b223a550710bbc828869d97817cab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1abf01ee0056decb93c3b99a06c3d2640b" kindref="member">RLAIFTrainer</ref> &amp;</type>
+        <definition>RLAIFTrainer &amp; themis::rag::training::RLAIFTrainer::operator=</definition>
+        <argsstring>(const RLAIFTrainer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1abf01ee0056decb93c3b99a06c3d2640b" kindref="member">RLAIFTrainer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="301" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ac4f86aa541dafd81757da863535f00b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::loadDefaultPrinciples</definition>
+        <argsstring>()</argsstring>
+        <name>loadDefaultPrinciples</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::loadDefaultPrinciples</qualifiedname>
+        <briefdescription>
+<para>Load a default set of constitutional principles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Default Principles.</para>
+<para>Loads principles based on:<itemizedlist>
+<listitem><para>Harmlessness (Bai et al., 2022)</para>
+</listitem><listitem><para>Helpfulness (InstructGPT-style)</para>
+</listitem><listitem><para>Honesty / calibration</para>
+</listitem><listitem><para>Fairness / non-discrimination</para>
+</listitem></itemizedlist>
+</para>
+<para>Calls: clear(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="316" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="251" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ac89699d72d8d3ef3de385b7a536accf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::addPrinciple</definition>
+        <argsstring>(const AIPrinciple &amp;principle)</argsstring>
+        <name>addPrinciple</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::addPrinciple</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_a_i_principle" kindref="compound">AIPrinciple</ref> &amp;</type>
+          <declname>principle</declname>
+        </param>
+        <briefdescription>
+<para>Add a custom principle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Principle.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="319" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="292" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a4258daa7c49f74747955a1a7a774079c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::removePrinciple</definition>
+        <argsstring>(const std::string &amp;principle_id)</argsstring>
+        <name>removePrinciple</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::removePrinciple</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principle_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a principle by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Principle.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">principle_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the principle.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="322" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="301" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a1e1ac53d83c85e1eeddeb4b623d881d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1training_1_1_a_i_principle" kindref="compound">AIPrinciple</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; AIPrinciple &gt; &amp; themis::rag::training::RLAIFTrainer::getPrinciples</definition>
+        <argsstring>() const</argsstring>
+        <name>getPrinciples</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::getPrinciples</qualifiedname>
+        <briefdescription>
+<para>Return all currently registered principles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="325" column="23" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="311" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a0dd2d746d983bc424a1771cd0b09ec2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step" kindref="compound">RLAIFTrainingStep</ref></type>
+        <definition>RLAIFTrainingStep themis::rag::training::RLAIFTrainer::runTrainingStep</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;draft_response)</argsstring>
+        <name>runTrainingStep</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::runTrainingStep</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>draft_response</declname>
+        </param>
+        <briefdescription>
+<para>Run one constitutional AI + preference generation step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Training Step.</para>
+<para>Steps performed:<orderedlist>
+<listitem><para>Apply critique-revision cycles to <computeroutput>draft_response</computeroutput>.</para>
+</listitem><listitem><para>After all iterations, call the judge on (draft, final_revision).</para>
+</listitem><listitem><para>If judge prefers the revision, create a (query, revision, draft) preference pair; otherwise (query, draft, revision).</para>
+</listitem><listitem><para>Store the pair in the internal dataset when preference_score &gt;= config_.min_preference_score.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user query that generated <computeroutput>draft_response</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>draft_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The initial (potentially low-quality) response. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Training step result including the preference pair.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), empty(), lock(), applyRevisionCycle(), push_back(), <ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a56301a6e43662969989b750bbf0b189a" kindref="member">createPreferencePair()</ref>, size(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="346" column="23" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="434" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ad89240debbc0d0f12a38c7a0a8ff3265" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1training_1_1_constitutional_critique" kindref="compound">ConstitutionalCritique</ref></type>
+        <definition>ConstitutionalCritique themis::rag::training::RLAIFTrainer::generateCritique</definition>
+        <argsstring>(const std::string &amp;response, const AIPrinciple &amp;principle) const</argsstring>
+        <name>generateCritique</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::generateCritique</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_a_i_principle" kindref="compound">AIPrinciple</ref> &amp;</type>
+          <declname>principle</declname>
+        </param>
+        <briefdescription>
+<para>Generate a constitutional critique for a single principle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Response to critique. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Principle to apply. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Critique result including violation flag and severity. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="356" column="28" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="319" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a20e7da1af4f6f0f0777e949d1000b4fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::RLAIFTrainer::generateRevision</definition>
+        <argsstring>(const std::string &amp;response, const std::string &amp;critique_text, const AIPrinciple &amp;principle) const</argsstring>
+        <name>generateRevision</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::generateRevision</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>critique_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_a_i_principle" kindref="compound">AIPrinciple</ref> &amp;</type>
+          <declname>principle</declname>
+        </param>
+        <briefdescription>
+<para>Generate a constitutional revision given a critique. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original response. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>critique_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Critique text to address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>principle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Principle being applied. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Revised response text. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="367" column="17" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="336" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a56301a6e43662969989b750bbf0b189a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1training_1_1_preference_pair" kindref="compound">PreferencePair</ref></type>
+        <definition>PreferencePair themis::rag::training::RLAIFTrainer::createPreferencePair</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;response_a, const std::string &amp;response_b) const</argsstring>
+        <name>createPreferencePair</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::createPreferencePair</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response_b</declname>
+        </param>
+        <briefdescription>
+<para>Create a preference pair from two candidate responses. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls the judge to determine which response is preferred, then constructs a <ref refid="structthemis_1_1rag_1_1training_1_1_preference_pair" kindref="compound">PreferencePair</ref> accordingly.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original user query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First candidate response. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second candidate response. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Preference pair (chosen is the higher-scored response). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="382" column="20" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="392" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a2826b70d4637f6addb0e92fcf0e4eaf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::addToQueue</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;draft_response)</argsstring>
+        <name>addToQueue</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::addToQueue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>draft_response</declname>
+        </param>
+        <briefdescription>
+<para>Add a (query, draft) pair to the processing queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add To Queue.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">draft_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="393" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="555" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1aa3a6b66f988aeb71761704e68c148d21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step" kindref="compound">RLAIFTrainingStep</ref> &gt;</type>
+        <definition>std::vector&lt; RLAIFTrainingStep &gt; themis::rag::training::RLAIFTrainer::processBatch</definition>
+        <argsstring>()</argsstring>
+        <name>processBatch</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::processBatch</qualifiedname>
+        <briefdescription>
+<para>Process all queued (query, draft) pairs and return new pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Batch.</para>
+<para>Clears the internal queue after processing.</para>
+<para><simplesect kind="return"><para>Training step results for each queued pair.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), reserve(), size(), push_back(), <ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a0dd2d746d983bc424a1771cd0b09ec2b" kindref="member">runTrainingStep()</ref>, clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="403" column="17" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="566" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1acc8c1a46cea0e532a0b37d316579a053" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1training_1_1_preference_pair" kindref="compound">PreferencePair</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; PreferencePair &gt; &amp; themis::rag::training::RLAIFTrainer::getDataset</definition>
+        <argsstring>() const</argsstring>
+        <name>getDataset</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::getDataset</qualifiedname>
+        <briefdescription>
+<para>Return all accumulated preference pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="412" column="23" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="583" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ae37d368cdfb6504f07356f72762dd458" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::clearDataset</definition>
+        <argsstring>()</argsstring>
+        <name>clearDataset</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::clearDataset</qualifiedname>
+        <briefdescription>
+<para>Clear the accumulated preference pairs and statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Dataset.</para>
+<para>Calls: clear(), <ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1aced9fe352d99aa7afff47e847a303fde" kindref="member">resetStats()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="417" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="591" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a265517f038560a80b7e73307ecdea34a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::training::RLAIFTrainer::datasetSize</definition>
+        <argsstring>() const</argsstring>
+        <name>datasetSize</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::datasetSize</qualifiedname>
+        <briefdescription>
+<para>Return the number of accumulated preference pairs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="420" column="12" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="596" bodyend="598"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a6a47689e7d88bdbe3823f1c30cfbb109" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_stats" kindref="compound">RLAIFTrainerStats</ref></type>
+        <definition>RLAIFTrainerStats themis::rag::training::RLAIFTrainer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::getStats</qualifiedname>
+        <briefdescription>
+<para>Return aggregated training statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="427" column="23" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="604" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1aced9fe352d99aa7afff47e847a303fde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset statistics counters (does not clear the dataset). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Stats.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="430" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="626" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a4a4deb835cc41651e391e52600f18a69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::setStepCallback</definition>
+        <argsstring>(std::function&lt; void(const RLAIFTrainingStep &amp;)&gt; callback)</argsstring>
+        <name>setStepCallback</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::setStepCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_training_step" kindref="compound">RLAIFTrainingStep</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set a callback invoked after each completed training step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback is called with a const reference; it must not throw. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="437" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="631" bodyend="634"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a62d7680fd50838e1faf4698d2c525267" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config" kindref="compound">RLAIFConfig</ref> &amp;</type>
+        <definition>const RLAIFConfig &amp; themis::rag::training::RLAIFTrainer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="445" column="23" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="640" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a331834499455d8732cdfcb275a1277fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::setConfig</definition>
+        <argsstring>(const RLAIFConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config" kindref="compound">RLAIFConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid parameters.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a20403c1748b6adf717acae84ec18c6ee" kindref="member">validateConfig()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="451" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="649" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a1ca680b457aec3e2638097141c29727e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::setJudge</definition>
+        <argsstring>(std::shared_ptr&lt; IAIJudge &gt; judge)</argsstring>
+        <name>setJudge</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::setJudge</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1training_1_1_i_a_i_judge" kindref="compound">IAIJudge</ref> &gt;</type>
+          <declname>judge</declname>
+        </param>
+        <briefdescription>
+<para>Replace the AI judge (nullptr ⟹ heuristic fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Judge.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">judge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="454" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="659" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ae9a636e19046c07708ccdeee49b92e3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::training::RLAIFTrainer::judgeName</definition>
+        <argsstring>() const</argsstring>
+        <name>judgeName</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::judgeName</qualifiedname>
+        <briefdescription>
+<para>Return the active judge name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="457" column="17" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="664" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a900da45d34542ce1c8f36ef1f78019a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::addCrossShardSummary</definition>
+        <argsstring>(const distributed_knowledge::FeedbackSummary &amp;summary, const PreferencePair &amp;synthetic_pair)</argsstring>
+        <name>addCrossShardSummary</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::addCrossShardSummary</qualifiedname>
+        <param>
+          <type>const distributed_knowledge::FeedbackSummary &amp;</type>
+          <declname>summary</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_preference_pair" kindref="compound">PreferencePair</ref> &amp;</type>
+          <declname>synthetic_pair</declname>
+        </param>
+        <briefdescription>
+<para>Ingest a cross-shard feedback summary as a synthetic preference pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── DK-5: Cross-shard RLAIF feedback ingestion ─────────────────────────────────────────────────────────────────────────────</para>
+<para>The caller is responsible for constructing the <computeroutput><ref refid="structthemis_1_1rag_1_1training_1_1_preference_pair" kindref="compound">PreferencePair</ref></computeroutput> (e.g. via nearest-neighbour lookup on <computeroutput>summary.reason_embedding</computeroutput>). This method is a type-safe wrapper that appends the pair to the dataset and increments the cross-shard counters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Anonymised feedback summary from a remote shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>synthetic_pair</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-constructed preference pair for the summary.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">synthetic_pair</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="491" column="10" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="741" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1aa0306c43214e54b0b5ed68d86648cc23" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1_1_cross_shard_stats" kindref="compound">CrossShardStats</ref></type>
+        <definition>RLAIFTrainer::CrossShardStats themis::rag::training::RLAIFTrainer::getCrossShardStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCrossShardStats</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::getCrossShardStats</qualifiedname>
+        <briefdescription>
+<para>Return counters for cross-shard preference pair ingestion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="498" column="22" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="750" bodyend="753"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a20403c1748b6adf717acae84ec18c6ee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::training::RLAIFTrainer::validateConfig</definition>
+        <argsstring>(const RLAIFConfig &amp;config)</argsstring>
+        <name>validateConfig</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::validateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config" kindref="compound">RLAIFConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Validate a <ref refid="structthemis_1_1rag_1_1training_1_1_r_l_a_i_f_config" kindref="compound">RLAIFConfig</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Config.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>describing the first violation found.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validateConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="463" column="17" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="222" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a86691dc48aca4936f42fd1ede4ded64e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1training_1_1_constitutional_revision" kindref="compound">ConstitutionalRevision</ref></type>
+        <definition>ConstitutionalRevision themis::rag::training::RLAIFTrainer::applyRevisionCycle</definition>
+        <argsstring>(const std::string &amp;response, int iteration) const</argsstring>
+        <name>applyRevisionCycle</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::applyRevisionCycle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>iteration</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="505" column="28" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="346" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a3a3b6998f30106e5d338a161896d6e1a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::training::RLAIFTrainer::scoreResponse</definition>
+        <argsstring>(const std::string &amp;response) const</argsstring>
+        <name>scoreResponse</name>
+        <qualifiedname>themis::rag::training::RLAIFTrainer::scoreResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rlaif_trainer.h" line="509" column="12" bodyfile="src/rag/rlaif_trainer.cpp" bodystart="342" bodyend="344"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Constitutional AI / RLAIF training pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Typical usage — generate a preference pair from a single query+response: <programlisting><codeline><highlight class="normal">RLAIFConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1abf01ee0056decb93c3b99a06c3d2640b" kindref="member">RLAIFTrainer</ref><sp/>trainer(cfg);</highlight></codeline>
+<codeline><highlight class="normal">trainer.loadDefaultPrinciples();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/>trainer.runTrainingStep(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Explain<sp/>quantum<sp/>entanglement.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>draft_response);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(step.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>dataset.push_back(step.preference_pair);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Batch mode: <programlisting><codeline><highlight class="normal">trainer.addToQueue(query,<sp/>draft);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pairs<sp/>=<sp/>trainer.processBatch();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/rlaif_trainer.h" line="278" column="1" bodyfile="include/rag/rlaif_trainer.h" bodystart="278" bodyend="510"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a900da45d34542ce1c8f36ef1f78019a4" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>addCrossShardSummary</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ac89699d72d8d3ef3de385b7a536accf5" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>addPrinciple</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a2826b70d4637f6addb0e92fcf0e4eaf2" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>addToQueue</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a86691dc48aca4936f42fd1ede4ded64e" prot="private" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>applyRevisionCycle</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ae37d368cdfb6504f07356f72762dd458" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>clearDataset</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a56301a6e43662969989b750bbf0b189a" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>createPreferencePair</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a265517f038560a80b7e73307ecdea34a" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>datasetSize</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ad89240debbc0d0f12a38c7a0a8ff3265" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>generateCritique</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a20e7da1af4f6f0f0777e949d1000b4fe" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>generateRevision</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a62d7680fd50838e1faf4698d2c525267" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1aa0306c43214e54b0b5ed68d86648cc23" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>getCrossShardStats</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1acc8c1a46cea0e532a0b37d316579a053" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>getDataset</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a1e1ac53d83c85e1eeddeb4b623d881d1" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>getPrinciples</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a6a47689e7d88bdbe3823f1c30cfbb109" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ac37f7f060a85cd60227cca25e9ea01e4" prot="private" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ae9a636e19046c07708ccdeee49b92e3f" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>judgeName</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ac4f86aa541dafd81757da863535f00b8" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>loadDefaultPrinciples</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ade59f03dc6a4923d4b4a44b4ceb1e320" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1ad80b223a550710bbc828869d97817cab" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1aa3a6b66f988aeb71761704e68c148d21" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>processBatch</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a4258daa7c49f74747955a1a7a774079c" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>removePrinciple</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1aced9fe352d99aa7afff47e847a303fde" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1abf01ee0056decb93c3b99a06c3d2640b" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>RLAIFTrainer</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1af80c74e518cd9f077ab67fd56aa8927a" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>RLAIFTrainer</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a16a8ab35f3176406e01bc45593c42dbd" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>RLAIFTrainer</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a3d47896f345fdffb4b2f64a6bb249e1a" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>RLAIFTrainer</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a0dd2d746d983bc424a1771cd0b09ec2b" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>runTrainingStep</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a3a3b6998f30106e5d338a161896d6e1a" prot="private" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>scoreResponse</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a331834499455d8732cdfcb275a1277fe" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a1ca680b457aec3e2638097141c29727e" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>setJudge</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a4a4deb835cc41651e391e52600f18a69" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>setStepCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1a20403c1748b6adf717acae84ec18c6ee" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>validateConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1training_1_1_r_l_a_i_f_trainer_1aac0cb67042dacd2c7aafb2ca86aae677" prot="public" virt="non-virtual"><scope>themis::rag::training::RLAIFTrainer</scope><name>~RLAIFTrainer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

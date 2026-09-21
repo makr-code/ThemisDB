@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_m_e_m_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>MEMHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_m_e_m_hardening_test_1ad555aa24756e0fa069757e304864052e" prot="protected" static="no" mutable="no">
+        <type>std::ptrdiff_t</type>
+        <definition>std::ptrdiff_t MEMHardeningTest::baseline_</definition>
+        <argsstring></argsstring>
+        <name>baseline_</name>
+        <qualifiedname>MEMHardeningTest::baseline_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="1121" column="20" bodyfile="tests/llm/test_llm_phase5_hardening.cpp" bodystart="1121" bodyend="1121"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_m_e_m_hardening_test_1a690f6b1c2b1eafad6ef384f3cb738f7a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MEMHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MEMHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="1109" column="10" bodyfile="tests/llm/test_llm_phase5_hardening.cpp" bodystart="1109" bodyend="1111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_e_m_hardening_test_1abaa4aa5d44535c22abb4788e82c9ff97" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MEMHardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>MEMHardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase5_hardening.cpp" line="1113" column="10" bodyfile="tests/llm/test_llm_phase5_hardening.cpp" bodystart="1113" bodyend="1119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for MEM (memory leak) tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Snapshots g_sim_alloc_net before each test and asserts it is restored to baseline in TearDown. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MEMHardeningTest</label>
+        <link refid="class_m_e_m_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MEMHardeningTest</label>
+        <link refid="class_m_e_m_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_phase5_hardening.cpp" line="1107" column="1" bodyfile="tests/llm/test_llm_phase5_hardening.cpp" bodystart="1107" bodyend="1122"/>
+    <listofallmembers>
+      <member refid="class_m_e_m_hardening_test_1ad555aa24756e0fa069757e304864052e" prot="protected" virt="non-virtual"><scope>MEMHardeningTest</scope><name>baseline_</name></member>
+      <member refid="class_m_e_m_hardening_test_1a690f6b1c2b1eafad6ef384f3cb738f7a" prot="protected" virt="non-virtual"><scope>MEMHardeningTest</scope><name>SetUp</name></member>
+      <member refid="class_m_e_m_hardening_test_1abaa4aa5d44535c22abb4788e82c9ff97" prot="protected" virt="non-virtual"><scope>MEMHardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

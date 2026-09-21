@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_vector_index_data" kind="class" language="C++" prot="public">
+    <compoundname>themis::VectorIndexData</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_data_1a4ad8117651c5c39e9c205b9a6e580cec" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VectorIndexData::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>themis::VectorIndexData::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/vector_index_manager_safety.cpp" line="25" column="14" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_data_1a5f11d3d7fb23f33ea49d665abf9ba4b1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorIndexData::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::VectorIndexData::name_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/vector_index_manager_safety.cpp" line="26" column="17" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_data_1af726054533828cca4056aff4569d34d5" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VectorIndexData::dimension_</definition>
+        <argsstring></argsstring>
+        <name>dimension_</name>
+        <qualifiedname>themis::VectorIndexData::dimension_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/vector_index_manager_safety.cpp" line="27" column="14" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_vector_index_data_1a6115789afa8f418e132eee782c870560" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorIndexData::VectorIndexData</definition>
+        <argsstring>(uint32_t id, const std::string &amp;name, uint32_t dimension)</argsstring>
+        <name>VectorIndexData</name>
+        <qualifiedname>themis::VectorIndexData::VectorIndexData</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/vector_index_manager_safety.cpp" line="17" column="5" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="17" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_data_1aafb28ffd667f905b9513efc8fe832777" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VectorIndexData::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::VectorIndexData::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/vector_index_manager_safety.cpp" line="20" column="14" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_data_1ad4204b2a876c450503d1c4e2ad0f9f37" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::VectorIndexData::name</definition>
+        <argsstring>() const</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::VectorIndexData::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/vector_index_manager_safety.cpp" line="21" column="23" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_data_1a641ff5187ee4935148616932da8d5a26" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VectorIndexData::dimension</definition>
+        <argsstring>() const</argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::VectorIndexData::dimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/vector_index_manager_safety.cpp" line="22" column="14" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/index/vector_index_manager_safety.cpp" line="15" column="1" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="15" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_vector_index_data_1a641ff5187ee4935148616932da8d5a26" prot="public" virt="non-virtual"><scope>themis::VectorIndexData</scope><name>dimension</name></member>
+      <member refid="classthemis_1_1_vector_index_data_1af726054533828cca4056aff4569d34d5" prot="private" virt="non-virtual"><scope>themis::VectorIndexData</scope><name>dimension_</name></member>
+      <member refid="classthemis_1_1_vector_index_data_1aafb28ffd667f905b9513efc8fe832777" prot="public" virt="non-virtual"><scope>themis::VectorIndexData</scope><name>id</name></member>
+      <member refid="classthemis_1_1_vector_index_data_1a4ad8117651c5c39e9c205b9a6e580cec" prot="private" virt="non-virtual"><scope>themis::VectorIndexData</scope><name>id_</name></member>
+      <member refid="classthemis_1_1_vector_index_data_1ad4204b2a876c450503d1c4e2ad0f9f37" prot="public" virt="non-virtual"><scope>themis::VectorIndexData</scope><name>name</name></member>
+      <member refid="classthemis_1_1_vector_index_data_1a5f11d3d7fb23f33ea49d665abf9ba4b1" prot="private" virt="non-virtual"><scope>themis::VectorIndexData</scope><name>name_</name></member>
+      <member refid="classthemis_1_1_vector_index_data_1a6115789afa8f418e132eee782c870560" prot="public" virt="non-virtual"><scope>themis::VectorIndexData</scope><name>VectorIndexData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

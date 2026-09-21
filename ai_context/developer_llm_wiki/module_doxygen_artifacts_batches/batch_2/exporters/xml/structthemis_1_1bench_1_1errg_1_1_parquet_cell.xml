@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1errg_1_1_parquet_cell" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::errg::ParquetCell</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_parquet_cell_1a9b498515b1a25e098d237850133ae845" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::errg::ParquetCell::is_null</definition>
+        <argsstring></argsstring>
+        <name>is_null</name>
+        <qualifiedname>themis::bench::errg::ParquetCell::is_null</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="111" column="14" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_parquet_cell_1a2f7a5771ad1f573dcdc810524c91e5fe" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::bench::errg::ParquetCell::int_val</definition>
+        <argsstring></argsstring>
+        <name>int_val</name>
+        <qualifiedname>themis::bench::errg::ParquetCell::int_val</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="112" column="14" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_parquet_cell_1a77cbf766ac2eb79722a98c6f0414a7e7" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::bench::errg::ParquetCell::str_val[16]</definition>
+        <argsstring>[16]</argsstring>
+        <name>str_val</name>
+        <qualifiedname>themis::bench::errg::ParquetCell::str_val</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="113" column="14" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="110" column="1" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="110" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_parquet_cell_1a2f7a5771ad1f573dcdc810524c91e5fe" prot="public" virt="non-virtual"><scope>themis::bench::errg::ParquetCell</scope><name>int_val</name></member>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_parquet_cell_1a9b498515b1a25e098d237850133ae845" prot="public" virt="non-virtual"><scope>themis::bench::errg::ParquetCell</scope><name>is_null</name></member>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_parquet_cell_1a77cbf766ac2eb79722a98c6f0414a7e7" prot="public" virt="non-virtual"><scope>themis::bench::errg::ParquetCell</scope><name>str_val</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

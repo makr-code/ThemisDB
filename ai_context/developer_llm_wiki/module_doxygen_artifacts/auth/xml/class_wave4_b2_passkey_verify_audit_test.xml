@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wave4_b2_passkey_verify_audit_test" kind="class" language="C++" prot="public">
+    <compoundname>Wave4B2PasskeyVerifyAuditTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_wave4_b2_passkey_verify_audit_test_1ad2ec04fc66c43648f974e0369a05784b" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path Wave4B2PasskeyVerifyAuditTest::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>Wave4B2PasskeyVerifyAuditTest::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="172" column="27" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b2_passkey_verify_audit_test_1a7cfdc0ee855cf4b1053e193f182f3e6b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AuditLogger &gt;</type>
+        <definition>std::unique_ptr&lt;AuditLogger&gt; Wave4B2PasskeyVerifyAuditTest::ul_</definition>
+        <argsstring></argsstring>
+        <name>ul_</name>
+        <qualifiedname>Wave4B2PasskeyVerifyAuditTest::ul_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="173" column="25" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b2_passkey_verify_audit_test_1a0a78dcd032a692886e14342d9c13d561" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthAuditLogger&gt; Wave4B2PasskeyVerifyAuditTest::al_</definition>
+        <argsstring></argsstring>
+        <name>al_</name>
+        <qualifiedname>Wave4B2PasskeyVerifyAuditTest::al_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="174" column="21" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_wave4_b2_passkey_verify_audit_test_1a001a5ff68d363a46aaee411dbe4396b5" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_passkey_authenticator" kindref="compound">PasskeyAuthenticator</ref></type>
+        <definition>PasskeyAuthenticator Wave4B2PasskeyVerifyAuditTest::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>Wave4B2PasskeyVerifyAuditTest::auth_</qualifiedname>
+        <initializer>{&quot;example.com&quot;, &quot;https://example.com&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="175" column="26" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="175" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_wave4_b2_passkey_verify_audit_test_1ac8de282bcd2f409a2892331012b0c74d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4B2PasskeyVerifyAuditTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Wave4B2PasskeyVerifyAuditTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="177" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="177" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="class_wave4_b2_passkey_verify_audit_test_1a989dd324c74339e6763394b4021b0679" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Wave4B2PasskeyVerifyAuditTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>Wave4B2PasskeyVerifyAuditTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="184" column="10" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="184" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Wave4B2PasskeyVerifyAuditTest</label>
+        <link refid="class_wave4_b2_passkey_verify_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Wave4B2PasskeyVerifyAuditTest</label>
+        <link refid="class_wave4_b2_passkey_verify_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>auth_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::auth::IPasskeyAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_i_passkey_authenticator"/>
+      </node>
+      <node id="3">
+        <label>themis::auth::PasskeyAuthenticator</label>
+        <link refid="classthemis_1_1auth_1_1_passkey_authenticator"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_wave4b_auth_hardening2.cpp" line="170" column="1" bodyfile="tests/auth/test_wave4b_auth_hardening2.cpp" bodystart="170" bodyend="187"/>
+    <listofallmembers>
+      <member refid="class_wave4_b2_passkey_verify_audit_test_1a0a78dcd032a692886e14342d9c13d561" prot="protected" virt="non-virtual"><scope>Wave4B2PasskeyVerifyAuditTest</scope><name>al_</name></member>
+      <member refid="class_wave4_b2_passkey_verify_audit_test_1a001a5ff68d363a46aaee411dbe4396b5" prot="protected" virt="non-virtual"><scope>Wave4B2PasskeyVerifyAuditTest</scope><name>auth_</name></member>
+      <member refid="class_wave4_b2_passkey_verify_audit_test_1ad2ec04fc66c43648f974e0369a05784b" prot="protected" virt="non-virtual"><scope>Wave4B2PasskeyVerifyAuditTest</scope><name>log_path_</name></member>
+      <member refid="class_wave4_b2_passkey_verify_audit_test_1ac8de282bcd2f409a2892331012b0c74d" prot="protected" virt="non-virtual"><scope>Wave4B2PasskeyVerifyAuditTest</scope><name>SetUp</name></member>
+      <member refid="class_wave4_b2_passkey_verify_audit_test_1a989dd324c74339e6763394b4021b0679" prot="protected" virt="non-virtual"><scope>Wave4B2PasskeyVerifyAuditTest</scope><name>TearDown</name></member>
+      <member refid="class_wave4_b2_passkey_verify_audit_test_1a7cfdc0ee855cf4b1053e193f182f3e6b" prot="protected" virt="non-virtual"><scope>Wave4B2PasskeyVerifyAuditTest</scope><name>ul_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

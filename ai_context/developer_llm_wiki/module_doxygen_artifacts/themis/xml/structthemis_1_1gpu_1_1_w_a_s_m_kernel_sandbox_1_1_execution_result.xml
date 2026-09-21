@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::WASMKernelSandbox::ExecutionResult</compoundname>
+    <includes refid="wasm__kernel__sandbox_8h" local="no">wasm_kernel_sandbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1aada6cc221e7c4d6a1e65bfeb9ef7a2dc" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9e" kindref="member">Status</ref></type>
+        <definition>Status themis::gpu::WASMKernelSandbox::ExecutionResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::gpu::WASMKernelSandbox::ExecutionResult::status</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1a69d89b30fddfa0de41347e5951bfaa9ead070f907ce6fbe460b8644bc4e240f6c" kindref="member">Status::EXECUTION_ERROR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="98" column="20" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1abbcdcce39c127ec4c04cb854b5a33faa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::WASMKernelSandbox::ExecutionResult::kernel_id</definition>
+        <argsstring></argsstring>
+        <name>kernel_id</name>
+        <qualifiedname>themis::gpu::WASMKernelSandbox::ExecutionResult::kernel_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="99" column="21" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1a534a79a28c560153d27c8d06ba635b0b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::WASMKernelSandbox::ExecutionResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::gpu::WASMKernelSandbox::ExecutionResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="100" column="21" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1ac6eb3974894cb83c3e5a566bdb26c285" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::gpu::WASMKernelSandbox::ExecutionResult::elapsed</definition>
+        <argsstring></argsstring>
+        <name>elapsed</name>
+        <qualifiedname>themis::gpu::WASMKernelSandbox::ExecutionResult::elapsed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="101" column="35" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1a6ddd28a16023410fc470fa128cc4790e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::WASMKernelSandbox::ExecutionResult::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::gpu::WASMKernelSandbox::ExecutionResult::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="103" column="14" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/wasm_kernel_sandbox.h" line="97" column="5" bodyfile="include/themis/gpu/wasm_kernel_sandbox.h" bodystart="97" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1ac6eb3974894cb83c3e5a566bdb26c285" prot="public" virt="non-virtual"><scope>themis::gpu::WASMKernelSandbox::ExecutionResult</scope><name>elapsed</name></member>
+      <member refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1abbcdcce39c127ec4c04cb854b5a33faa" prot="public" virt="non-virtual"><scope>themis::gpu::WASMKernelSandbox::ExecutionResult</scope><name>kernel_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1a534a79a28c560153d27c8d06ba635b0b" prot="public" virt="non-virtual"><scope>themis::gpu::WASMKernelSandbox::ExecutionResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1a6ddd28a16023410fc470fa128cc4790e" prot="public" virt="non-virtual"><scope>themis::gpu::WASMKernelSandbox::ExecutionResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1gpu_1_1_w_a_s_m_kernel_sandbox_1_1_execution_result_1aada6cc221e7c4d6a1e65bfeb9ef7a2dc" prot="public" virt="non-virtual"><scope>themis::gpu::WASMKernelSandbox::ExecutionResult</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

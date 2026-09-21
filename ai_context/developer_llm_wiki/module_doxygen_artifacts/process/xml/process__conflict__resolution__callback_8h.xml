@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__conflict__resolution__callback_8h" kind="file" language="C++">
+    <compoundname>process_conflict_resolution_callback.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="process__conflict__resolver_8cpp" local="yes">src/process/process_conflict_resolver.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_conflict_resolution_callback.h</label>
+        <link refid="process__conflict__resolution__callback_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/process_conflict_resolution_callback.h</label>
+        <link refid="process__conflict__resolution__callback_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/process_conflict_resolver.cpp</label>
+        <link refid="process__conflict__resolver_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_metadata" prot="public">themis::process::ConflictMetadata</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" prot="public">themis::process::ProcessConflictResolverCallback</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_conflict_resolver_manager" prot="public">themis::process::ConflictResolverManager</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_conflict_resolution_result" prot="public">themis::process::ConflictResolutionResult</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_last_write_wins_resolver" prot="public">themis::process::LastWriteWinsResolver</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_first_write_wins_resolver" prot="public">themis::process::FirstWriteWinsResolver</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Application-level conflict resolution callback interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines callback contracts for custom multi-model conflict resolution strategies beyond Last-Write-Wins, allowing applications to implement domain-specific conflict policies.</para>
+<para><simplesect kind="version"><para>2.1.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-06 @status PHASE_1_DESIGN (Q1 2027)</para>
+</simplesect>
+</para>
+<sect1 id="process__conflict__resolution__callback_8h_1autotoc_md12_1s1"><sect2 id="process__conflict__resolution__callback_8h_1autotoc_md12">
+<title>Overview</title><para>When two replicas detect a concurrent update to the same model version, the Process Module can invoke application-provided callbacks to determine the winning version. This enables conflict resolution strategies beyond LWW:</para>
+<para><itemizedlist>
+<listitem><para><bold>Last-Write-Wins (LWW):</bold> Default; tie-breaking by node ID</para>
+</listitem><listitem><para><bold>First-Write-Wins (FWW):</bold> Earliest timestamp wins</para>
+</listitem><listitem><para><bold>Application-Custom:</bold> Callback determines winner based on domain logic</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__conflict__resolution__callback_8h_1autotoc_md13_1s1"><sect2 id="process__conflict__resolution__callback_8h_1autotoc_md13">
+<title>Callback Contract</title><para><heading level="3">Synchronous Execution</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Callback invoked during consensus commit phase (blocking)</para>
+</listitem><listitem><para>Must return within 5s timeout; otherwise exception caught, LWW fallback applied</para>
+</listitem><listitem><para>Called once per conflict; result cached for subsequent apply phases</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Exception Handling</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>All exceptions caught; logged with incident (CALLBACK_FAILED)</para>
+</listitem><listitem><para>LWW fallback applied if callback fails</para>
+</listitem><listitem><para>Operation proceeds with fallback result; no crash</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Callback Context</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>All metadata passed: versions, timestamps, senders, operation details</para>
+</listitem><listitem><para>Sufficient to make informed decision without external lookups</para>
+</listitem><listitem><para>Context immutable during callback execution</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__conflict__resolution__callback_8h_1autotoc_md14_1s1"><sect2 id="process__conflict__resolution__callback_8h_1autotoc_md14">
+<title>Usage Pattern</title><para><programlisting><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">MyProcessConflictResolver<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>ProcessConflictResolverCallback<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>std::string<sp/>Resolve(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ConflictMetadata&amp;<sp/>metadata)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>logic:<sp/>choose<sp/>based<sp/>on<sp/>business<sp/>rules</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(metadata.v1_timestamp<sp/>&gt;<sp/>metadata.v2_timestamp)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metadata.v1_id;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metadata.v2_id;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolver<sp/>=<sp/>std::make_shared&lt;MyProcessConflictResolver&gt;();</highlight></codeline>
+<codeline><highlight class="normal">conflict_mgr-&gt;RegisterResolver(resolver);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="see"><para><ref refid="process__federation__contract_8h" kindref="compound">process_federation_contract.h</ref> – Federated concurrency model </para>
+</simplesect>
+<simplesect kind="see"><para>ROADMAP_FEDERATION.md – Phase 1-6 implementation plan </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_CONFLICT_RESOLUTION_CALLBACK_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_CONFLICT_RESOLUTION_CALLBACK_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONFLICT<sp/>METADATA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1process_1_1_conflict_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1process_1_1_conflict_metadata_1a907159942452f03274e8d3c5bdd30ef3" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1a907159942452f03274e8d3c5bdd30ef3" kindref="member">v1_id</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1process_1_1_conflict_metadata_1a4d3b03c03d24e61c36ecb1093e895e41" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1a4d3b03c03d24e61c36ecb1093e895e41" kindref="member">v2_id</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1process_1_1_conflict_metadata_1ab39a5490a4977a9667f1b80ce47b74b2" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1ab39a5490a4977a9667f1b80ce47b74b2" kindref="member">v1_timestamp</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1process_1_1_conflict_metadata_1ad39ad5ef1b29981324c4d0f6ddebe06b" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1ad39ad5ef1b29981324c4d0f6ddebe06b" kindref="member">v2_timestamp</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1process_1_1_conflict_metadata_1a067cdfba6a255cb4edf1370b4ee2effc" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1a067cdfba6a255cb4edf1370b4ee2effc" kindref="member">v1_sender_node_id</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1process_1_1_conflict_metadata_1ad4b7a9c96dfbe257071edea62d603f20" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1ad4b7a9c96dfbe257071edea62d603f20" kindref="member">v2_sender_node_id</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1process_1_1_conflict_metadata_1ac2f96f89d91a2b381c63992617db2294" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1ac2f96f89d91a2b381c63992617db2294" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1process_1_1_conflict_metadata_1aeaa3f2a669da9aba4e236f2bc64b1b16" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1aeaa3f2a669da9aba4e236f2bc64b1b16" kindref="member">operation_type</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1process_1_1_conflict_metadata_1abfd8af2352eae67888c230c359d34e0b" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1abfd8af2352eae67888c230c359d34e0b" kindref="member">v1_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1process_1_1_conflict_metadata_1a0f28cf69016def8b84b0a9909f7fec11" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1a0f28cf69016def8b84b0a9909f7fec11" kindref="member">v2_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1process_1_1_conflict_metadata_1aef631fddd8e790e9dc7ffe2d09beb779" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1aef631fddd8e790e9dc7ffe2d09beb779" kindref="member">detection_confidence</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1process_1_1_conflict_metadata_1aec4061640476751075b37c34c8c54223" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata_1aec4061640476751075b37c34c8c54223" kindref="member">context_json</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONFLICT<sp/>RESOLUTION<sp/>STRATEGIES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="namespacethemis_1_1process_1abe69a00f90ef111924983f58b6c5eb14" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" kindref="member">ConflictResolutionStrategy</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22ad06d3fbd380c4166873f14e779d23789" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22ad06d3fbd380c4166873f14e779d23789" kindref="member">kLastWriteWins</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a7c300431fe7b71e0e09377bf6a2a1e6a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a7c300431fe7b71e0e09377bf6a2a1e6a" kindref="member">kFirstWriteWins</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a369fb6ad51d970074d48946c7156d3bb" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a369fb6ad51d970074d48946c7156d3bb" kindref="member">kApplicationCallback</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a117a629c00950e8707e59c293738b1a7" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22a117a629c00950e8707e59c293738b1a7" kindref="member">kUnconfigured</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CALLBACK<sp/>INTERFACE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" kindref="compound">ProcessConflictResolverCallback</ref><sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1process_1_1_process_conflict_resolver_callback_1acbc8febffe9ea691290ab46b084cf96f" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback_1acbc8febffe9ea691290ab46b084cf96f" kindref="member">Resolve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref>&amp;<sp/>metadata)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1process_1_1_process_conflict_resolver_callback_1a07e336560760d5d8fe372cb54558cb0e" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback_1a07e336560760d5d8fe372cb54558cb0e" kindref="member">GetName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ProcessConflictResolverCallback&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1process_1_1_process_conflict_resolver_callback_1acd15cbf8fbde690043cc5b692f9e98c1" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback_1acd15cbf8fbde690043cc5b692f9e98c1" kindref="member">~ProcessConflictResolverCallback</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CALLBACK<sp/>MANAGEMENT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1process_1_1_conflict_resolver_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_conflict_resolver_manager" kindref="compound">ConflictResolverManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1process_1_1_conflict_resolver_manager_1ab6f7dc171cafd66e00471f56e9273812" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_conflict_resolver_manager_1ab6f7dc171cafd66e00471f56e9273812" kindref="member">RegisterResolver</ref>(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ProcessConflictResolverCallback&gt;<sp/>resolver)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1process_1_1_conflict_resolver_manager_1aa4ae7768aa719ff23c46d80e7a241a09" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_conflict_resolver_manager_1aa4ae7768aa719ff23c46d80e7a241a09" kindref="member">ResolveConflict</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref>&amp;<sp/>metadata)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1process_1_1_conflict_resolver_manager_1a8a771bd63f8cf729c593977c85934529" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" kindref="member">ConflictResolutionStrategy</ref><sp/><ref refid="classthemis_1_1process_1_1_conflict_resolver_manager_1a8a771bd63f8cf729c593977c85934529" kindref="member">GetCurrentStrategy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1process_1_1_conflict_resolver_manager_1a72cafd1e5fc6e6f54db3ef44b8a4c803" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_conflict_resolver_manager_1a72cafd1e5fc6e6f54db3ef44b8a4c803" kindref="member">UnregisterResolver</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1process_1_1_conflict_resolver_manager_1adbdde7a5b34cade20156414d62619fbd" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_conflict_resolver_manager_1adbdde7a5b34cade20156414d62619fbd" kindref="member">~ConflictResolverManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CALLBACK<sp/>RESULT<sp/>&amp;<sp/>DIAGNOSTICS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1process_1_1_conflict_resolution_result_1a21c5f1de05ec954ef726c6c16064493f" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1a21c5f1de05ec954ef726c6c16064493f" kindref="member">winner_id</ref>;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1process_1_1_conflict_resolution_result_1aa42f846a786539230f31cf798e71dd12" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1process_1a733ec522102040a4f444b075e11a1a22" kindref="member">ConflictResolutionStrategy</ref><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1aa42f846a786539230f31cf798e71dd12" kindref="member">strategy_used</ref>;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="structthemis_1_1process_1_1_conflict_resolution_result_1a11081d70e87edd17bedde7aa7b5c47ae" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1a11081d70e87edd17bedde7aa7b5c47ae" kindref="member">callback_invoked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1process_1_1_conflict_resolution_result_1a3369068d9672e2b7a9800c99d6349df9" refkind="member"><highlight class="normal"><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1a3369068d9672e2b7a9800c99d6349df9" kindref="member">callback_execution_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac4e33de274892f6dcfc8d6a5913e3c95" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1ac4e33de274892f6dcfc8d6a5913e3c95" kindref="member">callback_exception</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1process_1_1_conflict_resolution_result_1a6c2293190e300d764af96fc79396ab2f" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1a6c2293190e300d764af96fc79396ab2f" kindref="member">exception_message</ref>;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1afc76c3d6fadc068caec67807c5903389" kindref="member">is_deterministic</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="structthemis_1_1process_1_1_conflict_resolution_result_1a9d85bb1b4e17f589e7578fb3f68fbbd9" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1process_1_1_conflict_resolution_result_1a9d85bb1b4e17f589e7578fb3f68fbbd9" kindref="member">resolution_time</ref>;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BUILT-IN<sp/>STRATEGIES<sp/>(Implementation<sp/>in<sp/>Phase<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1process_1_1_last_write_wins_resolver" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_last_write_wins_resolver" kindref="compound">LastWriteWinsResolver</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" kindref="compound">ProcessConflictResolverCallback</ref><sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="263" refid="classthemis_1_1process_1_1_last_write_wins_resolver_1a5923e46ab0ddd5084d75317dabd9e1f6" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_last_write_wins_resolver_1a5923e46ab0ddd5084d75317dabd9e1f6" kindref="member">Resolve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref>&amp;<sp/>metadata)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1process_1_1_last_write_wins_resolver_1a2e290f018c4a852f5173b43ffa48221c" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_last_write_wins_resolver_1a2e290f018c4a852f5173b43ffa48221c" kindref="member">GetName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LastWriteWins&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="classthemis_1_1process_1_1_first_write_wins_resolver" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_first_write_wins_resolver" kindref="compound">FirstWriteWinsResolver</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_conflict_resolver_callback" kindref="compound">ProcessConflictResolverCallback</ref><sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="274" refid="classthemis_1_1process_1_1_first_write_wins_resolver_1afb4b1446be2be54aa71a244f675eb024" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_first_write_wins_resolver_1afb4b1446be2be54aa71a244f675eb024" kindref="member">Resolve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref>&amp;<sp/>metadata)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275" refid="classthemis_1_1process_1_1_first_write_wins_resolver_1a682c611e0f0c03587377db35241610af" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_first_write_wins_resolver_1a682c611e0f0c03587377db35241610af" kindref="member">GetName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;FirstWriteWins&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DOCUMENTATION<sp/>SECTIONS<sp/>(Design-Phase<sp/>Specifications)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_CONFLICT_RESOLUTION_CALLBACK_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_conflict_resolution_callback.h"/>
+  </compounddef>
+</doxygen>

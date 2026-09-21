@@ -1,0 +1,495 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_intelligent_prefetcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::IntelligentPrefetcher</compoundname>
+    <includes refid="intelligent__prefetcher_8h" local="no">intelligent_prefetcher.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" prot="public">themis::performance::IntelligentPrefetcher::PrefetchConfig</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern" prot="public">themis::performance::IntelligentPrefetcher::AccessPattern</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats" prot="public">themis::performance::IntelligentPrefetcher::PrefetchStats</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl" prot="public">themis::performance::IntelligentPrefetcher::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abe" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CacheLevel</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::CacheLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abea9ec4c0afd450ceac7adb81c3bcfc9732" prot="public">
+          <name>L1</name>
+          <briefdescription>
+<para>L1 cache – high temporal locality. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abea7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <briefdescription>
+<para>L2 cache – moderate temporal locality. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abea842ce6eb510f7e7047da883915ec90e0" prot="public">
+          <name>L3</name>
+          <briefdescription>
+<para>L3 cache – low temporal locality. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abeaebae17841ce69e653df838d8c20ace8d" prot="public">
+          <name>DRAM</name>
+          <briefdescription>
+<para>Non-temporal / streaming – bypass cache hierarchy. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Cache level targeted by a prefetch request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="59" column="5" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="59" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a09cb6c782364746f384a9f90422d3fd2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::performance::IntelligentPrefetcher::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="236" column="21" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::IntelligentPrefetcher::IntelligentPrefetcher</definition>
+        <argsstring>()</argsstring>
+        <name>IntelligentPrefetcher</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::IntelligentPrefetcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="132" column="5" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="418" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f04571fd9bc82382fddf023955f1762" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::IntelligentPrefetcher::IntelligentPrefetcher</definition>
+        <argsstring>(PrefetchConfig config)</argsstring>
+        <name>IntelligentPrefetcher</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::IntelligentPrefetcher</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="133" column="14" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="421" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1aac2ea5c35e074448ebfd428269c44a70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::IntelligentPrefetcher::~IntelligentPrefetcher</definition>
+        <argsstring>()</argsstring>
+        <name>~IntelligentPrefetcher</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::~IntelligentPrefetcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a6a059c79584ce9f6514a7f9620120519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::IntelligentPrefetcher::IntelligentPrefetcher</definition>
+        <argsstring>(const IntelligentPrefetcher &amp;)=delete</argsstring>
+        <name>IntelligentPrefetcher</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::IntelligentPrefetcher</qualifiedname>
+        <param>
+          <type>const IntelligentPrefetcher &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="136" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1afd65faba8010056580de4b005d217ddf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref> &amp;</type>
+        <definition>IntelligentPrefetcher &amp; themis::performance::IntelligentPrefetcher::operator=</definition>
+        <argsstring>(const IntelligentPrefetcher &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="137" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1af57bdd783fbb8c050b76020dcb0444cd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::IntelligentPrefetcher::IntelligentPrefetcher</definition>
+        <argsstring>(IntelligentPrefetcher &amp;&amp;) noexcept=default</argsstring>
+        <name>IntelligentPrefetcher</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::IntelligentPrefetcher</qualifiedname>
+        <param>
+          <type>IntelligentPrefetcher &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a027a76dab566721bc19e7dbad6264406" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref> &amp;</type>
+        <definition>IntelligentPrefetcher &amp; themis::performance::IntelligentPrefetcher::operator=</definition>
+        <argsstring>(IntelligentPrefetcher &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" kindref="member">IntelligentPrefetcher</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="139" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1af5cf5d45f463a6b881a9eb59957ba922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::IntelligentPrefetcher::record_access</definition>
+        <argsstring>(uint64_t address, uint64_t timestamp=0)</argsstring>
+        <name>record_access</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::record_access</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>address</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>timestamp</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Record a memory access and update the pattern model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record access.</para>
+<para>This is the primary training input for the learning engine. Each call appends <computeroutput>address</computeroutput> to the sliding history window and re-fits the dominant stride. When an address matches a prior prediction the useful_prefetches counter is incremented (feedback loop).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>64-bit address of the accessed memory location. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Access timestamp (nanoseconds since epoch, or any monotonic counter). Used to adapt prefetch distance.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_access without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="157" column="10" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="432" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1ad1f1615265b4cf45915155ee4672ac96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; themis::performance::IntelligentPrefetcher::predict_next_accesses</definition>
+        <argsstring>(uint64_t current_address, size_t lookahead=8)</argsstring>
+        <name>predict_next_accesses</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::predict_next_accesses</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_address</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>lookahead</declname>
+          <defval>8</defval>
+        </param>
+        <briefdescription>
+<para>Predict the next <computeroutput>lookahead</computeroutput> addresses after <computeroutput>current_address</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Predict next accesses.</para>
+<para>Uses the learned stride to extrapolate future addresses. Only predictions that exceed the configured confidence threshold are returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The address from which to project. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lookahead</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of future addresses to return. Capped at <computeroutput>max_prefetch_distance</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered vector of predicted addresses (may be empty when confidence is too low or the history is insufficient).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lookahead</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements predict_next_accesses without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="172" column="17" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="443" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1afc0b4e66b787e8522b3b95a2b728e583" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::IntelligentPrefetcher::prefetch_predicted</definition>
+        <argsstring>(const std::vector&lt; uint64_t &gt; &amp;addresses)</argsstring>
+        <name>prefetch_predicted</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::prefetch_predicted</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint64_t &gt; &amp;</type>
+          <declname>addresses</declname>
+        </param>
+        <briefdescription>
+<para>Issue hardware prefetch instructions for the given addresses. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prefetch predicted.</para>
+<para>Routes each address to the appropriate cache level:<itemizedlist>
+<listitem><para>L1 when confidence &gt;= 0.9</para>
+</listitem><listitem><para>L2 when confidence &gt;= 0.75</para>
+</listitem><listitem><para>L3 when confidence &gt;= confidence_threshold</para>
+</listitem><listitem><para>DRAM (non-temporal) for very low-confidence streaming patterns</para>
+</listitem></itemizedlist>
+</para>
+<para>Increments <computeroutput>total_prefetches</computeroutput> for each address issued.</para>
+<para>When <computeroutput>enable_hardware_prefetch</computeroutput> is false the counters are still updated but no CPU instruction is emitted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>addresses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Addresses to prefetch (typically from <ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1ad1f1615265b4cf45915155ee4672ac96" kindref="member">predict_next_accesses()</ref>).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">addresses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements prefetch_predicted without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="192" column="10" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="453" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a5e8699764211f43346f68f1c02aefa89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_access_pattern" kindref="compound">AccessPattern</ref></type>
+        <definition>IntelligentPrefetcher::AccessPattern themis::performance::IntelligentPrefetcher::current_pattern</definition>
+        <argsstring>() const</argsstring>
+        <name>current_pattern</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::current_pattern</qualifiedname>
+        <briefdescription>
+<para>Return the currently learned access pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reflects the state after the most recent <ref refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1af5cf5d45f463a6b881a9eb59957ba922" kindref="member">record_access()</ref> call. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="203" column="19" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="457" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1aa6a8cc278532338e8e86f2c22aef9611" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::IntelligentPrefetcher::adaptive_prefetch_distance</definition>
+        <argsstring>() const</argsstring>
+        <name>adaptive_prefetch_distance</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::adaptive_prefetch_distance</qualifiedname>
+        <briefdescription>
+<para>Return the adaptive prefetch distance computed from recent inter-access latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Increases when latency is high (prefetch further ahead) and decreases when latency is low (avoid wasteful prefetching). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="212" column="12" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="461" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a3e7e665476ba11dcbdab9b07a35278f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats" kindref="compound">PrefetchStats</ref></type>
+        <definition>IntelligentPrefetcher::PrefetchStats themis::performance::IntelligentPrefetcher::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::get_stats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of current prefetch statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="219" column="19" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="465" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1ad3ed596dcaf8c80933a951bc79e60eaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::IntelligentPrefetcher::reset_stats</definition>
+        <argsstring>()</argsstring>
+        <name>reset_stats</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::reset_stats</qualifiedname>
+        <briefdescription>
+<para>Reset statistics without clearing the learned pattern model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset stats.</para>
+<para>Implements reset_stats without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="222" column="10" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="473" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a263ee4b15d4b9fabea31f058ed115e2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::IntelligentPrefetcher::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the full learned state (history + stats). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="225" column="10" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="481" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_intelligent_prefetcher_1a2c0bbeb8948c4f79a899a53606cd4c84" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_config" kindref="compound">PrefetchConfig</ref> &amp;</type>
+        <definition>const IntelligentPrefetcher::PrefetchConfig &amp; themis::performance::IntelligentPrefetcher::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::config</qualifiedname>
+        <briefdescription>
+<para>Return the configuration in effect. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="232" column="26" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="485" bodyend="487"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Intelligent Prefetching System (v1.8.0). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Machine learning-based prefetcher that learns memory access patterns and proactively loads data to reduce cache miss latency.</para>
+<para>Research basis: &quot;Learning-based Prefetching&quot; (MICRO&apos;19).</para>
+<para>Features:<itemizedlist>
+<listitem><para>Pattern Learning: detects sequential and strided access patterns via a sliding window of recent addresses.</para>
+</listitem><listitem><para>Prefetch Distance: adaptively adjusts the number of addresses to prefetch ahead based on observed access latency.</para>
+</listitem><listitem><para>Confidence Scoring: only prefetches when the pattern confidence exceeds the configured threshold.</para>
+</listitem><listitem><para>Multi-Level: routes prefetch requests to L1, L2, L3, or DRAM (non-temporal) based on confidence level.</para>
+</listitem><listitem><para>Feedback Loop: records hit/miss outcomes to improve accuracy estimates reported in <ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats" kindref="compound">PrefetchStats</ref>.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: all public methods are protected by an internal mutex and are safe to call concurrently. </para>
+    </detaileddescription>
+    <location file="include/performance/intelligent_prefetcher.h" line="52" column="1" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="52" bodyend="237"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1aa6a8cc278532338e8e86f2c22aef9611" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>adaptive_prefetch_distance</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a738fa6d0a7af8f846eef54020ff01abe" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>CacheLevel</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a2c0bbeb8948c4f79a899a53606cd4c84" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>config</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a5e8699764211f43346f68f1c02aefa89" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>current_pattern</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a3e7e665476ba11dcbdab9b07a35278f1" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a09cb6c782364746f384a9f90422d3fd2" prot="private" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f16ecf5c53c69cac1d645835ac35bcd" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>IntelligentPrefetcher</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a4f04571fd9bc82382fddf023955f1762" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>IntelligentPrefetcher</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a6a059c79584ce9f6514a7f9620120519" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>IntelligentPrefetcher</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1af57bdd783fbb8c050b76020dcb0444cd" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>IntelligentPrefetcher</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1afd65faba8010056580de4b005d217ddf" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a027a76dab566721bc19e7dbad6264406" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1ad1f1615265b4cf45915155ee4672ac96" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>predict_next_accesses</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1afc0b4e66b787e8522b3b95a2b728e583" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>prefetch_predicted</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1af5cf5d45f463a6b881a9eb59957ba922" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>record_access</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1a263ee4b15d4b9fabea31f058ed115e2d" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>reset</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1ad3ed596dcaf8c80933a951bc79e60eaf" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>reset_stats</name></member>
+      <member refid="classthemis_1_1performance_1_1_intelligent_prefetcher_1aac2ea5c35e074448ebfd428269c44a70" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher</scope><name>~IntelligentPrefetcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

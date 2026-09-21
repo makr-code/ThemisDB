@@ -1,0 +1,491 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1temporal_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::temporal::test</compoundname>
+    <innerclass refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" prot="public">themis::temporal::test::BiTemporalRow</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1temporal_1_1test_1ac0dde9a4f2d6bef13549d3862554463b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::temporal::test::kTemporalContractSeed</definition>
+        <argsstring></argsstring>
+        <name>kTemporalContractSeed</name>
+        <qualifiedname>themis::temporal::test::kTemporalContractSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all TCH tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="57" column="27" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1af03e021c091b1016691893600b820340" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; TemporalErrorCode &gt; themis::temporal::test::mockValidateRange</definition>
+        <argsstring>(std::int64_t start, std::int64_t end)</argsstring>
+        <name>mockValidateRange</name>
+        <qualifiedname>themis::temporal::test::mockValidateRange</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Validates a bi-temporal range pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="72" column="22" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1ad333a1cc08d32d20e925480f9ced48da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt;</type>
+        <definition>static std::vector&lt; BiTemporalRow &gt; themis::temporal::test::mockSnapshotAt</definition>
+        <argsstring>(const std::vector&lt; BiTemporalRow &gt; &amp;store, std::int64_t t, std::int64_t snapshot_tx)</argsstring>
+        <name>mockSnapshotAt</name>
+        <qualifiedname>themis::temporal::test::mockSnapshotAt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt; &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>snapshot_tx</declname>
+        </param>
+        <briefdescription>
+<para>Returns rows whose valid_time interval contains point T. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="84" column="20" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="84" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a7c9a259bae1358df564cae28fa65759d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::temporal::test::mockApplyRetention</definition>
+        <argsstring>(std::vector&lt; BiTemporalRow &gt; &amp;store, std::int64_t now_ns, std::int64_t retention_ns)</argsstring>
+        <name>mockApplyRetention</name>
+        <qualifiedname>themis::temporal::test::mockApplyRetention</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt; &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>now_ns</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>retention_ns</declname>
+        </param>
+        <briefdescription>
+<para>Simulates soft-delete check against retention boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="103" column="13" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="103" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a44481fb1906cee8173b7c8de7152f03d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::temporal::test::mockGcCount</definition>
+        <argsstring>(const std::vector&lt; BiTemporalRow &gt; &amp;store)</argsstring>
+        <name>mockGcCount</name>
+        <qualifiedname>themis::temporal::test::mockGcCount</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1temporal_1_1test_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt; &amp;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Validates that GC only removes rows that are soft-deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="116" column="20" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="116" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a56a1de31c8170c97a9407a346e05c498" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1temporal_1a3d59cc7d851992cc7c0bd281e0380c1d" kindref="member">TemporalErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; TemporalErrorCode &gt; themis::temporal::test::mockPitrRestore</definition>
+        <argsstring>(std::int64_t requested_ts, std::int64_t oldest_anchor, std::int64_t now_ns)</argsstring>
+        <name>mockPitrRestore</name>
+        <qualifiedname>themis::temporal::test::mockPitrRestore</qualifiedname>
+        <param>
+          <type>std::int64_t</type>
+          <declname>requested_ts</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>oldest_anchor</declname>
+        </param>
+        <param>
+          <type>std::int64_t</type>
+          <declname>now_ns</declname>
+        </param>
+        <briefdescription>
+<para>Simulates PITR restore. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="127" column="22" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="127" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a207fb1ffd95e5c87db48e0072bacdfca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH01_ValidRangeAccepted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH01_ValidRangeAccepted</type>
+        </param>
+        <briefdescription>
+<para>TCH-01: A well-formed bi-temporal row (valid range) is accepted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="142" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="142" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1af8ca2e53bdcc4aa267cf68aa667fa189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH02_InvalidRangeRejected)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH02_InvalidRangeRejected</type>
+        </param>
+        <briefdescription>
+<para>TCH-02: A row with end &lt; start raises TEMPORAL_RANGE_INVALID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="148" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a41c3d6f054eecabbf5f019b041b80bdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH03_TransactionTimeOrdering)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH03_TransactionTimeOrdering</type>
+        </param>
+        <briefdescription>
+<para>TCH-03: Later insertions carry strictly higher transaction_time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="156" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="156" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a40d223f88a9f032fbb40af6ff7e28e44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH04_OverlappingIntervalsReturned)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH04_OverlappingIntervalsReturned</type>
+        </param>
+        <briefdescription>
+<para>TCH-04: Two overlapping valid_time intervals are both returned by a point query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="169" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="169" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a5b352bde08342a1fa5589232dbbd799d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH05_SnapshotAtTConsistent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH05_SnapshotAtTConsistent</type>
+        </param>
+        <briefdescription>
+<para>TCH-05: Snapshot at T returns rows with valid_time containing T. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="190" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="190" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a70edf43a1c80f4c7c0e586abcde13dfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH06_SnapshotExcludesOutOfRange)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH06_SnapshotExcludesOutOfRange</type>
+        </param>
+        <briefdescription>
+<para>TCH-06: Snapshot excludes rows whose valid_time does not contain T. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="202" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="202" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1aa24976f8ec735677762b66d1fbd72703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH07_ConcurrentWriteNotVisible)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH07_ConcurrentWriteNotVisible</type>
+        </param>
+        <briefdescription>
+<para>TCH-07: Row committed after snapshot_tx is NOT visible in the snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="214" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="214" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a4fc19e7b071a71030fb080fca90ce5f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH08_EmptyStoreEmptySnapshot)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH08_EmptyStoreEmptySnapshot</type>
+        </param>
+        <briefdescription>
+<para>TCH-08: Snapshot on empty store returns empty result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="226" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="226" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1ace0e25d41a803e924f77597b1a5ddfb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH09_ExpiredRowSoftDeleted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH09_ExpiredRowSoftDeleted</type>
+        </param>
+        <briefdescription>
+<para>TCH-09: Rows past retention boundary are marked soft-deleted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="237" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="237" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1aaccb910a2517c23ad9d50312177cd39b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH10_GcPreservesRetainedRows)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH10_GcPreservesRetainedRows</type>
+        </param>
+        <briefdescription>
+<para>TCH-10: GC does not remove rows within retention window (not soft-deleted). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="253" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="253" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a4d793dfb9e3bb0210b3128dbfe9c982d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH11_SoftDeleteMarkersPresent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH11_SoftDeleteMarkersPresent</type>
+        </param>
+        <briefdescription>
+<para>TCH-11: Row past retention boundary has soft_deleted = true after policy run. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="265" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="265" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a7cb740367959f0170bb756785763b95a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH12_RetentionPolicyConflict)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH12_RetentionPolicyConflict</type>
+        </param>
+        <briefdescription>
+<para>TCH-12: Retention policy conflict raises RETENTION_POLICY_CONFLICT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="282" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="282" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1aa90bda630c58747cf37d111160aca445" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH13_ValidPitrTimestamp)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH13_ValidPitrTimestamp</type>
+        </param>
+        <briefdescription>
+<para>TCH-13: Valid PITR timestamp (within anchor range) returns no error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="301" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="301" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1ae97045d27730ede3ea2a1d10db035d36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH14_FuturePitrTimestampError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH14_FuturePitrTimestampError</type>
+        </param>
+        <briefdescription>
+<para>TCH-14: Future PITR timestamp → PITR_TIMESTAMP_BEFORE_OLDEST. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="311" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="311" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1aff0c4314d10fc845d0c58b75f6f74c66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH15_PitrBeforeOldestAnchor)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH15_PitrBeforeOldestAnchor</type>
+        </param>
+        <briefdescription>
+<para>TCH-15: PITR with timestamp before oldest anchor → error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="323" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="323" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1temporal_1_1test_1a25baf3d624fd18735940f221961fe31f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::temporal::test::TEST</definition>
+        <argsstring>(TemporalContractHardening, TCH16_OpenEndSentinelIsInt64Max)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::temporal::test::TEST</qualifiedname>
+        <param>
+          <type>TemporalContractHardening</type>
+        </param>
+        <param>
+          <type>TCH16_OpenEndSentinelIsInt64Max</type>
+        </param>
+        <briefdescription>
+<para>TCH-16: kTemporalOpenEnd equals INT64_MAX (sentinel contract). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="334" column="1" bodyfile="tests/temporal/test_temporal_contract_hardening_focused.cpp" bodystart="334" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/temporal/test_temporal_contract_hardening_focused.cpp" line="54" column="1"/>
+  </compounddef>
+</doxygen>

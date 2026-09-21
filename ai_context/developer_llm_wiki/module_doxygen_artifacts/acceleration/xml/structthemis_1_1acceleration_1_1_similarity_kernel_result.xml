@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_similarity_kernel_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::SimilarityKernelResult</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_similarity_kernel_result_1a9ef87d30e85c5e7dbca1a00cc2854472" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::pair&lt; uint32_t, float &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::pair&lt;uint32_t, float&gt; &gt; &gt; themis::acceleration::SimilarityKernelResult::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::acceleration::SimilarityKernelResult::results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="225" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_similarity_kernel_result_1aa8d1acba4321b0359e2a0a330d13ab4b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref></type>
+        <definition>DistanceMetric themis::acceleration::SimilarityKernelResult::metric_used</definition>
+        <argsstring></argsstring>
+        <name>metric_used</name>
+        <qualifiedname>themis::acceleration::SimilarityKernelResult::metric_used</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">DistanceMetric::L2</ref></initializer>
+        <briefdescription>
+<para>Distance metric used for computation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="227" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_similarity_kernel_result_1a26037f5b8685fb42cbe02f203553c57b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::acceleration::SimilarityKernelResult::precision_used</definition>
+        <argsstring></argsstring>
+        <name>precision_used</name>
+        <qualifiedname>themis::acceleration::SimilarityKernelResult::precision_used</qualifiedname>
+        <initializer>= PrecisionMode::FP32</initializer>
+        <briefdescription>
+<para>Floating-point precision used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="228" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_similarity_kernel_result_1a907eb1c1102e39df6870e245e1839491" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::SimilarityKernelResult::used_hw_path</definition>
+        <argsstring></argsstring>
+        <name>used_hw_path</name>
+        <qualifiedname>themis::acceleration::SimilarityKernelResult::used_hw_path</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if GPU/hardware path was used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="229" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_similarity_kernel_result_1aa8ac94377f3ab5fe09dca130a0cd60ca" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::SimilarityKernelResult::speedup_vs_cpu</definition>
+        <argsstring></argsstring>
+        <name>speedup_vs_cpu</name>
+        <qualifiedname>themis::acceleration::SimilarityKernelResult::speedup_vs_cpu</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Speedup ratio: CPU time / GPU time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="230" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="224" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="224" bodyend="231"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_similarity_kernel_result_1aa8d1acba4321b0359e2a0a330d13ab4b" prot="public" virt="non-virtual"><scope>themis::acceleration::SimilarityKernelResult</scope><name>metric_used</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_similarity_kernel_result_1a26037f5b8685fb42cbe02f203553c57b" prot="public" virt="non-virtual"><scope>themis::acceleration::SimilarityKernelResult</scope><name>precision_used</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_similarity_kernel_result_1a9ef87d30e85c5e7dbca1a00cc2854472" prot="public" virt="non-virtual"><scope>themis::acceleration::SimilarityKernelResult</scope><name>results</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_similarity_kernel_result_1aa8ac94377f3ab5fe09dca130a0cd60ca" prot="public" virt="non-virtual"><scope>themis::acceleration::SimilarityKernelResult</scope><name>speedup_vs_cpu</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_similarity_kernel_result_1a907eb1c1102e39df6870e245e1839491" prot="public" virt="non-virtual"><scope>themis::acceleration::SimilarityKernelResult</scope><name>used_hw_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

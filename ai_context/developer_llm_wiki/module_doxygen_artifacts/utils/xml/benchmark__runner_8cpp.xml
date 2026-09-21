@@ -1,0 +1,452 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="benchmark__runner_8cpp" kind="file" language="C++">
+    <compoundname>benchmark_runner.cpp</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">iomanip</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">cstring</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/utils/benchmark_runner.cpp</label>
+        <link refid="benchmark__runner_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstring</label>
+      </node>
+      <node id="5">
+        <label>iomanip</label>
+      </node>
+      <node id="4">
+        <label>iostream</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_bloom_filter_config" prot="public">BloomFilterConfig</innerclass>
+    <innerclass refid="struct_retry_policy" prot="public">RetryPolicy</innerclass>
+    <innerclass refid="struct_benchmark_result" prot="public">BenchmarkResult</innerclass>
+    <innernamespace refid="namespacestd_1_1chrono">std::chrono</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>UtilsError</name>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" prot="public">
+          <name>kAuditOverflow</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" prot="public">
+          <name>kBatchRollback</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" prot="public">
+          <name>kBatchSizeExceeded</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" prot="public">
+          <name>kRetryExhausted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" prot="public">
+          <name>kDeserInvalid</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" prot="public">
+          <name>kPoolExhausted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" prot="public">
+          <name>kAuditOverflow</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" prot="public">
+          <name>kBatchRollback</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" prot="public">
+          <name>kBatchSizeExceeded</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" prot="public">
+          <name>kRetryExhausted</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" prot="public">
+          <name>kDeserInvalid</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" prot="public">
+          <name>kPoolExhausted</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="28" column="1" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="28" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; long long &gt;</type>
+        <definition>std::vector&lt;long long&gt; times_ns</definition>
+        <argsstring></argsstring>
+        <name>times_ns</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="63" column="13" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="benchmark__runner_8cpp_1ae026fa30df70387dd3f5ffc76e4c5009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Fn</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="struct_benchmark_result" kindref="compound">BenchmarkResult</ref></type>
+        <definition>BenchmarkResult run_benchmark</definition>
+        <argsstring>(const std::string &amp;name, int repetitions, int iterations_per_rep, Fn &amp;&amp;fn)</argsstring>
+        <name>run_benchmark</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>repetitions</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>iterations_per_rep</declname>
+        </param>
+        <param>
+          <type>Fn &amp;&amp;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="67" column="17" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="67" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="benchmark__runner_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/utils/benchmark_runner.cpp" line="115" column="5" bodyfile="benchmarks/utils/benchmark_runner.cpp" bodystart="115" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>|<sp/>Custom<sp/>Benchmark<sp/>Runner<sp/>|<sp/>Phase<sp/>A.3<sp/>Release<sp/>Gates</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>Measures<sp/>performance<sp/>of<sp/>utils<sp/>module<sp/>hot<sp/>paths</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iomanip&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1errors_1ab9b1f3c9f9656bcfa6440ba87bfddf2f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Simulated<sp/>structure<sp/>types<sp/>(matching<sp/>utils_api_contract.h)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="struct_bloom_filter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_bloom_filter_config" kindref="compound">BloomFilterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="struct_bloom_filter_config_1a9d25047c6fcd1933cc837da868b38da3" kindref="member">expectedItems</ref><sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_bloom_filter_config_1adde2e353936937a029e510f7310dbac6" kindref="member">targetFalsePositiveRate</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="struct_retry_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_retry_policy" kindref="compound">RetryPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_retry_policy_1a601244d1deb3214109cbae6a69183f17" kindref="member">maxAttempts</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_retry_policy_1ad5ed3668e7fb3f50bc24bebb8e967867" kindref="member">backoffMultiplier</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2" kindref="member">UtilsError</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">kAuditOverflow</ref>,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">kBatchRollback</ref>,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">kBatchSizeExceeded</ref>,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" kindref="member">kRetryExhausted</ref>,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" kindref="member">kDeserInvalid</ref>,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" kindref="member">kPoolExhausted</ref>,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="struct_benchmark_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_benchmark_result" kindref="compound">BenchmarkResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_benchmark_result_1afcdadc39f10224d2e929bb0d9b6c2611" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_benchmark_result_1a8d62c66d3e3d965e6e1c15c3cd2abe67" kindref="member">iterations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="struct_benchmark_result_1abc0677b855a64d6abcbafadeec0407ae" kindref="member">mean_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="struct_benchmark_result_1ac1a203140daee6f67a4c7946525f4016" kindref="member">median_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="struct_benchmark_result_1adbf72ac594bd5f1a4c42e7910d684ac9" kindref="member">min_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="struct_benchmark_result_1a58f4206d50181fed0e7dc5105133e03a" kindref="member">max_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="struct_benchmark_result_1a0d2ea77f7148058802085c2df78e17f3" kindref="member">p95_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="struct_benchmark_result_1ad9f4e777516cca3a6fc560a1a92d955a" kindref="member">p99_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_benchmark_result_1ad2e1b13bb39d90548d26a16a50d2092f" kindref="member">throughput_ops_sec</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>json<sp/><ref refid="struct_benchmark_result_1a3a003f292bb5c3cd888a94beb004584d" kindref="member">to_json</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json<sp/>j;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="struct_benchmark_result_1afcdadc39f10224d2e929bb0d9b6c2611" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;iterations&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="struct_benchmark_result_1a8d62c66d3e3d965e6e1c15c3cd2abe67" kindref="member">iterations</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;mean_ns&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="struct_benchmark_result_1abc0677b855a64d6abcbafadeec0407ae" kindref="member">mean_ns</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;median_ns&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="struct_benchmark_result_1ac1a203140daee6f67a4c7946525f4016" kindref="member">median_ns</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;min_ns&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="struct_benchmark_result_1adbf72ac594bd5f1a4c42e7910d684ac9" kindref="member">min_ns</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;max_ns&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="struct_benchmark_result_1a58f4206d50181fed0e7dc5105133e03a" kindref="member">max_ns</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;p95_ns&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="struct_benchmark_result_1a0d2ea77f7148058802085c2df78e17f3" kindref="member">p95_ns</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;p99_ns&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="struct_benchmark_result_1ad9f4e777516cca3a6fc560a1a92d955a" kindref="member">p99_ns</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;throughput_ops_sec&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="struct_benchmark_result_1ad2e1b13bb39d90548d26a16a50d2092f" kindref="member">throughput_ops_sec</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">std::vector&lt;long<sp/>long&gt;<sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper<sp/>to<sp/>run<sp/>and<sp/>measure<sp/>a<sp/>benchmark</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Fn&gt;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="struct_benchmark_result" kindref="compound">BenchmarkResult</ref><sp/><ref refid="benchmark__runner_8cpp_1ae026fa30df70387dd3f5ffc76e4c5009" kindref="member">run_benchmark</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>repetitions,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iterations_per_rep,<sp/>Fn&amp;&amp;<sp/>fn)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.clear();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.reserve(repetitions);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warm<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn(1);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Measure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rep<sp/>=<sp/>0;<sp/>rep<sp/>&lt;<sp/>repetitions;<sp/>rep++)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>iterations_per_rep;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fn(1);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>duration_cast&lt;nanoseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.push_back(elapsed<sp/>/<sp/>iterations_per_rep);<sp/><sp/></highlight><highlight class="comment">//<sp/>time<sp/>per<sp/>iteration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calculate<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(<ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.begin(),<sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.end());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>sum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>:<sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>t;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>mean<sp/>=<sp/>sum<sp/>/<sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.size();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>median<sp/>=<sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>[<ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.size()<sp/>/<sp/>2];</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>min<sp/>=<sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.front();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>max<sp/>=<sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.back();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>p95<sp/>=<sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>[(<ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.size()<sp/>*<sp/>95)<sp/>/<sp/>100];</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>p99<sp/>=<sp/><ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>[(<ref refid="benchmark__runner_8cpp_1a96e92765bf072a0fcfaafd34fe767733" kindref="member">times_ns</ref>.size()<sp/>*<sp/>99)<sp/>/<sp/>100];</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_benchmark_result" kindref="compound">BenchmarkResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="struct_benchmark_result_1afcdadc39f10224d2e929bb0d9b6c2611" kindref="member">name</ref><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="struct_benchmark_result_1a8d62c66d3e3d965e6e1c15c3cd2abe67" kindref="member">iterations</ref><sp/>=<sp/>repetitions<sp/>*<sp/>iterations_per_rep;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="struct_benchmark_result_1abc0677b855a64d6abcbafadeec0407ae" kindref="member">mean_ns</ref><sp/>=<sp/>mean;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="struct_benchmark_result_1ac1a203140daee6f67a4c7946525f4016" kindref="member">median_ns</ref><sp/>=<sp/>median;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="struct_benchmark_result_1adbf72ac594bd5f1a4c42e7910d684ac9" kindref="member">min_ns</ref><sp/>=<sp/>min;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="struct_benchmark_result_1a58f4206d50181fed0e7dc5105133e03a" kindref="member">max_ns</ref><sp/>=<sp/>max;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="struct_benchmark_result_1a0d2ea77f7148058802085c2df78e17f3" kindref="member">p95_ns</ref><sp/>=<sp/>p95;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="struct_benchmark_result_1ad9f4e777516cca3a6fc560a1a92d955a" kindref="member">p99_ns</ref><sp/>=<sp/>p99;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="struct_benchmark_result_1ad2e1b13bb39d90548d26a16a50d2092f" kindref="member">throughput_ops_sec</ref><sp/>=<sp/>(mean<sp/>&gt;<sp/>0)<sp/>?<sp/>(1e9<sp/>/<sp/>mean)<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kindref="member">main</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BenchmarkResult&gt;<sp/>results;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GATE-UTL-01:<sp/>BloomFilterConfig<sp/>alloc<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>results.push_back(<ref refid="benchmark__runner_8cpp_1ae026fa30df70387dd3f5ffc76e4c5009" kindref="member">run_benchmark</ref>(</highlight><highlight class="stringliteral">&quot;BM_BloomFilterConfig_Alloc&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>100000,<sp/>[](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_bloom_filter_config" kindref="compound">BloomFilterConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_bloom_filter_config_1a9d25047c6fcd1933cc837da868b38da3" kindref="member">expectedItems</ref><sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_bloom_filter_config_1adde2e353936937a029e510f7310dbac6" kindref="member">targetFalsePositiveRate</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">(cfg.<ref refid="struct_bloom_filter_config_1a9d25047c6fcd1933cc837da868b38da3" kindref="member">expectedItems</ref>)<sp/>:<sp/>);<sp/><sp/></highlight><highlight class="comment">//<sp/>prevent<sp/>optimization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GATE-UTL-02:<sp/>RetryPolicy<sp/>copy<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>results.push_back(<ref refid="benchmark__runner_8cpp_1ae026fa30df70387dd3f5ffc76e4c5009" kindref="member">run_benchmark</ref>(</highlight><highlight class="stringliteral">&quot;BM_RetryPolicy_Copy&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>100000,<sp/>[](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_retry_policy" kindref="compound">RetryPolicy</ref><sp/>orig;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>orig.<ref refid="struct_retry_policy_1a601244d1deb3214109cbae6a69183f17" kindref="member">maxAttempts</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>orig.<ref refid="struct_retry_policy_1ad5ed3668e7fb3f50bc24bebb8e967867" kindref="member">backoffMultiplier</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_retry_policy" kindref="compound">RetryPolicy</ref><sp/>copy<sp/>=<sp/>orig;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">(copy.<ref refid="struct_retry_policy_1a601244d1deb3214109cbae6a69183f17" kindref="member">maxAttempts</ref>)<sp/>:<sp/>);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GATE-UTL-03:<sp/>Error-code<sp/>cast<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>results.push_back(<ref refid="benchmark__runner_8cpp_1ae026fa30df70387dd3f5ffc76e4c5009" kindref="member">run_benchmark</ref>(</highlight><highlight class="stringliteral">&quot;BM_UtilsError_Cast&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>500000,<sp/>[](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2" kindref="member">UtilsError</ref><sp/>kErrors[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">UtilsError::kAuditOverflow</ref>,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">UtilsError::kBatchRollback</ref>,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">UtilsError::kBatchSizeExceeded</ref>,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" kindref="member">UtilsError::kRetryExhausted</ref>,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" kindref="member">UtilsError::kDeserInvalid</ref>,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" kindref="member">UtilsError::kPoolExhausted</ref>,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kErrors[0]);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">(v)<sp/>:<sp/>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GATE-UTL-04:<sp/>RetryPolicy<sp/>batch<sp/>alloc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>results.push_back(<ref refid="benchmark__runner_8cpp_1ae026fa30df70387dd3f5ffc76e4c5009" kindref="member">run_benchmark</ref>(</highlight><highlight class="stringliteral">&quot;BM_RetryPolicy_BatchAlloc_1000&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>10000,<sp/>[](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;RetryPolicy&gt;<sp/>v(1000);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.maxAttempts<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">(v.data())<sp/>:<sp/>);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GATE-UTL-05:<sp/>BloomFilterConfig<sp/>batch<sp/>alloc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>results.push_back(<ref refid="benchmark__runner_8cpp_1ae026fa30df70387dd3f5ffc76e4c5009" kindref="member">run_benchmark</ref>(</highlight><highlight class="stringliteral">&quot;BM_BloomFilterConfig_Batch_1000&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>10000,<sp/>[](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;BloomFilterConfig&gt;<sp/>v(1000);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.expectedItems<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.targetFalsePositiveRate<sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">(v.data())<sp/>:<sp/>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GATE-UTL-06:<sp/>UtilsError<sp/>switch<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>results.push_back(<ref refid="benchmark__runner_8cpp_1ae026fa30df70387dd3f5ffc76e4c5009" kindref="member">run_benchmark</ref>(</highlight><highlight class="stringliteral">&quot;BM_UtilsError_SwitchDispatch&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>500000,<sp/>[](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2" kindref="member">UtilsError</ref><sp/>kErrors[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">UtilsError::kAuditOverflow</ref>,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">UtilsError::kBatchRollback</ref>,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">UtilsError::kBatchSizeExceeded</ref>,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" kindref="member">UtilsError::kRetryExhausted</ref>,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" kindref="member">UtilsError::kDeserInvalid</ref>,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" kindref="member">UtilsError::kPoolExhausted</ref>,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>kErrors[0];</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>result<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(err)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a9f346b27328ea1f407fbc7bc41dc548d" kindref="member">UtilsError::kAuditOverflow</ref>:<sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>1;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a05a52003bd7425f0c96bc3fb1b42fd3b" kindref="member">UtilsError::kBatchRollback</ref>:<sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>2;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a5e3fc7a8f5efce4382f4659761ed39ba" kindref="member">UtilsError::kBatchSizeExceeded</ref>:<sp/>result<sp/>=<sp/>3;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a34730488a8f6b02017292a45ed049919" kindref="member">UtilsError::kRetryExhausted</ref>:<sp/><sp/><sp/><sp/>result<sp/>=<sp/>4;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2ad9384981d2a56923e1537bff31a22469" kindref="member">UtilsError::kDeserInvalid</ref>:<sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>5;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="benchmark__runner_8cpp_1a12fdb8f41f3131fe041aa23d9c612ef2a1b2b165717a1de7a26bb87921998ae69" kindref="member">UtilsError::kPoolExhausted</ref>:<sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>6;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal">(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"><sp/>:<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">(result)<sp/>:<sp/>);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Output<sp/>results<sp/>to<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1errors_1ab9b1f3c9f9656bcfa6440ba87bfddf2f" kindref="member">json</ref><sp/>output;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>output[</highlight><highlight class="stringliteral">&quot;benchmarks&quot;</highlight><highlight class="normal">]<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>result<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output[</highlight><highlight class="stringliteral">&quot;benchmarks&quot;</highlight><highlight class="normal">].push_back(result.to_json());</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Print<sp/>as<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>output.dump(2)<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Print<sp/>table</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n\n===<sp/>BENCHMARK<sp/>RESULTS<sp/>===\n&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>std::left<sp/>&lt;&lt;<sp/>std::setw(40)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Benchmark&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::setw(15)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Mean<sp/>(µs)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::setw(15)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;P95<sp/>(µs)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::setw(15)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Throughput&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>std::string(85,<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>std::left<sp/>&lt;&lt;<sp/>std::setw(40)<sp/>&lt;&lt;<sp/>r.name</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::setw(15)<sp/>&lt;&lt;<sp/>(r.mean_ns<sp/>/<sp/>1000.0)</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::setw(15)<sp/>&lt;&lt;<sp/>(r.p95_ns<sp/>/<sp/>1000.0)</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::fixed<sp/>&lt;&lt;<sp/>std::setprecision(2)<sp/>&lt;&lt;<sp/>(r.throughput_ops_sec<sp/>/<sp/>1e6)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;M<sp/>ops/s&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/utils/benchmark_runner.cpp"/>
+  </compounddef>
+</doxygen>

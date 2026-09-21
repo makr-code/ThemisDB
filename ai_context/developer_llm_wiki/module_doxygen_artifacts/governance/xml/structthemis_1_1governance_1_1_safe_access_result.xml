@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_safe_access_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::SafeAccessResult</compoundname>
+    <includes refid="governance__diagnostics_8h" local="no">governance_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_safe_access_result_1ad06c227f47ebcaa1b082ee7312a03b0e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::SafeAccessResult::is_safe</definition>
+        <argsstring></argsstring>
+        <name>is_safe</name>
+        <qualifiedname>themis::governance::SafeAccessResult::is_safe</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="269" column="10" bodyfile="include/governance/governance_diagnostics.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_safe_access_result_1a80cf33fd8738f632e56a0075dc3e6d31" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_safety_violation" kindref="compound">SafetyViolation</ref> &gt;</type>
+        <definition>std::vector&lt;SafetyViolation&gt; themis::governance::SafeAccessResult::violations</definition>
+        <argsstring></argsstring>
+        <name>violations</name>
+        <qualifiedname>themis::governance::SafeAccessResult::violations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="270" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_safe_access_result_1a5485fee07250bae9f5d5441abcf33e86" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; themis::governance::SafeAccessResult::scenario_codes</definition>
+        <argsstring></argsstring>
+        <name>scenario_codes</name>
+        <qualifiedname>themis::governance::SafeAccessResult::scenario_codes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="271" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_safe_access_result_1ae3009b915f88194c07440d66723b5279" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::governance::SafeAccessResult::diagnostic_code</definition>
+        <argsstring></argsstring>
+        <name>diagnostic_code</name>
+        <qualifiedname>themis::governance::SafeAccessResult::diagnostic_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="272" column="13" bodyfile="include/governance/governance_diagnostics.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_safe_access_result_1a40d38d97942e3b1a0002c280a70ec5d9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::SafeAccessResult::remediation_steps</definition>
+        <argsstring></argsstring>
+        <name>remediation_steps</name>
+        <qualifiedname>themis::governance::SafeAccessResult::remediation_steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="273" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_safe_access_result_1ab7e4917d8a6c997dc77ec7d753c14642" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::SafeAccessResult::evaluated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>evaluated_at_ms</name>
+        <qualifiedname>themis::governance::SafeAccessResult::evaluated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="274" column="13" bodyfile="include/governance/governance_diagnostics.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_diagnostics.h" line="268" column="1" bodyfile="include/governance/governance_diagnostics.h" bodystart="268" bodyend="275"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_safe_access_result_1ae3009b915f88194c07440d66723b5279" prot="public" virt="non-virtual"><scope>themis::governance::SafeAccessResult</scope><name>diagnostic_code</name></member>
+      <member refid="structthemis_1_1governance_1_1_safe_access_result_1ab7e4917d8a6c997dc77ec7d753c14642" prot="public" virt="non-virtual"><scope>themis::governance::SafeAccessResult</scope><name>evaluated_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_safe_access_result_1ad06c227f47ebcaa1b082ee7312a03b0e" prot="public" virt="non-virtual"><scope>themis::governance::SafeAccessResult</scope><name>is_safe</name></member>
+      <member refid="structthemis_1_1governance_1_1_safe_access_result_1a40d38d97942e3b1a0002c280a70ec5d9" prot="public" virt="non-virtual"><scope>themis::governance::SafeAccessResult</scope><name>remediation_steps</name></member>
+      <member refid="structthemis_1_1governance_1_1_safe_access_result_1a5485fee07250bae9f5d5441abcf33e86" prot="public" virt="non-virtual"><scope>themis::governance::SafeAccessResult</scope><name>scenario_codes</name></member>
+      <member refid="structthemis_1_1governance_1_1_safe_access_result_1a80cf33fd8738f632e56a0075dc3e6d31" prot="public" virt="non-virtual"><scope>themis::governance::SafeAccessResult</scope><name>violations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

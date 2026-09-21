@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1llm__wiki_1_1_0d205223110360050335272230121117015364325211274303" kind="namespace" language="C++">
+    <compoundname>themis::plugins::llm_wiki::@205223110360050335272230121117015364325211274303</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

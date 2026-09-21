@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_auth_middleware_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::AuthMiddleware::Metrics</compoundname>
+    <includes refid="auth__middleware_8h" local="no">auth_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1afbdee7f47b120a806f75733506580212" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AuthMiddleware::Metrics::authz_success_total</definition>
+        <argsstring></argsstring>
+        <name>authz_success_total</name>
+        <qualifiedname>themis::server::AuthMiddleware::Metrics::authz_success_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="187" column="21" bodyfile="include/server/auth_middleware.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1aafc2005189cdec38b0aa3568f316ed93" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AuthMiddleware::Metrics::authz_denied_total</definition>
+        <argsstring></argsstring>
+        <name>authz_denied_total</name>
+        <qualifiedname>themis::server::AuthMiddleware::Metrics::authz_denied_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="188" column="21" bodyfile="include/server/auth_middleware.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1aa0d24bf5bb15e35cf8804259e1dc9ff4" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AuthMiddleware::Metrics::authz_invalid_token_total</definition>
+        <argsstring></argsstring>
+        <name>authz_invalid_token_total</name>
+        <qualifiedname>themis::server::AuthMiddleware::Metrics::authz_invalid_token_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="189" column="21" bodyfile="include/server/auth_middleware.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1a79314b575b8b3141935e84fbaeb2c029" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AuthMiddleware::Metrics::jwt_validation_success_total</definition>
+        <argsstring></argsstring>
+        <name>jwt_validation_success_total</name>
+        <qualifiedname>themis::server::AuthMiddleware::Metrics::jwt_validation_success_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="190" column="21" bodyfile="include/server/auth_middleware.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1aeeae319d47521abde973ba43247eb8d3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::AuthMiddleware::Metrics::jwt_validation_failed_total</definition>
+        <argsstring></argsstring>
+        <name>jwt_validation_failed_total</name>
+        <qualifiedname>themis::server::AuthMiddleware::Metrics::jwt_validation_failed_total</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/auth_middleware.h" line="191" column="21" bodyfile="include/server/auth_middleware.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/auth_middleware.h" line="186" column="5" bodyfile="include/server/auth_middleware.h" bodystart="186" bodyend="192"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1aafc2005189cdec38b0aa3568f316ed93" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::Metrics</scope><name>authz_denied_total</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1aa0d24bf5bb15e35cf8804259e1dc9ff4" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::Metrics</scope><name>authz_invalid_token_total</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1afbdee7f47b120a806f75733506580212" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::Metrics</scope><name>authz_success_total</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1aeeae319d47521abde973ba43247eb8d3" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::Metrics</scope><name>jwt_validation_failed_total</name></member>
+      <member refid="structthemis_1_1server_1_1_auth_middleware_1_1_metrics_1a79314b575b8b3141935e84fbaeb2c029" prot="public" virt="non-virtual"><scope>themis::server::AuthMiddleware::Metrics</scope><name>jwt_validation_success_total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

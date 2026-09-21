@@ -1,0 +1,635 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_pki_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::PkiApiHandler</compoundname>
+    <includes refid="pki__api__handler_8h" local="no">pki_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_pki_api_handler_1a8601da27710c5932e4ea26fa0f9ca60e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SigningService &gt;</type>
+        <definition>std::shared_ptr&lt;SigningService&gt; themis::server::PkiApiHandler::signing_service_</definition>
+        <argsstring></argsstring>
+        <name>signing_service_</name>
+        <qualifiedname>themis::server::PkiApiHandler::signing_service_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="120" column="21" bodyfile="include/server/pki_api_handler.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_pki_api_handler_1ab86475447d2a79b279afddea45f81f1a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; security::HSMProvider &gt;</type>
+        <definition>std::shared_ptr&lt;security::HSMProvider&gt; themis::server::PkiApiHandler::hsm_provider_</definition>
+        <argsstring></argsstring>
+        <name>hsm_provider_</name>
+        <qualifiedname>themis::server::PkiApiHandler::hsm_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="121" column="21" bodyfile="include/server/pki_api_handler.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_pki_api_handler_1a56d6c0d4b95772eb86eaf2fa409570c8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; security::TimestampAuthority &gt;</type>
+        <definition>std::shared_ptr&lt;security::TimestampAuthority&gt; themis::server::PkiApiHandler::tsa_</definition>
+        <argsstring></argsstring>
+        <name>tsa_</name>
+        <qualifiedname>themis::server::PkiApiHandler::tsa_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="122" column="21" bodyfile="include/server/pki_api_handler.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a00802c82c3221eaa1621a479b670b31f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PkiApiHandler::PkiApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; SigningService &gt; signing_service)</argsstring>
+        <name>PkiApiHandler</name>
+        <qualifiedname>themis::server::PkiApiHandler::PkiApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; SigningService &gt;</type>
+          <declname>signing_service</declname>
+        </param>
+        <briefdescription>
+<para>Pki Api Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">signing_service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="30" column="14" bodyfile="src/server/pki_api_handler.cpp" bodystart="119" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1aa993eb204b1b801a826ad77683eb60eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PkiApiHandler::PkiApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; SigningService &gt; signing_service, std::shared_ptr&lt; security::HSMProvider &gt; hsm_provider, std::shared_ptr&lt; security::TimestampAuthority &gt; tsa)</argsstring>
+        <name>PkiApiHandler</name>
+        <qualifiedname>themis::server::PkiApiHandler::PkiApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; SigningService &gt;</type>
+          <declname>signing_service</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; security::HSMProvider &gt;</type>
+          <declname>hsm_provider</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; security::TimestampAuthority &gt;</type>
+          <declname>tsa</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="33" column="5" bodyfile="src/server/pki_api_handler.cpp" bodystart="122" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1aa3dbc4c60a71f41a702c1cff0a1f88cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::sign</definition>
+        <argsstring>(const std::string &amp;key_id, const nlohmann::json &amp;body)</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::server::PkiApiHandler::sign</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Sign. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), THEMIS_ERROR(), isValidIdentifier(), contains(), isLikelyValidBase64(), base64_decode(), base64_encode(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="44" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="136" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a7ecc8daccc26c59f26962fc2c0f7d19f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::verify</definition>
+        <argsstring>(const std::string &amp;key_id, const nlohmann::json &amp;body)</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::server::PkiApiHandler::verify</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Verify identity and enforce network policies for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: Tracer::startSpan(), THEMIS_ERROR(), isValidIdentifier(), contains(), isLikelyValidBase64(), base64_decode(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="52" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="179" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a466c87fed1548d56d83d66372dd65cdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::hsmSign</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>hsmSign</name>
+        <qualifiedname>themis::server::PkiApiHandler::hsmSign</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Hsm Sign. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), <ref refid="classthemis_1_1server_1_1_pki_api_handler_1aa3dbc4c60a71f41a702c1cff0a1f88cd" kindref="member">sign()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="60" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="224" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a3ba4eff6679a37ed4246c3e13eb4c56d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::hsmListKeys</definition>
+        <argsstring>()</argsstring>
+        <name>hsmListKeys</name>
+        <qualifiedname>themis::server::PkiApiHandler::hsmListKeys</qualifiedname>
+        <briefdescription>
+<para>Hsm List Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), THEMIS_ERROR(), listKeys(), nlohmann::json::array(), push_back(), std::move(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="66" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="267" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a33137e8304eafda879f6482c8deed3ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::getTimestamp</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>getTimestamp</name>
+        <qualifiedname>themis::server::PkiApiHandler::getTimestamp</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Get Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="74" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="312" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1af6a23ab6b634d09380397f9fce02623c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::verifyTimestamp</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>verifyTimestamp</name>
+        <qualifiedname>themis::server::PkiApiHandler::verifyTimestamp</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Verify Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), parseToken(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="81" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="355" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a4b68beb5ddff34aa948411ce52fd4396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::eidasSign</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>eidasSign</name>
+        <qualifiedname>themis::server::PkiApiHandler::eidasSign</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Eidas Sign. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), <ref refid="classthemis_1_1server_1_1_pki_api_handler_1aa3dbc4c60a71f41a702c1cff0a1f88cd" kindref="member">sign()</ref>, <ref refid="classthemis_1_1server_1_1_pki_api_handler_1a33137e8304eafda879f6482c8deed3ef" kindref="member">getTimestamp()</ref>, THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="89" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="398" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a4bf10cc64e4a14fb43858136185b6962" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::eidasVerify</definition>
+        <argsstring>(const nlohmann::json &amp;body)</argsstring>
+        <name>eidasVerify</name>
+        <qualifiedname>themis::server::PkiApiHandler::eidasVerify</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Eidas Verify. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), <ref refid="classthemis_1_1server_1_1_pki_api_handler_1a7ecc8daccc26c59f26962fc2c0f7d19f" kindref="member">verify()</ref>, empty(), parseToken(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="96" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="459" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1aec8037d43804811d6cd6c44634fadcbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::listCertificates</definition>
+        <argsstring>()</argsstring>
+        <name>listCertificates</name>
+        <qualifiedname>themis::server::PkiApiHandler::listCertificates</qualifiedname>
+        <briefdescription>
+<para>List Certificates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), nlohmann::json::array(), listKeys(), <ref refid="classthemis_1_1server_1_1_pki_api_handler_1a350952c57e934f86e968298b4be01665" kindref="member">getCertificate()</ref>, has_value(), push_back(), std::move(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="103" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="530" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a350952c57e934f86e968298b4be01665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::getCertificate</definition>
+        <argsstring>(const std::string &amp;cert_id)</argsstring>
+        <name>getCertificate</name>
+        <qualifiedname>themis::server::PkiApiHandler::getCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Certificate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidIdentifier(), has_value(), listKeys(), THEMIS_WARN(), THEMIS_INFO(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="110" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="570" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a297bdcf9b082346250d5b3fd63b14ca8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::PkiApiHandler::getStatus</definition>
+        <argsstring>()</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>themis::server::PkiApiHandler::getStatus</qualifiedname>
+        <briefdescription>
+<para>Get Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), listKeys(), size(), THEMIS_WARN(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="117" column="20" bodyfile="src/server/pki_api_handler.cpp" bodystart="619" bodyend="655"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1af5b17eb8b3bbd81ffb2b8ad9391fb893" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::PkiApiHandler::decodeBase64</definition>
+        <argsstring>(const std::string &amp;b64)</argsstring>
+        <name>decodeBase64</name>
+        <qualifiedname>themis::server::PkiApiHandler::decodeBase64</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b64</declname>
+        </param>
+        <briefdescription>
+<para>Decode Base64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">b64</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="129" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_pki_api_handler_1a3120c2b4a95d2e4d59a501c96bf1ad83" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::PkiApiHandler::encodeBase64</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>encodeBase64</name>
+        <qualifiedname>themis::server::PkiApiHandler::encodeBase64</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Encode Base64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pki_api_handler.h" line="136" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/pki_api_handler.h" line="23" column="1" bodyfile="include/server/pki_api_handler.h" bodystart="23" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1af5b17eb8b3bbd81ffb2b8ad9391fb893" prot="private" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>decodeBase64</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a4b68beb5ddff34aa948411ce52fd4396" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>eidasSign</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a4bf10cc64e4a14fb43858136185b6962" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>eidasVerify</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a3120c2b4a95d2e4d59a501c96bf1ad83" prot="private" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>encodeBase64</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a350952c57e934f86e968298b4be01665" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>getCertificate</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a297bdcf9b082346250d5b3fd63b14ca8" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>getStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a33137e8304eafda879f6482c8deed3ef" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>getTimestamp</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1ab86475447d2a79b279afddea45f81f1a" prot="private" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>hsm_provider_</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a3ba4eff6679a37ed4246c3e13eb4c56d" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>hsmListKeys</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a466c87fed1548d56d83d66372dd65cdc" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>hsmSign</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1aec8037d43804811d6cd6c44634fadcbb" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>listCertificates</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a00802c82c3221eaa1621a479b670b31f" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>PkiApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1aa993eb204b1b801a826ad77683eb60eb" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>PkiApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1aa3dbc4c60a71f41a702c1cff0a1f88cd" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>sign</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a8601da27710c5932e4ea26fa0f9ca60e" prot="private" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>signing_service_</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a56d6c0d4b95772eb86eaf2fa409570c8" prot="private" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>tsa_</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1a7ecc8daccc26c59f26962fc2c0f7d19f" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>verify</name></member>
+      <member refid="classthemis_1_1server_1_1_pki_api_handler_1af6a23ab6b634d09380397f9fce02623c" prot="public" virt="non-virtual"><scope>themis::server::PkiApiHandler</scope><name>verifyTimestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

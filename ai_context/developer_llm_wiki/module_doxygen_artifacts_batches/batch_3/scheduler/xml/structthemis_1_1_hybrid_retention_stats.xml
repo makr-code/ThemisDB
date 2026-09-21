@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hybrid_retention_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HybridRetentionStats</compoundname>
+    <includes refid="hybrid__retention__manager_8h" local="no">hybrid_retention_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1ad40ff2846d3c2244de5dfe9d970183df" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HybridRetentionStats::compressions_total</definition>
+        <argsstring></argsstring>
+        <name>compressions_total</name>
+        <qualifiedname>themis::HybridRetentionStats::compressions_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="84" column="16" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1af8924b828f564bccff9dbfbe8a3e1458" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HybridRetentionStats::compressions_failed</definition>
+        <argsstring></argsstring>
+        <name>compressions_failed</name>
+        <qualifiedname>themis::HybridRetentionStats::compressions_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="85" column="16" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1a524e00727b4f6ea44740488a325cda28" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HybridRetentionStats::avg_compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>avg_compression_ratio</name>
+        <qualifiedname>themis::HybridRetentionStats::avg_compression_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="86" column="16" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1adebd379f6ba30e299dbc9d3b1b0e5a69" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::HybridRetentionStats::last_run</definition>
+        <argsstring></argsstring>
+        <name>last_run</name>
+        <qualifiedname>themis::HybridRetentionStats::last_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="87" column="47" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1a3ab67d58fc960a11f30d19977c8512a5" prot="public" static="no" mutable="no">
+        <type>struct themis::HybridRetentionStats::@377163131126004250144172037227227144062372040110</type>
+        <definition>struct themis::HybridRetentionStats::@377163131126004250144172037227227144062372040110 themis::HybridRetentionStats::stage1</definition>
+        <argsstring></argsstring>
+        <name>stage1</name>
+        <qualifiedname>themis::HybridRetentionStats::stage1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="88" column="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1a2d361fe079d8b35390b15d155b2d2d9c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HybridRetentionStats::aggregations_total</definition>
+        <argsstring></argsstring>
+        <name>aggregations_total</name>
+        <qualifiedname>themis::HybridRetentionStats::aggregations_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="92" column="16" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1a9504a9e70327b6f0f4f3e55b4a248478" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HybridRetentionStats::aggregations_failed</definition>
+        <argsstring></argsstring>
+        <name>aggregations_failed</name>
+        <qualifiedname>themis::HybridRetentionStats::aggregations_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="93" column="16" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1a96cf440b6533703dbefa450b4e69c137" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HybridRetentionStats::anomalies_preserved</definition>
+        <argsstring></argsstring>
+        <name>anomalies_preserved</name>
+        <qualifiedname>themis::HybridRetentionStats::anomalies_preserved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="94" column="16" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1a413c9433ad03fa9a32518124c66a2113" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HybridRetentionStats::avg_storage_reduction</definition>
+        <argsstring></argsstring>
+        <name>avg_storage_reduction</name>
+        <qualifiedname>themis::HybridRetentionStats::avg_storage_reduction</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="95" column="16" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1ac1dbe3ac977a36cdcb3720e115bb0bb9" prot="public" static="no" mutable="no">
+        <type>struct themis::HybridRetentionStats::@054164327053223307277142220314041024317342204342</type>
+        <definition>struct themis::HybridRetentionStats::@054164327053223307277142220314041024317342204342 themis::HybridRetentionStats::stage2</definition>
+        <argsstring></argsstring>
+        <name>stage2</name>
+        <qualifiedname>themis::HybridRetentionStats::stage2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="97" column="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1a07dcff6434b63da5533458dae714c9ef" prot="public" static="no" mutable="no">
+        <type>struct themis::HybridRetentionStats::@057377031152121006234271233113017034370126037155</type>
+        <definition>struct themis::HybridRetentionStats::@057377031152121006234271233113017034370126037155 themis::HybridRetentionStats::stage3</definition>
+        <argsstring></argsstring>
+        <name>stage3</name>
+        <qualifiedname>themis::HybridRetentionStats::stage3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="105" column="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1a43c04c4e71c63773154e1454e71dbe2d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HybridRetentionStats::total_storage_bytes_saved</definition>
+        <argsstring></argsstring>
+        <name>total_storage_bytes_saved</name>
+        <qualifiedname>themis::HybridRetentionStats::total_storage_bytes_saved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="108" column="12" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hybrid_retention_stats_1a60189ef06e8d8326089576084f0b2615" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HybridRetentionStats::overall_storage_reduction_percent</definition>
+        <argsstring></argsstring>
+        <name>overall_storage_reduction_percent</name>
+        <qualifiedname>themis::HybridRetentionStats::overall_storage_reduction_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/hybrid_retention_manager.h" line="109" column="12" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for hybrid retention system. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/hybrid_retention_manager.h" line="81" column="1" bodyfile="include/scheduler/hybrid_retention_manager.h" bodystart="81" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1a9504a9e70327b6f0f4f3e55b4a248478" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>aggregations_failed</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1a2d361fe079d8b35390b15d155b2d2d9c" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>aggregations_total</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1a96cf440b6533703dbefa450b4e69c137" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>anomalies_preserved</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1a524e00727b4f6ea44740488a325cda28" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>avg_compression_ratio</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1a413c9433ad03fa9a32518124c66a2113" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>avg_storage_reduction</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1af8924b828f564bccff9dbfbe8a3e1458" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>compressions_failed</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1ad40ff2846d3c2244de5dfe9d970183df" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>compressions_total</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1adebd379f6ba30e299dbc9d3b1b0e5a69" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>last_run</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1a60189ef06e8d8326089576084f0b2615" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>overall_storage_reduction_percent</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1a3ab67d58fc960a11f30d19977c8512a5" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>stage1</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1ac1dbe3ac977a36cdcb3720e115bb0bb9" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>stage2</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1a07dcff6434b63da5533458dae714c9ef" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>stage3</name></member>
+      <member refid="structthemis_1_1_hybrid_retention_stats_1a43c04c4e71c63773154e1454e71dbe2d" prot="public" virt="non-virtual"><scope>themis::HybridRetentionStats</scope><name>total_storage_bytes_saved</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

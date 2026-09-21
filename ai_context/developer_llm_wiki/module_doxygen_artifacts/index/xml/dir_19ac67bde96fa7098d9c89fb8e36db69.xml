@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_19ac67bde96fa7098d9c89fb8e36db69" kind="dir">
+    <compoundname>src/index</compoundname>
+    <innerfile refid="adaptive__index_8cpp">adaptive_index.cpp</innerfile>
+    <innerfile refid="advanced__vector__index_8cpp">advanced_vector_index.cpp</innerfile>
+    <innerfile refid="ann__frontdoor_8cpp">ann_frontdoor.cpp</innerfile>
+    <innerfile refid="ann__index_8cpp">ann_index.cpp</innerfile>
+    <innerfile refid="approximate__radius__search_8cpp">approximate_radius_search.cpp</innerfile>
+    <innerfile refid="binary__quantizer_8cpp">binary_quantizer.cpp</innerfile>
+    <innerfile refid="cuda__hnsw__graph__traversal_8cpp">cuda_hnsw_graph_traversal.cpp</innerfile>
+    <innerfile refid="distributed__vector__index_8cpp">distributed_vector_index.cpp</innerfile>
+    <innerfile refid="edge__types_8cpp">edge_types.cpp</innerfile>
+    <innerfile refid="gnn__embeddings_8cpp">gnn_embeddings.cpp</innerfile>
+    <innerfile refid="gpu__memory__oversubscription_8cpp">gpu_memory_oversubscription.cpp</innerfile>
+    <innerfile refid="gpu__vector__index_8cpp">gpu_vector_index.cpp</innerfile>
+    <innerfile refid="gpu__vector__index__vulkan_8cpp">gpu_vector_index_vulkan.cpp</innerfile>
+    <innerfile refid="graph__analytics_8cpp">graph_analytics.cpp</innerfile>
+    <innerfile refid="graph__auto__buffer_8cpp">graph_auto_buffer.cpp</innerfile>
+    <innerfile refid="graph__index_8cpp">graph_index.cpp</innerfile>
+    <innerfile refid="hnsw__layer__optimizer_8cpp">hnsw_layer_optimizer.cpp</innerfile>
+    <innerfile refid="hnsw__parameter__tuner_8cpp">hnsw_parameter_tuner.cpp</innerfile>
+    <innerfile refid="hnsw__production__defaults_8cpp">hnsw_production_defaults.cpp</innerfile>
+    <innerfile refid="index__compression_8cpp">index_compression.cpp</innerfile>
+    <innerfile refid="index__manager_8cpp">index_manager.cpp</innerfile>
+    <innerfile refid="inverted__index_8cpp">inverted_index.cpp</innerfile>
+    <innerfile refid="learnable__rope_8cpp">learnable_rope.cpp</innerfile>
+    <innerfile refid="learned__quantizer_8cpp">learned_quantizer.cpp</innerfile>
+    <innerfile refid="lora__rope_8cpp">lora_rope.cpp</innerfile>
+    <innerfile refid="matryoshka__truncation_8cpp">matryoshka_truncation.cpp</innerfile>
+    <innerfile refid="multi__gpu__vector__index_8cpp">multi_gpu_vector_index.cpp</innerfile>
+    <innerfile refid="multi__vector__search_8cpp">multi_vector_search.cpp</innerfile>
+    <innerfile refid="partition__manager_8cpp">partition_manager.cpp</innerfile>
+    <innerfile refid="process__graph_8cpp">process_graph.cpp</innerfile>
+    <innerfile refid="product__quantizer_8cpp">product_quantizer.cpp</innerfile>
+    <innerfile refid="property__graph_8cpp">property_graph.cpp</innerfile>
+    <innerfile refid="residual__quantizer_8cpp">residual_quantizer.cpp</innerfile>
+    <innerfile refid="rotary__embeddings_8cpp">rotary_embeddings.cpp</innerfile>
+    <innerfile refid="rotary__embeddings__gpu__cpu_8cpp">rotary_embeddings_gpu_cpu.cpp</innerfile>
+    <innerfile refid="rotary__embeddings__hip_8cpp">rotary_embeddings_hip.cpp</innerfile>
+    <innerfile refid="secondary__index_8cpp">secondary_index.cpp</innerfile>
+    <innerfile refid="spatial__index_8cpp">spatial_index.cpp</innerfile>
+    <innerfile refid="temporal__graph_8cpp">temporal_graph.cpp</innerfile>
+    <innerfile refid="tiered__index__manager_8cpp">tiered_index_manager.cpp</innerfile>
+    <innerfile refid="vector__auto__buffer_8cpp">vector_auto_buffer.cpp</innerfile>
+    <innerfile refid="vector__index_8cpp">vector_index.cpp</innerfile>
+    <innerfile refid="vector__index__manager__safety_8cpp">vector_index_manager_safety.cpp</innerfile>
+    <innerfile refid="workload__replay_8cpp">workload_replay.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/index/"/>
+  </compounddef>
+</doxygen>

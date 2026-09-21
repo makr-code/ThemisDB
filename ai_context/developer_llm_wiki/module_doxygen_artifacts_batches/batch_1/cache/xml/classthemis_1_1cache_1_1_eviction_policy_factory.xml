@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_eviction_policy_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::EvictionPolicyFactory</compoundname>
+    <includes refid="cache__eviction__policy_8h" local="no">cache_eviction_policy.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_eviction_policy_factory_1ab20cded9e266b8b66e261cc52e76a7dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cache_1_1_cache_eviction_policy" kindref="compound">CacheEvictionPolicy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CacheEvictionPolicy &gt; themis::cache::EvictionPolicyFactory::create</definition>
+        <argsstring>(const std::string &amp;policy_name)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::cache::EvictionPolicyFactory::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_eviction_policy.h" line="363" column="28" bodyfile="src/cache/cache_eviction_policy.cpp" bodystart="908" bodyend="923"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_eviction_policy.h" line="356" column="1" bodyfile="include/cache/cache_eviction_policy.h" bodystart="356" bodyend="364"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_eviction_policy_factory_1ab20cded9e266b8b66e261cc52e76a7dd" prot="public" virt="non-virtual"><scope>themis::cache::EvictionPolicyFactory</scope><name>create</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

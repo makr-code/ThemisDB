@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_backend_metrics_test" kind="class" language="C++" prot="public">
+    <compoundname>BackendMetricsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_backend_metrics_test_1a1cdc837e5e89b5f58b65251850eea42e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BackendMetricsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BackendMetricsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_metrics.cpp" line="357" column="10" bodyfile="tests/acceleration/test_acceleration_metrics.cpp" bodystart="357" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="class_backend_metrics_test_1abf139061a79565c1afb840556ebac09b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BackendMetricsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>BackendMetricsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_metrics.cpp" line="360" column="10" bodyfile="tests/acceleration/test_acceleration_metrics.cpp" bodystart="360" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BackendMetricsTest</label>
+        <link refid="class_backend_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BackendMetricsTest</label>
+        <link refid="class_backend_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_metrics.cpp" line="355" column="1" bodyfile="tests/acceleration/test_acceleration_metrics.cpp" bodystart="355" bodyend="363"/>
+    <listofallmembers>
+      <member refid="class_backend_metrics_test_1a1cdc837e5e89b5f58b65251850eea42e" prot="protected" virt="non-virtual"><scope>BackendMetricsTest</scope><name>SetUp</name></member>
+      <member refid="class_backend_metrics_test_1abf139061a79565c1afb840556ebac09b" prot="protected" virt="non-virtual"><scope>BackendMetricsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

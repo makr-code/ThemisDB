@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_latency_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>LatencyBenchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_latency_benchmark_1ae9a60fdb06784fe09dfafd8d90829b78" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string LatencyBenchmark::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>LatencyBenchmark::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_latency_bench.cpp" line="89" column="17" bodyfile="tests/storage/test_storage_latency_bench.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_latency_benchmark_1a8f2885e610e348d94ba77835b3480112" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; LatencyBenchmark::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>LatencyBenchmark::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_latency_bench.cpp" line="90" column="21" bodyfile="tests/storage/test_storage_latency_bench.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_latency_benchmark_1aa372a7f111e0aa73cb93dad2ee2f589f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_storage_engine" kindref="compound">StorageEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;StorageEngine&gt; LatencyBenchmark::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>LatencyBenchmark::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_latency_bench.cpp" line="91" column="21" bodyfile="tests/storage/test_storage_latency_bench.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_latency_benchmark_1a6a2bb11c3aca3de8f3a03dcc78a65e61" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CompactionManager&gt; LatencyBenchmark::compaction_</definition>
+        <argsstring></argsstring>
+        <name>compaction_</name>
+        <qualifiedname>LatencyBenchmark::compaction_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_latency_bench.cpp" line="92" column="21" bodyfile="tests/storage/test_storage_latency_bench.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_latency_benchmark_1add8f4624751b3695584f3a18fd277257" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LatencyBenchmark::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LatencyBenchmark::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_latency_bench.cpp" line="34" column="10" bodyfile="tests/storage/test_storage_latency_bench.cpp" bodystart="34" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_latency_benchmark_1a3290e8752530b2075650ed66d9cc9752" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LatencyBenchmark::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LatencyBenchmark::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_latency_bench.cpp" line="54" column="10" bodyfile="tests/storage/test_storage_latency_bench.cpp" bodystart="54" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_latency_benchmark_1af85c74ff95228b7be9bb6ae2f45ce5d7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Op</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt; int64_t &gt; LatencyBenchmark::measureLatencies</definition>
+        <argsstring>(int n, Op op)</argsstring>
+        <name>measureLatencies</name>
+        <qualifiedname>LatencyBenchmark::measureLatencies</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>Op</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_latency_bench.cpp" line="67" column="17" bodyfile="tests/storage/test_storage_latency_bench.cpp" bodystart="67" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_latency_benchmark_1aa805961832741c1fbeffef2f25add4dd" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>static int64_t LatencyBenchmark::percentile</definition>
+        <argsstring>(const std::vector&lt; int64_t &gt; &amp;sorted, double pct)</argsstring>
+        <name>percentile</name>
+        <qualifiedname>LatencyBenchmark::percentile</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>sorted</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>pct</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_latency_bench.cpp" line="81" column="20" bodyfile="tests/storage/test_storage_latency_bench.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LatencyBenchmark</label>
+        <link refid="class_latency_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LatencyBenchmark</label>
+        <link refid="class_latency_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/storage/test_storage_latency_bench.cpp" line="32" column="1" bodyfile="tests/storage/test_storage_latency_bench.cpp" bodystart="32" bodyend="93"/>
+    <listofallmembers>
+      <member refid="class_latency_benchmark_1a6a2bb11c3aca3de8f3a03dcc78a65e61" prot="protected" virt="non-virtual"><scope>LatencyBenchmark</scope><name>compaction_</name></member>
+      <member refid="class_latency_benchmark_1a8f2885e610e348d94ba77835b3480112" prot="protected" virt="non-virtual"><scope>LatencyBenchmark</scope><name>db_</name></member>
+      <member refid="class_latency_benchmark_1ae9a60fdb06784fe09dfafd8d90829b78" prot="protected" virt="non-virtual"><scope>LatencyBenchmark</scope><name>db_path_</name></member>
+      <member refid="class_latency_benchmark_1aa372a7f111e0aa73cb93dad2ee2f589f" prot="protected" virt="non-virtual"><scope>LatencyBenchmark</scope><name>engine_</name></member>
+      <member refid="class_latency_benchmark_1af85c74ff95228b7be9bb6ae2f45ce5d7" prot="protected" virt="non-virtual"><scope>LatencyBenchmark</scope><name>measureLatencies</name></member>
+      <member refid="class_latency_benchmark_1aa805961832741c1fbeffef2f25add4dd" prot="protected" virt="non-virtual"><scope>LatencyBenchmark</scope><name>percentile</name></member>
+      <member refid="class_latency_benchmark_1add8f4624751b3695584f3a18fd277257" prot="protected" virt="non-virtual"><scope>LatencyBenchmark</scope><name>SetUp</name></member>
+      <member refid="class_latency_benchmark_1a3290e8752530b2075650ed66d9cc9752" prot="protected" virt="non-virtual"><scope>LatencyBenchmark</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

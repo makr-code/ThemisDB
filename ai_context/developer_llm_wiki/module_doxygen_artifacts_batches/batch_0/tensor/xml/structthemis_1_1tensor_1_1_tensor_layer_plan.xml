@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_layer_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorLayerPlan</compoundname>
+    <includes refid="tensor__mid__layer_8h" local="no">tensor_mid_layer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_plan_1a129a8df36c4b6ed831c583ca3c9923b3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" kindref="member">TensorLayerKind</ref></type>
+        <definition>TensorLayerKind themis::tensor::TensorLayerPlan::layer_kind</definition>
+        <argsstring></argsstring>
+        <name>layer_kind</name>
+        <qualifiedname>themis::tensor::TensorLayerPlan::layer_kind</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a8601c10b2797050a900697daac0c0001" kindref="member">TensorLayerKind::Adapter</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="55" column="21" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_plan_1a853f54eeb0fb9defcbaec3b1af284a13" prot="public" static="no" mutable="no">
+        <type>index::AnnScopeKind</type>
+        <definition>index::AnnScopeKind themis::tensor::TensorLayerPlan::ann_scope_kind</definition>
+        <argsstring></argsstring>
+        <name>ann_scope_kind</name>
+        <qualifiedname>themis::tensor::TensorLayerPlan::ann_scope_kind</qualifiedname>
+        <initializer>= index::AnnScopeKind::Adapter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="56" column="25" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_plan_1a769557194e943a91233dc8d6cdd088e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorLayerPlan::scope_key</definition>
+        <argsstring></argsstring>
+        <name>scope_key</name>
+        <qualifiedname>themis::tensor::TensorLayerPlan::scope_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="57" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_plan_1aab75cbb339ce47935f2e3e61c680c78b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorLayerPlan::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::tensor::TensorLayerPlan::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="58" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_layer_plan_1a3dbf07ac92f96c9b6ce98112b7ce7a26" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorLayerPlan::candidate_count</definition>
+        <argsstring></argsstring>
+        <name>candidate_count</name>
+        <qualifiedname>themis::tensor::TensorLayerPlan::candidate_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mid_layer.h" line="59" column="17" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plan returned by the tensor mid-layer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_mid_layer.h" line="54" column="1" bodyfile="include/tensor/tensor_mid_layer.h" bodystart="54" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a853f54eeb0fb9defcbaec3b1af284a13" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerPlan</scope><name>ann_scope_kind</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a3dbf07ac92f96c9b6ce98112b7ce7a26" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerPlan</scope><name>candidate_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a129a8df36c4b6ed831c583ca3c9923b3" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerPlan</scope><name>layer_kind</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1aab75cbb339ce47935f2e3e61c680c78b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerPlan</scope><name>reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a769557194e943a91233dc8d6cdd088e0" prot="public" virt="non-virtual"><scope>themis::tensor::TensorLayerPlan</scope><name>scope_key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

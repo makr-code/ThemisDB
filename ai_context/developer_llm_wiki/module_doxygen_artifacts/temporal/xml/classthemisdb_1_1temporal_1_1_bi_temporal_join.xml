@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_bi_temporal_join" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::BiTemporalJoin</compoundname>
+    <includes refid="bitemporal__join_8h" local="no">bitemporal_join.h</includes>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" prot="public">themisdb::temporal::BiTemporalJoin::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JoinMode</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::JoinMode</qualifiedname>
+        <enumvalue id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3acccfe17114c661dae430f95367cfc2b4" prot="public">
+          <name>SEQUENCED</name>
+          <briefdescription>
+<para>SQL:2011 SEQUENCED: result row&apos;s valid-time = intersection of both valid-times. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3ab8808da933992995439ebaf29c2280c0" prot="public">
+          <name>NON_SEQUENCED</name>
+          <briefdescription>
+<para>SQL:2011 NON-SEQUENCED: ignore temporal axes; plain equi-join on key. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3aa2770969c827f0f2910f6179418462df" prot="public">
+          <name>CURRENT</name>
+          <briefdescription>
+<para>Join rows valid at a single point in time (snapshot). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3a41d9a66d842e561ef815a7e5f383434e" prot="public">
+          <name>CONTAINED_IN</name>
+          <briefdescription>
+<para>Left valid-time ⊆ right valid-time (containment). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3a63cbe58e7309f03c6c6d5f13925e383a" prot="public">
+          <name>OVERLAPPING</name>
+          <briefdescription>
+<para>Left valid-time ∩ right valid-time ≠ ∅ (strict overlap). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3a46b8744c6bc840d2cb241fa165f3e204" prot="public">
+          <name>SNAPSHOT</name>
+          <briefdescription>
+<para>Both tables viewed at the same system-time snapshot. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Join mode controlling which temporal predicates are applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="73" column="5" bodyfile="include/temporal/bitemporal_join.h" bodystart="73" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a6160f003b66627a1d0ad704401b5cee7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt;</type>
+        <definition>std::vector&lt;BiTemporalRow&gt; themisdb::temporal::BiTemporalJoin::left_</definition>
+        <argsstring></argsstring>
+        <name>left_</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::left_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="164" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a5868915a0e58a1d92f487ef6e0752f1a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt;</type>
+        <definition>std::vector&lt;BiTemporalRow&gt; themisdb::temporal::BiTemporalJoin::right_</definition>
+        <argsstring></argsstring>
+        <name>right_</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::right_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="165" column="17" bodyfile="include/temporal/bitemporal_join.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1aaf3d89a7b91ce632121ef1a1b9cb8a0d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::temporal::BiTemporalJoin::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="166" column="32" bodyfile="include/temporal/bitemporal_join.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab5fbe911238af9d69df32c5d93f57ec4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::BiTemporalJoin::BiTemporalJoin</definition>
+        <argsstring>(std::vector&lt; BiTemporalRow &gt; left, std::vector&lt; BiTemporalRow &gt; right)</argsstring>
+        <name>BiTemporalJoin</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::BiTemporalJoin</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Construct the join operator with input row sets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left-hand versioned rows. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right-hand versioned rows. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="112" column="5" bodyfile="src/temporal/bitemporal_join.cpp" bodystart="24" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a61ad1c0f622e4205c6cbd89fa272e11c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::BiTemporalJoin::BiTemporalJoin</definition>
+        <argsstring>(std::vector&lt; BiTemporalRow &gt; left, std::vector&lt; BiTemporalRow &gt; right, Config config)</argsstring>
+        <name>BiTemporalJoin</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::BiTemporalJoin</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &gt;</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct the join operator with input row sets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left-hand versioned rows. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right-hand versioned rows. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Join configuration (mode, point-in-time, etc.). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="122" column="14" bodyfile="src/temporal/bitemporal_join.cpp" bodystart="30" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a2ca5001e80cfe2ae4c38e139ec613e4c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" kindref="compound">BiTemporalJoinResult</ref> &gt;</type>
+        <definition>std::vector&lt; BiTemporalJoinResult &gt; themisdb::temporal::BiTemporalJoin::execute</definition>
+        <argsstring>() const</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::execute</qualifiedname>
+        <briefdescription>
+<para>Execute the join and return all matching result rows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of bi-temporal join results, sorted by key then by valid_time_overlap.start. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="132" column="17" bodyfile="src/temporal/bitemporal_join.cpp" bodystart="163" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ac5406ef1af172cc43041ccba91e69dcd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::BiTemporalJoin::forEach</definition>
+        <argsstring>(std::function&lt; bool(BiTemporalJoinResult)&gt; cb) const</argsstring>
+        <name>forEach</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::forEach</qualifiedname>
+        <param>
+          <type>std::function&lt; bool(<ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" kindref="compound">BiTemporalJoinResult</ref>)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Stream results row by row via a callback (avoids materialisation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called once for each result row. Return false to stop early. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="139" column="10" bodyfile="src/temporal/bitemporal_join.cpp" bodystart="130" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab38ec410075e19a1c10efd31f3cf463f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themisdb::temporal::BiTemporalJoin::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="141" column="18" bodyfile="include/temporal/bitemporal_join.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1af20e09ca959de94f4e1ccba44f7240f2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::BiTemporalJoin::overlaps</definition>
+        <argsstring>(const TimeRange &amp;a, const TimeRange &amp;b) noexcept</argsstring>
+        <name>overlaps</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::overlaps</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>True iff two TimeRanges overlap (non-empty intersection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="148" column="17" bodyfile="src/temporal/bitemporal_join.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a207d00f5c1f3183b90c508acb049061f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::BiTemporalJoin::containedIn</definition>
+        <argsstring>(const TimeRange &amp;inner, const TimeRange &amp;outer) noexcept</argsstring>
+        <name>containedIn</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::containedIn</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>inner</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>outer</declname>
+        </param>
+        <briefdescription>
+<para>True iff <computeroutput>inner</computeroutput> is fully contained within <computeroutput>outer</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="153" column="17" bodyfile="src/temporal/bitemporal_join.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a4c500231d166d235c430237cdf19251c" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref></type>
+        <definition>TimeRange themisdb::temporal::BiTemporalJoin::intersection</definition>
+        <argsstring>(const TimeRange &amp;a, const TimeRange &amp;b) noexcept</argsstring>
+        <name>intersection</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::intersection</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Compute the intersection of two TimeRanges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Intersection, or an empty/invalid range when they do not overlap. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="161" column="22" bodyfile="src/temporal/bitemporal_join.cpp" bodystart="55" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a967eeebd7c6d00489d1cd6fa1820d2d4" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::BiTemporalJoin::rowMatches</definition>
+        <argsstring>(const BiTemporalRow &amp;l, const BiTemporalRow &amp;r) const noexcept</argsstring>
+        <name>rowMatches</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::rowMatches</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &amp;</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="168" column="10" bodyfile="src/temporal/bitemporal_join.cpp" bodystart="67" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_bi_temporal_join_1aad852f4478f47d0a15e820bcb15e70fa" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" kindref="compound">BiTemporalJoinResult</ref></type>
+        <definition>BiTemporalJoinResult themisdb::temporal::BiTemporalJoin::makeResult</definition>
+        <argsstring>(const BiTemporalRow &amp;l, const BiTemporalRow &amp;r) const noexcept</argsstring>
+        <name>makeResult</name>
+        <qualifiedname>themisdb::temporal::BiTemporalJoin::makeResult</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &amp;</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" kindref="compound">BiTemporalRow</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bitemporal_join.h" line="169" column="26" bodyfile="src/temporal/bitemporal_join.cpp" bodystart="115" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SQL:2011 bi-temporal join operator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Supports SEQUENCED, NON-SEQUENCED, CURRENT, CONTAINED_IN, OVERLAPPING, and SNAPSHOT join semantics. </para>
+    </detaileddescription>
+    <location file="include/temporal/bitemporal_join.h" line="68" column="1" bodyfile="include/temporal/bitemporal_join.h" bodystart="68" bodyend="171"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab5fbe911238af9d69df32c5d93f57ec4" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>BiTemporalJoin</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a61ad1c0f622e4205c6cbd89fa272e11c" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>BiTemporalJoin</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ab38ec410075e19a1c10efd31f3cf463f" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>config</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1aaf3d89a7b91ce632121ef1a1b9cb8a0d" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a207d00f5c1f3183b90c508acb049061f" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>containedIn</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a2ca5001e80cfe2ae4c38e139ec613e4c" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1ac5406ef1af172cc43041ccba91e69dcd" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>forEach</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a4c500231d166d235c430237cdf19251c" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>intersection</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a9df7ecf5e6fdbc86722393ffd5c12bb3" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>JoinMode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a6160f003b66627a1d0ad704401b5cee7" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>left_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1aad852f4478f47d0a15e820bcb15e70fa" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>makeResult</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1af20e09ca959de94f4e1ccba44f7240f2" prot="public" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>overlaps</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a5868915a0e58a1d92f487ef6e0752f1a" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>right_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_bi_temporal_join_1a967eeebd7c6d00489d1cd6fa1820d2d4" prot="private" virt="non-virtual"><scope>themisdb::temporal::BiTemporalJoin</scope><name>rowMatches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

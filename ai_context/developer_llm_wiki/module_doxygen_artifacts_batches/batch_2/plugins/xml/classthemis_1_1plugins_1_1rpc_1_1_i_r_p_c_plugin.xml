@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::rpc::IRPCPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_themis_plugin" prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <includes refid="rpc__plugin__interface_8h" local="no">rpc_plugin_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1ab4ead268ef028053418bab047532cb97" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server" kindref="compound">IRPCServer</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; IRPCServer &gt; themis::plugins::rpc::IRPCPlugin::createServer</definition>
+        <argsstring>()=0</argsstring>
+        <name>createServer</name>
+        <qualifiedname>themis::plugins::rpc::IRPCPlugin::createServer</qualifiedname>
+        <briefdescription>
+<para>Create RPC server instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Unique pointer to RPC server </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="209" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a2e4439dabc7b70722dc4d380c93ff955" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" kindref="member">RPCProtocol</ref></type>
+        <definition>virtual RPCProtocol themis::plugins::rpc::IRPCPlugin::getProtocol</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getProtocol</name>
+        <qualifiedname>themis::plugins::rpc::IRPCPlugin::getProtocol</qualifiedname>
+        <briefdescription>
+<para>Get RPC protocol supported by this plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>RPC protocol type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="215" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a9922e83acbf7166d8c5f325ba2a5c68a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint16_t</type>
+        <definition>virtual uint16_t themis::plugins::rpc::IRPCPlugin::getDefaultPort</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getDefaultPort</name>
+        <qualifiedname>themis::plugins::rpc::IRPCPlugin::getDefaultPort</qualifiedname>
+        <briefdescription>
+<para>Get default port for this RPC protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Default port number </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="221" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a16a7b97cf928f7f6386e0dbf3bd34410" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::plugins::rpc::IRPCPlugin::getProtocolDescription</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getProtocolDescription</name>
+        <qualifiedname>themis::plugins::rpc::IRPCPlugin::getProtocolDescription</qualifiedname>
+        <briefdescription>
+<para>Get protocol description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable protocol description </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="227" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RPC Plugin Interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref> for RPC-specific functionality. RPC plugins create and manage RPC servers. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::rpc::IRPCPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::rpc::IRPCPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/rpc_plugin_interface.h" line="203" column="1" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="203" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1ab4ead268ef028053418bab047532cb97" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>createServer</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a9922e83acbf7166d8c5f325ba2a5c68a" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>getDefaultPort</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a2e4439dabc7b70722dc4d380c93ff955" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>getProtocol</name></member>
+      <member refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a16a7b97cf928f7f6386e0dbf3bd34410" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>getProtocolDescription</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691" prot="public" virt="pure-virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" virt="virtual"><scope>themis::plugins::rpc::IRPCPlugin</scope><name>~IThemisPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

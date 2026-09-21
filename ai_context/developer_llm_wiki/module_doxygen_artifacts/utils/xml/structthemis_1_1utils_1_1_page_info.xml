@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_page_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::PageInfo</compoundname>
+    <includes refid="cursor_8h" local="no">cursor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_page_info_1af0e49abdab86d33794ebea206449915a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PageInfo::page_size</definition>
+        <argsstring></argsstring>
+        <name>page_size</name>
+        <qualifiedname>themis::utils::PageInfo::page_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="132" column="12" bodyfile="include/utils/cursor.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_page_info_1a2c3d202ae84026bd20c30e561c7b2d85" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::PageInfo::has_next_page</definition>
+        <argsstring></argsstring>
+        <name>has_next_page</name>
+        <qualifiedname>themis::utils::PageInfo::has_next_page</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="133" column="10" bodyfile="include/utils/cursor.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_page_info_1a5d5388d62bf470525d91f38d655eaf05" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::PageInfo::has_prev_page</definition>
+        <argsstring></argsstring>
+        <name>has_prev_page</name>
+        <qualifiedname>themis::utils::PageInfo::has_prev_page</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="134" column="10" bodyfile="include/utils/cursor.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_page_info_1ac1413ba5c4939bf18e700f38a0d2841b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt;size_t&gt; themis::utils::PageInfo::total_count</definition>
+        <argsstring></argsstring>
+        <name>total_count</name>
+        <qualifiedname>themis::utils::PageInfo::total_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="135" column="19" bodyfile="include/utils/cursor.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_page_info_1a973f66c7d7aa7086b03754499576a801" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt;size_t&gt; themis::utils::PageInfo::current_page</definition>
+        <argsstring></argsstring>
+        <name>current_page</name>
+        <qualifiedname>themis::utils::PageInfo::current_page</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="136" column="19" bodyfile="include/utils/cursor.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_page_info_1a898878a0f086ba72e8cac96f5a843879" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; size_t &gt;</type>
+        <definition>std::optional&lt;size_t&gt; themis::utils::PageInfo::total_pages</definition>
+        <argsstring></argsstring>
+        <name>total_pages</name>
+        <qualifiedname>themis::utils::PageInfo::total_pages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="137" column="19" bodyfile="include/utils/cursor.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_page_info_1a01eaf0bc19b2e92675ddc3ec6e9d0cfe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::PageInfo::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::utils::PageInfo::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="139" column="20" bodyfile="include/utils/cursor.h" bodystart="139" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Pagination metadata for responses </para>
+    </detaileddescription>
+    <location file="include/utils/cursor.h" line="131" column="1" bodyfile="include/utils/cursor.h" bodystart="131" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_page_info_1a973f66c7d7aa7086b03754499576a801" prot="public" virt="non-virtual"><scope>themis::utils::PageInfo</scope><name>current_page</name></member>
+      <member refid="structthemis_1_1utils_1_1_page_info_1a2c3d202ae84026bd20c30e561c7b2d85" prot="public" virt="non-virtual"><scope>themis::utils::PageInfo</scope><name>has_next_page</name></member>
+      <member refid="structthemis_1_1utils_1_1_page_info_1a5d5388d62bf470525d91f38d655eaf05" prot="public" virt="non-virtual"><scope>themis::utils::PageInfo</scope><name>has_prev_page</name></member>
+      <member refid="structthemis_1_1utils_1_1_page_info_1af0e49abdab86d33794ebea206449915a" prot="public" virt="non-virtual"><scope>themis::utils::PageInfo</scope><name>page_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_page_info_1a01eaf0bc19b2e92675ddc3ec6e9d0cfe" prot="public" virt="non-virtual"><scope>themis::utils::PageInfo</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1utils_1_1_page_info_1ac1413ba5c4939bf18e700f38a0d2841b" prot="public" virt="non-virtual"><scope>themis::utils::PageInfo</scope><name>total_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_page_info_1a898878a0f086ba72e8cac96f5a843879" prot="public" virt="non-virtual"><scope>themis::utils::PageInfo</scope><name>total_pages</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

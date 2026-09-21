@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::resource::BufferPool::Statistics</compoundname>
+    <includes refid="buffer__pool_8h" local="no">buffer_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a7c8c977b5dbb188b67c4b6f0be86a68c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Statistics::total_allocations</definition>
+        <argsstring></argsstring>
+        <name>total_allocations</name>
+        <qualifiedname>themis::resource::BufferPool::Statistics::total_allocations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1resource_1_1_buffer_pool_1a8c7b960bdf326e7b7ba282eb20ad10fb" kindref="member">acquire()</ref> calls (all classes + OS). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="109" column="21" bodyfile="include/base/buffer_pool.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a0c5515931fa156cc532f8dc9be649eae" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Statistics::slab_hits</definition>
+        <argsstring></argsstring>
+        <name>slab_hits</name>
+        <qualifiedname>themis::resource::BufferPool::Statistics::slab_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Allocations served from slab free-list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="110" column="21" bodyfile="include/base/buffer_pool.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a17e54924aea709b891112eb895bacf7d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Statistics::slab_misses</definition>
+        <argsstring></argsstring>
+        <name>slab_misses</name>
+        <qualifiedname>themis::resource::BufferPool::Statistics::slab_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>OS-level allocations (new slab block or fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="111" column="21" bodyfile="include/base/buffer_pool.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1ac778900f862b9166089cc84520a2bdb7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Statistics::os_fallbacks</definition>
+        <argsstring></argsstring>
+        <name>os_fallbacks</name>
+        <qualifiedname>themis::resource::BufferPool::Statistics::os_fallbacks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests too large for any slab. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="112" column="21" bodyfile="include/base/buffer_pool.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a587af3ee95a89791d673ed6097d4fb56" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::BufferPool::Statistics::current_live</definition>
+        <argsstring></argsstring>
+        <name>current_live</name>
+        <qualifiedname>themis::resource::BufferPool::Statistics::current_live</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Handles currently outstanding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="113" column="21" bodyfile="include/base/buffer_pool.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a7bc90bcdc51c64a5aa864f7fac696319" prot="public" static="no" mutable="no">
+        <type>std::array&lt; std::size_t, 6 &gt;</type>
+        <definition>std::array&lt;std::size_t, 6&gt; themis::resource::BufferPool::Statistics::per_class_allocs</definition>
+        <argsstring></argsstring>
+        <name>per_class_allocs</name>
+        <qualifiedname>themis::resource::BufferPool::Statistics::per_class_allocs</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/buffer_pool.h" line="114" column="20" bodyfile="include/base/buffer_pool.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/base/buffer_pool.h" line="108" column="5" bodyfile="include/base/buffer_pool.h" bodystart="108" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a587af3ee95a89791d673ed6097d4fb56" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Statistics</scope><name>current_live</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1ac778900f862b9166089cc84520a2bdb7" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Statistics</scope><name>os_fallbacks</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a7bc90bcdc51c64a5aa864f7fac696319" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Statistics</scope><name>per_class_allocs</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a0c5515931fa156cc532f8dc9be649eae" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Statistics</scope><name>slab_hits</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a17e54924aea709b891112eb895bacf7d" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Statistics</scope><name>slab_misses</name></member>
+      <member refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics_1a7c8c977b5dbb188b67c4b6f0be86a68c" prot="public" virt="non-virtual"><scope>themis::resource::BufferPool::Statistics</scope><name>total_allocations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

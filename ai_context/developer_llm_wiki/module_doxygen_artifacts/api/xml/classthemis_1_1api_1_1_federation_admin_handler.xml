@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_federation_admin_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::api::FederationAdminHandler</compoundname>
+    <includes refid="federation__admin__handler_8h" local="no">federation_admin_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_federation_admin_handler_1a824811a95eccffa4439c08b091604c43" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; distributed_knowledge::LoRAFederationCoordinator &gt;</type>
+        <definition>std::shared_ptr&lt;distributed_knowledge::LoRAFederationCoordinator&gt; themis::api::FederationAdminHandler::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>themis::api::FederationAdminHandler::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/federation_admin_handler.h" line="83" column="21" bodyfile="include/api/federation_admin_handler.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1api_1_1_federation_admin_handler_1abe1906be51d9506a38b0998b9399667d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; distributed_knowledge::FederatedRAGMerger &gt;</type>
+        <definition>std::shared_ptr&lt;distributed_knowledge::FederatedRAGMerger&gt; themis::api::FederationAdminHandler::merger_</definition>
+        <argsstring></argsstring>
+        <name>merger_</name>
+        <qualifiedname>themis::api::FederationAdminHandler::merger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/federation_admin_handler.h" line="84" column="28" bodyfile="include/api/federation_admin_handler.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_federation_admin_handler_1a0979ab7498e046194af1336be1a056b6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::api::FederationAdminHandler::FederationAdminHandler</definition>
+        <argsstring>(std::shared_ptr&lt; distributed_knowledge::LoRAFederationCoordinator &gt; coordinator, std::shared_ptr&lt; distributed_knowledge::FederatedRAGMerger &gt; merger=nullptr)</argsstring>
+        <name>FederationAdminHandler</name>
+        <qualifiedname>themis::api::FederationAdminHandler::FederationAdminHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; distributed_knowledge::LoRAFederationCoordinator &gt;</type>
+          <declname>coordinator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; distributed_knowledge::FederatedRAGMerger &gt;</type>
+          <declname>merger</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct with required dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active federation coordinator (must be non-null). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>merger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional RAG merger for rag-stats endpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/federation_admin_handler.h" line="35" column="14" bodyfile="src/api/federation_admin_handler.cpp" bodystart="17" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_federation_admin_handler_1a3c4c0c998f3d2826ff28b8d8a71292e7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::api::FederationAdminHandler::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::api::FederationAdminHandler::getStats</qualifiedname>
+        <briefdescription>
+<para>Return federation statistics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Includes <computeroutput>current_round</computeroutput>, <computeroutput>pending_gradients</computeroutput>, <computeroutput>privacy_budget_remaining</computeroutput>, <computeroutput>dp_epsilon_total</computeroutput>, and all fields from <computeroutput>coordinator.getStats()</computeroutput>.</para>
+<para><simplesect kind="return"><para>JSON object suitable for HTTP response body. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/federation_admin_handler.h" line="49" column="21" bodyfile="src/api/federation_admin_handler.cpp" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_federation_admin_handler_1a6ce8798f1f27eacaf5fe24a2f10f1648" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::api::FederationAdminHandler::getRagStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getRagStats</name>
+        <qualifiedname>themis::api::FederationAdminHandler::getRagStats</qualifiedname>
+        <briefdescription>
+<para>Return RAG merge statistics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns merge stats from <computeroutput>FederatedRAGMerger::getStats()</computeroutput> when a merger is available, or <computeroutput>{"available": false}</computeroutput> otherwise.</para>
+<para><simplesect kind="return"><para>JSON object suitable for HTTP response body. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/federation_admin_handler.h" line="61" column="21" bodyfile="src/api/federation_admin_handler.cpp" bodystart="36" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_federation_admin_handler_1a8e7ed4429cb3cc0a5e5b74dccfe3e2c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::api::FederationAdminHandler::triggerRound</definition>
+        <argsstring>(const std::string &amp;algorithm=&quot;&quot;)</argsstring>
+        <name>triggerRound</name>
+        <qualifiedname>themis::api::FederationAdminHandler::triggerRound</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>algorithm</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Manually trigger a federation round and return the result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger Round.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional aggregation algorithm override (e.g. &quot;FedAvg&quot;). Ignored if empty — config default is used. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON object: <computeroutput>{"round", "participants", "delta_version", "epsilon_spent", "status": "success"}</computeroutput>.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error(&quot;DP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>budget exhausted&quot;)
+        when &lt;tt&gt;verifyPrivacyBudget()&lt;/tt&gt; is false.
+@throws std::runtime_error(&quot;Cross-border transfer blocked: ...&quot;)
+        when GDPR policy blocks a participant&apos;s region.
+@throws std::runtime_error(&quot;Insufficient participants: ...") when fewer than <computeroutput>min_participants</computeroutput> gradients were submitted.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: verifyPrivacyBudget(), triggerAggregation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/federation_admin_handler.h" line="80" column="20" bodyfile="src/api/federation_admin_handler.cpp" bodystart="55" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Admin handler for federation observability and manual control. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Design: thin façade over <computeroutput>LoRAFederationCoordinator</computeroutput> and <computeroutput>FederatedRAGMerger</computeroutput>; contains no business logic of its own. </para>
+    </detaileddescription>
+    <location file="include/api/federation_admin_handler.h" line="28" column="1" bodyfile="include/api/federation_admin_handler.h" bodystart="28" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a824811a95eccffa4439c08b091604c43" prot="private" virt="non-virtual"><scope>themis::api::FederationAdminHandler</scope><name>coordinator_</name></member>
+      <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a0979ab7498e046194af1336be1a056b6" prot="public" virt="non-virtual"><scope>themis::api::FederationAdminHandler</scope><name>FederationAdminHandler</name></member>
+      <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a6ce8798f1f27eacaf5fe24a2f10f1648" prot="public" virt="non-virtual"><scope>themis::api::FederationAdminHandler</scope><name>getRagStats</name></member>
+      <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a3c4c0c998f3d2826ff28b8d8a71292e7" prot="public" virt="non-virtual"><scope>themis::api::FederationAdminHandler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1api_1_1_federation_admin_handler_1abe1906be51d9506a38b0998b9399667d" prot="private" virt="non-virtual"><scope>themis::api::FederationAdminHandler</scope><name>merger_</name></member>
+      <member refid="classthemis_1_1api_1_1_federation_admin_handler_1a8e7ed4429cb3cc0a5e5b74dccfe3e2c7" prot="public" virt="non-virtual"><scope>themis::api::FederationAdminHandler</scope><name>triggerRound</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

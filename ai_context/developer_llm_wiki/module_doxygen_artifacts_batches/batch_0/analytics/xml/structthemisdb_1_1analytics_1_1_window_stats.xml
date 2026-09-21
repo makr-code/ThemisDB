@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_window_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::WindowStats</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_stats_1a4aea0ce8f6075cb9434e6f3254d28632" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowStats::windows_opened</definition>
+        <argsstring></argsstring>
+        <name>windows_opened</name>
+        <qualifiedname>themisdb::analytics::WindowStats::windows_opened</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="228" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_stats_1a14cf1c398bebdaaaa6c1400e782cd354" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowStats::windows_closed</definition>
+        <argsstring></argsstring>
+        <name>windows_closed</name>
+        <qualifiedname>themisdb::analytics::WindowStats::windows_closed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="229" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_stats_1ad47434243812357ca149637aa38c7f52" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowStats::records_ingested</definition>
+        <argsstring></argsstring>
+        <name>records_ingested</name>
+        <qualifiedname>themisdb::analytics::WindowStats::records_ingested</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="230" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_stats_1af0b80d70c365fd1d32c4b61f13aa370f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowStats::records_dropped</definition>
+        <argsstring></argsstring>
+        <name>records_dropped</name>
+        <qualifiedname>themisdb::analytics::WindowStats::records_dropped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="231" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_stats_1aa55eeaffc6b4b7d7ef189a11d6b5acc4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowStats::late_records</definition>
+        <argsstring></argsstring>
+        <name>late_records</name>
+        <qualifiedname>themisdb::analytics::WindowStats::late_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="232" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_stats_1af084b2cc5eb28200ca7ee39d5b5ee78d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowStats::results_emitted</definition>
+        <argsstring></argsstring>
+        <name>results_emitted</name>
+        <qualifiedname>themisdb::analytics::WindowStats::results_emitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="233" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_stats_1a5297856497689e956bb34d1c5f16c6bb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowStats::windows_evicted</definition>
+        <argsstring></argsstring>
+        <name>windows_evicted</name>
+        <qualifiedname>themisdb::analytics::WindowStats::windows_evicted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="234" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_stats_1a1289ada0839f88c9d90188da39723da6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowStats::partition_keys_rejected</definition>
+        <argsstring></argsstring>
+        <name>partition_keys_rejected</name>
+        <qualifiedname>themisdb::analytics::WindowStats::partition_keys_rejected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="235" column="14" bodyfile="include/analytics/streaming_window.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/streaming_window.h" line="227" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="227" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_window_stats_1aa55eeaffc6b4b7d7ef189a11d6b5acc4" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowStats</scope><name>late_records</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_stats_1a1289ada0839f88c9d90188da39723da6" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowStats</scope><name>partition_keys_rejected</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_stats_1af0b80d70c365fd1d32c4b61f13aa370f" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowStats</scope><name>records_dropped</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_stats_1ad47434243812357ca149637aa38c7f52" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowStats</scope><name>records_ingested</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_stats_1af084b2cc5eb28200ca7ee39d5b5ee78d" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowStats</scope><name>results_emitted</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_stats_1a14cf1c398bebdaaaa6c1400e782cd354" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowStats</scope><name>windows_closed</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_stats_1a5297856497689e956bb34d1c5f16c6bb" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowStats</scope><name>windows_evicted</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_stats_1a4aea0ce8f6075cb9434e6f3254d28632" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowStats</scope><name>windows_opened</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

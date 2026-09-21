@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_move_violation_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::MoveViolationException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::logic_error</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_move_source_not_cleared" prot="public" virt="non-virtual">themis::security::MoveSourceNotCleared</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_use_after_move_exception" prot="public" virt="non-virtual">themis::security::UseAfterMoveException</derivedcompoundref>
+    <includes refid="safe__move_8h" local="no">safe_move.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_move_violation_exception_1a1edd503b485a68db235df6f5365649b7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::MoveViolationException::MoveViolationException</definition>
+        <argsstring>(const std::string &amp;msg)</argsstring>
+        <name>MoveViolationException</name>
+        <qualifiedname>themis::security::MoveViolationException::MoveViolationException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Move Violation Exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="50" column="12" bodyfile="include/security/safe_move.h" bodystart="50" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception thrown when a move operation violates safety constraints. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::logic_error</label>
+      </node>
+      <node id="3">
+        <label>themis::security::MoveSourceNotCleared</label>
+        <link refid="classthemis_1_1security_1_1_move_source_not_cleared"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::MoveViolationException</label>
+        <link refid="classthemis_1_1security_1_1_move_violation_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::security::UseAfterMoveException</label>
+        <link refid="classthemis_1_1security_1_1_use_after_move_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::logic_error</label>
+      </node>
+      <node id="1">
+        <label>themis::security::MoveViolationException</label>
+        <link refid="classthemis_1_1security_1_1_move_violation_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/safe_move.h" line="43" column="1" bodyfile="include/security/safe_move.h" bodystart="43" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_move_violation_exception_1a1edd503b485a68db235df6f5365649b7" prot="public" virt="non-virtual"><scope>themis::security::MoveViolationException</scope><name>MoveViolationException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_aggregation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::AggregationResult</compoundname>
+    <includes refid="aggregation_8h" local="no">aggregation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregation_result_1a640d77cb2bf1dc26ddfab6648e06306b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::analytics::AggregationResult::group_columns</definition>
+        <argsstring></argsstring>
+        <name>group_columns</name>
+        <qualifiedname>themis::analytics::AggregationResult::group_columns</qualifiedname>
+        <briefdescription>
+<para>GROUP BY column names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="88" column="25" bodyfile="include/analytics/aggregation.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregation_result_1a75958bc83f9e88d0b9737e62021525a2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::analytics::AggregationResult::agg_columns</definition>
+        <argsstring></argsstring>
+        <name>agg_columns</name>
+        <qualifiedname>themis::analytics::AggregationResult::agg_columns</qualifiedname>
+        <briefdescription>
+<para>Aggregated column names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="89" column="25" bodyfile="include/analytics/aggregation.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregation_result_1a350bdad3e8f3fc5528bc7bb3b9e191ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1analytics_1ac5eba10447baabffc36afa4386db1f75" kindref="member">AggregationOutputRow</ref> &gt;</type>
+        <definition>std::vector&lt;AggregationOutputRow&gt; themis::analytics::AggregationResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::analytics::AggregationResult::rows</qualifiedname>
+        <briefdescription>
+<para>Result rows. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="90" column="17" bodyfile="include/analytics/aggregation.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_aggregation_result_1af7343c6da2af949d7df6b798a3a322cf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="namespacethemis_1_1analytics_1ac5eba10447baabffc36afa4386db1f75" kindref="member">AggregationOutputRow</ref> &amp;</type>
+        <definition>const AggregationOutputRow &amp; themis::analytics::AggregationResult::at</definition>
+        <argsstring>(std::size_t idx) const</argsstring>
+        <name>at</name>
+        <qualifiedname>themis::analytics::AggregationResult::at</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="92" column="33" bodyfile="src/analytics/aggregation.cpp" bodystart="33" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_aggregation_result_1ac7da33192dd30ae86fccdd618d6bd729" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1analytics_1ac5eba10447baabffc36afa4386db1f75" kindref="member">AggregationOutputRow</ref> &gt;</type>
+        <definition>std::vector&lt; AggregationOutputRow &gt; themis::analytics::AggregationResult::page</definition>
+        <argsstring>(std::size_t offset, std::size_t limit) const</argsstring>
+        <name>page</name>
+        <qualifiedname>themis::analytics::AggregationResult::page</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="94" column="18" bodyfile="src/analytics/aggregation.cpp" bodystart="53" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/aggregation.h" line="87" column="1" bodyfile="include/analytics/aggregation.h" bodystart="87" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_aggregation_result_1a75958bc83f9e88d0b9737e62021525a2" prot="public" virt="non-virtual"><scope>themis::analytics::AggregationResult</scope><name>agg_columns</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregation_result_1af7343c6da2af949d7df6b798a3a322cf" prot="public" virt="non-virtual"><scope>themis::analytics::AggregationResult</scope><name>at</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregation_result_1a640d77cb2bf1dc26ddfab6648e06306b" prot="public" virt="non-virtual"><scope>themis::analytics::AggregationResult</scope><name>group_columns</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregation_result_1ac7da33192dd30ae86fccdd618d6bd729" prot="public" virt="non-virtual"><scope>themis::analytics::AggregationResult</scope><name>page</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregation_result_1a350bdad3e8f3fc5528bc7bb3b9e191ca" prot="public" virt="non-virtual"><scope>themis::analytics::AggregationResult</scope><name>rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

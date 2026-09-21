@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_phase_three_test_listener" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::PhaseThreeTestListener</compoundname>
+    <basecompoundref refid="classthemis_1_1observability_1_1_i_remediation_hint_listener" prot="public" virt="non-virtual">themis::observability::IRemediationHintListener</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_phase_three_test_listener_1ad6aaad536109f24d5c7d6562c6ab0998" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::PhaseThreeTestListener::new_hints</definition>
+        <argsstring></argsstring>
+        <name>new_hints</name>
+        <qualifiedname>themis::observability::PhaseThreeTestListener::new_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="56" column="17" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_phase_three_test_listener_1ad94c9ea165b373b194dccf8774947092" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;RemediationHint&gt; &gt; themis::observability::PhaseThreeTestListener::received_hints</definition>
+        <argsstring></argsstring>
+        <name>received_hints</name>
+        <qualifiedname>themis::observability::PhaseThreeTestListener::received_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="57" column="17" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_phase_three_test_listener_1ab95c91fa3d367d08a2980be7b90efe89" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::PhaseThreeTestListener::resolved_hints</definition>
+        <argsstring></argsstring>
+        <name>resolved_hints</name>
+        <qualifiedname>themis::observability::PhaseThreeTestListener::resolved_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="58" column="17" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_phase_three_test_listener_1a6251c73f68cfe87ae8a031acb3adb926" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::PhaseThreeTestListener::hints_mutex_</definition>
+        <argsstring></argsstring>
+        <name>hints_mutex_</name>
+        <qualifiedname>themis::observability::PhaseThreeTestListener::hints_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="59" column="24" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_phase_three_test_listener_1ae69c982fbb24e98a7879ca804dd1c34c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::observability::PhaseThreeTestListener::onNewHint</definition>
+        <argsstring>(const std::shared_ptr&lt; RemediationHint &gt; &amp;hint) override</argsstring>
+        <name>onNewHint</name>
+        <qualifiedname>themis::observability::PhaseThreeTestListener::onNewHint</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a1e7664dfc660d09faee35862099a9cbe">onNewHint</reimplements>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt; &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Called when a new remediation hint is generated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The generated hint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="35" column="10" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_phase_three_test_listener_1afc670c009f723e00f35d47094873aad0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::observability::PhaseThreeTestListener::onHintResolved</definition>
+        <argsstring>(const std::string &amp;hint_id) override</argsstring>
+        <name>onHintResolved</name>
+        <qualifiedname>themis::observability::PhaseThreeTestListener::onHintResolved</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a9544f536f3992d9d20835af017e49ffd">onHintResolved</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hint_id</declname>
+        </param>
+        <briefdescription>
+<para>Called when a previously-issued hint is resolved. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ID of the resolved hint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="41" column="10" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_phase_three_test_listener_1a978177cab97fb5182bc9d6a50785f27e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::PhaseThreeTestListener::getNewHintCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getNewHintCount</name>
+        <qualifiedname>themis::observability::PhaseThreeTestListener::getNewHintCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="46" column="12" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_phase_three_test_listener_1af7783e3b81ad49664ffed90571a29552" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::PhaseThreeTestListener::getResolvedHintCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getResolvedHintCount</name>
+        <qualifiedname>themis::observability::PhaseThreeTestListener::getResolvedHintCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="51" column="12" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::observability::IRemediationHintListener</label>
+        <link refid="classthemis_1_1observability_1_1_i_remediation_hint_listener"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::PhaseThreeTestListener</label>
+        <link refid="classthemis_1_1observability_1_1_phase_three_test_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::IRemediationHintListener</label>
+        <link refid="classthemis_1_1observability_1_1_i_remediation_hint_listener"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::PhaseThreeTestListener</label>
+        <link refid="classthemis_1_1observability_1_1_phase_three_test_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_observability_phase3_continuation_focused.cpp" line="33" column="1" bodyfile="tests/observability/test_observability_phase3_continuation_focused.cpp" bodystart="33" bodyend="60"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_phase_three_test_listener_1a978177cab97fb5182bc9d6a50785f27e" prot="public" virt="non-virtual"><scope>themis::observability::PhaseThreeTestListener</scope><name>getNewHintCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_phase_three_test_listener_1af7783e3b81ad49664ffed90571a29552" prot="public" virt="non-virtual"><scope>themis::observability::PhaseThreeTestListener</scope><name>getResolvedHintCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_phase_three_test_listener_1a6251c73f68cfe87ae8a031acb3adb926" prot="public" virt="non-virtual"><scope>themis::observability::PhaseThreeTestListener</scope><name>hints_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_phase_three_test_listener_1ad6aaad536109f24d5c7d6562c6ab0998" prot="public" virt="non-virtual"><scope>themis::observability::PhaseThreeTestListener</scope><name>new_hints</name></member>
+      <member refid="classthemis_1_1observability_1_1_phase_three_test_listener_1afc670c009f723e00f35d47094873aad0" prot="public" virt="virtual"><scope>themis::observability::PhaseThreeTestListener</scope><name>onHintResolved</name></member>
+      <member refid="classthemis_1_1observability_1_1_phase_three_test_listener_1ae69c982fbb24e98a7879ca804dd1c34c" prot="public" virt="virtual"><scope>themis::observability::PhaseThreeTestListener</scope><name>onNewHint</name></member>
+      <member refid="classthemis_1_1observability_1_1_phase_three_test_listener_1ad94c9ea165b373b194dccf8774947092" prot="public" virt="non-virtual"><scope>themis::observability::PhaseThreeTestListener</scope><name>received_hints</name></member>
+      <member refid="classthemis_1_1observability_1_1_phase_three_test_listener_1ab95c91fa3d367d08a2980be7b90efe89" prot="public" virt="non-virtual"><scope>themis::observability::PhaseThreeTestListener</scope><name>resolved_hints</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a335101d74a632de770f83cef9bf15130" prot="public" virt="virtual"><scope>themis::observability::PhaseThreeTestListener</scope><name>~IRemediationHintListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

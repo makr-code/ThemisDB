@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_recording_hook" kind="struct" language="C++" prot="public">
+    <compoundname>RecordingHook</compoundname>
+    <basecompoundref refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook" prot="public" virt="non-virtual">themis::StatisticsCollector::IMetricsHook</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_recording_hook_1a7c2a43124d75270c04084495a80f34ff" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; RecordingHook::collect_ok</definition>
+        <argsstring></argsstring>
+        <name>collect_ok</name>
+        <qualifiedname>RecordingHook::collect_ok</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="607" column="17" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="607" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_recording_hook_1a4f4c6af11564e6d4f69c61c84077335b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; RecordingHook::collect_fail</definition>
+        <argsstring></argsstring>
+        <name>collect_fail</name>
+        <qualifiedname>RecordingHook::collect_fail</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="608" column="17" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="608" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_recording_hook_1a4d6bd9437539816b0e9d8ef7d85ca4ce" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; RecordingHook::cache_hit</definition>
+        <argsstring></argsstring>
+        <name>cache_hit</name>
+        <qualifiedname>RecordingHook::cache_hit</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="609" column="17" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="609" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_recording_hook_1a4c763608361a630da5d1b246607912b2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; RecordingHook::cache_miss</definition>
+        <argsstring></argsstring>
+        <name>cache_miss</name>
+        <qualifiedname>RecordingHook::cache_miss</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="610" column="17" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="610" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_recording_hook_1a24cb45a58ee313ff4fc84358cc274ad8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; RecordingHook::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>RecordingHook::error_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="611" column="17" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="611" bodyend="611"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_recording_hook_1aaf59f3cb2cca9c2adc52e4882859da0c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void RecordingHook::onCollect</definition>
+        <argsstring>(std::string_view, double, size_t, bool success) override</argsstring>
+        <name>onCollect</name>
+        <qualifiedname>RecordingHook::onCollect</qualifiedname>
+        <reimplements refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1acc8d6c461561a276e41b2ffb14eb72b5">onCollect</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_ms</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rows_sampled</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Called after a successful or failed stats collection attempt. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Affected table </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock duration in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rows_sampled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of rows actually scanned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether collection succeeded </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="613" column="10" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="613" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_recording_hook_1a38ec1f8d403aa3c49e9cebe50217d9d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void RecordingHook::onCacheHit</definition>
+        <argsstring>(std::string_view) override</argsstring>
+        <name>onCacheHit</name>
+        <qualifiedname>RecordingHook::onCacheHit</qualifiedname>
+        <reimplements refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1ab33d705fbddc7e950956cbca2a755f49">onCacheHit</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Called whenever in-memory cache satisfies a getStats() request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="620" column="10" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="620" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_recording_hook_1a17d91895c28c1f37b1e4fdcfa7f54c39" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void RecordingHook::onCacheMiss</definition>
+        <argsstring>(std::string_view) override</argsstring>
+        <name>onCacheMiss</name>
+        <qualifiedname>RecordingHook::onCacheMiss</qualifiedname>
+        <reimplements refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a1b95477e11297258b7ced623a2cfc984">onCacheMiss</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Called whenever getStats() results in a cache miss (loads from RocksDB or re-collects). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="621" column="10" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="621" bodyend="621"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_recording_hook_1a7c863da6a38ad013565ed04d6b55eca2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void RecordingHook::onError</definition>
+        <argsstring>(std::string_view, int) override</argsstring>
+        <name>onError</name>
+        <qualifiedname>RecordingHook::onError</qualifiedname>
+        <reimplements refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a276791adc26a4b4d53eae2f3b5463090">onError</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Called on any internal error (iterator failure, parse error, etc.). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1ae58cdf40db189b7bb03559553286f6de" kindref="member">StatsErrorCode</ref> cast to int </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_collector.cpp" line="622" column="10" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="622" bodyend="622"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test double that records every callback invocation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RecordingHook</label>
+        <link refid="struct_recording_hook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::StatisticsCollector::IMetricsHook</label>
+        <link refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RecordingHook</label>
+        <link refid="struct_recording_hook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::StatisticsCollector::IMetricsHook</label>
+        <link refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_statistics_collector.cpp" line="606" column="1" bodyfile="tests/metadata/test_statistics_collector.cpp" bodystart="606" bodyend="623"/>
+    <listofallmembers>
+      <member refid="struct_recording_hook_1a4d6bd9437539816b0e9d8ef7d85ca4ce" prot="public" virt="non-virtual"><scope>RecordingHook</scope><name>cache_hit</name></member>
+      <member refid="struct_recording_hook_1a4c763608361a630da5d1b246607912b2" prot="public" virt="non-virtual"><scope>RecordingHook</scope><name>cache_miss</name></member>
+      <member refid="struct_recording_hook_1a4f4c6af11564e6d4f69c61c84077335b" prot="public" virt="non-virtual"><scope>RecordingHook</scope><name>collect_fail</name></member>
+      <member refid="struct_recording_hook_1a7c2a43124d75270c04084495a80f34ff" prot="public" virt="non-virtual"><scope>RecordingHook</scope><name>collect_ok</name></member>
+      <member refid="struct_recording_hook_1a24cb45a58ee313ff4fc84358cc274ad8" prot="public" virt="non-virtual"><scope>RecordingHook</scope><name>error_count</name></member>
+      <member refid="struct_recording_hook_1a38ec1f8d403aa3c49e9cebe50217d9d5" prot="public" virt="virtual"><scope>RecordingHook</scope><name>onCacheHit</name></member>
+      <member refid="struct_recording_hook_1a17d91895c28c1f37b1e4fdcfa7f54c39" prot="public" virt="virtual"><scope>RecordingHook</scope><name>onCacheMiss</name></member>
+      <member refid="struct_recording_hook_1aaf59f3cb2cca9c2adc52e4882859da0c" prot="public" virt="virtual"><scope>RecordingHook</scope><name>onCollect</name></member>
+      <member refid="struct_recording_hook_1a7c863da6a38ad013565ed04d6b55eca2" prot="public" virt="virtual"><scope>RecordingHook</scope><name>onError</name></member>
+      <member refid="structthemis_1_1_statistics_collector_1_1_i_metrics_hook_1a08465128a8a3f6fbace8ca77da796027" prot="public" virt="virtual"><scope>RecordingHook</scope><name>~IMetricsHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

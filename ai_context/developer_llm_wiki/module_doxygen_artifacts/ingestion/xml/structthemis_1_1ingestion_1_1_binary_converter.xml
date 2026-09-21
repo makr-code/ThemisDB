@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_binary_converter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::BinaryConverter</compoundname>
+    <includes refid="filesystem__ingester_8h" local="no">filesystem_ingester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_binary_converter_1a87a9867d75a6ac5f090f829bbc307925" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::BinaryConverter::pdf_converter</definition>
+        <argsstring></argsstring>
+        <name>pdf_converter</name>
+        <qualifiedname>themis::ingestion::BinaryConverter::pdf_converter</qualifiedname>
+        <initializer>= &quot;pdftotext&quot;</initializer>
+        <briefdescription>
+<para>Converter for PDF (e.g. &quot;pdftotext&quot;, &quot;/usr/bin/pdftotext&quot;, or &quot;&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="99" column="17" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_binary_converter_1a6de9cf01db54cd56ee59bef092789d5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::BinaryConverter::docx_converter</definition>
+        <argsstring></argsstring>
+        <name>docx_converter</name>
+        <qualifiedname>themis::ingestion::BinaryConverter::docx_converter</qualifiedname>
+        <initializer>= &quot;pandoc&quot;</initializer>
+        <briefdescription>
+<para>Converter for DOCX (e.g. &quot;pandoc&quot;, &quot;/usr/bin/pandoc&quot;, or &quot;&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="100" column="17" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_binary_converter_1a529dec7d6291a2ca920d853859d886e7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::BinaryConverter::detect_by_magic</definition>
+        <argsstring></argsstring>
+        <name>detect_by_magic</name>
+        <qualifiedname>themis::ingestion::BinaryConverter::detect_by_magic</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Detect type by magic bytes in addition to file extension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="101" column="10" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_binary_converter_1af5fcaf513f936ff30be78539d656e8a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::BinaryConverter::BinaryConverter</definition>
+        <argsstring>()=default</argsstring>
+        <name>BinaryConverter</name>
+        <qualifiedname>themis::ingestion::BinaryConverter::BinaryConverter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/filesystem_ingester.h" line="103" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for external binary-format converters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When set on <computeroutput><ref refid="classthemis_1_1ingestion_1_1_file_system_ingester" kindref="compound">FileSystemIngester</ref></computeroutput>, the ingester calls the specified command-line tools to extract plain text from PDF and DOCX files. An empty converter path disables conversion for that format (the file is silently skipped without raising an error).</para>
+<para>Converter invocations:<itemizedlist>
+<listitem><para>PDF: <computeroutput>&lt;<ref refid="structthemis_1_1ingestion_1_1_binary_converter_1a87a9867d75a6ac5f090f829bbc307925" kindref="member">pdf_converter</ref>&gt; "&lt;file&gt;" -</computeroutput> (pdftotext writes to stdout)</para>
+</listitem><listitem><para>DOCX: <computeroutput>&lt;<ref refid="structthemis_1_1ingestion_1_1_binary_converter_1a6de9cf01db54cd56ee59bef092789d5b" kindref="member">docx_converter</ref>&gt; -f docx -t plain "&lt;file&gt;"</computeroutput> (pandoc)</para>
+</listitem></itemizedlist>
+</para>
+<para>When a converter is not found on PATH or exits with a non-zero status, the file is silently skipped (no error added to <computeroutput><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></computeroutput>).</para>
+<para>Converter paths are validated with <computeroutput><ref refid="namespacethemis_1_1ingestion_1ab10cea9cffca860f50800a066cf1cf06" kindref="member">isConverterSafe()</ref></computeroutput> before use; values containing shell metacharacters are rejected silently. </para>
+    </detaileddescription>
+    <location file="include/ingestion/filesystem_ingester.h" line="98" column="1" bodyfile="include/ingestion/filesystem_ingester.h" bodystart="98" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_binary_converter_1af5fcaf513f936ff30be78539d656e8a5" prot="public" virt="non-virtual"><scope>themis::ingestion::BinaryConverter</scope><name>BinaryConverter</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_binary_converter_1a529dec7d6291a2ca920d853859d886e7" prot="public" virt="non-virtual"><scope>themis::ingestion::BinaryConverter</scope><name>detect_by_magic</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_binary_converter_1a6de9cf01db54cd56ee59bef092789d5b" prot="public" virt="non-virtual"><scope>themis::ingestion::BinaryConverter</scope><name>docx_converter</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_binary_converter_1a87a9867d75a6ac5f090f829bbc307925" prot="public" virt="non-virtual"><scope>themis::ingestion::BinaryConverter</scope><name>pdf_converter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

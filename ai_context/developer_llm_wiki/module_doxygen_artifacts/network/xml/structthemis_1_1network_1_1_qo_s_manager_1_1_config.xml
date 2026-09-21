@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_qo_s_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::QoSManager::Config</compoundname>
+    <includes refid="qos__manager_8h" local="no">qos_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ad06252832f4b61403aec6a7fe62729b3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::Config::max_bandwidth_bps</definition>
+        <argsstring></argsstring>
+        <name>max_bandwidth_bps</name>
+        <qualifiedname>themis::network::QoSManager::Config::max_bandwidth_bps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total aggregate bandwidth cap (bps). 0 = unlimited. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="296" column="18" bodyfile="include/network/qos_manager.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a12eef100e21016bb9c289dd4ff75e066" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::Config::max_bandwidth_mbps</definition>
+        <argsstring></argsstring>
+        <name>max_bandwidth_mbps</name>
+        <qualifiedname>themis::network::QoSManager::Config::max_bandwidth_mbps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience: total aggregate bandwidth cap in Mbps. When non-zero, overrides max_bandwidth_bps (1 Mbps = 1,000,000 bps). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="300" column="18" bodyfile="include/network/qos_manager.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a95bf9dd9560aaba0acfc2fbf5c034baa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::Config::default_rate_bps</definition>
+        <argsstring></argsstring>
+        <name>default_rate_bps</name>
+        <qualifiedname>themis::network::QoSManager::Config::default_rate_bps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default per-connection sustained rate (bps). 0 = unlimited. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="303" column="18" bodyfile="include/network/qos_manager.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ad020de2d786d556d74daabb0a4ea1c75" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::Config::per_connection_limit_mbps</definition>
+        <argsstring></argsstring>
+        <name>per_connection_limit_mbps</name>
+        <qualifiedname>themis::network::QoSManager::Config::per_connection_limit_mbps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience: default per-connection limit in Mbps. When non-zero, overrides default_rate_bps. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="307" column="18" bodyfile="include/network/qos_manager.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ae6afd08205da0fcb9fca135ad8747ba6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::Config::default_burst_bytes</definition>
+        <argsstring></argsstring>
+        <name>default_burst_bytes</name>
+        <qualifiedname>themis::network::QoSManager::Config::default_burst_bytes</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default burst size per connection (bytes). 0 = unlimited. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="310" column="18" bodyfile="include/network/qos_manager.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a087281b71f339e9af7fab55aad9e5f51" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::Config::max_queue_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_queue_bytes</name>
+        <qualifiedname>themis::network::QoSManager::Config::max_queue_bytes</qualifiedname>
+        <initializer>= 10&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum bytes queued per connection before backpressure triggers. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="313" column="18" bodyfile="include/network/qos_manager.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a5133b4ffeae3a06221995d7e91c4db1c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::QoSManager::Config::enable_priority_scheduling</definition>
+        <argsstring></argsstring>
+        <name>enable_priority_scheduling</name>
+        <qualifiedname>themis::network::QoSManager::Config::enable_priority_scheduling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable strict priority scheduling (CRITICAL starves LOW). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="316" column="14" bodyfile="include/network/qos_manager.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a5d984416f66489a9887e310a8e92ec6b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::QoSManager::Config::enable_priority_queuing</definition>
+        <argsstring></argsstring>
+        <name>enable_priority_queuing</name>
+        <qualifiedname>themis::network::QoSManager::Config::enable_priority_queuing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable priority queuing (alias for enable_priority_scheduling). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="319" column="14" bodyfile="include/network/qos_manager.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a36cfa39963f972bd9ef5ec1108836171" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::QoSManager::Config::enable_fair_queuing</definition>
+        <argsstring></argsstring>
+        <name>enable_fair_queuing</name>
+        <qualifiedname>themis::network::QoSManager::Config::enable_fair_queuing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable fair queuing (equal service at the same priority level). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="322" column="14" bodyfile="include/network/qos_manager.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1af24cf7a996dc2e9505a48aaec0880d45" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::QoSManager::Config::starvation_guard_threshold</definition>
+        <argsstring></argsstring>
+        <name>starvation_guard_threshold</name>
+        <qualifiedname>themis::network::QoSManager::Config::starvation_guard_threshold</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum consecutive dequeues from higher priority before a lower-priority connection is forcibly served (starvation guard). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="326" column="18" bodyfile="include/network/qos_manager.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/qos_manager.h" line="294" column="5" bodyfile="include/network/qos_manager.h" bodystart="294" bodyend="327"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ae6afd08205da0fcb9fca135ad8747ba6" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>default_burst_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a95bf9dd9560aaba0acfc2fbf5c034baa" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>default_rate_bps</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a36cfa39963f972bd9ef5ec1108836171" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>enable_fair_queuing</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a5d984416f66489a9887e310a8e92ec6b" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>enable_priority_queuing</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a5133b4ffeae3a06221995d7e91c4db1c" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>enable_priority_scheduling</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ad06252832f4b61403aec6a7fe62729b3" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>max_bandwidth_bps</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a12eef100e21016bb9c289dd4ff75e066" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>max_bandwidth_mbps</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1a087281b71f339e9af7fab55aad9e5f51" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>max_queue_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1ad020de2d786d556d74daabb0a4ea1c75" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>per_connection_limit_mbps</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_config_1af24cf7a996dc2e9505a48aaec0880d45" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::Config</scope><name>starvation_guard_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

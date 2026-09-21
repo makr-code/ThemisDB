@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_index_compression_focused_tests" kind="class" language="C++" prot="public">
+    <compoundname>IndexCompressionFocusedTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_index_compression_focused_tests_1a61f5fd9f18ca1ef578b3865e5fa824f4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IndexCompressionFocusedTests::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>IndexCompressionFocusedTests::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_compression.cpp" line="33" column="10" bodyfile="tests/index/test_index_compression.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_index_compression_focused_tests_1ad9c50ec9a2318c9057305e05c439607a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void IndexCompressionFocusedTests::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>IndexCompressionFocusedTests::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_compression.cpp" line="34" column="10" bodyfile="tests/index/test_index_compression.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_index_compression_focused_tests_1a11deed599459f742bf86b66783304047" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; IndexCompressionFocusedTests::makeIndexKeys</definition>
+        <argsstring>(std::string_view table, std::string_view column, std::string_view value, const std::vector&lt; std::string &gt; &amp;pks)</argsstring>
+        <name>makeIndexKeys</name>
+        <qualifiedname>IndexCompressionFocusedTests::makeIndexKeys</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>pks</declname>
+        </param>
+        <briefdescription>
+<para>Build a sorted list of typical secondary-index keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_compression.cpp" line="37" column="24" bodyfile="tests/index/test_index_compression.cpp" bodystart="37" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>IndexCompressionFocusedTests</label>
+        <link refid="class_index_compression_focused_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>IndexCompressionFocusedTests</label>
+        <link refid="class_index_compression_focused_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_index_compression.cpp" line="31" column="1" bodyfile="tests/index/test_index_compression.cpp" bodystart="31" bodyend="54"/>
+    <listofallmembers>
+      <member refid="class_index_compression_focused_tests_1a11deed599459f742bf86b66783304047" prot="protected" virt="non-virtual"><scope>IndexCompressionFocusedTests</scope><name>makeIndexKeys</name></member>
+      <member refid="class_index_compression_focused_tests_1a61f5fd9f18ca1ef578b3865e5fa824f4" prot="protected" virt="non-virtual"><scope>IndexCompressionFocusedTests</scope><name>SetUp</name></member>
+      <member refid="class_index_compression_focused_tests_1ad9c50ec9a2318c9057305e05c439607a" prot="protected" virt="non-virtual"><scope>IndexCompressionFocusedTests</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

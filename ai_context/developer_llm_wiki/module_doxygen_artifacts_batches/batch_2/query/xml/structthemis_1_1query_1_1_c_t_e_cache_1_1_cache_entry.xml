@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CTECache::CacheEntry</compoundname>
+    <includes refid="cte__cache_8h" local="no">cte_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a992faa9b6c5955455cbf758add73d1f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CTECache::CacheEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::CTECache::CacheEntry::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="37" column="21" bodyfile="include/query/cte_cache.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a0ce6940da636c3b152be4503e5a2cc3f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::CacheEntry::result_count</definition>
+        <argsstring></argsstring>
+        <name>result_count</name>
+        <qualifiedname>themis::query::CTECache::CacheEntry::result_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="38" column="16" bodyfile="include/query/cte_cache.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1ab973226309045960d9ba8a44a8c04756" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::CacheEntry::estimated_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>estimated_size_bytes</name>
+        <qualifiedname>themis::query::CTECache::CacheEntry::estimated_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="39" column="16" bodyfile="include/query/cte_cache.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a960f86bded75d065ac06899f703cbc05" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::CTECache::CacheEntry::is_spilled</definition>
+        <argsstring></argsstring>
+        <name>is_spilled</name>
+        <qualifiedname>themis::query::CTECache::CacheEntry::is_spilled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="40" column="14" bodyfile="include/query/cte_cache.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a30f9406ee3ac4a44ea10e91f71170859" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CTECache::CacheEntry::spill_file_path</definition>
+        <argsstring></argsstring>
+        <name>spill_file_path</name>
+        <qualifiedname>themis::query::CTECache::CacheEntry::spill_file_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="41" column="21" bodyfile="include/query/cte_cache.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a8cde05f9e375ccf7eac04b7c1c200dfd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; nlohmann::json &gt;</type>
+        <definition>std::vector&lt;nlohmann::json&gt; themis::query::CTECache::CacheEntry::in_memory_data</definition>
+        <argsstring></argsstring>
+        <name>in_memory_data</name>
+        <qualifiedname>themis::query::CTECache::CacheEntry::in_memory_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="42" column="21" bodyfile="include/query/cte_cache.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cte_cache.h" line="36" column="5" bodyfile="include/query/cte_cache.h" bodystart="36" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1ab973226309045960d9ba8a44a8c04756" prot="public" virt="non-virtual"><scope>themis::query::CTECache::CacheEntry</scope><name>estimated_size_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a8cde05f9e375ccf7eac04b7c1c200dfd" prot="public" virt="non-virtual"><scope>themis::query::CTECache::CacheEntry</scope><name>in_memory_data</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a960f86bded75d065ac06899f703cbc05" prot="public" virt="non-virtual"><scope>themis::query::CTECache::CacheEntry</scope><name>is_spilled</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a992faa9b6c5955455cbf758add73d1f9" prot="public" virt="non-virtual"><scope>themis::query::CTECache::CacheEntry</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a0ce6940da636c3b152be4503e5a2cc3f" prot="public" virt="non-virtual"><scope>themis::query::CTECache::CacheEntry</scope><name>result_count</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_cache_entry_1a30f9406ee3ac4a44ea10e91f71170859" prot="public" virt="non-virtual"><scope>themis::query::CTECache::CacheEntry</scope><name>spill_file_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

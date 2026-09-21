@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_i_model_router" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::aql::IModelRouter</compoundname>
+    <derivedcompoundref refid="classthemis_1_1aql_1_1_a_q_l_model_router" prot="public" virt="non-virtual">themis::aql::AQLModelRouter</derivedcompoundref>
+    <includes refid="aql__model__router_8h" local="no">aql_model_router.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_model_router_1a1dbdccf089db54a96944eb3740d36eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::aql::IModelRouter::~IModelRouter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IModelRouter</name>
+        <qualifiedname>themis::aql::IModelRouter::~IModelRouter</qualifiedname>
+        <briefdescription>
+<para>IModel Router. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="67" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_model_router_1a3891b975744d0957ca03d9640e76876d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::aql::IModelRouter::registerRoute</definition>
+        <argsstring>(const ModelRoute &amp;route)=0</argsstring>
+        <name>registerRoute</name>
+        <qualifiedname>themis::aql::IModelRouter::registerRoute</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_a_q_l_model_router_1ab716d3d7e0936d1e616881419de7fd53">registerRoute</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_model_route" kindref="compound">ModelRoute</ref> &amp;</type>
+          <declname>route</declname>
+        </param>
+        <briefdescription>
+<para>Register Route. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">route</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="73" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_model_router_1a00e40e1531bf729694ecf0ec3326bd3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::aql::IModelRouter::removeRoute</definition>
+        <argsstring>(QueryModelType type)=0</argsstring>
+        <name>removeRoute</name>
+        <qualifiedname>themis::aql::IModelRouter::removeRoute</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a6456cdb0bcb4c1f0814259157b2b0103">removeRoute</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Remove Route. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="79" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_model_router_1abdd7b7d1d62589bba2d8631248bade89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>virtual RoutingDecision themis::aql::IModelRouter::route</definition>
+        <argsstring>(const std::string &amp;aql_query) const =0</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::aql::IModelRouter::route</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_a_q_l_model_router_1a3fa69a0a88b32965b4d369ab07d5c286">route</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+<para>Route. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="86" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_model_router_1a064010ed266a9ced61d2b599496c8550" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref> &gt;</type>
+        <definition>virtual std::vector&lt; QueryModelType &gt; themis::aql::IModelRouter::classify</definition>
+        <argsstring>(const std::string &amp;aql_query) const =0</argsstring>
+        <name>classify</name>
+        <qualifiedname>themis::aql::IModelRouter::classify</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_a_q_l_model_router_1ad7b77bf584fde5720fd1a01e4696ecc0">classify</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+<para>Classify the semantic intent of a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="93" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::aql::AQLModelRouter</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_model_router"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::aql::IModelRouter</label>
+        <link refid="classthemis_1_1aql_1_1_i_model_router"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/aql/aql_model_router.h" line="61" column="1" bodyfile="include/aql/aql_model_router.h" bodystart="61" bodyend="94"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_i_model_router_1a064010ed266a9ced61d2b599496c8550" prot="public" virt="pure-virtual"><scope>themis::aql::IModelRouter</scope><name>classify</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_model_router_1a3891b975744d0957ca03d9640e76876d" prot="public" virt="pure-virtual"><scope>themis::aql::IModelRouter</scope><name>registerRoute</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_model_router_1a00e40e1531bf729694ecf0ec3326bd3e" prot="public" virt="pure-virtual"><scope>themis::aql::IModelRouter</scope><name>removeRoute</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_model_router_1abdd7b7d1d62589bba2d8631248bade89" prot="public" virt="pure-virtual"><scope>themis::aql::IModelRouter</scope><name>route</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_model_router_1a1dbdccf089db54a96944eb3740d36eb5" prot="public" virt="virtual"><scope>themis::aql::IModelRouter</scope><name>~IModelRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

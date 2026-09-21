@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_gap_filler" kind="class" language="C++" prot="public">
+    <compoundname>themis::GapFiller</compoundname>
+    <includes refid="gap__fill_8h" local="no">gap_fill.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_gap_filler_1af3bf146d974e4f3ae2686ea576cf63d9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_gap_fill_config" kindref="compound">GapFillConfig</ref></type>
+        <definition>GapFillConfig themis::GapFiller::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::GapFiller::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="216" column="38" bodyfile="include/timeseries/gap_fill.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_gap_filler_1a747852886539803efd4b935e2eb696ce" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_i_gap_filler" kindref="compound">IGapFiller</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IGapFiller&gt; themis::GapFiller::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::GapFiller::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="217" column="26" bodyfile="include/timeseries/gap_fill.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_gap_filler_1a4c9b3b1b212934f1d2df5aba4933927c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::GapFiller::GapFiller</definition>
+        <argsstring>(GapFillConfig cfg={})</argsstring>
+        <name>GapFiller</name>
+        <qualifiedname>themis::GapFiller::GapFiller</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_gap_fill_config" kindref="compound">GapFillConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="181" column="14" bodyfile="src/timeseries/gap_fill.cpp" bodystart="293" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_gap_filler_1a54388f525e65fecc6219b2eca0ad5515" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt;</type>
+        <definition>std::vector&lt; TSStore::DataPoint &gt; themis::GapFiller::fill</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points, const std::vector&lt; int64_t &gt; &amp;timestamps_to_fill) const</argsstring>
+        <name>fill</name>
+        <qualifiedname>themis::GapFiller::fill</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>timestamps_to_fill</declname>
+        </param>
+        <briefdescription>
+<para>Fill gaps using the stored configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Known data points (sorted ascending). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timestamps_to_fill</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target timestamps (sorted ascending). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One DataPoint per requested timestamp. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="190" column="17" bodyfile="src/timeseries/gap_fill.cpp" bodystart="307" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_gap_filler_1aceb914893f1c6b5bcf307618d869ae23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GapFiller::setConfig</definition>
+        <argsstring>(const GapFillConfig &amp;cfg)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::GapFiller::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_gap_fill_config" kindref="compound">GapFillConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeImpl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="212" column="25" bodyfile="src/timeseries/gap_fill.cpp" bodystart="302" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_gap_filler_1a48c96dc8e9a21fa08841d4604da6c82d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_gap_fill_config" kindref="compound">GapFillConfig</ref> &amp;</type>
+        <definition>const GapFillConfig &amp; themis::GapFiller::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::GapFiller::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="213" column="25" bodyfile="include/timeseries/gap_fill.h" bodystart="213" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_gap_filler_1afcad74ddb682ac8f6ee086c83bb578a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt; int64_t &gt; themis::GapFiller::regularTimestamps</definition>
+        <argsstring>(int64_t from_ms, int64_t to_ms, int64_t interval_ms)</argsstring>
+        <name>regularTimestamps</name>
+        <qualifiedname>themis::GapFiller::regularTimestamps</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>from_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>interval_ms</declname>
+        </param>
+        <briefdescription>
+<para>Generate a regular sequence of timestamps within [from_ms, to_ms]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Regular Timestamps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start timestamp (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End timestamp (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>interval_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step size between consecutive timestamps. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sorted vector of timestamps. Returns an empty vector when interval_ms ≤ 0 or from_ms &gt; to_ms.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">interval_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="204" column="24" bodyfile="src/timeseries/gap_fill.cpp" bodystart="329" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_gap_filler_1ae96134947f85611732ed4a7a5a6c25c7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_i_gap_filler" kindref="compound">IGapFiller</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IGapFiller &gt; themis::GapFiller::makeImpl</definition>
+        <argsstring>(GapFillMethod method)</argsstring>
+        <name>makeImpl</name>
+        <qualifiedname>themis::GapFiller::makeImpl</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1af3fec8d15013b13e8111c8bcac143303" kindref="member">GapFillMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Make Impl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeImpl without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="224" column="28" bodyfile="src/timeseries/gap_fill.cpp" bodystart="277" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configurable façade over the gap-fill strategy implementations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Constructs the appropriate <ref refid="classthemis_1_1_i_gap_filler" kindref="compound">IGapFiller</ref> from <ref refid="structthemis_1_1_gap_fill_config_1acc535cba9ef5891ae10cb44e64d3cda0" kindref="member">GapFillConfig::method</ref> and exposes a single <ref refid="classthemis_1_1_gap_filler_1a54388f525e65fecc6219b2eca0ad5515" kindref="member">fill()</ref> entry-point.</para>
+<para><heading level="3">Typical usage</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">GapFillConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.method<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1af3fec8d15013b13e8111c8bcac143303a14517b35b26ed67a34ffd446a9b86e33" kindref="member">GapFillMethod::LinearInterpolation</ref>;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_gap_ms<sp/>=<sp/>60&apos;000;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>do<sp/>not<sp/>fill<sp/>gaps<sp/>wider<sp/>than<sp/>1<sp/>minute</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_gap_filler_1a4c9b3b1b212934f1d2df5aba4933927c" kindref="member">GapFiller</ref><sp/>filler(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>timestamps<sp/>=<sp/><ref refid="classthemis_1_1_gap_filler_1afcad74ddb682ac8f6ee086c83bb578a1" kindref="member">GapFiller::regularTimestamps</ref>(from_ms,<sp/>to_ms,<sp/>1000);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>filled<sp/><sp/><sp/><sp/><sp/>=<sp/>filler.fill(known_points,<sp/>timestamps);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/timeseries/gap_fill.h" line="179" column="1" bodyfile="include/timeseries/gap_fill.h" bodystart="179" bodyend="225"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_gap_filler_1a48c96dc8e9a21fa08841d4604da6c82d" prot="public" virt="non-virtual"><scope>themis::GapFiller</scope><name>config</name></member>
+      <member refid="classthemis_1_1_gap_filler_1af3bf146d974e4f3ae2686ea576cf63d9" prot="private" virt="non-virtual"><scope>themis::GapFiller</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_gap_filler_1a54388f525e65fecc6219b2eca0ad5515" prot="public" virt="non-virtual"><scope>themis::GapFiller</scope><name>fill</name></member>
+      <member refid="classthemis_1_1_gap_filler_1a4c9b3b1b212934f1d2df5aba4933927c" prot="public" virt="non-virtual"><scope>themis::GapFiller</scope><name>GapFiller</name></member>
+      <member refid="classthemis_1_1_gap_filler_1a747852886539803efd4b935e2eb696ce" prot="private" virt="non-virtual"><scope>themis::GapFiller</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1_gap_filler_1ae96134947f85611732ed4a7a5a6c25c7" prot="private" virt="non-virtual"><scope>themis::GapFiller</scope><name>makeImpl</name></member>
+      <member refid="classthemis_1_1_gap_filler_1afcad74ddb682ac8f6ee086c83bb578a1" prot="public" virt="non-virtual"><scope>themis::GapFiller</scope><name>regularTimestamps</name></member>
+      <member refid="classthemis_1_1_gap_filler_1aceb914893f1c6b5bcf307618d869ae23" prot="public" virt="non-virtual"><scope>themis::GapFiller</scope><name>setConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_participant" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::Participant</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_participant_1a596e804d51a380fa5366a2f154fa00af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::Participant::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::transaction::Participant::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="104" column="17" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_participant_1a8931509e5baaa9692b4b00d874f00191" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::Participant::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::transaction::Participant::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="106" column="17" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_participant_1a48537208688d0ba20cd79ba0d1892f71" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::transaction::Participant::affected_keys</definition>
+        <argsstring></argsstring>
+        <name>affected_keys</name>
+        <qualifiedname>themis::transaction::Participant::affected_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="108" column="14" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_participant_1a7ac392d19bc67ba40ba20e709c0a300b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback" kindref="compound">IDistributedParticipantCallback</ref> *</type>
+        <definition>IDistributedParticipantCallback* themis::transaction::Participant::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themis::transaction::Participant::callback</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="110" column="37" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+      <node id="1">
+        <label>themis::transaction::Participant</label>
+        <link refid="structthemis_1_1transaction_1_1_participant"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>callback</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/transaction/distributed_transaction_manager.h" line="103" column="1" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="103" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_participant_1a48537208688d0ba20cd79ba0d1892f71" prot="public" virt="non-virtual"><scope>themis::transaction::Participant</scope><name>affected_keys</name></member>
+      <member refid="structthemis_1_1transaction_1_1_participant_1a7ac392d19bc67ba40ba20e709c0a300b" prot="public" virt="non-virtual"><scope>themis::transaction::Participant</scope><name>callback</name></member>
+      <member refid="structthemis_1_1transaction_1_1_participant_1a8931509e5baaa9692b4b00d874f00191" prot="public" virt="non-virtual"><scope>themis::transaction::Participant</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1transaction_1_1_participant_1a596e804d51a380fa5366a2f154fa00af" prot="public" virt="non-virtual"><scope>themis::transaction::Participant</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

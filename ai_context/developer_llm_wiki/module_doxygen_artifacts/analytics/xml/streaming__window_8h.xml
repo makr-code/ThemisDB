@@ -1,0 +1,760 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="streaming__window_8h" kind="file" language="C++">
+    <compoundname>streaming_window.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__analytics__operability__paths_8cpp" local="yes">benchmarks/analytics/bench_analytics_operability_paths.cpp</includedby>
+    <includedby refid="bench__streaming__window_8cpp" local="no">benchmarks/analytics/bench_streaming_window.cpp</includedby>
+    <includedby refid="streaming__window_8cpp" local="yes">src/analytics/streaming_window.cpp</includedby>
+    <includedby refid="test__analytics__serving__export__integration_8cpp" local="yes">tests/analytics/test_analytics_serving_export_integration.cpp</includedby>
+    <includedby refid="test__analytics__wave__d__operability_8cpp" local="yes">tests/analytics/test_analytics_wave_d_operability.cpp</includedby>
+    <includedby refid="test__streaming__window_8cpp" local="yes">tests/analytics/test_streaming_window.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/analytics/streaming_window.h</label>
+        <link refid="streaming__window_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>condition_variable</label>
+      </node>
+      <node id="6">
+        <label>deque</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>unordered_set</label>
+      </node>
+      <node id="16">
+        <label>utility</label>
+      </node>
+      <node id="17">
+        <label>variant</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/analytics/bench_analytics_operability_paths.cpp</label>
+        <link refid="bench__analytics__operability__paths_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/analytics/bench_streaming_window.cpp</label>
+        <link refid="bench__streaming__window_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/analytics/streaming_window.h</label>
+        <link refid="streaming__window_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/analytics/streaming_window.cpp</label>
+        <link refid="streaming__window_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/analytics/test_analytics_serving_export_integration.cpp</label>
+        <link refid="test__analytics__serving__export__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/analytics/test_analytics_wave_d_operability.cpp</label>
+        <link refid="test__analytics__wave__d__operability_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/analytics/test_streaming_window.cpp</label>
+        <link refid="test__streaming__window_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_stream_record" prot="public">themisdb::analytics::StreamRecord</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" prot="public">themisdb::analytics::WindowAggregateSpec</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_aggregated_value" prot="public">themisdb::analytics::AggregatedValue</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_result" prot="public">themisdb::analytics::WindowResult</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_watermark_config" prot="public">themisdb::analytics::WatermarkConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" prot="public">themisdb::analytics::TumblingWindowConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_sliding_window_config" prot="public">themisdb::analytics::SlidingWindowConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_session_window_config" prot="public">themisdb::analytics::SessionWindowConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_hopping_window_config" prot="public">themisdb::analytics::HoppingWindowConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_window_stats" prot="public">themisdb::analytics::WindowStats</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_tumbling_window" prot="public">themisdb::analytics::TumblingWindow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_tumbling_window_1_1_internal_window" prot="private">themisdb::analytics::TumblingWindow::InternalWindow</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_sliding_window" prot="public">themisdb::analytics::SlidingWindow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_sliding_window_1_1_internal_window" prot="private">themisdb::analytics::SlidingWindow::InternalWindow</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_session_window" prot="public">themisdb::analytics::SessionWindow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_session_window_1_1_session" prot="private">themisdb::analytics::SessionWindow::Session</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_hopping_window" prot="public">themisdb::analytics::HoppingWindow</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_hopping_window_1_1_internal_window" prot="private">themisdb::analytics::HoppingWindow::InternalWindow</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline" prot="public">themisdb::analytics::StreamingWindowPipeline</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config" prot="public">themisdb::analytics::StreamingWindowPipeline::Config</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.32 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window" kindref="compound">TumblingWindow</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_sliding_window" kindref="compound">SlidingWindow</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_session_window" kindref="compound">SessionWindow</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_hopping_window" kindref="compound">HoppingWindow</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline" kindref="compound">StreamingWindowPipeline</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Value<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" kindref="member">RecordValue</ref><sp/>=<sp/>std::variant&lt;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::monostate,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>null</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>bool,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>double,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" kindref="member">AggFunc</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a4905ac9d6a22bdfc1ae096094ce6248d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">COUNT</ref>,</highlight></codeline>
+<codeline lineno="77" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a6970bdc2201030b9c03fbdcf3973858a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da6970bdc2201030b9c03fbdcf3973858a" kindref="member">SUM</ref>,</highlight></codeline>
+<codeline lineno="78" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841afcefd647d6a866603c627b11347c707a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dafcefd647d6a866603c627b11347c707a" kindref="member">AVG</ref>,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841ace31e2a082d17e038fcc6e3006166653" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dace31e2a082d17e038fcc6e3006166653" kindref="member">MIN</ref>,</highlight></codeline>
+<codeline lineno="80" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a26a4b44a837bf97b972628509912b4a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da26a4b44a837bf97b972628509912b4a5" kindref="member">MAX</ref>,</highlight></codeline>
+<codeline lineno="81" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841ae920619bf0e106c10e5d5a787670a059" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dae920619bf0e106c10e5d5a787670a059" kindref="member">STDDEV</ref>,</highlight></codeline>
+<codeline lineno="82" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841ace18bb9a2b22515d0cd36bca6b998bde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7dace18bb9a2b22515d0cd36bca6b998bde" kindref="member">VARIANCE</ref>,</highlight></codeline>
+<codeline lineno="83" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a50af38ed06c82d7bc9af1f6d34d4ffca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da50af38ed06c82d7bc9af1f6d34d4ffca" kindref="member">PERCENTILE</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>requires<sp/>percentile<sp/>p<sp/>in<sp/>[0,100]<sp/>via<sp/>WindowAggregateSpec::percentile_p</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a2c2624a5059934a947d6e25fe8332ade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da2c2624a5059934a947d6e25fe8332ade" kindref="member">FIRST</ref>,</highlight></codeline>
+<codeline lineno="85" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841af447f5c03508de4d88e340390ba7c78f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7daf447f5c03508de4d88e340390ba7c78f" kindref="member">LAST</ref>,</highlight></codeline>
+<codeline lineno="86" refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a95e35fb1535049226d78aff2a87cbbc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7da95e35fb1535049226d78aff2a87cbbc9" kindref="member">DISTINCT_COUNT</ref></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StreamRecord</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemisdb_1_1analytics_1_1_stream_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1analytics_1_1_stream_record_1a7f0f1ecc24574213da8340033cfe8420" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a7f0f1ecc24574213da8340033cfe8420" kindref="member">record_id</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1analytics_1_1_stream_record_1a91a31697897f4c6391e8a15bbd661990" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a91a31697897f4c6391e8a15bbd661990" kindref="member">event_time</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1analytics_1_1_stream_record_1a9c504376baea25d6d1a6aa7b908c62fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a9c504376baea25d6d1a6aa7b908c62fb" kindref="member">ingest_time</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemisdb_1_1analytics_1_1_stream_record_1a5b57a5e5c2a1d3f50a0be3aea2927a91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a5b57a5e5c2a1d3f50a0be3aea2927a91" kindref="member">partition_key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1analytics_1_1_stream_record_1aae82afeed99a443da5cf36756bb11660" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>RecordValue&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1aae82afeed99a443da5cf36756bb11660" kindref="member">fields</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="102" refid="structthemisdb_1_1analytics_1_1_stream_record_1ad2aa25c3364e89e188ae75a58653dc24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;T&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1ad2aa25c3364e89e188ae75a58653dc24" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1aae82afeed99a443da5cf36756bb11660" kindref="member">fields</ref>.find(field);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1aae82afeed99a443da5cf36756bb11660" kindref="member">fields</ref>.end())<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>v<sp/>=<sp/>std::get_if&lt;T&gt;(&amp;it-&gt;second))<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*v;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemisdb_1_1analytics_1_1_stream_record_1af90322a1c8000acc02ffdeb6b309410b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1af90322a1c8000acc02ffdeb6b309410b" kindref="member">set</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field,<sp/><ref refid="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" kindref="member">RecordValue</ref><sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record_1aae82afeed99a443da5cf36756bb11660" kindref="member">fields</ref>[field]<sp/>=<sp/>std::move(value);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Aggregation<sp/>spec<sp/>&amp;<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1aa25d72151b0fb0e2074af17d78d475e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1aa25d72151b0fb0e2074af17d78d475e8" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ae4dc8279a951d8b3c73ac3fbcc879485" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" kindref="member">AggFunc</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ae4dc8279a951d8b3c73ac3fbcc879485" kindref="member">func</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">AggFunc::COUNT</ref>;</highlight></codeline>
+<codeline lineno="131" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ad41b37d22901007befd1d33a4ca7ac19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ad41b37d22901007befd1d33a4ca7ac19" kindref="member">field</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a133ac6b60ce7439fdd83220a48e8bdae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a133ac6b60ce7439fdd83220a48e8bdae" kindref="member">percentile_p</ref><sp/>=<sp/>50.0;<sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a2d0c834d84ba31b8a90afec1d788a9be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a2d0c834d84ba31b8a90afec1d788a9be" kindref="member">WindowAggregateSpec</ref>(std::string<sp/>name_,<sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" kindref="member">AggFunc</ref><sp/>func_,<sp/>std::string<sp/>field_,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>percentile_p_<sp/>=<sp/>50.0)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1aa25d72151b0fb0e2074af17d78d475e8" kindref="member">name</ref>(std::move(name_)),</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ae4dc8279a951d8b3c73ac3fbcc879485" kindref="member">func</ref>(func_),</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ad41b37d22901007befd1d33a4ca7ac19" kindref="member">field</ref>(std::move(field_)),</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a133ac6b60ce7439fdd83220a48e8bdae" kindref="member">percentile_p</ref>(percentile_p_)<sp/>{}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a720c59ff9ef27ec2bdd5452278d18b77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a720c59ff9ef27ec2bdd5452278d18b77" kindref="member">WindowAggregateSpec</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a996fedb2643dc73c25ddcbd62b6215e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref>&amp;<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a996fedb2643dc73c25ddcbd62b6215e0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a29f6c9e5cd0d71306ae9ac2040ac3871" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a29f6c9e5cd0d71306ae9ac2040ac3871" kindref="member">WindowAggregateSpec</ref>(<ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="145" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1ab42c427ece379b31b89bad0b4234bac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref>&amp;<sp/>operator=(<ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="146" refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1aa4c2ff8b70f381be8d1cb13cf517de90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~<ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec_1a790d5b5c38e23c592e583b6413ab83ad" kindref="member">WindowAggregateSpec</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemisdb_1_1analytics_1_1_aggregated_value" refkind="compound"><highlight class="normal">struct<sp/><ref refid="structthemisdb_1_1analytics_1_1_aggregated_value" kindref="compound">AggregatedValue</ref><sp/>{</highlight></codeline>
+<codeline lineno="150" refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a54ab06e09a4b9779f4fcc43e904c5c03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a54ab06e09a4b9779f4fcc43e904c5c03" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="151" refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a5de75e7ef4fa86d75ffeacb0c4a93836" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" kindref="member">AggFunc</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a5de75e7ef4fa86d75ffeacb0c4a93836" kindref="member">func</ref>;</highlight></codeline>
+<codeline lineno="152" refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a349d7745aaece99adbca5ea75a76fff4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1analytics_1ab697aeb8605251dcb3b100ee740f509c" kindref="member">RecordValue</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a349d7745aaece99adbca5ea75a76fff4" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="153" refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a05e49dbde75234e9cf6f1400d64a3da5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_aggregated_value_1a05e49dbde75234e9cf6f1400d64a3da5" kindref="member">count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemisdb_1_1analytics_1_1_window_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="157" refid="structthemisdb_1_1analytics_1_1_window_result_1a750183324d1ec0c7c59fdc9c1c9c6c2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_result_1a750183324d1ec0c7c59fdc9c1c9c6c2f" kindref="member">window_id</ref>;</highlight></codeline>
+<codeline lineno="158" refid="structthemisdb_1_1analytics_1_1_window_result_1a89d33f8b38fc5f4e885b8e9b111f71ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_result_1a89d33f8b38fc5f4e885b8e9b111f71ed" kindref="member">window_start</ref>;</highlight></codeline>
+<codeline lineno="159" refid="structthemisdb_1_1analytics_1_1_window_result_1a2739aafa603cb3450712ece6cdb1df12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_result_1a2739aafa603cb3450712ece6cdb1df12" kindref="member">window_end</ref>;</highlight></codeline>
+<codeline lineno="160" refid="structthemisdb_1_1analytics_1_1_window_result_1a40e50c401d521a155d4f00d4e82ce583" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_result_1a40e50c401d521a155d4f00d4e82ce583" kindref="member">partition_key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="structthemisdb_1_1analytics_1_1_window_result_1a8ae20e9b1e7d707c7b6b833db5393f94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_result_1a8ae20e9b1e7d707c7b6b833db5393f94" kindref="member">record_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162" refid="structthemisdb_1_1analytics_1_1_window_result_1a2b83cf27e83a2a53248e29dc8d7454b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AggregatedValue&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_result_1a2b83cf27e83a2a53248e29dc8d7454b7" kindref="member">aggregations</ref>;</highlight></codeline>
+<codeline lineno="163" refid="structthemisdb_1_1analytics_1_1_window_result_1aa8cf73dc91d04c58076e261b80832963" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_result_1aa8cf73dc91d04c58076e261b80832963" kindref="member">is_late_firing</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="164" refid="structthemisdb_1_1analytics_1_1_window_result_1abe6c1d4c6f3b2e923eb13b8bbe0324e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_result_1abe6c1d4c6f3b2e923eb13b8bbe0324e0" kindref="member">is_early_firing</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RecordValue&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_result_1a3c9e2cfaa4678b444510645c05093662" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>agg_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Watermark<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="structthemisdb_1_1analytics_1_1_watermark_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="179" refid="structthemisdb_1_1analytics_1_1_watermark_config_1ab79aabc79d16fff7f7f20e5f024ae5a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_watermark_config_1ab79aabc79d16fff7f7f20e5f024ae5a3" kindref="member">max_out_of_orderness</ref>{0};</highlight></codeline>
+<codeline lineno="180" refid="structthemisdb_1_1analytics_1_1_watermark_config_1a267452d491e4b2f2b3f0730462733fff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_watermark_config_1a267452d491e4b2f2b3f0730462733fff" kindref="member">idle_timeout</ref>{60000};</highlight></codeline>
+<codeline lineno="181" refid="structthemisdb_1_1analytics_1_1_watermark_config_1aa7173f6de72189a58574f502ad9ddf72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_watermark_config_1aa7173f6de72189a58574f502ad9ddf72" kindref="member">allow_late_data</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Window<sp/>configuration<sp/>structs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" kindref="compound">TumblingWindowConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="189" refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a22218bdfb2fc29c8d5781e15455be149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a22218bdfb2fc29c8d5781e15455be149" kindref="member">size</ref>{60000};</highlight></codeline>
+<codeline lineno="190" refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1aa782530f5398cb27d294205517267e48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1aa782530f5398cb27d294205517267e48" kindref="member">watermark</ref>;</highlight></codeline>
+<codeline lineno="191" refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a7d3ee359c9879ad692cffc9bb5b153ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a7d3ee359c9879ad692cffc9bb5b153ce" kindref="member">emit_empty_windows</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192" refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a734eaad4b847c22fcb4b0dd877bbc4b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a734eaad4b847c22fcb4b0dd877bbc4b0" kindref="member">max_open_windows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="193" refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1abc1a1fe6cbeaf462b11fa5f9fceb9e7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1abc1a1fe6cbeaf462b11fa5f9fceb9e7e" kindref="member">max_records_per_window</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="194" refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a408249b6b41e3f163b1f3c9a9fe81580" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a408249b6b41e3f163b1f3c9a9fe81580" kindref="member">max_distinct_partition_keys</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemisdb_1_1analytics_1_1_sliding_window_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config" kindref="compound">SlidingWindowConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="198" refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a8103e255c6471ad8f0d69c73a977d174" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a8103e255c6471ad8f0d69c73a977d174" kindref="member">size</ref>{60000};</highlight></codeline>
+<codeline lineno="199" refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a9694b6d3bcb8c4592fb354bfdda903a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a9694b6d3bcb8c4592fb354bfdda903a6" kindref="member">slide</ref>{10000};</highlight></codeline>
+<codeline lineno="200" refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1ab0d74ddc9734bc38906bb3a38528d593" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1ab0d74ddc9734bc38906bb3a38528d593" kindref="member">watermark</ref>;</highlight></codeline>
+<codeline lineno="201" refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1af084b932e0746d5d769fa5dd80f52ca4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1af084b932e0746d5d769fa5dd80f52ca4" kindref="member">max_open_windows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="202" refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a1c347acf2b3cfadfed5918e682f2be1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a1c347acf2b3cfadfed5918e682f2be1e" kindref="member">max_records_per_window</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="203" refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a37c1026c7b491f3cfdbb04751bd05b30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a37c1026c7b491f3cfdbb04751bd05b30" kindref="member">max_distinct_partition_keys</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="structthemisdb_1_1analytics_1_1_session_window_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_session_window_config" kindref="compound">SessionWindowConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="207" refid="structthemisdb_1_1analytics_1_1_session_window_config_1a6217d2ba0c2186774ce4fc10078a9288" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_session_window_config_1a6217d2ba0c2186774ce4fc10078a9288" kindref="member">gap</ref>{30000};</highlight></codeline>
+<codeline lineno="208" refid="structthemisdb_1_1analytics_1_1_session_window_config_1adb5af75c8e8d67bbc5f5f60a6c7a3672" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_session_window_config_1adb5af75c8e8d67bbc5f5f60a6c7a3672" kindref="member">watermark</ref>;</highlight></codeline>
+<codeline lineno="209" refid="structthemisdb_1_1analytics_1_1_session_window_config_1a26d163269320f3884d08dce6ea5aab95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_session_window_config_1a26d163269320f3884d08dce6ea5aab95" kindref="member">session_expiry_check_interval_ms</ref>{200};</highlight></codeline>
+<codeline lineno="210" refid="structthemisdb_1_1analytics_1_1_session_window_config_1ae927f7782ba4652507a5c5cd69032487" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_session_window_config_1ae927f7782ba4652507a5c5cd69032487" kindref="member">max_open_sessions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="211" refid="structthemisdb_1_1analytics_1_1_session_window_config_1a70ab907488becfa73c4bf62a3044d86e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_session_window_config_1a70ab907488becfa73c4bf62a3044d86e" kindref="member">max_records_per_session</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="structthemisdb_1_1analytics_1_1_hopping_window_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config" kindref="compound">HoppingWindowConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="215" refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a32966cebe80b7ae6ad12eecab13599e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a32966cebe80b7ae6ad12eecab13599e8" kindref="member">size</ref>{60000};</highlight></codeline>
+<codeline lineno="216" refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a1312531feb17a715f228e898b936fd76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a1312531feb17a715f228e898b936fd76" kindref="member">hop</ref>{10000};</highlight></codeline>
+<codeline lineno="217" refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a9b97965c3cee2dcf99cebeb0242db5ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a9b97965c3cee2dcf99cebeb0242db5ee" kindref="member">watermark</ref>;</highlight></codeline>
+<codeline lineno="218" refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1ac32caa56f0aad63ff39ee50f6688b46d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1ac32caa56f0aad63ff39ee50f6688b46d" kindref="member">max_open_windows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="219" refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1adf2a949c790b27b176b525ddbabbcdd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1adf2a949c790b27b176b525ddbabbcdd3" kindref="member">max_records_per_window</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="220" refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1aa2128c68115c2ab7d4de6e8e62c50d48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1aa2128c68115c2ab7d4de6e8e62c50d48" kindref="member">max_distinct_partition_keys</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Window<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="structthemisdb_1_1analytics_1_1_window_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="228" refid="structthemisdb_1_1analytics_1_1_window_stats_1a4aea0ce8f6075cb9434e6f3254d28632" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats_1a4aea0ce8f6075cb9434e6f3254d28632" kindref="member">windows_opened</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="229" refid="structthemisdb_1_1analytics_1_1_window_stats_1a14cf1c398bebdaaaa6c1400e782cd354" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats_1a14cf1c398bebdaaaa6c1400e782cd354" kindref="member">windows_closed</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="230" refid="structthemisdb_1_1analytics_1_1_window_stats_1ad47434243812357ca149637aa38c7f52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats_1ad47434243812357ca149637aa38c7f52" kindref="member">records_ingested</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="231" refid="structthemisdb_1_1analytics_1_1_window_stats_1af0b80d70c365fd1d32c4b61f13aa370f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats_1af0b80d70c365fd1d32c4b61f13aa370f" kindref="member">records_dropped</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="232" refid="structthemisdb_1_1analytics_1_1_window_stats_1aa55eeaffc6b4b7d7ef189a11d6b5acc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats_1aa55eeaffc6b4b7d7ef189a11d6b5acc4" kindref="member">late_records</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="233" refid="structthemisdb_1_1analytics_1_1_window_stats_1af084b2cc5eb28200ca7ee39d5b5ee78d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats_1af084b2cc5eb28200ca7ee39d5b5ee78d" kindref="member">results_emitted</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="234" refid="structthemisdb_1_1analytics_1_1_window_stats_1a5297856497689e956bb34d1c5f16c6bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats_1a5297856497689e956bb34d1c5f16c6bb" kindref="member">windows_evicted</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="235" refid="structthemisdb_1_1analytics_1_1_window_stats_1a1289ada0839f88c9d90188da39723da6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats_1a1289ada0839f88c9d90188da39723da6" kindref="member">partition_keys_rejected</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TumblingWindow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="classthemisdb_1_1analytics_1_1_tumbling_window" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a0824ff40ef8c71f8a9f2371664f1efd1" kindref="member">TumblingWindow</ref><sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="244" refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a2e640d7bf8b3f251a8e889e8de0e09ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a2e640d7bf8b3f251a8e889e8de0e09ff" kindref="member">ResultCallback</ref><sp/>=<sp/>std::function&lt;void(<ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref>)&gt;;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a0824ff40ef8c71f8a9f2371664f1efd1" kindref="member">TumblingWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" kindref="compound">TumblingWindowConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a0824ff40ef8c71f8a9f2371664f1efd1" kindref="member">~TumblingWindow</ref>();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a5ce95ae3d92362da275926fc68bbedd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a5ce95ae3d92362da275926fc68bbedd4" kindref="member">TumblingWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a0824ff40ef8c71f8a9f2371664f1efd1" kindref="member">TumblingWindow</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256" refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a671b68232f78c68ef41b73d65d1176a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a0824ff40ef8c71f8a9f2371664f1efd1" kindref="member">TumblingWindow</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a671b68232f78c68ef41b73d65d1176a7" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a0824ff40ef8c71f8a9f2371664f1efd1" kindref="member">TumblingWindow</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a24d0628965878d3805436af70c6ba8e8" kindref="member">addAggregation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" kindref="compound">WindowAggregateSpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1ada182f824f8ff82bc5600aab1b5289a3" kindref="member">setResultCallback</ref>(<ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a2e640d7bf8b3f251a8e889e8de0e09ff" kindref="member">ResultCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a2cc1977074c40aeaada179b679bbc7a0" kindref="member">ingest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref>&amp;<sp/>record);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1aa5dbb00e32b50b268575c23acac94407" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a5e940f695a34b7273abfd9b6195413cb" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" kindref="compound">TumblingWindowConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window_1a2e640d7bf8b3f251a8e889e8de0e09ff" kindref="member">ResultCallback</ref><sp/>callback_;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WindowAggregateSpec&gt;<sp/>agg_specs_;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">InternalWindow<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>start;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>end;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;StreamRecord&gt;<sp/>records;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>partition_key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>seen_partition_keys;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>window<sp/>per<sp/>time-slot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;int64_t,<sp/>InternalWindow&gt;<sp/>open_windows_;<sp/><sp/></highlight><highlight class="comment">//<sp/>key<sp/>=<sp/>slot<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Watermark</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>watermark_us_{0};<sp/><sp/></highlight><highlight class="comment">//<sp/>microseconds<sp/>since<sp/>epoch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_opened_{0};</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_closed_{0};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>records_ingested_{0};</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>records_dropped_{0};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>late_records_{0};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>results_emitted_{0};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_evicted_{0};</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>partition_keys_rejected_{0};</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>idle_thread_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>idle_running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>idle_cv_;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>idle_mutex_;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>last_event_us_{0};</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>slotIndex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>tp)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>slotStart(int64_t<sp/>idx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>WindowResult<sp/>computeResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InternalWindow&amp;<sp/>win,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>late)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WindowResult&gt;<sp/>closeExpiredWindows(int64_t<sp/>watermark_us);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateWatermark(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>event_time);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>idleTimeoutLoop();</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal">std::unique_ptr&lt;TumblingWindow&gt;<sp/><ref refid="namespacethemisdb_1_1analytics_1aa22a611041b21ef018239f377857e594" kindref="member">createTumblingWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TumblingWindowConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SlidingWindow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370" refid="classthemisdb_1_1analytics_1_1_sliding_window" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a8f5b1c87b0b2148e1e60352b575e6570" kindref="member">SlidingWindow</ref><sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="372" refid="classthemisdb_1_1analytics_1_1_sliding_window_1ada633110020c977ca6a93f2be2c6bd7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1ada633110020c977ca6a93f2be2c6bd7b" kindref="member">ResultCallback</ref><sp/>=<sp/>std::function&lt;void(<ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref>)&gt;;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a8f5b1c87b0b2148e1e60352b575e6570" kindref="member">SlidingWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config" kindref="compound">SlidingWindowConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a8f5b1c87b0b2148e1e60352b575e6570" kindref="member">~SlidingWindow</ref>();</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382" refid="classthemisdb_1_1analytics_1_1_sliding_window_1a9c3d5fedfb13645bc974ee9b7d3b6752" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a9c3d5fedfb13645bc974ee9b7d3b6752" kindref="member">SlidingWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a8f5b1c87b0b2148e1e60352b575e6570" kindref="member">SlidingWindow</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383" refid="classthemisdb_1_1analytics_1_1_sliding_window_1a94b22bbdb790a63e3714dc520dc7539f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a8f5b1c87b0b2148e1e60352b575e6570" kindref="member">SlidingWindow</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a94b22bbdb790a63e3714dc520dc7539f" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a8f5b1c87b0b2148e1e60352b575e6570" kindref="member">SlidingWindow</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a7a8dcbe9d8c600dba3efdc500fc03784" kindref="member">addAggregation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" kindref="compound">WindowAggregateSpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1aa93567d195dd218f8300e90297dcca36" kindref="member">setResultCallback</ref>(<ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1ada633110020c977ca6a93f2be2c6bd7b" kindref="member">ResultCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a3aa17ad0be731ba1a0b7ed3dd11e463d" kindref="member">ingest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref>&amp;<sp/>record);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a0992197fb26643d834540d17b5c2bdb8" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1a31734f96a7b10f3b23cab99da2ae2825" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config" kindref="compound">SlidingWindowConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window_1ada633110020c977ca6a93f2be2c6bd7b" kindref="member">ResultCallback</ref><sp/>callback_;</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WindowAggregateSpec&gt;<sp/>agg_specs_;</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">InternalWindow<sp/>{</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>window_id;</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>start;</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>end;</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;StreamRecord&gt;<sp/>records;</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>closed<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>partition_key;</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;InternalWindow&gt;<sp/>windows_;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>watermark_us_{0};</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_opened_{0};</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_closed_{0};</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>records_ingested_{0};</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>records_dropped_{0};</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>late_records_{0};</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>results_emitted_{0};</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_evicted_{0};</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>partition_keys_rejected_{0};</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>O(1)<sp/>duplicate-detection<sp/>index<sp/>keyed<sp/>on<sp/>window<sp/>start<sp/>(TODO<sp/>#5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;int64_t&gt;<sp/>window_start_set_;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>seen_partition_keys_;</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Idle-timeout<sp/>background<sp/>thread<sp/>(TODO<sp/>#1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>idle_thread_;</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>idle_running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>idle_cv_;</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>idle_mutex_;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>last_event_us_{0};</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>WindowResult<sp/>computeResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InternalWindow&amp;<sp/>win,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>late)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ensureWindowsExist(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>event_time,</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>partition_key);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WindowResult&gt;<sp/>closeExpiredWindows(int64_t<sp/>watermark_us);</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateWatermark(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>event_time);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>idleTimeoutLoop();</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>generateId();</highlight></codeline>
+<codeline lineno="486"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal">std::unique_ptr&lt;SlidingWindow&gt;<sp/><ref refid="namespacethemisdb_1_1analytics_1a185b714a82518867d2a1d46913346a8f" kindref="member">createSlidingWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SlidingWindowConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SessionWindow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="499" refid="classthemisdb_1_1analytics_1_1_session_window" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" kindref="member">SessionWindow</ref><sp/>{</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="501" refid="classthemisdb_1_1analytics_1_1_session_window_1a4f5593933790ac352cd8b978db00957a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a4f5593933790ac352cd8b978db00957a" kindref="member">ResultCallback</ref><sp/>=<sp/>std::function&lt;void(<ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref>)&gt;;</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" kindref="member">SessionWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_session_window_config" kindref="compound">SessionWindowConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" kindref="member">~SessionWindow</ref>();</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511" refid="classthemisdb_1_1analytics_1_1_session_window_1a2ded22e1a1d08f83e96f6314e7b0e751" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a2ded22e1a1d08f83e96f6314e7b0e751" kindref="member">SessionWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" kindref="member">SessionWindow</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="512" refid="classthemisdb_1_1analytics_1_1_session_window_1ad4837c4ab8f5f040530d8c4cec72080c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" kindref="member">SessionWindow</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1ad4837c4ab8f5f040530d8c4cec72080c" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a6b27f3d953e8799df11d3cdf05c31b54" kindref="member">SessionWindow</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1affdc40909242df8efe02a188888d0d22" kindref="member">addAggregation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" kindref="compound">WindowAggregateSpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a980c6293286923c7f53a48bb081bd55f" kindref="member">setResultCallback</ref>(<ref refid="classthemisdb_1_1analytics_1_1_session_window_1a4f5593933790ac352cd8b978db00957a" kindref="member">ResultCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a53e22d63fb014799a96460ee40b1fd83" kindref="member">ingest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref>&amp;<sp/>record);</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a702ce398075c05020185bd7f0d48977b" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1aed32eac1621acedcc3165187aa12185a" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_session_window_config" kindref="compound">SessionWindowConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_session_window_1a4f5593933790ac352cd8b978db00957a" kindref="member">ResultCallback</ref><sp/>callback_;</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WindowAggregateSpec&gt;<sp/>agg_specs_;</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Session<sp/>{</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>session_id;</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>partition_key<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>start;</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>last_event;</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;StreamRecord&gt;<sp/>records;</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_late_records<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Session&gt;<sp/>sessions_;<sp/><sp/></highlight><highlight class="comment">//<sp/>keyed<sp/>by<sp/>partition_key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"></highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timer<sp/>thread<sp/>for<sp/>session<sp/>expiry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>expiry_thread_;</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>expiry_cv_;</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>expiry_mutex_;</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Watermark<sp/>(monotonically<sp/>increasing,<sp/>in<sp/>microseconds<sp/>since<sp/>epoch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>watermark_us_{0};</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_opened_{0};</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_closed_{0};</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>records_ingested_{0};</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>records_dropped_{0};</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>late_records_{0};</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>results_emitted_{0};</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_evicted_{0};</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/>WindowResult<sp/>computeResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Session&amp;<sp/>s,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>late<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>expiryLoop();</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>generateId();</highlight></codeline>
+<codeline lineno="587"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal">std::unique_ptr&lt;SessionWindow&gt;<sp/><ref refid="namespacethemisdb_1_1analytics_1af24545a377611a3d4d4e35e6f08eb388" kindref="member">createSessionWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SessionWindowConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HoppingWindow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="598"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="599"><highlight class="normal"></highlight></codeline>
+<codeline lineno="600" refid="classthemisdb_1_1analytics_1_1_hopping_window" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" kindref="member">HoppingWindow</ref><sp/>{</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="602" refid="classthemisdb_1_1analytics_1_1_hopping_window_1a7017f20a36d69217382a9d464986cae3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a7017f20a36d69217382a9d464986cae3" kindref="member">ResultCallback</ref><sp/>=<sp/>std::function&lt;void(<ref refid="structthemisdb_1_1analytics_1_1_window_result" kindref="compound">WindowResult</ref>)&gt;;</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"></highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" kindref="member">HoppingWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config" kindref="compound">HoppingWindowConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" kindref="member">~HoppingWindow</ref>();</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"></highlight></codeline>
+<codeline lineno="612" refid="classthemisdb_1_1analytics_1_1_hopping_window_1aa0089582cc8efcd350ba2370a88f172f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1aa0089582cc8efcd350ba2370a88f172f" kindref="member">HoppingWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" kindref="member">HoppingWindow</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="613" refid="classthemisdb_1_1analytics_1_1_hopping_window_1aa74d594304c436f437a9463fab159fd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" kindref="member">HoppingWindow</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1aa74d594304c436f437a9463fab159fd7" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a586d1446008ad901b1ff1eb1d2901cb3" kindref="member">HoppingWindow</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"></highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a0e77e3abfb7d3c66fbf7c36d5f70baa9" kindref="member">addAggregation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_aggregate_spec" kindref="compound">WindowAggregateSpec</ref>&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a93ba4b647bebaa7b18761fe730a395ba" kindref="member">setResultCallback</ref>(<ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a7017f20a36d69217382a9d464986cae3" kindref="member">ResultCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"></highlight></codeline>
+<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a35a260522b46b8856047c1dac0cef751" kindref="member">ingest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref>&amp;<sp/>record);</highlight></codeline>
+<codeline lineno="632"><highlight class="normal"></highlight></codeline>
+<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a475351ca53ab3be74847668482b9238c" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="637"><highlight class="normal"></highlight></codeline>
+<codeline lineno="642"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1ad62166ef7c69d1865aeb89bf38aafafa" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="643"><highlight class="normal"></highlight></codeline>
+<codeline lineno="644"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config" kindref="compound">HoppingWindowConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window_1a7017f20a36d69217382a9d464986cae3" kindref="member">ResultCallback</ref><sp/>callback_;</highlight></codeline>
+<codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WindowAggregateSpec&gt;<sp/>agg_specs_;</highlight></codeline>
+<codeline lineno="648"><highlight class="normal"></highlight></codeline>
+<codeline lineno="649"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">InternalWindow<sp/>{</highlight></codeline>
+<codeline lineno="650"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>window_id;</highlight></codeline>
+<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>start;</highlight></codeline>
+<codeline lineno="652"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>end;</highlight></codeline>
+<codeline lineno="653"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;StreamRecord&gt;<sp/>records;</highlight></codeline>
+<codeline lineno="654"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>closed<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="655"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="656"><highlight class="normal"></highlight></codeline>
+<codeline lineno="657"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;InternalWindow&gt;<sp/>windows_;</highlight></codeline>
+<codeline lineno="658"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="659"><highlight class="normal"></highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>watermark_us_{0};</highlight></codeline>
+<codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_opened_{0};</highlight></codeline>
+<codeline lineno="662"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_closed_{0};</highlight></codeline>
+<codeline lineno="663"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>records_ingested_{0};</highlight></codeline>
+<codeline lineno="664"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>records_dropped_{0};</highlight></codeline>
+<codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>late_records_{0};</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>results_emitted_{0};</highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>windows_evicted_{0};</highlight></codeline>
+<codeline lineno="668"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>partition_keys_rejected_{0};</highlight></codeline>
+<codeline lineno="669"><highlight class="normal"></highlight></codeline>
+<codeline lineno="670"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>O(1)<sp/>duplicate-detection<sp/>index<sp/>keyed<sp/>on<sp/>window<sp/>start<sp/>(TODO<sp/>#5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="671"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;int64_t&gt;<sp/>window_start_set_;</highlight></codeline>
+<codeline lineno="672"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>seen_partition_keys_;</highlight></codeline>
+<codeline lineno="673"><highlight class="normal"></highlight></codeline>
+<codeline lineno="680"><highlight class="normal"><sp/><sp/><sp/><sp/>WindowResult<sp/>computeResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InternalWindow&amp;<sp/>win,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>late)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="685"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ensureWindowsExist(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>event_time);</highlight></codeline>
+<codeline lineno="691"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WindowResult&gt;<sp/>closeExpiredWindows(int64_t<sp/>watermark_us);</highlight></codeline>
+<codeline lineno="696"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateWatermark(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>event_time);</highlight></codeline>
+<codeline lineno="701"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>generateId();</highlight></codeline>
+<codeline lineno="702"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="703"><highlight class="normal"></highlight></codeline>
+<codeline lineno="709"><highlight class="normal">std::unique_ptr&lt;HoppingWindow&gt;<sp/><ref refid="namespacethemisdb_1_1analytics_1a281cb2b765efb06fa774eeb6410a3ce9" kindref="member">createHoppingWindow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HoppingWindowConfig&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="710"><highlight class="normal"></highlight></codeline>
+<codeline lineno="711"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="712"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StreamingWindowPipeline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="713"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="714"><highlight class="normal"></highlight></codeline>
+<codeline lineno="715" refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline" kindref="compound">StreamingWindowPipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="716"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="717" refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline_1a4247e004892288fedac8d39a03bab0b2a357f5a515b1050875cab773c21bd1254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline_1a4247e004892288fedac8d39a03bab0b2" kindref="member">Type</ref><sp/>{<sp/><ref refid="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba95ad2287637805c77de2453d860476b2" kindref="member">TUMBLING</ref>,<sp/><ref refid="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba15443de7dd780091e8dd910b110bd99e" kindref="member">SLIDING</ref>,<sp/><ref refid="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba8e32a82fa7897baa1c7f2bbf920b0ff1" kindref="member">SESSION</ref>,<sp/><ref refid="namespacethemisdb_1_1analytics_1a92c01a8522c0a9f32305c8be8793bc1ba357f5a515b1050875cab773c21bd1254" kindref="member">HOPPING</ref><sp/>};</highlight></codeline>
+<codeline lineno="718"><highlight class="normal"></highlight></codeline>
+<codeline lineno="719" refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="720" refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a837b9f3bcbc188a92d67b67bbe25f1bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline_1a4247e004892288fedac8d39a03bab0b2" kindref="member">Type</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a837b9f3bcbc188a92d67b67bbe25f1bf" kindref="member">type</ref><sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline_1a4247e004892288fedac8d39a03bab0b2a95ad2287637805c77de2453d860476b2" kindref="member">Type::TUMBLING</ref>;</highlight></codeline>
+<codeline lineno="721" refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a361078c0d2b2d50b778d27898275d891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a361078c0d2b2d50b778d27898275d891" kindref="member">size</ref>{60000};</highlight></codeline>
+<codeline lineno="722" refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a77e645f2cc94d68cdd9e1c9e44d08f8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a77e645f2cc94d68cdd9e1c9e44d08f8c" kindref="member">slide</ref>{10000};</highlight></codeline>
+<codeline lineno="723" refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a5702c45a5f3b0508330575137edd070a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a5702c45a5f3b0508330575137edd070a" kindref="member">hop</ref>{10000};</highlight></codeline>
+<codeline lineno="724" refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a8709acb7291a3bd84cfa022908c69b75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a8709acb7291a3bd84cfa022908c69b75" kindref="member">gap</ref>{30000};</highlight></codeline>
+<codeline lineno="725" refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1aa99f561e5a81bfb4f60ef5e35088525b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1aa99f561e5a81bfb4f60ef5e35088525b" kindref="member">watermark</ref>;</highlight></codeline>
+<codeline lineno="726" refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a03bca4f9b9f179c106ce3e6f7e3e42e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_streaming_window_pipeline_1_1_config_1a03bca4f9b9f179c106ce3e6f7e3e42e7" kindref="member">session_expiry_interval_ms</ref>{200};</highlight></codeline>
+<codeline lineno="727"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="728"><highlight class="normal"></highlight></codeline>
+<codeline lineno="729"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Static<sp/>factory<sp/>methods<sp/>(fluent<sp/>interface)<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="730"><highlight class="normal"></highlight></codeline>
+<codeline lineno="731"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_streaming_window_pipeline" kindref="compound">StreamingWindowPipeline</ref><sp/>tumbling(std::chrono::milliseconds<sp/>size,</highlight></codeline>
+<codeline lineno="732"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_watermark_config" kindref="compound">WatermarkConfig</ref><sp/>wm<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="733"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>StreamingWindowPipeline<sp/>sliding(std::chrono::milliseconds<sp/>size,</highlight></codeline>
+<codeline lineno="734"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>slide,</highlight></codeline>
+<codeline lineno="735"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WatermarkConfig<sp/>wm<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="736"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>StreamingWindowPipeline<sp/>session(std::chrono::milliseconds<sp/>gap,</highlight></codeline>
+<codeline lineno="737"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WatermarkConfig<sp/>wm<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="738"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>expiry_interval_ms<sp/>=<sp/>std::chrono::milliseconds{200});</highlight></codeline>
+<codeline lineno="739"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>StreamingWindowPipeline<sp/>hopping(std::chrono::milliseconds<sp/>size,</highlight></codeline>
+<codeline lineno="740"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>hop,</highlight></codeline>
+<codeline lineno="741"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>WatermarkConfig<sp/>wm<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="742"><highlight class="normal"></highlight></codeline>
+<codeline lineno="743"><highlight class="normal"></highlight></codeline>
+<codeline lineno="749"><highlight class="normal"><sp/><sp/><sp/><sp/>StreamingWindowPipeline&amp;<sp/>aggregate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>WindowAggregateSpec&amp;<sp/>spec);</highlight></codeline>
+<codeline lineno="750"><highlight class="normal"><sp/><sp/><sp/><sp/>StreamingWindowPipeline&amp;<sp/>onResult(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(WindowResult)&gt;<sp/>callback);</highlight></codeline>
+<codeline lineno="751"><highlight class="normal"></highlight></codeline>
+<codeline lineno="756"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;StreamingWindowPipeline&gt;<sp/>build();</highlight></codeline>
+<codeline lineno="757"><highlight class="normal"></highlight></codeline>
+<codeline lineno="758"><highlight class="normal"></highlight></codeline>
+<codeline lineno="764"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ingest(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StreamRecord&amp;<sp/>record);</highlight></codeline>
+<codeline lineno="765"><highlight class="normal"></highlight></codeline>
+<codeline lineno="769"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>flush();</highlight></codeline>
+<codeline lineno="770"><highlight class="normal"></highlight></codeline>
+<codeline lineno="775"><highlight class="normal"><sp/><sp/><sp/><sp/>WindowStats<sp/>getStats()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="776"><highlight class="normal"></highlight></codeline>
+<codeline lineno="777"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="778"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="779"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;WindowAggregateSpec&gt;<sp/>agg_specs_;</highlight></codeline>
+<codeline lineno="780"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(WindowResult)&gt;<sp/>callback_;</highlight></codeline>
+<codeline lineno="781"><highlight class="normal"></highlight></codeline>
+<codeline lineno="782"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Underlying<sp/>window<sp/>after<sp/>build()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="783"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TumblingWindow&gt;<sp/>tumbling_;</highlight></codeline>
+<codeline lineno="784"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SlidingWindow&gt;<sp/><sp/>sliding_;</highlight></codeline>
+<codeline lineno="785"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SessionWindow&gt;<sp/><sp/>session_;</highlight></codeline>
+<codeline lineno="786"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;HoppingWindow&gt;<sp/><sp/>hopping_;</highlight></codeline>
+<codeline lineno="787"><highlight class="normal"></highlight></codeline>
+<codeline lineno="788"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>built_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="789"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="790"><highlight class="normal"></highlight></codeline>
+<codeline lineno="791"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="792"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Utility<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="793"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="794"><highlight class="normal"></highlight></codeline>
+<codeline lineno="795"><highlight class="normal">StreamRecord<sp/><ref refid="namespacethemisdb_1_1analytics_1a33f5964742427531da0f2a01aef91c07" kindref="member">makeRecord</ref>(</highlight></codeline>
+<codeline lineno="796"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="797"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>event_time,</highlight></codeline>
+<codeline lineno="798"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>partition_key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="799"><highlight class="normal"><sp/><sp/><sp/><sp/>std::initializer_list&lt;std::pair&lt;std::string,<sp/>RecordValue&gt;&gt;<sp/>fields<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="800"><highlight class="normal"></highlight></codeline>
+<codeline lineno="807" refid="namespacethemisdb_1_1analytics_1a901356247278a2ee6cbcfd0fe5cda09c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemisdb_1_1analytics_1a901356247278a2ee6cbcfd0fe5cda09c" kindref="member">aggFuncToString</ref>(<ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841" kindref="member">AggFunc</ref><sp/>f)<sp/>{</highlight></codeline>
+<codeline lineno="808"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(f)<sp/>{</highlight></codeline>
+<codeline lineno="809"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a4905ac9d6a22bdfc1ae096094ce6248d" kindref="member">AggFunc::COUNT</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;COUNT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="810"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a6970bdc2201030b9c03fbdcf3973858a" kindref="member">AggFunc::SUM</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SUM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="811"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841afcefd647d6a866603c627b11347c707a" kindref="member">AggFunc::AVG</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AVG&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="812"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841ace31e2a082d17e038fcc6e3006166653" kindref="member">AggFunc::MIN</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MIN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="813"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a26a4b44a837bf97b972628509912b4a5" kindref="member">AggFunc::MAX</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MAX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="814"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841ae920619bf0e106c10e5d5a787670a059" kindref="member">AggFunc::STDDEV</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;STDDEV&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="815"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841ace18bb9a2b22515d0cd36bca6b998bde" kindref="member">AggFunc::VARIANCE</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;VARIANCE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="816"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a50af38ed06c82d7bc9af1f6d34d4ffca" kindref="member">AggFunc::PERCENTILE</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PERCENTILE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="817"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a2c2624a5059934a947d6e25fe8332ade" kindref="member">AggFunc::FIRST</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;FIRST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="818"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841af447f5c03508de4d88e340390ba7c78f" kindref="member">AggFunc::LAST</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LAST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="819"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1analytics_1a5a74d210e3046d24890a4c5bf6275841a95e35fb1535049226d78aff2a87cbbc9" kindref="member">AggFunc::DISTINCT_COUNT</ref>:</highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DISTINCT_COUNT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="820"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="821"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="822"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="823"><highlight class="normal"></highlight></codeline>
+<codeline lineno="824"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="825"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/streaming_window.h"/>
+  </compounddef>
+</doxygen>

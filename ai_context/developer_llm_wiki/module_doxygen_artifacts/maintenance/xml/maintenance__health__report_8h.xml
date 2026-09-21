@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="maintenance__health__report_8h" kind="file" language="C++">
+    <compoundname>maintenance_health_report.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__maintenance__release__gates_8cpp" local="yes">benchmarks/maintenance/bench_maintenance_release_gates.cpp</includedby>
+    <includedby refid="database__maintenance__orchestrator_8h" local="yes">include/maintenance/database_maintenance_orchestrator.h</includedby>
+    <includedby refid="maintenance__registry_8cpp" local="yes">src/maintenance/maintenance_registry.cpp</includedby>
+    <includedby refid="test__maintenance__churn__hardening__focused_8cpp" local="yes">tests/maintenance/test_maintenance_churn_hardening_focused.cpp</includedby>
+    <includedby refid="test__maintenance__diagnostics__focused_8cpp" local="yes">tests/maintenance/test_maintenance_diagnostics_focused.cpp</includedby>
+    <includedby refid="test__maintenance__endurance__focused_8cpp" local="yes">tests/maintenance/test_maintenance_endurance_focused.cpp</includedby>
+    <includedby refid="test__maintenance__stress__focused_8cpp" local="yes">tests/maintenance/test_maintenance_stress_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/maintenance/maintenance_health_report.h</label>
+        <link refid="maintenance__health__report_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/maintenance/bench_maintenance_release_gates.cpp</label>
+        <link refid="bench__maintenance__release__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/maintenance/database_maintenance_orchestrator.h</label>
+        <link refid="database__maintenance__orchestrator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/maintenance/maintenance_health_report.h</label>
+        <link refid="maintenance__health__report_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/maintenance/database_maintenance_orchestrator.cpp</label>
+        <link refid="database__maintenance__orchestrator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/maintenance/maintenance_registry.cpp</label>
+        <link refid="maintenance__registry_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/maintenance/test_maintenance_churn_hardening_focused.cpp</label>
+        <link refid="test__maintenance__churn__hardening__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/maintenance/test_maintenance_diagnostics_focused.cpp</label>
+        <link refid="test__maintenance__diagnostics__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/maintenance/test_maintenance_endurance_focused.cpp</label>
+        <link refid="test__maintenance__endurance__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/maintenance/test_maintenance_stress_focused.cpp</label>
+        <link refid="test__maintenance__stress__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1maintenance_1_1_module_health_signal" prot="public">themis::maintenance::ModuleHealthSignal</innerclass>
+    <innerclass refid="structthemis_1_1maintenance_1_1_dispatch_outcome" prot="public">themis::maintenance::DispatchOutcome</innerclass>
+    <innerclass refid="structthemis_1_1maintenance_1_1_maintenance_health_report" prot="public">themis::maintenance::MaintenanceHealthReport</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1maintenance">themis::maintenance</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1maintenance" kindref="compound">maintenance</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-module<sp/>health<sp/>signal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5" kindref="member">ModuleHealthStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="17" refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="18" refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/></highlight></codeline>
+<codeline lineno="19" refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref>,<sp/></highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1maintenance_1a2ccf704d6e9bd8d66c5e0db2aafab421" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1maintenance_1a2ccf704d6e9bd8d66c5e0db2aafab421" kindref="member">moduleHealthStatusToString</ref>(<ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5" kindref="member">ModuleHealthStatus</ref><sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(s)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">ModuleHealthStatus::OK</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a0021017005f0e5134b204c2e69d3d4ed" kindref="member">ModuleHealthStatus::DEGRADED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;degraded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">ModuleHealthStatus::CRITICAL</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;critical&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1maintenance_1_1_module_health_signal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1maintenance_1_1_module_health_signal" kindref="compound">ModuleHealthSignal</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8c9178e36aeef6ef39b008b6ae4cb0a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8c9178e36aeef6ef39b008b6ae4cb0a7" kindref="member">module_name</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1maintenance_1_1_module_health_signal_1ac1bbea07d7324dabe1115915fe8265a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5" kindref="member">ModuleHealthStatus</ref><sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1ac1bbea07d7324dabe1115915fe8265a8" kindref="member">status</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ModuleHealthStatus::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8223e6258c0553ab356653622cac6ec4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8223e6258c0553ab356653622cac6ec4" kindref="member">message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1maintenance_1_1_module_health_signal_1af345fcc4c29a64f644b9c70410652b74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1af345fcc4c29a64f644b9c70410652b74" kindref="member">checked_at_ms</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1maintenance_1_1_module_health_signal_1a3efe1185213315532ce945116f2f746f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1a3efe1185213315532ce945116f2f746f" kindref="member">details</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1maintenance_1_1_module_health_signal_1ac8f05dbb9b92fa702e709c9146fc6edc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1ac8f05dbb9b92fa702e709c9146fc6edc" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;module_name&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8c9178e36aeef6ef39b008b6ae4cb0a7" kindref="member">module_name</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a2ccf704d6e9bd8d66c5e0db2aafab421" kindref="member">moduleHealthStatusToString</ref>(<ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1ac1bbea07d7324dabe1115915fe8265a8" kindref="member">status</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1a8223e6258c0553ab356653622cac6ec4" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;checked_at_ms&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1af345fcc4c29a64f644b9c70410652b74" kindref="member">checked_at_ms</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>d<sp/>=<sp/>nlohmann::json::object();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[k,<sp/>v]<sp/>:<sp/><ref refid="structthemis_1_1maintenance_1_1_module_health_signal_1a3efe1185213315532ce945116f2f746f" kindref="member">details</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d[k]<sp/>=<sp/>v;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;details&quot;</highlight><highlight class="normal">]<sp/>=<sp/>d;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DispatchOutcome<sp/>—<sp/>per-dispatch<sp/>diagnostic<sp/>record<sp/>(Phase<sp/>4)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36" kindref="member">DispatchOutcomeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SUCCESS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a7e3ae277b577a5e6879fd7c1f842a5c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a7e3ae277b577a5e6879fd7c1f842a5c2" kindref="member">SKIPPED_NO_HANDLER</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a3624804b46a56b1b5d7b09875834aa73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a3624804b46a56b1b5d7b09875834aa73" kindref="member">SKIPPED_CONCURRENT</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab57c10a5f3e6901566d3f7ac773f3ed4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab57c10a5f3e6901566d3f7ac773f3ed4" kindref="member">FAILED_PERSISTENCE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab1dbae1b20b78825b1e0d7808631ecec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab1dbae1b20b78825b1e0d7808631ecec" kindref="member">FAILED_DISPATCH</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1maintenance_1a65178a3e7fd84f9a4ed163fefe924c11" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1maintenance_1a65178a3e7fd84f9a4ed163fefe924c11" kindref="member">dispatchOutcomeTypeToString</ref>(<ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36" kindref="member">DispatchOutcomeType</ref><sp/>t)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(t)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a7e3ae277b577a5e6879fd7c1f842a5c2" kindref="member">DispatchOutcomeType::SKIPPED_NO_HANDLER</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;skipped_no_handler&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36a3624804b46a56b1b5d7b09875834aa73" kindref="member">DispatchOutcomeType::SKIPPED_CONCURRENT</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;skipped_concurrent&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab57c10a5f3e6901566d3f7ac773f3ed4" kindref="member">DispatchOutcomeType::FAILED_PERSISTENCE</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;failed_persistence&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ab1dbae1b20b78825b1e0d7808631ecec" kindref="member">DispatchOutcomeType::FAILED_DISPATCH</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;failed_dispatch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1maintenance_1_1_dispatch_outcome" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a399fc8de449c463f7e40656175dd3218" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a399fc8de449c463f7e40656175dd3218" kindref="member">schedule_id</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a8d79bb50ddc8d9da76f4aa1bd4ea26a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a8d79bb50ddc8d9da76f4aa1bd4ea26a4" kindref="member">task_type</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a91a33588d93144c29826c8e16f7f6f76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36" kindref="member">DispatchOutcomeType</ref><sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a91a33588d93144c29826c8e16f7f6f76" kindref="member">outcome</ref><sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a93d4fda70778f1d790dc95b5dbf59b36ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">DispatchOutcomeType::SUCCESS</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1adf54d7b4fe6625dc5971df4799e57b2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1adf54d7b4fe6625dc5971df4799e57b2c" kindref="member">latency_us</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a3c527e2b3e16be36b3f86f1f405b72e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a3c527e2b3e16be36b3f86f1f405b72e1" kindref="member">error_message</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1ac3f4b3552a124d0157f538d8698c1fa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1ac3f4b3552a124d0157f538d8698c1fa2" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;schedule_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a399fc8de449c463f7e40656175dd3218" kindref="member">schedule_id</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;task_type&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a8d79bb50ddc8d9da76f4aa1bd4ea26a4" kindref="member">task_type</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;outcome&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a65178a3e7fd84f9a4ed163fefe924c11" kindref="member">dispatchOutcomeTypeToString</ref>(<ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a91a33588d93144c29826c8e16f7f6f76" kindref="member">outcome</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;latency_us&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1adf54d7b4fe6625dc5971df4799e57b2c" kindref="member">latency_us</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;error_message&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_dispatch_outcome_1a3c527e2b3e16be36b3f86f1f405b72e1" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Aggregate<sp/>health<sp/>report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1maintenance_1_1_maintenance_health_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report" kindref="compound">MaintenanceHealthReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1afafab041760904b68dbe8e0829052a72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5" kindref="member">ModuleHealthStatus</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1afafab041760904b68dbe8e0829052a72" kindref="member">overall_status</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a1ffab52c1b619af9def0b278449dd1e5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ModuleHealthStatus::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a0c2114eaecd5c37f99c64e04e558d8cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ModuleHealthSignal&gt;<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a0c2114eaecd5c37f99c64e04e558d8cc" kindref="member">module_signals</ref>;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a928c8d22ef6e2c03905431458ec3f3a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a928c8d22ef6e2c03905431458ec3f3a3" kindref="member">generated_at_ms</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Orchestrator-level<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1aa2bc44745df0b4afcf0538e548d93fa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1aa2bc44745df0b4afcf0538e548d93fa7" kindref="member">active_jobs</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1ab31375875126d6efb19d8057dd52f88e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1ab31375875126d6efb19d8057dd52f88e" kindref="member">total_schedules</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a53ab871f4cbf37e66c48587f2933ef7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a53ab871f4cbf37e66c48587f2933ef7a" kindref="member">enabled_schedules</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1aa55998e32ac90c045905fcb00f397613" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1aa55998e32ac90c045905fcb00f397613" kindref="member">failed_jobs_24h</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1af564b74999663f6de6c62b57808c5b99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1af564b74999663f6de6c62b57808c5b99" kindref="member">success_jobs_24h</ref><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a27229d7185db1fc12c9ae23a3307d891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DispatchOutcome&gt;<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a27229d7185db1fc12c9ae23a3307d891" kindref="member">recent_dispatch_outcomes</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a989996089c0abb0ba51c0f92797ccf9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a989996089c0abb0ba51c0f92797ccf9b" kindref="member">dispatch_outcome_ring_buffer_capacity</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a363c574f608e6f59fb110894e5997fa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a363c574f608e6f59fb110894e5997fa5" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;overall_status&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1maintenance_1a2ccf704d6e9bd8d66c5e0db2aafab421" kindref="member">moduleHealthStatusToString</ref>(<ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1afafab041760904b68dbe8e0829052a72" kindref="member">overall_status</ref>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;generated_at_ms&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a928c8d22ef6e2c03905431458ec3f3a3" kindref="member">generated_at_ms</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;active_jobs&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1aa2bc44745df0b4afcf0538e548d93fa7" kindref="member">active_jobs</ref>;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;total_schedules&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1ab31375875126d6efb19d8057dd52f88e" kindref="member">total_schedules</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;enabled_schedules&quot;</highlight><highlight class="normal">]=<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a53ab871f4cbf37e66c48587f2933ef7a" kindref="member">enabled_schedules</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;failed_jobs_24h&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1aa55998e32ac90c045905fcb00f397613" kindref="member">failed_jobs_24h</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;success_jobs_24h&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1af564b74999663f6de6c62b57808c5b99" kindref="member">success_jobs_24h</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;dispatch_outcome_ring_buffer_capacity&quot;</highlight><highlight class="normal">]<sp/>=<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a989996089c0abb0ba51c0f92797ccf9b" kindref="member">dispatch_outcome_ring_buffer_capacity</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>signals<sp/>=<sp/>nlohmann::json::array();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a0c2114eaecd5c37f99c64e04e558d8cc" kindref="member">module_signals</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>signals.push_back(s.toJson());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;module_signals&quot;</highlight><highlight class="normal">]<sp/>=<sp/>signals;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>outcomes<sp/>=<sp/>nlohmann::json::array();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>o<sp/>:<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_report_1a27229d7185db1fc12c9ae23a3307d891" kindref="member">recent_dispatch_outcomes</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outcomes.push_back(o.toJson());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;recent_dispatch_outcomes&quot;</highlight><highlight class="normal">]<sp/>=<sp/>outcomes;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>maintenance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/maintenance/maintenance_health_report.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,595 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_compaction_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::CompactionManager</compoundname>
+    <includes refid="compaction__manager_8h" local="no">compaction_manager.h</includes>
+    <innerclass refid="structthemis_1_1_compaction_manager_1_1_config" prot="public">themis::CompactionManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1_compaction_manager_1_1_stats" prot="public">themis::CompactionManager::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_compaction_manager_1a91f8aff61ea48de8bac96dc2b314ac16" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::CompactionManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::CompactionManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="201" column="21" bodyfile="include/storage/compaction_manager.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_compaction_manager_1a59964e7bc7ef27ffddd1095dbd1885d9" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_compaction_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::CompactionManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::CompactionManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="202" column="12" bodyfile="include/storage/compaction_manager.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_compaction_manager_1aa7b3bda4c58ca705aac948f11505d817" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::CompactionManager::tombstones_</definition>
+        <argsstring></argsstring>
+        <name>tombstones_</name>
+        <qualifiedname>themis::CompactionManager::tombstones_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="204" column="17" bodyfile="include/storage/compaction_manager.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_compaction_manager_1a0cb81f929e3fc2cc177e6ed749324d20" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::CompactionManager::gc_runs_</definition>
+        <argsstring></argsstring>
+        <name>gc_runs_</name>
+        <qualifiedname>themis::CompactionManager::gc_runs_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="205" column="17" bodyfile="include/storage/compaction_manager.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_compaction_manager_1a6d03eb47165218388178add3af3ffbf4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::CompactionManager::manual_compactions_</definition>
+        <argsstring></argsstring>
+        <name>manual_compactions_</name>
+        <qualifiedname>themis::CompactionManager::manual_compactions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="206" column="17" bodyfile="include/storage/compaction_manager.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_compaction_manager_1a6fe34c521f1e1afe5d0e2c79127992de" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::CompactionManager::bg_thread_</definition>
+        <argsstring></argsstring>
+        <name>bg_thread_</name>
+        <qualifiedname>themis::CompactionManager::bg_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="209" column="23" bodyfile="include/storage/compaction_manager.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_compaction_manager_1aad5190d5a1cf39d046798e8b4254b6d1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::CompactionManager::bg_stop_</definition>
+        <argsstring></argsstring>
+        <name>bg_stop_</name>
+        <qualifiedname>themis::CompactionManager::bg_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="210" column="17" bodyfile="include/storage/compaction_manager.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_compaction_manager_1a980e7a48399dcb3cb62ee871f9b32d02" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::CompactionManager::bg_mutex_</definition>
+        <argsstring></argsstring>
+        <name>bg_mutex_</name>
+        <qualifiedname>themis::CompactionManager::bg_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="211" column="24" bodyfile="include/storage/compaction_manager.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_compaction_manager_1ab58801bc12989d77b3da151333e923e4" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::CompactionManager::bg_cv_</definition>
+        <argsstring></argsstring>
+        <name>bg_cv_</name>
+        <qualifiedname>themis::CompactionManager::bg_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="212" column="29" bodyfile="include/storage/compaction_manager.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1a1d8c2b9f2d114b8cdefad9fc6678234a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CompactionManager::CompactionManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db)</argsstring>
+        <name>CompactionManager</name>
+        <qualifiedname>themis::CompactionManager::CompactionManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref> with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared ownership of the underlying RocksDB instance. Must already be open. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="104" column="14" bodyfile="src/storage/compaction_manager.cpp" bodystart="34" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1a40bd3ef42d7062dc2cf7a5b7fdd040c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CompactionManager::CompactionManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, const Config &amp;config)</argsstring>
+        <name>CompactionManager</name>
+        <qualifiedname>themis::CompactionManager::CompactionManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_compaction_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared ownership of the underlying RocksDB instance. Must already be open. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="113" column="5" bodyfile="src/storage/compaction_manager.cpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1a59a2ec4e03ee4a4af4f78faea1ff752a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::CompactionManager::~CompactionManager</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CompactionManager</name>
+        <qualifiedname>themis::CompactionManager::~CompactionManager</qualifiedname>
+        <briefdescription>
+<para>Destructor — noexcept; stops background GC thread and swallows exceptions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="116" column="5" bodyfile="src/storage/compaction_manager.cpp" bodystart="45" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1aca111950d529be2b1e47517052a71925" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CompactionManager::CompactionManager</definition>
+        <argsstring>(const CompactionManager &amp;)=delete</argsstring>
+        <name>CompactionManager</name>
+        <qualifiedname>themis::CompactionManager::CompactionManager</qualifiedname>
+        <param>
+          <type>const CompactionManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="119" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1afca09ede102d28c28e50742ac26b2769" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_compaction_manager_1a1d8c2b9f2d114b8cdefad9fc6678234a" kindref="member">CompactionManager</ref> &amp;</type>
+        <definition>CompactionManager &amp; themis::CompactionManager::operator=</definition>
+        <argsstring>(const CompactionManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::CompactionManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_compaction_manager_1a1d8c2b9f2d114b8cdefad9fc6678234a" kindref="member">CompactionManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="120" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1a32f7dd5938d5edcfeb281ae8501b98c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::CompactionManager::compactRange</definition>
+        <argsstring>(std::string_view start_key, std::string_view end_key)</argsstring>
+        <name>compactRange</name>
+        <qualifiedname>themis::CompactionManager::compactRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_key</declname>
+        </param>
+        <briefdescription>
+<para>Compact a specific key range [start_key, end_key). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compact Range.</para>
+<para>Blocks until RocksDB finishes the compaction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), ErrVoid(), fetch_add(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="129" column="12" bodyfile="src/storage/compaction_manager.cpp" bodystart="68" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1ac3a609a8844495a30cb7c9898abec0df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::CompactionManager::compactAll</definition>
+        <argsstring>()</argsstring>
+        <name>compactAll</name>
+        <qualifiedname>themis::CompactionManager::compactAll</qualifiedname>
+        <briefdescription>
+<para>Compact the entire keyspace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compact All.</para>
+<para>This is an expensive operation – prefer <ref refid="classthemis_1_1_compaction_manager_1a32f7dd5938d5edcfeb281ae8501b98c4" kindref="member">compactRange()</ref> in production.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), ErrVoid(), <ref refid="classthemis_1_1_compaction_manager_1a32f7dd5938d5edcfeb281ae8501b98c4" kindref="member">compactRange()</ref>, fetch_add(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="136" column="12" bodyfile="src/storage/compaction_manager.cpp" bodystart="84" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1af110a01b98e9e7af2ea5fb89568be2be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::CompactionManager::recordDeletions</definition>
+        <argsstring>(uint64_t count=1)</argsstring>
+        <name>recordDeletions</name>
+        <qualifiedname>themis::CompactionManager::recordDeletions</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Notify the manager that <computeroutput>count</computeroutput> DEL entries were written. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Deletions.</para>
+<para>When the tombstone count reaches <computeroutput>config.tombstone_gc_threshold</computeroutput>, a compaction is triggered on the next background GC pass.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="146" column="10" bodyfile="src/storage/compaction_manager.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1a5bcbedde50e43e230b7e55d21a8725e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::CompactionManager::runGC</definition>
+        <argsstring>(bool force=false)</argsstring>
+        <name>runGC</name>
+        <qualifiedname>themis::CompactionManager::runGC</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Run a GC pass immediately (synchronous). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run GC.</para>
+<para>Triggers a full compaction if the tombstone threshold has been reached, or if <computeroutput>force</computeroutput> is true.</para>
+<para><simplesect kind="return"><para>Result&lt;void&gt; – ok on success, error on compaction failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), OkVoid(), <ref refid="classthemis_1_1_compaction_manager_1ac3a609a8844495a30cb7c9898abec0df" kindref="member">compactAll()</ref>, store(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="156" column="12" bodyfile="src/storage/compaction_manager.cpp" bodystart="114" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1a237569b44f51641c1fb7a036a22281e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::CompactionManager::startBackgroundGC</definition>
+        <argsstring>()</argsstring>
+        <name>startBackgroundGC</name>
+        <qualifiedname>themis::CompactionManager::startBackgroundGC</qualifiedname>
+        <briefdescription>
+<para>Start the background GC thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Background GC.</para>
+<para>Does nothing if the thread is already running.</para>
+<para>Calls: lock(), joinable(), store(), std::thread(), backgroundLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="165" column="10" bodyfile="src/storage/compaction_manager.cpp" bodystart="140" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1ad31bb058eef250d92ddaf0e00ab36d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::CompactionManager::stopBackgroundGC</definition>
+        <argsstring>()</argsstring>
+        <name>stopBackgroundGC</name>
+        <qualifiedname>themis::CompactionManager::stopBackgroundGC</qualifiedname>
+        <briefdescription>
+<para>Stop and join the background GC thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Background GC.</para>
+<para>Blocks until the background thread has exited.</para>
+<para>Calls: lock(), store(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="172" column="10" bodyfile="src/storage/compaction_manager.cpp" bodystart="151" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1afa63d3e444a0a29d86a3ab055d088b5f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CompactionManager::isBackgroundGCRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isBackgroundGCRunning</name>
+        <qualifiedname>themis::CompactionManager::isBackgroundGCRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return true if the background GC thread is currently running. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bg_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="175" column="10" bodyfile="src/storage/compaction_manager.cpp" bodystart="163" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1ac6e82db09de28cd9bdbc919483fee191" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::CompactionManager::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::CompactionManager::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_compaction_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="structthemis_1_1_compaction_manager_1_1_config" kindref="compound">Config</ref>.</para>
+<para>If the background GC thread is running, it is stopped, the new config is applied, and the thread is restarted so the new <computeroutput>bg_gc_interval</computeroutput> takes effect immediately.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration to apply.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_compaction_manager_1afa63d3e444a0a29d86a3ab055d088b5f" kindref="member">isBackgroundGCRunning()</ref>, <ref refid="classthemis_1_1_compaction_manager_1ad31bb058eef250d92ddaf0e00ab36d9d" kindref="member">stopBackgroundGC()</ref>, lock(), <ref refid="classthemis_1_1_compaction_manager_1a237569b44f51641c1fb7a036a22281e0" kindref="member">startBackgroundGC()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="188" column="10" bodyfile="src/storage/compaction_manager.cpp" bodystart="207" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1abbd4bab03756d377e8d8b642f449fd5a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_compaction_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>CompactionManager::Config themis::CompactionManager::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::CompactionManager::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the active configuration. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bg_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="191" column="12" bodyfile="src/storage/compaction_manager.cpp" bodystart="221" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1ad3cbc67972327ff695f7d856e0607501" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_compaction_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>CompactionManager::Stats themis::CompactionManager::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::CompactionManager::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a snapshot of current compaction statistics. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="196" column="11" bodyfile="src/storage/compaction_manager.cpp" bodystart="235" bodyend="314"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_compaction_manager_1adcf1fa58720227903d8b1933debc6b56" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::CompactionManager::backgroundLoop</definition>
+        <argsstring>()</argsstring>
+        <name>backgroundLoop</name>
+        <qualifiedname>themis::CompactionManager::backgroundLoop</qualifiedname>
+        <briefdescription>
+<para>Background Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), lock(), wait_for(), unlock(), <ref refid="classthemis_1_1_compaction_manager_1a5bcbedde50e43e230b7e55d21a8725e9" kindref="member">runGC()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compaction_manager.h" line="199" column="10" bodyfile="src/storage/compaction_manager.cpp" bodystart="177" bodyend="196"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compaction and Garbage-Collection manager for the storage engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_compaction_manager" kindref="compound">CompactionManager</ref> wraps RocksDB&apos;s built-in compaction API and adds:</para>
+<para>• <bold>On-demand compaction</bold> – compact a key range or all data immediately. • <bold>Background GC loop</bold> – periodic background thread that triggers compaction and tombstone cleanup automatically. • <bold>Tombstone accounting</bold> – tracks an approximate tombstone count so the caller can decide when to run GC. • <bold>Write-amplification metrics</bold> – exposes the raw RocksDB statistics string for monitoring and alerting.</para>
+<sect1 id="classthemis_1_1_compaction_manager_1autotoc_md3_1s1"><sect2 id="classthemis_1_1_compaction_manager_1autotoc_md3">
+<title>Thread safety</title><para>All public methods are thread-safe. The background thread is started by <ref refid="classthemis_1_1_compaction_manager_1a237569b44f51641c1fb7a036a22281e0" kindref="member">startBackgroundGC()</ref> and stopped (with a join) by <ref refid="classthemis_1_1_compaction_manager_1ad31bb058eef250d92ddaf0e00ab36d9d" kindref="member">stopBackgroundGC()</ref> or the destructor. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/compaction_manager.h" line="49" column="1" bodyfile="include/storage/compaction_manager.h" bodystart="49" bodyend="213"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_compaction_manager_1adcf1fa58720227903d8b1933debc6b56" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>backgroundLoop</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1ab58801bc12989d77b3da151333e923e4" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>bg_cv_</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a980e7a48399dcb3cb62ee871f9b32d02" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>bg_mutex_</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1aad5190d5a1cf39d046798e8b4254b6d1" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>bg_stop_</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a6fe34c521f1e1afe5d0e2c79127992de" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>bg_thread_</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1ac3a609a8844495a30cb7c9898abec0df" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>compactAll</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a1d8c2b9f2d114b8cdefad9fc6678234a" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>CompactionManager</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a40bd3ef42d7062dc2cf7a5b7fdd040c9" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>CompactionManager</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1aca111950d529be2b1e47517052a71925" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>CompactionManager</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a32f7dd5938d5edcfeb281ae8501b98c4" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>compactRange</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a59964e7bc7ef27ffddd1095dbd1885d9" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a91f8aff61ea48de8bac96dc2b314ac16" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a0cb81f929e3fc2cc177e6ed749324d20" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>gc_runs_</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1abbd4bab03756d377e8d8b642f449fd5a" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1afa63d3e444a0a29d86a3ab055d088b5f" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>isBackgroundGCRunning</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a6d03eb47165218388178add3af3ffbf4" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>manual_compactions_</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1afca09ede102d28c28e50742ac26b2769" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1af110a01b98e9e7af2ea5fb89568be2be" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>recordDeletions</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a5bcbedde50e43e230b7e55d21a8725e9" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>runGC</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1ac6e82db09de28cd9bdbc919483fee191" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a237569b44f51641c1fb7a036a22281e0" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>startBackgroundGC</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1ad3cbc67972327ff695f7d856e0607501" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>stats</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1ad31bb058eef250d92ddaf0e00ab36d9d" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>stopBackgroundGC</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1aa7b3bda4c58ca705aac948f11505d817" prot="private" virt="non-virtual"><scope>themis::CompactionManager</scope><name>tombstones_</name></member>
+      <member refid="classthemis_1_1_compaction_manager_1a59a2ec4e03ee4a4af4f78faea1ff752a" prot="public" virt="non-virtual"><scope>themis::CompactionManager</scope><name>~CompactionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

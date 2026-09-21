@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_51700d6e075e448f7467ad20a96cff45" kind="dir">
+    <compoundname>tests/performance/phase4</compoundname>
+    <innerfile refid="test__io__uring__zero__copy_8cpp">test_io_uring_zero_copy.cpp</innerfile>
+    <innerfile refid="test__pmem__storage_8cpp">test_pmem_storage.cpp</innerfile>
+    <innerfile refid="test__pmu__counters_8cpp">test_pmu_counters.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/performance/phase4/"/>
+  </compounddef>
+</doxygen>

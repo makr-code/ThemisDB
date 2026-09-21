@@ -1,0 +1,973 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_expert_system_engine" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ExpertSystemEngine</compoundname>
+    <includes refid="expert__system__engine_8h" local="no">expert_system_engine.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a90d1244c2ba9381769efdd50ee7e1711" prot="public" static="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_expert_system_engine_config" kindref="compound">ExpertSystemEngineConfig</ref></type>
+        <definition>using themisdb::analytics::ExpertSystemEngine::Config = ExpertSystemEngineConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="78" column="5" bodyfile="include/analytics/expert_system_engine.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a8c8dcb163e5c65ed9402c31de3d07645" prot="public" static="no">
+        <type>std::function&lt; double(const <ref refid="structthemisdb_1_1analytics_1_1_horn_clause" kindref="compound">HornClause</ref> &amp;, const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt; &amp;)&gt;</type>
+        <definition>using themisdb::analytics::ExpertSystemEngine::ScorerFn = std::function&lt;double(const HornClause&amp;, const std::vector&lt;Fact&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ScorerFn</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::ScorerFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="79" column="5" bodyfile="include/analytics/expert_system_engine.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a5418ee66845a7078c876444de0ead1e3" prot="private" static="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>using themisdb::analytics::ExpertSystemEngine::Bindings = std::unordered_map&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>Bindings</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::Bindings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="137" column="5" bodyfile="include/analytics/expert_system_engine.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1ac19269aec1cbfdfb6c2e868bf4f69ce6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a90d1244c2ba9381769efdd50ee7e1711" kindref="member">Config</ref></type>
+        <definition>Config themisdb::analytics::ExpertSystemEngine::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="193" column="36" bodyfile="include/analytics/expert_system_engine.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1aedbf24510c0971340d7bed8c9b190872" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;KnowledgeBase&gt; themisdb::analytics::ExpertSystemEngine::kb_</definition>
+        <argsstring></argsstring>
+        <name>kb_</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::kb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="194" column="21" bodyfile="include/analytics/expert_system_engine.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a263ac5863e43f643d5b4cdc59438b3f4" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::analytics::ExpertSystemEngine::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::mutex_</qualifiedname>
+        <briefdescription>
+<para>shared for reads, unique for writes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="195" column="36" bodyfile="include/analytics/expert_system_engine.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a1bed7b74fcd43e3a3fbfff0821d76c33" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_proof_step" kindref="compound">ProofStep</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;ProofStep&gt; &gt; themisdb::analytics::ExpertSystemEngine::decision_log_</definition>
+        <argsstring></argsstring>
+        <name>decision_log_</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::decision_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="198" column="24" bodyfile="include/analytics/expert_system_engine.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a48833ba681bee846e32be984708f0cf5" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_model_serving_engine" kindref="compound">ModelServingEngine</ref> *</type>
+        <definition>ModelServingEngine* themisdb::analytics::ExpertSystemEngine::ml_scorer_</definition>
+        <argsstring></argsstring>
+        <name>ml_scorer_</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::ml_scorer_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="200" column="24" bodyfile="include/analytics/expert_system_engine.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a461e5187c26053f6a2427b1a9f6c3fc7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ExpertSystemEngine::ml_model_name_</definition>
+        <argsstring></argsstring>
+        <name>ml_model_name_</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::ml_model_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="201" column="25" bodyfile="include/analytics/expert_system_engine.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a5dd559b12b4c251ffc7ffd590f54b9dd" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ExpertSystemEngine::ml_model_version_</definition>
+        <argsstring></argsstring>
+        <name>ml_model_version_</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::ml_model_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="202" column="25" bodyfile="include/analytics/expert_system_engine.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1afdb9ea2ae32633e7ca93350ec866e036" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a8c8dcb163e5c65ed9402c31de3d07645" kindref="member">ScorerFn</ref></type>
+        <definition>ScorerFn themisdb::analytics::ExpertSystemEngine::ml_scorer_fn_</definition>
+        <argsstring></argsstring>
+        <name>ml_scorer_fn_</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::ml_scorer_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="203" column="25" bodyfile="include/analytics/expert_system_engine.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1ac42ef6bc2ae2860848dd8e766c59a372" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ExpertSystemEngine::ExpertSystemEngine</definition>
+        <argsstring>(Config cfg=Config{})</argsstring>
+        <name>ExpertSystemEngine</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::ExpertSystemEngine</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a90d1244c2ba9381769efdd50ee7e1711" kindref="member">Config</ref></type>
+          <declname>cfg</declname>
+          <defval><ref refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a90d1244c2ba9381769efdd50ee7e1711" kindref="member">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="81" column="14" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a8e8d1769cff72de5c08a1192813efe89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ExpertSystemEngine::~ExpertSystemEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ExpertSystemEngine</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::~ExpertSystemEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1aaca18bbb0fcbedbf51797c3ee26dd4c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ExpertSystemEngine::ExpertSystemEngine</definition>
+        <argsstring>(const ExpertSystemEngine &amp;)=delete</argsstring>
+        <name>ExpertSystemEngine</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::ExpertSystemEngine</qualifiedname>
+        <param>
+          <type>const ExpertSystemEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="84" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a272923e015ee38a3246e42fe646cd1c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1ac42ef6bc2ae2860848dd8e766c59a372" kindref="member">ExpertSystemEngine</ref> &amp;</type>
+        <definition>ExpertSystemEngine &amp; themisdb::analytics::ExpertSystemEngine::operator=</definition>
+        <argsstring>(const ExpertSystemEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1ac42ef6bc2ae2860848dd8e766c59a372" kindref="member">ExpertSystemEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="85" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1af635482794979b7c09de4639308587fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ExpertSystemEngine::setKnowledgeBase</definition>
+        <argsstring>(std::shared_ptr&lt; KnowledgeBase &gt; kb)</argsstring>
+        <name>setKnowledgeBase</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::setKnowledgeBase</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref> &gt;</type>
+          <declname>kb</declname>
+        </param>
+        <briefdescription>
+<para>Set Knowledge Base. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="92" column="10" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="116" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a42f6348a6ac8ed3d00e0e6cc933594c4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base" kindref="compound">KnowledgeBase</ref> &amp;</type>
+        <definition>KnowledgeBase &amp; themisdb::analytics::ExpertSystemEngine::knowledgeBase</definition>
+        <argsstring>()</argsstring>
+        <name>knowledgeBase</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::knowledgeBase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="94" column="20" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="121" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a6c2c60ab4c49bdc026c642cbb74cb722" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ExpertSystemEngine::assertFact</definition>
+        <argsstring>(const std::string &amp;subject, const std::string &amp;predicate, const std::string &amp;object)</argsstring>
+        <name>assertFact</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::assertFact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>object</declname>
+        </param>
+        <briefdescription>
+<para>Assert <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">object</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="98" column="18" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="137" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a4dd6b90cafbb58a4006526f6eca3d13b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ExpertSystemEngine::retractFact</definition>
+        <argsstring>(const std::string &amp;fact_id)</argsstring>
+        <name>retractFact</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::retractFact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fact_id</declname>
+        </param>
+        <briefdescription>
+<para>Retract <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the fact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the fact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="107" column="10" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1aab31c083b6c2ca983d6ce5fd63edef15" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::ExpertSystemEngine::forwardChain</definition>
+        <argsstring>(int max_cycles=100)</argsstring>
+        <name>forwardChain</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::forwardChain</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_cycles</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Forward Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_cycles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), getFacts(), getRules(), matchAllConditions(), applyBinding(), push_back(), unlock(), mlConfidenceNoLock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="111" column="10" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="336" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a6fc18c1ca54f41a408e16c26a96e076f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_goal_result" kindref="compound">GoalResult</ref></type>
+        <definition>GoalResult themisdb::analytics::ExpertSystemEngine::queryGoal</definition>
+        <argsstring>(const TriplePattern &amp;goal)</argsstring>
+        <name>queryGoal</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::queryGoal</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_triple_pattern" kindref="compound">TriplePattern</ref> &amp;</type>
+          <declname>goal</declname>
+        </param>
+        <briefdescription>
+<para>Query Goal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">goal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), backwardChainDLS(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="113" column="17" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="529" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1aecd94fde38174861a50b203b5cf14b0e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ExpertSystemEngine::explain</definition>
+        <argsstring>(const std::string &amp;fact_id) const</argsstring>
+        <name>explain</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::explain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fact_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Proof Step To Json. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="117" column="18" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="541" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a9ce55ca5330e8b565220a58f1320e9dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ExpertSystemEngine::setMLScorer</definition>
+        <argsstring>(ModelServingEngine *scorer, const std::string &amp;model_name=&quot;expert_scorer&quot;, const std::string &amp;model_version=&quot;v1&quot;)</argsstring>
+        <name>setMLScorer</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::setMLScorer</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_model_serving_engine" kindref="compound">ModelServingEngine</ref> *</type>
+          <declname>scorer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+          <defval>&quot;expert_scorer&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_version</declname>
+          <defval>&quot;v1&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Set MLScorer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="121" column="10" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="583" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a1f079c3ef86a2e124f7bac9962324949" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ExpertSystemEngine::setMLScorerFn</definition>
+        <argsstring>(ScorerFn fn)</argsstring>
+        <name>setMLScorerFn</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::setMLScorerFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a8c8dcb163e5c65ed9402c31de3d07645" kindref="member">ScorerFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set MLScorer Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="129" column="10" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="597" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1ab1d8f0ef7410e6edf56e0976ff63613c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::analytics::ExpertSystemEngine::factCount</definition>
+        <argsstring>() const</argsstring>
+        <name>factCount</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::factCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="133" column="18" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="607" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a7420d9b97ef0de820cacd40291ab0078" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::analytics::ExpertSystemEngine::ruleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>ruleCount</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::ruleCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="134" column="18" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="617" bodyend="625"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a0b797e2769223ae4b458ae1323125087" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; Bindings &gt;</type>
+        <definition>std::optional&lt; ExpertSystemEngine::Bindings &gt; themisdb::analytics::ExpertSystemEngine::matchConditions</definition>
+        <argsstring>(const HornClause &amp;rule, const std::vector&lt; Fact &gt; &amp;all_facts) const</argsstring>
+        <name>matchConditions</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::matchConditions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_horn_clause" kindref="compound">HornClause</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt; &amp;</type>
+          <declname>all_facts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="139" column="20" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="223" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1af7cb04e9ddff230f8d0e6ef9fabeec53" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ExpertSystemEngine::matchConditionsRec</definition>
+        <argsstring>(const std::vector&lt; TriplePattern &gt; &amp;conditions, std::size_t cond_idx, const std::vector&lt; Fact &gt; &amp;all_facts, Bindings &amp;bindings) const</argsstring>
+        <name>matchConditionsRec</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::matchConditionsRec</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_triple_pattern" kindref="compound">TriplePattern</ref> &gt; &amp;</type>
+          <declname>conditions</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>cond_idx</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt; &amp;</type>
+          <declname>all_facts</declname>
+        </param>
+        <param>
+          <type>Bindings &amp;</type>
+          <declname>bindings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="143" column="11" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="178" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1aba30544c4b67fef528d02dd3f5d0dfbf" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; Bindings &gt;</type>
+        <definition>std::vector&lt; ExpertSystemEngine::Bindings &gt; themisdb::analytics::ExpertSystemEngine::matchAllConditions</definition>
+        <argsstring>(const HornClause &amp;rule, const std::vector&lt; Fact &gt; &amp;all_facts) const</argsstring>
+        <name>matchAllConditions</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::matchAllConditions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_horn_clause" kindref="compound">HornClause</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt; &amp;</type>
+          <declname>all_facts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="149" column="18" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="278" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a8e0fd80c451211f33978953bd8e4ac54" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ExpertSystemEngine::matchAllBindingsRec</definition>
+        <argsstring>(const std::vector&lt; TriplePattern &gt; &amp;conditions, std::size_t cond_idx, const std::vector&lt; Fact &gt; &amp;all_facts, Bindings &amp;current, std::vector&lt; Bindings &gt; &amp;results) const</argsstring>
+        <name>matchAllBindingsRec</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::matchAllBindingsRec</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_triple_pattern" kindref="compound">TriplePattern</ref> &gt; &amp;</type>
+          <declname>conditions</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>cond_idx</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt; &amp;</type>
+          <declname>all_facts</declname>
+        </param>
+        <param>
+          <type>Bindings &amp;</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; Bindings &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Match All Bindings Rec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conditions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cond_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">all_facts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="161" column="10" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="235" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a55dcf6492be61d540479aa283fa2832f" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ExpertSystemEngine::factExists</definition>
+        <argsstring>(const std::string &amp;s, const std::string &amp;p, const std::string &amp;o) const</argsstring>
+        <name>factExists</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::factExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="171" column="11" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="170" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1aa5c39920594f45967c55c997fa51e622" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ExpertSystemEngine::backwardChainDLS</definition>
+        <argsstring>(const TriplePattern &amp;goal, std::vector&lt; ProofStep &gt; &amp;trace, int depth, int max_depth) const</argsstring>
+        <name>backwardChainDLS</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::backwardChainDLS</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_triple_pattern" kindref="compound">TriplePattern</ref> &amp;</type>
+          <declname>goal</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_proof_step" kindref="compound">ProofStep</ref> &gt; &amp;</type>
+          <declname>trace</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="183" column="11" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="439" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a167b7628f41de56b4ef3cc9bf7cc3781" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ExpertSystemEngine::tripleInWM</definition>
+        <argsstring>(const std::string &amp;s, const std::string &amp;p, const std::string &amp;o) const</argsstring>
+        <name>tripleInWM</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::tripleInWM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="189" column="11" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="430" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a3aabe4b91f236d0415b41ece9a5b743b" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ExpertSystemEngine::applyBinding</definition>
+        <argsstring>(const std::string &amp;elem, const Bindings &amp;b)</argsstring>
+        <name>applyBinding</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::applyBinding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>elem</declname>
+        </param>
+        <param>
+          <type>const Bindings &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="168" column="25" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="158" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_expert_system_engine_1a016205ed52f68b616230bbec9148749c" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::analytics::ExpertSystemEngine::mlConfidenceNoLock</definition>
+        <argsstring>(ModelServingEngine *scorer, const ScorerFn &amp;scorer_fn, const std::string &amp;model_name, const std::string &amp;model_ver, const HornClause &amp;rule, const std::vector&lt; Fact &gt; &amp;matched)</argsstring>
+        <name>mlConfidenceNoLock</name>
+        <qualifiedname>themisdb::analytics::ExpertSystemEngine::mlConfidenceNoLock</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_model_serving_engine" kindref="compound">ModelServingEngine</ref> *</type>
+          <declname>scorer</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a8c8dcb163e5c65ed9402c31de3d07645" kindref="member">ScorerFn</ref> &amp;</type>
+          <declname>scorer_fn</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_ver</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_horn_clause" kindref="compound">HornClause</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt; &amp;</type>
+          <declname>matched</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/expert_system_engine.h" line="175" column="20" bodyfile="src/analytics/expert_system_engine.cpp" bodystart="289" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/expert_system_engine.h" line="76" column="1" bodyfile="include/analytics/expert_system_engine.h" bodystart="76" bodyend="204"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a3aabe4b91f236d0415b41ece9a5b743b" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>applyBinding</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a6c2c60ab4c49bdc026c642cbb74cb722" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>assertFact</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1aa5c39920594f45967c55c997fa51e622" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>backwardChainDLS</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a5418ee66845a7078c876444de0ead1e3" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>Bindings</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1ac19269aec1cbfdfb6c2e868bf4f69ce6" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>cfg_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a90d1244c2ba9381769efdd50ee7e1711" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>Config</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a1bed7b74fcd43e3a3fbfff0821d76c33" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>decision_log_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1ac42ef6bc2ae2860848dd8e766c59a372" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>ExpertSystemEngine</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1aaca18bbb0fcbedbf51797c3ee26dd4c4" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>ExpertSystemEngine</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1aecd94fde38174861a50b203b5cf14b0e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>explain</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1ab1d8f0ef7410e6edf56e0976ff63613c" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>factCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a55dcf6492be61d540479aa283fa2832f" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>factExists</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1aab31c083b6c2ca983d6ce5fd63edef15" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>forwardChain</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1aedbf24510c0971340d7bed8c9b190872" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>kb_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a42f6348a6ac8ed3d00e0e6cc933594c4" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>knowledgeBase</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a8e0fd80c451211f33978953bd8e4ac54" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>matchAllBindingsRec</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1aba30544c4b67fef528d02dd3f5d0dfbf" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>matchAllConditions</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a0b797e2769223ae4b458ae1323125087" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>matchConditions</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1af7cb04e9ddff230f8d0e6ef9fabeec53" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>matchConditionsRec</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a461e5187c26053f6a2427b1a9f6c3fc7" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>ml_model_name_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a5dd559b12b4c251ffc7ffd590f54b9dd" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>ml_model_version_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a48833ba681bee846e32be984708f0cf5" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>ml_scorer_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1afdb9ea2ae32633e7ca93350ec866e036" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>ml_scorer_fn_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a016205ed52f68b616230bbec9148749c" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>mlConfidenceNoLock</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a263ac5863e43f643d5b4cdc59438b3f4" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a272923e015ee38a3246e42fe646cd1c8" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a6fc18c1ca54f41a408e16c26a96e076f" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>queryGoal</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a4dd6b90cafbb58a4006526f6eca3d13b" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>retractFact</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a7420d9b97ef0de820cacd40291ab0078" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>ruleCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a8c8dcb163e5c65ed9402c31de3d07645" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>ScorerFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1af635482794979b7c09de4639308587fe" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>setKnowledgeBase</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a9ce55ca5330e8b565220a58f1320e9dc" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>setMLScorer</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a1f079c3ef86a2e124f7bac9962324949" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>setMLScorerFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a167b7628f41de56b4ef3cc9bf7cc3781" prot="private" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>tripleInWM</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_expert_system_engine_1a8e8d1769cff72de5c08a1192813efe89" prot="public" virt="non-virtual"><scope>themisdb::analytics::ExpertSystemEngine</scope><name>~ExpertSystemEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

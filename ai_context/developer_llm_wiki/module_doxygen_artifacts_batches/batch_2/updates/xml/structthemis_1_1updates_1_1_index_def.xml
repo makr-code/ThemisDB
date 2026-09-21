@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_index_def" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::IndexDef</compoundname>
+    <includes refid="schema__migration_8h" local="no">schema_migration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_index_def_1acb983c10f2483b4313182158e1178a62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::IndexDef::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::updates::IndexDef::name</qualifiedname>
+        <briefdescription>
+<para>Index name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="78" column="30" bodyfile="include/updates/schema_migration.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_index_def_1abc0ef25c5c86d695093e6af9e67a5201" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::updates::IndexDef::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::updates::IndexDef::columns</qualifiedname>
+        <briefdescription>
+<para>Ordered list of indexed column names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="79" column="17" bodyfile="include/updates/schema_migration.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_index_def_1a1deb61786ec300bd78d61348e281b413" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::IndexDef::unique</definition>
+        <argsstring></argsstring>
+        <name>unique</name>
+        <qualifiedname>themis::updates::IndexDef::unique</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>UNIQUE constraint on the index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="80" column="30" bodyfile="include/updates/schema_migration.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_index_def_1a1917c1e9b485064e325732f97b6d3395" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::IndexDef::build_online</definition>
+        <argsstring></argsstring>
+        <name>build_online</name>
+        <qualifiedname>themis::updates::IndexDef::build_online</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Build the index in the background. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="81" column="30" bodyfile="include/updates/schema_migration.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Definition of an index to be created on a table. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/schema_migration.h" line="77" column="1" bodyfile="include/updates/schema_migration.h" bodystart="77" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_index_def_1a1917c1e9b485064e325732f97b6d3395" prot="public" virt="non-virtual"><scope>themis::updates::IndexDef</scope><name>build_online</name></member>
+      <member refid="structthemis_1_1updates_1_1_index_def_1abc0ef25c5c86d695093e6af9e67a5201" prot="public" virt="non-virtual"><scope>themis::updates::IndexDef</scope><name>columns</name></member>
+      <member refid="structthemis_1_1updates_1_1_index_def_1acb983c10f2483b4313182158e1178a62" prot="public" virt="non-virtual"><scope>themis::updates::IndexDef</scope><name>name</name></member>
+      <member refid="structthemis_1_1updates_1_1_index_def_1a1deb61786ec300bd78d61348e281b413" prot="public" virt="non-virtual"><scope>themis::updates::IndexDef</scope><name>unique</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SLOMonitor::RepairProgress</compoundname>
+    <includes refid="slo__monitor_8h" local="no">slo_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ae9b766617da6968a64557ee97b5aa2d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SLOMonitor::RepairProgress::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::sharding::SLOMonitor::RepairProgress::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="146" column="21" bodyfile="include/sharding/slo_monitor.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a2ef842bc7f527886c834063cce5e5f1a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SLOMonitor::RepairProgress::documents_scanned</definition>
+        <argsstring></argsstring>
+        <name>documents_scanned</name>
+        <qualifiedname>themis::sharding::SLOMonitor::RepairProgress::documents_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="147" column="18" bodyfile="include/sharding/slo_monitor.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1acf318e1e91de3076d74addba60eafa9b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SLOMonitor::RepairProgress::documents_total</definition>
+        <argsstring></argsstring>
+        <name>documents_total</name>
+        <qualifiedname>themis::sharding::SLOMonitor::RepairProgress::documents_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = unknown total </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="148" column="18" bodyfile="include/sharding/slo_monitor.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ac3518753ff4524e7fea8b5e04723a5c8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SLOMonitor::RepairProgress::documents_repaired</definition>
+        <argsstring></argsstring>
+        <name>documents_repaired</name>
+        <qualifiedname>themis::sharding::SLOMonitor::RepairProgress::documents_repaired</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="149" column="18" bodyfile="include/sharding/slo_monitor.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a2b0257b5ec6ef6303922272614fc10b1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SLOMonitor::RepairProgress::documents_failed</definition>
+        <argsstring></argsstring>
+        <name>documents_failed</name>
+        <qualifiedname>themis::sharding::SLOMonitor::RepairProgress::documents_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="150" column="18" bodyfile="include/sharding/slo_monitor.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ae3cb0f55560aff4e7345bcfb4e60c8a1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::SLOMonitor::RepairProgress::percent_complete</definition>
+        <argsstring></argsstring>
+        <name>percent_complete</name>
+        <qualifiedname>themis::sharding::SLOMonitor::RepairProgress::percent_complete</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>[0, 100] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="151" column="16" bodyfile="include/sharding/slo_monitor.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a594529e7c7574a2c7351222f2fb52812" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::SLOMonitor::RepairProgress::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::sharding::SLOMonitor::RepairProgress::started_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="152" column="47" bodyfile="include/sharding/slo_monitor.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1acbab6bd8e0c06db07c11bc167968b4ca" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::SLOMonitor::RepairProgress::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::sharding::SLOMonitor::RepairProgress::updated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="153" column="47" bodyfile="include/sharding/slo_monitor.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ad721d6fc5289f7b9e71c7677e85e068b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::SLOMonitor::RepairProgress::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <qualifiedname>themis::sharding::SLOMonitor::RepairProgress::completed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="154" column="14" bodyfile="include/sharding/slo_monitor.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Repair progress snapshot reported by <ref refid="classthemis_1_1sharding_1_1_shard_repair_engine" kindref="compound">ShardRepairEngine</ref>. Allows operators to track time-to-full-repair for large shards. </para>
+    </detaileddescription>
+    <location file="include/sharding/slo_monitor.h" line="145" column="5" bodyfile="include/sharding/slo_monitor.h" bodystart="145" bodyend="155"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ad721d6fc5289f7b9e71c7677e85e068b" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::RepairProgress</scope><name>completed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a2b0257b5ec6ef6303922272614fc10b1" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::RepairProgress</scope><name>documents_failed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ac3518753ff4524e7fea8b5e04723a5c8" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::RepairProgress</scope><name>documents_repaired</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a2ef842bc7f527886c834063cce5e5f1a" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::RepairProgress</scope><name>documents_scanned</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1acf318e1e91de3076d74addba60eafa9b" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::RepairProgress</scope><name>documents_total</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ae9b766617da6968a64557ee97b5aa2d0" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::RepairProgress</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ae3cb0f55560aff4e7345bcfb4e60c8a1" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::RepairProgress</scope><name>percent_complete</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a594529e7c7574a2c7351222f2fb52812" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::RepairProgress</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1acbab6bd8e0c06db07c11bc167968b4ca" prot="public" virt="non-virtual"><scope>themis::sharding::SLOMonitor::RepairProgress</scope><name>updated_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_startup_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::StartupVerifier</compoundname>
+    <includes refid="manifest__signer_8h" local="no">manifest_signer.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_startup_verifier_1_1_config" prot="public">themis::security::StartupVerifier::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_startup_verifier_1a5943cf8eb196eeb796b7417238695fb4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_signing_service" kindref="compound">SigningService</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SigningService&gt; themis::security::StartupVerifier::signing_service_</definition>
+        <argsstring></argsstring>
+        <name>signing_service_</name>
+        <qualifiedname>themis::security::StartupVerifier::signing_service_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="123" column="21" bodyfile="include/security/manifest_signer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_startup_verifier_1aeaaa8b479d63152b2d28393034806df8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_startup_verifier_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::security::StartupVerifier::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::StartupVerifier::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="124" column="12" bodyfile="include/security/manifest_signer.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_startup_verifier_1aa292502c252ec0769236d441b8765a1c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result" kindref="compound">ManifestSigner::VerificationResult</ref></type>
+        <definition>ManifestSigner::VerificationResult themis::security::StartupVerifier::result_</definition>
+        <argsstring></argsstring>
+        <name>result_</name>
+        <qualifiedname>themis::security::StartupVerifier::result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="125" column="40" bodyfile="include/security/manifest_signer.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_startup_verifier_1ad62f4685a9d2c0ff5b09b5036f72ff4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::StartupVerifier::StartupVerifier</definition>
+        <argsstring>(std::shared_ptr&lt; SigningService &gt; signing_service, const Config &amp;config)</argsstring>
+        <name>StartupVerifier</name>
+        <qualifiedname>themis::security::StartupVerifier::StartupVerifier</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_signing_service" kindref="compound">SigningService</ref> &gt;</type>
+          <declname>signing_service</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_startup_verifier_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="107" column="5" bodyfile="src/security/manifest_signer.cpp" bodystart="382" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_startup_verifier_1a4b2f092cbb986aaf7f54253838f5be94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::StartupVerifier::verify</definition>
+        <argsstring>()</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::security::StartupVerifier::verify</qualifiedname>
+        <briefdescription>
+<para>Verify identity and enforce network policies for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: spdlog::info(), <ref refid="structthemis_1_1security_1_1_signed_manifest_1a32179d7400c3bdbe3c5cea6eb6cd1035" kindref="member">SignedManifest::loadFromFile()</ref>, signer(), verifyBinaries(), spdlog::error(), empty(), size(), spdlog::critical(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="116" column="10" bodyfile="src/security/manifest_signer.cpp" bodystart="393" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_startup_verifier_1a00e75b4ef992a7b1a858e5ea3427195a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1security_1_1_manifest_signer_1_1_verification_result" kindref="compound">ManifestSigner::VerificationResult</ref> &amp;</type>
+        <definition>const ManifestSigner::VerificationResult &amp; themis::security::StartupVerifier::getResult</definition>
+        <argsstring>() const</argsstring>
+        <name>getResult</name>
+        <qualifiedname>themis::security::StartupVerifier::getResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/manifest_signer.h" line="118" column="46" bodyfile="include/security/manifest_signer.h" bodystart="118" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/manifest_signer.h" line="98" column="1" bodyfile="include/security/manifest_signer.h" bodystart="98" bodyend="126"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_startup_verifier_1aeaaa8b479d63152b2d28393034806df8" prot="private" virt="non-virtual"><scope>themis::security::StartupVerifier</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_startup_verifier_1a00e75b4ef992a7b1a858e5ea3427195a" prot="public" virt="non-virtual"><scope>themis::security::StartupVerifier</scope><name>getResult</name></member>
+      <member refid="classthemis_1_1security_1_1_startup_verifier_1aa292502c252ec0769236d441b8765a1c" prot="private" virt="non-virtual"><scope>themis::security::StartupVerifier</scope><name>result_</name></member>
+      <member refid="classthemis_1_1security_1_1_startup_verifier_1a5943cf8eb196eeb796b7417238695fb4" prot="private" virt="non-virtual"><scope>themis::security::StartupVerifier</scope><name>signing_service_</name></member>
+      <member refid="classthemis_1_1security_1_1_startup_verifier_1ad62f4685a9d2c0ff5b09b5036f72ff4d" prot="public" virt="non-virtual"><scope>themis::security::StartupVerifier</scope><name>StartupVerifier</name></member>
+      <member refid="classthemis_1_1security_1_1_startup_verifier_1a4b2f092cbb986aaf7f54253838f5be94" prot="public" virt="non-virtual"><scope>themis::security::StartupVerifier</scope><name>verify</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

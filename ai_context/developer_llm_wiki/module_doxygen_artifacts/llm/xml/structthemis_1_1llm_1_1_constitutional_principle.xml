@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_constitutional_principle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ConstitutionalPrinciple</compoundname>
+    <includes refid="constitutional__reasoning__engine_8h" local="no">constitutional_reasoning_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_principle_1a2b1e0e71adce07b1be7fbbd987110a91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalPrinciple::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::ConstitutionalPrinciple::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="29" column="17" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_principle_1a128b8b05d09a31bdccd1593f1c63c943" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalPrinciple::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::ConstitutionalPrinciple::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="30" column="17" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_principle_1a541a68b9cc00230f7a265ea504723a73" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalPrinciple::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::ConstitutionalPrinciple::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="31" column="17" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_principle_1a2a514edb05d47b2fec8de7f11c95b761" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ConstitutionalPrinciple::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::llm::ConstitutionalPrinciple::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Higher = more important. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="32" column="9" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_principle_1a3c6d91fe2e4a16822467198612d59a10" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalPrinciple::critique_prompt</definition>
+        <argsstring></argsstring>
+        <name>critique_prompt</name>
+        <qualifiedname>themis::llm::ConstitutionalPrinciple::critique_prompt</qualifiedname>
+        <briefdescription>
+<para>Prompt for self-critique. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="33" column="17" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_principle_1aae8e62befa0a8ce6374af469e4907253" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalPrinciple::revision_prompt</definition>
+        <argsstring></argsstring>
+        <name>revision_prompt</name>
+        <qualifiedname>themis::llm::ConstitutionalPrinciple::revision_prompt</qualifiedname>
+        <briefdescription>
+<para>Prompt for self-revision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="34" column="17" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_principle_1a1509f51899992fe0b6e6accb0fc5fac2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ConstitutionalPrinciple::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::llm::ConstitutionalPrinciple::source</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;UN Human Rights Art. 1&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="37" column="17" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_principle_1aff77c24f5c721c894f90109deb00ef59" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalPrinciple::domain_agnostic</definition>
+        <argsstring></argsstring>
+        <name>domain_agnostic</name>
+        <qualifiedname>themis::llm::ConstitutionalPrinciple::domain_agnostic</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if universal principle </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="38" column="10" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_constitutional_principle_1adbdca321b2dc7e97d6d54b6fbdb54d8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ConstitutionalPrinciple::~ConstitutionalPrinciple</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ConstitutionalPrinciple</name>
+        <qualifiedname>themis::llm::ConstitutionalPrinciple::~ConstitutionalPrinciple</qualifiedname>
+        <briefdescription>
+<para>Constitutional Principle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="28" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/constitutional_reasoning_engine.h" line="23" column="1" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="23" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_constitutional_principle_1a3c6d91fe2e4a16822467198612d59a10" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalPrinciple</scope><name>critique_prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_principle_1a541a68b9cc00230f7a265ea504723a73" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalPrinciple</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_principle_1aff77c24f5c721c894f90109deb00ef59" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalPrinciple</scope><name>domain_agnostic</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_principle_1a2b1e0e71adce07b1be7fbbd987110a91" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalPrinciple</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_principle_1a128b8b05d09a31bdccd1593f1c63c943" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalPrinciple</scope><name>name</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_principle_1a2a514edb05d47b2fec8de7f11c95b761" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalPrinciple</scope><name>priority</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_principle_1aae8e62befa0a8ce6374af469e4907253" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalPrinciple</scope><name>revision_prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_principle_1a1509f51899992fe0b6e6accb0fc5fac2" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalPrinciple</scope><name>source</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_principle_1adbdca321b2dc7e97d6d54b6fbdb54d8b" prot="public" virt="virtual"><scope>themis::llm::ConstitutionalPrinciple</scope><name>~ConstitutionalPrinciple</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

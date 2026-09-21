@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_frontier" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::Frontier</compoundname>
+    <includes refid="ligra_8h" local="no">ligra.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_frontier_1a7ceb2fbaf799750daa9ba8684c026414" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::Frontier::dense_mode_</definition>
+        <argsstring></argsstring>
+        <name>dense_mode_</name>
+        <qualifiedname>themis::performance::Frontier::dense_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="117" column="10" bodyfile="include/performance/ligra.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_frontier_1a2a417ed2f3ee0d327f43b9ff46bb6ef8" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::Frontier::num_vertices_</definition>
+        <argsstring></argsstring>
+        <name>num_vertices_</name>
+        <qualifiedname>themis::performance::Frontier::num_vertices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="118" column="12" bodyfile="include/performance/ligra.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_frontier_1a9e7594647ae11d2cfd5c3826a3810dd4" prot="private" static="no" mutable="no">
+        <type>std::set&lt; <ref refid="namespacethemis_1_1performance_1afff41a926807efadac62efcb39769d58" kindref="member">NodeID</ref> &gt;</type>
+        <definition>std::set&lt;NodeID&gt; themis::performance::Frontier::sparse_set_</definition>
+        <argsstring></argsstring>
+        <name>sparse_set_</name>
+        <qualifiedname>themis::performance::Frontier::sparse_set_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="119" column="14" bodyfile="include/performance/ligra.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_frontier_1a1159a3674a4e968469f0bd221527a358" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themis::performance::Frontier::dense_set_</definition>
+        <argsstring></argsstring>
+        <name>dense_set_</name>
+        <qualifiedname>themis::performance::Frontier::dense_set_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="120" column="17" bodyfile="include/performance/ligra.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1a969697aff792cc7b760a88cd7e780369" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::Frontier::Frontier</definition>
+        <argsstring>()</argsstring>
+        <name>Frontier</name>
+        <qualifiedname>themis::performance::Frontier::Frontier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="39" column="5" bodyfile="include/performance/ligra.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1a68bf6977e5cc8b7286695fb44776891a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::Frontier::Frontier</definition>
+        <argsstring>(size_t num_vertices)</argsstring>
+        <name>Frontier</name>
+        <qualifiedname>themis::performance::Frontier::Frontier</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_vertices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="41" column="14" bodyfile="include/performance/ligra.h" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1a282c220306f342d98442f993ab31b225" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Frontier::add</definition>
+        <argsstring>(NodeID vertex)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::performance::Frontier::add</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1afff41a926807efadac62efcb39769d58" kindref="member">NodeID</ref></type>
+          <declname>vertex</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="45" column="10" bodyfile="include/performance/ligra.h" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1aac1ab6218088fe968ada8e81f895628d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Frontier::contains</definition>
+        <argsstring>(NodeID vertex) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::performance::Frontier::contains</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1performance_1afff41a926807efadac62efcb39769d58" kindref="member">NodeID</ref></type>
+          <declname>vertex</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="54" column="10" bodyfile="include/performance/ligra.h" bodystart="54" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1a4ebc4273893f110f7dc35550c6fdc66b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::Frontier::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::performance::Frontier::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="63" column="12" bodyfile="include/performance/ligra.h" bodystart="63" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1abdb8802593c0a00d7a09c6820aa3f57f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Frontier::switch_to_dense</definition>
+        <argsstring>()</argsstring>
+        <name>switch_to_dense</name>
+        <qualifiedname>themis::performance::Frontier::switch_to_dense</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="78" column="10" bodyfile="include/performance/ligra.h" bodystart="78" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1aefe9db1ef76c261dcfa70541e1147b5a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Frontier::switch_to_sparse</definition>
+        <argsstring>()</argsstring>
+        <name>switch_to_sparse</name>
+        <qualifiedname>themis::performance::Frontier::switch_to_sparse</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="90" column="10" bodyfile="include/performance/ligra.h" bodystart="90" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1af46a03e30401c141d3a83a0d228cabb4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::set&lt; <ref refid="namespacethemis_1_1performance_1afff41a926807efadac62efcb39769d58" kindref="member">NodeID</ref> &gt; &amp;</type>
+        <definition>const std::set&lt; NodeID &gt; &amp; themis::performance::Frontier::get_sparse</definition>
+        <argsstring>() const</argsstring>
+        <name>get_sparse</name>
+        <qualifiedname>themis::performance::Frontier::get_sparse</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="104" column="20" bodyfile="include/performance/ligra.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1af76e08ba2a5dc7d69cc4dabff779a022" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; bool &gt; &amp;</type>
+        <definition>const std::vector&lt; bool &gt; &amp; themis::performance::Frontier::get_dense</definition>
+        <argsstring>() const</argsstring>
+        <name>get_dense</name>
+        <qualifiedname>themis::performance::Frontier::get_dense</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="107" column="23" bodyfile="include/performance/ligra.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1acd4848ddd9a4271a1206f019fc872ae6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Frontier::is_dense_mode</definition>
+        <argsstring>() const</argsstring>
+        <name>is_dense_mode</name>
+        <qualifiedname>themis::performance::Frontier::is_dense_mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="109" column="10" bodyfile="include/performance/ligra.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_frontier_1ac67b6257e928b1e764aa9dc892c058ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Frontier::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::performance::Frontier::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="111" column="10" bodyfile="include/performance/ligra.h" bodystart="111" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1performance_1_1_frontier" kindref="compound">Frontier</ref> representation (active vertices in current iteration). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/ligra.h" line="37" column="1" bodyfile="include/performance/ligra.h" bodystart="37" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_frontier_1a282c220306f342d98442f993ab31b225" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>add</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1ac67b6257e928b1e764aa9dc892c058ac" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>clear</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1aac1ab6218088fe968ada8e81f895628d" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>contains</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1a7ceb2fbaf799750daa9ba8684c026414" prot="private" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>dense_mode_</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1a1159a3674a4e968469f0bd221527a358" prot="private" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>dense_set_</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1a969697aff792cc7b760a88cd7e780369" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>Frontier</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1a68bf6977e5cc8b7286695fb44776891a" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>Frontier</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1af76e08ba2a5dc7d69cc4dabff779a022" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>get_dense</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1af46a03e30401c141d3a83a0d228cabb4" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>get_sparse</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1acd4848ddd9a4271a1206f019fc872ae6" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>is_dense_mode</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1a2a417ed2f3ee0d327f43b9ff46bb6ef8" prot="private" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>num_vertices_</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1a4ebc4273893f110f7dc35550c6fdc66b" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>size</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1a9e7594647ae11d2cfd5c3826a3810dd4" prot="private" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>sparse_set_</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1abdb8802593c0a00d7a09c6820aa3f57f" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>switch_to_dense</name></member>
+      <member refid="classthemis_1_1performance_1_1_frontier_1aefe9db1ef76c261dcfa70541e1147b5a" prot="public" virt="non-virtual"><scope>themis::performance::Frontier</scope><name>switch_to_sparse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

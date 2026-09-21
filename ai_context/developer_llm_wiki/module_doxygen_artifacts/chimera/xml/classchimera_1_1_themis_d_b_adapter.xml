@@ -1,0 +1,2019 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_themis_d_b_adapter" kind="class" language="C++" prot="public">
+    <compoundname>chimera::ThemisDBAdapter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IDatabaseAdapter</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">IAsyncDatabaseAdapter</basecompoundref>
+    <basecompoundref refid="classchimera_1_1_i_streaming_adapter" prot="public" virt="non-virtual">chimera::IStreamingAdapter</basecompoundref>
+    <basecompoundref refid="classchimera_1_1_i_prepared_statement_adapter" prot="public" virt="non-virtual">chimera::IPreparedStatementAdapter</basecompoundref>
+    <includes refid="themisdb__adapter_8hpp" local="no">themisdb_adapter.hpp</includes>
+    <innerclass refid="structchimera_1_1_themis_d_b_adapter_1_1_txn_entry" prot="private">chimera::ThemisDBAdapter::TxnEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a77a9ee77211f230af0ad825c300485a1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool chimera::ThemisDBAdapter::connected_</definition>
+        <argsstring></argsstring>
+        <name>connected_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::connected_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="291" column="10" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1ada3ff0efc6519f29ee8f9ccf4afeaab4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::ThemisDBAdapter::connection_string_</definition>
+        <argsstring></argsstring>
+        <name>connection_string_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::connection_string_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="292" column="17" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1adc757607bf15ba4ae5283239f994ee77" prot="private" static="no" mutable="no">
+        <type>themis::QueryEngine *</type>
+        <definition>themis::QueryEngine* chimera::ThemisDBAdapter::query_engine_</definition>
+        <argsstring></argsstring>
+        <name>query_engine_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::query_engine_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="297" column="32" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1aba2f12cbaffecb74a1a4f6ff7c2baa0e" prot="private" static="no" mutable="no">
+        <type>themis::VectorIndexManager *</type>
+        <definition>themis::VectorIndexManager* chimera::ThemisDBAdapter::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::vector_index_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="298" column="32" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1af96aed212722c012ec8d54a69700615f" prot="private" static="no" mutable="no">
+        <type>themis::GraphIndexManager *</type>
+        <definition>themis::GraphIndexManager* chimera::ThemisDBAdapter::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::graph_index_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="299" column="32" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a6947459b45d1a160e4896b7d3766045a" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void *()&gt;</type>
+        <definition>std::function&lt;void*()&gt; chimera::ThemisDBAdapter::connection_pool_acquire_fn_</definition>
+        <argsstring></argsstring>
+        <name>connection_pool_acquire_fn_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::connection_pool_acquire_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="303" column="19" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a84f2cc67c9a638d1a672b7f40d049e61" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex chimera::ThemisDBAdapter::store_mutex_</definition>
+        <argsstring></argsstring>
+        <name>store_mutex_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::store_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="308" column="24" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a84fecc873b00e7db2d9cc464a27711eb" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;RelationalRow&gt; &gt; chimera::ThemisDBAdapter::table_store_</definition>
+        <argsstring></argsstring>
+        <name>table_store_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::table_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="311" column="14" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a0098a6f07e2b2719cd065582d9b4f10c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::pair&lt; std::string, Vector &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::pair&lt;std::string, Vector&gt; &gt; &gt; chimera::ThemisDBAdapter::vector_store_</definition>
+        <argsstring></argsstring>
+        <name>vector_store_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::vector_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="314" column="14" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a7d74128751da9d7e9e57ee622f3b1efc" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, GraphNode &gt;</type>
+        <definition>std::map&lt;std::string, GraphNode&gt; chimera::ThemisDBAdapter::graph_nodes_</definition>
+        <argsstring></argsstring>
+        <name>graph_nodes_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::graph_nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="317" column="15" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1ac1926919008608cacf1ffe5196cd7c5e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, GraphEdge &gt;</type>
+        <definition>std::map&lt;std::string, GraphEdge&gt; chimera::ThemisDBAdapter::graph_edges_</definition>
+        <argsstring></argsstring>
+        <name>graph_edges_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::graph_edges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="318" column="15" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a060ad3af46c40f34e17904f00ea60b56" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; &gt; chimera::ThemisDBAdapter::adj_out_</definition>
+        <argsstring></argsstring>
+        <name>adj_out_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::adj_out_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="320" column="14" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1ad73f54bbedfc58028ebcc37a39e4becc" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; std::string, Document &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;std::string, Document&gt; &gt; chimera::ThemisDBAdapter::doc_store_</definition>
+        <argsstring></argsstring>
+        <name>doc_store_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::doc_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="323" column="14" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a7593ee61232908703329cf36577257b1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex chimera::ThemisDBAdapter::txn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>txn_mutex_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::txn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="341" column="24" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a6e68652937a46c441d9d1e1d33167065" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, TxnEntry &gt;</type>
+        <definition>std::map&lt;std::string, TxnEntry&gt; chimera::ThemisDBAdapter::active_transactions_</definition>
+        <argsstring></argsstring>
+        <name>active_transactions_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::active_transactions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="342" column="14" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1aef1ae8a36dcb10df605261c5c9a93457" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::ThemisDBAdapter::next_txn_id_</definition>
+        <argsstring></argsstring>
+        <name>next_txn_id_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::next_txn_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="343" column="12" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1abf4474d5fe232d5fd6e83b5544c88797" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex chimera::ThemisDBAdapter::cancel_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cancel_mutex_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::cancel_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="362" column="24" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a77a14fecbd50f2030aed473f1666896c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;std::atomic&lt;bool&gt; &gt; &gt; chimera::ThemisDBAdapter::cancel_tokens_</definition>
+        <argsstring></argsstring>
+        <name>cancel_tokens_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::cancel_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="363" column="14" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a7bfa76249b631f8a6da8c57e71b2b985" prot="private" static="no" mutable="no">
+        <type><ref refid="structchimera_1_1_stream_config" kindref="compound">StreamConfig</ref></type>
+        <definition>StreamConfig chimera::ThemisDBAdapter::stream_config_</definition>
+        <argsstring></argsstring>
+        <name>stream_config_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::stream_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="366" column="18" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1ae150b9229a9f9368a114cda2bb594412" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex chimera::ThemisDBAdapter::prepared_mutex_</definition>
+        <argsstring></argsstring>
+        <name>prepared_mutex_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::prepared_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="371" column="24" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classchimera_1_1_themis_d_b_adapter_1a99484665f85f3331f0ff6c02efc4c6b4" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; chimera::ThemisDBAdapter::prepared_queries_</definition>
+        <argsstring></argsstring>
+        <name>prepared_queries_</name>
+        <qualifiedname>chimera::ThemisDBAdapter::prepared_queries_</qualifiedname>
+        <briefdescription>
+<para>id → query text </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="372" column="14" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="372" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a2c1f663b0e5fb778a8e5cbd4b8377d66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::ThemisDBAdapter::ThemisDBAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>ThemisDBAdapter</name>
+        <qualifiedname>chimera::ThemisDBAdapter::ThemisDBAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a0c2098afe9096dfb74941026f333d849" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::ThemisDBAdapter::~ThemisDBAdapter</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ThemisDBAdapter</name>
+        <qualifiedname>chimera::ThemisDBAdapter::~ThemisDBAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="111" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a7c579fefdc5b2464686393289b87ef8f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>chimera::ThemisDBAdapter::ThemisDBAdapter</definition>
+        <argsstring>(themis::QueryEngine *query_engine, themis::VectorIndexManager *vector_index=nullptr, themis::GraphIndexManager *graph_index=nullptr)</argsstring>
+        <name>ThemisDBAdapter</name>
+        <qualifiedname>chimera::ThemisDBAdapter::ThemisDBAdapter</qualifiedname>
+        <param>
+          <type>themis::QueryEngine *</type>
+          <declname>query_engine</declname>
+        </param>
+        <param>
+          <type>themis::VectorIndexManager *</type>
+          <declname>vector_index</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>themis::GraphIndexManager *</type>
+          <declname>graph_index</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="113" column="14" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="179" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a61c1ce7b68d069a20d5ef3ba780921da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::connect</definition>
+        <argsstring>(const std::string &amp;connection_string, const std::map&lt; std::string, std::string &gt; &amp;options={}) override</argsstring>
+        <name>connect</name>
+        <qualifiedname>chimera::ThemisDBAdapter::connect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_string</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="120" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="203" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a81334a948b53223aa4fe6e03db3cd58c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::disconnect</definition>
+        <argsstring>() override</argsstring>
+        <name>disconnect</name>
+        <qualifiedname>chimera::ThemisDBAdapter::disconnect</qualifiedname>
+        <briefdescription>
+<para>Disconnect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: clear(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="125" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="232" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ae5c9d348734c169a2863c56bee18b5e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::ThemisDBAdapter::is_connected</definition>
+        <argsstring>() const override</argsstring>
+        <name>is_connected</name>
+        <qualifiedname>chimera::ThemisDBAdapter::is_connected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="126" column="10" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="238" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1aa3f8c850cae0ed0e65593d1aa75ea7ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref> &gt;</type>
+        <definition>Result&lt; RelationalTable &gt; chimera::ThemisDBAdapter::execute_query</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; Scalar &gt; &amp;params={}) override</argsstring>
+        <name>execute_query</name>
+        <qualifiedname>chimera::ThemisDBAdapter::execute_query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), defined(), themis::executeAql(), error(), message(), value(), contains(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="129" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="250" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1afe02bc72a4bbb9b262531ca5d9f59d8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::ThemisDBAdapter::insert_row</definition>
+        <argsstring>(const std::string &amp;table_name, const RelationalRow &amp;row) override</argsstring>
+        <name>insert_row</name>
+        <qualifiedname>chimera::ThemisDBAdapter::insert_row</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Insert row. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), push_back(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="134" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="360" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1afcbfabd13c24b65316648567d2ace79e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::ThemisDBAdapter::batch_insert</definition>
+        <argsstring>(const std::string &amp;table_name, const std::vector&lt; RelationalRow &gt; &amp;rows) override</argsstring>
+        <name>batch_insert</name>
+        <qualifiedname>chimera::ThemisDBAdapter::batch_insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), insert(), end(), begin(), ok(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="139" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="385" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a0de827135ce43ddf7a78dc1843299594" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_query_statistics" kindref="compound">QueryStatistics</ref> &gt;</type>
+        <definition>Result&lt; QueryStatistics &gt; chimera::ThemisDBAdapter::get_query_statistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_query_statistics</name>
+        <qualifiedname>chimera::ThemisDBAdapter::get_query_statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="144" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="404" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a11cd7fe8328dd4731b798b1165826bdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::ThemisDBAdapter::insert_vector</definition>
+        <argsstring>(const std::string &amp;collection, const Vector &amp;vector) override</argsstring>
+        <name>insert_vector</name>
+        <qualifiedname>chimera::ThemisDBAdapter::insert_vector</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Vector &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Insert vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), generate_id(), lock(), emplace_back(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="147" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="421" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1afdbd82b9c5138dea11289b9ad9a36c8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::ThemisDBAdapter::batch_insert_vectors</definition>
+        <argsstring>(const std::string &amp;collection, const std::vector&lt; Vector &gt; &amp;vectors) override</argsstring>
+        <name>batch_insert_vectors</name>
+        <qualifiedname>chimera::ThemisDBAdapter::batch_insert_vectors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; Vector &gt; &amp;</type>
+          <declname>vectors</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), reserve(), size(), emplace_back(), generate_id(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="152" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="448" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1afd73941323a912ef71a502732d235bc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; std::pair&lt; Vector, double &gt; &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::pair&lt; Vector, double &gt; &gt; &gt; chimera::ThemisDBAdapter::search_vectors</definition>
+        <argsstring>(const std::string &amp;collection, const Vector &amp;query_vector, size_t k, const std::map&lt; std::string, Scalar &gt; &amp;filters={}) override</argsstring>
+        <name>search_vectors</name>
+        <qualifiedname>chimera::ThemisDBAdapter::search_vectors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Vector &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="157" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="470" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1afdc518a7926ded1f4f9467ef766a7bcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::create_index</definition>
+        <argsstring>(const std::string &amp;collection, size_t dimensions, const std::map&lt; std::string, Scalar &gt; &amp;index_params={}) override</argsstring>
+        <name>create_index</name>
+        <qualifiedname>chimera::ThemisDBAdapter::create_index</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimensions</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>index_params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="164" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="576" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ae8154645165b8b6b370c825026796d5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::ThemisDBAdapter::insert_node</definition>
+        <argsstring>(const GraphNode &amp;node) override</argsstring>
+        <name>insert_node</name>
+        <qualifiedname>chimera::ThemisDBAdapter::insert_node</qualifiedname>
+        <param>
+          <type>const GraphNode &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Insert node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), generate_id(), lock(), std::move(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="171" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="608" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a65b4ff554aa985ec66268bba282c3f0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::ThemisDBAdapter::insert_edge</definition>
+        <argsstring>(const GraphEdge &amp;edge) override</argsstring>
+        <name>insert_edge</name>
+        <qualifiedname>chimera::ThemisDBAdapter::insert_edge</qualifiedname>
+        <param>
+          <type>const GraphEdge &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+<para>Insert edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), generate_id(), lock(), emplace_back(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="172" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="632" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a841550891c2b8433c1433365ea91f909" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; GraphPath &gt;</type>
+        <definition>Result&lt; GraphPath &gt; chimera::ThemisDBAdapter::shortest_path</definition>
+        <argsstring>(const std::string &amp;source_id, const std::string &amp;target_id, size_t max_depth=10) override</argsstring>
+        <name>shortest_path</name>
+        <qualifiedname>chimera::ThemisDBAdapter::shortest_path</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Shortest path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), defined(), std::tie(), dijkstraWithConstraints(), dijkstra(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="174" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="659" bodyend="809"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ab31295c6b21555386a5a74072a2d4307" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; GraphNode &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; GraphNode &gt; &gt; chimera::ThemisDBAdapter::traverse</definition>
+        <argsstring>(const std::string &amp;start_id, size_t max_depth, const std::vector&lt; std::string &gt; &amp;edge_labels={}) override</argsstring>
+        <name>traverse</name>
+        <qualifiedname>chimera::ThemisDBAdapter::traverse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>edge_labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Traverse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), defined(), insert(), find(), end(), push_back(), std::move(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="180" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="819" bodyend="945"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1abb1f0848f806f0a72b6c38dfa22cf229" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; GraphPath &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; GraphPath &gt; &gt; chimera::ThemisDBAdapter::execute_graph_query</definition>
+        <argsstring>(const std::string &amp;query, const std::map&lt; std::string, Scalar &gt; &amp;params={}) override</argsstring>
+        <name>execute_graph_query</name>
+        <qualifiedname>chimera::ThemisDBAdapter::execute_graph_query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="186" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="947" bodyend="960"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ac4e1eeccd9b5bb6632772f7b333cf369" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::ThemisDBAdapter::insert_document</definition>
+        <argsstring>(const std::string &amp;collection, const Document &amp;doc) override</argsstring>
+        <name>insert_document</name>
+        <qualifiedname>chimera::ThemisDBAdapter::insert_document</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Document &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Insert document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), generate_id(), lock(), std::move(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="192" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="970" bodyend="989"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a0b64460641d57d8a1278bc4964177f77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::ThemisDBAdapter::batch_insert_documents</definition>
+        <argsstring>(const std::string &amp;collection, const std::vector&lt; Document &gt; &amp;docs) override</argsstring>
+        <name>batch_insert_documents</name>
+        <qualifiedname>chimera::ThemisDBAdapter::batch_insert_documents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; Document &gt; &amp;</type>
+          <declname>docs</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">docs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), empty(), generate_id(), std::move(), ok(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="197" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="998" bodyend="1020"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ae7e150b581e652ca471249fd3b2474de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; Document &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; Document &gt; &gt; chimera::ThemisDBAdapter::find_documents</definition>
+        <argsstring>(const std::string &amp;collection, const std::map&lt; std::string, Scalar &gt; &amp;filter, size_t limit=100) override</argsstring>
+        <name>find_documents</name>
+        <qualifiedname>chimera::ThemisDBAdapter::find_documents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="202" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1022" bodyend="1065"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a069433fe22141d14692ab82f1aab13d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt;</type>
+        <definition>Result&lt; size_t &gt; chimera::ThemisDBAdapter::update_documents</definition>
+        <argsstring>(const std::string &amp;collection, const std::map&lt; std::string, Scalar &gt; &amp;filter, const std::map&lt; std::string, Scalar &gt; &amp;updates) override</argsstring>
+        <name>update_documents</name>
+        <qualifiedname>chimera::ThemisDBAdapter::update_documents</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>updates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">store_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="208" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1067" bodyend="1108"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1af31a62f66c6b56e7a9239061ca131a47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::ThemisDBAdapter::begin_transaction</definition>
+        <argsstring>(const TransactionOptions &amp;options={}) override</argsstring>
+        <name>begin_transaction</name>
+        <qualifiedname>chimera::ThemisDBAdapter::begin_transaction</qualifiedname>
+        <param>
+          <type>const TransactionOptions &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Begin transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), lock(), str(), std::chrono::system_clock::now(), std::chrono::steady_clock::now(), emplace(), std::move(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="215" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1117" bodyend="1139"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a5f9fd4064f60e0ab4b12156491232107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::commit_transaction</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>commit_transaction</name>
+        <qualifiedname>chimera::ThemisDBAdapter::commit_transaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Commit transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), lock(), find(), end(), erase(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="219" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1147" bodyend="1171"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ad2a8a12a601bea7c456329ba70b68091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::rollback_transaction</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>rollback_transaction</name>
+        <qualifiedname>chimera::ThemisDBAdapter::rollback_transaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Rollback transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), lock(), find(), end(), erase(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="220" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1179" bodyend="1203"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a7586cba6634904cc8cee39f7a8bcaef7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; chimera::ThemisDBAdapter::create_savepoint</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;savepoint_name) override</argsstring>
+        <name>create_savepoint</name>
+        <qualifiedname>chimera::ThemisDBAdapter::create_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Create savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">savepoint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the savepoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), lock(), find(), end(), count(), push_back(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="221" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1212" bodyend="1249"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a8ee00a9c6e76281ae4add2fae06ee02f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::rollback_to_savepoint</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;savepoint_name) override</argsstring>
+        <name>rollback_to_savepoint</name>
+        <qualifiedname>chimera::ThemisDBAdapter::rollback_to_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Rollback to savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">savepoint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the savepoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), lock(), find(), end(), std::find(), begin(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="225" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1258" bodyend="1301"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1afdce947fa00c5787342869a2308b69a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::release_savepoint</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;savepoint_name) override</argsstring>
+        <name>release_savepoint</name>
+        <qualifiedname>chimera::ThemisDBAdapter::release_savepoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>savepoint_name</declname>
+        </param>
+        <briefdescription>
+<para>Release savepoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">savepoint_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the savepoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), lock(), find(), end(), std::find(), begin(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="229" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1310" bodyend="1348"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ac1d20cb0f5d59588b6b7a461b9bfabfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; TransactionStats &gt;</type>
+        <definition>Result&lt; TransactionStats &gt; chimera::ThemisDBAdapter::get_transaction_stats</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>get_transaction_stats</name>
+        <qualifiedname>chimera::ThemisDBAdapter::get_transaction_stats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Get transaction stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), lock(), find(), end(), std::chrono::steady_clock::now(), size(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="233" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1356" bodyend="1396"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1aea06a6866489a03cc060d57fdea9bf7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" kindref="member">TransactionState</ref> &gt;</type>
+        <definition>Result&lt; TransactionState &gt; chimera::ThemisDBAdapter::get_transaction_state</definition>
+        <argsstring>(const std::string &amp;transaction_id) override</argsstring>
+        <name>get_transaction_state</name>
+        <qualifiedname>chimera::ThemisDBAdapter::get_transaction_state</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <briefdescription>
+<para>Get transaction state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: err(), empty(), lock(), find(), end(), std::chrono::steady_clock::now(), ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="236" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1404" bodyend="1442"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a4d3e16dcd6a60fe635bc86908e8708e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; SystemInfo &gt;</type>
+        <definition>Result&lt; SystemInfo &gt; chimera::ThemisDBAdapter::get_system_info</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_system_info</name>
+        <qualifiedname>chimera::ThemisDBAdapter::get_system_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="241" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1445" bodyend="1452"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a1687a4b8c72c06a45cdab0802e380704" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; SystemMetrics &gt;</type>
+        <definition>Result&lt; SystemMetrics &gt; chimera::ThemisDBAdapter::get_metrics</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_metrics</name>
+        <qualifiedname>chimera::ThemisDBAdapter::get_metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="242" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1454" bodyend="1465"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a4c2d0ebdce8370c35119f663aaafa599" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::ThemisDBAdapter::has_capability</definition>
+        <argsstring>(Capability cap) const override</argsstring>
+        <name>has_capability</name>
+        <qualifiedname>chimera::ThemisDBAdapter::has_capability</qualifiedname>
+        <param>
+          <type>Capability</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="243" column="10" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1467" bodyend="1505"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a060496b7356089e4353a78aec6d1adca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; Capability &gt;</type>
+        <definition>std::vector&lt; Capability &gt; chimera::ThemisDBAdapter::get_capabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>get_capabilities</name>
+        <qualifiedname>chimera::ThemisDBAdapter::get_capabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="244" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1507" bodyend="1529"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ad0c2bc0f413cb205e72fefdd0259599b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_relational_table" kindref="compound">RelationalTable</ref> &gt; &gt;</type>
+        <definition>std::future&lt; Result&lt; RelationalTable &gt; &gt; chimera::ThemisDBAdapter::execute_query_async</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; Scalar &gt; &amp;params={}, const AsyncQueryOptions &amp;opts={}) override</argsstring>
+        <name>execute_query_async</name>
+        <qualifiedname>chimera::ThemisDBAdapter::execute_query_async</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const AsyncQueryOptions &amp;</type>
+          <declname>opts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute query async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: register_cancel_token(), set_value(), err(), get_future(), std::async(), load(), <ref refid="classchimera_1_1_themis_d_b_adapter_1aa3f8c850cae0ed0e65593d1aa75ea7ed" kindref="member">execute_query()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="247" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1650" bodyend="1675"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a4cbc765531a0f1ac56aa429ddbb8f346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; size_t &gt; &gt;</type>
+        <definition>std::future&lt; Result&lt; size_t &gt; &gt; chimera::ThemisDBAdapter::batch_insert_async</definition>
+        <argsstring>(const std::string &amp;table_name, const std::vector&lt; RelationalRow &gt; &amp;rows, std::function&lt; void(size_t processed)&gt; progress_callback=nullptr, const AsyncQueryOptions &amp;opts={}) override</argsstring>
+        <name>batch_insert_async</name>
+        <qualifiedname>chimera::ThemisDBAdapter::batch_insert_async</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(size_t processed)&gt;</type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const AsyncQueryOptions &amp;</type>
+          <declname>opts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="253" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1677" bodyend="1737"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1acbc1e93185e3c3e262f87ec31023c6ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; std::pair&lt; Vector, double &gt; &gt; &gt; &gt;</type>
+        <definition>std::future&lt; Result&lt; std::vector&lt; std::pair&lt; Vector, double &gt; &gt; &gt; &gt; chimera::ThemisDBAdapter::search_vectors_async</definition>
+        <argsstring>(const std::string &amp;collection, const Vector &amp;query_vector, size_t k, const std::map&lt; std::string, Scalar &gt; &amp;filters={}, const AsyncQueryOptions &amp;opts={}) override</argsstring>
+        <name>search_vectors_async</name>
+        <qualifiedname>chimera::ThemisDBAdapter::search_vectors_async</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const Vector &amp;</type>
+          <declname>query_vector</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const AsyncQueryOptions &amp;</type>
+          <declname>opts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="260" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1739" bodyend="1768"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a4892c13670fd3c017315c7c573a21155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::cancel_async</definition>
+        <argsstring>(const std::string &amp;operation_id) override</argsstring>
+        <name>cancel_async</name>
+        <qualifiedname>chimera::ThemisDBAdapter::cancel_async</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), err(), lk(), find(), end(), store(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="268" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1776" bodyend="1792"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a0172e76f90204ed282168e32aedfc2a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::unique_ptr&lt; <ref refid="classchimera_1_1_i_result_stream" kindref="compound">IResultStream</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; IResultStream &gt; &gt; chimera::ThemisDBAdapter::execute_query_stream</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; Scalar &gt; &amp;params={}) override</argsstring>
+        <name>execute_query_stream</name>
+        <qualifiedname>chimera::ThemisDBAdapter::execute_query_stream</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_streaming_adapter_1adc44d3af066cfbed27b0d221bfb26a4c">execute_query_stream</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref> &gt; &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classchimera_1_1_i_streaming_adapter" kindref="compound">IStreamingAdapter</ref> — pull-based cursor over in-memory result sets ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classchimera_1_1_themis_d_b_adapter_1aa3f8c850cae0ed0e65593d1aa75ea7ed" kindref="member">execute_query()</ref>, is_ok(), err(), lk(), std::move(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="271" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1802" bodyend="1823"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ae12aa5def51472b64dbd60646b0f4d00" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::set_stream_config</definition>
+        <argsstring>(const StreamConfig &amp;config) override</argsstring>
+        <name>set_stream_config</name>
+        <qualifiedname>chimera::ThemisDBAdapter::set_stream_config</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_streaming_adapter_1a6ed5e4b63ea3729ecc29932d47090dc4">set_stream_config</reimplements>
+        <param>
+          <type>const <ref refid="structchimera_1_1_stream_config" kindref="compound">StreamConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set stream config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="276" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1831" bodyend="1835"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a02c4162838d04b0c5fd426d2f5ee2452" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::unique_ptr&lt; <ref refid="classchimera_1_1_i_prepared_statement" kindref="compound">IPreparedStatement</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; IPreparedStatement &gt; &gt; chimera::ThemisDBAdapter::prepare</definition>
+        <argsstring>(const std::string &amp;query) override</argsstring>
+        <name>prepare</name>
+        <qualifiedname>chimera::ThemisDBAdapter::prepare</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_adapter_1a5d7b6e6fd23484e55d385573d83fb668">prepare</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classchimera_1_1_i_prepared_statement_adapter" kindref="compound">IPreparedStatementAdapter</ref> — plan-cached statement management ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), err(), generate_id(), lk(), emplace(), ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="279" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1844" bodyend="1861"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1afbdebb26eb6618a4ae30618df88f3838" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; chimera::ThemisDBAdapter::unprepare</definition>
+        <argsstring>(const std::string &amp;statement_id) override</argsstring>
+        <name>unprepare</name>
+        <qualifiedname>chimera::ThemisDBAdapter::unprepare</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_adapter_1af92e0f0becd539c3db87a02b340568c4">unprepare</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>statement_id</declname>
+        </param>
+        <briefdescription>
+<para>Unprepare. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">statement_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the statement. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), err(), erase(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="283" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1869" bodyend="1879"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a0378d7c1435ebc2c7ad8c56b4e3bd6d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; chimera::ThemisDBAdapter::list_prepared</definition>
+        <argsstring>() override</argsstring>
+        <name>list_prepared</name>
+        <qualifiedname>chimera::ThemisDBAdapter::list_prepared</qualifiedname>
+        <reimplements refid="classchimera_1_1_i_prepared_statement_adapter_1ad92fb6de1c1186c8d954a66a46167720">list_prepared</reimplements>
+        <briefdescription>
+<para>List prepared. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), reserve(), size(), push_back(), ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="285" column="12" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1886" bodyend="1895"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a456412bb1ff745a03307d678f251f7bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void chimera::ThemisDBAdapter::setConnectionPool</definition>
+        <argsstring>(std::function&lt; void *()&gt; acquire_fn)</argsstring>
+        <name>setConnectionPool</name>
+        <qualifiedname>chimera::ThemisDBAdapter::setConnectionPool</qualifiedname>
+        <param>
+          <type>std::function&lt; void *()&gt;</type>
+          <declname>acquire_fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="287" column="10" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1535" bodyend="1537"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a7d7fcdcc6621677812567c2ed071b121" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::ThemisDBAdapter::generate_id</definition>
+        <argsstring>()</argsstring>
+        <name>generate_id</name>
+        <qualifiedname>chimera::ThemisDBAdapter::generate_id</qualifiedname>
+        <briefdescription>
+<para>── Private helpers ────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate id.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::generate_uuid_v4(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="330" column="24" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="198" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1ac69df08371537b6f492aef6f78a8877d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool chimera::ThemisDBAdapter::is_valid_connection_string</definition>
+        <argsstring>(const std::string &amp;connection_string)</argsstring>
+        <name>is_valid_connection_string</name>
+        <qualifiedname>chimera::ThemisDBAdapter::is_valid_connection_string</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_string</declname>
+        </param>
+        <briefdescription>
+<para>Is valid connection string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: rfind(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="351" column="17" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1549" bodyend="1553"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_themis_d_b_adapter_1a71e8d6ede43a726154cdb5255c1e8bb1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string chimera::ThemisDBAdapter::mask_credentials</definition>
+        <argsstring>(const std::string &amp;connection_string)</argsstring>
+        <name>mask_credentials</name>
+        <qualifiedname>chimera::ThemisDBAdapter::mask_credentials</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connection_string</declname>
+        </param>
+        <briefdescription>
+<para>Mask credentials. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_string</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rfind(), substr(), size(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/themisdb_adapter.hpp" line="357" column="24" bodyfile="src/chimera/themisdb_adapter.cpp" bodystart="1561" bodyend="1580"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>IAsyncDatabaseAdapter</label>
+      </node>
+      <node id="2">
+        <label>IDatabaseAdapter</label>
+      </node>
+      <node id="5">
+        <label>chimera::IPreparedStatementAdapter</label>
+        <link refid="classchimera_1_1_i_prepared_statement_adapter"/>
+      </node>
+      <node id="4">
+        <label>chimera::IStreamingAdapter</label>
+        <link refid="classchimera_1_1_i_streaming_adapter"/>
+      </node>
+      <node id="1">
+        <label>chimera::ThemisDBAdapter</label>
+        <link refid="classchimera_1_1_themis_d_b_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>IAsyncDatabaseAdapter</label>
+      </node>
+      <node id="2">
+        <label>IDatabaseAdapter</label>
+      </node>
+      <node id="5">
+        <label>chimera::IPreparedStatementAdapter</label>
+        <link refid="classchimera_1_1_i_prepared_statement_adapter"/>
+      </node>
+      <node id="4">
+        <label>chimera::IStreamingAdapter</label>
+        <link refid="classchimera_1_1_i_streaming_adapter"/>
+      </node>
+      <node id="1">
+        <label>chimera::ThemisDBAdapter</label>
+        <link refid="classchimera_1_1_themis_d_b_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/chimera/themisdb_adapter.hpp" line="105" column="1" bodyfile="include/chimera/themisdb_adapter.hpp" bodystart="108" bodyend="373"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a6e68652937a46c441d9d1e1d33167065" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>active_transactions_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a060ad3af46c40f34e17904f00ea60b56" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>adj_out_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1afcbfabd13c24b65316648567d2ace79e" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>batch_insert</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a4cbc765531a0f1ac56aa429ddbb8f346" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>batch_insert_async</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a0b64460641d57d8a1278bc4964177f77" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>batch_insert_documents</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1afdbd82b9c5138dea11289b9ad9a36c8e" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>batch_insert_vectors</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1af31a62f66c6b56e7a9239061ca131a47" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>begin_transaction</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a4892c13670fd3c017315c7c573a21155" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>cancel_async</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1abf4474d5fe232d5fd6e83b5544c88797" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>cancel_mutex_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a77a14fecbd50f2030aed473f1666896c" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>cancel_tokens_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a5f9fd4064f60e0ab4b12156491232107" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>commit_transaction</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a61c1ce7b68d069a20d5ef3ba780921da" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>connect</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a77a9ee77211f230af0ad825c300485a1" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>connected_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a6947459b45d1a160e4896b7d3766045a" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>connection_pool_acquire_fn_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ada3ff0efc6519f29ee8f9ccf4afeaab4" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>connection_string_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1afdc518a7926ded1f4f9467ef766a7bcc" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>create_index</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a7586cba6634904cc8cee39f7a8bcaef7" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>create_savepoint</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a81334a948b53223aa4fe6e03db3cd58c" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>disconnect</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ad73f54bbedfc58028ebcc37a39e4becc" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>doc_store_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1abb1f0848f806f0a72b6c38dfa22cf229" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>execute_graph_query</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1aa3f8c850cae0ed0e65593d1aa75ea7ed" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>execute_query</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ad0c2bc0f413cb205e72fefdd0259599b" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>execute_query_async</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a0172e76f90204ed282168e32aedfc2a4" prot="public" virt="virtual"><scope>chimera::ThemisDBAdapter</scope><name>execute_query_stream</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ae7e150b581e652ca471249fd3b2474de" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>find_documents</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a7d7fcdcc6621677812567c2ed071b121" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>generate_id</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a060496b7356089e4353a78aec6d1adca" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>get_capabilities</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a1687a4b8c72c06a45cdab0802e380704" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>get_metrics</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a0de827135ce43ddf7a78dc1843299594" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>get_query_statistics</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a4d3e16dcd6a60fe635bc86908e8708e6" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>get_system_info</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1aea06a6866489a03cc060d57fdea9bf7c" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>get_transaction_state</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ac1d20cb0f5d59588b6b7a461b9bfabfe" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>get_transaction_stats</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ac1926919008608cacf1ffe5196cd7c5e" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>graph_edges_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1af96aed212722c012ec8d54a69700615f" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>graph_index_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a7d74128751da9d7e9e57ee622f3b1efc" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>graph_nodes_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a4c2d0ebdce8370c35119f663aaafa599" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>has_capability</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ac4e1eeccd9b5bb6632772f7b333cf369" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>insert_document</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a65b4ff554aa985ec66268bba282c3f0e" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>insert_edge</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ae8154645165b8b6b370c825026796d5a" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>insert_node</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1afe02bc72a4bbb9b262531ca5d9f59d8c" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>insert_row</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a11cd7fe8328dd4731b798b1165826bdd" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>insert_vector</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ae5c9d348734c169a2863c56bee18b5e1" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>is_connected</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ac69df08371537b6f492aef6f78a8877d" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>is_valid_connection_string</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a0378d7c1435ebc2c7ad8c56b4e3bd6d0" prot="public" virt="virtual"><scope>chimera::ThemisDBAdapter</scope><name>list_prepared</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a71e8d6ede43a726154cdb5255c1e8bb1" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>mask_credentials</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1aef1ae8a36dcb10df605261c5c9a93457" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>next_txn_id_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a02c4162838d04b0c5fd426d2f5ee2452" prot="public" virt="virtual"><scope>chimera::ThemisDBAdapter</scope><name>prepare</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ae150b9229a9f9368a114cda2bb594412" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>prepared_mutex_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a99484665f85f3331f0ff6c02efc4c6b4" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>prepared_queries_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1adc757607bf15ba4ae5283239f994ee77" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>query_engine_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1afdce947fa00c5787342869a2308b69a7" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>release_savepoint</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a8ee00a9c6e76281ae4add2fae06ee02f" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>rollback_to_savepoint</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ad2a8a12a601bea7c456329ba70b68091" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>rollback_transaction</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1afd73941323a912ef71a502732d235bc9" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>search_vectors</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1acbc1e93185e3c3e262f87ec31023c6ac" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>search_vectors_async</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ae12aa5def51472b64dbd60646b0f4d00" prot="public" virt="virtual"><scope>chimera::ThemisDBAdapter</scope><name>set_stream_config</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a456412bb1ff745a03307d678f251f7bd" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>setConnectionPool</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a841550891c2b8433c1433365ea91f909" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>shortest_path</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a84f2cc67c9a638d1a672b7f40d049e61" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>store_mutex_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a7bfa76249b631f8a6da8c57e71b2b985" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>stream_config_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a84fecc873b00e7db2d9cc464a27711eb" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>table_store_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a2c1f663b0e5fb778a8e5cbd4b8377d66" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>ThemisDBAdapter</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a7c579fefdc5b2464686393289b87ef8f" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>ThemisDBAdapter</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1ab31295c6b21555386a5a74072a2d4307" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>traverse</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a7593ee61232908703329cf36577257b1" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>txn_mutex_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1afbdebb26eb6618a4ae30618df88f3838" prot="public" virt="virtual"><scope>chimera::ThemisDBAdapter</scope><name>unprepare</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a069433fe22141d14692ab82f1aab13d7" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>update_documents</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1aba2f12cbaffecb74a1a4f6ff7c2baa0e" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>vector_index_</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a0098a6f07e2b2719cd065582d9b4f10c" prot="private" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>vector_store_</name></member>
+      <member refid="classchimera_1_1_i_prepared_statement_adapter_1a0e39605ff0c39a90e2836391a1c8df2d" prot="public" virt="virtual"><scope>chimera::ThemisDBAdapter</scope><name>~IPreparedStatementAdapter</name></member>
+      <member refid="classchimera_1_1_i_streaming_adapter_1afc46f3c638326eee7f8519d302febfc0" prot="public" virt="virtual"><scope>chimera::ThemisDBAdapter</scope><name>~IStreamingAdapter</name></member>
+      <member refid="classchimera_1_1_themis_d_b_adapter_1a0c2098afe9096dfb74941026f333d849" prot="public" virt="non-virtual"><scope>chimera::ThemisDBAdapter</scope><name>~ThemisDBAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

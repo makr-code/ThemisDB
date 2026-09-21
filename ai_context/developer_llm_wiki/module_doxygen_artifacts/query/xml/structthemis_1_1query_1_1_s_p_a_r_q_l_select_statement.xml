@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SPARQLSelectStatement</compoundname>
+    <includes refid="sparql__parser_8h" local="no">sparql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a5991ce39381b334ab52899a82dd1bdd1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::SPARQLSelectStatement::star</definition>
+        <argsstring></argsstring>
+        <name>star</name>
+        <qualifiedname>themis::query::SPARQLSelectStatement::star</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>SELECT *. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="129" column="35" bodyfile="include/query/sparql_parser.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1aa1ca94fac1ed5e35621aa92827ba2419" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::SPARQLSelectStatement::variables</definition>
+        <argsstring></argsstring>
+        <name>variables</name>
+        <qualifiedname>themis::query::SPARQLSelectStatement::variables</qualifiedname>
+        <briefdescription>
+<para>projected variable names (without ?/$) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="130" column="22" bodyfile="include/query/sparql_parser.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a4e903d7917e8e1e46c882785ab1dfc09" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::SPARQLSelectStatement::from_graph</definition>
+        <argsstring></argsstring>
+        <name>from_graph</name>
+        <qualifiedname>themis::query::SPARQLSelectStatement::from_graph</qualifiedname>
+        <briefdescription>
+<para>FROM URI (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="131" column="22" bodyfile="include/query/sparql_parser.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a1fb776102ef9e24882911a30318bed9a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause" kindref="compound">SPARQLWhereClause</ref> &gt;</type>
+        <definition>std::vector&lt;SPARQLWhereClause&gt; themis::query::SPARQLSelectStatement::where_clauses</definition>
+        <argsstring></argsstring>
+        <name>where_clauses</name>
+        <qualifiedname>themis::query::SPARQLSelectStatement::where_clauses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="132" column="17" bodyfile="include/query/sparql_parser.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a074cd9c32af6129362bbe26e724d1052" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec" kindref="compound">SPARQLOrderSpec</ref> &gt;</type>
+        <definition>std::vector&lt;SPARQLOrderSpec&gt; themis::query::SPARQLSelectStatement::order_by</definition>
+        <argsstring></argsstring>
+        <name>order_by</name>
+        <qualifiedname>themis::query::SPARQLSelectStatement::order_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="133" column="18" bodyfile="include/query/sparql_parser.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a3887ed4dbcd5683c8e8d85686a56fa6f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::query::SPARQLSelectStatement::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::SPARQLSelectStatement::limit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="134" column="26" bodyfile="include/query/sparql_parser.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a7deb9949b6604c6b9c13731cb26e49db" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::query::SPARQLSelectStatement::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::query::SPARQLSelectStatement::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="135" column="26" bodyfile="include/query/sparql_parser.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sparql_parser.h" line="128" column="1" bodyfile="include/query/sparql_parser.h" bodystart="128" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a4e903d7917e8e1e46c882785ab1dfc09" prot="public" virt="non-virtual"><scope>themis::query::SPARQLSelectStatement</scope><name>from_graph</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a3887ed4dbcd5683c8e8d85686a56fa6f" prot="public" virt="non-virtual"><scope>themis::query::SPARQLSelectStatement</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a7deb9949b6604c6b9c13731cb26e49db" prot="public" virt="non-virtual"><scope>themis::query::SPARQLSelectStatement</scope><name>offset</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a074cd9c32af6129362bbe26e724d1052" prot="public" virt="non-virtual"><scope>themis::query::SPARQLSelectStatement</scope><name>order_by</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a5991ce39381b334ab52899a82dd1bdd1" prot="public" virt="non-virtual"><scope>themis::query::SPARQLSelectStatement</scope><name>star</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1aa1ca94fac1ed5e35621aa92827ba2419" prot="public" virt="non-virtual"><scope>themis::query::SPARQLSelectStatement</scope><name>variables</name></member>
+      <member refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a1fb776102ef9e24882911a30318bed9a" prot="public" virt="non-virtual"><scope>themis::query::SPARQLSelectStatement</scope><name>where_clauses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cpu_vector_cosine_test" kind="class" language="C++" prot="public">
+    <compoundname>CpuVectorCosineTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cpu_vector_cosine_test_1a1f26b261cdc15e3fb3860b559c417dc6" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" kindref="compound">CPUVectorBackend</ref></type>
+        <definition>CPUVectorBackend CpuVectorCosineTest::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>CpuVectorCosineTest::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_coverage.cpp" line="559" column="22" bodyfile="tests/acceleration/test_acceleration_coverage.cpp" bodystart="559" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cpu_vector_cosine_test_1add36453004de46c410412c953af32207" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CpuVectorCosineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CpuVectorCosineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_coverage.cpp" line="561" column="10" bodyfile="tests/acceleration/test_acceleration_coverage.cpp" bodystart="561" bodyend="563"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CpuVectorCosineTest</label>
+        <link refid="class_cpu_vector_cosine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CpuVectorCosineTest</label>
+        <link refid="class_cpu_vector_cosine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>backend_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::CPUVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="5">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_coverage.cpp" line="557" column="1" bodyfile="tests/acceleration/test_acceleration_coverage.cpp" bodystart="557" bodyend="564"/>
+    <listofallmembers>
+      <member refid="class_cpu_vector_cosine_test_1a1f26b261cdc15e3fb3860b559c417dc6" prot="protected" virt="non-virtual"><scope>CpuVectorCosineTest</scope><name>backend_</name></member>
+      <member refid="class_cpu_vector_cosine_test_1add36453004de46c410412c953af32207" prot="protected" virt="non-virtual"><scope>CpuVectorCosineTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

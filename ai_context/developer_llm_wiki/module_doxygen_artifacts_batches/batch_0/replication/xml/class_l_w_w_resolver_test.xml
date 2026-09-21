@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_w_w_resolver_test" kind="class" language="C++" prot="public">
+    <compoundname>LWWResolverTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_w_w_resolver_test_1a065b75254b58b32f48a659cb1ccd5bbc" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver" kindref="compound">LWWConflictResolver</ref></type>
+        <definition>LWWConflictResolver LWWResolverTest::resolver</definition>
+        <argsstring></argsstring>
+        <name>resolver</name>
+        <qualifiedname>LWWResolverTest::resolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_ha.cpp" line="274" column="25" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LWWResolverTest</label>
+        <link refid="class_l_w_w_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LWWResolverTest</label>
+        <link refid="class_l_w_w_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>resolver</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themisdb::replication::IConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_conflict_resolver"/>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::LWWConflictResolver</label>
+        <link refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_ha.cpp" line="272" column="1" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="272" bodyend="275"/>
+    <listofallmembers>
+      <member refid="class_l_w_w_resolver_test_1a065b75254b58b32f48a659cb1ccd5bbc" prot="protected" virt="non-virtual"><scope>LWWResolverTest</scope><name>resolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

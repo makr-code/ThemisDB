@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_i_content_processor" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::content::IContentProcessor</compoundname>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_archive_processor" prot="public" virt="non-virtual">themis::content::ArchiveProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_binary_processor" prot="public" virt="non-virtual">themis::content::BinaryProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_html_processor" prot="public" virt="non-virtual">themis::content::HtmlProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_legacy_audio_processor" prot="public" virt="non-virtual">themis::content::LegacyAudioProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_legacy_c_a_d_processor" prot="public" virt="non-virtual">themis::content::LegacyCADProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_legacy_geo_processor" prot="public" virt="non-virtual">themis::content::LegacyGeoProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_legacy_image_processor" prot="public" virt="non-virtual">themis::content::LegacyImageProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_markdown_processor" prot="public" virt="non-virtual">themis::content::MarkdownProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_mock_clip_processor" prot="public" virt="non-virtual">themis::content::MockClipProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_ocr_processor" prot="public" virt="non-virtual">themis::content::OcrProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_office_processor" prot="public" virt="non-virtual">themis::content::OfficeProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_p_d_f_processor" prot="public" virt="non-virtual">themis::content::PDFProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_structured_processor" prot="public" virt="non-virtual">themis::content::StructuredProcessor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1content_1_1_text_processor" prot="public" virt="non-virtual">themis::content::TextProcessor</derivedcompoundref>
+    <includes refid="content__processor_8h" local="no">content_processor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::content::IContentProcessor::~IContentProcessor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IContentProcessor</name>
+        <qualifiedname>themis::content::IContentProcessor::~IContentProcessor</qualifiedname>
+        <briefdescription>
+<para>IContent Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="70" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>virtual ExtractionResult themis::content::IContentProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type)=0</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::IContentProcessor::extract</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_archive_processor_1ae76742f3d78022f1e01dac2e4e808094">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_binary_processor_1a13c131cad013a50a4a150f46bd2a144e">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_html_processor_1a1059237b80442a8e2b8042c7bd7b84c8">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_audio_processor_1a85292f2ff299033127211b557509af1d">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_c_a_d_processor_1a42242ecaec42b7dfceb2ea1cc56c8b37">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_geo_processor_1abb5b6d5732648974ab34a6f26e24868b">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_image_processor_1ac0c689ee3b23f324537a96a64a95fedf">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_markdown_processor_1a4fe15de7b3ff89ce4a2f4776f790fee7">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_mock_clip_processor_1a5cf660372e9025b9f1247613bdbeb5ac">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_ocr_processor_1abd359fdb4e5a0092f5356cc8fa2cd337">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_office_processor_1a855b391bdd81d643e26088c17ffa4ab1">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_p_d_f_processor_1a373493882e5df20453bbb46bfabf04ae">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_structured_processor_1ad5922e9e7a17052413f2cec2340e923e">extract</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_text_processor_1a43bfb212a3faaed23375e1eb33261d72">extract</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="72" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &gt;</type>
+        <definition>virtual std::vector&lt; json &gt; themis::content::IContentProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap)=0</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::IContentProcessor::chunk</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_archive_processor_1a1cb8e903dcfc511d6e6b16bff0da0a5e">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_binary_processor_1a76e485247fc6af2597615a864a9846c0">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_html_processor_1ab53243dce980ab7e4123f8a85d4a55e3">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_audio_processor_1ad42bf486f1384aa6e3b04322fd0bdb34">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_c_a_d_processor_1a72a8a3f7ae8984c168d1b7520be5831a">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_geo_processor_1a078535f3fc32d4a689ee3d02bc4638f4">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_image_processor_1a3571eee8fdbc7a033e7087394e2f10c0">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_markdown_processor_1aed64836fe65097c3e523bfdf4f0820f9">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_mock_clip_processor_1a85f5e3b69d3903510f8cad4337687230">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_ocr_processor_1a9f006545c67cb04a78bd321f5a6d07b2">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_office_processor_1a07ad189328cb393fa145f3ef6e626809">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_p_d_f_processor_1a4e124482c9432f143e75994a351117f2">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_structured_processor_1a3a9a05ed0121905ee7073c554e5fc109">chunk</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_text_processor_1ab4c14039fd053535a83f7f6da652d529">chunk</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="77" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::content::IContentProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data)=0</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::IContentProcessor::generateEmbedding</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_archive_processor_1a0c78d0f4bf63a6e80a61b49d205af44a">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_binary_processor_1a3fdbd9f8688d2d3aacc8c043e4202dcf">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_html_processor_1a24db5db525623dfe1884bbceca0514a2">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_audio_processor_1a19859c13cfeff174e6210e41e7e6c73c">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_c_a_d_processor_1a109405e105032aaaf39f1496febfffc8">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_geo_processor_1ac4bc12254160fde65ea9c9eb8e17041e">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_image_processor_1a12a1c1c300dc9713f9dbad9c093a4831">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_markdown_processor_1ac5f3aa0033ffc278b6bfbf481ba843c1">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_mock_clip_processor_1a8ae0e1118445015f72ececfe723a5aab">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_ocr_processor_1a3f031222147194786208d6b8888d57b9">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_office_processor_1acdbffe4b2480f4defc4cc501c6309700">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_p_d_f_processor_1af62ae8bd3384462f9eae2251750b402a">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_structured_processor_1a7683a372b76a84b28f4784f3a95819dd">generateEmbedding</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_text_processor_1a3cf41392096a4c02d979e95c86fe3bd8">generateEmbedding</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="83" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::content::IContentProcessor::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::IContentProcessor::getName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_archive_processor_1ab3cd1d893997ae69987cc8aa817b8dde">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_binary_processor_1ae2e59b6adcfba0ae26f7a5109a8eec1f">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_html_processor_1abab46d65257545bd0eca24d5a18e0d00">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_audio_processor_1a71fb772d94c0c7ea53c1b64297117cf8">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_c_a_d_processor_1a626f4c0d090b17f96437432275bca4fa">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_geo_processor_1aa4048245a1f13f01d82d1927d82dfc4c">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_image_processor_1ae5086b28806a73f9546d723471b27a95">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_markdown_processor_1adc5830d5c8401f0550556daf2e880b25">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_mock_clip_processor_1a107832e0d25bc070857769503a9fa022">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_ocr_processor_1a3f8046b40d6862ca8c735e935e17082b">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_office_processor_1a697cd9cf1654319f11ae657077b2f5d9">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_p_d_f_processor_1ad2e652698ca257cc3fbed42d32bc5f37">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_structured_processor_1a03e734190781979ed98d26aa16117ee5">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_text_processor_1a92aadbc041b8d788e2ed511002c354f8">getName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="85" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ContentCategory &gt; themis::content::IContentProcessor::getSupportedCategories</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::IContentProcessor::getSupportedCategories</qualifiedname>
+        <reimplementedby refid="classthemis_1_1content_1_1_archive_processor_1a71bb15f458d8fbc36c1fda20755d9c29">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_binary_processor_1a82de5b8cd94ceb391e7ab8ea18057dbc">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_html_processor_1a185171281e8efe8743b6b6d775e31765">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_audio_processor_1ac15713c0f0c1a46790acdd5dbefeff39">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_c_a_d_processor_1ac951e0ba7397c7c9d949b837766dcf2e">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_geo_processor_1a1af1261db7bee770872a893355a6e584">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_legacy_image_processor_1a2feb158376e51517f0b500ab3f332800">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_markdown_processor_1ad5c1e88ee1ea7be36bdfeb394969ed69">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_mock_clip_processor_1ab8fce3015a385fc6171352f9205ea69c">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_ocr_processor_1a52a245533cd2e12fc8963338e44b3c23">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_office_processor_1a6da377fb95f269ea0b2b32c75c65f766">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_p_d_f_processor_1ac7339cca3a816621d9e49fceb4836bc4">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_structured_processor_1a5ec2cd8268d854e68abb71cc3dd197e7">getSupportedCategories</reimplementedby>
+        <reimplementedby refid="classthemis_1_1content_1_1_text_processor_1ab51fc145a18ad999e41ac1fe5955fa4a">getSupportedCategories</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="87" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::ArchiveProcessor</label>
+        <link refid="classthemis_1_1content_1_1_archive_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::content::BinaryProcessor</label>
+        <link refid="classthemis_1_1content_1_1_binary_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::content::HtmlProcessor</label>
+        <link refid="classthemis_1_1content_1_1_html_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+      <node id="5">
+        <label>themis::content::LegacyAudioProcessor</label>
+        <link refid="classthemis_1_1content_1_1_legacy_audio_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::content::LegacyCADProcessor</label>
+        <link refid="classthemis_1_1content_1_1_legacy_c_a_d_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::content::LegacyGeoProcessor</label>
+        <link refid="classthemis_1_1content_1_1_legacy_geo_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::content::LegacyImageProcessor</label>
+        <link refid="classthemis_1_1content_1_1_legacy_image_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::content::MarkdownProcessor</label>
+        <link refid="classthemis_1_1content_1_1_markdown_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::content::MockClipProcessor</label>
+        <link refid="classthemis_1_1content_1_1_mock_clip_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>themis::content::OcrProcessor</label>
+        <link refid="classthemis_1_1content_1_1_ocr_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>themis::content::OfficeProcessor</label>
+        <link refid="classthemis_1_1content_1_1_office_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>themis::content::PDFProcessor</label>
+        <link refid="classthemis_1_1content_1_1_p_d_f_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>themis::content::StructuredProcessor</label>
+        <link refid="classthemis_1_1content_1_1_structured_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>themis::content::TextProcessor</label>
+        <link refid="classthemis_1_1content_1_1_text_processor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/content/content_processor.h" line="64" column="1" bodyfile="include/content/content_processor.h" bodystart="64" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0" prot="public" virt="pure-virtual"><scope>themis::content::IContentProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::IContentProcessor</scope><name>~IContentProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

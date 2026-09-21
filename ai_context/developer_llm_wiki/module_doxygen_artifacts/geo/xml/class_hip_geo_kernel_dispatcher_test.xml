@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_hip_geo_kernel_dispatcher_test" kind="class" language="C++" prot="public">
+    <compoundname>HipGeoKernelDispatcherTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_hip_geo_kernel_dispatcher_test_1a327b70687d673b9efa4f56b69e3a0652" prot="protected" static="no" mutable="no">
+        <type>GeoKernelDispatch</type>
+        <definition>GeoKernelDispatch HipGeoKernelDispatcherTest::empty_table_</definition>
+        <argsstring></argsstring>
+        <name>empty_table_</name>
+        <qualifiedname>HipGeoKernelDispatcherTest::empty_table_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="92" column="23" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_hip_geo_kernel_dispatcher_test_1a41ae1ec426e2c6c8506a93abf42cacf6" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher" kindref="compound">GpuKernelDispatcher</ref></type>
+        <definition>GpuKernelDispatcher HipGeoKernelDispatcherTest::dispatcher_</definition>
+        <argsstring></argsstring>
+        <name>dispatcher_</name>
+        <qualifiedname>HipGeoKernelDispatcherTest::dispatcher_</qualifiedname>
+        <initializer>{<ref refid="class_hip_geo_kernel_dispatcher_test_1a327b70687d673b9efa4f56b69e3a0652" kindref="member">empty_table_</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_hip_geo_kernels.cpp" line="93" column="25" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HipGeoKernelDispatcherTest</label>
+        <link refid="class_hip_geo_kernel_dispatcher_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HipGeoKernelDispatcherTest</label>
+        <link refid="class_hip_geo_kernel_dispatcher_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>dispatcher_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::geo::GpuKernelDispatcher</label>
+        <link refid="classthemis_1_1geo_1_1_gpu_kernel_dispatcher"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_hip_geo_kernels.cpp" line="89" column="1" bodyfile="tests/geo/test_hip_geo_kernels.cpp" bodystart="89" bodyend="94"/>
+    <listofallmembers>
+      <member refid="class_hip_geo_kernel_dispatcher_test_1a41ae1ec426e2c6c8506a93abf42cacf6" prot="protected" virt="non-virtual"><scope>HipGeoKernelDispatcherTest</scope><name>dispatcher_</name></member>
+      <member refid="class_hip_geo_kernel_dispatcher_test_1a327b70687d673b9efa4f56b69e3a0652" prot="protected" virt="non-virtual"><scope>HipGeoKernelDispatcherTest</scope><name>empty_table_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

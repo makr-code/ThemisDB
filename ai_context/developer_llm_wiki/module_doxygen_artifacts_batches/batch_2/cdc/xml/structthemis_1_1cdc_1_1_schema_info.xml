@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_schema_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::SchemaInfo</compoundname>
+    <includes refid="schema__registry_8h" local="no">schema_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_info_1af5a07dfb5db3192482f6ad9c4adb8031" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::cdc::SchemaInfo::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::cdc::SchemaInfo::id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Registry-assigned schema ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="90" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_info_1a265a9fc80c61f929624fe3ed8187e616" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::cdc::SchemaInfo::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::cdc::SchemaInfo::version</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Schema version within the subject. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="91" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_info_1a7278784a4fc6c5bc0540bbca77ff6d9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaInfo::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::cdc::SchemaInfo::subject</qualifiedname>
+        <briefdescription>
+<para>Registry subject name (e.g. &quot;orders-value&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="92" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_info_1aac9c8c9949c86cde3faaa85b403642b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::SchemaInfo::schema_json</definition>
+        <argsstring></argsstring>
+        <name>schema_json</name>
+        <qualifiedname>themis::cdc::SchemaInfo::schema_json</qualifiedname>
+        <briefdescription>
+<para>Schema definition in JSON form. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="93" column="17" bodyfile="include/cdc/schema_registry.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_schema_info_1a560891d7b1bcd3ab7f022b63683ec9fd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" kindref="member">SchemaFormat</ref></type>
+        <definition>SchemaFormat themis::cdc::SchemaInfo::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::cdc::SchemaInfo::format</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">SchemaFormat::JSON</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="94" column="18" bodyfile="include/cdc/schema_registry.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_schema_info_1ad4ed9d5f62bd202f6ec43f92deec5efc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::SchemaInfo::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::cdc::SchemaInfo::is_valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/schema_registry.h" line="96" column="10" bodyfile="include/cdc/schema_registry.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/schema_registry.h" line="89" column="1" bodyfile="include/cdc/schema_registry.h" bodystart="89" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_schema_info_1a560891d7b1bcd3ab7f022b63683ec9fd" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaInfo</scope><name>format</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_info_1af5a07dfb5db3192482f6ad9c4adb8031" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaInfo</scope><name>id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_info_1ad4ed9d5f62bd202f6ec43f92deec5efc" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaInfo</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_info_1aac9c8c9949c86cde3faaa85b403642b8" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaInfo</scope><name>schema_json</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_info_1a7278784a4fc6c5bc0540bbca77ff6d9d" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaInfo</scope><name>subject</name></member>
+      <member refid="structthemis_1_1cdc_1_1_schema_info_1a265a9fc80c61f929624fe3ed8187e616" prot="public" virt="non-virtual"><scope>themis::cdc::SchemaInfo</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

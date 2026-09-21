@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::plugins::rpc::grpc_plugin::test</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::test::TEST</definition>
+        <argsstring>(GrpcPluginIntegration, INT01_PluginCreatesServer)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcPluginIntegration</type>
+        </param>
+        <param>
+          <type>INT01_PluginCreatesServer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" line="59" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1afada47e0b16be53b3836e443949d375a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::test::TEST</definition>
+        <argsstring>(GrpcPluginIntegration, INT02_PluginMetadata)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcPluginIntegration</type>
+        </param>
+        <param>
+          <type>INT02_PluginMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" line="70" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1ac5bcffb83c6111d460d49f93a8221b84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::test::TEST</definition>
+        <argsstring>(GrpcPluginIntegration, INT03_PluginInitializeShutdown)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcPluginIntegration</type>
+        </param>
+        <param>
+          <type>INT03_PluginInitializeShutdown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" line="83" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" bodystart="83" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a4361f8dd03f6a6b6bb5b66c0f64a1b96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::test::TEST</definition>
+        <argsstring>(GrpcPluginIntegration, INT04_ServerInitialState)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcPluginIntegration</type>
+        </param>
+        <param>
+          <type>INT04_ServerInitialState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" line="96" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" bodystart="96" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a4ecb1ea7cafe194ba5e4dd0039a50824" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::test::TEST</definition>
+        <argsstring>(GrpcPluginIntegration, INT05_ServerInitializeInsecure)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcPluginIntegration</type>
+        </param>
+        <param>
+          <type>INT05_ServerInitializeInsecure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" line="106" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a1e5577ba8603c0acc03ad631dbd2cd8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::test::TEST</definition>
+        <argsstring>(GrpcPluginIntegration, INT06_InitializeFailClosedMissingCerts)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcPluginIntegration</type>
+        </param>
+        <param>
+          <type>INT06_InitializeFailClosedMissingCerts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" line="118" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" bodystart="118" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a2569b5864edc620152772bf5803e42bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::test::TEST</definition>
+        <argsstring>(GrpcPluginIntegration, INT07_StartStopCycle)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcPluginIntegration</type>
+        </param>
+        <param>
+          <type>INT07_StartStopCycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" line="135" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" bodystart="135" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3c9c766f4ea081404f8abd8f9ba38384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::rpc::grpc_plugin::test::TEST</definition>
+        <argsstring>(GrpcPluginIntegration, INT08_DoubleStopIsIdempotent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::plugins::rpc::grpc_plugin::test::TEST</qualifiedname>
+        <param>
+          <type>GrpcPluginIntegration</type>
+        </param>
+        <param>
+          <type>INT08_DoubleStopIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" line="172" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" bodystart="172" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

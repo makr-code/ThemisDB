@@ -1,0 +1,627 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_serialization_1_1_decoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::Serialization::Decoder</compoundname>
+    <includes refid="serialization_8h" local="no">serialization.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a87ab2a31414cc83aef4825a449e2d811" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Serialization::Decoder::MAX_NESTING_DEPTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_NESTING_DEPTH</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::MAX_NESTING_DEPTH</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum allowed array/object nesting depth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="245" column="33" bodyfile="include/utils/serialization.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a17b378fa0b33676efe08b6506c97d60d" prot="private" static="no" mutable="no">
+        <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>const std::vector&lt;uint8_t&gt;&amp; themis::utils::Serialization::Decoder::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="247" column="27" bodyfile="include/utils/serialization.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aff277342866c133f0b51dbffd4f349d5" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Serialization::Decoder::pos_</definition>
+        <argsstring></argsstring>
+        <name>pos_</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::pos_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="248" column="16" bodyfile="include/utils/serialization.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aec73a2b8d040544650201a0219b02137" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Serialization::Decoder::nesting_depth_</definition>
+        <argsstring></argsstring>
+        <name>nesting_depth_</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::nesting_depth_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Current array/object nesting depth for overflow protection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="249" column="16" bodyfile="include/utils/serialization.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a7d3cc74d2fd5edb5982120fe8abb463d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::Serialization::Decoder::Decoder</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>Decoder</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::Decoder</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Construct a decoder for the given serialized data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialized data buffer (must remain valid for decoder lifetime).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Schema Validation: Type tags are validated during decode operations. Mismatches between expected and actual type return error, not silent coercion. </para>
+</simplesect>
+<simplesect kind="note"><para>Nesting Depth: Tracks recursion depth during array/object decoding. Depth exceeding MAX_NESTING_DEPTH (32) causes deserialization error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="164" column="18" bodyfile="src/utils/serialization.cpp" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ab0a2692cf22889f4ff3857a629c0039c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" kindref="member">TypeTag</ref></type>
+        <definition>Serialization::TypeTag themis::utils::Serialization::Decoder::peekType</definition>
+        <argsstring>() const</argsstring>
+        <name>peekType</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::peekType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="166" column="17" bodyfile="src/utils/serialization.cpp" bodystart="228" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a9e8ffdcc37fbd7f22f1d858c6d53f0a8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Serialization::Decoder::isNull</definition>
+        <argsstring>() const</argsstring>
+        <name>isNull</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::isNull</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="168" column="14" bodyfile="src/utils/serialization.cpp" bodystart="290" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aae519b7c3748c2f6ce0d653b01ac8caf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Serialization::Decoder::decodeBool</definition>
+        <argsstring>()</argsstring>
+        <name>decodeBool</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeBool</qualifiedname>
+        <briefdescription>
+<para>Decode Bool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="169" column="14" bodyfile="src/utils/serialization.cpp" bodystart="299" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a9fb0fab9555c4f7a1b00dd50e1a3ede0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::utils::Serialization::Decoder::decodeInt32</definition>
+        <argsstring>()</argsstring>
+        <name>decodeInt32</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeInt32</qualifiedname>
+        <briefdescription>
+<para>Decode Int32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="170" column="17" bodyfile="src/utils/serialization.cpp" bodystart="309" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aff620395e9e2614b88b3632eed40b7a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::utils::Serialization::Decoder::decodeInt64</definition>
+        <argsstring>()</argsstring>
+        <name>decodeInt64</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeInt64</qualifiedname>
+        <briefdescription>
+<para>Decode Int64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="171" column="17" bodyfile="src/utils/serialization.cpp" bodystart="319" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a7bccc6a72c98a2b7fa73792233cfc5c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::Serialization::Decoder::decodeUInt32</definition>
+        <argsstring>()</argsstring>
+        <name>decodeUInt32</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeUInt32</qualifiedname>
+        <briefdescription>
+<para>Decode UInt32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="172" column="18" bodyfile="src/utils/serialization.cpp" bodystart="329" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a208ee570fefced2adb2dc356fe9d862f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::Serialization::Decoder::decodeUInt64</definition>
+        <argsstring>()</argsstring>
+        <name>decodeUInt64</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeUInt64</qualifiedname>
+        <briefdescription>
+<para>Decode UInt64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="173" column="18" bodyfile="src/utils/serialization.cpp" bodystart="339" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a859eb183988c892bb37563c8f2180bc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::utils::Serialization::Decoder::decodeFloat</definition>
+        <argsstring>()</argsstring>
+        <name>decodeFloat</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeFloat</qualifiedname>
+        <briefdescription>
+<para>Decode Float. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt32(), <ref refid="classthemis_1_1utils_1_1_float_bits_1aae38dfd9cfa5d93e9aed012699c70625" kindref="member">FloatBits::from_u32()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="174" column="15" bodyfile="src/utils/serialization.cpp" bodystart="349" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1af98f5f8f0a74e47601459006169a49ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::utils::Serialization::Decoder::decodeDouble</definition>
+        <argsstring>()</argsstring>
+        <name>decodeDouble</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeDouble</qualifiedname>
+        <briefdescription>
+<para>Decode Double. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt64(), <ref refid="classthemis_1_1utils_1_1_float_bits_1ac7048b0a32c3a9828258d085feb24e21" kindref="member">FloatBits::from_u64()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="175" column="16" bodyfile="src/utils/serialization.cpp" bodystart="361" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ac707399631352a69cd3b0ecd3c2692d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Serialization::Decoder::decodeString</definition>
+        <argsstring>()</argsstring>
+        <name>decodeString</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeString</qualifiedname>
+        <briefdescription>
+<para>Decodes a string from the binary buffer with bounds checking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode String.</para>
+<para><simplesect kind="return"><para>Decoded string value (empty string if size field is invalid or exceeds buffer bounds).</para>
+</simplesect>
+<simplesect kind="note"><para>Bounds-Checked: Verifies (pos_ + size_bytes) &lt;= data_.size() before reading. </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-Safe: Returns empty string on bounds overflow instead of crashing. </para>
+</simplesect>
+<simplesect kind="note"><para>Security: Prevents buffer overflow attacks from malformed serialized data.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>May</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>throw during UTF-8 validation if enabled, but not on bounds overflow.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt32(), size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="188" column="21" bodyfile="src/utils/serialization.cpp" bodystart="373" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1abb21c62097c59ee152e36b9ceaac6899" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::utils::Serialization::Decoder::decodeBinary</definition>
+        <argsstring>()</argsstring>
+        <name>decodeBinary</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeBinary</qualifiedname>
+        <briefdescription>
+<para>Decodes binary data from the buffer with bounds checking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode Binary.</para>
+<para><simplesect kind="return"><para>Decoded binary vector (empty if size field is invalid or exceeds buffer bounds).</para>
+</simplesect>
+<simplesect kind="note"><para>Bounds-Checked: Verifies (pos_ + size_bytes) &lt;= data_.size() before reading. </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-Safe: Returns empty vector on bounds overflow. </para>
+</simplesect>
+<simplesect kind="note"><para>Security: Prevents out-of-bounds reads on corrupted serialized data.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt32(), size(), binary(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="199" column="21" bodyfile="src/utils/serialization.cpp" bodystart="399" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a4840e83b0eec76dba3cac621e55830f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::utils::Serialization::Decoder::decodeFloatVector</definition>
+        <argsstring>()</argsstring>
+        <name>decodeFloatVector</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::decodeFloatVector</qualifiedname>
+        <briefdescription>
+<para>Decodes a float vector with overflow protection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode Float Vector.</para>
+<para><simplesect kind="return"><para>Decoded vector of floats (empty if size exceeds buffer bounds).</para>
+</simplesect>
+<simplesect kind="note"><para>Bounds-Checked: Verifies (pos_ + size*sizeof(float)) &lt;= data_.size() before reading. </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-Safe: Returns empty vector if array would exceed remaining buffer. </para>
+</simplesect>
+<simplesect kind="note"><para>Security: Prevents integer overflow in size*sizeof calculation by explicit checks.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt32(), size(), vec(), std::memcpy(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="210" column="21" bodyfile="src/utils/serialization.cpp" bodystart="422" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1afc815c667d515e9a98ba32016fd008e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Serialization::Decoder::beginArray</definition>
+        <argsstring>()</argsstring>
+        <name>beginArray</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::beginArray</qualifiedname>
+        <briefdescription>
+<para>Begin decoding an array and return its size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin Array.</para>
+<para><simplesect kind="return"><para>Number of elements in the array.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::length_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If nesting depth exceeds MAX_NESTING_DEPTH (32). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If next element is not an array (schema mismatch).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Nesting Depth Check (Phase 2.4c): Each array/object nesting increments depth; depth &gt; 32 causes error to prevent stack overflow on crafted input.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::length_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fmt::format(), <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="223" column="16" bodyfile="src/utils/serialization.cpp" bodystart="449" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a784ec36d44123c7b6df4a91a2c71eb9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Decoder::endArray</definition>
+        <argsstring>()</argsstring>
+        <name>endArray</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::endArray</qualifiedname>
+        <briefdescription>
+<para>End Array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements endArray without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="224" column="14" bodyfile="src/utils/serialization.cpp" bodystart="465" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ab03b330c514de9bdbdfe1b78d4e0b86c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::Serialization::Decoder::beginObject</definition>
+        <argsstring>()</argsstring>
+        <name>beginObject</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::beginObject</qualifiedname>
+        <briefdescription>
+<para>Begin decoding an object and return the number of fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin Object.</para>
+<para><simplesect kind="return"><para>Number of key-value pairs in the object.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::length_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If nesting depth exceeds MAX_NESTING_DEPTH (32). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If next element is not an object (schema mismatch).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Nesting Depth Check (Phase 2.4c): Same depth limit as <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1afc815c667d515e9a98ba32016fd008e2" kindref="member">beginArray()</ref>. </para>
+</simplesect>
+<simplesect kind="note"><para>Schema Validation: Mismatch between expected and actual type causes error.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::length_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fmt::format(), <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" kindref="member">readTag()</ref>, readUInt32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="237" column="16" bodyfile="src/utils/serialization.cpp" bodystart="478" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aa785a913bc3ce9e8202654005747378c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Serialization::Decoder::endObject</definition>
+        <argsstring>()</argsstring>
+        <name>endObject</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::endObject</qualifiedname>
+        <briefdescription>
+<para>End Object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements endObject without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="238" column="14" bodyfile="src/utils/serialization.cpp" bodystart="494" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a45c489da7901eb222e96fa604268e9f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::Serialization::Decoder::hasMore</definition>
+        <argsstring>() const</argsstring>
+        <name>hasMore</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::hasMore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="240" column="14" bodyfile="src/utils/serialization.cpp" bodystart="501" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_serialization_1a5433b6132f8067e388e90833b3db3fd3" kindref="member">TypeTag</ref></type>
+        <definition>Serialization::TypeTag themis::utils::Serialization::Decoder::readTag</definition>
+        <argsstring>()</argsstring>
+        <name>readTag</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::readTag</qualifiedname>
+        <briefdescription>
+<para>Read Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), <ref refid="namespacethemis_1_1utils_1a1d7488007dabd100fdd2536f837d44bf" kindref="member">logErrorWithContext()</ref>, <ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">makeErrorContext()</ref>, fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="242" column="17" bodyfile="src/utils/serialization.cpp" bodystart="240" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a84b23f4961ad2d8e3b507056cadfd713" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::Serialization::Decoder::readUInt32</definition>
+        <argsstring>()</argsstring>
+        <name>readUInt32</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::readUInt32</qualifiedname>
+        <briefdescription>
+<para>Read UInt32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="251" column="18" bodyfile="src/utils/serialization.cpp" bodystart="257" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ac3a1ee61b3ac69d4cb215a45f2e29df5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::Serialization::Decoder::readUInt64</definition>
+        <argsstring>()</argsstring>
+        <name>readUInt64</name>
+        <qualifiedname>themis::utils::Serialization::Decoder::readUInt64</qualifiedname>
+        <briefdescription>
+<para>Read UInt64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/serialization.h" line="252" column="18" bodyfile="src/utils/serialization.cpp" bodystart="276" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder" kindref="compound">Decoder</ref> component. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Decodes bytes produced by <ref refid="classthemis_1_1utils_1_1_serialization_1_1_encoder_1a5769dac5193e554c98fc641e98ce9587" kindref="member">Encoder::finish()</ref>. All decode methods perform bounds checking before accessing the backing buffer; they return safe defaults (0, false, empty string/vector) rather than crashing on malformed or truncated input.</para>
+<para><simplesect kind="note"><para>Nesting depth: <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder" kindref="compound">Decoder</ref> enforces a hard maximum nesting depth of 128 container levels. Once exceeded, <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1afc815c667d515e9a98ba32016fd008e2" kindref="member">beginArray()</ref>/beginObject() return 0 and advance to a fail-safe state to prevent unbounded recursion on malformed or adversarial input.</para>
+</simplesect>
+@error_contract <table rows="5" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Buffer read beyond data end (bounds overflow)  </para>
+</entry><entry thead="no"><para>DESERIALIZATION_FAILED (9081)  </para>
+</entry><entry thead="no"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref>  </para>
+</entry><entry thead="no"><para>logErrorWithContext  </para>
+</entry><entry thead="no"><para>Returns safe default (0/false/empty)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Unexpected type tag encountered  </para>
+</entry><entry thead="no"><para>SERIALIZATION_FORMAT_INVALID (9082)  </para>
+</entry><entry thead="no"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref>  </para>
+</entry><entry thead="no"><para>logErrorWithContext  </para>
+</entry><entry thead="no"><para>Returns safe default  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>String/binary size field exceeds buffer  </para>
+</entry><entry thead="no"><para>DESERIALIZATION_FAILED (9081)  </para>
+</entry><entry thead="no"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref>  </para>
+</entry><entry thead="no"><para>logErrorWithContext  </para>
+</entry><entry thead="no"><para>Returns empty string/vector  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Float-vector element count × sizeof(float) overflows  </para>
+</entry><entry thead="no"><para>DESERIALIZATION_FAILED (9081)  </para>
+</entry><entry thead="no"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref>  </para>
+</entry><entry thead="no"><para>logErrorWithContext  </para>
+</entry><entry thead="no"><para>Returns empty vector  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation All decode failures return safe defaults (never undefined behaviour). Callers should check <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a45c489da7901eb222e96fa604268e9f7" kindref="member">hasMore()</ref> and <ref refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ab0a2692cf22889f4ff3857a629c0039c" kindref="member">peekType()</ref> before decoding if strict error detection is required. </para>
+    </detaileddescription>
+    <location file="include/utils/serialization.h" line="152" column="5" bodyfile="include/utils/serialization.h" bodystart="152" bodyend="253"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1afc815c667d515e9a98ba32016fd008e2" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>beginArray</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ab03b330c514de9bdbdfe1b78d4e0b86c" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>beginObject</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a17b378fa0b33676efe08b6506c97d60d" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>data_</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1abb21c62097c59ee152e36b9ceaac6899" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeBinary</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aae519b7c3748c2f6ce0d653b01ac8caf" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeBool</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1af98f5f8f0a74e47601459006169a49ae" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeDouble</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a859eb183988c892bb37563c8f2180bc0" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeFloat</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a4840e83b0eec76dba3cac621e55830f5" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeFloatVector</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a9fb0fab9555c4f7a1b00dd50e1a3ede0" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeInt32</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aff620395e9e2614b88b3632eed40b7a7" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeInt64</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a7d3cc74d2fd5edb5982120fe8abb463d" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>Decoder</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ac707399631352a69cd3b0ecd3c2692d8" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeString</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a7bccc6a72c98a2b7fa73792233cfc5c6" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeUInt32</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a208ee570fefced2adb2dc356fe9d862f" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>decodeUInt64</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a784ec36d44123c7b6df4a91a2c71eb9e" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>endArray</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aa785a913bc3ce9e8202654005747378c" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>endObject</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a45c489da7901eb222e96fa604268e9f7" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>hasMore</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a9e8ffdcc37fbd7f22f1d858c6d53f0a8" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>isNull</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a87ab2a31414cc83aef4825a449e2d811" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>MAX_NESTING_DEPTH</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aec73a2b8d040544650201a0219b02137" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>nesting_depth_</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ab0a2692cf22889f4ff3857a629c0039c" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>peekType</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1aff277342866c133f0b51dbffd4f349d5" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>pos_</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a21947fe2765ca3081106bb74d473383f" prot="public" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>readTag</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1a84b23f4961ad2d8e3b507056cadfd713" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>readUInt32</name></member>
+      <member refid="classthemis_1_1utils_1_1_serialization_1_1_decoder_1ac3a1ee61b3ac69d4cb215a45f2e29df5" prot="private" virt="non-virtual"><scope>themis::utils::Serialization::Decoder</scope><name>readUInt64</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
